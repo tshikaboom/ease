@@ -100,7 +100,7 @@ namespace Ease
 						break;
 					case "zoom":
 						prepare_slide_transition();
-						current_slide.set_scale_full(0.5, 0.5, stage.width / 2, stage.height / 2);
+						current_slide.set_scale_full(0, 0, stage.width / 2, stage.height / 2);
 						animation_time.new_frame.connect((m) => {
 							current_slide.set_scale((float)m / (float)length,
 							                        (float)m / (float)length);
@@ -114,6 +114,19 @@ namespace Ease
 						current_slide_content.x = -stage.width;
 						current_slide_content.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length, "x", 0);
 						old_slide_content.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length, "x", stage.width);
+						break;
+					case "contents_zoom":
+						prepare_stack_transition();
+						old_slide_bg.animate(Clutter.AnimationMode.EASE_IN_SINE, length, "opacity", 0);
+						current_slide_content.set_scale_full(0, 0, stage.width / 2, stage.height / 2);
+						old_slide_content.set_scale_full(1, 1, stage.width / 2, stage.height / 2);
+						old_slide_content.animate(Clutter.AnimationMode.LINEAR, length, "opacity", 0);
+						animation_time.new_frame.connect((m) => {
+							current_slide_content.set_scale((float)m / (float)length,
+							                                (float)m / (float)length);
+							old_slide_content.set_scale(1.0 + 2 * (float)m / (float)length,
+							   	                        1.0 + 2 * (float)m / (float)length);
+						});
 						break;
 				}
 			}

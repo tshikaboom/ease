@@ -12,12 +12,12 @@
 			<element type="text" ease_name="text-3" x="20" y="20" width="800" height="500" font_name="Myriad Pro Light" font_size="20" color="#000000FF" text="This is a second slide!" />
 			<element type="text" ease_name="text-4" x="20" y="75" width="760" height="500" font_name="Sans" font_size="12" color="#000000" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus libero massa, sollicitudin nec fringilla non, tristique nec lorem. Suspendisse odio eros, laoreet eu tristique lobortis, dictum fringilla mi. Fusce diam erat, laoreet eu fringilla in, tristique quis libero. Quisque lorem erat, blandit ut semper id, venenatis ac dui. Praesent pulvinar vulputate fermentum. Aliquam erat volutpat. Morbi sodales dignissim blandit. Aenean vulputate hendrerit dui, a fermentum risus elementum hendrerit. Ut nec leo et mauris gravida laoreet. Fusce dignissim nibh ut urna viverra eget eleifend ligula convallis. Duis a orci risus. Ut justo massa, ultrices sagittis auctor sed, rutrum ac mi. Praesent fringilla condimentum ullamcorper. Aliquam suscipit imperdiet quam, eu fringilla sem pretium id. Proin leo nunc, dictum sed vehicula in, convallis at nisl. Ut quis nisl leo, vitae hendrerit sapien. Pellentesque quis leo sed arcu commodo bibendum." />
 		</slide>
-		<slide transition="slide" background_color="#DDAAFF">
+		<slide transition="contents_zoom" background_color="#DDAAFF">
 			<element type="text" ease_name="text-5" x="20" y="20" width="800" height="500" font_name="Myriad Pro Semibold" font_size="30" color="#000000" text="A sliding transition!" />
 			<element type="text" ease_name="text-6" x="20" y="75" width="760" height="500" font_name="Sans" font_size="12" color="#000000FF" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus libero massa, sollicitudin nec fringilla non, tristique nec lorem. Suspendisse odio eros, laoreet eu tristique lobortis, dictum fringilla mi. Fusce diam erat, laoreet eu fringilla in, tristique quis libero. Quisque lorem erat, blandit ut semper id, venenatis ac dui. Praesent pulvinar vulputate fermentum. Aliquam erat volutpat. Morbi sodales dignissim blandit. Aenean vulputate hendrerit dui, a fermentum risus elementum hendrerit. Ut nec leo et mauris gravida laoreet. Fusce dignissim nibh ut urna viverra eget eleifend ligula convallis. Duis a orci risus. Ut justo massa, ultrices sagittis auctor sed, rutrum ac mi. Praesent fringilla condimentum ullamcorper. Aliquam suscipit imperdiet quam, eu fringilla sem pretium id. Proin leo nunc, dictum sed vehicula in, convallis at nisl. Ut quis nisl leo, vitae hendrerit sapien. Pellentesque quis leo sed arcu commodo bibendum." />
 		</slide>
-		<slide transition="fade" background_color="#000000">
-			<element type="text" ease_name="text-5" x="100" y="250" width="800" height="500" font_name="Myriad Pro Semibold" font_size="100" color="#FFFFFFFF" text="Amazing!" />
+		<slide transition="contents_zoom" background_color="#000000">
+			<element type="text" ease_name="text-5" x="130" y="225" width="800" height="500" font_name="Myriad Pro Semibold" font_size="100" color="#FFFFFFFF" text="Amazing!" />
 		</slide>
 	</slides>
 </document>
