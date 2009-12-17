@@ -100,14 +100,16 @@ namespace Ease
 						break;
 					case "zoom":
 						prepare_slide_transition();
-						current_slide.set_scale_full(0, 0, stage.width / 2, stage.height / 2);
-						current_slide.animate(Clutter.AnimationMode.EASE_OUT_SINE, length, "scale_x", 1);
-						current_slide.animate(Clutter.AnimationMode.EASE_OUT_SINE, length, "scale_y", 1);
+						current_slide.set_scale_full(0.5, 0.5, stage.width / 2, stage.height / 2);
+						animation_time.new_frame.connect((m) => {
+							current_slide.set_scale((float)m / (float)length,
+							                        (float)m / (float)length);
+						});
+						//current_slide.animate(Clutter.AnimationMode.EASE_OUT_SINE, length, "scale_x", 1);
+						//current_slide.animate(Clutter.AnimationMode.EASE_OUT_SINE, length, "scale_y", 1);
 						break;
 					case "contents_slide":
 						prepare_stack_transition();
-						
-						// animate
 						old_slide_bg.animate(Clutter.AnimationMode.LINEAR, length, "opacity", 0);
 						current_slide_content.x = -stage.width;
 						current_slide_content.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length, "x", 0);
