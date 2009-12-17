@@ -169,6 +169,10 @@ namespace Ease
 					((Clutter.Text)actor).text = ((TextElement)element).text;
 					((Clutter.Text)actor).font_name = ((TextElement)element).font_name + " " + ((TextElement)element).font_size.to_string();
 				}
+				else if (element is ImageElement)
+				{
+					actor = new Clutter.Texture.from_file(((ImageElement)element).filename);
+				}
 				else
 				{
 					continue;
