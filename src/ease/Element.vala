@@ -16,5 +16,15 @@ namespace Ease
 			stdout.printf("\t\t\t\t    width: %f\n", width);
 			stdout.printf("\t\t\t\t   height: %f\n", height);
 		}
+		
+		public abstract Clutter.Actor presentation_actor() throws GLib.Error;
+		
+		protected void set_actor_base_properties(Clutter.Actor actor)
+		{
+			actor.x = this.x;
+			actor.y = this.y;
+			actor.width = this.width;
+			actor.height = this.height;
+		}
 	}
 }

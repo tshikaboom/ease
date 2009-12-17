@@ -10,9 +10,11 @@ namespace Ease
 		private Clutter.Group current_slide_content { get; set; }
 		private Clutter.Group current_slide_bg { get; set; }
 		private Clutter.Group current_slide { get; set; }
+		private Clutter.Texture current_slide_tex { get; set; }
 		private Clutter.Group old_slide_content { get; set; }
 		private Clutter.Group old_slide_bg { get; set; }
 		private Clutter.Group old_slide { get; set; }
+		private Clutter.Texture old_slide_tex { get; set; }
 		private Clutter.Timeline animation_time { get; set; }
 		private bool can_animate { get; set; }
 	
@@ -28,11 +30,14 @@ namespace Ease
 			
 			//stage.set_fullscreen(true);
 			//stage.hide_cursor();
-			stage.color.from_string("#000000FF");
+			
 			
 			stage.key_press_event.connect((a, e) => { key_press(a, e); });
 			
 			stage.show_all();
+			Clutter.Color color = Clutter.Color();
+			color.from_string("Black");
+			stage.color = color;
 			
 			// move to the first slide
 			can_animate = true;
@@ -155,37 +160,18 @@ namespace Ease
 			background.height = stage.height;
 			current_slide_bg.add_actor(background);
 			
-			// add new elements
+			// add the slide's elements as actors
 			for (var i = 0; i < slide.elements.size; i++)
 			{
-				var element = slide.elements.get(i);
-				Clutter.Actor actor;
-				if (element is TextElement)
+				try
 				{
-					actor = new Clutter.Text();
-					((Clutter.Text)actor).use_markup = true;
-					((Clutter.Text)actor).color = ((TextElement)element).color;
-					((Clutter.Text)actor).line_wrap = true;
-					((Clutter.Text)actor).text = ((TextElement)element).text;
-					((Clutter.Text)actor).font_name = ((TextElement)element).font_name + " " + ((TextElement)element).font_size.to_string();
+					Clutter.Actor actor = slide.elements.get(i).presentation_actor();
+					current_slide_content.add_actor(actor);
 				}
-				else if (element is ImageElement)
+				catch (GLib.Error e)
 				{
-					actor = new Clutter.Texture.from_file(((ImageElement)element).filename);
+					stdout.printf("Error: %s\n", e.message);
 				}
-				else
-				{
-					continue;
-				}
-				
-				// general Element properties
-				actor.x = element.x;
-				actor.y = element.y;
-				actor.width = element.width;
-				actor.height = element.height;
-				
-				// add to the new slide's content
-				current_slide_content.add_actor(actor);
 			}
 		}
 		

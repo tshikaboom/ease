@@ -16,5 +16,17 @@ namespace Ease
 			stdout.printf("\t\t\t\tfont_name: %s\n", font_name);
 			stdout.printf("\t\t\t\tfont_size: %u\n", font_size);
 		}
+		
+		public override Clutter.Actor presentation_actor() throws GLib.Error
+		{
+			var actor = new Clutter.Text();
+			set_actor_base_properties(actor);
+			actor.use_markup = true;
+			actor.line_wrap = true;
+			actor.color = this.color;
+			actor.text = this.text;
+			actor.font_name = this.font_name + " " + this.font_size.to_string();
+			return actor;
+		}
 	}
 }
