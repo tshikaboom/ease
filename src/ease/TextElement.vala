@@ -3,7 +3,7 @@ namespace Ease
 	public class TextElement : Element
 	{
 		public string text { get; set; }
-		public Clutter.Color color { get; set; }
+		public Clutter.Color color;
 		public string font_name { get; set; }
 		public uint font_size { get; set; }
 		

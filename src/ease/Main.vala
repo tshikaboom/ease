@@ -4,9 +4,8 @@ using Ease;
 public class Main : GLib.Object
 {
 	public static int main(string[] args)
-	{
-		Document doc = new Document.from_file("../../../../Examples/Example.ease/");
-		doc.print_representation();
+	{	
+		test_player("../../../../Examples/Example.ease/");
 		/*Gtk.init(ref args);
 		Clutter.init(null);
 		var Window = new Window();
@@ -22,5 +21,17 @@ public class Main : GLib.Object
 		
 		Gtk.main();*/
 		return 0;
+	}
+	
+	private static void test_player(string filename)
+	{
+		Document doc = new Document.from_file(filename);
+		//doc.print_representation();
+		
+		Clutter.init(null);
+		var player = new Player(doc);
+		player.stage.hide.connect(Clutter.main_quit);
+		
+		Clutter.main();
 	}
 }

@@ -99,6 +99,9 @@ namespace Ease
 						case "transition":
 							slide.transition = j->children->content;
 							break;
+						case "background_color":
+							slide.background_color.from_string(j->children->content);
+							break;
 					}
 				}
 						
@@ -127,6 +130,12 @@ namespace Ease
 							((TextElement)element).font_name = map.get("font_name");
 							((TextElement)element).font_size = map.get("font_size").to_int();
 							((TextElement)element).color.from_string(map.get("color"));
+							break;
+						case "image":
+							element = new ImageElement();
+							((ImageElement)element).filename = map.get("filename");
+							((ImageElement)element).scale_x = (float)map.get("scale_x").to_double();
+							((ImageElement)element).scale_y = (float)map.get("scale_y").to_double();
 							break;
 						default:
 							stdout.printf("Wrong Element Type: %s", map.get("type"));
