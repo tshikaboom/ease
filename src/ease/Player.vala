@@ -88,32 +88,24 @@ namespace Ease
 				switch (slide.transition)
 				{
 					case "fade":
-						current_slide.add_actor(current_slide_bg);
-						current_slide.add_actor(current_slide_content);
+						prepare_slide_transition();
 						current_slide.opacity = 0;
 						current_slide.animate(Clutter.AnimationMode.LINEAR, length, "opacity", 255);
 						break;
 					case "slide":
-						current_slide.add_actor(current_slide_bg);
-						current_slide.add_actor(current_slide_content);
+						prepare_slide_transition();
 						current_slide.y = -stage.height;
 						current_slide.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length, "y", 0);
 						old_slide.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length, "y", stage.height);
 						break;
 					case "zoom":
-						current_slide.add_actor(current_slide_bg);
-						current_slide.add_actor(current_slide_content);
+						prepare_slide_transition();
 						current_slide.set_scale_full(0, 0, stage.width / 2, stage.height / 2);
 						current_slide.animate(Clutter.AnimationMode.EASE_OUT_SINE, length, "scale_x", 1);
 						current_slide.animate(Clutter.AnimationMode.EASE_OUT_SINE, length, "scale_y", 1);
 						break;
 					case "contents_slide":
-						// stack the contents
-						old_slide.remove_all();
-						stage.add_actor(current_slide_bg);
-						stage.add_actor(old_slide_bg);
-						stage.add_actor(old_slide_content);
-						stage.add_actor(current_slide_content);
+						prepare_stack_transition();
 						
 						// animate
 						old_slide_bg.animate(Clutter.AnimationMode.LINEAR, length, "opacity", 0);
@@ -173,6 +165,21 @@ namespace Ease
 					stdout.printf("Error: %s\n", e.message);
 				}
 			}
+		}
+		
+		private void prepare_slide_transition()
+		{
+			current_slide.add_actor(current_slide_bg);
+			current_slide.add_actor(current_slide_content);
+		}
+		
+		private void prepare_stack_transition()
+		{
+			old_slide.remove_all();
+			stage.add_actor(current_slide_bg);
+			stage.add_actor(old_slide_bg);
+			stage.add_actor(old_slide_content);
+			stage.add_actor(current_slide_content);
 		}
 		
 		private void animation_complete()
