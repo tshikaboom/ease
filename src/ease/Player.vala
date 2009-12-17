@@ -69,7 +69,7 @@ namespace Ease
 				current_slide.add_actor(current_slide_bg);
 				current_slide.add_actor(current_slide_content);
 				current_slide.opacity = 0;
-				current_slide.animate(Clutter.AnimationMode.LINEAR, 500, "opacity", 255);
+				current_slide.animate(Clutter.AnimationMode.EASE_IN_SINE, 1000, "opacity", 255);
 			}
 			else
 			{
