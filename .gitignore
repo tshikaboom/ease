@@ -1,0 +1,7 @@
+*.sln
+*.mdproj
+*.userprefs
+*.usertasks
+*.pidb
+*~
+*bin/

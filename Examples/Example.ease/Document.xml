@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<document width="800" height="600">
+	<slides>
+		<slide transition="fade">
+			<element type="text" ease_name="text-1" x="0" y="0" width="500" height="500" font_name="Sans" font_size="50" color="#000000" text="Hello Ease!" />
+		</slide>
+	</slides>
+</document>
