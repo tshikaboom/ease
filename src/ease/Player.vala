@@ -10,11 +10,9 @@ namespace Ease
 		private Clutter.Group current_slide_content { get; set; }
 		private Clutter.Group current_slide_bg { get; set; }
 		private Clutter.Group current_slide { get; set; }
-		private Clutter.Texture current_slide_tex { get; set; }
 		private Clutter.Group old_slide_content { get; set; }
 		private Clutter.Group old_slide_bg { get; set; }
 		private Clutter.Group old_slide { get; set; }
-		private Clutter.Texture old_slide_tex { get; set; }
 		private Clutter.Timeline animation_time { get; set; }
 		private bool can_animate { get; set; }
 	
@@ -30,7 +28,6 @@ namespace Ease
 			
 			//stage.set_fullscreen(true);
 			//stage.hide_cursor();
-			
 			
 			stage.key_press_event.connect((a, e) => { key_press(a, e); });
 			
