@@ -158,10 +158,20 @@ namespace Ease
 			current_slide = new Clutter.Group();
 			current_slide_bg = new Clutter.Group();
 			current_slide_content = new Clutter.Group();
-			var background = new Clutter.Rectangle();
-			background.set_color(slide.background_color);
-			background.width = stage.width;
-			background.height = stage.height;
+			Clutter.Actor background;
+			if (slide.background_image != null)
+			{
+				background = new Clutter.Texture.from_file(slide.background_image);
+				background.width = stage.width;
+				background.height = stage.height;
+			}
+			else
+			{
+				background = new Clutter.Rectangle();
+				((Clutter.Rectangle)background).set_color(slide.background_color);
+				background.width = stage.width;
+				background.height = stage.height;
+			}
 			current_slide_bg.add_actor(background);
 			
 			// add the slide's elements as actors

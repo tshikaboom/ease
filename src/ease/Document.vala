@@ -102,6 +102,9 @@ namespace Ease
 						case "background_color":
 							slide.background_color.from_string(j->children->content);
 							break;
+						case "background_image":
+							slide.background_image = j->children->content;
+							break;
 					}
 				}
 						
