@@ -9,6 +9,7 @@ namespace Ease
 		public Theme theme { get; set; }
 		public int width { get; set; }
 		public int height { get; set; }
+		public string path { get; set; }
 		
 		public Document()
 		{
@@ -18,7 +19,9 @@ namespace Ease
 		public Document.from_file(string filename)
 		{
 			this();
-				
+			
+			path = filename;
+			
 			var doc = Parser.parse_file(filename + "Document.xml");
 			if (doc == null)
 			{
@@ -88,7 +91,7 @@ namespace Ease
 				}
 				
 				// create a new slide to be added
-				var slide = new Slide();
+				var slide = new Slide(this);
 				slide.elements = new Gee.ArrayList<Element>();
 				
 				// scan the slide's properties
@@ -151,6 +154,7 @@ namespace Ease
 					element.y = map.get("y").to_int();
 					element.width = map.get("width").to_int();
 					element.height = map.get("height").to_int();
+					element.parent = slide;
 					slide.elements.add(element);
 				}
 				

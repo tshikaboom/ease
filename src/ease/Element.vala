@@ -7,6 +7,7 @@ namespace Ease
 		public float y { get; set; }
 		public float width { get; set; }
 		public float height { get; set; }
+		public Slide parent { get; set; }
 		
 		public virtual void print_representation()
 		{

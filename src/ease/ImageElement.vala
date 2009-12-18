@@ -10,7 +10,7 @@ namespace Ease
 		{
 			try
 			{
-				var actor = new Clutter.Texture.from_file(filename);
+				var actor = new Clutter.Texture.from_file(parent.parent.path + filename);
 				set_actor_base_properties(actor);
 				return actor;
 			}

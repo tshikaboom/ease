@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <document width="800" height="600">
 	<slides>
-		<slide transition="fade" background_image="/home/nate/Documents/Code/Ease/Examples/Example.ease/Media/Themes/Pink/Background.svg">
+		<slide transition="fade" background_image="Media/Themes/Pink/Background.svg">
 			<element type="text" ease_name="text-1" x="0" y="0" width="500" height="500" font_name="Sans" font_size="50" color="#000000FF" text="Hello Ease!" />
 			<element type="text" ease_name="text-2" x="20" y="75" width="500" height="500" font_name="Myriad Pro" font_size="14" color="#000000" text="- This is a presentation application\n	- It's in development and isn't very good right now!" />
 		</slide>
 		<slide transition="zoom" background_color="#FFF">
-			<element type="image" ease_name="psyduck" x="0" y="0" width="800" height="600" scale_x="1" scale_y="1" filename="/home/nate/Documents/Code/Ease/Examples/Example.ease/Media/psyduck.jpg" />
+			<element type="image" ease_name="psyduck" x="0" y="0" width="800" height="600" scale_x="1" scale_y="1" filename="Media/psyduck.jpg" />
 		</slide>
 		<slide transition="contents_slide" background_color="#DDFFAA">
 			<element type="text" ease_name="text-3" x="20" y="20" width="800" height="500" font_name="Myriad Pro Light" font_size="20" color="#000000FF" text="This is a second slide!" />
