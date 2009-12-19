@@ -7,15 +7,26 @@ namespace Ease
 		public Document document { get; set; }
 		public int slide_index { get; set; }
 		public Clutter.Stage stage { get; set; }
+		private bool can_animate { get; set; }
+		
+		// current and transitioning out slide
 		private Clutter.Group current_slide_content { get; set; }
 		private Clutter.Group current_slide_bg { get; set; }
 		private Clutter.Group current_slide { get; set; }
 		private Clutter.Group old_slide_content { get; set; }
 		private Clutter.Group old_slide_bg { get; set; }
 		private Clutter.Group old_slide { get; set; }
+		
+		// timelines
 		private Clutter.Timeline animation_time { get; set; }
 		private Clutter.Alpha animation_alpha { get; set; }
-		private bool can_animate { get; set; }
+		private Clutter.Timeline time1;
+		private Clutter.Timeline time2;
+		private Clutter.Alpha alpha1;
+		private Clutter.Alpha alpha2;
+		
+		// effect constants
+		public const float FLIP_DEPTH = -400;
 	
 		public Player(Document doc)
 		{
@@ -107,6 +118,39 @@ namespace Ease
 						animation_alpha = new Clutter.Alpha.full(animation_time, Clutter.AnimationMode.EASE_OUT_SINE);
 						animation_time.new_frame.connect((m) => {
 							current_slide.set_rotation(Clutter.RotateAxis.Z_AXIS, 90 * (1 - animation_alpha.get_alpha()), 0, 0, 0);
+						});
+						break;
+					case "flip":
+						prepare_slide_transition();
+						current_slide.opacity = 0;				
+						time1 = new Clutter.Timeline(length / 2);
+						time2 = new Clutter.Timeline(length / 2);
+						alpha1 = new Clutter.Alpha.full(time1, Clutter.AnimationMode.EASE_IN_SINE);
+						alpha2 = new Clutter.Alpha.full(time2, Clutter.AnimationMode.EASE_OUT_SINE);
+						time1.completed.connect(() => {
+							old_slide.opacity = 0;
+							current_slide.depth = FLIP_DEPTH;
+							time2.start();
+						});
+						time1.new_frame.connect((m) => {
+							old_slide.set_rotation(Clutter.RotateAxis.X_AXIS, 90 * alpha1.get_alpha(), 0, stage.height / 2, 0);
+							old_slide.depth = (float)(FLIP_DEPTH * alpha1.get_alpha());
+						});
+						time2.new_frame.connect((m) => {
+							current_slide.opacity = 255;
+							current_slide.depth = FLIP_DEPTH * (float)(1 - alpha2.get_alpha());
+							current_slide.set_rotation(Clutter.RotateAxis.X_AXIS, -90 * (1 - alpha2.get_alpha()), 0, stage.height / 2, 0);
+						});
+						time1.start();
+						break;
+					case "revolving_door":
+						prepare_slide_transition();
+						old_slide.depth = 1; //ugly, but works
+						animation_alpha = new Clutter.Alpha.full(animation_time, Clutter.AnimationMode.EASE_IN_OUT_SINE);
+						current_slide.set_rotation(Clutter.RotateAxis.Y_AXIS, 90, 0, 0, 0);
+						animation_time.new_frame.connect((m) => {
+							current_slide.set_rotation(Clutter.RotateAxis.Y_AXIS, 90 * (1 - animation_alpha.get_alpha()), 0, 0, 0);
+							old_slide.set_rotation(Clutter.RotateAxis.Y_AXIS, -110 * animation_alpha.get_alpha(), 0, 0, 0);
 						});
 						break;
 					case "zoom":
