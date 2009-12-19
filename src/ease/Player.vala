@@ -153,6 +153,14 @@ namespace Ease
 							old_slide.set_rotation(Clutter.RotateAxis.Y_AXIS, -110 * animation_alpha.get_alpha(), 0, 0, 0);
 						});
 						break;
+					case "fall":
+						prepare_slide_transition();
+						old_slide.depth = 1; //ugly, but works
+						animation_alpha = new Clutter.Alpha.full(animation_time, Clutter.AnimationMode.EASE_IN_QUART);
+						animation_time.new_frame.connect((m) => {
+							old_slide.set_rotation(Clutter.RotateAxis.X_AXIS, -90 * animation_alpha.get_alpha(), 0, stage.height, 0);
+						});
+						break;
 					case "contents_spin":
 						prepare_stack_transition(false);
 						current_slide_content.opacity = 0;	

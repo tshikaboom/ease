@@ -5,7 +5,7 @@
 			<element type="text" ease_name="text-1" x="0" y="0" width="500" height="500" font_name="Sans" font_size="50" color="#FFF" text="Hello Ease!" />
 			<element type="text" ease_name="text-2" x="20" y="75" width="500" height="500" font_name="Myriad Pro" font_size="14" color="#FFF" text="- This is a presentation application\n	- It's in development and isn't very good right now!" />
 		</slide>
-		<slide transition="revolving_door" background_color="#FFF">
+		<slide transition="fall" background_color="#FFF">
 			<element type="image" ease_name="psyduck" x="0" y="0" width="800" height="600" scale_x="1" scale_y="1" filename="Media/psyduck.jpg" />
 		</slide>
 		<slide transition="drop" background_image="Media/Themes/Pink/Background.svg">
