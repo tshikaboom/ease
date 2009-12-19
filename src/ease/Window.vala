@@ -6,16 +6,20 @@ namespace Ease
 	public class Window : Gtk.Window
 	{
 		public GtkClutter.Embed embed { get; set; }
+		public MainToolbar main_toolbar { get; set; }
+		public Document document { get; set; }
 		
-		public Window()
+		public Window(string filename)
 		{
 			this.title = "";
-			
 			this.set_default_size(800, 600);
+			
+			document = new Document.from_file(filename);
 			
 			var vbox = new Gtk.VBox(false, 0);
 			vbox.pack_start(create_menu_bar(), false, false, 0);
-			vbox.pack_start(create_toolbar(), false, false, 0);
+			main_toolbar = new MainToolbar();
+			vbox.pack_start(main_toolbar, false, false, 0);
 			
 			embed = new GtkClutter.Embed();
 			var color = Clutter.Color();
@@ -39,18 +43,8 @@ namespace Ease
 		
 		private void new_presentation()
 		{
-			var Window = new Window();
+			var Window = new Window("../../../../Examples/Example.ease/");
 			Window.show_all();
-		}
-		
-		private Gtk.Toolbar create_toolbar()
-		{
-			var toolbar = new Gtk.Toolbar();
-			
-			var newButton = new Gtk.ToolButton.from_stock("gtk-new");
-			toolbar.insert(newButton, 0);
-			
-			return toolbar;
 		}
 		
 		// menu bar creation
