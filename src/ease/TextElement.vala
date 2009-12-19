@@ -7,6 +7,15 @@ namespace Ease
 		public string font_name { get; set; }
 		public uint font_size { get; set; }
 		
+		public TextElement.from_map(Gee.Map<string, string> map, Slide owner)
+		{
+			base.from_map(map, owner);
+			this.text = map.get("text");
+			this.font_name = map.get("font_name");
+			this.font_size = map.get("font_size").to_int();
+			this.color.from_string(map.get("color"));
+		}
+		
 		public override void print_representation()
 		{
 			stdout.printf("\t\t\tText Element:\n");

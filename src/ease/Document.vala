@@ -131,30 +131,15 @@ namespace Ease
 					switch (map.get("type"))
 					{
 						case "text":
-							element = new TextElement();
-							((TextElement)element).text = map.get("text");
-							((TextElement)element).font_name = map.get("font_name");
-							((TextElement)element).font_size = map.get("font_size").to_int();
-							((TextElement)element).color.from_string(map.get("color"));
+							element = new TextElement.from_map(map, slide);
 							break;
 						case "image":
-							element = new ImageElement();
-							((ImageElement)element).filename = map.get("filename");
-							((ImageElement)element).scale_x = (float)map.get("scale_x").to_double();
-							((ImageElement)element).scale_y = (float)map.get("scale_y").to_double();
+							element = new ImageElement.from_map(map, slide);
 							break;
 						default:
 							stdout.printf("Wrong Element Type: %s", map.get("type"));
 							return;
 					}
-					
-					// set the common Element features
-					element.ease_name = map.get("ease_name");
-					element.x = map.get("x").to_int();
-					element.y = map.get("y").to_int();
-					element.width = map.get("width").to_int();
-					element.height = map.get("height").to_int();
-					element.parent = slide;
 					slide.elements.add(element);
 				}
 				
