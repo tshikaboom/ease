@@ -180,6 +180,27 @@ namespace Ease
 						});
 						time1.start();
 						break;
+					case "contents_swing":
+						prepare_stack_transition(false);
+						current_slide_content.opacity = 0;	
+						old_slide_bg.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length, "opacity", 0);
+						alpha1 = new Clutter.Alpha.full(animation_time, Clutter.AnimationMode.EASE_IN_SINE);
+						alpha2 = new Clutter.Alpha.full(animation_time, Clutter.AnimationMode.EASE_OUT_SINE);
+						animation_alpha = new Clutter.Alpha.full(animation_time, Clutter.AnimationMode.LINEAR);
+						animation_time.new_frame.connect((m) => {
+							unowned GLib.List* itr;
+							old_slide_content.opacity = clamp_opacity(455 - 555 * alpha1.get_alpha());
+							current_slide_content.opacity = clamp_opacity(-100 + 400 * alpha2.get_alpha());
+							for (itr = old_slide_content.get_children(); itr != null; itr = itr->next)
+							{
+								((Clutter.Actor*)itr->data)->set_rotation(Clutter.RotateAxis.X_AXIS, 540 * alpha1.get_alpha(), 0, 0, 0);
+							}
+							for (itr = current_slide_content.get_children(); itr != null; itr = itr->next)
+							{
+								((Clutter.Actor*)itr->data)->set_rotation(Clutter.RotateAxis.X_AXIS, -540 * (1 - alpha2.get_alpha()), 0, 0, 0);
+							}
+						});
+						break;
 					case "zoom":
 						prepare_slide_transition();
 						current_slide.set_scale_full(0, 0, stage.width / 2, stage.height / 2);
@@ -332,6 +353,30 @@ namespace Ease
 					break;
 			}
 			//stdout.printf("%u\n", event.key.keyval);
+		}
+		
+		// animation utility functions
+		private double min(double a, double b)
+		{
+			if (a > b)
+			{
+				return b;
+			}
+			return a;
+		}
+		
+		private double max(double a, double b)
+		{
+			if (a > b)
+			{
+				return a;
+			}
+			return b;
+		}
+		
+		private uint8 clamp_opacity(double o)
+		{
+			return (uint8)(max(0, min(255, o)));
 		}
 	}
 }
