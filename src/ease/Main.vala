@@ -1,25 +1,13 @@
-using GLib;
 using Ease;
 
 public class Main : GLib.Object
 {
 	public static int main(string[] args)
 	{	
+		test_editor(args);
+
 		test_player("../../../../Examples/Example.ease/");
-		/*Gtk.init(ref args);
-		Clutter.init(null);
-		var Window = new Window();
 		
-		Window.destroy.connect(Gtk.main_quit);
-		
-		Window.show_all();
-		Window.embed.show();
-		
-		((Clutter.Stage)Window.embed.get_stage()).add_actor(new Clutter.Text.with_text("Myriad Pro Light 50", "Hello "));
-		
-		//var player = new Player();
-		
-		Gtk.main();*/
 		return 0;
 	}
 	
@@ -33,5 +21,21 @@ public class Main : GLib.Object
 		player.stage.hide.connect(Clutter.main_quit);
 		
 		Clutter.main();
+	}
+	
+	private static void test_editor(string[] args)
+	{
+		Gtk.init(ref args);
+		Clutter.init(null);
+		var Window = new Window("../../../../Examples/Example.ease/");
+		
+		Window.destroy.connect(Gtk.main_quit);
+		
+		Window.show_all();
+		Window.embed.show();
+		
+		((Clutter.Stage)Window.embed.get_stage()).add_actor(new Clutter.Text.with_text("Myriad Pro Light 50", "Hello "));
+				
+		Gtk.main();
 	}
 }
