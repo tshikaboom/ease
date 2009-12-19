@@ -1,4 +1,3 @@
-using GLib;
 using Xml;
 
 namespace Ease

@@ -1,5 +1,3 @@
-using Clutter;
-
 namespace Ease
 {
 	public class Player : GLib.Object

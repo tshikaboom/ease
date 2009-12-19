@@ -1,6 +1,3 @@
-using Gtk;
-using GtkClutter;
-
 namespace Ease
 {
 	public class Window : Gtk.Window
