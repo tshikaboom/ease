@@ -101,6 +101,14 @@ namespace Ease
 						current_slide.y = -stage.height;
 						current_slide.animate(Clutter.AnimationMode.EASE_OUT_BOUNCE, length, "y", 0);
 						break;
+					case "pivot":
+						prepare_slide_transition();
+						current_slide.set_rotation(Clutter.RotateAxis.Z_AXIS, 90, 0, 0, 0);
+						animation_alpha = new Clutter.Alpha.full(animation_time, Clutter.AnimationMode.EASE_OUT_SINE);
+						animation_time.new_frame.connect((m) => {
+							current_slide.set_rotation(Clutter.RotateAxis.Z_AXIS, 90 * (1 - animation_alpha.get_alpha()), 0, 0, 0);
+						});
+						break;
 					case "zoom":
 						prepare_slide_transition();
 						current_slide.set_scale_full(0, 0, stage.width / 2, stage.height / 2);

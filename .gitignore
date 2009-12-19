@@ -5,3 +5,5 @@
 *.pidb
 *~
 *bin/
+*.AppleDouble/
+*DS_Store
