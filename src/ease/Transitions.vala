@@ -9,21 +9,21 @@ namespace Ease
 		public static void init()
 		{
 			Transitions = new Gee.ArrayList<Transition?>();
-			add_transition("None", {});
-			add_transition("Fade", {});
-			add_transition("Slide", { "Up", "Down", "Left", "Right" });
-			add_transition("Drop", {});
-			add_transition("Pivot", { "Top Left", "Top Right", "Bottom Left", "Bottom Right" });
-			add_transition("Flip", { "Top to Bottom", "Bottom to Top", "Left to Right", "Right to Left" });
-			add_transition("Revolving Door", { "Top", "Bottom", "Left", "Right" });
-			add_transition("Fall", {});
-			add_transition("Spin Contents", { "Left", "Right" });
-			add_transition("Swing Contents", {});
-			add_transition("Zoom", { "Center", "Top Left", "Top Right", "Bottom Left", "Bottom Right" });
-			add_transition("Slide Contents", { "Up", "Down", "Left", "Right" });
-			add_transition("Spring Contents", { "Up", "Down" });
-			add_transition("Zoom Contents", { "In", "Out" });
-			add_transition("Panel", { "Up", "Down", "Left", "Right" });
+			add_transition("None", {}, 0);
+			add_transition("Fade", {}, 0);
+			add_transition("Slide", { "Up", "Down", "Left", "Right" }, 4);
+			add_transition("Drop", {}, 0);
+			add_transition("Pivot", { "Top Left", "Top Right", "Bottom Left", "Bottom Right" }, 4);
+			add_transition("Flip", { "Top to Bottom", "Bottom to Top", "Left to Right", "Right to Left" }, 4);
+			add_transition("Revolving Door", { "Top", "Bottom", "Left", "Right" }, 4);
+			add_transition("Fall", {}, 0);
+			add_transition("Zoom", { "Center", "Top Left", "Top Right", "Bottom Left", "Bottom Right" }, 5);
+			add_transition("Panel", { "Up", "Down", "Left", "Right" }, 4);
+			add_transition("Spin Contents", { "Left", "Right" }, 2);
+			add_transition("Swing Contents", {}, 0);
+			add_transition("Slide Contents", { "Up", "Down", "Left", "Right" }, 4);
+			add_transition("Spring Contents", { "Up", "Down" }, 2);
+			add_transition("Zoom Contents", { "In", "Out" }, 2);
 		}
 		
 		public static string get_name(int i)
@@ -31,17 +31,29 @@ namespace Ease
 			return Transitions.get(i).name;
 		}
 		
-		private static void add_transition(string n, string[] v)
+		public static string[] get_variants(int i)
+		{
+			return Transitions.get(i).variants;
+		}
+		
+		public static int get_variant_count(int i)
+		{
+			return Transitions.get(i).count;
+		}
+		
+		private static void add_transition(string n, string[] v, int c)
 		{
 			Transition t = new Transition();
 			t.name = n;
 			t.variants = v;
+			t.count = c;
 			Transitions.add(t);
 		}
 		
 		private class Transition : GLib.Object
 		{
 			public string name { get; set; }
+			public int count { get; set; }
 			public string[] variants;
 		}
 	}
