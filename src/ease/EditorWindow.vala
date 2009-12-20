@@ -10,6 +10,7 @@ namespace Ease
 		public SlidePane pane_slide { get; set; }
 		
 		public Document document { get; set; }
+		public Slide slide { get; set; }
 		
 		// interface variables
 		public bool inspector_shown { get; set; }
@@ -93,6 +94,20 @@ namespace Ease
 					pane_transition.delay.sensitive = true;
 				}
 			});
+			
+			load_slide(0);
+		}
+		
+		private void load_slide(int index)
+		{
+			slide = document.slides.get(index);
+			
+			// update ui elements for this new slide
+			pane_transition.effect.set_active(Transitions.get_transition_id(slide.transition));
+			if (slide.variant != "" && slide.variant != null)
+			{
+				pane_transition.variant.set_active(Transitions.get_variant_id(slide.transition, slide.variant));
+			}
 		}
 		
 		// signal handlers
