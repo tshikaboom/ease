@@ -25,6 +25,7 @@ namespace Ease
 		
 		// effect constants
 		public const float FLIP_DEPTH = -400;
+		public const float ZOOM_OUT_SCALE = 0.75f;
 	
 		public Player(Document doc)
 		{
@@ -218,19 +219,56 @@ namespace Ease
 						current_slide_content.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length, "x", 0);
 						old_slide_content.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length, "x", stage.width);
 						break;
+					case "contents_spring":
+						prepare_stack_transition(true);
+						old_slide_bg.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length, "opacity", 0);
+						current_slide_content.y = stage.height * 1.2f;
+						current_slide_content.animate(Clutter.AnimationMode.EASE_IN_OUT_ELASTIC, length, "y", 0);
+						old_slide_content.animate(Clutter.AnimationMode.EASE_IN_OUT_ELASTIC, length, "y", -stage.height * 1.2);
+						break;
 					case "contents_zoom":
 						prepare_stack_transition(false);
 						animation_alpha = new Clutter.Alpha.full(animation_time, Clutter.AnimationMode.EASE_IN_OUT_SINE);
-						old_slide_bg.animate(Clutter.AnimationMode.EASE_IN_SINE, length, "opacity", 0);
+						old_slide_bg.animate(Clutter.AnimationMode.LINEAR, length, "opacity", 0);
 						current_slide_content.set_scale_full(0, 0, stage.width / 2, stage.height / 2);
 						old_slide_content.set_scale_full(1, 1, stage.width / 2, stage.height / 2);
-						old_slide_content.animate(Clutter.AnimationMode.LINEAR, (uint)(length * 0.5), "opacity", 0);
+						old_slide_content.animate(Clutter.AnimationMode.LINEAR, length / 2, "opacity", 0);
 						animation_time.new_frame.connect((m) => {
 							current_slide_content.set_scale(animation_alpha.get_alpha(),
 							                                animation_alpha.get_alpha());
 							old_slide_content.set_scale(1.0 + 2 * animation_alpha.get_alpha(),
 							   	                        1.0 + 2 * animation_alpha.get_alpha());
 						});
+						break;
+					case "zoom_out":
+						prepare_slide_transition();
+						time1 = new Clutter.Timeline(length / 4);
+						time2 = new Clutter.Timeline(3 * length / 4);
+						current_slide.set_scale_full(ZOOM_OUT_SCALE, ZOOM_OUT_SCALE, stage.width / 2, stage.height / 2);
+						current_slide.x = -stage.width;
+						alpha1 = new Clutter.Alpha.full(time1, Clutter.AnimationMode.EASE_IN_OUT_SINE);
+						time1.new_frame.connect((m) => {
+							old_slide.set_scale_full(ZOOM_OUT_SCALE + (1 - ZOOM_OUT_SCALE) * (1 - alpha1.get_alpha()),
+							                         ZOOM_OUT_SCALE + (1 - ZOOM_OUT_SCALE) * (1 - alpha1.get_alpha()),
+							                         stage.width / 2,
+							                         stage.height / 2);
+						});
+						time1.completed.connect(() => {
+							old_slide.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length / 2, "x", stage.width);
+							// I have no explanation for why that is required, but nothing else worked properly
+							current_slide.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length / 2, "x", 0.0f);
+						});
+						time2.completed.connect(() => {
+							time1.new_frame.connect((m) => {
+								current_slide.set_scale_full(ZOOM_OUT_SCALE + (1 - ZOOM_OUT_SCALE) * alpha1.get_alpha(),
+								                             ZOOM_OUT_SCALE + (1 - ZOOM_OUT_SCALE) * alpha1.get_alpha(),
+								                             stage.width / 2,
+								                             stage.height / 2);
+							});
+							time1.start();
+						});
+						time1.start();
+						time2.start();
 						break;
 				}
 			}
