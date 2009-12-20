@@ -83,6 +83,8 @@ namespace Ease
 					pane_transition.variant.append_text(variants[i]);
 				}
 				pane_transition.variant.set_active(0);
+				slide.transition = Transitions.get_name(pane_transition.effect.active);
+				slide.variant = Transitions.get_variants(pane_transition.effect.active)[pane_transition.variant.active];
 			});
 			pane_transition.start_transition.changed.connect(() => {
 				if (pane_transition.start_transition.active == 0)
