@@ -7,6 +7,7 @@ namespace Ease
 		public MainToolbar main_toolbar { get; set; }
 		public Gtk.HBox inspector { get; set; }
 		public TransitionPane pane_transition { get; set; }
+		public SlidePane pane_slide { get; set; }
 		
 		public Document document { get; set; }
 		
@@ -39,6 +40,8 @@ namespace Ease
 			var notebook = new Gtk.Notebook();
 			notebook.scrollable = true;
 			pane_transition = new TransitionPane();
+			pane_slide = new SlidePane();
+			notebook.append_page(pane_slide, new Gtk.Image.from_stock("gtk-page-setup", Gtk.IconSize.SMALL_TOOLBAR));
 			notebook.append_page(pane_transition, new Gtk.Image.from_stock("gtk-media-forward", Gtk.IconSize.SMALL_TOOLBAR));
 			inspector.pack_start(notebook, false, false, 0);
 			
@@ -53,11 +56,11 @@ namespace Ease
 			main_toolbar.inspector.clicked.connect(() => {
 				if (inspector_shown)
 				{
-					inspector.hide_all();
+					inspector.hide();
 				}
 				else
 				{
-					inspector.show_all();
+					inspector.show();
 				}
 				inspector_shown = !inspector_shown;
 			});
@@ -65,7 +68,7 @@ namespace Ease
 			
 			this.show_all();
 			embed.show();
-			inspector.hide_all();
+			inspector.hide();
 			inspector_shown = false;
 		}
 		
