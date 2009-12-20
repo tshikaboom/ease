@@ -5,6 +5,7 @@ namespace Ease
 		public Gtk.ComboBox effect { get; set; }
 		public Gtk.SpinButton duration { get; set; }
 		public Gtk.ComboBox variant { get; set; }
+		public Gtk.Alignment variant_align { get; set; }
 		public Gtk.Label variant_label { get; set; }
 		public Gtk.ComboBox start_transition { get; set; }
 		public Gtk.SpinButton delay { get; set; }
@@ -29,7 +30,7 @@ namespace Ease
 			hbox.pack_start(frame, true, true, 5);
 			this.pack_start(hbox, false, false, 5);
 			
-			// effect selection
+			// transition selection
 			var vbox = new Gtk.VBox(false, 0);
 			hbox = new Gtk.HBox(false, 0);
 			var align = new Gtk.Alignment(0, 0, 0, 0);
@@ -46,7 +47,7 @@ namespace Ease
 			vbox.pack_start(align, false, false, 0);
 			hbox.pack_start(vbox, true, true, 5);
 			
-			// effect duration
+			// transition duration
 			vbox = new Gtk.VBox(false, 0);
 			align = new Gtk.Alignment(0, 0, 0, 0);
 			align.add(new Gtk.Label("Duration"));
@@ -59,16 +60,16 @@ namespace Ease
 			hbox.pack_start(vbox, false, false, 5);
 			this.pack_start(hbox, false, false, 5);
 			
-			// effect direction
+			// transition variant
 			hbox = new Gtk.HBox(false, 0);
 			vbox = new Gtk.VBox(false, 0);
 			align = new Gtk.Alignment(0, 0, 0, 0);
 			align.add(new Gtk.Label("Direction"));
 			vbox.pack_start(align, false, false, 0);
-			variant = new Gtk.ComboBox();
-			align = new Gtk.Alignment(0, 0, 1, 1);
-			align.add(variant);
-			vbox.pack_start(align, false, false, 0);
+			variant = new Gtk.ComboBox.text();
+			variant_align = new Gtk.Alignment(0, 0, 1, 1);
+			variant_align.add(variant);
+			vbox.pack_start(variant_align, false, false, 0);
 			hbox.pack_start(vbox, true, true, 5);
 			this.pack_start(hbox, false, false, 5);
 			
@@ -79,7 +80,7 @@ namespace Ease
 			align.add(new Gtk.Label("Start Transition"));
 			vbox.pack_start(align, false, false, 0);
 			start_transition = new Gtk.ComboBox.text();
-			start_transition.append_text("On Click");
+			start_transition.append_text("Manually");
 			start_transition.append_text("Automatically");
 			start_transition.set_active(0);
 			align = new Gtk.Alignment(0, 0, 1, 1);

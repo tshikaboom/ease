@@ -46,11 +46,18 @@ namespace Ease
 			inspector.pack_start(notebook, false, false, 0);
 			
 			var embed_vbox = new Gtk.VBox(false, 0);
-			embed_vbox.pack_start(new Gtk.HSeparator(), false, false, 0);
+			//embed_vbox.pack_start(new Gtk.HSeparator(), false, false, 0);
 			embed_vbox.pack_start(embed, true, true, 0);
 			hbox.pack_start(embed_vbox, true, true, 0);
 			hbox.pack_start(inspector, false, false, 0);
 			vbox.pack_start(hbox, true, true, 0);
+			
+			this.add(vbox);
+			
+			this.show_all();
+			embed.show();
+			inspector.hide();
+			inspector_shown = false;
 			
 			// ui signals
 			main_toolbar.inspector.clicked.connect(() => {
@@ -64,12 +71,28 @@ namespace Ease
 				}
 				inspector_shown = !inspector_shown;
 			});
-			this.add(vbox);
-			
-			this.show_all();
-			embed.show();
-			inspector.hide();
-			inspector_shown = false;
+			pane_transition.effect.changed.connect(() => {
+				var variants = Transitions.get_variants(pane_transition.effect.active);
+				pane_transition.variant_align.remove(pane_transition.variant);
+				pane_transition.variant = new Gtk.ComboBox.text();
+				pane_transition.variant_align.add(pane_transition.variant);
+				pane_transition.variant.show();
+				for (var i = 0; i < Transitions.get_variant_count(pane_transition.effect.active); i++)
+				{
+					pane_transition.variant.append_text(variants[i]);
+				}
+				pane_transition.variant.set_active(0);
+			});
+			pane_transition.start_transition.changed.connect(() => {
+				if (pane_transition.start_transition.active == 0)
+				{
+					pane_transition.delay.sensitive = false;
+				}
+				else
+				{
+					pane_transition.delay.sensitive = true;
+				}
+			});
 		}
 		
 		// signal handlers
