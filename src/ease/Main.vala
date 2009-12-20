@@ -3,10 +3,13 @@ using Ease;
 public class Main : GLib.Object
 {
 	public static int main(string[] args)
-	{	
+	{
+		// initalize static classes
+		Transitions.init();
+		
 		test_editor(args);
 
-		test_player("../../../../Examples/Example.ease/");
+		//test_player("../../../../Examples/Example.ease/");
 		
 		return 0;
 	}
@@ -29,13 +32,7 @@ public class Main : GLib.Object
 		Clutter.init(null);
 		var Window = new Window("../../../../Examples/Example.ease/");
 		
-		Window.destroy.connect(Gtk.main_quit);
-		
-		Window.show_all();
-		Window.embed.show();
-		
-		((Clutter.Stage)Window.embed.get_stage()).add_actor(new Clutter.Text.with_text("Myriad Pro Light 50", "Hello "));
-				
+		Window.destroy.connect(Gtk.main_quit);				
 		Gtk.main();
 	}
 }
