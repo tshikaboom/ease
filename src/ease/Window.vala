@@ -2,14 +2,21 @@ namespace Ease
 {
 	public class Window : Gtk.Window
 	{
+		// interface elements
 		public GtkClutter.Embed embed { get; set; }
 		public MainToolbar main_toolbar { get; set; }
+		public Gtk.HBox inspector { get; set; }
+		public TransitionPane pane_transition { get; set; }
+		
 		public Document document { get; set; }
+		
+		// interface variables
+		public bool inspector_shown { get; set; }
 		
 		public Window(string filename)
 		{
 			this.title = "";
-			this.set_default_size(800, 600);
+			this.set_default_size(1024, 768);
 			
 			document = new Document.from_file(filename);
 			
@@ -17,15 +24,49 @@ namespace Ease
 			vbox.pack_start(create_menu_bar(), false, false, 0);
 			main_toolbar = new MainToolbar();
 			vbox.pack_start(main_toolbar, false, false, 0);
+			//vbox.pack_start(new Gtk.HSeparator(), false, false, 0);
 			
 			embed = new GtkClutter.Embed();
+			embed.set_size_request(320, 240);
 			var color = Clutter.Color();
-			color.from_string("Red");
+			color.from_string("Gray");
 			((Clutter.Stage)(embed.get_stage())).set_color(color);
+			var hbox = new Gtk.HBox(false, 0);
 			
-			vbox.pack_start(embed, true, true, 0);
+			// the inspector
+			inspector = new Gtk.HBox(false, 0);
+			//inspector.pack_start(new Gtk.VSeparator(), false, false, 0);
+			var notebook = new Gtk.Notebook();
+			notebook.scrollable = true;
+			pane_transition = new TransitionPane();
+			notebook.append_page(pane_transition, new Gtk.Image.from_stock("gtk-media-forward", Gtk.IconSize.SMALL_TOOLBAR));
+			inspector.pack_start(notebook, false, false, 0);
 			
+			var embed_vbox = new Gtk.VBox(false, 0);
+			embed_vbox.pack_start(new Gtk.HSeparator(), false, false, 0);
+			embed_vbox.pack_start(embed, true, true, 0);
+			hbox.pack_start(embed_vbox, true, true, 0);
+			hbox.pack_start(inspector, false, false, 0);
+			vbox.pack_start(hbox, true, true, 0);
+			
+			// ui signals
+			main_toolbar.inspector.clicked.connect(() => {
+				if (inspector_shown)
+				{
+					inspector.hide_all();
+				}
+				else
+				{
+					inspector.show_all();
+				}
+				inspector_shown = !inspector_shown;
+			});
 			this.add(vbox);
+			
+			this.show_all();
+			embed.show();
+			inspector.hide_all();
+			inspector_shown = false;
 		}
 		
 		// signal handlers
