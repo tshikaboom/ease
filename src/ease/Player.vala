@@ -301,6 +301,7 @@ namespace Ease
 		{
 			// create a new slide and its background
 			current_slide = new Clutter.Group();
+			current_slide.set_clip(0, 0, stage.width, stage.height);
 			current_slide_bg = new Clutter.Group();
 			current_slide_content = new Clutter.Group();
 			Clutter.Actor background;
