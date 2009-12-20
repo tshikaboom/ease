@@ -93,7 +93,7 @@ namespace Ease
 				animation_time.start();
 				can_animate = false;
 				
-				switch (slide.transition)
+				switch (document.slides.get(slide_index - 1).transition)
 				{
 					case "Fade":
 						prepare_slide_transition();
