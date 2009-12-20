@@ -101,6 +101,9 @@ namespace Ease
 						case "transition":
 							slide.transition = j->children->content;
 							break;
+						case "variant":
+							slide.variant = j->children->content;
+							break;
 						case "background_color":
 							slide.background_color.from_string(j->children->content);
 							break;
