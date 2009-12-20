@@ -1,6 +1,6 @@
 namespace Ease
 {
-	public class Window : Gtk.Window
+	public class EditorWindow : Gtk.Window
 	{
 		// interface elements
 		public GtkClutter.Embed embed { get; set; }
@@ -14,7 +14,7 @@ namespace Ease
 		// interface variables
 		public bool inspector_shown { get; set; }
 		
-		public Window(string filename)
+		public EditorWindow(string filename)
 		{
 			this.title = "";
 			this.set_default_size(1024, 768);
@@ -107,8 +107,7 @@ namespace Ease
 		
 		private void new_presentation()
 		{
-			var Window = new Window("../../../../Examples/Example.ease/");
-			Window.show_all();
+			var window = new EditorWindow("../../../../Examples/Example.ease/");
 		}
 		
 		// menu bar creation

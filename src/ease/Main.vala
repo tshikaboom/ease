@@ -30,9 +30,9 @@ public class Main : GLib.Object
 	{
 		Gtk.init(ref args);
 		Clutter.init(null);
-		var Window = new Window("../../../../Examples/Example.ease/");
+		var window = new EditorWindow("../../../../Examples/Example.ease/");
 		
-		Window.destroy.connect(Gtk.main_quit);				
+		window.destroy.connect(Gtk.main_quit);				
 		Gtk.main();
 	}
 }
