@@ -96,6 +96,10 @@ namespace Ease
 					pane_transition.delay.sensitive = true;
 				}
 			});
+			main_toolbar.play.clicked.connect(() => {
+				var player = new Player(document);
+				Clutter.main();
+			});
 			
 			load_slide(0);
 		}
