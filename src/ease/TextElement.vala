@@ -33,7 +33,7 @@ namespace Ease
 			actor.use_markup = true;
 			actor.line_wrap = true;
 			actor.color = this.color;
-			actor.text = this.text;
+			actor.set_markup(this.text);
 			actor.font_name = this.font_name + " " + this.font_size.to_string();
 			return actor;
 		}
