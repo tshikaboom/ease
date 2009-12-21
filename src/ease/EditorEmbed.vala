@@ -27,7 +27,6 @@ namespace Ease
 					       stage.width / document.width;
 					reposition_group();
 				}
-				stdout.printf("asd!!!");
 			});
 		}
 		
