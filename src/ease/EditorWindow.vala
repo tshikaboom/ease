@@ -6,6 +6,8 @@ namespace Ease
 		public GtkClutter.Embed embed { get; set; }
 		public MainToolbar main_toolbar { get; set; }
 		public Gtk.HBox inspector { get; set; }
+		public Gtk.ScrolledWindow slides { get; set; }
+		public Gtk.VBox slides_box { get; set; }
 		public TransitionPane pane_transition { get; set; }
 		public SlidePane pane_slide { get; set; }
 		
@@ -35,6 +37,29 @@ namespace Ease
 			((Clutter.Stage)(embed.get_stage())).set_color(color);
 			var hbox = new Gtk.HBox(false, 0);
 			
+			// slide display
+			slides = new Gtk.ScrolledWindow(null, null);
+			slides.set_size_request(150, 0);
+			slides.vscrollbar_policy = Gtk.PolicyType.ALWAYS;
+			slides.hscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
+			slides_box = new Gtk.VBox(true, 1);
+			for (int i = 0; i < document.slides.size; i++)
+			{
+				var button = new SlideButton(i, document.slides.get(i));
+				button.clicked.connect(() => {
+					for (unowned GLib.List* itr = slides_box.get_children(); itr != null; itr = itr->next)
+					{
+						((SlideButton*)(itr->data))->set_relief(Gtk.ReliefStyle.NONE);
+					}
+					button.relief = Gtk.ReliefStyle.NORMAL;
+					load_slide(button.slide_id);
+				});
+				slides_box.pack_start(button, false, false, 0);
+			}
+			var align = new Gtk.Alignment(0, 0, 1, 0);
+			align.add(slides_box);
+			slides.add(align);
+			
 			// the inspector
 			inspector = new Gtk.HBox(false, 0);
 			//inspector.pack_start(new Gtk.VSeparator(), false, false, 0);
@@ -49,6 +74,7 @@ namespace Ease
 			var embed_vbox = new Gtk.VBox(false, 0);
 			//embed_vbox.pack_start(new Gtk.HSeparator(), false, false, 0);
 			embed_vbox.pack_start(embed, true, true, 0);
+			hbox.pack_start(slides, false, false, 0);
 			hbox.pack_start(embed_vbox, true, true, 0);
 			hbox.pack_start(inspector, false, false, 0);
 			vbox.pack_start(hbox, true, true, 0);
@@ -78,13 +104,17 @@ namespace Ease
 				pane_transition.variant = new Gtk.ComboBox.text();
 				pane_transition.variant_align.add(pane_transition.variant);
 				pane_transition.variant.show();
-				for (var i = 0; i < Transitions.get_variant_count(pane_transition.effect.active); i++)
+				var variant_count = Transitions.get_variant_count(pane_transition.effect.active);
+				if (variant_count > 0)
 				{
-					pane_transition.variant.append_text(variants[i]);
+					for (var i = 0; i < variant_count; i++)
+					{
+						pane_transition.variant.append_text(variants[i]);
+					}
+					pane_transition.variant.set_active(0);
+					slide.variant = Transitions.get_variants(pane_transition.effect.active)[pane_transition.variant.active];
 				}
-				pane_transition.variant.set_active(0);
 				slide.transition = Transitions.get_name(pane_transition.effect.active);
-				slide.variant = Transitions.get_variants(pane_transition.effect.active)[pane_transition.variant.active];
 			});
 			pane_transition.start_transition.changed.connect(() => {
 				if (pane_transition.start_transition.active == 0)
@@ -128,7 +158,7 @@ namespace Ease
 		
 		private void new_presentation()
 		{
-			var window = new EditorWindow("../../../../Examples/Example.ease/");
+			//var window = new EditorWindow("../../../../Examples/Example.ease/");
 		}
 		
 		// menu bar creation
