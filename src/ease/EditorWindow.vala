@@ -16,6 +16,7 @@ namespace Ease
 		
 		// interface variables
 		public bool inspector_shown { get; set; }
+		public bool slides_shown { get; set; }
 		
 		public EditorWindow(string filename)
 		{
@@ -36,7 +37,7 @@ namespace Ease
 			// slide display
 			slides = new Gtk.ScrolledWindow(null, null);
 			slides.set_size_request(150, 0);
-			slides.vscrollbar_policy = Gtk.PolicyType.ALWAYS;
+			slides.vscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
 			slides.hscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
 			slides_box = new Gtk.VBox(true, 1);
 			for (int i = 0; i < document.slides.size; i++)
@@ -81,6 +82,7 @@ namespace Ease
 			embed.show();
 			inspector.hide();
 			inspector_shown = false;
+			slides_shown = true;
 			
 			// ui signals
 			main_toolbar.inspector.clicked.connect(() => {
@@ -93,6 +95,17 @@ namespace Ease
 					inspector.show();
 				}
 				inspector_shown = !inspector_shown;
+			});
+			main_toolbar.slides.clicked.connect(() => {
+				if (slides_shown)
+				{
+					slides.hide();
+				}
+				else
+				{
+					slides.show();
+				}
+				slides_shown = !slides_shown;
 			});
 			pane_transition.effect.changed.connect(() => {
 				var variants = Transitions.get_variants(pane_transition.effect.active);
