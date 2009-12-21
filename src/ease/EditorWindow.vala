@@ -3,7 +3,7 @@ namespace Ease
 	public class EditorWindow : Gtk.Window
 	{
 		// interface elements
-		public GtkClutter.Embed embed { get; set; }
+		public EditorEmbed embed { get; set; }
 		public MainToolbar main_toolbar { get; set; }
 		public Gtk.HBox inspector { get; set; }
 		public Gtk.ScrolledWindow slides { get; set; }
@@ -30,11 +30,7 @@ namespace Ease
 			vbox.pack_start(main_toolbar, false, false, 0);
 			//vbox.pack_start(new Gtk.HSeparator(), false, false, 0);
 			
-			embed = new GtkClutter.Embed();
-			embed.set_size_request(320, 240);
-			var color = Clutter.Color();
-			color.from_string("Gray");
-			((Clutter.Stage)(embed.get_stage())).set_color(color);
+			embed = new EditorEmbed(document);
 			var hbox = new Gtk.HBox(false, 0);
 			
 			// slide display
@@ -58,7 +54,7 @@ namespace Ease
 			}
 			var align = new Gtk.Alignment(0, 0, 1, 0);
 			align.add(slides_box);
-			slides.add(align);
+			slides.add_with_viewport(align);
 			
 			// the inspector
 			inspector = new Gtk.HBox(false, 0);
@@ -144,6 +140,8 @@ namespace Ease
 			{
 				pane_transition.variant.set_active(Transitions.get_variant_id(slide.transition, slide.variant));
 			}
+			
+			embed.set_slide(slide);
 		}
 		
 		// signal handlers

@@ -1,0 +1,67 @@
+namespace Ease
+{
+	public class EditorEmbed : GtkClutter.Embed
+	{
+		private Clutter.Group group;
+		private Clutter.Actor background;
+		private Clutter.Stage stage { get { return (Clutter.Stage)this.get_stage(); } }
+		private Document document;
+		public float zoom;
+		public bool zoom_fit;
+		
+		public EditorEmbed(Document d)
+		{
+			document = d;
+			this.set_size_request(320, 240);
+			var color = Clutter.Color();
+			color.from_string("Gray");
+			stage.set_color(color);
+			zoom = 0.5f;
+			zoom_fit = true;
+			
+			this.size_allocate.connect(() => {
+				if (zoom_fit)
+				{
+					zoom = stage.width / stage.height > document.width / document.height ?
+					       stage.height / document.height :
+					       stage.width / document.width;
+					reposition_group();
+				}
+				stdout.printf("asd!!!");
+			});
+		}
+		
+		public void set_slide(Slide slide)
+		{
+			if (group != null)
+			{
+				stage.remove_actor(group);
+			}
+			
+			group = new Clutter.Group();
+			if (slide.background_image != null)
+			{
+				background = new Clutter.Texture.from_file(document.path + slide.background_image);
+				background.width = document.width;
+				background.height = document.height;
+			}
+			else
+			{
+				background = new Clutter.Rectangle();
+				((Clutter.Rectangle)background).set_color(slide.background_color);
+				background.width = document.width;
+				background.height = document.height;
+			}
+			group.add_actor(background);
+			stage.add_actor(group);
+			reposition_group();
+		}
+		
+		public void reposition_group()
+		{
+			group.set_scale_full(zoom, zoom, 0, 0);
+			group.set_position(stage.width / 2, stage.height / 2);
+			group.set_anchor_point(group.width / 2, group.height / 2);
+		}
+	}
+}
