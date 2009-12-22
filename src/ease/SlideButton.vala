@@ -5,7 +5,8 @@ namespace Ease
 		public int slide_id { get; set; }
 		public Slide slide { get; set; }
 		public Gtk.Label number { get; set; }
-		public Gtk.Image slide_image { get; set; }
+		public GtkClutter.Embed slide_image { get; set; }
+		public Gtk.AspectFrame aspect { get; set; }
 		
 		public SlideButton(int id, Slide s)
 		{
@@ -18,13 +19,22 @@ namespace Ease
 			var align = new Gtk.Alignment(0, 0.1f, 0, 0);
 			align.add(number);
 			hbox.pack_start(align, false, false, 0);
-			slide_image = new Gtk.Image.from_stock("gtk-new", Gtk.IconSize.DIALOG);
-			hbox.pack_start(slide_image, true, true, 0);
+			slide_image = new GtkClutter.Embed();
+			var color = Clutter.Color();
+			color.from_string("Red");
+			((Clutter.Stage)(slide_image.get_stage())).set_color(color);
+			aspect = new Gtk.AspectFrame("Slide", 0, 0, (float)slide.parent.width / slide.parent.height, false);
+			aspect.set_size_request(0, 50);
+			aspect.label = null;
+			aspect.add(slide_image);
+			hbox.pack_start(aspect, true, true, 0);
+			align = new Gtk.Alignment(0.5f, 0.5f, 1, 1);
+			align.add(hbox);
 			
 			this.relief = Gtk.ReliefStyle.NONE;
 			this.focus_on_click = false;
 			this.show_all();
-			this.add(hbox);
+			this.add(align);
 		}
 	}
 }
