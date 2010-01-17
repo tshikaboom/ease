@@ -26,6 +26,7 @@ namespace Ease
 		// effect constants
 		public const float FLIP_DEPTH = -400;
 		public const float ZOOM_OUT_SCALE = 0.75f;
+		public const bool PRESENTATION_FULLSCREEN = false;
 	
 		public Player(Document doc)
 		{
@@ -37,8 +38,8 @@ namespace Ease
 			stage.height = document.height;
 			stage.title = "Ease Presentation";
 			
-			//stage.set_fullscreen(true);
-			//stage.hide_cursor();
+			stage.set_fullscreen(PRESENTATION_FULLSCREEN);
+			stage.hide_cursor();
 			
 			stage.key_press_event.connect((a, e) => { key_press(a, e); });
 			
@@ -64,7 +65,7 @@ namespace Ease
 			slide_index++;
 			if (slide_index == document.slides.size) // slideshow complete
 			{
-				Clutter.main_quit();
+				stage.hide_all();
 				return;
 			}
 			
@@ -378,7 +379,7 @@ namespace Ease
 			switch (event.key.keyval)
 			{
 				case 65307: // escape
-					Clutter.main_quit();
+					stage.hide();
 					break;
 				case 65293: // enter
 				case 65363: // right arrow
