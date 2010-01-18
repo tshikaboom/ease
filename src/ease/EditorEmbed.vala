@@ -22,7 +22,7 @@ namespace Ease
 			this.size_allocate.connect(() => {
 				if (zoom_fit)
 				{
-					zoom = stage.width / stage.height > document.width / document.height ?
+					zoom = stage.width / stage.height > (float)document.width / document.height ?
 					       stage.height / document.height :
 					       stage.width / document.width;
 					reposition_group();
