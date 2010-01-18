@@ -113,6 +113,9 @@ namespace Ease
 				pane_transition.variant = new Gtk.ComboBox.text();
 				pane_transition.variant_align.add(pane_transition.variant);
 				pane_transition.variant.show();
+				pane_transition.variant.changed.connect(() => {
+					slide.variant = Transitions.get_variants(pane_transition.effect.active)[pane_transition.variant.active];
+				});
 				var variant_count = Transitions.get_variant_count(pane_transition.effect.active);
 				if (variant_count > 0)
 				{
