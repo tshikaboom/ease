@@ -90,6 +90,16 @@ namespace Ease
 			group.set_anchor_point(group.width / 2, group.height / 2);
 		}
 		
+		public float group_x()
+		{
+			return group.x - group.width / 2;
+		}
+		
+		public float group_y()
+		{
+			return group.y - group.height / 2;
+		}
+		
 		public void deselect_elements()
 		{
 			foreach (var e in elements)

@@ -30,13 +30,15 @@ namespace Ease
 			rectangle.border_color = color;
 			rectangle.width = SIZE;
 			rectangle.height = SIZE;
-			rectangle.x = -SIZE / 2;
-			rectangle.y = -SIZE / 2;
+			set_anchor_point(SIZE / 2, SIZE / 2);
 			this.add_actor(rectangle);
 			
 			this.reactive = true;
 			this.button_press_event.connect(e => {
-				start_drag();
+				//if (e.get_button() == 1)
+				{
+					start_drag();
+				}
 			});
 			this.button_release_event.connect(e => {
 				//if (e.get_button() == 1)
@@ -70,13 +72,57 @@ namespace Ease
 		
 		private void drag(Clutter.MotionEvent m)
 		{
+			var mouse_x = m.x - parent.embed.group_x() - pointer_offset_x;
+			var mouse_y = m.y - parent.embed.group_y() - pointer_offset_y;
 			switch (position)
 			{
 				case RectanglePosition.TopLeft:
-					parent.set_dimensions(parent.width + parent.x - m.x,
-					                      parent.height + parent.y - m.y,
-					                      m.x,
-					                      m.y);
+					parent.set_dimensions(parent.width + parent.x - mouse_x,
+					                      parent.height + parent.y - mouse_y,
+					                      mouse_x,
+					                      mouse_y);
+					break;
+				case RectanglePosition.TopRight:
+					parent.set_dimensions(mouse_x - parent.x,
+					                      parent.height + parent.y - mouse_y,
+					                      parent.x,
+					                      mouse_y);
+					break;
+				case RectanglePosition.Top:
+					parent.set_dimensions(parent.width,
+					                      parent.height + parent.y - mouse_y,
+					                      parent.x,
+					                      mouse_y);
+					break;
+				case RectanglePosition.Left:
+					parent.set_dimensions(parent.width + parent.x - mouse_x,
+					                      parent.height,
+					                      mouse_x,
+					                      parent.y);
+					break;
+				case RectanglePosition.Right:
+					parent.set_dimensions(mouse_x - parent.x,
+					                      parent.height,
+					                      parent.x,
+					                      parent.y);
+					break;
+				case RectanglePosition.BottomLeft:
+					parent.set_dimensions(parent.width + parent.x - mouse_x,
+					                      mouse_y - parent.y,
+					                      mouse_x,
+					                      parent.y);
+					break;
+				case RectanglePosition.Bottom:
+					parent.set_dimensions(parent.width,
+					                      mouse_y - parent.y,
+					                      parent.x,
+					                      parent.y);
+					break;
+				case RectanglePosition.BottomRight:
+					parent.set_dimensions(mouse_x - parent.x,
+					                      mouse_y - parent.y,
+					                      parent.x,
+					                      parent.y);
 					break;
 			}
 			parent.reposition_rectangles();
