@@ -378,7 +378,7 @@ namespace Ease
 						}
 						break;
 					case "Zoom Contents":
-						prepare_stack_transition(false);
+						prepare_stack_transition(prev_slide.variant == "Out");
 						animation_alpha = new Clutter.Alpha.full(animation_time, Clutter.AnimationMode.EASE_IN_OUT_SINE);
 						old_slide.background.animate(Clutter.AnimationMode.LINEAR, length, "opacity", 0);
 						switch (prev_slide.variant)
