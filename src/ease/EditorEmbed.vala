@@ -72,6 +72,11 @@ namespace Ease
 						elements.add(element);
 						group.add_actor(element);
 						break;
+					case "image":
+						element = new EditableImage((ImageElement)e, this);
+						elements.add(element);
+						group.add_actor(element);
+						break;
 				}
 			}
 			stage.add_actor(group);
