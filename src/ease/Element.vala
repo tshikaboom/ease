@@ -3,6 +3,7 @@ namespace Ease
 	public abstract class Element : GLib.Object
 	{
 		public string ease_name { get; set; }
+		public string element_type { get; set; }
 		public float x { get; set; }
 		public float y { get; set; }
 		public float width { get; set; }

@@ -9,6 +9,7 @@ namespace Ease
 		public ImageElement.from_map(Gee.Map<string, string> map, Slide owner)
 		{
 			base.from_map(map, owner);
+			this.element_type = "image";
 			this.filename = map.get("filename");
 			this.scale_x = (float)map.get("scale_x").to_double();
 			this.scale_y = (float)map.get("scale_y").to_double();
