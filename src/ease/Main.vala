@@ -15,8 +15,14 @@ public static class Main : GLib.Object
 		Gtk.init(ref args);
 		Clutter.init(null);
 		
-		//test_editor();
-		test_welcome();
+		if (args.length == 2)
+		{
+			test_editor(args[1]);
+		}
+		else
+		{
+			test_welcome();
+		}
 		
 		Gtk.main();
 		
@@ -28,9 +34,9 @@ public static class Main : GLib.Object
 		show_welcome();
 	}
 	
-	private static void test_editor()
+	private static void test_editor(string path)
 	{
-		add_window(new EditorWindow("Examples/Example.ease/"));
+		add_window(new EditorWindow(path));
 	}
 	
 	public static void remove_window(EditorWindow win)
