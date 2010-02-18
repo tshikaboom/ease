@@ -7,18 +7,21 @@ namespace Ease
 		private Gtk.ComboBox resolution;
 		private Gtk.SpinButton x_res;
 		private Gtk.SpinButton y_res;
+		private GtkClutter.Embed embed;
+		private Gtk.ScrolledWindow container;
+		private Gtk.Alignment embed_align;
 		
 		// constants
 		private const int[] RESOLUTIONS_X = {800,
-		                                       1024,
-		                                       1280,
-		                                       1280,
-		                                       1920};
+		                                     1024,
+		                                     1280,
+		                                     1280,
+		                                     1920};
 		private const int[] RESOLUTIONS_Y = {600,
-		                                       768,
-		                                       1024,
-		                                       720,
-		                                       1080};
+		                                     768,
+		                                     1024,
+		                                     720,
+		                                     1080};
 		private const int RESOLUTION_COUNT = 5;
 		
 		public WelcomeWindow()
@@ -52,7 +55,8 @@ namespace Ease
 			align.add(y_res);
 			hbox.pack_start(align, false, false, 0);
 			
-			new_button = new Gtk.Button.from_stock("gtk-new");
+			new_button = new Gtk.Button.with_label("New Presentation");
+			new_button.image = new Gtk.Image.from_stock("gtk-new", Gtk.IconSize.BUTTON);
 			align = new Gtk.Alignment(0, 0.5f, 0, 0);
 			align.add(new_button);
 			hbox.pack_start(align, false, false, 0);
@@ -62,13 +66,27 @@ namespace Ease
 			align.add(open_button);
 			hbox.pack_end(align, false, false, 0);
 			
+			// create the upper UI - the embed
+			container = new Gtk.ScrolledWindow(null, null);
+			container.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.ALWAYS);
+			embed_align = new Gtk.Alignment(0, 0, 1, 1);
+			embed = new GtkClutter.Embed();
+			embed_align.add(embed);
+			container.add_with_viewport(embed_align);
+			
+			var stage = (Clutter.Stage)embed.get_stage();
+			var color = Clutter.Color();
+			color.from_string("Gray");
+			stage.set_color(color);
+			stage.height = 1000;
+			
 			// put it all together
-			var vbox = new Gtk.VBox(false, 5);
+			var vbox = new Gtk.VBox(false, 0);
 			align = new Gtk.Alignment(0, 1, 1, 0);
 			align.add(hbox);
-			align.set_padding(0, 5, 5, 5);
+			align.set_padding(5, 5, 5, 5);
 			vbox.pack_end(align, false, false, 0);
-			vbox.pack_end(new Gtk.HSeparator(), false, false, 0);
+			vbox.pack_start(container, true, true, 0);
 			
 			this.add(vbox);
 			this.show_all();
