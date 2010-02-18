@@ -35,6 +35,12 @@ namespace Ease
 			});
 		}
 		
+		public void set_zoom(float z)
+		{
+			zoom = z / 100;
+			reposition_group();
+		}
+		
 		public void set_slide(Slide slide)
 		{
 			// clean up the previous slide

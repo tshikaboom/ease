@@ -10,6 +10,10 @@ namespace Ease
 		public Gtk.VBox slides_box { get; set; }
 		public TransitionPane pane_transition { get; set; }
 		public SlidePane pane_slide { get; set; }
+		public Gtk.HScale zoom_slider { get; set; }
+		private Gtk.Button zoom_in;
+		private Gtk.Button zoom_out;
+		private int zoom_previous = 0;
 		
 		public Document document { get; set; }
 		public Slide slide { get; set; }
@@ -17,6 +21,10 @@ namespace Ease
 		// interface variables
 		public bool inspector_shown { get; set; }
 		public bool slides_shown { get; set; }
+		
+		// constants
+		private const int[] ZOOM_LEVELS = {10, 25, 33, 50, 66, 75, 100, 125, 150, 200, 250, 300, 400};
+		private const int ZOOM_COUNT = 13;
 		
 		public EditorWindow(string filename)
 		{
@@ -75,6 +83,7 @@ namespace Ease
 			hbox.pack_start(embed_vbox, true, true, 0);
 			hbox.pack_start(inspector, false, false, 0);
 			vbox.pack_start(hbox, true, true, 0);
+			vbox.pack_end(create_bottom_bar(), false, false, 0);
 			
 			this.add(vbox);
 			
@@ -141,6 +150,40 @@ namespace Ease
 			main_toolbar.play.clicked.connect(() => {
 				var player = new Player(document);
 				Clutter.main();
+			});
+			
+			// change the embed's zoom when the zoom slider is moved
+			zoom_slider.change_value.connect((scroll, zoom, user_data) => {
+				if (zoom_previous != zoom)
+				{
+					embed.set_zoom((float)zoom);
+				}
+				zoom_previous = zoom;
+			});
+			
+			// zoom in and out with the buttons
+			zoom_in.clicked.connect(() => {
+				for (var i = 0; i < ZOOM_COUNT; i++)
+				{
+					if (zoom_slider.get_value() < ZOOM_LEVELS[i])
+					{
+						zoom_slider.set_value(ZOOM_LEVELS[i]);
+						embed.set_zoom(ZOOM_LEVELS[i]);
+						break;
+					}
+				}
+			});
+			
+			zoom_out.clicked.connect(() => {
+				for (var i = ZOOM_COUNT - 1; i > -1; i--)
+				{
+					if (zoom_slider.get_value() > ZOOM_LEVELS[i])
+					{
+						zoom_slider.set_value(ZOOM_LEVELS[i]);
+						embed.set_zoom(ZOOM_LEVELS[i]);
+						break;
+					}
+				}
 			});
 			
 			load_slide(0);
@@ -211,6 +254,47 @@ namespace Ease
 			menuItem.set_submenu(menu);
 			
 			return menuItem;
+		}
+		
+		private Gtk.Alignment create_bottom_bar()
+		{
+			var hbox = new Gtk.HBox(false, 5);
+			
+			// create zoom slider
+			zoom_slider = new Gtk.HScale.with_range(10, 400, 1);
+			zoom_slider.width_request = 200;
+			zoom_slider.value_pos = Gtk.PositionType.RIGHT;
+			
+			// zoom in button
+			zoom_in = new Gtk.Button();
+			zoom_in.add(new Gtk.Image.from_stock("gtk-zoom-in", Gtk.IconSize.MENU));
+			zoom_in.relief = Gtk.ReliefStyle.NONE;
+			
+			// zoom out button
+			zoom_out = new Gtk.Button();
+			zoom_out.add(new Gtk.Image.from_stock("gtk-zoom-out", Gtk.IconSize.MENU));
+			zoom_out.relief = Gtk.ReliefStyle.NONE;
+			
+			// put it all together
+			var align = new Gtk.Alignment(0, 0.5f, 1, 0);
+			align.add(zoom_out);
+			hbox.pack_start(align, false, false, 0);
+			
+			align = new Gtk.Alignment(0, 0.5f, 1, 0);
+			align.add(zoom_slider);
+			hbox.pack_start(align, false, false, 0);
+			
+			align = new Gtk.Alignment(0, 0.5f, 1, 0);
+			align.add(zoom_in);
+			hbox.pack_start(align, false, false, 0);
+			
+			var vbox = new Gtk.VBox(false, 0);
+			vbox.pack_start(new Gtk.HSeparator(), false, false, 0);
+			vbox.pack_start(hbox, true, true, 2);
+			
+			align = new Gtk.Alignment(1, 1, 1, 1);
+			align.add(vbox);
+			return align;
 		}
 	}
 }
