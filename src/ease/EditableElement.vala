@@ -44,11 +44,13 @@ namespace Ease
 				});
 				clicked = true;
 				create_rectangles();
+				return false;
 			});
 			this.button_release_event.connect(e => {
 				mouse_down = false;
 				dragging = false;
 				Clutter.ungrab_pointer();
+				return false;
 			});
 			this.motion_event.connect(e => {
 				if (dragging)
@@ -58,6 +60,7 @@ namespace Ease
 					element.x = this.x;
 					element.y = this.y;
 				}
+				return false;
 			});
 		}
 		

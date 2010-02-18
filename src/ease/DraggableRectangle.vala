@@ -39,18 +39,21 @@ namespace Ease
 				{
 					start_drag();
 				}
+				return false;
 			});
 			this.button_release_event.connect(e => {
 				//if (e.get_button() == 1)
 				{
 					stop_drag();
 				}
+				return false;
 			});
 			this.motion_event.connect(e => {
 				if (Clutter.get_pointer_grab() == this)
 				{
 					this.drag(e.motion);
 				}
+				return false;
 			});
 			
 			this.reposition();

@@ -37,7 +37,10 @@ namespace Ease
 			stage.set_fullscreen(PRESENTATION_FULLSCREEN);
 			stage.hide_cursor();
 			
-			stage.key_press_event.connect((a, e) => { key_press(a, e); });
+			stage.key_press_event.connect((a, e) => {
+				key_press(a, e);
+				return false;
+			});
 			
 			stage.show_all();
 			Clutter.Color color = Clutter.Color();
