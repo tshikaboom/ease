@@ -266,11 +266,15 @@ namespace Ease
 			var hbox = new Gtk.HBox(false, 5);
 			
 			// create zoom slider
-			//zoom_slider = new Gtk.HScale.with_range(10, 400, 1);
 			zoom_slider = new Gtk.HScale(new Gtk.Adjustment(100, 10, 400, 10, 50, 50));
 			zoom_slider.width_request = 200;
 			zoom_slider.value_pos = Gtk.PositionType.RIGHT;
 			zoom_slider.digits = 0;
+			
+			// format the slider text
+			zoom_slider.format_value.connect(val => {
+				return "%i%%".printf((int)val);
+			});
 			
 			// zoom in button
 			zoom_in = new Gtk.Button();
