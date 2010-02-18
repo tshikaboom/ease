@@ -1,3 +1,5 @@
+using libease;
+
 namespace Ease
 {
 	public class EditorWindow : Gtk.Window
@@ -150,8 +152,7 @@ namespace Ease
 				}
 			});
 			main_toolbar.play.clicked.connect(() => {
-				var player = new Player(document);
-				Clutter.main();
+				// TODO: launch ease-player from here
 			});
 			
 			// change the embed's zoom when the zoom slider is moved

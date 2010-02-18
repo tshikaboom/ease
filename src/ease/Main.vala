@@ -1,4 +1,5 @@
 using Ease;
+using libease;
 
 public static class Main : GLib.Object
 {

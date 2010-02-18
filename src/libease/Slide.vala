@@ -1,4 +1,4 @@
-namespace Ease
+namespace libease
 {
 	public class Slide
 	{

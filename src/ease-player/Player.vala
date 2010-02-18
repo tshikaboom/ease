@@ -1,4 +1,6 @@
-namespace Ease
+using libease;
+
+namespace EasePlayer
 {
 	public class Player : GLib.Object
 	{
@@ -50,7 +52,6 @@ namespace Ease
 			// move to the first slide
 			can_animate = true;
 			this.advance();
-			
 		}
 		
 		public void advance()

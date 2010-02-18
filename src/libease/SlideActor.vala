@@ -1,4 +1,4 @@
-namespace Ease
+namespace libease
 {
 	class SlideActor : Clutter.Group
 	{

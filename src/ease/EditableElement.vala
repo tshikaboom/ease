@@ -1,3 +1,5 @@
+using libease;
+
 namespace Ease
 {
 	abstract class EditableElement : Clutter.Group

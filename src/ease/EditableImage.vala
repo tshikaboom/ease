@@ -1,3 +1,5 @@
+using libease;
+
 namespace Ease
 {
 	class EditableImage : EditableElement

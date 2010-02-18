@@ -1,4 +1,4 @@
-namespace Ease
+namespace libease
 {
 	public static class Transitions : GLib.Object
 	{

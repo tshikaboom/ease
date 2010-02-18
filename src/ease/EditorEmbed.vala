@@ -1,3 +1,5 @@
+using libease;
+
 namespace Ease
 {
 	public class EditorEmbed : GtkClutter.Embed

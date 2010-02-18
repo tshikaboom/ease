@@ -1,3 +1,5 @@
+using libease;
+
 namespace Ease
 {
 	public enum RectanglePosition
