@@ -154,11 +154,12 @@ namespace Ease
 			
 			// change the embed's zoom when the zoom slider is moved
 			zoom_slider.change_value.connect((scroll, zoom, user_data) => {
-				if (zoom_previous != zoom)
+				if (zoom_previous != (float)zoom_slider.get_value())
 				{
-					embed.set_zoom((float)zoom);
+					embed.set_zoom((float)zoom_slider.get_value());
 				}
 				zoom_previous = zoom;
+				return true;
 			});
 			
 			// zoom in and out with the buttons
@@ -169,6 +170,7 @@ namespace Ease
 					{
 						zoom_slider.set_value(ZOOM_LEVELS[i]);
 						embed.set_zoom(ZOOM_LEVELS[i]);
+						zoom_previous = ZOOM_LEVELS[i];
 						break;
 					}
 				}
@@ -181,6 +183,7 @@ namespace Ease
 					{
 						zoom_slider.set_value(ZOOM_LEVELS[i]);
 						embed.set_zoom(ZOOM_LEVELS[i]);
+						zoom_previous = ZOOM_LEVELS[i];
 						break;
 					}
 				}
@@ -261,9 +264,11 @@ namespace Ease
 			var hbox = new Gtk.HBox(false, 5);
 			
 			// create zoom slider
-			zoom_slider = new Gtk.HScale.with_range(10, 400, 1);
+			//zoom_slider = new Gtk.HScale.with_range(10, 400, 1);
+			zoom_slider = new Gtk.HScale(new Gtk.Adjustment(100, 10, 400, 10, 50, 50));
 			zoom_slider.width_request = 200;
 			zoom_slider.value_pos = Gtk.PositionType.RIGHT;
+			zoom_slider.digits = 0;
 			
 			// zoom in button
 			zoom_in = new Gtk.Button();
