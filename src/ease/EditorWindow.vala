@@ -161,7 +161,7 @@ namespace Ease
 					embed.set_zoom((float)zoom_slider.get_value());
 				}
 				zoom_previous = zoom;
-				return true;
+				return false;
 			});
 			
 			// zoom in and out with the buttons
