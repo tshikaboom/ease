@@ -30,6 +30,8 @@ namespace Ease
 		{
 			this.title = "";
 			this.set_default_size(1024, 768);
+			this.hide.connect(() => Main.remove_window(this));
+			Main.add_window(this);
 			
 			document = new Document.from_file(filename);
 			

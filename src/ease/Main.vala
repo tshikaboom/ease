@@ -1,23 +1,65 @@
 using Ease;
 
-public class Main : GLib.Object
+public static class Main : GLib.Object
 {
+	private static Gee.ArrayList<EditorWindow> windows;
+	private static WelcomeWindow welcome;
+	
 	public static int main(string[] args)
 	{
 		// initalize static classes
 		Transitions.init();
+		windows = new Gee.ArrayList<EditorWindow>();
 		
-		test_editor(args);
+		// initialize libraries
+		Gtk.init(ref args);
+		Clutter.init(null);
+		
+		//test_editor();
+		test_welcome();
+		
+		Gtk.main();
 		
 		return 0;
 	}
 	
-	private static void test_editor(string[] args)
+	private static void test_welcome()
 	{
-		Gtk.init(ref args);
-		Clutter.init(null);
-		var window = new EditorWindow("Examples/Example.ease/");
-		window.destroy.connect(Gtk.main_quit);				
-		Gtk.main();
+		show_welcome();
+	}
+	
+	private static void test_editor()
+	{
+		add_window(new EditorWindow("Examples/Example.ease/"));
+	}
+	
+	public static void remove_window(EditorWindow win)
+	{
+		windows.remove(win);
+		if (windows.size == 0 && welcome == null)
+		{
+			Gtk.main_quit();
+		}
+	}
+	
+	public static void add_window(EditorWindow win)
+	{
+		windows.add(win);
+	}
+	
+	public static void show_welcome()
+	{
+		welcome = new WelcomeWindow();
+		welcome.hide.connect(() => remove_welcome());
+	}
+	
+	public static void remove_welcome()
+	{
+		welcome.hide_all();
+		welcome = null;
+		if (windows.size == 0)
+		{
+			Gtk.main_quit();
+		}
 	}
 }
