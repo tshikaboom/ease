@@ -40,44 +40,6 @@ namespace Ease
 			vbox.pack_start(align, true, true, 0);
 			hbox.pack_start(vbox, false, false, 5);
 			this.pack_start(hbox, false, false, 5);
-			
-			// effect direction
-			hbox = new Gtk.HBox(false, 0);
-			vbox = new Gtk.VBox(false, 0);
-			align = new Gtk.Alignment(0, 0, 0, 0);
-			align.add(new Gtk.Label("Direction"));
-			vbox.pack_start(align, false, false, 0);
-			variant = new Gtk.ComboBox();
-			align = new Gtk.Alignment(0, 0, 1, 1);
-			align.add(variant);
-			vbox.pack_start(align, false, false, 0);
-			hbox.pack_start(vbox, true, true, 5);
-			this.pack_start(hbox, false, false, 5);
-			
-			// start transition
-			vbox = new Gtk.VBox(false, 0);
-			hbox = new Gtk.HBox(false, 0);
-			align = new Gtk.Alignment(0, 0, 0, 0);
-			align.add(new Gtk.Label("Start Transition"));
-			vbox.pack_start(align, false, false, 0);
-			start_transition = new Gtk.ComboBox();
-			align = new Gtk.Alignment(0, 0, 1, 1);
-			align.add(start_transition);
-			vbox.pack_start(align, false, false, 0);
-			hbox.pack_start(vbox, true, true, 5);
-			
-			// start transition delay
-			vbox = new Gtk.VBox(false, 0);
-			align = new Gtk.Alignment(0, 0, 0, 0);
-			align.add(new Gtk.Label("Delay"));
-			vbox.pack_start(align, false, false, 0);
-			delay = new Gtk.SpinButton.with_range(0, 10, 0.25);
-			delay.digits = 2;
-			align = new Gtk.Alignment(0, 0.5f, 1, 1);
-			align.add(delay);
-			vbox.pack_start(align, true, true, 0);
-			hbox.pack_start(vbox, false, false, 5);
-			this.pack_start(hbox, false, false, 5);
 		}
 	}
 }
