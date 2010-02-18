@@ -9,11 +9,16 @@ namespace Ease
 		private Gtk.SpinButton y_res;
 		
 		// constants
-		private const int[][] RESOLUTIONS = {{800, 600},
-		                                     {1024, 768},
-		                                     {1280, 1024},
-		                                     {1280, 720},
-		                                     {1920, 1080}};
+		private const int[] RESOLUTIONS_X = {800,
+		                                       1024,
+		                                       1280,
+		                                       1280,
+		                                       1920};
+		private const int[] RESOLUTIONS_Y = {600,
+		                                       768,
+		                                       1024,
+		                                       720,
+		                                       1080};
 		private const int RESOLUTION_COUNT = 5;
 		
 		public WelcomeWindow()
@@ -27,7 +32,7 @@ namespace Ease
 			resolution.append_text("Custom");
 			for (var i = 0; i < RESOLUTION_COUNT; i++)
 			{
-				resolution.append_text("%ix%i".printf(RESOLUTIONS[i][0], RESOLUTIONS[i][1]));
+				resolution.append_text("%ix%i".printf(RESOLUTIONS_X[i], RESOLUTIONS_Y[i]));
 			}
 			resolution.set_active(2);
 			
@@ -82,8 +87,8 @@ namespace Ease
 				var val = resolution.get_active();
 				if (val > 0)
 				{
-					x_res.set_value(RESOLUTIONS[val - 1][0]);
-					y_res.set_value(RESOLUTIONS[val - 1][1]);
+					x_res.set_value(RESOLUTIONS_X[val - 1]);
+					y_res.set_value(RESOLUTIONS_Y[val - 1]);
 				}
 			});
 		}
@@ -92,7 +97,7 @@ namespace Ease
 		{
 			for (var i = 0; i < RESOLUTION_COUNT; i++)
 			{
-				if (width == RESOLUTIONS[i][0] && height == RESOLUTIONS[i][1])
+				if (width == RESOLUTIONS_X[i] && height == RESOLUTIONS_Y[i])
 				{
 					resolution.set_active(i + 1);
 					return;
