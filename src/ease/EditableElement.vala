@@ -6,12 +6,20 @@ namespace Ease
 		private DraggableRectangle[] rectangles;
 		private Clutter.Group rectangle_group;
 		private bool selected;
-		private EditorEmbed embed;
+		public EditorEmbed embed;
+		private Clutter.Timeline double_click;
+		private bool clicked;
+		private bool mouse_down;
+		private bool dragging;
+		private float offset_x;
+		private float offset_y;
 		
 		protected void init(EditorEmbed e)
 		{
 			embed = e;
 			selected = false;
+			clicked = false;
+			dragging = false;
 			
 			// user interaction
 			reactive = true;
@@ -20,7 +28,35 @@ namespace Ease
 				{
 					embed.deselect_elements();
 					selected = true;
-					create_rectangles();
+				}
+				offset_x = e.button.x;
+				offset_y = e.button.y;
+				mouse_down = true;
+				Clutter.grab_pointer(this);
+				double_click = new Clutter.Timeline(Gtk.Settings.get_default().gtk_double_click_time);
+				double_click.start();
+				double_click.completed.connect(e => {
+					clicked = false;
+					if (mouse_down) // the mouse was not released between clicks
+					{
+						dragging = true;
+					}
+				});
+				clicked = true;
+				create_rectangles();
+			});
+			this.button_release_event.connect(e => {
+				mouse_down = false;
+				dragging = false;
+				Clutter.ungrab_pointer();
+			});
+			this.motion_event.connect(e => {
+				if (dragging)
+				{
+					this.x = this.x + e.motion.x - offset_x;
+					this.y = this.y + e.motion.y - offset_y;
+					element.x = this.x;
+					element.y = this.y;
 				}
 			});
 		}
