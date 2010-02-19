@@ -8,14 +8,15 @@ namespace libease
 		public Pango.Style font_style { get; set; }
 		public Pango.Variant font_variant { get; set; }
 		public Pango.Weight font_weight;
+		public Pango.Alignment text_align { get; set; }
 		public int font_size { get; set; }
 		
 		public TextElement.from_map(Gee.Map<string, string> map, Slide owner)
 		{
 			base.from_map(map, owner);
-			this.element_type = "text";
-			this.text = map.get("text");
-			this.color.from_string(map.get("color"));
+			element_type = "text";
+			text = map.get("text");
+			color.from_string(map.get("color"));
 			
 			// determine font properties
 			font_name = map.get("font_name");
@@ -35,6 +36,19 @@ namespace libease
 					break;
 				default:
 					font_style = Pango.Style.NORMAL;
+					break;
+			}
+			
+			switch (map.get("align"))
+			{
+				case "right":
+					text_align = Pango.Alignment.RIGHT;
+					break;
+				case "center":
+					text_align = Pango.Alignment.CENTER;
+					break;
+				default:
+					text_align = Pango.Alignment.LEFT;
 					break;
 			}
 			
@@ -58,16 +72,17 @@ namespace libease
 			actor.use_markup = true;
 			actor.line_wrap = true;
 			actor.line_wrap_mode = Pango.WrapMode.WORD_CHAR;
-			actor.color = this.color;
-			actor.set_markup(this.text);
+			actor.color = color;
+			actor.set_markup(text);
 			
 			// create the font name
 			var desc = new Pango.FontDescription();
-			desc.set_family(this.font_name);
-			desc.set_weight(this.font_weight);
-			desc.set_variant(this.font_variant);
+			desc.set_family(font_name);
+			desc.set_weight(font_weight);
+			desc.set_variant(font_variant);
 			desc.set_size(font_size * Pango.SCALE);
 			actor.font_name = desc.to_string();
+			actor.set_line_alignment(text_align);
 			
 			return actor;
 		}
