@@ -5,16 +5,40 @@ namespace libease
 		public string text { get; set; }
 		public Clutter.Color color;
 		public string font_name { get; set; }
-		public uint font_size { get; set; }
+		public Pango.Style font_style { get; set; }
+		public Pango.Variant font_variant { get; set; }
+		public Pango.Weight font_weight;
+		public int font_size { get; set; }
 		
 		public TextElement.from_map(Gee.Map<string, string> map, Slide owner)
 		{
 			base.from_map(map, owner);
 			this.element_type = "text";
 			this.text = map.get("text");
-			this.font_name = map.get("font_name");
-			this.font_size = map.get("font_size").to_int();
 			this.color.from_string(map.get("color"));
+			
+			// determine font properties
+			font_name = map.get("font_name");
+			font_size = map.get("font_size").to_int();
+			
+			font_variant = map.get("font_variant") == "Normal" ?
+			               Pango.Variant.NORMAL:
+			               Pango.Variant.SMALL_CAPS;
+			
+			switch (map.get("font_style"))
+			{
+				case "Oblique":
+					font_style = Pango.Style.OBLIQUE;
+					break;
+				case "Italic":
+					font_style = Pango.Style.ITALIC;
+					break;
+				default:
+					font_style = Pango.Style.NORMAL;
+					break;
+			}
+			
+			font_weight = (Pango.Weight)(map.get("font_weight").to_int());
 		}
 		
 		public override void print_representation()
@@ -36,7 +60,15 @@ namespace libease
 			actor.line_wrap_mode = Pango.WrapMode.WORD_CHAR;
 			actor.color = this.color;
 			actor.set_markup(this.text);
-			actor.font_name = this.font_name + " " + this.font_size.to_string();
+			
+			// create the font name
+			var desc = new Pango.FontDescription();
+			desc.set_family(this.font_name);
+			desc.set_weight(this.font_weight);
+			desc.set_variant(this.font_variant);
+			desc.set_size(font_size * Pango.SCALE);
+			actor.font_name = desc.to_string();
+			
 			return actor;
 		}
 	}
