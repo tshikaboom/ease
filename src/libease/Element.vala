@@ -1,4 +1,4 @@
-namespace libease
+namespace Ease
 {
 	public abstract class Element : GLib.Object
 	{

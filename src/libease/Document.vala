@@ -1,6 +1,6 @@
 using Xml;
 
-namespace libease
+namespace Ease
 {
 	public class Document : GLib.Object
 	{

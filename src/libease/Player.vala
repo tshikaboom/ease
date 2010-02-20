@@ -1,6 +1,6 @@
-using libease;
 
-namespace EasePlayer
+
+namespace Ease
 {
 	public class Player : GLib.Object
 	{
