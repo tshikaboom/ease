@@ -9,4 +9,7 @@
 *DS_Store
 ease
 ease-player
+libease.so
+*.c
+*.h
 

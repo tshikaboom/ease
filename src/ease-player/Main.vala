@@ -14,6 +14,9 @@ public class Main
 		
 		var doc = new Document.from_file(args[1]);
 		var player = new Player(doc);
+		player.stage.hide.connect(() => {
+			Clutter.main_quit();
+		});
 		
 		Clutter.main();
 		
