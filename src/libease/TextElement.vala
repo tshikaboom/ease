@@ -94,6 +94,7 @@ namespace Ease
 			return "<element type=\"text\" " +
 			       "font_name=\"" + font_name + "\" " +
 			       "font_size=\"" + @"$font_size" + "\" " +
+			       "color=\"" + color.to_string() + "\" " +
 			       pango +
 			       xml_base() +
 			       ">" +
