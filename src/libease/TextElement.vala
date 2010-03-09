@@ -91,7 +91,7 @@ namespace Ease
 			         (font_variant == Pango.Variant.NORMAL ? "Normal" : "Small Caps") +
 			         "\" ";
 			
-			return "<element type=\"text\" " +
+			return "\t\t\t\t<element type=\"text\" " +
 			       "font_name=\"" + font_name + "\" " +
 			       "font_size=\"" + @"$font_size" + "\" " +
 			       "color=\"" + color.to_string() + "\" " +
@@ -99,7 +99,7 @@ namespace Ease
 			       xml_base() +
 			       ">" +
 			       text +
-			       "</element>";
+			       "</element>\n";
 		}
 		
 		public override void print_representation()

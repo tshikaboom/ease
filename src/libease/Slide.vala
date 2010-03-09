@@ -13,5 +13,24 @@ namespace Ease
 		{
 			parent = owner;
 		}
+		
+		public string to_xml()
+		{
+			string output = "\t\t<slide " +
+			                "transition=\"" + transition + "\" " +
+			                "variant=\"" + variant + "\" " +
+			                (background_image != null ?
+			                                        ("background_image=\"" + background_image + "\" ") :
+			                                        ("background_color=\"" + background_color.to_string() + "\" ")) +
+			                ">\n";
+			
+			foreach (var e in elements)
+			{
+				output += e.to_xml();
+			}
+			
+			output += "</slide>\n";
+			return output;
+		}
 	}
 }

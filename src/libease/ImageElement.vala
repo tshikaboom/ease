@@ -17,12 +17,12 @@ namespace Ease
 		
 		public override string to_xml()
 		{
-			return "<element type=\"image\" " +
+			return "\t\t\t<element type=\"image\" " +
 			       xml_base() +
 			       "filename=\"" + filename + "\" " +
 			       "scale_x=\"" + @"$scale_x" + "\" " +
 			       "scale_y=\"" + @"$scale_y" + "\" " +
-			       "/>";
+			       "/>\n";
 			       
 		}
 		
