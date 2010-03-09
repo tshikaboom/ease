@@ -2,11 +2,10 @@
 
 namespace Ease
 {
-	public class EditorEmbed : GtkClutter.Embed
+	public class EditorEmbed : ScrollableEmbed
 	{
 		private Clutter.Group group;
 		private Clutter.Actor background;
-		private Clutter.Stage stage { get { return (Clutter.Stage)this.get_stage(); } }
 		private Document document;
 		public float zoom;
 		public bool zoom_fit;
@@ -18,16 +17,16 @@ namespace Ease
 			this.set_size_request(320, 240);
 			var color = Clutter.Color();
 			color.from_string("Gray");
-			stage.set_color(color);
+			get_stage().set_color(color);
 			zoom = 1;
 			zoom_fit = false;
 			
 			this.size_allocate.connect(() => {
 				if (zoom_fit)
 				{
-					zoom = stage.width / stage.height > (float)document.width / document.height ?
-					       stage.height / document.height :
-					       stage.width / document.width;
+					zoom = get_stage().width / get_stage().height > (float)document.width / document.height ?
+					       get_stage().height / document.height :
+					       get_stage().width / document.width;
 					reposition_group();
 				}
 				else
@@ -48,7 +47,7 @@ namespace Ease
 			// clean up the previous slide
 			if (group != null)
 			{
-				stage.remove_actor(group);
+				get_stage().remove_actor(group);
 			}
 			group = new Clutter.Group();
 			
@@ -87,14 +86,14 @@ namespace Ease
 						break;
 				}
 			}
-			stage.add_actor(group);
+			get_stage().add_actor(group);
 			reposition_group();
 		}
 		
 		public void reposition_group()
 		{
 			group.set_scale_full(zoom, zoom, 0, 0);
-			group.set_position(stage.width / 2, stage.height / 2);
+			group.set_position(get_stage().width / 2, get_stage().height / 2);
 			group.set_anchor_point(group.width / 2, group.height / 2);
 		}
 		
