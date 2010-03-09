@@ -15,11 +15,16 @@ libease.so: src/libease/*.vala
 	gcc -g -O0 $(EASE_CFLAGS) --shared -fPIC src/libease/*.c -o libease.so
 	rm src/libease/*.c
 
-ease: libease.so	
+ease: libease.so src/ease/*.c
 	gcc -g -O0 $(EASE_CFLAGS) $(EASE_LDFLAGS) -Isrc -L. -lease src/ease/*.c -o ease
 
-player: libease.so
+player: libease.so src/ease-player/*.c
 	gcc -g -O0 $(EASE_CFLAGS) $(EASE_LDFLAGS) -Isrc -L. -lease src/ease-player/main.c -o ease-player
+	
+asone:
+	valac $(VALA_FLAGS) -C -H src/libease/libease.h src/libease/*.vala --basedir src/libease -d src/libease
+	gcc -g -O0 $(EASE_CFLAGS) $(EASE_LDFLAGS) -fPIC src/libease/*.c src/ease/*.c -o ease
+	rm src/libease/*.c
 
 vapi:
 

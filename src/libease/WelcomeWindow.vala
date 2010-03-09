@@ -1,5 +1,3 @@
-
-
 namespace Ease
 {
 	public class WelcomeWindow : Gtk.Window
