@@ -32,8 +32,8 @@ namespace Ease
 		{
 			this.title = "";
 			this.set_default_size(1024, 768);
-			this.hide.connect(() => Main.remove_window(this));
-			Main.add_window(this);
+			//this.hide.connect(() => Main.remove_window(this));
+			//Main.add_window(this);
 			
 			document = new Document.from_file(filename);
 			
@@ -120,6 +120,7 @@ namespace Ease
 				}
 				slides_shown = !slides_shown;
 			});
+			
 			pane_transition.effect.changed.connect(() => {
 				var variants = Transitions.get_variants(pane_transition.effect.active);
 				pane_transition.variant_align.remove(pane_transition.variant);
@@ -141,6 +142,7 @@ namespace Ease
 				}
 				slide.transition = Transitions.get_name(pane_transition.effect.active);
 			});
+			
 			pane_transition.start_transition.changed.connect(() => {
 				if (pane_transition.start_transition.active == 0)
 				{
@@ -151,6 +153,7 @@ namespace Ease
 					pane_transition.delay.sensitive = true;
 				}
 			});
+			
 			main_toolbar.play.clicked.connect(() => {
 				// TODO: launch ease-player from here
 			});
