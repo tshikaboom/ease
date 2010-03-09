@@ -1,24 +1,22 @@
-
-
 namespace Ease
 {
 	public class EditorWindow : Gtk.Window
 	{
 		// interface elements
-		public EditorEmbed embed { get; set; }
-		public MainToolbar main_toolbar { get; set; }
-		public Gtk.HBox inspector { get; set; }
-		public Gtk.HBox slides { get; set; }
-		public Gtk.VBox slides_box { get; set; }
-		public TransitionPane pane_transition { get; set; }
-		public SlidePane pane_slide { get; set; }
-		public Gtk.HScale zoom_slider { get; set; }
+		public EditorEmbed embed;
+		public MainToolbar main_toolbar;
+		public Gtk.HBox inspector;
+		public Gtk.HBox slides;
+		public Gtk.VBox slides_box;
+		public TransitionPane pane_transition;
+		public SlidePane pane_slide;
+		public Gtk.HScale zoom_slider;
 		private Gtk.Button zoom_in;
 		private Gtk.Button zoom_out;
 		private int zoom_previous = 0;
 		
-		public Document document { get; set; }
-		public Slide slide { get; set; }
+		public Document document;
+		public Slide slide;
 		
 		// interface variables
 		public bool inspector_shown { get; set; }
@@ -30,21 +28,10 @@ namespace Ease
 		
 		public EditorWindow(string filename)
 		{
-			this.title = "";
-			this.set_default_size(1024, 768);
-			//this.hide.connect(() => Main.remove_window(this));
-			//Main.add_window(this);
+			title = "Ease - " + filename;
+			set_default_size(1024, 768);
 			
 			document = new Document.from_file(filename);
-			
-			var vbox = new Gtk.VBox(false, 0);
-			vbox.pack_start(create_menu_bar(), false, false, 0);
-			main_toolbar = new MainToolbar();
-			vbox.pack_start(main_toolbar, false, false, 0);
-			//vbox.pack_start(new Gtk.HSeparator(), false, false, 0);
-			
-			embed = new EditorEmbed(document);
-			var hbox = new Gtk.HBox(false, 0);
 			
 			// slide display
 			var slides_win = new Gtk.ScrolledWindow(null, null);
@@ -77,35 +64,49 @@ namespace Ease
 			
 			// the inspector
 			inspector = new Gtk.HBox(false, 0);
-			//inspector.pack_start(new Gtk.VSeparator(), false, false, 0);
 			var notebook = new Gtk.Notebook();
 			notebook.scrollable = true;
 			pane_transition = new TransitionPane();
 			pane_slide = new SlidePane();
-			notebook.append_page(pane_slide, new Gtk.Image.from_stock("gtk-page-setup", Gtk.IconSize.SMALL_TOOLBAR));
-			notebook.append_page(pane_transition, new Gtk.Image.from_stock("gtk-media-forward", Gtk.IconSize.SMALL_TOOLBAR));
+			notebook.append_page(pane_slide,
+			                     new Gtk.Image.from_stock("gtk-page-setup",
+			                                              Gtk.IconSize.SMALL_TOOLBAR));
+			notebook.append_page(pane_transition,
+			                     new Gtk.Image.from_stock("gtk-media-forward",
+			                                              Gtk.IconSize.SMALL_TOOLBAR));
 			inspector.pack_start(notebook, false, false, 0);
 			
-			var embed_vbox = new Gtk.VBox(false, 0);
-			//embed_vbox.pack_start(new Gtk.HSeparator(), false, false, 0);
-			embed_vbox.pack_start(embed, true, true, 0);
+			// main editor
+			embed = new EditorEmbed(document);
+			
+			// assemble middle contents			
+			var hbox = new Gtk.HBox(false, 0);
 			hbox.pack_start(slides, false, false, 0);
-			hbox.pack_start(embed_vbox, true, true, 0);
+			hbox.pack_start(embed, true, true, 0);
 			hbox.pack_start(inspector, false, false, 0);
+			
+			// assemble window contents
+			var vbox = new Gtk.VBox(false, 0);
+			vbox.pack_start(create_menu_bar(), false, false, 0);
+			main_toolbar = new MainToolbar();
+			vbox.pack_start(main_toolbar, false, false, 0);
+			vbox.pack_start(new Gtk.HSeparator(), false, false, 0);
 			vbox.pack_start(hbox, true, true, 0);
 			vbox.pack_end(create_bottom_bar(), false, false, 0);
 			
-			this.add(vbox);
-			
-			this.show_all();
+			// final window setup
+			add(vbox);
+			show_all();
 			embed.show();
 			inspector.hide();
 			inspector_shown = false;
 			slides_shown = true;
 			
-			// ui signals
+			// USER INTERFACE SIGNALS
 			
 			// toolbar
+			
+			// show and hide inspector
 			main_toolbar.inspector.clicked.connect(() => {
 				if (inspector_shown)
 				{
@@ -118,6 +119,7 @@ namespace Ease
 				inspector_shown = !inspector_shown;
 			});
 			
+			// show and hide slides
 			main_toolbar.slides.clicked.connect(() => {
 				if (slides_shown)
 				{
@@ -130,10 +132,19 @@ namespace Ease
 				slides_shown = !slides_shown;
 			});
 			
+			// save file
 			main_toolbar.save.clicked.connect(() => {
 				document.to_file();
 			});
 			
+			// play presentation
+			main_toolbar.play.clicked.connect(() => {
+				// TODO: launch ease-player from here
+			});
+			
+			// inspector
+			
+			// transition pane
 			pane_transition.effect.changed.connect(() => {
 				var variants = Transitions.get_variants(pane_transition.effect.active);
 				pane_transition.variant_align.remove(pane_transition.variant);
@@ -165,10 +176,6 @@ namespace Ease
 				{
 					pane_transition.delay.sensitive = true;
 				}
-			});
-			
-			main_toolbar.play.clicked.connect(() => {
-				// TODO: launch ease-player from here
 			});
 			
 			// change the embed's zoom when the zoom slider is moved
