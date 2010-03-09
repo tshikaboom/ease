@@ -12,14 +12,14 @@ public static class Main : GLib.Object
 		{
 			args[i] = (string)argv[i];
 		}
+		
+		Gtk.init(ref args);
+		Clutter.init(null);
+	
 	
 		// initalize static classes
 		Transitions.init();
 		windows = new Gee.ArrayList<EditorWindow>();
-		
-		// initialize libraries
-		Gtk.init(ref args);
-		Clutter.init(null);
 		
 		if (args.length == 2)
 		{
@@ -33,6 +33,32 @@ public static class Main : GLib.Object
 		Gtk.main();
 		
 		return 0;
+	}
+	
+	public static int main_player(int argc, char** argv)
+	{
+		string[] args = new string[argc];
+		for (var i = 0; i < argc; i++)
+		{
+			args[i] = (string)argv[i];
+		}
+		
+		if (args.length < 2)
+		{
+			return 0;
+		}
+		
+		Clutter.init(null);
+		
+		var doc = new Document.from_file(args[1]);
+		var player = new Player(doc);
+		player.stage.hide.connect(() => {
+			Clutter.main_quit();
+		});
+		
+		Clutter.main();
+		
+		return 1;
 	}
 	
 	private static void test_welcome()
