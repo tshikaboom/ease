@@ -10,6 +10,5 @@
 ease
 ease-player
 libease.so
-*.c
 *.h
 
