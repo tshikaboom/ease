@@ -128,6 +128,11 @@ namespace Ease
 						map.set(k->name, k->children->content);
 					}
 					
+					if (j->get_content() != null)
+					{
+						map.set("text", j-> get_content());
+					}
+					
 					// create an appropriate element
 					Element element;
 					switch (map.get("type"))
