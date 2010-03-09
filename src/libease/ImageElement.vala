@@ -1,4 +1,4 @@
-namespace libease
+namespace Ease
 {
 	public class ImageElement : Element
 	{

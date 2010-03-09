@@ -1,6 +1,4 @@
-using libease;
-
-namespace EasePlayer
+namespace Ease
 {
 	public class Player : GLib.Object
 	{
@@ -28,6 +26,8 @@ namespace EasePlayer
 	
 		public Player(Document doc)
 		{
+			Clutter.init(null);
+			
 			stage = new Clutter.Stage();
 			document = doc;
 			slide_index = -1;
@@ -52,6 +52,8 @@ namespace EasePlayer
 			// move to the first slide
 			can_animate = true;
 			this.advance();
+			
+			Clutter.main();
 		}
 		
 		public void advance()
