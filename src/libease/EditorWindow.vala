@@ -8,7 +8,7 @@ namespace Ease
 		public EditorEmbed embed { get; set; }
 		public MainToolbar main_toolbar { get; set; }
 		public Gtk.HBox inspector { get; set; }
-		public Gtk.ScrolledWindow slides { get; set; }
+		public Gtk.HBox slides { get; set; }
 		public Gtk.VBox slides_box { get; set; }
 		public TransitionPane pane_transition { get; set; }
 		public SlidePane pane_slide { get; set; }
@@ -47,10 +47,10 @@ namespace Ease
 			var hbox = new Gtk.HBox(false, 0);
 			
 			// slide display
-			slides = new Gtk.ScrolledWindow(null, null);
-			slides.set_size_request(150, 0);
-			slides.vscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
-			slides.hscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
+			var slides_win = new Gtk.ScrolledWindow(null, null);
+			slides_win.set_size_request(150, 0);
+			slides_win.vscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
+			slides_win.hscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
 			slides_box = new Gtk.VBox(true, 1);
 			for (int i = 0; i < document.slides.size; i++)
 			{
@@ -67,7 +67,13 @@ namespace Ease
 			}
 			var align = new Gtk.Alignment(0, 0, 1, 0);
 			align.add(slides_box);
-			slides.add_with_viewport(align);
+			var viewport = new Gtk.Viewport(null, null);
+			viewport.set_shadow_type(Gtk.ShadowType.NONE);
+			viewport.add(align);
+			slides_win.add(viewport);
+			slides = new Gtk.HBox(false, 0);
+			slides.pack_start(slides_win, true, true, 0);
+			slides.pack_start(new Gtk.VSeparator(), false, false, 0);
 			
 			// the inspector
 			inspector = new Gtk.HBox(false, 0);
