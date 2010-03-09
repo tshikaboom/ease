@@ -52,6 +52,23 @@ namespace Ease
 			delete doc;
 		}
 		
+		public void to_file()
+		{
+			string output = "<?xml version=\"1.0\" ?>\n" +
+			                "<document width=\"" + @"width" + "\" height=\"" + @"height" + "\">\n" +
+			                "\t<slides>\n";
+			foreach (var s in slides)
+			{
+				output += s.to_xml();
+			}
+			output += "\t</slides>\n</document>\n";
+			
+			var file = File.new_for_path(path + "Document.xml");
+			var stream = file.replace(null, true, FileCreateFlags.NONE, null);
+			var data_stream = new DataOutputStream(stream);
+			data_stream.put_string(output, null);
+		}
+		
 		public void print_representation()
 		{
 			stdout.printf("Ease Document with %i width and %i height:\n", width, height);

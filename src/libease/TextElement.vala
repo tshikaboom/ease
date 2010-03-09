@@ -68,7 +68,7 @@ namespace Ease
 					pango += "style=\"Italic\" ";
 					break;
 				case Pango.Style.NORMAL:
-					pango += "style\"Normal\" ";
+					pango += "style=\"Normal\" ";
 					break;
 			}
 			
@@ -78,10 +78,10 @@ namespace Ease
 					pango += "align=\"left\" ";
 					break;
 				case Pango.Alignment.CENTER:
-					pango += "style=\"center\" ";
+					pango += "align=\"center\" ";
 					break;
 				case Pango.Alignment.RIGHT:
-					pango += "style\"right\" ";
+					pango += "align=\"right\" ";
 					break;
 			}
 			

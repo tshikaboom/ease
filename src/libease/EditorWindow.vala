@@ -98,6 +98,8 @@ namespace Ease
 			slides_shown = true;
 			
 			// ui signals
+			
+			// toolbar
 			main_toolbar.inspector.clicked.connect(() => {
 				if (inspector_shown)
 				{
@@ -109,6 +111,7 @@ namespace Ease
 				}
 				inspector_shown = !inspector_shown;
 			});
+			
 			main_toolbar.slides.clicked.connect(() => {
 				if (slides_shown)
 				{
@@ -119,6 +122,10 @@ namespace Ease
 					slides.show();
 				}
 				slides_shown = !slides_shown;
+			});
+			
+			main_toolbar.save.clicked.connect(() => {
+				document.to_file();
 			});
 			
 			pane_transition.effect.changed.connect(() => {
