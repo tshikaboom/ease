@@ -55,7 +55,7 @@ namespace Ease
 		public void to_file()
 		{
 			string output = "<?xml version=\"1.0\" ?>\n" +
-			                "<document width=\"" + @"width" + "\" height=\"" + @"height" + "\">\n" +
+			                "<document width=\"" + @"$width" + "\" height=\"" + @"$height" + "\">\n" +
 			                "\t<slides>\n";
 			foreach (var s in slides)
 			{
