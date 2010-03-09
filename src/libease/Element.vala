@@ -31,6 +31,17 @@ namespace Ease
 		
 		public abstract Clutter.Actor presentation_actor() throws GLib.Error;
 		
+		public abstract string to_xml();
+		
+		protected string xml_base()
+		{
+			return "ease_name=\"" + ease_name + "\" " +
+			       "x=\"" + @"$x" + "\" " +
+			       "y=\"" + @"$y" + "\" " +
+			       "width=\"" + @"$width" + "\" " +
+			       "height=\"" + @"$height" + "\" ";
+		}
+		
 		protected void set_actor_base_properties(Clutter.Actor actor)
 		{
 			actor.x = this.x;

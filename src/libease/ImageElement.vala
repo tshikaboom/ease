@@ -15,6 +15,17 @@ namespace Ease
 			this.scale_y = (float)map.get("scale_y").to_double();
 		}
 		
+		public override string to_xml()
+		{
+			return "<element type=\"image\" " +
+			       xml_base() +
+			       "filename=\"" + filename + "\" " +
+			       "scale_x=\"" + @"$scale_x" + "\" " +
+			       "scale_y=\"" + @"$scale_y" + "\" " +
+			       "/>";
+			       
+		}
+		
 		public override Clutter.Actor presentation_actor() throws GLib.Error
 		{
 			try

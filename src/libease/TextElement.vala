@@ -55,6 +55,52 @@ namespace Ease
 			font_weight = (Pango.Weight)(map.get("font_weight").to_int());
 		}
 		
+		public override string to_xml()
+		{
+			string pango = "";
+			
+			switch (font_style)
+			{
+				case Pango.Style.OBLIQUE:
+					pango += "style=\"Oblique\" ";
+					break;
+				case Pango.Style.ITALIC:
+					pango += "style=\"Italic\" ";
+					break;
+				case Pango.Style.NORMAL:
+					pango += "style\"Normal\" ";
+					break;
+			}
+			
+			switch (text_align)
+			{
+				case Pango.Alignment.LEFT:
+					pango += "align=\"left\" ";
+					break;
+				case Pango.Alignment.CENTER:
+					pango += "style=\"center\" ";
+					break;
+				case Pango.Alignment.RIGHT:
+					pango += "style\"right\" ";
+					break;
+			}
+			
+			pango += "font_weight=\"" + @"$((int)(font_weight))" + "\" ";
+			
+			pango += "font_variant=\"" +
+			         (font_variant == Pango.Variant.NORMAL ? "Normal" : "Small Caps") +
+			         "\" ";
+			
+			return "<element type=\"text\" " +
+			       "font_name=\"" + font_name + "\" " +
+			       "font_size=\"" + @"$font_size" + "\" " +
+			       pango +
+			       xml_base() +
+			       ">" +
+			       text +
+			       "</element>";
+		}
+		
 		public override void print_representation()
 		{
 			stdout.printf("\t\t\tText Element:\n");
