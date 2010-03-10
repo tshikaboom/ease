@@ -13,6 +13,8 @@ namespace Ease
 		
 		public EditorEmbed(Document d)
 		{
+			base(true);
+			
 			document = d;
 			this.set_size_request(320, 240);
 			var color = Clutter.Color();

@@ -7,9 +7,7 @@ namespace Ease
 		private Gtk.ComboBox resolution;
 		private Gtk.SpinButton x_res;
 		private Gtk.SpinButton y_res;
-		private GtkClutter.Embed embed;
-		private Gtk.ScrolledWindow container;
-		private Gtk.Alignment embed_align;
+		private ScrollableEmbed embed;
 		private Clutter.Group preview_container;
 		private Gtk.HScale zoom_slider;
 		private Gtk.Button zoom_in;
@@ -46,7 +44,7 @@ namespace Ease
 			resolution.append_text("Custom");
 			for (var i = 0; i < RESOLUTION_COUNT; i++)
 			{
-				resolution.append_text("%ix%i".printf(RESOLUTIONS_X[i], RESOLUTIONS_Y[i]));
+				resolution.append_text("%i by %i".printf(RESOLUTIONS_X[i], RESOLUTIONS_Y[i]));
 			}
 			resolution.set_active(2);
 			
@@ -80,22 +78,12 @@ namespace Ease
 			hbox.pack_end(align, false, false, 0);
 			
 			// create the upper UI - the embed
-			container = new Gtk.ScrolledWindow(null, null);
-			container.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.ALWAYS);
-			container.set_shadow_type(Gtk.ShadowType.NONE);
-			embed_align = new Gtk.Alignment(0, 0, 1, 1);
-			embed = new GtkClutter.Embed();
-			embed_align.add(embed);
-			var viewport = new Gtk.Viewport(null, null);
-			viewport.set_shadow_type(Gtk.ShadowType.NONE);
-			viewport.add(embed_align);
-			container.add(viewport);
+			embed = new ScrollableEmbed(false);
 			
 			var stage = (Clutter.Stage)embed.get_stage();
 			var color = Clutter.Color();
 			color.from_string("Black");
 			stage.set_color(color);
-			stage.height = 1000;
 			
 			// add previews to the embed's stage
 			preview_container = new Clutter.Group();
@@ -115,7 +103,7 @@ namespace Ease
 			align.set_padding(5, 5, 5, 5);
 			vbox.pack_end(align, false, false, 0);
 			vbox.pack_end(new Gtk.HSeparator(), false, false, 0);
-			vbox.pack_start(container, true, true, 0);
+			vbox.pack_start(embed, true, true, 0);
 			
 			this.add(vbox);
 			this.show_all();
@@ -197,9 +185,6 @@ namespace Ease
 				previews.get(i).width = preview_width;
 				previews.get(i).height = preview_width * 3 / 4;
 			}
-			
-			// resize the align, and in effect, the stage so that everything is visible
-			embed_align.height_request = y_pixels + PREVIEW_PADDING;
 			
 			preview_container.x = stage.width / 2;
 			preview_container.y = PREVIEW_PADDING;
