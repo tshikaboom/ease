@@ -1,3 +1,20 @@
+/*  Ease, a GTK presentation application
+    Copyright (C) 2010 Nate Stedman
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 namespace Ease
 {
 	public class ScrollableEmbed : Gtk.Table
@@ -49,6 +66,30 @@ namespace Ease
 			var color = Clutter.Color();
 			color.from_string("Black");
 			stage.set_color(color);
+			
+			// scroll the view as is appropriate (with the mouse wheel)
+			realize.connect(() => {
+				get_window().set_events(Gdk.EventMask.ALL_EVENTS_MASK);
+			});
+			
+			button_press_event.connect((event) => {
+				stdout.printf("asdf!!\n");
+				return false;
+			});
+			
+			scroll_event.connect((event) => {
+				stdout.printf("Asdf\n");
+				switch (event.direction)
+				{
+					case Gdk.ScrollDirection.UP:
+						v_adjust.value = Math.fmax(0, v_adjust.value - 0.1);
+						break;
+					case Gdk.ScrollDirection.DOWN:
+						v_adjust.value = Math.fmin(1, v_adjust.value + 0.1);
+						break;
+				}
+				return false;
+			});
 		}
 		
 		public Clutter.Stage get_stage()
