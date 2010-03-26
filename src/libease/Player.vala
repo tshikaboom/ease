@@ -43,12 +43,13 @@ namespace Ease
 	
 		public Player(Document doc)
 		{
-			Clutter.init(null);
-			
-			stage = new Clutter.Stage();
 			document = doc;
 			slide_index = -1;
 			
+			var embed = new GtkClutter.Embed();
+			embed.set_size_request(document.width, document.height);
+			
+			stage = (Clutter.Stage)embed.get_stage();
 			stage.width = document.width;
 			stage.height = document.height;
 			stage.title = "Ease Presentation";
@@ -68,9 +69,28 @@ namespace Ease
 			
 			// move to the first slide
 			can_animate = true;
-			this.advance();
+			advance();
 			
-			Clutter.main();
+			// make the window that everything will be displayed in
+			var window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
+			
+			// size the window to fill the screen
+			window.show_all();
+			var screen = window.get_screen();
+			window.set_size_request(screen.get_width(), screen.get_height());
+			window.fullscreen();
+			
+			// create a fixed to put the stage in
+			var fixed = new Gtk.Fixed();
+			int width, height;
+			window.get_size(out width, out height);
+			// FIXME: Centering!
+			/*fixed.put(embed,
+			          (int)(width / 2f - document.width / 2f),
+			          (int)(height / 2f - document.height / 2f));*/
+			fixed.put(embed, 30, 30);
+			window.add(fixed);
+			window.show_all();
 		}
 		
 		public void advance()

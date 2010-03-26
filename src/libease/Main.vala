@@ -65,15 +65,16 @@ public static class Main : GLib.Object
 			return 0;
 		}
 		
+		Gtk.init(ref args);
 		Clutter.init(null);
 		
 		var doc = new Document.from_file(args[1]);
 		var player = new Player(doc);
 		player.stage.hide.connect(() => {
-			Clutter.main_quit();
+			Gtk.main_quit();
 		});
 		
-		Clutter.main();
+		Gtk.main();
 		
 		return 1;
 	}
