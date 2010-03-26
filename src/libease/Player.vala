@@ -23,6 +23,7 @@ namespace Ease
 		public int slide_index { get; set; }
 		public Clutter.Stage stage { get; set; }
 		private bool can_animate { get; set; }
+		private Gtk.Window window;
 		
 		// current and transitioning out slide
 		private SlideActor current_slide;
@@ -67,12 +68,13 @@ namespace Ease
 			color.from_string("Black");
 			stage.color = color;
 			
-			// move to the first slide
-			can_animate = true;
-			advance();
-			
 			// make the window that everything will be displayed in
-			var window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
+			window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
+			Gdk.Color color2 = Gdk.Color();
+			color2.red = 0;
+			color2.green = 0;
+			color2.blue = 0;
+			window.modify_bg(Gtk.StateType.NORMAL, color2);
 			
 			// size the window to fill the screen
 			window.show_all();
@@ -91,6 +93,31 @@ namespace Ease
 			fixed.put(embed, 30, 30);
 			window.add(fixed);
 			window.show_all();
+			
+			if (window.is_composited())
+			{
+				time1 = new Clutter.Timeline(1000);
+				alpha1 = new Clutter.Alpha.full(time1, Clutter.AnimationMode.EASE_OUT_SINE);
+				
+				window.set_opacity(0);
+				
+				time1.new_frame.connect((m) => {
+					window.set_opacity(alpha1.get_alpha());
+				});
+				
+				time1.completed.connect(() => {
+					can_animate = true;
+					advance();
+				});
+				
+				time1.start();
+			}
+			else
+			{
+				// move to the first slide
+				can_animate = true;
+				advance();
+			}
 		}
 		
 		public void advance()
@@ -104,7 +131,7 @@ namespace Ease
 			slide_index++;
 			if (slide_index == document.slides.size) // slideshow complete
 			{
-				stage.hide_all();
+				window.hide_all();
 				return;
 			}
 			
