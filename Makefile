@@ -6,7 +6,7 @@ EASE_CFLAGS = `pkg-config --cflags gobject-2.0 gtk+-2.0 pango \
 EASE_LDFLAGS = `pkg-config --libs gobject-2.0 gtk+-2.0 pango \
     clutter-1.0 clutter-gtk-0.10 gee-1.0 libxml-2.0 cogl-1.0 gio-2.0`
 
-VALA_FLAGS = --pkg "glib-2.0"  --pkg "gtk+-2.0"  --pkg "clutter-1.0"  --pkg "gdk-2.0"  --pkg "libxml-2.0"  --pkg "gee-1.0"  --pkg "clutter-gtk-0.10"  --pkg "cogl-1.0" --pkg "gio-2.0"
+VALA_FLAGS = --vapidir=./vapi --pkg "glib-2.0"  --pkg "gtk+-2.0"  --pkg "clutter-1.0"  --pkg "gdk-2.0"  --pkg "libxml-2.0"  --pkg "gee-1.0"  --pkg "clutter-gtk-0.10"  --pkg "cogl-1.0" --pkg "gio-2.0"
 
 all: libease.so ease player
 
@@ -29,7 +29,7 @@ asone:
 vapi:
 
 todo:
-	cd src ; grep -n "TODO" libease/*.vala ease/*.vala ease-player/*.vala ease/*.c ease-player/*.c
+	grep -n "TODO" src/libease/*.vala src/ease/*.c src/ease-player/*.c | less
 
 gitclean:
 	git clean -x -f -d
