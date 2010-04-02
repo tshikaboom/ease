@@ -1,6 +1,6 @@
 /* glib-2.0.vala
  *
- * Copyright (C) 2006-2009  Jürg Billeter
+ * Copyright (C) 2006-2010  Jürg Billeter
  * Copyright (C) 2006-2008  Raffaele Sandrini
  * Copyright (C) 2007  Mathias Hasselmann
  *
@@ -418,6 +418,13 @@ public struct uint16 {
 	public static uint16 from_big_endian (uint16 val);
 	[CCode (cname = "GUINT16_FROM_LE")]
 	public static uint16 from_little_endian (uint16 val);
+
+	[CCode (cname = "GUINT16_SWAP_BE_PDP")]
+	public uint16 swap_big_endian_pdp ();
+	[CCode (cname = "GUINT16_SWAP_LE_BE")]
+	public uint16 swap_little_endian_big_endian ();
+	[CCode (cname = "GUINT16_SWAP_LE_PDP")]
+	public uint16 swap_little_endian_pdp ();
 }
 
 [SimpleType]
@@ -488,6 +495,13 @@ public struct uint32 {
 	public static uint32 from_big_endian (uint32 val);
 	[CCode (cname = "GUINT32_FROM_LE")]
 	public static uint32 from_little_endian (uint32 val);
+
+	[CCode (cname = "GUINT32_SWAP_BE_PDP")]
+	public uint32 swap_big_endian_pdp ();
+	[CCode (cname = "GUINT32_SWAP_LE_BE")]
+	public uint32 swap_little_endian_big_endian ();
+	[CCode (cname = "GUINT32_SWAP_LE_PDP")]
+	public uint32 swap_little_endian_pdp ();
 }
 
 [SimpleType]
@@ -525,6 +539,9 @@ public struct int64 {
 	public static int64 from_big_endian (int64 val);
 	[CCode (cname = "GINT64_FROM_LE")]
 	public static int64 from_little_endian (int64 val);
+
+	[CCode (cname = "GUINT64_SWAP_LE_BE")]
+	public uint64 swap_little_endian_big_endian ();
 }
 
 [SimpleType]
@@ -663,9 +680,9 @@ public struct double {
 	[CCode (cname = "G_ASCII_DTOSTR_BUF_SIZE")]
 	public const int DTOSTR_BUF_SIZE;
 	[CCode (cname = "g_ascii_dtostr", instance_pos = -1)]
-	public weak string to_str (char[] buffer);
+	public unowned string to_str (char[] buffer);
 	[CCode (cname = "g_ascii_formatd", instance_pos = -1)]
-	public weak string format (char[] buffer, string format = "%g");
+	public unowned string format (char[] buffer, string format = "%g");
 
 	public string to_string () {
 		return this.to_str(new char[DTOSTR_BUF_SIZE]);
@@ -677,6 +694,17 @@ public struct double {
 public struct time_t {
 	[CCode (cname = "time")]
 	public time_t (out time_t result = null);
+}
+
+[SimpleType]
+[CCode (cheader_filename="stdarg.h", cprefix="va_", has_type_id = false, destroy_function = "va_end")]
+public struct va_list {
+	[CCode (cname = "va_start")]
+	public va_list ();
+	[CCode (cname = "va_copy")]
+	public va_list.copy (va_list src);
+	[CCode (generic_type_pos = 1.1)]
+	public unowned G arg<G> ();
 }
 
 [SimpleType]
@@ -807,10 +835,10 @@ public enum NormalizeMode {
 
 [Compact]
 [Immutable]
-[CCode (cname = "char", const_cname = "const char", copy_function = "g_strdup", free_function = "g_free", cheader_filename = "stdlib.h,string.h,glib.h", type_id = "G_TYPE_STRING", marshaller_type_name = "STRING", param_spec_function = "g_param_spec_string", get_value_function = "g_value_get_string", set_value_function = "g_value_set_string", type_signature = "s")]
+[CCode (cname = "char", const_cname = "const char", copy_function = "g_strdup", free_function = "g_free", cheader_filename = "stdlib.h,string.h,glib.h", type_id = "G_TYPE_STRING", marshaller_type_name = "STRING", param_spec_function = "g_param_spec_string", get_value_function = "g_value_get_string", set_value_function = "g_value_set_string", take_value_function = "g_value_take_string", type_signature = "s")]
 public class string {
 	[CCode (cname = "strstr")]
-	public weak string? str (string needle);
+	public unowned string? str (string needle);
 	[CCode (cname = "g_str_has_prefix")]
 	public bool has_prefix (string prefix);
 	[CCode (cname = "g_str_has_suffix")]
@@ -837,28 +865,27 @@ public class string {
 	public static string nfill (size_t length, char fill_char);
 
 	[CCode (cname = "g_utf8_next_char")]
-	public weak string next_char ();
+	public unowned string next_char ();
 	[CCode (cname = "g_utf8_get_char")]
 	public unichar get_char ();
 	[CCode (cname = "g_utf8_get_char_validated")]
 	public unichar get_char_validated (ssize_t max_len = -1);
 	[CCode (cname = "g_utf8_offset_to_pointer")]
-	[PlusOperator ()]
-	public weak string offset (long offset);
+	public unowned string offset (long offset);
 	[CCode (cname = "g_utf8_pointer_to_offset")]
 	public long pointer_to_offset (string pos);
 	[CCode (cname = "g_utf8_prev_char")]
-	public weak string prev_char ();
+	public unowned string prev_char ();
 	[CCode (cname = "g_utf8_strlen")]
 	public long len (ssize_t max = -1);
 	[CCode (cname = "g_utf8_strchr")]
-	public weak string chr (ssize_t len, unichar c);
+	public unowned string chr (ssize_t len, unichar c);
 	[CCode (cname = "g_utf8_strrchr")]
-	public weak string rchr (ssize_t len, unichar c);
+	public unowned string rchr (ssize_t len, unichar c);
 	[CCode (cname = "g_utf8_strreverse")]
 	public string reverse (ssize_t len = -1);
 	[CCode (cname = "g_utf8_validate")]
-	public bool validate (ssize_t max_len = -1, out string end = null);
+	public bool validate (ssize_t max_len = -1, out char* end = null);
 	[CCode (cname = "g_utf8_normalize")]
 	public string normalize (ssize_t len = -1, NormalizeMode mode = NormalizeMode.DEFAULT);
 	
@@ -875,7 +902,7 @@ public class string {
 	public string locale_to_utf8 (ssize_t len, out size_t bytes_read, out size_t bytes_written, out GLib.Error error = null);
   
 	[CCode (cname = "g_strchomp")]
-	public weak string _chomp();
+	public unowned string _chomp();
 	public string chomp () {
 		string result = this.dup ();
 		result._chomp ();
@@ -883,7 +910,7 @@ public class string {
 	}
 
 	[CCode (cname = "g_strchug")]
-	public weak string _chug();
+	public unowned string _chug();
 	public string chug () {
 		string result = this.dup ();
 		result._chug ();
@@ -891,7 +918,7 @@ public class string {
 	}
 
 	[CCode (cname = "g_strstrip")]
-	public weak string _strip ();
+	public unowned string _strip ();
 	public string strip () {
 		string result = this.dup ();
 		result._strip ();
@@ -899,7 +926,7 @@ public class string {
 	}
 
 	[CCode (cname = "g_strdelimit")]
-	public weak string _delimit (string delimiters, char new_delimiter);
+	public unowned string _delimit (string delimiters, char new_delimiter);
 	public string delimit (string delimiters, char new_delimiter) {
 		string result = this.dup ();
 		result._delimit (delimiters, new_delimiter);
@@ -911,16 +938,16 @@ public class string {
 	
 	[CCode (cname = "atoi")]
 	public int to_int ();
-	[CCode (cname = "atol")]
-	public long to_long ();
+	[CCode (cname = "strtol")]
+	public long to_long (out unowned string endptr = null, int _base = 0);
 	[CCode (cname = "g_ascii_strtod")]
-	public double to_double (out weak string endptr = null);
+	public double to_double (out unowned string endptr = null);
 	[CCode (cname = "strtoul")]
-	public ulong to_ulong (out weak string endptr = null, int _base = 0);
+	public ulong to_ulong (out unowned string endptr = null, int _base = 0);
 	[CCode (cname = "g_ascii_strtoll")]
-	public int64 to_int64 (out weak string endptr = null, int _base = 0);
+	public int64 to_int64 (out unowned string endptr = null, int _base = 0);
 	[CCode (cname = "g_ascii_strtoull")]
-	public uint64 to_uint64 (out weak string endptr = null, int _base = 0);
+	public uint64 to_uint64 (out unowned string endptr = null, int _base = 0);
 
 	public bool to_bool () {
 		if (this == "true") {
@@ -963,7 +990,7 @@ public class string {
 			len = string_length - offset;
 		}
 		GLib.return_val_if_fail (offset + len <= string_length, null);
-		weak string start = this.offset (offset);
+		unowned string start = this.offset (offset);
 		return start.ndup (((char*) start.offset (len)) - ((char*) start));
 	}
 
@@ -1233,6 +1260,8 @@ namespace GLib {
 		PDP_ENDIAN
 	}
 
+	public const ByteOrder BYTE_ORDER;
+
 	/* Atomic Operations */
 
 	namespace AtomicInt {
@@ -1260,7 +1289,7 @@ namespace GLib {
 		public void run ();
 		public void quit ();
 		public bool is_running ();
-		public weak MainContext get_context ();
+		public unowned MainContext get_context ();
 	}
 	
 	namespace Priority {
@@ -1275,12 +1304,12 @@ namespace GLib {
 	[CCode (ref_function = "g_main_context_ref", unref_function = "g_main_context_unref")]
 	public class MainContext {
 		public MainContext ();
-		public static weak MainContext @default ();
+		public static unowned MainContext @default ();
 		public bool iteration (bool may_block);
 		public bool pending ();
-		public weak Source find_source_by_id (uint source_id);
-		public weak Source find_source_by_user_data (void* user_data);
-		public weak Source find_source_by_funcs_user_data (SourceFuncs funcs, void* user_data);
+		public unowned Source find_source_by_id (uint source_id);
+		public unowned Source find_source_by_user_data (void* user_data);
+		public unowned Source find_source_by_funcs_user_data (SourceFuncs funcs, void* user_data);
 		public void wakeup ();
 		public bool acquire ();
 		public void release ();
@@ -1297,7 +1326,10 @@ namespace GLib {
 		public void remove_poll (ref PollFD fd);
 		public int depth ();
 		[CCode (cname = "g_main_current_source")]
-		public static weak Source current_source ();
+		public static unowned Source current_source ();
+		public static unowned MainContext get_thread_default ();
+		public void push_thread_default ();
+		public void pop_thread_default ();
 	}
 	
 	[CCode (has_target = false)]
@@ -1365,7 +1397,7 @@ namespace GLib {
 		public void set_can_recurse (bool can_recurse);
 		public bool get_can_recurse ();
 		public uint get_id ();
-		public weak MainContext get_context ();
+		public unowned MainContext get_context ();
 		public void set_callback (owned SourceFunc func);
 		public void set_callback_indirect (void* callback_data, SourceCallbackFuncs callback_funcs);
 		public void add_poll (ref PollFD fd);
@@ -1432,9 +1464,9 @@ namespace GLib {
 	[Compact]
 	public class Thread {
 		public static bool supported ();
-		public static weak Thread create (ThreadFunc func, bool joinable) throws ThreadError;
-		public static weak Thread create_full (ThreadFunc func, ulong stack_size, bool joinable, bool bound, ThreadPriority priority) throws ThreadError;
-		public static weak Thread self ();
+		public static unowned Thread create (ThreadFunc func, bool joinable) throws ThreadError;
+		public static unowned Thread create_full (ThreadFunc func, ulong stack_size, bool joinable, bool bound, ThreadPriority priority) throws ThreadError;
+		public static unowned Thread self ();
 		public void* join ();
 		public void set_priority (ThreadPriority priority);
 		public static void yield ();
@@ -1622,11 +1654,11 @@ namespace GLib {
 		public IOCondition get_buffer_condition ();
 		public IOFlags get_flags ();
 		public IOStatus set_flags (IOFlags flags) throws IOChannelError;
-		public weak string get_line_term (out int length);
+		public unowned string get_line_term (out int length);
 		public void set_line_term (string line_term, int length);
 		public bool get_buffered ();
 		public void set_buffered (bool buffered);
-		public weak string get_encoding ();
+		public unowned string get_encoding ();
 		public IOStatus set_encoding (string? encoding) throws IOChannelError;
 		public bool get_close_on_unref ();
 		public void set_close_on_unref (bool do_close);
@@ -1790,12 +1822,12 @@ namespace GLib {
 
 	[CCode (cname = "errno", cheader_filename = "errno.h")]
 	public int errno;
-	public weak string strerror (int errnum);
+	public unowned string strerror (int errnum);
 
 	/* Character Set Conversions */
 	
 	public static string convert (string str, ssize_t len, string to_codeset, string from_codeset, out size_t bytes_read = null, out size_t bytes_written = null) throws ConvertError;
-	public static bool get_charset (out weak string charset);
+	public static bool get_charset (out unowned string charset);
 
 	public struct IConv {
 		[CCode (cname = "g_iconv_open")]
@@ -1851,7 +1883,7 @@ namespace GLib {
 		public Checksum (ChecksumType checksum_type);
 		public Checksum copy ();
 		public void update ([CCode (array_length = false)] uchar[] data, size_t length);
-		public weak string get_string ();
+		public unowned string get_string ();
 		public void get_digest ([CCode (array_length = false)] uint8[] buffer, ref size_t digest_len);
 		[CCode (cname = "g_compute_checksum_for_data")]
 		public static string compute_for_data (ChecksumType checksum_type, uchar[] data);
@@ -1943,6 +1975,7 @@ namespace GLib {
 		YEAR
 	}
 
+	[CCode (type_id = "G_TYPE_DATE")]
 	public struct Date {
 		public void clear (uint n_dates = 1);
 		public void set_day (DateDay day);
@@ -1950,6 +1983,7 @@ namespace GLib {
 		public void set_year (DateYear year);
 		public void set_dmy (DateDay day, int month, DateYear y);
 		public void set_julian (uint julian_day);
+		public void set_time_t (time_t timet);
 		public void set_time_val (TimeVal timeval);
 		public void set_parse (string str);
 		public void add_days (uint n_days);
@@ -2038,7 +2072,7 @@ namespace GLib {
 		[CCode (cname = "strftime", instance_pos = -1)]
 		public size_t strftime (char[] s, string format);
 		[CCode (cname = "strptime", instance_pos = -1)]
-		public weak string? strptime (string buf, string format);
+		public unowned string? strptime (string buf, string format);
 	}
 
 	/* Random Numbers */
@@ -2075,15 +2109,15 @@ namespace GLib {
 	
 	namespace Environment {
 		[CCode (cname = "g_get_application_name")]
-		public static weak string? get_application_name ();
+		public static unowned string? get_application_name ();
 		[CCode (cname = "g_set_application_name")]
 		public static void set_application_name (string application_name);
 		[CCode (cname = "g_get_prgname")]
-		public static weak string get_prgname ();
+		public static unowned string get_prgname ();
 		[CCode (cname = "g_set_prgname")]
 		public static void set_prgname (string application_name);
 		[CCode (cname = "g_getenv")]
-		public static weak string? get_variable (string variable);
+		public static unowned string? get_variable (string variable);
 		[CCode (cname = "g_setenv")]
 		public static bool set_variable (string variable, string value, bool overwrite);
 		[CCode (cname = "g_unsetenv")]
@@ -2091,27 +2125,27 @@ namespace GLib {
 		[CCode (cname = "g_listenv", array_length = false, array_null_terminated = true)]
 		public static string[] list_variables ();
 		[CCode (cname = "g_get_user_name")]
-		public static weak string get_user_name ();
+		public static unowned string get_user_name ();
 		[CCode (cname = "g_get_real_name")]
-		public static weak string get_real_name ();
+		public static unowned string get_real_name ();
 		[CCode (cname = "g_get_user_cache_dir")]
-		public static weak string get_user_cache_dir ();
+		public static unowned string get_user_cache_dir ();
 		[CCode (cname = "g_get_user_data_dir")]
-		public static weak string get_user_data_dir ();
+		public static unowned string get_user_data_dir ();
 		[CCode (cname = "g_get_user_config_dir")]
-		public static weak string get_user_config_dir ();
+		public static unowned string get_user_config_dir ();
 		[CCode (cname = "g_get_user_special_dir")]
-		public static weak string get_user_special_dir (UserDirectory directory);
+		public static unowned string get_user_special_dir (UserDirectory directory);
 		[CCode (cname = "g_get_system_data_dirs", array_length = false, array_null_terminated = true)]
-		public static weak string[] get_system_data_dirs ();
+		public static unowned string[] get_system_data_dirs ();
 		[CCode (cname = "g_get_system_config_dirs", array_length = false, array_null_terminated = true)]
-		public static weak string[] get_system_config_dirs ();
+		public static unowned string[] get_system_config_dirs ();
 		[CCode (cname = "g_get_host_name")]
-		public static weak string get_host_name ();
+		public static unowned string get_host_name ();
 		[CCode (cname = "g_get_home_dir")]
-		public static weak string get_home_dir ();
+		public static unowned string get_home_dir ();
 		[CCode (cname = "g_get_tmp_dir")]
-		public static weak string get_tmp_dir ();
+		public static unowned string get_tmp_dir ();
 		[CCode (cname = "g_get_current_dir")]
 		public static string get_current_dir ();
 		[CCode (cname = "g_find_program_in_path")]
@@ -2136,7 +2170,7 @@ namespace GLib {
 
 	namespace Path {
 		public static bool is_absolute (string file_name);
-		public static weak string skip_root (string file_name);
+		public static unowned string skip_root (string file_name);
 		public static string get_basename (string file_name);
 		public static string get_dirname (string file_name);
 		[CCode (cname = "g_build_filename")]
@@ -2180,7 +2214,7 @@ namespace GLib {
 	[Compact]
 	[CCode (free_function = "g_scanner_destroy")]
 	public class Scanner {
-		public weak string input_name;
+		public unowned string input_name;
 		public TokenType token;
 		public TokenValue value;
 		public uint line;
@@ -2337,8 +2371,8 @@ namespace GLib {
 		public void add_items (List<void*> items);
 		public void remove_items (List<void*> items);
 		public void clear_items ();
-		public weak List<void*> complete (string prefix, out string? new_prefix = null);
-		public weak List<void*> complete_utf8 (string prefix, out string? new_prefix = null);
+		public unowned List<void*> complete (string prefix, out string? new_prefix = null);
+		public unowned List<void*> complete_utf8 (string prefix, out string? new_prefix = null);
 	}
 
 	[CCode (has_target = false)]
@@ -2518,7 +2552,7 @@ namespace GLib {
 		[CCode (cname = "fgetc")]
 		public int getc ();
 		[CCode (cname = "fgets", instance_pos = -1)]
-		public weak string gets (char[] s);
+		public unowned string gets (char[] s);
 		[CCode (cname = "feof")]
 		public bool eof ();
 		[CCode (cname = "fscanf"), ScanfFormat]
@@ -2537,6 +2571,10 @@ namespace GLib {
 		public int error ();
 		[CCode (cname = "clearerr")]
 		public void clearerr ();
+		[CCode (cname = "fread", instance_pos = -1)]
+		public size_t read ([CCode (array_length_pos = 2.1)] uint8[] buf, size_t size = 1);
+		[CCode (cname = "fwrite", instance_pos = -1)]
+		public size_t write ([CCode (array_length_pos = 2.1)] uint8[] buf, size_t size = 1);
 
 		public string? read_line () {
 			int c;
@@ -2589,7 +2627,7 @@ namespace GLib {
 	[CCode (free_function = "g_dir_close")]
 	public class Dir {
 		public static Dir open (string filename, uint _flags = 0) throws FileError;
-		public weak string read_name ();
+		public unowned string read_name ();
 		public void rewind ();
 	}
 	
@@ -2599,16 +2637,19 @@ namespace GLib {
 		[CCode (cname = "g_mkdir_with_parents")]
 		public static int create_with_parents (string pathname, int mode);
 		[CCode (cname = "mkdtemp")]
-		public static weak string mkdtemp (string template);
+		public static unowned string mkdtemp (string template);
 		[CCode (cname = "g_rmdir")]
 		public static int remove (string filename);
 	}
 
 	[Compact]
+#if GLIB_2_22
+	[CCode (ref_function = "g_mapped_file_ref", unref_function = "g_mapped_file_unref")]
+#else
 	[CCode (free_function = "g_mapped_file_free")]
+#endif
 	public class MappedFile {
 		public MappedFile (string filename, bool writable) throws FileError;
-		public void free ();
 		public size_t get_length ();
 		public char* get_contents ();
 	}
@@ -2666,12 +2707,12 @@ namespace GLib {
 	public class OptionContext {
 		public OptionContext (string parameter_string);
 		public void set_summary (string summary);
-		public weak string get_summary ();
+		public unowned string get_summary ();
 		public void set_description (string description);
 		public void get_description ();
 		public void set_translate_func (TranslateFunc func, DestroyNotify? destroy_notify);
 		public void set_translation_domain (string domain);
-		public bool parse ([CCode (array_length_pos = 0.9)] ref weak string[] argv) throws OptionError;
+		public bool parse ([CCode (array_length_pos = 0.9)] ref unowned string[] argv) throws OptionError;
 		public void set_help_enabled (bool help_enabled);
 		public bool get_help_enabled ();
 		public void set_ignore_unknown_options (bool ignore_unknown);
@@ -2680,10 +2721,10 @@ namespace GLib {
 		public void add_main_entries ([CCode (array_length = false)] OptionEntry[] entries, string? translation_domain);
 		public void add_group (owned OptionGroup group);
 		public void set_main_group (owned OptionGroup group);
-		public weak OptionGroup get_main_group ();
+		public unowned OptionGroup get_main_group ();
 	}
 
-	public delegate weak string TranslateFunc (string str);
+	public delegate unowned string TranslateFunc (string str);
 
 	[CCode (has_type_id = false)]
 	public enum OptionArg {
@@ -2711,15 +2752,15 @@ namespace GLib {
 	}
 	
 	public struct OptionEntry {
-		public weak string long_name;
+		public unowned string long_name;
 		public char short_name;
 		public int flags;
 
 		public OptionArg arg;
 		public void* arg_data;
 
-		public weak string description;
-		public weak string arg_description;
+		public unowned string description;
+		public unowned string arg_description;
 	}
 
 	[Compact]
@@ -2779,7 +2820,7 @@ namespace GLib {
 	}
 
 	[Compact]
-	[CCode (ref_function = "g_regex_ref", unref_function = "g_regex_unref")]
+	[CCode (ref_function = "g_regex_ref", unref_function = "g_regex_unref", type_id = "G_TYPE_REGEX")]
 	public class Regex {
 		public Regex (string pattern, RegexCompileFlags compile_options = 0, RegexMatchFlags match_options = 0) throws RegexError;
 		public unowned string get_pattern ();
@@ -2810,8 +2851,8 @@ namespace GLib {
 	[Compact]
 	[CCode (free_function = "g_match_info_free")]
 	public class MatchInfo {
-		public weak Regex get_regex ();
-		public weak string get_string ();
+		public unowned Regex get_regex ();
+		public unowned string get_string ();
 		public bool matches ();
 		public bool next () throws RegexError;
 		public int get_match_count ();
@@ -2849,8 +2890,8 @@ namespace GLib {
 		public MarkupParseContext (MarkupParser parser, MarkupParseFlags _flags, void* user_data, DestroyNotify? user_data_dnotify);
 		public bool parse (string text, ssize_t text_len) throws MarkupError;
 		public bool end_parse () throws MarkupError;
-		public weak string get_element ();
-		public weak SList<string> get_element_stack ();
+		public unowned string get_element ();
+		public unowned SList<string> get_element_stack ();
 		public void get_position (out int line_number, out int char_number);
 		public void push (MarkupParser parser, void* user_data);
 		public void* pop ();
@@ -2923,14 +2964,14 @@ namespace GLib {
 		public bool has_key (string group_name, string key) throws KeyFileError;
 		public string get_value (string group_name, string key) throws KeyFileError;
 		public string get_string (string group_name, string key) throws KeyFileError;
-		public string get_locale_string (string group_name, string key, string locale) throws KeyFileError;
+		public string get_locale_string (string group_name, string key, string? locale = null) throws KeyFileError;
 		public bool get_boolean (string group_name, string key) throws KeyFileError;
 		public int get_integer (string group_name, string key) throws KeyFileError;
 		public double get_double (string group_name, string key) throws KeyFileError;
 		[CCode (array_length_type = "gsize")]
 		public string[] get_string_list (string group_name, string key) throws KeyFileError;
 		[CCode (array_length_type = "gsize")]
-		public string[] get_locale_string_list (string group_name, string key, string locale) throws KeyFileError;
+		public string[] get_locale_string_list (string group_name, string key, string? locale = null) throws KeyFileError;
 		[CCode (array_length_type = "gsize")]
 		public bool[] get_boolean_list (string group_name, string key) throws KeyFileError;
 		[CCode (array_length_type = "gsize")]
@@ -3052,7 +3093,7 @@ namespace GLib {
 		public static void minimized_result (double minimized_quantity, string format, ...);
 		[PrintfFormat]
 		public static void maximized_result (double maximized_quantity, string format, ...);
-		public static void init ([CCode (array_length_pos = 0.9)] ref weak string[] args, ...);
+		public static void init ([CCode (array_length_pos = 0.9)] ref unowned string[] args, ...);
 		public static bool quick ();
 		public static bool slow ();
 		public static bool thorough ();
@@ -3143,7 +3184,7 @@ namespace GLib {
 		public void remove_all (G data);
 		
 		public uint length ();
-		public List<weak G> copy ();
+		public List<unowned G> copy ();
 		[ReturnsModifiedPointer ()]
 		public void reverse ();
 		[ReturnsModifiedPointer ()]
@@ -3156,20 +3197,20 @@ namespace GLib {
 		public void concat (owned List<G> list2);
 		public void @foreach (Func func);
 
-		public weak List<G> first ();
-		public weak List<G> last ();
-		public weak List<G> nth (uint n);
-		public weak G nth_data (uint n);
-		public weak List<G> nth_prev (uint n);
+		public unowned List<G> first ();
+		public unowned List<G> last ();
+		public unowned List<G> nth (uint n);
+		public unowned G nth_data (uint n);
+		public unowned List<G> nth_prev (uint n);
 		
-		public weak List<G> find (G data);
-		public weak List<G> find_custom (G data, CompareFunc func);
+		public unowned List<G> find (G data);
+		public unowned List<G> find_custom (G data, CompareFunc func);
 		public int position (List<G> llink);
 		public int index (G data);
 		
 		public G data;
 		public List<G> next;
-		public weak List<G> prev;
+		public unowned List<G> prev;
 	}
 	
 	/* Singly-Linked Lists */
@@ -3199,7 +3240,7 @@ namespace GLib {
 		public void remove_all (G data);
 
 		public uint length ();
-		public SList<weak G> copy ();
+		public SList<unowned G> copy ();
 		[ReturnsModifiedPointer ()]
 		public void reverse ();
 		[ReturnsModifiedPointer ()]
@@ -3212,12 +3253,12 @@ namespace GLib {
 		public void concat (owned SList<G> list2);
 		public void @foreach (Func func);
 
-		public weak SList<G> last ();
-		public weak SList<G> nth (uint n);
-		public weak G nth_data (uint n);
+		public unowned SList<G> last ();
+		public unowned SList<G> nth (uint n);
+		public unowned G nth_data (uint n);
 
-		public weak SList<G> find (G data);
-		public weak SList<G> find_custom (G data, CompareFunc func);
+		public unowned SList<G> find (G data);
+		public unowned SList<G> find_custom (G data, CompareFunc func);
 		public int position (SList<G> llink);
 		public int index (G data);
 
@@ -3238,8 +3279,8 @@ namespace GLib {
 	[Compact]
 	[CCode (dup_function = "g_queue_copy", free_function = "g_queue_free")]
 	public class Queue<G> {
-		public weak List<G> head;
-		public weak List<G> tail;
+		public unowned List<G> head;
+		public unowned List<G> tail;
 		public uint length;
 	
 		public Queue ();
@@ -3249,8 +3290,8 @@ namespace GLib {
 		public uint get_length ();
 		public void reverse ();
 		public Queue copy ();
-		public weak List<G> find (G data);
-		public weak List<G> find_custom (G data, CompareFunc func);
+		public unowned List<G> find (G data);
+		public unowned List<G> find_custom (G data, CompareFunc func);
 		public void sort (CompareDataFunc compare_func);
 		public void push_head (owned G data);
 		public void push_tail (owned G data);
@@ -3258,9 +3299,9 @@ namespace GLib {
 		public G pop_head ();
 		public G pop_tail ();
 		public G pop_nth (uint n);
-		public weak G peek_head ();
-		public weak G peek_tail ();
-		public weak G peek_nth (uint n);
+		public unowned G peek_head ();
+		public unowned G peek_tail ();
+		public unowned G peek_nth (uint n);
 		public int index (G data);
 		public void remove (G data);
 		public void remove_all (G data);
@@ -3297,7 +3338,7 @@ namespace GLib {
 		public static void move_range (SequenceIter<G> dest, SequenceIter<G> begin, SequenceIter<G> end);
 		public SequenceIter<G> search (G data, CompareDataFunc cmp_func);
 		public SequenceIter<G> search_iter (G data, SequenceIterCompareFunc<G> iter_cmp);
-		public static weak G get (SequenceIter<G> iter);
+		public static unowned G get (SequenceIter<G> iter);
 		public static void set (SequenceIter<G> iter, owned G data);
 		public static SequenceIter<G> range_get_midpoint (SequenceIter<G> begin, SequenceIter<G> end);
 	}
@@ -3315,7 +3356,7 @@ namespace GLib {
 		public int compare (SequenceIter<G> other);
 
 		[CCode (cname = "g_sequence_get")]
-		public weak G get ();
+		public unowned G get ();
 	}
 
 	public delegate int SequenceIterCompareFunc<G> (SequenceIter<G> a, SequenceIter<G> b);
@@ -3329,11 +3370,11 @@ namespace GLib {
 		public HashTable.full (HashFunc? hash_func, EqualFunc? key_equal_func, DestroyNotify? key_destroy_func, DestroyNotify? value_destroy_func);
 		public void insert (owned K key, owned V value);
 		public void replace (owned K key, owned V value);
-		public weak V lookup (K key);
+		public unowned V lookup (K key);
 		public bool remove (K key);
 		public void remove_all ();
-		public List<weak K> get_keys ();
-		public List<weak V> get_values ();
+		public List<unowned K> get_keys ();
+		public List<unowned V> get_values ();
 		public void @foreach (HFunc func);
 		[CCode (cname = "g_hash_table_foreach")]
 		public void for_each (HFunc func);
@@ -3388,18 +3429,18 @@ namespace GLib {
 		public StringBuilder (string init = "");
 		[CCode (cname = "g_string_sized_new")]
 		public StringBuilder.sized (size_t dfl_size);
-		public weak StringBuilder assign (string rval);
-		public weak StringBuilder append (string val);
-		public weak StringBuilder append_c (char c);
-		public weak StringBuilder append_unichar (unichar wc);
-		public weak StringBuilder append_len (string val, ssize_t len);
-		public weak StringBuilder prepend (string val);
-		public weak StringBuilder prepend_c (char c);
-		public weak StringBuilder prepend_unichar (unichar wc);
-		public weak StringBuilder prepend_len (string val, ssize_t len);
-		public weak StringBuilder insert (ssize_t pos, string val);
-		public weak StringBuilder erase (ssize_t pos, ssize_t len);
-		public weak StringBuilder truncate (size_t len);
+		public unowned StringBuilder assign (string rval);
+		public unowned StringBuilder append (string val);
+		public unowned StringBuilder append_c (char c);
+		public unowned StringBuilder append_unichar (unichar wc);
+		public unowned StringBuilder append_len (string val, ssize_t len);
+		public unowned StringBuilder prepend (string val);
+		public unowned StringBuilder prepend_c (char c);
+		public unowned StringBuilder prepend_unichar (unichar wc);
+		public unowned StringBuilder prepend_len (string val, ssize_t len);
+		public unowned StringBuilder insert (ssize_t pos, string val);
+		public unowned StringBuilder erase (ssize_t pos = 0, ssize_t len = -1);
+		public unowned StringBuilder truncate (size_t len);
 
 		[PrintfFormat]
 		public void printf (string format, ...);
@@ -3417,16 +3458,20 @@ namespace GLib {
 	[CCode (free_function = "g_string_chunk_free")]
 	public class StringChunk {
 		public StringChunk (size_t size);
-		public weak string insert (string str);
-		public weak string insert_const (string str);
-		public weak string insert_len (string str, ssize_t len);
+		public unowned string insert (string str);
+		public unowned string insert_const (string str);
+		public unowned string insert_len (string str, ssize_t len);
 		public void clear ();
 	}
 
 	/* Pointer Arrays */
 
 	[Compact]
+#if GLIB_2_22
+	[CCode (ref_function = "g_ptr_array_ref", unref_function = "g_ptr_array_unref", type_id = "G_TYPE_PTR_ARRAY")]
+#else
 	[CCode (free_function = "g_ptr_array_free")]
+#endif
 	public class PtrArray {
 		public PtrArray ();
 		[CCode (cname = "g_ptr_array_sized_new")]
@@ -3449,7 +3494,11 @@ namespace GLib {
 	/* Byte Arrays */
 
 	[Compact]
+#if GLIB_2_22
+	[CCode (cprefix = "g_byte_array_", ref_function = "g_byte_array_ref", unref_function = "g_byte_array_unref", type_id = "G_TYPE_BYTE_ARRAY")]
+#else
 	[CCode (cprefix = "g_byte_array_", free_function = "g_byte_array_free")]
+#endif
 	public class ByteArray {
 		public ByteArray ();
 		[CCode (cname = "g_byte_array_sized_new")]
@@ -3486,7 +3535,7 @@ namespace GLib {
 	public struct Quark : uint32 {
 		public static Quark from_string (string str);
 		public static Quark try_string (string str);
-		public weak string to_string ();
+		public unowned string to_string ();
 	}
 
 	/* Keyed Data Lists */
@@ -3495,13 +3544,13 @@ namespace GLib {
 	public struct Datalist<G> {
 		public Datalist ();
 		public void clear ();
-		public weak G id_get_data (Quark key_id);
+		public unowned G id_get_data (Quark key_id);
 		public void id_set_data (Quark key_id, owned G data);
 		public void id_set_data_full (Quark key_id, owned G data, DestroyNotify? destroy_func);
 		public void id_remove_data (Quark key_id);
 		public G id_remove_no_notify (Quark key_id);
 		public void @foreach (DataForeachFunc func);
-		public weak G get_data (string key);
+		public unowned G get_data (string key);
 		public void set_data_full (string key, owned G data, DestroyNotify? destry_func);
 		public G remove_no_notify (string key);
 		public void set_data (string key, owned G data);
@@ -3513,6 +3562,11 @@ namespace GLib {
 	/* GArray */
 
 	[Compact]
+#if GLIB_2_22
+	[CCode (ref_function = "g_array_ref", unref_function = "g_array_unref", type_id = "G_TYPE_ARRAY")]
+#else
+	[CCode (free_function = "g_array_free")]
+#endif
 	public class Array<G> {
 		[CCode (cname = "len")]
 		public uint length;
@@ -3562,10 +3616,10 @@ namespace GLib {
 		public void replace (owned K key, owned V value);
 		public int nnodes ();
 		public int height ();
-		public weak V lookup (K key);
+		public unowned V lookup (K key);
 		public bool lookup_extended (K lookup_key, K orig_key, V value);
 		public void foreach (TraverseFunc traverse_func);
-		public weak V search (CompareFunc search_func, void* user_data);
+		public unowned V search (CompareFunc search_func, void* user_data);
 		public bool remove (K key);
 		public bool steal (K key);
 	}
@@ -3573,13 +3627,13 @@ namespace GLib {
 	/* Internationalization */
 	
 	[CCode (cname = "_", cheader_filename = "glib.h,glib/gi18n-lib.h")]
-	public static weak string _ (string str);
+	public static unowned string _ (string str);
 	[CCode (cname = "Q_", cheader_filename = "glib.h,glib/gi18n-lib.h")]
-	public static weak string Q_ (string str);
+	public static unowned string Q_ (string str);
 	[CCode (cname = "N_", cheader_filename = "glib.h,glib/gi18n-lib.h")]
-	public static weak string N_ (string str);
+	public static unowned string N_ (string str);
 	[CCode (cname = "ngettext", cheader_filename = "glib.h,glib/gi18n-lib.h")]
-	public static weak string ngettext (string msgid, string msgid_plural, ulong n);
+	public static unowned string ngettext (string msgid, string msgid_plural, ulong n);
 	
 	[CCode (cname = "int", cprefix = "LC_", cheader_filename = "locale.h", has_type_id = false)]
 	public enum LocaleCategory {
@@ -3594,15 +3648,15 @@ namespace GLib {
 	
 	namespace Intl {
 		[CCode (cname = "setlocale", cheader_filename = "locale.h")]
-		public static weak string? setlocale (LocaleCategory category, string? locale);
+		public static unowned string? setlocale (LocaleCategory category, string? locale);
 		[CCode (cname = "bindtextdomain", cheader_filename = "glib/gi18n-lib.h")]
-		public static weak string? bindtextdomain (string domainname, string? dirname);
+		public static unowned string? bindtextdomain (string domainname, string? dirname);
 		[CCode (cname = "textdomain", cheader_filename = "glib/gi18n-lib.h")]
-		public static weak string? textdomain (string? domainname);
+		public static unowned string? textdomain (string? domainname);
 		[CCode (cname = "bind_textdomain_codeset", cheader_filename = "glib/gi18n-lib.h")]
-		public static weak string? bind_textdomain_codeset (string domainname, string? codeset);
+		public static unowned string? bind_textdomain_codeset (string domainname, string? codeset);
 		[CCode (cname = "g_get_language_names", array_length = false, array_null_terminated = true)]
-		public static weak string[] get_language_names ();
+		public static unowned string[] get_language_names ();
 	}
 
 	[Compact]
@@ -3630,34 +3684,7 @@ namespace GLib {
 	}
 
 	[Compact]
-	public enum VariantTypeClass {
-                INVALID,
-                BOOLEAN,
-                BYTE,
-                INT16,
-                UINT16,
-                INT32,
-                UINT32,
-                INT64,
-                UINT64,
-                DOUBLE,
-                STRING,
-                OBJECT_PATH,
-                SIGNATURE,
-                VARIANT,
-                MAYBE,
-                ARRAY,
-                STRUCT,
-                DICT_ENTRY,
-                ALL,
-                BASIC;
-
-		public bool is_container ();
-		public bool is_basic ();
-	}
-
-	[Compact]
-	[CCode (copy_function = "g_variant_type_copy", free_function = "g_variant_type_free")]
+	[CCode (copy_function = "g_variant_type_copy", free_function = "g_variant_type_free", type_id = "G_TYPE_VARIANT_TYPE")]
 	public class VariantType {
 		[CCode (cname = "G_VARIANT_TYPE_BOOLEAN")]
 		public static VariantType BOOLEAN;
@@ -3689,83 +3716,83 @@ namespace GLib {
 		public static VariantType UNIT;
 		[CCode (cname = "G_VARIANT_TYPE_ANY")]
 		public static VariantType ANY;
-		[CCode (cname = "G_VARIANT_TYPE_ANY_BASIC")]
-		public static VariantType ANY_BASIC;
-		[CCode (cname = "G_VARIANT_TYPE_ANY_MAYBE")]
-		public static VariantType ANY_MAYBE;
-		[CCode (cname = "G_VARIANT_TYPE_ANY_ARRAY")]
-		public static VariantType ANY_ARRAY;
-		[CCode (cname = "G_VARIANT_TYPE_ANY_STRUCT")]
-		public static VariantType ANY_STRUCT;
-		[CCode (cname = "G_VARIANT_TYPE_ANY_DICT_ENTRY")]
-		public static VariantType ANY_DICT_ENTRY;
-		[CCode (cname = "G_VARIANT_TYPE_ANY_DICTIONARY")]
-		public static VariantType ANY_DICTIONARY;
+		[CCode (cname = "G_VARIANT_TYPE_BASIC")]
+		public static VariantType BASIC;
+		[CCode (cname = "G_VARIANT_TYPE_MAYBE")]
+		public static VariantType MAYBE;
+		[CCode (cname = "G_VARIANT_TYPE_ARRAY")]
+		public static VariantType ARRAY;
+		[CCode (cname = "G_VARIANT_TYPE_TUPLE")]
+		public static VariantType TUPLE;
+		[CCode (cname = "G_VARIANT_TYPE_DICT_ENTRY")]
+		public static VariantType DICT_ENTRY;
+		[CCode (cname = "G_VARIANT_TYPE_DICTIONARY")]
+		public static VariantType DICTIONARY;
 
 		public static bool string_is_valid (string type_string);
-		public static bool string_scan (string type_string, char *limit = null, out char* endptr = null);
+		public static bool string_scan (string type_string, char *limit, out char* endptr);
 
 		public VariantType (string type_string);
+		public size_t get_string_length ();
+		public char* peek_string ();
+		public string dup_string ();
 
-		size_t get_string_length ();
-		weak string peek_string ();
-		string[] dup_string ();
-
-		public bool is_concrete ();
+		public bool is_definite ();
 		public bool is_container ();
 		public bool is_basic ();
+		public bool is_maybe ();
+		public bool is_array ();
+		public bool is_tuple ();
+		public bool is_dict_entry ();
+		public bool is_variant ();
 
 		public uint hash ();
 		public bool equal (VariantType other);
-		public bool matches (VariantType pattern);
-		public bool is_in_class (VariantTypeClass class);
-		public VariantTypeClass get_class ();
+		public bool is_subtype_of (VariantType supertype);
 
-		public weak VariantType element ();
-		public weak VariantType first ();
-		public weak VariantType next ();
-		public uint n_items ();
-		public weak VariantType key ();
-		public weak VariantType value ();
+		public unowned VariantType element ();
+		public unowned VariantType first ();
+		public unowned VariantType next ();
+		public unowned VariantType n_items ();
+		public unowned VariantType key ();
+		public unowned VariantType value ();
 
 		public VariantType.array (VariantType element);
 		public VariantType.maybe (VariantType element);
+		public VariantType.tuple (VariantType[] items);
 		public VariantType.dict_entry (VariantType key, VariantType value);
 	}
 
 	[Compact]
 	[CCode (ref_function = "g_variant_ref", unref_function = "g_variant_unref", ref_sink_function = "g_variant_ref_sink", type_id = "G_TYPE_VARIANT", type_signature = "v")]
 	public class Variant {
-		public void flatten ();
+		public enum Class {
+			BOOLEAN, BYTE, INT16, UINT16, INT32, UINT32, INT64,
+			UINT64, HANDLE, DOUBLE, STRING, OBJECT_PATH,
+			SIGNATURE, VARIANT, MAYBE, ARRAY, TUPLE, DICT_ENTRY
+		}
 
-		public VariantTypeClass get_type_class ();
-		public weak VariantType get_type ();
-		public weak string get_type_string ();
-		public bool is_basic ();
+		public unowned VariantType get_type ();
+		public unowned string get_type_string ();
+		public bool is_of_type (VariantType type);
 		public bool is_container ();
-		public bool matches (VariantType type);
-
-		public Variant (string format_string, ...);
-		public void get (string format_string, ...);
-		public static bool format_string_scan (string string, char* limit = null, out char* endptr = null);
-		public static VariantType format_string_scan_type (string string, char* limit = null, out char* endptr = null);
+		public Class classify ();
 
 		public Variant.boolean (bool value);
-		public Variant.byte (uint8 value);
+		public Variant.byte (uchar value);
 		public Variant.int16 (int16 value);
 		public Variant.uint16 (uint16 value);
 		public Variant.int32 (int32 value);
 		public Variant.uint32 (uint32 value);
 		public Variant.int64 (int64 value);
 		public Variant.uint64 (uint64 value);
+		public Variant.handle (int32 value);
 		public Variant.double (double value);
 		public Variant.string (string value);
-		public Variant.strv (string[] value);
-		public static bool is_object_path (string object_path);
 		public Variant.object_path (string object_path);
-		public static bool is_signature (string signature);
+		public static bool is_object_path (string object_path);
 		public Variant.signature (string signature);
-		public Variant.variant (Variant value);
+		public static bool is_signature (string signature);
 
 		public bool get_boolean ();
 		public uint8 get_byte ();
@@ -3775,29 +3802,76 @@ namespace GLib {
 		public uint32 get_uint32 ();
 		public int64 get_int64 ();
 		public uint64 get_uint64 ();
+		public int32 get_handle ();
 		public double get_double ();
-		public weak string get_string (out size_t length);
-		public string dup_string (out size_t length);
+		public unowned string get_string ();
+		public string dup_string ();
+
+		public Variant.strv (string[] value);
+		[CCode (array_length_type = "size_t")]
 		public string*[] get_strv ();
+		[CCode (array_length_type = "size_t")]
 		public string[] dup_strv ();
+
+		public Variant (string format, ...);
+		public void get (string format, ...);
+
+		public Variant.variant (Variant value);
+		public Variant.maybe (VariantType? child_type, Variant? child);
+		public Variant.array (VariantType? child_type, Variant[] children);
+		public Variant.tuple (VariantType[] children);
+		public Variant.dict_entry (Variant key, Variant value);
 		public Variant get_variant ();
+		public Variant? get_maybe ();
 
-		public void* get_fixed (size_t size);
-		public void* get_fixed_array (size_t elem_size, out uint length);
+		public size_t n_children ();
+		public Variant get_child_value (size_t index);
 
-		public uint n_children ();
-		public Variant get_child_value (uint index);
-		public void get_child (uint index, string format_string, ...);
-
-		public Variant lookup_value (string key);
-		public Variant lookup (string key, string format_string, ...);
+		public size_t get_size ();
+		public void *get_data ();
+		public void store (void *data);
 
 		public string print (bool type_annotate);
-		public StringBuilder print_string (StringBuilder ?string, bool type_annotate);
-		public static Variant parse (string text, int text_length, VariantType? type) throws Error;
-		public Variant.parsed (string format_string, ...);
+		public StringBuilder print_string (StringBuilder? builder, bool type_annotate);
 
-		public string markup_print (bool newlines, int indentation, int tabstop);
-		public StringBuilder markup_print_string (StringBuilder ?string, bool newlines, int indentation, int tabstop);
+		public uint hash ();
+		public bool equal (Variant other);
+
+		public Variant byteswap ();
+		public Variant get_normal_form ();
+		public bool is_normal_form ();
+		[CCode (returns_floating_reference = true, simple_generics = true)]
+		public static Variant new_from_data<T> (VariantType type, uchar[] data, bool trusted, [CCode (destroy_notify_pos = 3.9)] owned T? owner = null);
+
+		[CCode (cname = "g_variant_iter_new")]
+		public VariantIter iterator ();
 	}
+
+	[Compact]
+	[CCode (copy_func = "g_variant_iter_copy", free_func = "g_variant_iter_free")]
+	public class VariantIter {
+		public VariantIter (Variant value);
+		public size_t n_children ();
+		public Variant? next_value ();
+		public bool next (string format_string, ...);
+	}
+
+	[Compact]
+	[CCode (ref_function = "g_variant_builder_ref", unref_function = "g_variant_builder_unref")]
+	public class VariantBuilder {
+		public VariantBuilder (VariantType type);
+		public void open (VariantType type);
+		public void close ();
+		public void add_value (Variant value);
+		public void add (string format_string, ...);
+		[CCode (returns_floating_reference = true)]
+		public Variant end ();
+	}
+
+	[CCode (cname = "G_LIKELY", cheader_filename = "glib.h")]
+	public static bool likely (bool expression);
+	[CCode (cname = "G_UNLIKELY", cheader_filename = "glib.h")]
+	public static bool unlikely (bool expression);
+	[CCode (cname = "G_STATIC_ASSERT", cheader_filename = "glib.h")]
+	public static void static_assert (bool expression);
 }

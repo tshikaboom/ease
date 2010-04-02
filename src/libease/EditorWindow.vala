@@ -62,7 +62,8 @@ namespace Ease
 				button.clicked.connect(() => {
 					for (unowned GLib.List* itr = slides_box.get_children(); itr != null; itr = itr->next)
 					{
-						((SlideButton*)(itr->data))->set_relief(Gtk.ReliefStyle.NONE);
+						// TODO: fix this? generic type arguments on itr?
+						//((SlideButton*)(itr->data))->set_relief(Gtk.ReliefStyle.NONE);
 					}
 					button.relief = Gtk.ReliefStyle.NORMAL;
 					load_slide(button.slide_id);

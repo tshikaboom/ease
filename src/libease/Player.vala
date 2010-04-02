@@ -67,6 +67,7 @@ namespace Ease
 			Clutter.Color color = Clutter.Color();
 			color.from_string("Black");
 			stage.color = color;
+			Clutter.grab_keyboard(stage);
 			
 			// make the window that everything will be displayed in
 			window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
@@ -84,13 +85,11 @@ namespace Ease
 			
 			// create a fixed to put the stage in
 			var fixed = new Gtk.Fixed();
-			int width, height;
-			window.get_size(out width, out height);
-			// FIXME: Centering!
-			/*fixed.put(embed,
-			          (int)(width / 2f - document.width / 2f),
-			          (int)(height / 2f - document.height / 2f));*/
-			fixed.put(embed, 30, 30);
+
+			// FIXME: Doesn't work properly on dual monitors
+			fixed.put(embed,
+			          (int)(screen.get_width() / 2f - document.width / 2f),
+			          (int)(screen.get_height() / 2f - document.height / 2f));
 			window.add(fixed);
 			window.show_all();
 			
@@ -114,6 +113,8 @@ namespace Ease
 			}
 			else
 			{
+				window.set_opacity(1);
+			
 				// move to the first slide
 				can_animate = true;
 				advance();
@@ -368,11 +369,13 @@ namespace Ease
 							current_slide.contents.opacity = clamp_opacity(-100 + 400 * alpha2.get_alpha());
 							for (itr = old_slide.contents.get_children(); itr != null; itr = itr->next)
 							{
-								((Clutter.Actor*)itr->data)->set_rotation(Clutter.RotateAxis.X_AXIS, 540 * alpha1.get_alpha(), 0, 0, 0);
+								// TODO: fix this? generic type arguments on itr?
+								//((Clutter.Actor*)itr->data)->set_rotation(Clutter.RotateAxis.X_AXIS, 540 * alpha1.get_alpha(), 0, 0, 0);
 							}
 							for (itr = current_slide.contents.get_children(); itr != null; itr = itr->next)
 							{
-								((Clutter.Actor*)itr->data)->set_rotation(Clutter.RotateAxis.X_AXIS, -540 * (1 - alpha2.get_alpha()), 0, 0, 0);
+								// TODO: fix this? generic type arguments on itr?
+								//((Clutter.Actor*)itr->data)->set_rotation(Clutter.RotateAxis.X_AXIS, -540 * (1 - alpha2.get_alpha()), 0, 0, 0);
 							}
 						});
 						break;
