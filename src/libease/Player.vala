@@ -79,17 +79,18 @@ namespace Ease
 			
 			// size the window to fill the screen
 			window.show_all();
-			var screen = window.get_screen();
-			window.set_size_request(screen.get_width(), screen.get_height());
-			window.fullscreen();
+			//var screen = window.get_screen();
+			//window.set_size_request(screen.get_width(), screen.get_height());
+			//window.fullscreen();
 			
 			// create a fixed to put the stage in
 			var fixed = new Gtk.Fixed();
 
 			// FIXME: Doesn't work properly on dual monitors
-			fixed.put(embed,
+			/*fixed.put(embed,
 			          (int)(screen.get_width() / 2f - document.width / 2f),
-			          (int)(screen.get_height() / 2f - document.height / 2f));
+			          (int)(screen.get_height() / 2f - document.height / 2f));*/
+			fixed.put(embed, 0, 0);
 			window.add(fixed);
 			window.show_all();
 			

@@ -19,11 +19,17 @@ namespace Ease
 {
 	public class ScrollableEmbed : Gtk.Table
 	{
+		// actors
 		private GtkClutter.Embed embed;
+		private GtkClutter.Viewport viewport;
+		private Clutter.Group contents;
+
+		// scrolling
 		private Gtk.HScrollbar h_scrollbar;
 		private Gtk.VScrollbar v_scrollbar;
 		private Gtk.Adjustment h_adjust;
 		private Gtk.Adjustment v_adjust;
+		private Gtk.Adjustment z_adjust;
 		
 		public bool has_horizontal { get; private set; }
 	
@@ -37,6 +43,26 @@ namespace Ease
 			h_scrollbar = new Gtk.HScrollbar(h_adjust);
 			v_adjust = new Gtk.Adjustment(0, 0, 1, 0.1, 0.1, 0.1);
 			v_scrollbar = new Gtk.VScrollbar(v_adjust);
+			z_adjust = new Gtk.Adjustment(0, 0, 1, 0.1, 0.1, 0.1);
+
+			// set up clutter actors
+			viewport = new GtkClutter.Viewport(h_adjust, v_adjust, z_adjust);
+			contents = new Clutter.Group();
+			
+			var stage = (Clutter.Stage)(embed.get_stage());
+			//stage.add_actor(viewport);
+			viewport.child = contents;
+
+			var color = Clutter.Color();
+			color.from_string("Black");
+			stage.set_color(color);
+			stage.width = 200;
+			stage.height = 100;
+
+			var rect = new Clutter.Rectangle.with_color(color);
+			rect.width = 100;
+			rect.height = 100;
+			contents.add_actor(rect);
 		
 			// set up the table
 			n_rows = has_horizontal ? 2 : 1;
@@ -60,12 +86,7 @@ namespace Ease
 				       Gtk.AttachOptions.SHRINK,
 				       0, 0);
 			}
-			get_stage().show();
-			
-			var stage = (Clutter.Stage)embed.get_stage();
-			var color = Clutter.Color();
-			color.from_string("Black");
-			stage.set_color(color);
+			get_stage().show_all();
 			
 			// scroll the view as is appropriate (with the mouse wheel)
 			realize.connect(() => {
@@ -73,12 +94,10 @@ namespace Ease
 			});
 			
 			button_press_event.connect((event) => {
-				stdout.printf("asdf!!\n");
 				return false;
 			});
 			
 			scroll_event.connect((event) => {
-				stdout.printf("Asdf\n");
 				switch (event.direction)
 				{
 					case Gdk.ScrollDirection.UP:
