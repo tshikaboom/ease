@@ -34,7 +34,7 @@ namespace Ease
 			this.set_size_request(320, 240);
 			var color = Clutter.Color();
 			color.from_string("Gray");
-			get_stage().set_color(color);
+			//get_stage().set_color(color);
 			zoom = 1;
 			zoom_fit = false;
 			
