@@ -172,6 +172,8 @@ namespace Ease
 				preview_width = (int)zoom_slider.get_value();
 				reflow_previews();
 			});
+
+			open_button.clicked.connect((sender) => OpenDialog.run());
 		}
 		
 		private void set_resolution_box(int width, int height)

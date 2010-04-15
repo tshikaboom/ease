@@ -149,6 +149,9 @@ namespace Ease
 				}
 				slides_shown = !slides_shown;
 			});
+
+			// open a file
+			main_toolbar.open.clicked.connect(() => OpenDialog.run());
 			
 			// save file
 			main_toolbar.save.clicked.connect(() => {

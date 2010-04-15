@@ -36,6 +36,7 @@ public static class Main : GLib.Object
 	
 		// initalize static classes
 		Transitions.init();
+		OpenDialog.init();
 		windows = new Gee.ArrayList<EditorWindow>();
 		
 		if (args.length == 2)
