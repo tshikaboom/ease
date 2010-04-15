@@ -19,22 +19,26 @@ namespace Ease
 {
 	public class WelcomeWindow : Gtk.Window
 	{
+		// main buttons
 		private Gtk.Button new_button;
 		private Gtk.Button open_button;
 		private Gtk.ComboBox resolution;
 		private Gtk.SpinButton x_res;
 		private Gtk.SpinButton y_res;
+
+		// clutter view
 		private ScrollableEmbed embed;
+
+		// previews
 		private Clutter.Group preview_container;
+		private Clutter.Rectangle preview_background;
+		private Gee.ArrayList<WelcomeActor> previews = new Gee.ArrayList<WelcomeActor>();
+		private int preview_width = 100;
+
+		// zoom widgets
 		private Gtk.HScale zoom_slider;
 		private Gtk.Button zoom_in;
 		private Gtk.Button zoom_out;
-		
-		// the size of the thumbnail previews (they are 4:3)
-		private int preview_width = 100;
-		
-		// the thumbnail previews
-		private Gee.ArrayList<WelcomeActor> previews = new Gee.ArrayList<WelcomeActor>();
 		
 		// constants
 		private const int[] RESOLUTIONS_X = {800,
@@ -96,10 +100,19 @@ namespace Ease
 			
 			// create the upper UI - the embed
 			embed = new ScrollableEmbed(false);
-			
-			// add previews to the embed's stage
+
+			// create the preview container
 			preview_container = new Clutter.Group();
-			for (var i = 0; i < 50; i++)
+
+			// the background for the previews
+			preview_background = new Clutter.Rectangle();
+			var color = Clutter.Color();
+			color.from_string("Black");
+			preview_background.color = color;
+			preview_container.add_actor(preview_background);
+			
+			// create the previews
+			for (var i = 0; i < 10; i++)
 			{
 				var act = new WelcomeActor(preview_width, ref previews);
 				previews.add(act);
@@ -176,31 +189,52 @@ namespace Ease
 		
 		private void reflow_previews()
 		{
-			var stage = embed.contents;
-			var width = 1;
-			for (; width * preview_width + 2 * PREVIEW_PADDING < stage.width; width++);
-			if (--width < 1)
-			{
-				width = 1;
-			}
-			var x_position = 0;
+			// calculate the number of previews per line
+			var per_line = 2;
+			for (; per_line * (preview_width + PREVIEW_PADDING) + PREVIEW_PADDING < embed.width;
+			     per_line++);
+			per_line--; // FIXME: the math is not strong in me at 2 AM
+
+			// find the initial x position of previews
+			var x_origin = embed.width / 2 -
+			    (preview_width * per_line + PREVIEW_PADDING * (per_line - 1)) / 2;
+
+			// the y position in pixels
 			var y_pixels = PREVIEW_PADDING;
+
+			// the x position in previews
+			var x_position = 0;
+
+			// place the previews
 			for (var i = 0; i < previews.size; i++)
 			{
-				previews.get(i).x = x_position * (PREVIEW_PADDING + preview_width);
+				// set the position of the preview
+				previews.get(i).x = x_origin + x_position * (PREVIEW_PADDING + preview_width);
 				previews.get(i).y = y_pixels;
-				if (++x_position >= width)
+
+				// set the size of the preview
+				previews.get(i).width = preview_width;
+				previews.get(i).height = preview_width * 3 / 4;
+
+				// go to the next line
+				if (++x_position >= per_line)
 				{
 					x_position = 0;
 					y_pixels += PREVIEW_PADDING + preview_width * 3 / 4; // 4:3
 				}
-				previews.get(i).width = preview_width;
-				previews.get(i).height = preview_width * 3 / 4;
 			}
-			
-			preview_container.x = stage.width / 2;
-			preview_container.y = PREVIEW_PADDING;
-			preview_container.set_anchor_point(preview_container.width / 2, 0);
+
+			// set the size of the background
+			preview_background.width = embed.width;
+			preview_background.height = x_position != 0
+			                          ? y_pixels + preview_width * 3 / 4 + PREVIEW_PADDING
+			                          : y_pixels + PREVIEW_PADDING;
+
+			// always fill the background
+			if (preview_background.height < embed.height)
+			{
+				preview_background.height = embed.height;
+			}
 		}
 		
 		private Gtk.Alignment create_zoom_bar()

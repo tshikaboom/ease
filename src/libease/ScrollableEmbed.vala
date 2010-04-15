@@ -33,6 +33,22 @@ namespace Ease
 		private Gtk.Adjustment z_adjust;
 		
 		public bool has_horizontal { get; private set; }
+
+		public float width
+		{
+			get
+			{
+				return stage.width;
+			}
+		}
+
+		public float height
+		{
+			get
+			{
+				return stage.height;
+			}
+		}
 	
 		public ScrollableEmbed(bool horizontal)
 		{
@@ -53,10 +69,6 @@ namespace Ease
 			stage = (Clutter.Stage)(embed.get_stage());
 			stage.add_actor(viewport);
 			viewport.child = contents;
-
-			var color = Clutter.Color();
-			color.from_string("Black");
-			stage.set_color(color);
 
 			var vbox = new Gtk.VBox(false, 0);
 			vbox.pack_start(embed, true, true, 0);
