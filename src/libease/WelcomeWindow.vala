@@ -52,7 +52,7 @@ namespace Ease
 		
 		public WelcomeWindow()
 		{
-			this.title = "Ease";
+			this.title = "New Presentation";
 			this.set_default_size(640, 480);
 			
 			// build the bottom UI
@@ -97,11 +97,6 @@ namespace Ease
 			// create the upper UI - the embed
 			embed = new ScrollableEmbed(false);
 			
-			var stage = (Clutter.Stage)embed.get_stage();
-			var color = Clutter.Color();
-			color.from_string("Black");
-			stage.set_color(color);
-			
 			// add previews to the embed's stage
 			preview_container = new Clutter.Group();
 			for (var i = 0; i < 50; i++)
@@ -110,8 +105,8 @@ namespace Ease
 				previews.add(act);
 				preview_container.add_actor(act);
 			}
-			stage.add_actor(preview_container);
-			stage.show_all();
+			embed.contents.add_actor(preview_container);
+			embed.contents.show_all();
 			
 			// put it all together
 			var vbox = new Gtk.VBox(false, 0);
@@ -181,7 +176,7 @@ namespace Ease
 		
 		private void reflow_previews()
 		{
-			var stage = embed.get_stage();
+			var stage = embed.contents;
 			var width = 1;
 			for (; width * preview_width + 2 * PREVIEW_PADDING < stage.width; width++);
 			if (--width < 1)

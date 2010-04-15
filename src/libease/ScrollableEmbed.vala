@@ -22,7 +22,8 @@ namespace Ease
 		// actors
 		private GtkClutter.Embed embed;
 		private GtkClutter.Viewport viewport;
-		private Clutter.Group contents;
+		private Clutter.Stage stage;
+		public Clutter.Group contents { get; private set; }
 
 		// scrolling
 		private Gtk.HScrollbar h_scrollbar;
@@ -49,7 +50,7 @@ namespace Ease
 			viewport = new GtkClutter.Viewport(h_adjust, v_adjust, z_adjust);
 			contents = new Clutter.Group();
 			
-			var stage = (Clutter.Stage)(embed.get_stage());
+			stage = (Clutter.Stage)(embed.get_stage());
 			stage.add_actor(viewport);
 			viewport.child = contents;
 
@@ -91,11 +92,23 @@ namespace Ease
 				}
 				return false;
 			});
+
+			// react when the view is resized
+			embed.size_allocate.connect(embed_allocate);
 		}
 		
-		public Clutter.Group get_stage()
+		public Clutter.Stage get_stage()
 		{
-			return contents;
+			return (Clutter.Stage)(embed.get_stage());
+		}
+
+		private void embed_allocate(Gtk.Widget sender, Gdk.Rectangle rect)
+		{
+			// pass on to Clutter actors
+			stage.width = allocation.width;
+			stage.height = allocation.height;
+			viewport.width = allocation.width;
+			viewport.height = allocation.height;
 		}
 	}
 }
