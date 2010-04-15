@@ -79,11 +79,25 @@ namespace Ease
 				output += s.to_xml();
 			}
 			output += "\t</slides>\n</document>\n";
-			
-			var file = File.new_for_path(path + "Document.xml");
-			var stream = file.replace(null, true, FileCreateFlags.NONE, null);
-			var data_stream = new DataOutputStream(stream);
-			data_stream.put_string(output, null);
+
+			try
+			{
+				var file = File.new_for_path(path + "Document.xml");
+				var stream = file.replace(null, true, FileCreateFlags.NONE, null);
+				var data_stream = new DataOutputStream(stream);
+				data_stream.put_string(output, null);
+			}
+			catch (GLib.Error e)
+			{
+				var dialog = new Gtk.MessageDialog(null,
+				                                   Gtk.DialogFlags.NO_SEPARATOR,
+				                                   Gtk.MessageType.ERROR,
+				                                   Gtk.ButtonsType.CLOSE,
+				                                   "Error saving: %s", e. message);
+				dialog.title = "Error Saving";
+				dialog.border_width = 5;
+				dialog.run();
+			}
 		}
 		
 		public void print_representation()
