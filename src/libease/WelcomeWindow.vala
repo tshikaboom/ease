@@ -34,6 +34,7 @@ namespace Ease
 		private Clutter.Rectangle preview_background;
 		private Gee.ArrayList<WelcomeActor> previews = new Gee.ArrayList<WelcomeActor>();
 		private int preview_width = 100;
+		private float preview_aspect;
 
 		// zoom widgets
 		private Gtk.HScale zoom_slider;
@@ -151,6 +152,7 @@ namespace Ease
 					x_res.set_value(RESOLUTIONS_X[val - 1]);
 					y_res.set_value(RESOLUTIONS_Y[val - 1]);
 				}
+				reflow_previews();
 			});
 			
 			// reflow the stage
@@ -187,10 +189,14 @@ namespace Ease
 				}
 			}
 			resolution.set_active(0);
+			reflow_previews();
 		}
 		
 		private void reflow_previews()
 		{
+			// calculate the preview aspect ratio
+			preview_aspect = (float)(y_res.get_value() / x_res.get_value());
+			
 			// calculate the number of previews per line
 			var per_line = 2;
 			for (; per_line * (preview_width + PREVIEW_PADDING) + PREVIEW_PADDING < embed.width;
@@ -202,10 +208,10 @@ namespace Ease
 			    (preview_width * per_line + PREVIEW_PADDING * (per_line - 1)) / 2;
 
 			// the y position in pixels
-			var y_pixels = PREVIEW_PADDING;
+			float y_pixels = PREVIEW_PADDING;
 
 			// the x position in previews
-			var x_position = 0;
+			int x_position = 0;
 
 			// place the previews
 			for (var i = 0; i < previews.size; i++)
@@ -216,20 +222,20 @@ namespace Ease
 
 				// set the size of the preview
 				previews.get(i).width = preview_width;
-				previews.get(i).height = preview_width * 3 / 4;
-
+				previews.get(i).height = preview_width * preview_aspect;
+				
 				// go to the next line
 				if (++x_position >= per_line)
 				{
 					x_position = 0;
-					y_pixels += PREVIEW_PADDING + preview_width * 3 / 4; // 4:3
+					y_pixels += PREVIEW_PADDING + preview_width * preview_aspect;
 				}
 			}
 
 			// set the size of the background
 			preview_background.width = embed.width;
 			preview_background.height = x_position != 0
-			                          ? y_pixels + preview_width * 3 / 4 + PREVIEW_PADDING
+			                          ? y_pixels + preview_width * preview_aspect + PREVIEW_PADDING
 			                          : y_pixels + PREVIEW_PADDING;
 
 			// always fill the background
