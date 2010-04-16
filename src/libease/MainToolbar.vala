@@ -26,6 +26,8 @@ namespace Ease
 		public Gtk.ToolButton open;
 		public Gtk.ToolButton inspector;
 		public Gtk.ToolButton slides;
+		public Gtk.ToolButton fonts;
+		public Gtk.ToolButton colors;
 	
 		public MainToolbar()
 		{
@@ -37,6 +39,8 @@ namespace Ease
 			open = new Gtk.ToolButton.from_stock("gtk-open");
 			slides = new Gtk.ToolButton.from_stock("gtk-dnd-multiple");
 			inspector = new Gtk.ToolButton.from_stock("gtk-info");
+			colors = new Gtk.ToolButton.from_stock("gtk-select-color");
+			fonts = new Gtk.ToolButton.from_stock("gtk-select-font");
 			
 			// add buttons
 			insert(new_slide, -1);
@@ -48,6 +52,9 @@ namespace Ease
 			insert(new Gtk.SeparatorToolItem(), -1);
 			insert(slides, -1);
 			insert(inspector, -1);
+			insert(new Gtk.SeparatorToolItem(), -1);
+			insert(fonts, -1);
+			insert(colors, -1);
 			
 			// format toolbar
 			toolbar_style = Gtk.ToolbarStyle.ICONS;
