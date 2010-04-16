@@ -24,7 +24,6 @@ namespace Ease
 		public MainToolbar main_toolbar;
 		public Gtk.HBox inspector;
 		public Gtk.HBox slides;
-		public Gtk.VBox slides_box;
 		public TransitionPane pane_transition;
 		public SlidePane pane_slide;
 		public Gtk.HScale zoom_slider;
@@ -51,32 +50,7 @@ namespace Ease
 			document = new Document.from_file(filename);
 			
 			// slide display
-			var slides_win = new Gtk.ScrolledWindow(null, null);
-			//slides_win.set_size_request(150, 0);
-			slides_win.vscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
-			slides_win.hscrollbar_policy = Gtk.PolicyType.NEVER;
-			slides_box = new Gtk.VBox(true, 1);
-			for (int i = 0; i < document.slides.size; i++)
-			{
-				var button = new SlideButton(i, document.slides.get(i));
-				button.clicked.connect(() => {
-					for (unowned GLib.List<Gtk.Widget>* itr = slides_box.get_children(); itr != null; itr = itr->next)
-					{
-						((SlideButton*)(itr->data))->set_relief(Gtk.ReliefStyle.NONE);
-					}
-					button.relief = Gtk.ReliefStyle.NORMAL;
-					load_slide(button.slide_id);
-				});
-				slides_box.pack_start(button, false, false, 0);
-			}
-			var align = new Gtk.Alignment(0, 0, 1, 0);
-			align.add(slides_box);
-			var viewport = new Gtk.Viewport(null, null);
-			viewport.set_shadow_type(Gtk.ShadowType.NONE);
-			viewport.add(align);
-			slides_win.add(viewport);
-			slides = new Gtk.HBox(false, 0);
-			slides.pack_start(slides_win, true, true, 0);
+			var slides_win = new SlideButtonPanel(document, this);
 			
 			// the inspector
 			inspector = new Gtk.HBox(false, 0);
@@ -98,7 +72,7 @@ namespace Ease
 			// assemble middle contents			
 			var hbox = new Gtk.HBox(false, 0);
 			var hpaned = new Gtk.HPaned();
-			hpaned.pack1(slides, false, false);
+			hpaned.pack1(slides_win, false, false);
 			hpaned.pack2(embed, true, true);
 			hbox.pack_start(hpaned, true, true, 0);
 			hbox.pack_start(inspector, false, false, 0);
@@ -242,7 +216,7 @@ namespace Ease
 			load_slide(0);
 		}
 		
-		private void load_slide(int index)
+		public void load_slide(int index)
 		{
 			slide = document.slides.get(index);
 			

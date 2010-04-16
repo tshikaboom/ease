@@ -22,6 +22,8 @@ namespace Ease
 		public int slide_id { get; set; }
 		public Slide slide { get; set; }
 
+		private Gtk.Alignment align;
+
 		// the clutter view
 		private GtkClutter.Embed slide_image;
 
@@ -30,11 +32,21 @@ namespace Ease
 
 		// the frame to maintain the aspect ratio
 		private Gtk.AspectFrame aspect;
+
+		// the editor window this button is in
+		private EditorWindow owner;
+
+		// the panel the button is in
+		private SlideButtonPanel panel;
+
+		bool dont_loop = false;
 		
-		public SlideButton(int id, Slide s)
+		public SlideButton(int id, Slide s, EditorWindow win, SlideButtonPanel pan)
 		{
 			slide = s;
 			slide_id = id;
+			owner = win;
+			panel = pan;
 
 			// make the embed
 			slide_image = new GtkClutter.Embed();
@@ -58,8 +70,8 @@ namespace Ease
 			aspect.add(slide_image);
 
 			// place things together
-			var align = new Gtk.Alignment(0.5f, 0.5f, 0, 0);
-			align.set_padding(5, 5, 5, 5);
+			align = new Gtk.Alignment(0.5f, 0.5f, 0, 0);
+			align.set_padding(0, 0, 0, 0);
 			align.add(aspect);
 
 			// set the style of the button
@@ -72,6 +84,27 @@ namespace Ease
 			// resize the slide actor appropriately
 			slide_image.size_allocate.connect((rect) => {
 				actor.set_scale_full(rect.width / actor.width, rect.height / actor.height, 0, 0);
+			});
+
+			align.size_allocate.connect((rect) => {
+				if (dont_loop)
+				{
+					dont_loop = false;
+					return;
+				}
+				aspect.set_size_request(rect.width, (int)(rect.width * (float)slide.parent.height / slide.parent.width));
+				dont_loop = true;
+			});
+
+			clicked.connect(() => {
+				for (unowned GLib.List<Gtk.Widget>* itr = panel.slides_box.get_children();
+				     itr != null; itr = itr->next)
+				{
+					((SlideButton*)(itr->data))->set_relief(Gtk.ReliefStyle.NONE);
+				}
+				
+				relief = Gtk.ReliefStyle.NORMAL;
+				owner.load_slide(slide_id);
 			});
 		}
 	}
