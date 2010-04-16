@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<document width="640" height="480">
+	<slides>
+		<slide transition="Drop" variant="" background_image="Media/Themes/Pink/Background.svg" >
+<element y="30" align="center" height="200" font_size="72" element_type="text" font_variant="Normal" font_name="Myriad Pro" width="600" font_style="Normal" font_weight="900" color="#FFF" x="20" ease_name="blehhhh" >Ease</element>
+<element y="120" align="center" height="200" font_size="32" element_type="text" font_variant="Normal" font_name="Myriad Pro" width="600" font_style="Normal" font_weight="300" color="#FFF" x="20" ease_name="blehhhh" >Or, how I learned to stop worrying and love GTK, Clutter, and Vala.</element>
+</slide>
+
+		<slide transition="Drop" variant="" background_color="#ff0000ff" >
+<element y="100" align="center" height="200" font_size="24" element_type="text" font_variant="Normal" font_name="Myriad Pro" width="600" font_style="Normal" font_weight="900" color="#FFF" x="20" ease_name="blehhhh" >Just kidding.</element>
+
+<element y="170" height="192" element_type="image" scale_x="0.25" scale_y="0.25" width="256" x="192" ease_name="psyduck" filename="Media/psyduck2.jpg" />
+</slide>
+
+
+		<slide transition="Panel" variant="Down" background_color="#ffffffff" >
+<element y="0" height="480" element_type="image" scale_x="1" scale_y="1" width="640" x="0" ease_name="psyduck" filename="Media/psyduck.jpg" /></slide>
+
+		<slide transition="Drop" variant="" background_image="Media/Themes/Pink/Background.svg" >
+<element y="20" height="240" element_type="image" scale_x="0.25" scale_y="0.25" width="320" x="20" ease_name="psyduck" filename="Media/psyduck.jpg" /><element y="340" height="240" element_type="image" scale_x="0.25" scale_y="0.25" width="320" x="20" ease_name="psyduck" filename="Media/psyduck.jpg" /><element y="20" height="240" element_type="image" scale_x="0.25" scale_y="0.25" width="320" x="440" ease_name="psyduck" filename="Media/psyduck.jpg" /><element y="340" height="240" element_type="image" scale_x="0.25" scale_y="0.25" width="320" x="440" ease_name="psyduck" filename="Media/psyduck.jpg" /></slide>
+
+<slide transition="Panel" variant="Down" background_color="#ffffffff" >
+<element y="0" height="480" element_type="image" scale_x="1" scale_y="1" width="640" x="0" ease_name="psyduck" filename="Media/psyduck3.jpg" /></slide>
+	</slides>
+</document>
