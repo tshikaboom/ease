@@ -35,17 +35,15 @@ namespace Ease
 		{
 			var dialog = new Gtk.FileChooserDialog("Open File",
 			                                       null,
-			                                       Gtk.FileChooserAction.OPEN,
+			                                       Gtk.FileChooserAction.SELECT_FOLDER,
 			                                       "gtk-cancel", Gtk.ResponseType.CANCEL,
 			                                       "gtk-open", Gtk.ResponseType.ACCEPT, null);
 
 			if (dialog.run() == Gtk.ResponseType.ACCEPT)
 			{
-				open_file(dialog.get_filename());
+				Main.test_editor(dialog.get_filename() + "/");
 			}
 			dialog.destroy();
 		}
-
-		public signal void open_file(string filename);
 	}
 }

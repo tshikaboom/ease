@@ -85,7 +85,7 @@ public static class Main : GLib.Object
 		show_welcome();
 	}
 	
-	private static void test_editor(string path)
+	public static void test_editor(string path)
 	{
 		add_window(new EditorWindow(path));
 	}
