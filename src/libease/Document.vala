@@ -168,33 +168,29 @@ namespace Ease
 					{
 						continue;
 					}
-															
-					var map = new Gee.HashMap<string, string>(GLib.str_hash, GLib.str_equal);
-					
+
+					// build a list of the element's properties
+					var list = new Gee.ArrayList<string>();
 					for (Xml.Attr* k = j->properties; k != null; k = k->next)
 					{
-						map.set(k->name, k->children->content);
+						list.add(k->name);
+						list.add(k->children->content);
 					}
-					
+
+					// if the element has text, add that as well
 					if (j->get_content() != null)
 					{
-						map.set("text", j-> get_content());
+						list.add("text");
+						list.add(j-> get_content());
 					}
 					
 					// create an appropriate element
-					Element element;
-					switch (map.get("type"))
+					var element = new Element(slide);
+					for (var index = 0; index < list.size; index += 2)
 					{
-						case "text":
-							element = new TextElement.from_map(map, slide);
-							break;
-						case "image":
-							element = new ImageElement.from_map(map, slide);
-							break;
-						default:
-							stdout.printf("Wrong Element Type: %s", map.get("type"));
-							return;
+						element.data.set_str(list[index], list[index + 1]);
 					}
+					
 					slide.elements.add(element);
 				}
 				

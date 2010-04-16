@@ -26,6 +26,26 @@ namespace Ease
 			map = new Gee.HashMap<string, ElementMapValue>();
 		}
 
+		public string to_xml()
+		{
+			string xml = "", text = "";
+			
+			foreach (var key in map.keys)
+			{
+				if (key != "text")
+				{
+					xml += key + "=\"" + get_str(key) + "\" ";
+				}
+				else
+				{
+					text = get_str(key);
+				}
+			}
+			return text == ""
+			     ? "<element " + xml + "/>"
+			     : "<element " + xml + ">" + text + "</element>";
+		}
+
 		public void set_int(string key, int val)
 		{
 			if (map.has_key(key))

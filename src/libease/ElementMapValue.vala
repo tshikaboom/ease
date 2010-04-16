@@ -19,7 +19,7 @@ namespace Ease
 {
 	public class ElementMapValue
 	{
-		public int int_val { get; set; }
-		public string str_val { get; set; }
+		public unowned int int_val { get; set; }
+		public unowned string str_val { get; set; }
 	}
 }

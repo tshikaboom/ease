@@ -25,7 +25,7 @@ namespace Ease
 			
 			try
 			{
-				contents = new Clutter.Texture.from_file(e.parent.parent.path + e.get_filename());
+				contents = new Clutter.Texture.from_file(e.parent.parent.path + e.filename);
 				add_actor(contents);
 			}
 			catch (GLib.Error e)

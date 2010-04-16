@@ -17,28 +17,15 @@
 
 namespace Ease
 {
-	public abstract class Element : GLib.Object
+	public class Element : GLib.Object
 	{
-		public string ease_name { get; set; }
-		public string element_type { get; set; }
-		public float x { get; set; }
-		public float y { get; set; }
-		public float width { get; set; }
-		public float height { get; set; }
 		public Slide parent { get; set; }
 
-		public ElementMap data;
+		public ElementMap data = new ElementMap();
 		
-		public Element.from_map(Gee.Map<string, string> map, Slide owner)
+		public Element(Slide owner)
 		{
-			this.ease_name = map.get("ease_name");
-			this.x = map.get("x").to_int();
-			this.y = map.get("y").to_int();
-			this.width = map.get("width").to_int();
-			this.height = map.get("height").to_int();
-			this.parent = owner;
-
-			data = new ElementMap();
+			parent = owner;
 		}
 		
 		public virtual void print_representation()
@@ -49,10 +36,11 @@ namespace Ease
 			stdout.printf("\t\t\t\t    width: %f\n", width);
 			stdout.printf("\t\t\t\t   height: %f\n", height);
 		}
-		
-		public abstract Clutter.Actor presentation_actor() throws GLib.Error;
-		
-		public abstract string to_xml();
+
+		public string to_xml()
+		{
+			return data.to_xml();
+		}
 		
 		protected string xml_base()
 		{
@@ -71,9 +59,258 @@ namespace Ease
 			actor.height = this.height;
 		}
 
-		public virtual string get_filename()
+		// convenience properties
+
+		// base element
+		public string ease_name
 		{
-			return "";
+			get
+			{
+				return data.get_str("ease_name").to_string();
+			}
+			set
+			{
+				data.set_str("ease_name", value);
+			}
+		}
+		
+		public string element_type
+		{
+			get
+			{
+				return data.get_str("element_type").to_string();
+			}
+			set
+			{
+				data.set_str("element_type", value);
+			}
+		}
+		
+		public float x
+		{
+			get
+			{
+				return (float)(data.get_str("x").to_double());
+			}
+			set
+			{
+				data.set_str("x", @"$value");
+			}
+		}
+		
+		public float y
+		{
+			get
+			{
+				return (float)(data.get_str("y").to_double());
+			}
+			set
+			{
+				data.set_str("y", @"$value");
+			}
+		}
+		
+		public float width
+		{
+			get
+			{
+				return (float)(data.get_str("width").to_double());
+			}
+			set
+			{
+				data.set_str("width", @"$value");
+			}
+		}
+		
+		public float height
+		{
+			get
+			{
+				return (float)(data.get_str("height").to_double());
+			}
+			set
+			{
+				data.set_str("height", @"$value");
+			}
+		}
+
+		// text elements
+		public weak string text
+		{
+			get
+			{
+				return data.get_str("text").to_string();
+			}
+			set
+			{
+				data.set_str("text", value);
+			}
+		}
+		
+		public Clutter.Color color
+		{
+			get
+			{
+				Clutter.Color c = Clutter.Color();
+				c.from_string(data.get_str("color"));
+				return c;
+			}		
+			set
+			{
+				data.set_str("color", value.to_string());
+			}
+		}
+		
+		public weak string font_name
+		{
+			get
+			{
+				return data.get_str("font_name").to_string();
+			}
+			set
+			{
+				data.set_str("font_name", value);
+			}
+		}
+		
+		public Pango.Style font_style
+		{
+			get
+			{
+				switch (data.get_str("font_style"))
+				{
+					case "Oblique":
+						return Pango.Style.OBLIQUE;
+					case "Italic":
+						return Pango.Style.ITALIC;
+					default:
+						return Pango.Style.NORMAL;
+				}
+			}
+			set
+			{
+				switch (value)
+				{
+					case Pango.Style.OBLIQUE:
+						data.set_str("font_style", "Oblique");
+						break;
+					case Pango.Style.ITALIC:
+						data.set_str("font_style", "Italic");
+						break;
+					case Pango.Style.NORMAL:
+						data.set_str("font_style", "Normal");
+						break;
+				}
+			}
+		}
+		
+		public Pango.Variant font_variant
+		{
+			get
+			{
+				return data.get_str("font_variant") == "Normal"
+				     ? Pango.Variant.NORMAL
+				     : Pango.Variant.SMALL_CAPS;
+			}
+			set
+			{
+				data.set_str("font_name",
+				             value == Pango.Variant.NORMAL ?
+				                      "Normal" : "Small Caps");
+			}
+		}
+		
+		public Pango.Weight font_weight
+		{
+			get
+			{
+				var str = "font_name";
+				return (Pango.Weight)(data.get_str(str).to_int());
+			}
+			set
+			{
+				data.set_str("font_weight", ((int)value).to_string());
+			}
+		}
+		
+		public Pango.Alignment text_align
+		{
+			get
+			{
+				switch (data.get_str("font_style"))
+				{
+					case "right":
+						return Pango.Alignment.RIGHT;
+					case "center":
+						return Pango.Alignment.CENTER;
+					default:
+						return Pango.Alignment.LEFT;
+				}
+			}
+			set
+			{
+				switch (value)
+				{
+					case Pango.Alignment.RIGHT:
+						data.set_str("font_style", "right");
+						break;
+					case Pango.Alignment.CENTER:
+						data.set_str("font_style", "center");
+						break;
+					case Pango.Alignment.LEFT:
+						data.set_str("font_style", "left");
+						break;
+				}
+			}
+		}
+		
+		public int font_size
+		{
+			get
+			{
+				return data.get_str("font_size").to_int();
+			}
+			set
+			{
+				data.set_str("font_size", @"$value");
+			}
+		}
+
+		// image elements
+		public string filename 
+		{
+			get
+			{
+				return data.get_str("filename").to_string();
+			}
+			set
+			{
+				data.set_str("filename", value);
+			}
+		}
+		
+		public float scale_x
+		{
+			get
+			{
+				return (float)(data.get_str("scale_x").to_double());
+			}
+			set
+			{
+				data.set_str("scale_x", @"$value");
+			}
+		}
+		
+		public float scale_y
+		{
+			get
+			{
+				return (float)(data.get_str("scale_y").to_double());
+			}
+			set
+			{
+				data.set_str("scale_y", @"$value");
+			}
 		}
 	}
 }

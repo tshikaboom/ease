@@ -54,8 +54,8 @@ namespace Ease
 			{
 				try
 				{
-					Clutter.Actor actor = slide.elements.get(i).presentation_actor();
-					contents.add_actor(actor);
+					//Clutter.Actor actor = slide.elements.get(i).presentation_actor();
+					//contents.add_actor(actor);
 				}
 				catch (GLib.Error e)
 				{
