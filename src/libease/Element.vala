@@ -26,6 +26,8 @@ namespace Ease
 		public float width { get; set; }
 		public float height { get; set; }
 		public Slide parent { get; set; }
+
+		public ElementMap data;
 		
 		public Element.from_map(Gee.Map<string, string> map, Slide owner)
 		{
@@ -35,6 +37,8 @@ namespace Ease
 			this.width = map.get("width").to_int();
 			this.height = map.get("height").to_int();
 			this.parent = owner;
+
+			data = new ElementMap();
 		}
 		
 		public virtual void print_representation()
