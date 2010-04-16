@@ -262,6 +262,7 @@ namespace Ease
 		
 		private Gtk.MenuItem create_file_menu()
 		{
+			/* TODO : use mnemonics */
 			var menuItem = new Gtk.MenuItem.with_label("File");
 			var menu = new Gtk.Menu();
 			
@@ -270,6 +271,9 @@ namespace Ease
 			var newPres = new Gtk.MenuItem.with_label("Presentation");
 			newPres.activate.connect(new_presentation);
 			var newTheme = new Gtk.MenuItem.with_label("Theme");
+			var Quit = new Gtk.MenuItem.with_label("Quit");
+			Quit.activate.connect( Gtk.main_quit );
+
 			newMenu.append(newPres);
 			newMenu.append(newTheme);
 			newItem.set_submenu(newMenu);
@@ -282,7 +286,7 @@ namespace Ease
 			                       Gdk.keyval_from_name("o"),
 			                       Gdk.ModifierType.CONTROL_MASK);
 			menu.append(openItem);
-			
+			menu.append(Quit);
 			menuItem.set_submenu(menu);
 			
 			return menuItem;
