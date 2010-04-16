@@ -102,13 +102,13 @@ namespace Ease
 		// unstack the actor, layering it with another actor 
 		public void unstack(SlideActor2 other, Clutter.Actor container)
 		{
-			if (background.get_parent() != container)
-			{
-				background.reparent(container);
-			}
 			if (other.background.get_parent() != container)
 			{
 				other.background.reparent(container);
+			}
+			if (background.get_parent() != container)
+			{
+				background.reparent(container);
 			}
 			if (contents.get_parent() != container)
 			{

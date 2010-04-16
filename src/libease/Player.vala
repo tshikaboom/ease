@@ -82,21 +82,16 @@ namespace Ease
 			color2.blue = 0;
 			window.modify_bg(Gtk.StateType.NORMAL, color2);
 			
-			// size the window to fill the screen
-			window.show_all();
-			//var screen = window.get_screen();
-			//window.set_size_request(screen.get_width(), screen.get_height());
-			//window.fullscreen();
-			
-			// create a fixed to put the stage in
-			var fixed = new Gtk.Fixed();
+			// center the stage in the window
+			var align = new Gtk.Alignment(0.5f, 0.5f, 0, 0);
+			align.add(embed);
 
-			// FIXME: Doesn't work properly on dual monitors
-			/*fixed.put(embed,
-			          (int)(screen.get_width() / 2f - document.width / 2f),
-			          (int)(screen.get_height() / 2f - document.height / 2f));*/
-			fixed.put(embed, 0, 0);
-			window.add(fixed);
+			// show the window
+			if (PRESENTATION_FULLSCREEN)
+			{
+				window.fullscreen();
+			}
+			window.add(align);
 			window.show_all();
 			
 			can_animate = true;
