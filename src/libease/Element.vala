@@ -66,5 +66,10 @@ namespace Ease
 			actor.width = this.width;
 			actor.height = this.height;
 		}
+
+		public virtual string get_filename()
+		{
+			return "";
+		}
 	}
 }

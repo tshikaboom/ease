@@ -150,6 +150,9 @@ namespace Ease
 				slides_shown = !slides_shown;
 			});
 
+			// make a new presentation
+			main_toolbar.new_presentation.clicked.connect(Main.show_welcome);
+
 			// open a file
 			main_toolbar.open.clicked.connect(() => OpenDialog.run());
 			

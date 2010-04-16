@@ -19,37 +19,50 @@ namespace Ease
 {
 	public class EditorEmbed : ScrollableEmbed
 	{
-		private Clutter.Group group;
-		private Clutter.Actor background;
+		// overall display
+		private Clutter.Rectangle view_background;
+
+		// the current slide's actor
+		private SlideActor2 slide_actor;
+		
 		private Document document;
 		public float zoom;
 		public bool zoom_fit;
-		private Gee.ArrayList<EditableElement> elements;
 		
 		public EditorEmbed(Document d)
 		{
-			base(true);
+			base(false);
+
+			// set up the background
+			view_background = new Clutter.Rectangle();
+			var color = Clutter.Color();
+			color.from_string("Gray");
+			view_background.color = color;
+			contents.add_actor(view_background);
 			
 			document = d;
 			this.set_size_request(320, 240);
-			var color = Clutter.Color();
-			color.from_string("Gray");
-			//get_stage().set_color(color);
+
 			zoom = 1;
 			zoom_fit = false;
-			
-			this.size_allocate.connect(() => {
+
+			// reposition everything when resized
+			size_allocate.connect(() => {
 				if (zoom_fit)
 				{
-					zoom = get_stage().width / get_stage().height > (float)document.width / document.height ?
-					       get_stage().height / document.height :
-					       get_stage().width / document.width;
+					zoom = width / height > (float)document.width / document.height
+					     ? height / document.height
+					     : width / document.width;
 					reposition_group();
 				}
 				else
 				{
 					reposition_group();
 				}
+
+				// set the size of the background
+				view_background.width = width;
+				view_background.height = height;
 			});
 		}
 		
@@ -61,75 +74,37 @@ namespace Ease
 		
 		public void set_slide(Slide slide)
 		{
+			if (slide == null)
+			{
+				return;
+			}
+			
 			// clean up the previous slide
-			if (group != null)
+			if (slide_actor != null)
 			{
-				get_stage().remove_actor(group);
+				contents.remove_actor(slide_actor);
 			}
-			group = new Clutter.Group();
 			
-			// create the background for the new slide
-			if (slide.background_image != null)
-			{
-				background = new Clutter.Texture.from_file(document.path + slide.background_image);
-				background.width = document.width;
-				background.height = document.height;
-			}
-			else
-			{
-				background = new Clutter.Rectangle();
-				((Clutter.Rectangle)background).set_color(slide.background_color);
-				background.width = document.width;
-				background.height = document.height;
-			}
-			group.add_actor(background);
+			slide_actor = new SlideActor2.from_slide(document, slide, false);
 			
-			// load slide elements
-			elements = new Gee.ArrayList<EditableElement>();
-			foreach (var e in slide.elements)
-			{
-				EditableElement element;
-				switch (e.element_type)
-				{
-					case "text":
-						element = new EditableText((TextElement)e, this);
-						elements.add(element);
-						group.add_actor(element);
-						break;
-					case "image":
-						element = new EditableImage((ImageElement)e, this);
-						elements.add(element);
-						group.add_actor(element);
-						break;
-				}
-			}
-			get_stage().add_actor(group);
+			contents.add_actor(slide_actor);
 			reposition_group();
 		}
 		
 		public void reposition_group()
 		{
-			group.set_scale_full(zoom, zoom, 0, 0);
-			group.set_position(get_stage().width / 2, get_stage().height / 2);
-			group.set_anchor_point(group.width / 2, group.height / 2);
-		}
-		
-		public float group_x()
-		{
-			return group.x - group.width / 2;
-		}
-		
-		public float group_y()
-		{
-			return group.y - group.height / 2;
-		}
-		
-		public void deselect_elements()
-		{
-			foreach (var e in elements)
-			{
-				e.deselect();
-			}
+			var w = zoom * slide_actor.width;
+			var h = zoom * slide_actor.height;
+			
+			slide_actor.set_scale_full(zoom, zoom, 0, 0);
+
+			slide_actor.x = w < width
+			              ? width / 2 - w / 2
+		                  : 0;
+			        
+			slide_actor.y = h < height
+			              ? height / 2 - h / 2
+			              : 0;
 		}
 	}
 }

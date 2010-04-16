@@ -106,8 +106,15 @@ public static class Main : GLib.Object
 	
 	public static void show_welcome()
 	{
-		welcome = new WelcomeWindow();
-		welcome.hide.connect(() => remove_welcome());
+		if (welcome == null)
+		{
+			welcome = new WelcomeWindow();
+			welcome.hide.connect(() => remove_welcome());
+		}
+		else
+		{
+			welcome.present();
+		}
 	}
 	
 	public static void remove_welcome()

@@ -21,37 +21,68 @@ namespace Ease
 	{
 		public int slide_id { get; set; }
 		public Slide slide { get; set; }
-		public Gtk.Label number { get; set; }
-		public GtkClutter.Embed slide_image { get; set; }
-		public Gtk.AspectFrame aspect { get; set; }
+
+		// the number label
+		private Gtk.Label number;
+
+		// the clutter view
+		private GtkClutter.Embed slide_image;
+
+		// the clutter actor
+		private SlideActor2 actor;
+
+		// the frame to maintain the aspect ratio
+		private Gtk.AspectFrame aspect;
 		
 		public SlideButton(int id, Slide s)
 		{
 			slide = s;
 			slide_id = id;
-			
+
+			// add the slide number
 			var hbox = new Gtk.HBox(false, 5);
 			number = new Gtk.Label("<big>" + (slide_id + 1).to_string() + "</big>");
 			number.use_markup = true;
 			var align = new Gtk.Alignment(0, 0.1f, 0, 0);
 			align.add(number);
 			hbox.pack_start(align, false, false, 0);
+
+			// make the embed
 			slide_image = new GtkClutter.Embed();
 			var color = Clutter.Color();
-			color.from_string("Red");
+			color.from_string("Black");
 			((Clutter.Stage)(slide_image.get_stage())).set_color(color);
-			aspect = new Gtk.AspectFrame("Slide", 0, 0, (float)slide.parent.width / slide.parent.height, false);
+
+			// make the slide actor
+			actor = new SlideActor2.from_slide(s.parent, s, true);
+			((Clutter.Stage)(slide_image.get_stage())).add_actor(actor);
+
+			// make the aspect frame
+			aspect = new Gtk.AspectFrame("Slide", 0, 0,
+			                             (float)slide.parent.width /
+			                                    slide.parent.height,
+			                             false);
 			aspect.set_size_request(0, 50);
 			aspect.label = null;
 			aspect.add(slide_image);
+
+			// place things together
 			hbox.pack_start(aspect, true, true, 0);
 			align = new Gtk.Alignment(0.5f, 0.5f, 1, 1);
 			align.add(hbox);
-			
+
+			// set the style of the button
 			this.relief = Gtk.ReliefStyle.NONE;
 			this.focus_on_click = false;
 			this.show_all();
 			this.add(align);
+
+			// resize the slide actor appropriately
+			slide_image.size_allocate.connect((rect) => {
+				actor.set_scale_full(slide.parent.width / rect.width,
+				                     slide.parent.height / rect.height,
+				                     0, 0);
+			});
 		}
 	}
 }

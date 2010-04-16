@@ -75,7 +75,7 @@ namespace Ease
 			
 			if (has_horizontal)
 			{
-				vbox.pack_start(embed, true, true, 0);
+				vbox.pack_start(h_scrollbar, false, false, 0);
 			}
 
 			pack_start(vbox, true, true, 0);

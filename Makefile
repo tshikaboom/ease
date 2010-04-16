@@ -46,8 +46,8 @@ clean:
 run: all
 	LD_LIBRARY_PATH=. ./ease
 	
-play:
+play: player
 	LD_LIBRARY_PATH=. ./ease-player ./Examples/Example.ease/
 	
-edit:
+edit: ease
 	LD_LIBRARY_PATH=. ./ease ./Examples/Example.ease/

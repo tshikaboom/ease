@@ -94,32 +94,8 @@ namespace Ease
 			window.add(fixed);
 			window.show_all();
 			
-			if (window.is_composited())
-			{
-				time1 = new Clutter.Timeline(1000);
-				alpha1 = new Clutter.Alpha.full(time1, Clutter.AnimationMode.EASE_OUT_SINE);
-				
-				window.set_opacity(0);
-				
-				time1.new_frame.connect((m) => {
-					window.set_opacity(alpha1.get_alpha());
-				});
-				
-				time1.completed.connect(() => {
-					can_animate = true;
-					advance();
-				});
-				
-				time1.start();
-			}
-			else
-			{
-				window.set_opacity(1);
-			
-				// move to the first slide
-				can_animate = true;
-				advance();
-			}
+			can_animate = true;
+			advance();
 		}
 		
 		public void advance()

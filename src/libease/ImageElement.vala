@@ -56,5 +56,10 @@ namespace Ease
 				throw e;
 			}
 		}
+
+		public override string get_filename()
+		{
+			return filename;
+		}
 	}
 }
