@@ -26,8 +26,9 @@ namespace Ease
 		private Gtk.Window window;
 		
 		// current and transitioning out slide
-		private SlideActor current_slide;
-		private SlideActor old_slide;
+		private SlideActor2 current_slide;
+		private SlideActor2 old_slide;
+		private Clutter.Group stack_container;
 		
 		// timelines
 		private Clutter.Timeline animation_time { get; set; }
@@ -68,6 +69,10 @@ namespace Ease
 			color.from_string("Black");
 			stage.color = color;
 			Clutter.grab_keyboard(stage);
+
+			// make the stacking container
+			stack_container = new Clutter.Group();
+			stage.add_actor(stack_container);
 			
 			// make the window that everything will be displayed in
 			window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
@@ -119,7 +124,7 @@ namespace Ease
 			if (slide_index == 0)
 			{
 				this.create_current_slide(slide);
-				current_slide.stack();
+				current_slide.stack(stack_container);
 				current_slide.opacity = 0;
 				current_slide.animate(Clutter.AnimationMode.EASE_IN_SINE, 1000, "opacity", 255);
 			}
@@ -531,51 +536,30 @@ namespace Ease
 			stage.remove_all();
 			
 			create_current_slide(document.slides.get(slide_index));
-			current_slide.stack();
+			current_slide.stack(stack_container);
 			stage.add_actor(current_slide);
 		}
 		
 		private void create_current_slide(Slide slide)
 		{
-			current_slide = new SlideActor.from_slide(document, slide, stage);
+			current_slide = new SlideActor2.from_slide(document, slide, true);
 		}
 		
 		private void prepare_slide_transition()
 		{
-			current_slide.stack();
-			old_slide.stack();
+			current_slide.stack(stack_container);
+			old_slide.stack(stack_container);
 		}
 		
 		private void prepare_stack_transition(bool current_on_top)
 		{
-			old_slide.unstack();
-			current_slide.unstack();
-			if (current_on_top)
-			{
-				stage.add_actor(current_slide.background);
-				stage.add_actor(old_slide.background);
-				stage.add_actor(old_slide.contents);
-				stage.add_actor(current_slide.contents);
-			}
-			else
-			{
-				stage.add_actor(current_slide.background);
-				stage.add_actor(old_slide.background);
-				stage.add_actor(current_slide.contents);
-				stage.add_actor(old_slide.contents);
-			}
+			old_slide.unstack(current_slide, stack_container);
 		}
 		
 		private void animation_complete()
 		{
 			can_animate = true;
-			
-			if (current_slide.background.get_parent() == stage)
-			{
-				stage.remove_all();
-				current_slide.stack();
-				stage.add_actor(current_slide);
-			}
+			current_slide.stack(stack_container);
 		}
 		
 		private void key_press(Clutter.Actor actor, Clutter.Event event)

@@ -25,13 +25,13 @@ namespace Ease
 		private Slide slide;
 
 		// the slide's background
-		private Clutter.Actor background;
+		public Clutter.Actor background;
 
 		// the slide's contents
-		private Gee.ArrayList<Actor> contents;
+		//public Gee.ArrayList<Actor> contents_list;
 
 		// the group of the slide's contents
-		private Clutter.Group contents_group;
+		public Clutter.Group contents;
 		
 		public SlideActor2.from_slide(Document document, Slide s, bool clip)
 		{
@@ -67,31 +67,57 @@ namespace Ease
 
 			add_actor(background);
 
+			contents = new Clutter.Group();
+			
 			foreach (var e in slide.elements)
 			{
 				// load the proper type of actor
 				switch (e.data.get_str("element_type"))
 				{
 					case "image":
-						add_actor(new ImageActor(e));
+						contents.add_actor(new ImageActor(e));
 						break;
 					case "text":
-						add_actor(new TextActor(e));
+						contents.add_actor(new TextActor(e));
 						break;
 				}
 			}
+
+			add_actor(contents);
 		}
 
 		// stack the actor, removing children from container if needed
-		public void stack(Clutter.Container container)
+		public void stack(Clutter.Actor container)
 		{
-			
+			if (background.get_parent() != this)
+			{
+				background.reparent(this);
+			}
+			if (contents.get_parent() != this)
+			{
+				contents.reparent(this);
+			}
 		}
 
 		// unstack the actor, layering it with another actor 
-		public void unstack(SlideActor other, Clutter.Container container)
+		public void unstack(SlideActor2 other, Clutter.Actor container)
 		{
-			
+			if (background.get_parent() != container)
+			{
+				background.reparent(container);
+			}
+			if (other.background.get_parent() != container)
+			{
+				other.background.reparent(container);
+			}
+			if (contents.get_parent() != container)
+			{
+				contents.reparent(container);
+			}
+			if (other.contents.get_parent() != container)
+			{
+				other.contents.reparent(container);
+			}
 		}
 	}
 }
