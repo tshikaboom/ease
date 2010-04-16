@@ -45,7 +45,7 @@ namespace Ease
 			number.use_markup = true;
 			var align = new Gtk.Alignment(0, 0.1f, 0, 0);
 			align.add(number);
-			hbox.pack_start(align, false, false, 0);
+			//hbox.pack_start(align, false, false, 0);
 
 			// make the embed
 			slide_image = new GtkClutter.Embed();
@@ -62,14 +62,14 @@ namespace Ease
 			                             (float)slide.parent.width /
 			                                    slide.parent.height,
 			                             false);
-			aspect.set_size_request(0, 50);
+			aspect.set_size_request(75, 50);
 			aspect.label = null;
 			aspect.add(slide_image);
 
 			// place things together
-			hbox.pack_start(aspect, true, true, 0);
 			align = new Gtk.Alignment(0.5f, 0.5f, 1, 1);
-			align.add(hbox);
+			align.set_padding(5, 5, 5, 5);
+			align.add(aspect);
 
 			// set the style of the button
 			this.relief = Gtk.ReliefStyle.NONE;

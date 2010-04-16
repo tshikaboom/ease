@@ -52,18 +52,17 @@ namespace Ease
 			
 			// slide display
 			var slides_win = new Gtk.ScrolledWindow(null, null);
-			slides_win.set_size_request(150, 0);
+			//slides_win.set_size_request(150, 0);
 			slides_win.vscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
-			slides_win.hscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
+			slides_win.hscrollbar_policy = Gtk.PolicyType.NEVER;
 			slides_box = new Gtk.VBox(true, 1);
 			for (int i = 0; i < document.slides.size; i++)
 			{
 				var button = new SlideButton(i, document.slides.get(i));
 				button.clicked.connect(() => {
-					for (unowned GLib.List* itr = slides_box.get_children(); itr != null; itr = itr->next)
+					for (unowned GLib.List<Gtk.Widget>* itr = slides_box.get_children(); itr != null; itr = itr->next)
 					{
-						// TODO: fix this? generic type arguments on itr?
-						//((SlideButton*)(itr->data))->set_relief(Gtk.ReliefStyle.NONE);
+						((SlideButton*)(itr->data))->set_relief(Gtk.ReliefStyle.NONE);
 					}
 					button.relief = Gtk.ReliefStyle.NORMAL;
 					load_slide(button.slide_id);
