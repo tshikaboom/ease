@@ -93,8 +93,8 @@ namespace Ease
 		
 		public void reposition_group()
 		{
-			var w = zoom * slide_actor.width;
-			var h = zoom * slide_actor.height;
+			var w = zoom * document.width;
+			var h = zoom * document.height;
 			
 			slide_actor.set_scale_full(zoom, zoom, 0, 0);
 
