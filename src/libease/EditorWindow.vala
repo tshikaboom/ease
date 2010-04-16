@@ -137,7 +137,7 @@ namespace Ease
 			
 			// play presentation
 			main_toolbar.play.clicked.connect(() => {
-				// TODO: launch ease-player from here
+				new Player(document);
 			});
 			
 			// inspector
