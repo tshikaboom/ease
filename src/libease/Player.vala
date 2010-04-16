@@ -41,7 +41,7 @@ namespace Ease
 		// effect constants
 		public const float FLIP_DEPTH = -400;
 		public const float ZOOM_OUT_SCALE = 0.75f;
-		public const bool PRESENTATION_FULLSCREEN = false;
+		public const bool PRESENTATION_FULLSCREEN = true;
 	
 		public Player(Document doc)
 		{
@@ -58,11 +58,6 @@ namespace Ease
 			
 			stage.set_fullscreen(PRESENTATION_FULLSCREEN);
 			stage.hide_cursor();
-			
-			stage.key_press_event.connect((a, e) => {
-				key_press(a, e);
-				return false;
-			});
 			
 			stage.show_all();
 			Clutter.Color color = Clutter.Color();
@@ -93,7 +88,15 @@ namespace Ease
 			}
 			window.add(align);
 			window.show_all();
-			
+
+			// register key presses and react
+			align.get_parent_window().set_events(Gdk.EventMask.KEY_PRESS_MASK);
+			align.key_press_event.connect((a, e) => {
+				key_press(a, e);
+				return false;
+			});
+
+			// start the presentation
 			can_animate = true;
 			advance();
 		}
@@ -556,9 +559,9 @@ namespace Ease
 			current_slide.stack(stack_container);
 		}
 		
-		private void key_press(Clutter.Actor actor, Clutter.Event event)
+		private void key_press(Gtk.Widget sender, Gdk.EventKey event)
 		{
-			switch (event.key.keyval)
+			switch (event.keyval)
 			{
 				case 65307: // escape
 					stage.hide();
