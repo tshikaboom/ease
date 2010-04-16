@@ -30,7 +30,7 @@ namespace Ease
 		
 		public virtual void print_representation()
 		{
-			stdout.printf("\t\t\t\tease_name: %s\n", ease_name);
+			stdout.printf("\t\t\t\tease_name: %s\n", data.get_str("ease_name"));
 			stdout.printf("\t\t\t\t        x: %f\n", x);
 			stdout.printf("\t\t\t\t        y: %f\n", y);
 			stdout.printf("\t\t\t\t    width: %f\n", width);
@@ -41,33 +41,12 @@ namespace Ease
 		{
 			return data.to_xml();
 		}
-		
-		protected string xml_base()
-		{
-			return "ease_name=\"" + ease_name + "\" " +
-			       "x=\"" + @"$x" + "\" " +
-			       "y=\"" + @"$y" + "\" " +
-			       "width=\"" + @"$width" + "\" " +
-			       "height=\"" + @"$height" + "\" ";
-		}
-		
-		protected void set_actor_base_properties(Clutter.Actor actor)
-		{
-			actor.x = this.x;
-			actor.y = this.y;
-			actor.width = this.width;
-			actor.height = this.height;
-		}
 
 		// convenience properties
 
 		// base element
 		public string ease_name
 		{
-			get
-			{
-				return data.get_str("ease_name").to_string();
-			}
 			set
 			{
 				data.set_str("ease_name", value);
@@ -76,10 +55,6 @@ namespace Ease
 		
 		public string element_type
 		{
-			get
-			{
-				return data.get_str("element_type").to_string();
-			}
 			set
 			{
 				data.set_str("element_type", value);
@@ -135,12 +110,8 @@ namespace Ease
 		}
 
 		// text elements
-		public weak string text
+		public string text
 		{
-			get
-			{
-				return data.get_str("text").to_string();
-			}
 			set
 			{
 				data.set_str("text", value);
@@ -161,12 +132,8 @@ namespace Ease
 			}
 		}
 		
-		public weak string font_name
+		public string font_name
 		{
-			get
-			{
-				return data.get_str("font_name").to_string();
-			}
 			set
 			{
 				data.set_str("font_name", value);
@@ -279,10 +246,6 @@ namespace Ease
 		// image elements
 		public string filename 
 		{
-			get
-			{
-				return data.get_str("filename").to_string();
-			}
 			set
 			{
 				data.set_str("filename", value);

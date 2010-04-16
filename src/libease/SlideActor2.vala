@@ -70,9 +70,14 @@ namespace Ease
 			foreach (var e in slide.elements)
 			{
 				// load the proper type of actor
-				if (e.element_type == "image")
+				switch (e.data.get_str("element_type"))
 				{
-					add_actor(new ImageActor(e));
+					case "image":
+						add_actor(new ImageActor(e));
+						break;
+					case "text":
+						add_actor(new TextActor(e));
+						break;
 				}
 			}
 		}

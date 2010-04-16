@@ -2,17 +2,17 @@
 <document width="640" height="480">
 	<slides>
 		<slide transition="Panel" variant="Right" background_image="Media/Themes/Pink/Background.svg">
-			<element type="text" ease_name="blehhhh" x="30" y="30" width="964" align="left" height="200" font_weight="300" font_style="Normal" font_variant="Normal" color="#FFF" font_name="Myriad Pro" font_size="72">See Ease.
+			<element element_type="text" ease_name="blehhhh" x="30" y="30" width="964" align="left" height="200" font_weight="300" font_style="Normal" font_variant="Normal" color="#FFF" font_name="Myriad Pro" font_size="72">See Ease.
 See Ease Run.</element>
 		</slide>
 		<slide transition="Panel" variant="Down" background_color="#FFF">
-			<element type="image" ease_name="psyduck" x="0" y="0" width="800" height="600" scale_x="1" scale_y="1" filename="Media/psyduck.jpg" />
+			<element element_type="image" ease_name="psyduck" x="0" y="0" width="800" height="600" scale_x="1" scale_y="1" filename="Media/psyduck.jpg" />
 		</slide>
 		<slide transition="Drop" variant="" background_image="Media/Themes/Pink/Background.svg">
-			<element type="image" ease_name="psyduck" x="20" y="20" width="320" height="240" scale_x="1" scale_y="1" filename="Media/psyduck.jpg" />
-			<element type="image" ease_name="psyduck" x="20" y="340" width="320" height="240" scale_x="1" scale_y="1" filename="Media/psyduck.jpg" />
-			<element type="image" ease_name="psyduck" x="440" y="20" width="320" height="240" scale_x="1" scale_y="1" filename="Media/psyduck.jpg" />
-			<element type="image" ease_name="psyduck" x="440" y="340" width="320" height="240" scale_x="1" scale_y="1" filename="Media/psyduck.jpg" />
+			<element element_type="image" ease_name="psyduck" x="20" y="20" width="320" height="240" scale_x="0.25" scale_y="0.25" filename="Media/psyduck.jpg" />
+			<element element_type="image" ease_name="psyduck" x="20" y="340" width="320" height="240" scale_x="0.25" scale_y="0.25" filename="Media/psyduck.jpg" />
+			<element element_type="image" ease_name="psyduck" x="440" y="20" width="320" height="240" scale_x="0.25" scale_y="0.25" filename="Media/psyduck.jpg" />
+			<element element_type="image" ease_name="psyduck" x="440" y="340" width="320" height="240" scale_x="0.25" scale_y="0.25" filename="Media/psyduck.jpg" />
 		</slide>
 	</slides>
 </document>

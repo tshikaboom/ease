@@ -25,12 +25,19 @@ namespace Ease
 			
 			try
 			{
-				contents = new Clutter.Texture.from_file(e.parent.parent.path + e.filename);
-				add_actor(contents);
+				contents = new Clutter.Texture.from_file(e.parent.parent.path + e.data.get_str("filename"));
 			}
 			catch (GLib.Error e)
 			{
 				stdout.printf("Error loading ImageActor: %s", e.message);
+			}
+			finally
+			{
+				add_actor(contents);
+				contents.width = e.width;
+				contents.height = e.height;
+				contents.x = e.x;
+				contents.y = e.y;
 			}
 		}
 	}

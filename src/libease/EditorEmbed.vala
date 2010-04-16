@@ -31,7 +31,7 @@ namespace Ease
 		
 		public EditorEmbed(Document d)
 		{
-			base(false);
+			base(true);
 
 			// set up the background
 			view_background = new Clutter.Rectangle();
@@ -61,7 +61,7 @@ namespace Ease
 				}
 
 				// set the size of the background
-				view_background.width = width;
+				view_background.width = (float)Math.fmax(width, slide_actor.width);
 				view_background.height = height;
 			});
 		}

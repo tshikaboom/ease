@@ -22,9 +22,6 @@ namespace Ease
 		public int slide_id { get; set; }
 		public Slide slide { get; set; }
 
-		// the number label
-		private Gtk.Label number;
-
 		// the clutter view
 		private GtkClutter.Embed slide_image;
 
@@ -38,14 +35,6 @@ namespace Ease
 		{
 			slide = s;
 			slide_id = id;
-
-			// add the slide number
-			var hbox = new Gtk.HBox(false, 5);
-			number = new Gtk.Label("<big>" + (slide_id + 1).to_string() + "</big>");
-			number.use_markup = true;
-			var align = new Gtk.Alignment(0, 0.1f, 0, 0);
-			align.add(number);
-			//hbox.pack_start(align, false, false, 0);
 
 			// make the embed
 			slide_image = new GtkClutter.Embed();
@@ -67,7 +56,7 @@ namespace Ease
 			aspect.add(slide_image);
 
 			// place things together
-			align = new Gtk.Alignment(0.5f, 0.5f, 1, 1);
+			var align = new Gtk.Alignment(0.5f, 0.5f, 1, 1);
 			align.set_padding(5, 5, 5, 5);
 			align.add(aspect);
 
@@ -79,8 +68,8 @@ namespace Ease
 
 			// resize the slide actor appropriately
 			slide_image.size_allocate.connect((rect) => {
-				actor.set_scale_full(slide.parent.width / rect.width,
-				                     slide.parent.height / rect.height,
+				actor.set_scale_full(rect.width / slide.parent.width,
+				                     rect.height / slide.parent.height,
 				                     0, 0);
 			});
 		}

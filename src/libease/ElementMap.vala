@@ -46,20 +46,6 @@ namespace Ease
 			     : "<element " + xml + ">" + text + "</element>";
 		}
 
-		public void set_int(string key, int val)
-		{
-			if (map.has_key(key))
-			{
-				map.get(key).int_val = val;
-			}
-			else
-			{
-				var value = new ElementMapValue();
-				value.int_val = val;
-				map.set(key, value);
-			}
-		}
-
 		public void set_str(string key, string val)
 		{
 			if (map.has_key(key))
@@ -72,11 +58,6 @@ namespace Ease
 				value.str_val = val;
 				map.set(key, value);
 			}
-		}
-		
-		public int get_int(string key)
-		{
-			return map.get(key).int_val;
 		}
 
 		public string get_str(string key)
