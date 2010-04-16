@@ -77,7 +77,6 @@ namespace Ease
 			slides_win.add(viewport);
 			slides = new Gtk.HBox(false, 0);
 			slides.pack_start(slides_win, true, true, 0);
-			slides.pack_start(new Gtk.VSeparator(), false, false, 0);
 			
 			// the inspector
 			inspector = new Gtk.HBox(false, 0);
@@ -98,8 +97,10 @@ namespace Ease
 			
 			// assemble middle contents			
 			var hbox = new Gtk.HBox(false, 0);
-			hbox.pack_start(slides, false, false, 0);
-			hbox.pack_start(embed, true, true, 0);
+			var hpaned = new Gtk.HPaned();
+			hpaned.pack1(slides, false, false);
+			hpaned.pack2(embed, true, true);
+			hbox.pack_start(hpaned, true, true, 0);
 			hbox.pack_start(inspector, false, false, 0);
 			
 			// assemble window contents
