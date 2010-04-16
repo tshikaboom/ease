@@ -130,7 +130,7 @@ namespace Ease
 			}
 			else
 			{
-				//FIXME: these live here due to what seems to be a vala bug (used for pivot)
+				//FIXME: these live here (used for pivot)
 				var xpos = 0f;
 				var ypos = 0f;
 				var angle = 90f;
@@ -346,18 +346,16 @@ namespace Ease
 						alpha2 = new Clutter.Alpha.full(animation_time, Clutter.AnimationMode.EASE_OUT_SINE);
 						animation_alpha = new Clutter.Alpha.full(animation_time, Clutter.AnimationMode.LINEAR);
 						animation_time.new_frame.connect((m) => {
-							unowned GLib.List* itr;
+							unowned GLib.List<Clutter.Actor>* itr;
 							old_slide.contents.opacity = clamp_opacity(455 - 555 * alpha1.get_alpha());
 							current_slide.contents.opacity = clamp_opacity(-100 + 400 * alpha2.get_alpha());
 							for (itr = old_slide.contents.get_children(); itr != null; itr = itr->next)
 							{
-								// TODO: fix this? generic type arguments on itr?
-								//((Clutter.Actor*)itr->data)->set_rotation(Clutter.RotateAxis.X_AXIS, 540 * alpha1.get_alpha(), 0, 0, 0);
+								((Clutter.Actor*)itr->data)->set_rotation(Clutter.RotateAxis.X_AXIS, 540 * alpha1.get_alpha(), 0, 0, 0);
 							}
 							for (itr = current_slide.contents.get_children(); itr != null; itr = itr->next)
 							{
-								// TODO: fix this? generic type arguments on itr?
-								//((Clutter.Actor*)itr->data)->set_rotation(Clutter.RotateAxis.X_AXIS, -540 * (1 - alpha2.get_alpha()), 0, 0, 0);
+								((Clutter.Actor*)itr->data)->set_rotation(Clutter.RotateAxis.X_AXIS, -540 * (1 - alpha2.get_alpha()), 0, 0, 0);
 							}
 						});
 						break;
@@ -558,6 +556,7 @@ namespace Ease
 		
 		private void animation_complete()
 		{
+			stage.remove_actor(old_slide);
 			can_animate = true;
 			current_slide.stack(stack_container);
 		}

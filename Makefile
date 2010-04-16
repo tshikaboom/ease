@@ -47,7 +47,7 @@ run: all
 	LD_LIBRARY_PATH=. ./ease
 	
 play: player
-	LD_LIBRARY_PATH=. ./ease-player ./Examples/Example.ease/
+	LD_LIBRARY_PATH=. ./ease-player ./Examples/RCOS.ease/
 	
 edit: ease
-	LD_LIBRARY_PATH=. ./ease ./Examples/Example.ease/
+	LD_LIBRARY_PATH=. ./ease ./Examples/RCOS.ease/

@@ -204,7 +204,7 @@ namespace Ease
 		{
 			get
 			{
-				switch (data.get_str("font_style"))
+				switch (data.get_str("align"))
 				{
 					case "right":
 						return Pango.Alignment.RIGHT;
