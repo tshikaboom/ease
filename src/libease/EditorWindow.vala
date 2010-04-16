@@ -30,6 +30,9 @@ namespace Ease
 		private Gtk.Button zoom_in;
 		private Gtk.Button zoom_out;
 		private int zoom_previous = 0;
+
+		// the player for this window
+		private Player player;
 		
 		public Document document;
 		public Slide slide;
@@ -137,7 +140,7 @@ namespace Ease
 			
 			// play presentation
 			main_toolbar.play.clicked.connect(() => {
-				new Player(document);
+				player = new Player(document);
 			});
 			
 			// inspector
