@@ -91,10 +91,7 @@ namespace Ease
 
 			// register key presses and react
 			align.get_parent_window().set_events(Gdk.EventMask.KEY_PRESS_MASK);
-			align.key_press_event.connect((a, e) => {
-				key_press(a, e);
-				return false;
-			});
+			align.key_press_event.connect(key_press);
 
 			// start the presentation
 			can_animate = true;
@@ -559,7 +556,7 @@ namespace Ease
 			current_slide.stack(stack_container);
 		}
 		
-		private void key_press(Gtk.Widget sender, Gdk.EventKey event)
+		private bool key_press(Gtk.Widget sender, Gdk.EventKey event)
 		{
 			switch (event.keyval)
 			{
@@ -577,7 +574,7 @@ namespace Ease
 					this.retreat();
 					break;
 			}
-			//stdout.printf("%u\n", event.key.keyval);
+			return false;
 		}
 		
 		// animation utility functions
