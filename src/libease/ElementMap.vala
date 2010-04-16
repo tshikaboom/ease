@@ -43,7 +43,7 @@ namespace Ease
 			}
 			return text == ""
 			     ? "\t\t\t<element " + xml + "/>\n"
-			     : "\t\t\t<element " + xml + ">\n" + text + "\n\t\t\t</element>\n";
+			     : "\t\t\t<element " + xml + ">" + text + "</element>\n";
 		}
 
 		public void set_str(string key, string val)
