@@ -96,10 +96,14 @@ namespace Ease
 				switch (event.direction)
 				{
 					case Gdk.ScrollDirection.UP:
-						v_adjust.value = Math.fmax(0, v_adjust.value - 0.1);
+						v_adjust.value = Math.fmin(v_adjust.upper,
+						                 Math.fmax(v_adjust.lower,
+						                           v_adjust.value - v_adjust.step_increment));
 						break;
 					case Gdk.ScrollDirection.DOWN:
-						v_adjust.value = Math.fmin(1, v_adjust.value + 0.1);
+						v_adjust.value = Math.fmin(v_adjust.upper,
+						                 Math.fmax(v_adjust.lower,
+						                           v_adjust.value + v_adjust.step_increment));
 						break;
 				}
 				return false;
