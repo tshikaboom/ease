@@ -39,7 +39,7 @@ namespace Ease
 			preview = new GtkClutter.Embed();
 			preview.set_size_request(0, 100);
 			var color = Clutter.Color();
-			color.from_string("Red");
+			color.from_string("Black");
 			((Clutter.Stage)(preview.get_stage())).set_color(color);
 			var frame = new Gtk.Frame(null);
 			frame.add(preview);
