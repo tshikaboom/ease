@@ -1,12 +1,12 @@
 .PHONY: clean run gitclean todo vapi
 
-EASE_CFLAGS = `pkg-config --cflags gobject-2.0 gtk+-2.0 pango \
+EASE_CFLAGS = `pkg-config --cflags gobject-2.0 gtk+-2.0 pango clutter-gst-0.10 \
     clutter-1.0 clutter-gtk-0.10 gee-1.0 libxml-2.0 cogl-1.0 gio-2.0`
 
-EASE_LDFLAGS = `pkg-config --libs gobject-2.0 gtk+-2.0 pango \
-    clutter-1.0 clutter-gtk-0.10 gee-1.0 libxml-2.0 cogl-1.0 gio-2.0`
+EASE_LDFLAGS = `pkg-config --libs gobject-2.0 gtk+-2.0 pango clutter-gst-0.10 \
+    clutter-1.0 clutter-gtk-0.10 gee-1.0 libxml-2.0 cogl-1.0 gio-2.0 `
 
-VALA_FLAGS = --vapidir=./vapi --pkg "glib-2.0"  --pkg "gtk+-2.0"  --pkg "clutter-1.0"  --pkg "gdk-2.0"  --pkg "libxml-2.0"  --pkg "gee-1.0"  --pkg "clutter-gtk-0.10"  --pkg "cogl-1.0" --pkg "gio-2.0"
+VALA_FLAGS = --vapidir=./vapi --pkg "glib-2.0"  --pkg "gtk+-2.0"  --pkg "clutter-1.0"  --pkg "gdk-2.0"  --pkg "libxml-2.0"  --pkg "gee-1.0"  --pkg "clutter-gtk-0.10"  --pkg "cogl-1.0" --pkg "gio-2.0" --pkg "clutter-gst-0.10"
 
 all: libease.so ease player
 

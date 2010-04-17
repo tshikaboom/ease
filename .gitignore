@@ -11,4 +11,6 @@ ease
 ease-player
 libease.so
 *.h
+*.ogv
+RCOS.ease/
 

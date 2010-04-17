@@ -80,6 +80,9 @@ namespace Ease
 					case "text":
 						contents.add_actor(new TextActor(e));
 						break;
+					case "video":
+						contents.add_actor(new VideoActor(e));
+						break;
 				}
 			}
 

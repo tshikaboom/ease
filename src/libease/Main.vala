@@ -32,7 +32,8 @@ public static class Main : GLib.Object
 		
 		Gtk.init(ref args);
 		Clutter.init(null);
-	
+		Gst.init(ref args);
+		ClutterGst.init(ref args);
 	
 		// initalize static classes
 		Transitions.init();
@@ -68,6 +69,8 @@ public static class Main : GLib.Object
 		
 		Gtk.init(ref args);
 		Clutter.init(null);
+		Gst.init(ref args);
+		ClutterGst.init(ref args);
 		
 		var doc = new Document.from_file(args[1]);
 		var player = new Player(doc);
@@ -77,7 +80,7 @@ public static class Main : GLib.Object
 		
 		Gtk.main();
 		
-		return 1;
+		return 0;
 	}
 	
 	private static void test_welcome()
