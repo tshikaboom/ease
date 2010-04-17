@@ -215,6 +215,8 @@ namespace Ease
 					}
 				}
 			});
+
+			hide.connect(() => Main.remove_window(this));
 			
 			load_slide(0);
 		}
