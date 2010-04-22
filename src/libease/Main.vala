@@ -30,8 +30,7 @@ public static class Main : GLib.Object
 			args[i] = (string)argv[i];
 		}
 		
-		Gtk.init(ref args);
-		Clutter.init(null);
+		GtkClutter.init(ref args);
 		Gst.init(ref args);
 		ClutterGst.init(ref args);
 	
@@ -67,8 +66,7 @@ public static class Main : GLib.Object
 			return 0;
 		}
 		
-		Gtk.init(ref args);
-		Clutter.init(null);
+		GtkClutter.init(ref args);
 		Gst.init(ref args);
 		ClutterGst.init(ref args);
 		
