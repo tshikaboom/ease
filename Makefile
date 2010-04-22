@@ -23,9 +23,14 @@ player: libease.so src/ease-player/*.c
 	
 asone:
 	valac $(VALA_FLAGS) -C -H src/libease/libease.h src/libease/*.vala --basedir src/libease -d src/libease
-	gcc -g -O0 $(EASE_CFLAGS) $(EASE_LDFLAGS) -fPIC src/libease/*.c src/ease/*.c -o ease
+	gcc -O0 $(EASE_CFLAGS) $(EASE_LDFLAGS) -fPIC src/libease/*.c src/ease/*.c -o ease
 	rm src/libease/*.c
 
+clang:
+	valac $(VALA_FLAGS) -C -H src/libease/libease.h src/libease/*.vala --basedir src/libease -d src/libease
+	clang $(EASE_CFLAGS) $(EASE_LDFLAGS) -Wno-unused-value -Wno-pointer-sign -Wno-switch-enum -o ease src/libease/*.c src/ease/main.c
+	rm src/libease/*.c
+	
 vapi:
 
 todo:
