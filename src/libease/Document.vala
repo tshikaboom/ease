@@ -26,12 +26,25 @@ namespace Ease
 		public int width { get; set; }
 		public int height { get; set; }
 		public string path { get; set; }
-		
+
+		/**
+		 * Default constructor, used for new documents.
+		 * 
+		 * Creates a new, empty document with no slides. Used for creating new
+		 * documents (which can then add a default slide).
+		 */
 		public Document()
 		{
 			slides = new Gee.ArrayList<Slide>();
 		}
-		
+
+		/**
+		 * Create a document from a file that already exists.
+		 * 
+		 * Used for loading previously saved files. 
+		 *
+		 * @param filename The path to the filename.
+		 */
 		public Document.from_file(string filename)
 		{
 			this();
@@ -68,7 +81,15 @@ namespace Ease
 			
 			delete doc;
 		}
-		
+
+		/**
+		 * Writes the document to a file (currently, a folder).
+		 * 
+		 * to_file() uses the Document's "path" property to determine where the
+		 * file should be written. Currently, if writing fails, a dialog box
+		 * is displayed with the exception.
+		 *
+		 */
 		public void to_file()
 		{
 			string output = "<?xml version=\"1.0\" ?>\n" +
@@ -99,21 +120,14 @@ namespace Ease
 				dialog.run();
 			}
 		}
-		
-		public void print_representation()
-		{
-			stdout.printf("Ease Document with %i width and %i height:\n", width, height);
-			stdout.printf("\t%i slides:\n", slides.size);
-			for (var i = 0; i < slides.size; i++)
-			{
-				stdout.printf("\t\tSlide with %s transition and %i elements:\n", slides.get(i).transition, slides.get(i).elements.size);
-				for (var j = 0; j < slides.get(i).elements.size; j++)
-				{
-					slides.get(i).elements.get(j).print_representation();
-				}
-			}
-		}
-		
+
+		/**
+		 * Begins the parsing of an XML document.
+		 * 
+		 * This will be replaced with a JSON file format. 
+		 *
+		 * @param node The initial XML node to begin with.
+		 */
 		private void parse_xml(Xml.Node* node)
 		{
 			for (Xml.Node* iter = node->children; iter != null; iter = iter ->next)
@@ -126,7 +140,14 @@ namespace Ease
 				}
 			}
 		}
-		
+
+		/**
+		 * Parses the slides from an XML document.
+		 * 
+		 * This will be replaced with a JSON file format.
+		 *
+		 * @param node The slides XML node.
+		 */
 		private void parse_slides(Xml.Node* node)
 		{
 			for (Xml.Node* i = node->children; i != null; i = i->next)

@@ -44,7 +44,16 @@ namespace Ease
 		// constants
 		private const int[] ZOOM_LEVELS = {10, 25, 33, 50, 66, 75, 100, 125, 150, 200, 250, 300, 400};
 		private const int ZOOM_COUNT = 13;
-		
+
+		/**
+		 * Creates a new EditorWindow.
+		 * 
+		 * An EditorWindow includes a {@link MainToolbar}, an
+		 * @{link EditorEmbed}, a {@link SlidePane}, a menu bar, and other
+		 * interface elements.
+		 *
+		 * @param node The initial XML node to begin with.
+		 */
 		public EditorWindow(string filename)
 		{
 			title = "Ease - " + filename;

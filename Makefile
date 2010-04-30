@@ -8,6 +8,8 @@ EASE_LDFLAGS = `pkg-config --libs gobject-2.0 gtk+-2.0 pango clutter-gst-0.10 \
 
 VALA_FLAGS = --vapidir=./vapi --pkg "glib-2.0"  --pkg "gtk+-2.0"  --pkg "clutter-1.0"  --pkg "gdk-2.0"  --pkg "libxml-2.0"  --pkg "gee-1.0"  --pkg "clutter-gtk-0.10"  --pkg "cogl-1.0" --pkg "gio-2.0" --pkg "clutter-gst-0.10"
 
+DOC_FLAGS = --vapidir=./vapi --pkg "glib-2.0"  --pkg "gtk+-2.0"  --pkg "clutter-1.0"  --pkg "gdk-2.0"  --pkg "libxml-2.0"  --pkg "gee-1.0"  --pkg "clutter-gtk-0.10"  --pkg "cogl-1.0" --pkg "gio-2.0" --pkg "clutter-gst-0.10"
+
 all: libease.so ease player
 
 libease.so: src/libease/*.vala
@@ -33,6 +35,10 @@ clang:
 	
 vapi:
 
+doc: src/libease/*.vala
+	rm -rf doc
+	valadoc $(DOC_FLAGS) --directory=./doc ./src/libease/*.vala
+
 todo:
 	grep -n "TODO" src/libease/*.vala src/ease/*.c src/ease-player/*.c | less
 
@@ -47,6 +53,7 @@ clean:
 	rm -f ease
 	rm -f ease-player
 	rm -f libease.so
+	rm -rf doc
 
 run: all
 	LD_LIBRARY_PATH=. ./ease

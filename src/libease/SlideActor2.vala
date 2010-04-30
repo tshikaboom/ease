@@ -19,7 +19,7 @@
 
 namespace Ease
 {
-	internal class SlideActor2 : Clutter.Group
+	public class SlideActor2 : Clutter.Group
 	{
 		// the represented slide
 		private Slide slide;
