@@ -55,7 +55,7 @@ namespace Ease
 			((Clutter.Stage)(slide_image.get_stage())).set_color(color);
 
 			// make the slide actor
-			actor = new SlideActor2.from_slide(s.parent, s, true);
+			actor = new SlideActor2.from_slide(s.parent, s, true, ActorContext.Sidebar);
 			actor.width = s.parent.width;
 			actor.height = s.parent.height;
 			((Clutter.Stage)(slide_image.get_stage())).add_actor(actor);

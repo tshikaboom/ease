@@ -28,4 +28,11 @@ namespace Ease
 		BottomRight,
 		Bottom
 	}
+
+	public enum ActorContext
+	{
+		Presentation,
+		Editor,
+		Sidebar
+	}
 }

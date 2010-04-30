@@ -33,7 +33,7 @@ namespace Ease
 		// the group of the slide's contents
 		public Clutter.Group contents;
 		
-		public SlideActor2.from_slide(Document document, Slide s, bool clip)
+		public SlideActor2.from_slide(Document document, Slide s, bool clip, ActorContext context)
 		{
 			slide = s;
 			
@@ -75,13 +75,13 @@ namespace Ease
 				switch (e.data.get_str("element_type"))
 				{
 					case "image":
-						contents.add_actor(new ImageActor(e));
+						contents.add_actor(new ImageActor(e, context));
 						break;
 					case "text":
-						contents.add_actor(new TextActor(e));
+						contents.add_actor(new TextActor(e, context));
 						break;
 					case "video":
-						contents.add_actor(new VideoActor(e));
+						contents.add_actor(new VideoActor(e, context));
 						break;
 				}
 			}

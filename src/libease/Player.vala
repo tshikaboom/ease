@@ -41,7 +41,7 @@ namespace Ease
 		// effect constants
 		public const float FLIP_DEPTH = -400;
 		public const float ZOOM_OUT_SCALE = 0.75f;
-		public const bool PRESENTATION_FULLSCREEN = true;
+		public const bool PRESENTATION_FULLSCREEN = false;
 	
 		public Player(Document doc)
 		{
@@ -535,7 +535,7 @@ namespace Ease
 		
 		private void create_current_slide(Slide slide)
 		{
-			current_slide = new SlideActor2.from_slide(document, slide, true);
+			current_slide = new SlideActor2.from_slide(document, slide, true, ActorContext.Presentation);
 		}
 		
 		private void prepare_slide_transition()

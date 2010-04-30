@@ -19,9 +19,9 @@ namespace Ease
 {
 	public class TextActor : Actor
 	{
-		public TextActor(Element e)
+		public TextActor(Element e, ActorContext c)
 		{
-			base(e);
+			base(e, c);
 			
 			contents = new Clutter.Text();
 

@@ -19,13 +19,25 @@ namespace Ease
 {
 	public class VideoActor : Actor
 	{
-		public VideoActor(Element e)
+		public VideoActor(Element e, ActorContext c)
 		{
-			base(e);
+			base(e, c);
 
 			var video = new ClutterGst.VideoTexture();
 			video.set_filename(e.parent.parent.path + e.data.get_str("filename"));
-			video.set_playing(true);
+
+			// play the video if it's in the presentation
+			if (c == ActorContext.Presentation)
+			{
+				video.set_playing(true);
+			}
+			else
+			{
+				// FIXME: toggle playback to get a frame
+				video.set_playing(true);
+				video.set_playing(false);
+			}
+			
 			contents = video;
 
 			add_actor(contents);

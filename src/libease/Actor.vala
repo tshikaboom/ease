@@ -25,9 +25,13 @@ namespace Ease
 		// the element this actor represents
 		public Element element;
 
-		public Actor(Element e)
+		// where this actor is (editor, player, sidebar)
+		public ActorContext context;
+
+		public Actor(Element e, ActorContext c)
 		{
 			element = e;
+			context = c;
 		}
 	}
 }

@@ -19,9 +19,9 @@ namespace Ease
 {
 	public class ImageActor : Actor
 	{
-		public ImageActor(Element e)
+		public ImageActor(Element e, ActorContext c)
 		{
-			base(e);
+			base(e, c);
 			
 			try
 			{

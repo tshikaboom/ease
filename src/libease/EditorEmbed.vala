@@ -85,7 +85,7 @@ namespace Ease
 				contents.remove_actor(slide_actor);
 			}
 			
-			slide_actor = new SlideActor2.from_slide(document, slide, false);
+			slide_actor = new SlideActor2.from_slide(document, slide, false, ActorContext.Editor);
 			
 			contents.add_actor(slide_actor);
 			reposition_group();
