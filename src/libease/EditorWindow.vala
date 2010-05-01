@@ -49,7 +49,7 @@ namespace Ease
 		 * Creates a new EditorWindow.
 		 * 
 		 * An EditorWindow includes a {@link MainToolbar}, an
-		 * @{link EditorEmbed}, a {@link SlidePane}, a menu bar, and other
+		 * {@link EditorEmbed}, a {@link SlidePane}, a menu bar, and other
 		 * interface elements.
 		 *
 		 * @param node The initial XML node to begin with.
@@ -230,6 +230,11 @@ namespace Ease
 			load_slide(0);
 		}
 		
+		/**
+		 * Load a slide into the main {@link EditorEmbed}.
+		 *
+		 * @param filename The index of the slide.
+		 */
 		public void load_slide(int index)
 		{
 			slide = document.slides.get(index);

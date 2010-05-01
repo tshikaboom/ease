@@ -20,12 +20,28 @@ namespace Ease
 	public class ElementMap
 	{
 		private Gee.Map<string, ElementMapValue> map;
-
+		
+		/**
+		 * Creates an ElementMap.
+		 * 
+		 * The ElementMap class stores data about an {@link Element}, allowing
+		 * for a single class to represent every type of {@link Element}, with
+		 * less type checking.
+		 *
+		 * @param filename The path to the filename.
+		 */
 		public ElementMap()
 		{
 			map = new Gee.HashMap<string, ElementMapValue>();
 		}
-
+		
+		/**
+		 * Output this ElementData as XML.
+		 * 
+		 * Returns an XML string of the represented {@link Element}'s
+		 * data. Called by the represented {@link Element} when that
+		 * object's to_xml() method is called.
+		 */
 		public string to_xml()
 		{
 			string xml = "", text = "";
@@ -46,6 +62,15 @@ namespace Ease
 			     : "\t\t\t<element " + xml + ">" + text + "</element>\n";
 		}
 
+		/**
+		 * Set a value.
+		 * 
+		 * ElementMap uses a key/value system to make exporting XML and adding
+		 * new types of Elements easy. 
+		 *
+		 * @param key The map key.
+		 * @param val A string to be stored as the key's value.
+		 */
 		public void set_str(string key, string val)
 		{
 			if (map.has_key(key))
@@ -60,6 +85,11 @@ namespace Ease
 			}
 		}
 
+		/**
+		 * Get a value, given a key.
+		 *
+		 * @param key The key to get a value for.
+		 */
 		public string get_str(string key)
 		{
 			return map.get(key).str_val;

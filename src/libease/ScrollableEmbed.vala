@@ -49,7 +49,16 @@ namespace Ease
 				return stage.height;
 			}
 		}
-	
+		
+		/**
+		 * Instantiate a ScollableEmbed with an optional vertical sidebar.
+		 * 
+		 * A ScollableEmbed contains a {@link GtkClutter.Viewport} within a
+		 * {@link GtkClutter.Embed}.
+		 *
+		 * @param horizontal If true, the ScrollableEmbed has a horizontal
+		 * scrollbar in addition to the vertical scrollbar.
+		 */
 		public ScrollableEmbed(bool horizontal)
 		{
 			has_horizontal = horizontal;

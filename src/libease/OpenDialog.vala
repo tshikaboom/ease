@@ -17,15 +17,23 @@
 
 namespace Ease
 {
-	public class OpenDialog
+	public class OpenDialog : GLib.Object
 	{
 		private static OpenDialog instance;
-
+		
+		/**
+		 * Initializes OpenDialog. Called when Ease starts.
+		 */
 		public static void init()
 		{
 			instance = new OpenDialog();
 		}
-	
+		
+		/**
+		 * Displays an "Open" dialog.
+		 * 
+		 * Used for loading previously saved files. This is a static method.
+		 */
 		public static void run()
 		{
 			instance.instance_run();

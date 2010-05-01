@@ -34,7 +34,7 @@ namespace Ease
 		 * Instantiates the Actor base class. In general, this should only be
 		 * called by subclasses.
 		 *
-		 * @param e The element this Actor represents.
+		 * @param e The {@link Element} this Actor represents.
 		 * @param c The context of this Actor - sidebar, presentation, editor.
 		 */
 		public Actor(Element e, ActorContext c)

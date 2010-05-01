@@ -19,6 +19,16 @@ namespace Ease
 {
 	public class ImageActor : Actor
 	{
+		/**
+		 * Instantiates a new ImageActor from an Element.
+		 * 
+		 * ImageActor can represent either a bitmap or vector image, as it is
+		 * backed by {@link Clutter.Texture}. This should be automatically
+		 * handled by the represented {@link Element} and Clutter.
+		 *
+		 * @param e The represented element.
+		 * @param c The context of this Actor (Presentation, Sidebar, Editor)
+		 */
 		public ImageActor(Element e, ActorContext c)
 		{
 			base(e, c);

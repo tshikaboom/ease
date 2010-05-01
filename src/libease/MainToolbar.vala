@@ -28,7 +28,14 @@ namespace Ease
 		public Gtk.ToolButton slides;
 		public Gtk.ToolButton fonts;
 		public Gtk.ToolButton colors;
-	
+		
+		/**
+		 * Builds the main toolbar of an {@link EditorWindow}.
+		 * 
+		 * All fields are public, allowing the {@link EditorWindow} to attach
+		 * signal handlers.
+		 * 
+		 */
 		public MainToolbar()
 		{
 			// tool buttons

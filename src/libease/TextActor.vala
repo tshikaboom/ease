@@ -19,6 +19,14 @@ namespace Ease
 {
 	public class TextActor : Actor
 	{
+		/**
+		 * Instantiates a new TextActor from an Element.
+		 * 
+		 * TextActor uses {@link Clutter.Text} for rendering.
+		 *
+		 * @param e The represented element.
+		 * @param c The context of this Actor (Presentation, Sidebar, Editor)
+		 */
 		public TextActor(Element e, ActorContext c)
 		{
 			base(e, c);
@@ -32,7 +40,7 @@ namespace Ease
 			((Clutter.Text)contents).color = e.color;
 			((Clutter.Text)contents).set_markup(e.data.get_str("text"));
 			
-			// create the font name
+			// create the font description
 			var desc = new Pango.FontDescription();
 			desc.set_family(e.data.get_str("font_name"));
 			desc.set_weight(e.font_weight);
