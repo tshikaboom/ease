@@ -23,6 +23,15 @@ namespace Ease
 		private EditorWindow owner;
 		public Gtk.VBox slides_box;
 		
+		/**
+		 * Creates a SlideButtonPanel
+		 * 
+		 * A SlideButtonPanel forms the left edge of an {@link EditorWindow}.
+		 *
+		 * @param d The Document that the {@link EditorWindow} displays.
+		 * @param win The {@link EditorWindow} that this SlideButtonPanel is
+		 * part of.
+		 */
 		public SlideButtonPanel(Document d, EditorWindow win)
 		{			
 			document = d;

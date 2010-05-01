@@ -19,6 +19,16 @@ namespace Ease
 {
 	public class VideoActor : Actor
 	{
+		/**
+		 * Instantiates a new VideoActor from an Element.
+		 * 
+		 * The VideoActor's context is particularly important due to playback
+		 * - playing back automatically in the editor would, of course, not be
+		 * desired.
+		 *
+		 * @param e The represented element.
+		 * @param c The context of this Actor (Presentation, Sidebar, Editor)
+		 */
 		public VideoActor(Element e, ActorContext c)
 		{
 			base(e, c);

@@ -28,7 +28,18 @@ namespace Ease
 		private Document document;
 		public float zoom;
 		public bool zoom_fit;
-		
+
+		/**
+		 * Create an EditorEmbed representing a {@link Document}.
+		 * 
+		 * EditorEmbed is the outermost part of the editing canvas in an Ease
+		 * window. Each EditorEmbed is linked to a {@link Document}, and
+		 * changes in the editor are immediately reflected in the Document, but
+		 * are not saved to disk until the user clicks on a save button or
+		 * menu item. 
+		 *
+		 * @param d The {@link Document} this EditorEmbed represents.
+		 */
 		public EditorEmbed(Document d)
 		{
 			base(true);
@@ -65,13 +76,37 @@ namespace Ease
 				view_background.height = height;
 			});
 		}
-		
+
+		/**
+		 * Sets the zoom level of the slide displayed by this EditorEmbed.
+		 * 
+		 * When this function is called, only the EditorEmbed's zoom level is
+		 * set. Therefore, any other relevant parts of the interface should
+		 * also be updated by the caller. 
+		 *
+		 * @param z The zoom level, on a 0-100 scale (higher values, are, of
+		 * course, possible, but values below 10 or so are unlikely to produce
+		 * desirable results.
+		 */
 		public void set_zoom(float z)
 		{
 			zoom = z / 100;
 			reposition_group();
 		}
-		
+
+		/**
+		 * Sets the current {@link Slide} that the EditorEmbed is displaying.
+		 * 
+		 * The current slide is displayed in the center of the EditorEmbed.
+		 * Components of it should also be editable via interface elements such
+		 * as the Inspector.
+		 *
+		 * This function will work with a {@link Slide} that is not in the
+		 * displayed {@link Document}. For obvious reasons, this is not a 
+		 * particularly good idea.
+		 *
+		 * @param node The initial XML node to begin with.
+		 */
 		public void set_slide(Slide slide)
 		{
 			if (slide == null)
@@ -90,7 +125,13 @@ namespace Ease
 			contents.add_actor(slide_actor);
 			reposition_group();
 		}
-		
+
+		/**
+		 * Repositions the EditorEmbed's {@link SlideActor2}.
+		 * 
+		 * Call this function after changing the zoom level, document size, or
+		 * any other properties that could place the slide off center. 
+		 */
 		public void reposition_group()
 		{
 			var w = zoom * document.width;

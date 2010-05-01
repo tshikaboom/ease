@@ -23,20 +23,24 @@ namespace Ease
 
 		public ElementMap data = new ElementMap();
 		
+		/**
+		 * Create a new element.
+		 *
+		 * @param owner The slide that this Element belongs to.
+		 */
 		public Element(Slide owner)
 		{
 			parent = owner;
 		}
 		
-		public virtual void print_representation()
-		{
-			stdout.printf("\t\t\t\tease_name: %s\n", data.get_str("ease_name"));
-			stdout.printf("\t\t\t\t        x: %f\n", x);
-			stdout.printf("\t\t\t\t        y: %f\n", y);
-			stdout.printf("\t\t\t\t    width: %f\n", width);
-			stdout.printf("\t\t\t\t   height: %f\n", height);
-		}
-
+		/**
+		 * Create a document from a file that already exists.
+		 * 
+		 * Currently, this simply invokes to_xml() on the Element's
+		 * {@link ElementMap}. Although the {@link ElementMap} is a public
+		 * field, this could change in the future, so always use to_xml()
+		 * on the Element itself.
+		 */
 		public string to_xml()
 		{
 			return data.to_xml();

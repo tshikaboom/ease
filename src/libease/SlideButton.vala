@@ -41,6 +41,19 @@ namespace Ease
 
 		bool dont_loop = false;
 		
+		/**
+		 * Creates a new SlideButton.
+		 * 
+		 * The SlideButtons are displayed in a column at the left of an
+		 * {@link EditorWindow}.
+		 *
+		 * @param id The ID number of this SlideButton, from 1 up.
+		 * @param s  The {@link Slide} that this SlideButton displays.
+		 * @param win The {@link EditorWindow} that this SlideButton is
+		 * displayed in.
+		 * @param pan The {@link SlideButtonPanel} that this SlideButton is
+		 * displayed in.
+		 */
 		public SlideButton(int id, Slide s, EditorWindow win, SlideButtonPanel pan)
 		{
 			slide = s;

@@ -23,6 +23,11 @@ namespace Ease
 		
 		public static int size { get { return Transitions.size; } }
 		
+		/**
+		 * Initialize the Transitions class.
+		 *
+		 * Called when Ease starts.
+		 */
 		public static void init()
 		{
 			Transitions = new Gee.ArrayList<Transition>();
@@ -43,11 +48,21 @@ namespace Ease
 			add_transition("Zoom Contents", { "In", "Out" }, 2);
 		}
 		
+		/**
+		 * Returns the string name of a transition.
+		 *
+		 * @param i The transition index.
+		 */
 		public static string get_name(int i)
 		{
 			return Transitions.get(i).name;
 		}
 		
+		/**
+		 * Given a name, returns the ID of a transition.
+		 * 
+		 * @param name The name of the transition.
+		 */
 		public static int get_transition_id(string name)
 		{
 			for (var i = 0; i < Transitions.size; i++)
@@ -60,6 +75,12 @@ namespace Ease
 			return 0;
 		}
 		
+		/**
+		 * Returns the ID of a transition, given the names of both.
+		 *
+		 * @param transition The name of the transition.
+		 * @param variant The name of the variant.
+		 */
 		public static int get_variant_id(string transition, string variant)
 		{
 			var id = get_transition_id(transition);
@@ -73,11 +94,21 @@ namespace Ease
 			return 0;
 		}
 		
+		/**
+		 * Returns an array of variants, given a transition ID.
+		 *
+		 * @param i A transition index.
+		 */
 		public static string[] get_variants(int i)
 		{
 			return Transitions.get(i).variants;
 		}
 		
+		/**
+		 * Returns the size of the variant array, give a transition ID.
+		 *
+		 * @param i A transition index.
+		 */
 		public static int get_variant_count(int i)
 		{
 			return Transitions.get(i).count;

@@ -26,11 +26,24 @@ namespace Ease
 		public string background_image { get; set; }
 		public Document parent { get; set; }
 		
+		/**
+		 * Create a new Slide.
+		 * 
+		 * Used for loading previously saved files. 
+		 *
+		 * @param owner The {@link Document} this slide is a part of.
+		 */
 		public Slide(Document owner)
 		{
 			parent = owner;
 		}
 		
+		/**
+		 * Outputs this Slide to XML.
+		 * 
+		 * This returns a <slide> tag containing information soecific to the
+		 * Slide and a tag for each {@link Element}.
+		 */
 		public string to_xml()
 		{
 			string output = "\t\t<slide " +
