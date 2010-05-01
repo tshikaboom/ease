@@ -19,5 +19,5 @@
 
 int main(int argc, char** argv)
 {
-	main_main_player(argc, argv);
+	ease_main_main_player(argc, argv);
 }

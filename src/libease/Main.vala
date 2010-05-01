@@ -15,165 +15,166 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-using Ease;
-
-public static class Main : GLib.Object
+namespace Ease
 {
-	private static Gee.ArrayList<EditorWindow> windows;
-	private static WelcomeWindow welcome;
-	
-	/**
-	 * Start Ease to edit files.
-	 * 
-	 * If the user runs Ease with a filename as a parameter, this function
-	 * will open an {@link EditorWindow}. Otherwise, a {@link WelcomeWindow}
-	 * will be opened.
-	 *
-	 * @param argc Standard argc, passed through from C.
-	 * @param argv Standard argv, passed through from C.
-	 */
-	public static int main_editor(int argc, char** argv)
+	public static class Main : GLib.Object
 	{
-		string[] args = new string[argc];
-		for (var i = 0; i < argc; i++)
-		{
-			args[i] = (string)argv[i];
-		}
-		
-		GtkClutter.init(ref args);
-		Gst.init(ref args);
-		ClutterGst.init(ref args);
+		private static Gee.ArrayList<EditorWindow> windows;
+		private static WelcomeWindow welcome;
 	
-		// initalize static classes
-		Transitions.init();
-		OpenDialog.init();
-		windows = new Gee.ArrayList<EditorWindow>();
-		
-		if (args.length == 2)
+		/**
+		 * Start Ease to edit files.
+		 * 
+		 * If the user runs Ease with a filename as a parameter, this function
+		 * will open an {@link EditorWindow}. Otherwise, a {@link WelcomeWindow}
+		 * will be opened.
+		 *
+		 * @param argc Standard argc, passed through from C.
+		 * @param argv Standard argv, passed through from C.
+		 */
+		public static int main_editor(int argc, char** argv)
 		{
-			test_editor(args[1]);
-		}
-		else
-		{
-			show_welcome();
-		}
+			string[] args = new string[argc];
+			for (var i = 0; i < argc; i++)
+			{
+				args[i] = (string)argv[i];
+			}
 		
-		Gtk.main();
-		
-		return 0;
-	}
+			GtkClutter.init(ref args);
+			Gst.init(ref args);
+			ClutterGst.init(ref args);
 	
-	/**
-	 * Starts Ease to play back a file.
-	 * 
-	 * This function is primarily used by the ease-player executable. It runs
-	 * the slideshow, then exits. If no filename is given, it immediately
-	 * returns.
-	 *
-	 * @param argc Standard argc, passed through from C.
-	 * @param argv Standard argv, passed through from C.
-	 */
-	public static int main_player(int argc, char** argv)
-	{
-		string[] args = new string[argc];
-		for (var i = 0; i < argc; i++)
-		{
-			args[i] = (string)argv[i];
-		}
+			// initalize static classes
+			Transitions.init();
+			OpenDialog.init();
+			windows = new Gee.ArrayList<EditorWindow>();
 		
-		if (args.length < 2)
-		{
+			if (args.length == 2)
+			{
+				test_editor(args[1]);
+			}
+			else
+			{
+				show_welcome();
+			}
+		
+			Gtk.main();
+		
 			return 0;
 		}
-		
-		GtkClutter.init(ref args);
-		Gst.init(ref args);
-		ClutterGst.init(ref args);
-		
-		var doc = new Document.from_file(args[1]);
-		var player = new Player(doc);
-		player.stage.hide.connect(() => {
-			Gtk.main_quit();
-		});
-		
-		Gtk.main();
-		
-		return 0;
-	}
 	
-	public static void test_editor(string path)
-	{
-		add_window(new EditorWindow(path));
-	}
-	
-	/**
-	 * Removes an {@link EditorWindow} from Ease's internal store of windows.
-	 * 
-	 * Ease tracks the current windows in order to properly quit when there
-	 * are no {@link EditorWindow}s on screen and the {@link WelcomeWindow} is
-	 * hidden. This function will quit Ease if the removed window is the final
-	 * window and the {@link WelcomeWindow} is hidden.
-	 *
-	 * @param win The {@link EditorWindow}.
-	 */
-	public static void remove_window(EditorWindow win)
-	{
-		windows.remove(win);
-		if (windows.size == 0 && welcome == null)
+		/**
+		 * Starts Ease to play back a file.
+		 * 
+		 * This function is primarily used by the ease-player executable. It runs
+		 * the slideshow, then exits. If no filename is given, it immediately
+		 * returns.
+		 *
+		 * @param argc Standard argc, passed through from C.
+		 * @param argv Standard argv, passed through from C.
+		 */
+		public static int main_player(int argc, char** argv)
 		{
-			Gtk.main_quit();
+			string[] args = new string[argc];
+			for (var i = 0; i < argc; i++)
+			{
+				args[i] = (string)argv[i];
+			}
+		
+			if (args.length < 2)
+			{
+				return 0;
+			}
+		
+			GtkClutter.init(ref args);
+			Gst.init(ref args);
+			ClutterGst.init(ref args);
+		
+			var doc = new Document.from_file(args[1]);
+			var player = new Player(doc);
+			player.stage.hide.connect(() => {
+				Gtk.main_quit();
+			});
+		
+			Gtk.main();
+		
+			return 0;
 		}
-	}
 	
-	/**
-	 * Adds an {@link EditorWindow} to Ease's internal store of windows.
-	 * 
-	 * Ease tracks the current windows in order to properly quit when there
-	 * are no {@link EditorWindow}s on screen and the {@link WelcomeWindow} is
-	 * hidden. 
-	 *
-	 * @param win The {@link EditorWindow}.
-	 */
-	public static void add_window(EditorWindow win)
-	{
-		windows.add(win);
-	}
-	
-	/**
-	 * Shows the {@link WelcomeWindow}
-	 * 
-	 * Shows the {@link WelcomeWindow}, or raises it to the top if it is not
-	 * already displayed.
-	 *
-	 */
-	public static void show_welcome()
-	{
-		if (welcome == null)
+		public static void test_editor(string path)
 		{
-			welcome = new WelcomeWindow();
-			welcome.hide.connect(() => remove_welcome());
+			add_window(new EditorWindow(path));
 		}
-		else
-		{
-			welcome.present();
-		}
-	}
 	
-	/**
-	 * Hides the {@link WelcomeWindow}.
-	 * 
-	 * It's important to call this function when the {@link WelcomeWindow} is
-	 * hidden, so that Ease can properly exit when all windows are closed.
-	 * When the {@link WelcomeWindow} is shown via show_welcome, this function
-	 * is automatically added in that window's hide signal handler.
-	 */
-	public static void remove_welcome()
-	{
-		welcome.hide_all();
-		welcome = null;
-		if (windows.size == 0)
+		/**
+		 * Removes an {@link EditorWindow} from Ease's internal store of windows.
+		 * 
+		 * Ease tracks the current windows in order to properly quit when there
+		 * are no {@link EditorWindow}s on screen and the {@link WelcomeWindow} is
+		 * hidden. This function will quit Ease if the removed window is the final
+		 * window and the {@link WelcomeWindow} is hidden.
+		 *
+		 * @param win The {@link EditorWindow}.
+		 */
+		public static void remove_window(EditorWindow win)
 		{
-			Gtk.main_quit();
+			windows.remove(win);
+			if (windows.size == 0 && welcome == null)
+			{
+				Gtk.main_quit();
+			}
+		}
+	
+		/**
+		 * Adds an {@link EditorWindow} to Ease's internal store of windows.
+		 * 
+		 * Ease tracks the current windows in order to properly quit when there
+		 * are no {@link EditorWindow}s on screen and the {@link WelcomeWindow} is
+		 * hidden. 
+		 *
+		 * @param win The {@link EditorWindow}.
+		 */
+		public static void add_window(EditorWindow win)
+		{
+			windows.add(win);
+		}
+	
+		/**
+		 * Shows the {@link WelcomeWindow}
+		 * 
+		 * Shows the {@link WelcomeWindow}, or raises it to the top if it is not
+		 * already displayed.
+		 *
+		 */
+		public static void show_welcome()
+		{
+			if (welcome == null)
+			{
+				welcome = new WelcomeWindow();
+				welcome.hide.connect(() => remove_welcome());
+			}
+			else
+			{
+				welcome.present();
+			}
+		}
+	
+		/**
+		 * Hides the {@link WelcomeWindow}.
+		 * 
+		 * It's important to call this function when the {@link WelcomeWindow} is
+		 * hidden, so that Ease can properly exit when all windows are closed.
+		 * When the {@link WelcomeWindow} is shown via show_welcome, this function
+		 * is automatically added in that window's hide signal handler.
+		 */
+		public static void remove_welcome()
+		{
+			welcome.hide_all();
+			welcome = null;
+			if (windows.size == 0)
+			{
+				Gtk.main_quit();
+			}
 		}
 	}
 }

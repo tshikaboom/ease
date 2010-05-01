@@ -20,5 +20,5 @@
 
 int main(int argc, char** argv)
 {
-	main_main_editor(argc, argv);
+	ease_main_main_editor(argc, argv);
 }
