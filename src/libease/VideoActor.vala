@@ -22,8 +22,8 @@ namespace Ease
 		/**
 		 * Instantiates a new VideoActor from an Element.
 		 * 
-		 * The VideoActor's context is particularly important due to playback
-		 * - playing back automatically in the editor would, of course, not be
+		 * The VideoActor's context is particularly important due to playback.
+		 * Playing back automatically in the editor would, of course, not be
 		 * desired.
 		 *
 		 * @param e The represented element.
