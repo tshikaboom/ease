@@ -25,7 +25,7 @@ namespace ClutterGst {
 	public class VideoTexture : Clutter.Texture, Clutter.Media {
 		[CCode (type = "ClutterActor*")]
 		public VideoTexture ();
-		public unowned Gst.Element get_playbin ();
+		public unowned Gst.Element get_pipeline ();
 	}
 	public static Clutter.InitError init ([CCode (array_length_pos = 0.9)] ref unowned string[] argv);
 	public static Clutter.InitError init_with_args ([CCode (array_length_pos = 0.9)] ref unowned string[] argv, string parameter_string, [CCode (array_length = false)] GLib.OptionEntry[] entries, string translation_domain) throws GLib.OptionError;
