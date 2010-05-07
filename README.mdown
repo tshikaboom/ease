@@ -4,19 +4,21 @@ Ease: _A presentation application for the GNOME Desktop_
 Building
 ----------------------
 To build Ease, install the following tools:
-* valac
-* gcc (or clang)
-* make
+
+- valac
+- gcc (or clang)
+- make
 
 As well as these dependencies:
-* gtk+2.0
-* pango
-* clutter-gst-1.0
-* clutter-1.0
-* clutter-gtk-0.10
-* gee-1.0
-* libxml-2.0
-* cogl-1.0
-* gio-2.0
+
+- gtk+2.0
+- pango
+- clutter-gst-1.0
+- clutter-1.0
+- clutter-gtk-0.10
+- gee-1.0
+- libxml-2.0
+- cogl-1.0
+- gio-2.0
 
 Then, type `make all` or `make clang`.
