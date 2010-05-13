@@ -24,6 +24,8 @@ namespace Ease
 	 * exporting is done with the {@link Document}, {@link Slide}, and
 	 * {@link Element} classes. The exported {@link Document} reports back to
 	 * HTMLExported when the export is complete, allowing the dialog to close.
+	 *
+	 * HTMLExporter also handles copying media files to the output directory.
 	 */
 	public class HTMLExporter : GLib.Object
 	{
@@ -80,6 +82,41 @@ namespace Ease
 		{
 			window.hide_all();
 			window.destroy();
+		}
+		
+		public void copy_file(string end_path, string base_path)
+		{
+			var source = File.new_for_path(base_path + "/" + end_path);
+			var destination = File.new_for_path(path + " " + end_path);
+
+			try
+			{
+				// if the destination directory doesn't exist, make it
+				var parent = destination.get_parent();
+				if (!parent.query_exists(null))
+				{
+					parent.make_directory_with_parents(null);
+				}
+				
+				// copy the image
+				source.copy(destination,
+					        FileCopyFlags.OVERWRITE,
+					        null,
+					        null);
+			}
+			catch (GLib.Error e)
+			{
+				var dialog = new Gtk.MessageDialog(null,
+					                               Gtk.DialogFlags.NO_SEPARATOR,
+					                               Gtk.MessageType.ERROR,
+					                               Gtk.ButtonsType.CLOSE,
+					                               "Error copying: %s",
+					                               e. message);
+				dialog.title = "Error Copying File";
+				dialog.border_width = 5;
+				dialog.run();
+				dialog.destroy();
+			}
 		}
 	}
 }
