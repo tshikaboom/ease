@@ -39,6 +39,15 @@ namespace Ease
 			progress = new Gtk.ProgressBar();
 		}
 		
+		/**
+		 * Asks the user for an output path
+		 *
+		 * Shows a file chooser dialog. If the user does not cancel the export,
+		 * creates a the progress dialog. Returns false if the user cancels,
+		 * otherwise returns true.
+		 * 
+		 * @param win The window that the dialog should be modal for
+		 */
 		public bool request_path(Gtk.Window win)
 		{
 			var dialog = new Gtk.FileChooserDialog("Export to HTML",
@@ -73,17 +82,34 @@ namespace Ease
 			}
 		}
 		
+		/**
+		 * Adds to the progress dialog's progress bar, which ranges from 0 to 1
+		 *
+		 * @param amount The amount of progress to add
+		 */
 		public void add_progress(double amount)
 		{
 			progress.set_fraction(progress.get_fraction() + amount);
 		}
 		
+		/**
+		 * Finishes exporting and hides the progress dialog
+		 */
 		public void finish()
 		{
 			window.hide_all();
 			window.destroy();
 		}
 		
+		/**
+		 * Copies a file to the output path
+		 *
+		 * To show images or videos in an HTML presentation, they must be
+		 * copied to a path relative to the HTML document.
+		 *
+		 * @param end_path The file's path relative to the Ease file
+		 * @param base_path The output directory and filename
+		 */
 		public void copy_file(string end_path, string base_path)
 		{
 			var source = File.new_for_path(base_path + "/" + end_path);
