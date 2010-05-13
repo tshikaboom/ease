@@ -151,6 +151,7 @@ namespace Ease
 						current_slide.opacity = 0;
 						current_slide.animate(Clutter.AnimationMode.LINEAR, length, "opacity", 255);
 						break;
+						
 					case "Slide":
 						prepare_slide_transition();
 						switch (prev_slide.variant)
@@ -177,6 +178,7 @@ namespace Ease
 								break;
 						}
 						break;
+						
 					case "Drop":
 						prepare_slide_transition();
 						current_slide.y = -stage.height;
@@ -206,6 +208,7 @@ namespace Ease
 							current_slide.set_rotation(Clutter.RotateAxis.Z_AXIS, angle * (1 - animation_alpha.get_alpha()), xpos, ypos, 0);
 						});
 						break;
+						
 					case "Flip":
 						prepare_slide_transition();
 						current_slide.opacity = 0;				
@@ -267,6 +270,7 @@ namespace Ease
 						});
 						time1.start();
 						break;
+						
 					case "Revolving Door":
 						prepare_slide_transition();
 						old_slide.depth = 1; //ugly, but works
@@ -303,6 +307,7 @@ namespace Ease
 								break;
 						}
 						break;
+						
 					case "Fall":
 						prepare_slide_transition();
 						old_slide.depth = 1; //ugly, but works
@@ -311,6 +316,7 @@ namespace Ease
 							old_slide.set_rotation(Clutter.RotateAxis.X_AXIS, -90 * animation_alpha.get_alpha(), 0, stage.height, 0);
 						});
 						break;
+						
 					case "Spin Contents":
 						prepare_stack_transition(false);
 						current_slide.contents.opacity = 0;	
@@ -333,6 +339,7 @@ namespace Ease
 						});
 						time1.start();
 						break;
+						
 					case "Swing Contents":
 						prepare_stack_transition(false);
 						current_slide.contents.opacity = 0;	
@@ -354,6 +361,7 @@ namespace Ease
 							}
 						});
 						break;
+						
 					case "Zoom":
 						prepare_slide_transition();
 						switch (prev_slide.variant)
@@ -381,6 +389,7 @@ namespace Ease
 						//current_slide.animate(Clutter.AnimationMode.EASE_OUT_SINE, length, "scale_x", 1);
 						//current_slide.animate(Clutter.AnimationMode.EASE_OUT_SINE, length, "scale_y", 1);
 						break;
+						
 					case "Slide Contents":
 						prepare_stack_transition(true);
 						old_slide.background.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length, "opacity", 0);
@@ -408,6 +417,7 @@ namespace Ease
 								break;
 						}
 						break;
+						
 					case "Spring Contents":
 						prepare_stack_transition(true);
 						old_slide.background.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length, "opacity", 0);
@@ -425,6 +435,7 @@ namespace Ease
 								break;
 						}
 						break;
+						
 					case "Zoom Contents":
 						prepare_stack_transition(prev_slide.variant == "Out");
 						animation_alpha = new Clutter.Alpha.full(animation_time, Clutter.AnimationMode.EASE_IN_OUT_SINE);
@@ -456,6 +467,7 @@ namespace Ease
 								break;
 						}
 						break;
+						
 					case "Panel":
 						prepare_slide_transition();
 						switch (prev_slide.variant)

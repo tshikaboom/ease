@@ -33,7 +33,8 @@ namespace Ease
 		// the group of the slide's contents
 		public Clutter.Group contents;
 		
-		public SlideActor2.from_slide(Document document, Slide s, bool clip, ActorContext context)
+		public SlideActor2.from_slide(Document document, Slide s, bool clip,
+		                              ActorContext context)
 		{
 			slide = s;
 			
