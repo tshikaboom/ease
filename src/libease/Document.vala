@@ -218,5 +218,61 @@ namespace Ease
 				slides.add(slide);
 			}
 		}
+		
+		public void export_to_html(Gtk.Window window)
+		{
+			// make an HTMLExporter
+			var exporter = new HTMLExporter();
+			
+			if (!exporter.request_path(window))
+			{
+				return;
+			}
+		
+			// intialize the html string
+			var html = "<!DOCTYPE html>\n<html>\n";
+			
+			// make the header
+			html += "<head>\n<title>Presentation</title>\n";
+			html += "<style>\n.slide {\nwidth:" + width.to_string() +
+			        "px;\nheight:" + height.to_string() +
+			        "px; position: relative;margin: 20px auto 20px auto}\n" + 
+			        "html { padding: 0px; margin: 0px; background-color:" +
+			        "black;}\n</style>\n</head>\n";
+			
+			// make the body
+			html += "<body>\n";
+			
+			// add each slide
+			for (var i = 0; i < slides.size; i++)
+			{
+				slides.get(i).to_html(ref html, exporter, 1 / slides.size, i);
+			}
+			
+			// finish the document
+			html += "</body>\n</html>\n";
+			
+			// write the document to file
+			try
+			{
+				var file = File.new_for_path(exporter.path);
+				var stream = file.replace(null, true, FileCreateFlags.NONE, null);
+				var data_stream = new DataOutputStream(stream);
+				data_stream.put_string(html, null);
+			}
+			catch (GLib.Error e)
+			{
+				var dialog = new Gtk.MessageDialog(null,
+				                                   Gtk.DialogFlags.NO_SEPARATOR,
+				                                   Gtk.MessageType.ERROR,
+				                                   Gtk.ButtonsType.CLOSE,
+				                                   "Error exporting: %s",
+				                                   e. message);
+				dialog.title = "Error Exporting";
+				dialog.border_width = 5;
+				dialog.run();
+			}
+		}
 	}
 }
+

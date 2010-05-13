@@ -45,6 +45,56 @@ namespace Ease
 		{
 			return data.to_xml();
 		}
+		
+		/**
+		 * Creates HTML markup for this Element.
+		 * 
+		 * The <div> tag for this Element is appended to the "HTML" parameter.
+		 * This should be inside a <div> tag for the Element's {@link Slide}.
+		 *
+		 * @param html The HTML string in its current state.
+		 * @param exporter The {@link HTMLExporter}, for the path and progress.
+		 * @param amount The amount progress should increase by when done.
+		 */
+		public void to_html(ref string html,
+		                    HTMLExporter exporter,
+		                    double amount)
+		{
+			switch (data.get_str("element_type"))
+			{
+				case "image":
+					break;
+					
+				case "text":
+					// open the tag
+					html += "<div class=\"text element\" ";
+					
+					// set the size and position of the element
+					html += "style=\"";
+					html += "left:" + data.get_str("x") + "px;";
+					html += " top:" + data.get_str("y") + "px;";
+					html += " width:" + data.get_str("width") + "px;";
+					html += " height:" + data.get_str("height") + "px;";
+					html += " position: absolute;";
+					
+					// set the text-specific properties of the element
+					html += " color:" + data.get_str("color").substring(0, 7) +
+					        ";";
+					html += " font-family:" + data.get_str("font_name") + ";";
+					html += " font-size:" + data.get_str("font_size") + "pt;\"";
+					
+					// write the actual content
+					html += ">" + data.get_str("text") + "</div>";
+					
+					break;
+					
+				case "video":
+					break;
+			}
+			
+			// advance the progress bar
+			exporter.add_progress(amount);
+		}
 
 		// convenience properties
 
@@ -65,6 +115,9 @@ namespace Ease
 			}
 		}
 		
+		/**
+		 * The X position of this Element.
+		 */
 		public float x
 		{
 			get

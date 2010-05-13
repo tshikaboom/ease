@@ -62,5 +62,49 @@ namespace Ease
 			output += "</slide>\n";
 			return output;
 		}
+		
+		/**
+		 * Creates HTML markup for this Slide.
+		 * 
+		 * The <div> tag for this Slide is appended to the "HTML" parameter.
+		 *
+		 * @param html The HTML string in its current state.
+		 * @param exporter The {@link HTMLExporter}, for the path and progress.
+		 * @param amount The amount progress should increase by when done.
+		 * @param index The index of this slide.
+		 */
+		public void to_html(ref string html,
+		                    HTMLExporter exporter,
+		                    double amount,
+		                    int index)
+		{
+			// create the slide opening tag
+			html += "<div class=\"slide\" id=\"slide" +
+			        index.to_string() + "\" ";
+			
+			if (background_image == null)
+			{
+				// give the slide a background color
+				html += "style=\"background-color: " +
+				        background_color.to_string().substring(0, 7) + "\">";
+			}
+			else
+			{
+				// close the tag
+				html += ">";
+				
+				// add the background image
+				html += "<img src=\"" + background_image +
+				        "\" alt=\"Background\" />";
+			}
+			
+			// add tags for each Element
+			foreach (var e in elements)
+			{
+				e.to_html(ref html, exporter, amount / elements.size);
+			}
+			
+			html += "</div>\n";
+		}
 	}
 }

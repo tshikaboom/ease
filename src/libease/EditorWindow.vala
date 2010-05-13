@@ -152,6 +152,11 @@ namespace Ease
 				player = new Player(document);
 			});
 			
+			// TODO: export HTML in a proper place
+			main_toolbar.fonts.clicked.connect(() => {
+				document.export_to_html(this);
+			});
+			
 			// inspector
 			
 			// transition pane
