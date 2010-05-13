@@ -77,6 +77,25 @@ namespace Ease
 			switch (data.get_str("element_type"))
 			{
 				case "image":
+					// open the img tag
+					html += "<img class=\"image element\" ";
+					
+					// set the image's style
+					html += "style=\"";
+					html += "left:" + data.get_str("x") + "px;";
+					html += " top:" + data.get_str("y") + "px;";
+					html += " width:" + data.get_str("width") + "px;";
+					html += " height:" + data.get_str("height") + "px;";
+					html += " position: absolute;\" ";
+					
+					// add the image
+					html += "src=\"" + exporter.path + " " +
+					        data.get_str("filename") + "\" alt=\"Image\" />";
+					
+					// copy the image file
+					exporter.copy_file(data.get_str("filename"),
+					                   parent.parent.path);
+					
 					break;
 					
 				case "text":

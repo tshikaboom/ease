@@ -101,8 +101,13 @@ namespace Ease
 				html += ">";
 				
 				// add the background image
-				html += "<img src=\"" + background_image +
-				        "\" alt=\"Background\" />";
+				html += "<img src=\"" + exporter.path + " " + background_image +
+				        "\" alt=\"Background\" width=\"" +
+				        parent.width.to_string() + "\" height=\"" +
+				        parent.height.to_string() + "\"/>";
+
+				// copy the image file
+				exporter.copy_file(background_image, parent.path);
 			}
 			
 			// add tags for each Element
