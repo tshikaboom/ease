@@ -17,6 +17,13 @@
 
 namespace Ease
 {
+	/**
+	 * The internal representation of a slide
+	 *
+	 * A Slide is owned by a {@link Document} and has {@link Element}
+	 * children. The currently selected Slide is often acted upon by an
+	 * {@link EditorWindow}.
+	 */
 	public class Slide
 	{
 		public Gee.ArrayList<Element> elements { get; set; }

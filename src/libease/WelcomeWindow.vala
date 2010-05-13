@@ -17,6 +17,14 @@
 
 namespace Ease
 {
+	/**
+	 * The window shown when Ease starts
+	 *
+	 * The WelcomeWindow contains a {@link ScrollableEmbed} with
+	 * {@link WelcomeActor}s for each {@link Theme} installed. From this
+	 * window, the user can either create a new {@link Document} or open
+	 * an existing one.
+	 */
 	public class WelcomeWindow : Gtk.Window
 	{
 		// main buttons

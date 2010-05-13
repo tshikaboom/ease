@@ -17,6 +17,14 @@
 
 namespace Ease
 {
+	/**
+	 * The main toolbar of an {@link EditorWindow}
+	 *
+	 * MainToolbar exists solely to be added to the top of an
+	 * {@link EditorWindow}. Creating a subclass of Gtk.Toolbar keeps the
+	 * {@link EditorWindow} source somewhat cleaner, and allows for easy
+	 * changes to the toolbar.
+	 */
 	public class MainToolbar : Gtk.Toolbar
 	{
 		public Gtk.ToolButton new_slide;

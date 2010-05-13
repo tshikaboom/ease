@@ -17,6 +17,12 @@
 
 namespace Ease
 {
+	/**
+	 * A GtkClutter.Embed with scrollbars 
+	 *
+	 * A ScollableEmbed contains a {@link GtkClutter.Viewport} within a
+	 * {@link GtkClutter.Embed}. The horizontal scrollbar is optional.
+	 */
 	public class ScrollableEmbed : Gtk.HBox
 	{
 		// actors

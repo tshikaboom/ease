@@ -17,6 +17,9 @@
 
 namespace Ease
 {
+	/**
+	 * Stores data in an {@link ElementMap}
+	 */
 	public class ElementMapValue
 	{
 		public string str_val { get; set; }

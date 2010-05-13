@@ -17,6 +17,16 @@
 
 namespace Ease
 {
+	/**
+	 * Handles core actions in Ease
+	 *
+	 * When Ease starts, the  simple C main function calls a function in this
+	 * class. Main then initializes GTK, Clutter, and anything else.
+	 * 
+	 * Main keeps track of {@link EditorWindow}s, as well as the status of the
+	 * single {@link WelcomeWindow}. Main will end Ease if none of these are
+	 * shown on the screen.
+	 */
 	public static class Main : GLib.Object
 	{
 		private static Gee.ArrayList<EditorWindow> windows;

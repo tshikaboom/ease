@@ -17,6 +17,12 @@
 
 namespace Ease
 {
+	/**
+	 * A static class containing all Ease transitions
+	 * 
+	 * The transition class is initialized at program start. It contains
+	 * information about each transition and each transition's variants.
+	 */
 	public static class Transitions : GLib.Object
 	{
 		private static Gee.ArrayList<Transition> Transitions;

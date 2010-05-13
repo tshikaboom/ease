@@ -15,10 +15,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// SlideActor2, a replacement for SlideActor that will work everywhere
-
 namespace Ease
 {
+	/**
+	 * A Clutter actor for a Slide
+	 *
+	 * SlideActor2 is a subclass of Clutter.Group. It is used in both the
+	 * editor and player, as well as assorted other preview screens.
+	 */
 	public class SlideActor2 : Clutter.Group
 	{
 		// the represented slide

@@ -17,6 +17,11 @@
 
 namespace Ease
 {
+	/**
+	 * {@link Actor} for blocks of text
+	 * 
+	 * TextActor uses {@link Clutter.Text} for rendering.
+	 */
 	public class TextActor : Actor
 	{
 		/**

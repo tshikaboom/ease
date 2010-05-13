@@ -17,6 +17,16 @@
 
 namespace Ease
 {
+	/**
+	 * Contains data about an {@link Element}
+	 *
+	 * ElementMap contains a Gee.Map with string keys and
+	 * {@link ElementMapValue} values. Each {@link Element} has exactly one
+	 * ElementMap, which stores all data about its owner.
+	 *
+	 * The vast majority of XML conversion of {@link Element}s is done by
+	 * ElementMap.
+	 */
 	public class ElementMap
 	{
 		private Gee.Map<string, ElementMapValue> map;

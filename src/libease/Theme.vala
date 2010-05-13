@@ -17,6 +17,9 @@
 
 namespace Ease
 {
+	/**
+	 * Internal representation of Ease themes
+	 */
 	public class Theme : GLib.Object
 	{
 	}

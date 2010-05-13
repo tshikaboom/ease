@@ -17,6 +17,9 @@
 
 namespace Ease
 {
+	/**
+	 * The inspector pane concerning slides
+	 */
 	public class SlidePane : Gtk.VBox
 	{
 		public Gtk.ComboBox effect { get; set; }

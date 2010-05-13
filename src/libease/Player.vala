@@ -17,6 +17,12 @@
 
 namespace Ease
 {
+	/**
+	 * Presents a {@link Document}
+	 * 
+	 * The Ease Player uses ClutterGtk to create a stage floated in the center
+	 * of a fullscreen Gtk.Window.
+	 */
 	public class Player : GLib.Object
 	{
 		public Document document { get; set; }

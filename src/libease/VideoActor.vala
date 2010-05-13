@@ -17,6 +17,12 @@
 
 namespace Ease
 {
+	/**
+	 * {@link Actor} for videos
+	 *
+	 * VideoActor uses Clutter-GStreamer, and therefore supports any video
+	 * format supported by the GStreamer plugins on the user's system.
+	 */
 	public class VideoActor : Actor
 	{
 		/**

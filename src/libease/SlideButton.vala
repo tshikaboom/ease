@@ -17,6 +17,12 @@
 
 namespace Ease
 {
+	/**
+	 * Buttons for switching between slides in an {@link EditorWindow}
+	 * 
+	 * The SlideButtons for a {@link Document} are displayed in a
+	 * {@link SlideButtonPanel} at the left of an{@link EditorWindow}.
+	 */
 	public class SlideButton : Gtk.Button
 	{
 		public int slide_id { get; set; }

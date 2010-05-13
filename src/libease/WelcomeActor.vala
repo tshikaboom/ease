@@ -17,6 +17,12 @@
 
 namespace Ease
 {
+	/**
+	 * {@link Theme} tiles on the {@link WelcomeWindow}
+	 *
+	 * Each WelcomeActor is a preview of a {@link Theme}. The user can
+	 * click on these to create a new {@link Document} with that {@link Theme}.
+	 */
 	public class WelcomeActor : Clutter.Rectangle
 	{
 		private Gee.ArrayList<WelcomeActor> others;
