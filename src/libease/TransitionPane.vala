@@ -36,7 +36,7 @@ namespace Ease
 			homogeneous = false;
 			spacing = 0;
 			
-			this.set_size_request(200, 0);
+			set_size_request(200, 0);
 			
 			// preview
 			preview = new GtkClutter.Embed();
@@ -48,7 +48,7 @@ namespace Ease
 			frame.add(preview);
 			var hbox = new Gtk.HBox(false, 0);
 			hbox.pack_start(frame, true, true, 5);
-			this.pack_start(hbox, false, false, 5);
+			pack_start(hbox, false, false, 5);
 			
 			// transition selection
 			var vbox = new Gtk.VBox(false, 0);
@@ -78,7 +78,7 @@ namespace Ease
 			align.add(duration);
 			vbox.pack_start(align, true, true, 0);
 			hbox.pack_start(vbox, false, false, 5);
-			this.pack_start(hbox, false, false, 5);
+			pack_start(hbox, false, false, 5);
 			
 			// transition variant
 			hbox = new Gtk.HBox(false, 0);
@@ -91,7 +91,7 @@ namespace Ease
 			variant_align.add(variant);
 			vbox.pack_start(variant_align, false, false, 0);
 			hbox.pack_start(vbox, true, true, 5);
-			this.pack_start(hbox, false, false, 5);
+			pack_start(hbox, false, false, 5);
 			
 			// start transition
 			vbox = new Gtk.VBox(false, 0);
@@ -119,7 +119,7 @@ namespace Ease
 			align.add(delay);
 			vbox.pack_start(align, true, true, 0);
 			hbox.pack_start(vbox, false, false, 5);
-			this.pack_start(hbox, false, false, 5);
+			pack_start(hbox, false, false, 5);
 		}
 	}
 }

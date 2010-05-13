@@ -65,8 +65,8 @@ namespace Ease
 		
 		public WelcomeWindow()
 		{
-			this.title = "New Presentation";
-			this.set_default_size(640, 480);
+			title = "New Presentation";
+			set_default_size(640, 480);
 			
 			// build the bottom UI
 			var hbox = new Gtk.HBox(false, 5);
@@ -139,8 +139,8 @@ namespace Ease
 			vbox.pack_end(new Gtk.HSeparator(), false, false, 0);
 			vbox.pack_start(embed, true, true, 0);
 			
-			this.add(vbox);
-			this.show_all();
+			add(vbox);
+			show_all();
 			reflow_previews();
 			
 			// ui signals

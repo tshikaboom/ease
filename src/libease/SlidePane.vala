@@ -34,7 +34,7 @@ namespace Ease
 			homogeneous = false;
 			spacing = 0;
 			
-			this.set_size_request(200, 0);
+			set_size_request(200, 0);
 			
 			// effect selection
 			var vbox = new Gtk.VBox(false, 0);
@@ -59,7 +59,7 @@ namespace Ease
 			align.add(duration);
 			vbox.pack_start(align, true, true, 0);
 			hbox.pack_start(vbox, false, false, 5);
-			this.pack_start(hbox, false, false, 5);
+			pack_start(hbox, false, false, 5);
 		}
 	}
 }

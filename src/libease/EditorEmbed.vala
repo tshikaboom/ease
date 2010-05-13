@@ -64,7 +64,7 @@ namespace Ease
 			contents.add_actor(view_background);
 			
 			document = d;
-			this.set_size_request(320, 240);
+			set_size_request(320, 240);
 
 			zoom = 1;
 			zoom_fit = false;

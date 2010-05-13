@@ -124,7 +124,7 @@ namespace Ease
 			// the first slide simply fades in
 			if (slide_index == 0)
 			{
-				this.create_current_slide(slide);
+				create_current_slide(slide);
 				current_slide.stack(stack_container);
 				current_slide.opacity = 0;
 				current_slide.animate(Clutter.AnimationMode.EASE_IN_SINE, 1000, "opacity", 255);
@@ -142,7 +142,7 @@ namespace Ease
 				old_slide.contents = current_slide.contents;
 				old_slide.background = current_slide.background;
 				
-				this.create_current_slide(slide);
+				create_current_slide(slide);
 				
 				var length = 1000;
 				animation_time = new Clutter.Timeline(length);
@@ -584,12 +584,12 @@ namespace Ease
 				case 65293: // enter
 				case 65363: // right arrow
 				case 65364: // up arrow
-					this.advance();
+					advance();
 					break;
 				case 65288: // backspace
 				case 65362: // up arrow
 				case 65361: // left arrow
-					this.retreat();
+					retreat();
 					break;
 			}
 			return false;

@@ -75,10 +75,10 @@ namespace Ease
 					switch (i->name)
 					{
 						case "width":
-							this.width = (i->children->content).to_int();
+							width = (i->children->content).to_int();
 							break;
 						case "height":
-							this.height = (i->children->content).to_int();
+							height = (i->children->content).to_int();
 							break;
 					}
 				}
