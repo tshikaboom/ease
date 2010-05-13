@@ -185,6 +185,9 @@ namespace Ease
 						case "background_image":
 							slide.background_image = j->children->content;
 							break;
+						case "time":
+							slide.transition_time = j->children->content.to_double();
+							break;
 					}
 				}
 						

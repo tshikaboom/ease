@@ -32,6 +32,7 @@ namespace Ease
 		public Clutter.Color background_color;
 		public string background_image { get; set; }
 		public Document parent { get; set; }
+		public double transition_time { get; set; }
 		
 		/**
 		 * Create a new Slide.
@@ -56,10 +57,13 @@ namespace Ease
 			string output = "\t\t<slide " +
 			                "transition=\"" + transition + "\" " +
 			                "variant=\"" + variant + "\" " +
+			                "time=\"" + transition_time.to_string() + "\" " +
 			                (background_image != null ?
-			                                        ("background_image=\"" + background_image + "\" ") :
-			                                        ("background_color=\"" + background_color.to_string() + "\" ")) +
-			                ">\n";
+                                    ("background_image=\"" +
+                                     background_image + "\" ") :
+                                    ("background_color=\"" +
+                                     background_color.to_string()
+                                     + "\" ")) + ">\n";
 			
 			foreach (var e in elements)
 			{
