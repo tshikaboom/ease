@@ -113,11 +113,22 @@ namespace Ease
 					// set the text-specific properties of the element
 					html += " color:" + data.get_str("color").substring(0, 7) +
 					        ";";
-					html += " font-family:" + data.get_str("font_name") + ";";
-					html += " font-size:" + data.get_str("font_size") + "pt;\"";
+					        
+					html += " font-family:'" + data.get_str("font_name") +
+					        "', sans-serif;";
+					        
+					html += " font-size:" + data.get_str("font_size") + "pt;";
+					
+					html += " font-weight:" + data.get_str("font_name").to_int().to_string() +
+					        ";";
+					html += " font-style:" + data.get_str("font_style").down() +
+					        ";";
+					        
+					html += " text-align:" + data.get_str("align") + ";\"";
 					
 					// write the actual content
-					html += ">" + data.get_str("text") + "</div>";
+					html += ">" + data.get_str("text").replace("\n", "<br />") +
+					        "</div>";
 					
 					break;
 					
