@@ -215,7 +215,7 @@ namespace Ease
 					var element = new Element(slide);
 					for (var index = 0; index < list.size; index += 2)
 					{
-						element.data.set_str(list[index], list[index + 1]);
+						element.data.set(list[index], list[index + 1]);
 					}
 					
 					slide.elements.add(element);

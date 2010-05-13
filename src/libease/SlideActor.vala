@@ -77,7 +77,7 @@ namespace Ease
 			foreach (var e in slide.elements)
 			{
 				// load the proper type of actor
-				switch (e.data.get_str("element_type"))
+				switch (e.data.get("element_type"))
 				{
 					case "image":
 						contents.add_actor(new ImageActor(e, context));

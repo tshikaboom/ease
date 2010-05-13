@@ -74,7 +74,7 @@ namespace Ease
 		                    HTMLExporter exporter,
 		                    double amount)
 		{
-			switch (data.get_str("element_type"))
+			switch (data.get("element_type"))
 			{
 				case "image":
 					// open the img tag
@@ -82,18 +82,18 @@ namespace Ease
 					
 					// set the image's style
 					html += "style=\"";
-					html += "left:" + data.get_str("x") + "px;";
-					html += " top:" + data.get_str("y") + "px;";
-					html += " width:" + data.get_str("width") + "px;";
-					html += " height:" + data.get_str("height") + "px;";
+					html += "left:" + data.get("x") + "px;";
+					html += " top:" + data.get("y") + "px;";
+					html += " width:" + data.get("width") + "px;";
+					html += " height:" + data.get("height") + "px;";
 					html += " position: absolute;\" ";
 					
 					// add the image
 					html += "src=\"" + exporter.path + " " +
-					        data.get_str("filename") + "\" alt=\"Image\" />";
+					        data.get("filename") + "\" alt=\"Image\" />";
 					
 					// copy the image file
-					exporter.copy_file(data.get_str("filename"),
+					exporter.copy_file(data.get("filename"),
 					                   parent.parent.path);
 					
 					break;
@@ -104,30 +104,30 @@ namespace Ease
 					
 					// set the size and position of the element
 					html += "style=\"";
-					html += "left:" + data.get_str("x") + "px;";
-					html += " top:" + data.get_str("y") + "px;";
-					html += " width:" + data.get_str("width") + "px;";
-					html += " height:" + data.get_str("height") + "px;";
+					html += "left:" + data.get("x") + "px;";
+					html += " top:" + data.get("y") + "px;";
+					html += " width:" + data.get("width") + "px;";
+					html += " height:" + data.get("height") + "px;";
 					html += " position: absolute;";
 					
 					// set the text-specific properties of the element
-					html += " color:" + data.get_str("color").substring(0, 7) +
+					html += " color:" + data.get("color").substring(0, 7) +
 					        ";";
 					        
-					html += " font-family:'" + data.get_str("font_name") +
+					html += " font-family:'" + data.get("font_name") +
 					        "', sans-serif;";
 					        
-					html += " font-size:" + data.get_str("font_size") + "pt;";
+					html += " font-size:" + data.get("font_size") + "pt;";
 					
-					html += " font-weight:" + data.get_str("font_name").to_int().to_string() +
+					html += " font-weight:" + data.get("font_name").to_int().to_string() +
 					        ";";
-					html += " font-style:" + data.get_str("font_style").down() +
+					html += " font-style:" + data.get("font_style").down() +
 					        ";";
 					        
-					html += " text-align:" + data.get_str("align") + ";\"";
+					html += " text-align:" + data.get("align") + ";\"";
 					
 					// write the actual content
-					html += ">" + data.get_str("text").replace("\n", "<br />") +
+					html += ">" + data.get("text").replace("\n", "<br />") +
 					        "</div>";
 					
 					break;
@@ -138,23 +138,23 @@ namespace Ease
 					
 					// set the video's style
 					html += "style=\"";
-					html += "left:" + data.get_str("x") + "px;";
-					html += " top:" + data.get_str("y") + "px;";
+					html += "left:" + data.get("x") + "px;";
+					html += " top:" + data.get("y") + "px;";
 					html += " position: absolute;\" ";
 					
 					// set the video's size
-					html += " width=\"" + data.get_str("width") + "\" ";
-					html += " height=\"" + data.get_str("height") + "\" ";
+					html += " width=\"" + data.get("width") + "\" ";
+					html += " height=\"" + data.get("height") + "\" ";
 					
 					// set the video's source and controls
 					html += "src=\"" + exporter.path + " " +
-					        data.get_str("filename") + "\" " +
+					        data.get("filename") + "\" " +
 					        "controls=\"yes\">" +
 					        "Your browser does not support the video tag" + 
 					        "</video>";
 					        
 					// copy the video file
-					exporter.copy_file(data.get_str("filename"),
+					exporter.copy_file(data.get("filename"),
 					                   parent.parent.path);
 					
 					break;
@@ -171,7 +171,7 @@ namespace Ease
 		{
 			set
 			{
-				data.set_str("ease_name", value);
+				data.set("ease_name", value);
 			}
 		}
 		
@@ -179,7 +179,7 @@ namespace Ease
 		{
 			set
 			{
-				data.set_str("element_type", value);
+				data.set("element_type", value);
 			}
 		}
 		
@@ -190,11 +190,11 @@ namespace Ease
 		{
 			get
 			{
-				return (float)(data.get_str("x").to_double());
+				return (float)(data.get("x").to_double());
 			}
 			set
 			{
-				data.set_str("x", @"$value");
+				data.set("x", @"$value");
 			}
 		}
 		
@@ -202,11 +202,11 @@ namespace Ease
 		{
 			get
 			{
-				return (float)(data.get_str("y").to_double());
+				return (float)(data.get("y").to_double());
 			}
 			set
 			{
-				data.set_str("y", @"$value");
+				data.set("y", @"$value");
 			}
 		}
 		
@@ -214,11 +214,11 @@ namespace Ease
 		{
 			get
 			{
-				return (float)(data.get_str("width").to_double());
+				return (float)(data.get("width").to_double());
 			}
 			set
 			{
-				data.set_str("width", @"$value");
+				data.set("width", @"$value");
 			}
 		}
 		
@@ -226,11 +226,11 @@ namespace Ease
 		{
 			get
 			{
-				return (float)(data.get_str("height").to_double());
+				return (float)(data.get("height").to_double());
 			}
 			set
 			{
-				data.set_str("height", @"$value");
+				data.set("height", @"$value");
 			}
 		}
 
@@ -239,7 +239,7 @@ namespace Ease
 		{
 			set
 			{
-				data.set_str("text", value);
+				data.set("text", value);
 			}
 		}
 		
@@ -248,12 +248,12 @@ namespace Ease
 			get
 			{
 				Clutter.Color c = Clutter.Color();
-				c.from_string(data.get_str("color"));
+				c.from_string(data.get("color"));
 				return c;
 			}		
 			set
 			{
-				data.set_str("color", value.to_string());
+				data.set("color", value.to_string());
 			}
 		}
 		
@@ -261,7 +261,7 @@ namespace Ease
 		{
 			set
 			{
-				data.set_str("font_name", value);
+				data.set("font_name", value);
 			}
 		}
 		
@@ -269,7 +269,7 @@ namespace Ease
 		{
 			get
 			{
-				switch (data.get_str("font_style"))
+				switch (data.get("font_style"))
 				{
 					case "Oblique":
 						return Pango.Style.OBLIQUE;
@@ -284,13 +284,13 @@ namespace Ease
 				switch (value)
 				{
 					case Pango.Style.OBLIQUE:
-						data.set_str("font_style", "Oblique");
+						data.set("font_style", "Oblique");
 						break;
 					case Pango.Style.ITALIC:
-						data.set_str("font_style", "Italic");
+						data.set("font_style", "Italic");
 						break;
 					case Pango.Style.NORMAL:
-						data.set_str("font_style", "Normal");
+						data.set("font_style", "Normal");
 						break;
 				}
 			}
@@ -300,13 +300,13 @@ namespace Ease
 		{
 			get
 			{
-				return data.get_str("font_variant") == "Normal"
+				return data.get("font_variant") == "Normal"
 				     ? Pango.Variant.NORMAL
 				     : Pango.Variant.SMALL_CAPS;
 			}
 			set
 			{
-				data.set_str("font_name",
+				data.set("font_name",
 				             value == Pango.Variant.NORMAL ?
 				                      "Normal" : "Small Caps");
 			}
@@ -317,11 +317,11 @@ namespace Ease
 			get
 			{
 				var str = "font_name";
-				return (Pango.Weight)(data.get_str(str).to_int());
+				return (Pango.Weight)(data.get(str).to_int());
 			}
 			set
 			{
-				data.set_str("font_weight", ((int)value).to_string());
+				data.set("font_weight", ((int)value).to_string());
 			}
 		}
 		
@@ -329,7 +329,7 @@ namespace Ease
 		{
 			get
 			{
-				switch (data.get_str("align"))
+				switch (data.get("align"))
 				{
 					case "right":
 						return Pango.Alignment.RIGHT;
@@ -344,13 +344,13 @@ namespace Ease
 				switch (value)
 				{
 					case Pango.Alignment.RIGHT:
-						data.set_str("font_style", "right");
+						data.set("font_style", "right");
 						break;
 					case Pango.Alignment.CENTER:
-						data.set_str("font_style", "center");
+						data.set("font_style", "center");
 						break;
 					case Pango.Alignment.LEFT:
-						data.set_str("font_style", "left");
+						data.set("font_style", "left");
 						break;
 				}
 			}
@@ -360,11 +360,11 @@ namespace Ease
 		{
 			get
 			{
-				return data.get_str("font_size").to_int();
+				return data.get("font_size").to_int();
 			}
 			set
 			{
-				data.set_str("font_size", @"$value");
+				data.set("font_size", @"$value");
 			}
 		}
 
@@ -373,7 +373,7 @@ namespace Ease
 		{
 			set
 			{
-				data.set_str("filename", value);
+				data.set("filename", value);
 			}
 		}
 		
@@ -381,11 +381,11 @@ namespace Ease
 		{
 			get
 			{
-				return (float)(data.get_str("scale_x").to_double());
+				return (float)(data.get("scale_x").to_double());
 			}
 			set
 			{
-				data.set_str("scale_x", @"$value");
+				data.set("scale_x", @"$value");
 			}
 		}
 		
@@ -393,11 +393,11 @@ namespace Ease
 		{
 			get
 			{
-				return (float)(data.get_str("scale_y").to_double());
+				return (float)(data.get("scale_y").to_double());
 			}
 			set
 			{
-				data.set_str("scale_y", @"$value");
+				data.set("scale_y", @"$value");
 			}
 		}
 	}

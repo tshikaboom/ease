@@ -60,11 +60,11 @@ namespace Ease
 			{
 				if (key != "text")
 				{
-					xml += key + "=\"" + get_str(key) + "\" ";
+					xml += key + "=\"" + get(key) + "\" ";
 				}
 				else
 				{
-					text = get_str(key);
+					text = get(key);
 				}
 			}
 			return text == ""
@@ -81,7 +81,7 @@ namespace Ease
 		 * @param key The map key.
 		 * @param val A string to be stored as the key's value.
 		 */
-		public void set_str(string key, string val)
+		public void set(string key, string val)
 		{
 			if (map.has_key(key))
 			{
@@ -100,7 +100,7 @@ namespace Ease
 		 *
 		 * @param key The key to get a value for.
 		 */
-		public string get_str(string key)
+		public string get(string key)
 		{
 			return map.get(key).str_val;
 		}

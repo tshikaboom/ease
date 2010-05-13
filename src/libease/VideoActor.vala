@@ -40,7 +40,7 @@ namespace Ease
 			base(e, c);
 
 			var video = new ClutterGst.VideoTexture();
-			video.set_filename(e.parent.parent.path + e.data.get_str("filename"));
+			video.set_filename(e.parent.parent.path + e.data.get("filename"));
 
 			// play the video if it's in the presentation
 			if (c == ActorContext.Presentation)

@@ -42,7 +42,7 @@ namespace Ease
 			
 			try
 			{
-				contents = new Clutter.Texture.from_file(e.parent.parent.path + e.data.get_str("filename"));
+				contents = new Clutter.Texture.from_file(e.parent.parent.path + e.data.get("filename"));
 			}
 			catch (GLib.Error e)
 			{

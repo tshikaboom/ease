@@ -43,11 +43,11 @@ namespace Ease
 			((Clutter.Text)contents).line_wrap = true;
 			((Clutter.Text)contents).line_wrap_mode = Pango.WrapMode.WORD_CHAR;
 			((Clutter.Text)contents).color = e.color;
-			((Clutter.Text)contents).set_markup(e.data.get_str("text"));
+			((Clutter.Text)contents).set_markup(e.data.get("text"));
 			
 			// create the font description
 			var desc = new Pango.FontDescription();
-			desc.set_family(e.data.get_str("font_name"));
+			desc.set_family(e.data.get("font_name"));
 			desc.set_weight(e.font_weight);
 			desc.set_variant(e.font_variant);
 			desc.set_size(e.font_size * Pango.SCALE);
