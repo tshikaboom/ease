@@ -17,6 +17,14 @@
 
 namespace Ease
 {
+	/**
+	 * A window for editing an Ease {@link Document}
+	 *
+	 * An EditorWindow contains several widgets: a {@link MainToolbar}, an
+	 * {@link EditorEmbed}, a {@link SlideButtonPanel}, and assorted other
+	 * controls. The window is linked to a {@link Document}, and all changes
+	 * are made directly to that object.
+	 */
 	public class EditorWindow : Gtk.Window
 	{
 		// interface elements

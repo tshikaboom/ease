@@ -17,6 +17,13 @@
 
 namespace Ease
 {
+	/**
+	 * {@link Actor} for images
+	 *
+	 * ImageActor can represent either a bitmap or vector image, as it is
+	 * backed by {@link Clutter.Texture}. This should be automatically
+	 * handled by the represented {@link Element} and Clutter.
+	 */
 	public class ImageActor : Actor
 	{
 		/**

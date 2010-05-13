@@ -19,6 +19,12 @@ using Xml;
 
 namespace Ease
 {
+	/**
+	 * The internal representation of Ease documents. Contains {@link Slide}s.
+	 *
+	 * The Ease Document class is generated from XML and writes back to XML
+	 * when saved.
+	 */
 	public class Document : GLib.Object
 	{
 		public Gee.ArrayList<Slide> slides { get; set; }

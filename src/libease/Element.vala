@@ -17,6 +17,20 @@
 
 namespace Ease
 {
+	/**
+	 * An object on a {@link Slide}
+	 *
+	 * While there are several subclasses of {@link Actor} for different types
+	 * of presentation objects, there is a single Element class. The Element
+	 * class uses an {@link ElementMap} to store data. The "type" key
+	 * specifies the type of Element ("text", "image", "video", etc.)
+	 * 
+	 * For accessing data stored in the {@link ElementMap}, Element provides
+	 * several convenience properties. Many of these are specific to a single
+	 * type of Element, such as the font_name property for text elements.
+	 * Accessing these properties in the wrong type of Element will cause
+	 * bad things to happen, including the heat death of the universe.
+	 */
 	public class Element : GLib.Object
 	{
 		public Slide parent { get; set; }

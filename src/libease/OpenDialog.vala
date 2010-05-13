@@ -17,6 +17,13 @@
 
 namespace Ease
 {
+	/**
+	 * Manages "open file" windows
+	 * 
+	 * OpenDialog is a singleton. Before it can be used, init() must be
+	 * called. After that, a dialog can be opened by calling the static 
+	 * method run().
+	 */
 	public class OpenDialog : GLib.Object
 	{
 		private static OpenDialog instance;

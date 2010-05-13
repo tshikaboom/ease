@@ -17,6 +17,12 @@
 
 namespace Ease
 {
+	/**
+	 * Panel on the left side of an {@link EditorWindow}
+	 * 
+	 * A SlideButtonPanel contains a {@link SlideButton} for each
+	 * {@link Slide} in the current {@link Document}.
+	 */
 	public class SlideButtonPanel : Gtk.ScrolledWindow
 	{
 		private Document document;

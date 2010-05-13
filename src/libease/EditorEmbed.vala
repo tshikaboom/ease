@@ -17,6 +17,18 @@
 
 namespace Ease
 {
+	/**
+	 * The main editing widget.
+	 *
+	 * EditorEmbed is the outermost part of the editing canvas in an Ease
+	 * window. Each EditorEmbed is linked to a {@link Document}, and
+	 * changes in the editor are immediately reflected in the Document, but
+	 * are not saved to disk until the user clicks on a save button or
+	 * menu item.
+	 * 
+	 * EditorEmbed is a subclass of {@link ScrollableEmbed}, and has both
+	 * horizontal and vertical scrollbars.
+	 */
 	public class EditorEmbed : ScrollableEmbed
 	{
 		// overall display

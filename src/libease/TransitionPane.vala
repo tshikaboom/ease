@@ -17,6 +17,9 @@
 
 namespace Ease
 {
+	/**
+	 * The inspector pane for changing transitions
+	 */
 	public class TransitionPane : Gtk.VBox
 	{
 		public Gtk.ComboBox effect { get; set; }
