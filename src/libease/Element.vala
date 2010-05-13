@@ -122,6 +122,30 @@ namespace Ease
 					break;
 					
 				case "video":
+					// open the tag
+					html += "<video class=\"video element\" ";
+					
+					// set the video's style
+					html += "style=\"";
+					html += "left:" + data.get_str("x") + "px;";
+					html += " top:" + data.get_str("y") + "px;";
+					html += " position: absolute;\" ";
+					
+					// set the video's size
+					html += " width=\"" + data.get_str("width") + "\" ";
+					html += " height=\"" + data.get_str("height") + "\" ";
+					
+					// set the video's source and controls
+					html += "src=\"" + exporter.path + " " +
+					        data.get_str("filename") + "\" " +
+					        "controls=\"yes\">" +
+					        "Your browser does not support the video tag" + 
+					        "</video>";
+					        
+					// copy the video file
+					exporter.copy_file(data.get_str("filename"),
+					                   parent.parent.path);
+					
 					break;
 			}
 			
