@@ -252,7 +252,7 @@ namespace Ease
 			// add each slide
 			for (var i = 0; i < slides.size; i++)
 			{
-				slides.get(i).to_html(ref html, exporter, 1 / slides.size, i);
+				slides.get(i).to_html(ref html, exporter, 1.0 / slides.size, i);
 			}
 			
 			// finish the document
@@ -278,6 +278,8 @@ namespace Ease
 				dialog.border_width = 5;
 				dialog.run();
 			}
+			
+			exporter.finish();
 		}
 	}
 }

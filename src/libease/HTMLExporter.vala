@@ -17,6 +17,14 @@
 
 namespace Ease
 {
+	/**
+	 * Exports Ease {@link Document}s as HTML5 files
+	 *
+	 * HTMLExporter creates a save dialog and a progress dialog. The actual
+	 * exporting is done with the {@link Document}, {@link Slide}, and
+	 * {@link Element} classes. The exported {@link Document} reports back to
+	 * HTMLExported when the export is complete, allowing the dialog to close.
+	 */
 	public class HTMLExporter : GLib.Object
 	{
 		private Gtk.Dialog window;
@@ -29,10 +37,10 @@ namespace Ease
 			progress = new Gtk.ProgressBar();
 		}
 		
-		public bool request_path(Gtk.Window window)
+		public bool request_path(Gtk.Window win)
 		{
 			var dialog = new Gtk.FileChooserDialog("Export to HTML",
-			                                       window,
+			                                       win,
 			                                       Gtk.FileChooserAction.SAVE,
 			                                       "gtk-save",
 			                                       Gtk.ResponseType.ACCEPT,
@@ -42,8 +50,18 @@ namespace Ease
 			
 			if (dialog.run() == Gtk.ResponseType.ACCEPT)
 			{
+				// clean up the file dialog
 				path = dialog.get_filename();
 				dialog.destroy();
+				
+				// create the progress dialog
+				window = new Gtk.Dialog();
+				window.width_request = 400;
+				window.set_title("Exporting as HTML");
+				Gtk.VBox vbox = (Gtk.VBox)(window.get_content_area());
+				vbox.pack_start(progress, true, true, 5);
+				window.show_all();
+				
 				return true;
 			}
 			else
@@ -55,7 +73,13 @@ namespace Ease
 		
 		public void add_progress(double amount)
 		{
-			progress.fraction += amount;
+			progress.set_fraction(progress.get_fraction() + amount);
+		}
+		
+		public void finish()
+		{
+			window.hide_all();
+			window.destroy();
 		}
 	}
 }
