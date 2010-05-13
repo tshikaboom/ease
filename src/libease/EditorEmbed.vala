@@ -35,7 +35,7 @@ namespace Ease
 		private Clutter.Rectangle view_background;
 
 		// the current slide's actor
-		private SlideActor2 slide_actor;
+		private SlideActor slide_actor;
 		
 		private Document document;
 		public float zoom;
@@ -132,14 +132,14 @@ namespace Ease
 				contents.remove_actor(slide_actor);
 			}
 			
-			slide_actor = new SlideActor2.from_slide(document, slide, false, ActorContext.Editor);
+			slide_actor = new SlideActor.from_slide(document, slide, false, ActorContext.Editor);
 			
 			contents.add_actor(slide_actor);
 			reposition_group();
 		}
 
 		/**
-		 * Repositions the EditorEmbed's {@link SlideActor2}.
+		 * Repositions the EditorEmbed's {@link SlideActor}.
 		 * 
 		 * Call this function after changing the zoom level, document size, or
 		 * any other properties that could place the slide off center. 

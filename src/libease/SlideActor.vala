@@ -20,10 +20,10 @@ namespace Ease
 	/**
 	 * A Clutter actor for a Slide
 	 *
-	 * SlideActor2 is a subclass of Clutter.Group. It is used in both the
+	 * SlideActor is a subclass of Clutter.Group. It is used in both the
 	 * editor and player, as well as assorted other preview screens.
 	 */
-	public class SlideActor2 : Clutter.Group
+	public class SlideActor : Clutter.Group
 	{
 		// the represented slide
 		private Slide slide;
@@ -37,7 +37,7 @@ namespace Ease
 		// the group of the slide's contents
 		public Clutter.Group contents;
 		
-		public SlideActor2.from_slide(Document document, Slide s, bool clip,
+		public SlideActor.from_slide(Document document, Slide s, bool clip,
 		                              ActorContext context)
 		{
 			slide = s;
@@ -108,7 +108,7 @@ namespace Ease
 		}
 
 		// unstack the actor, layering it with another actor 
-		public void unstack(SlideActor2 other, Clutter.Actor container)
+		public void unstack(SlideActor other, Clutter.Actor container)
 		{
 			if (other.background.get_parent() != container)
 			{

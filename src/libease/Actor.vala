@@ -23,7 +23,7 @@ namespace Ease
 	 *
 	 * The Actor class should never be instantiated - instead,
 	 * subclasses such as {@link TextActor} and {@link ImageActor}
-	 * are placed on a {@link SlideActor2} to form Ease presentations.
+	 * are placed on a {@link SlideActor} to form Ease presentations.
 	 */
 	public class Actor : Clutter.Group
 	{

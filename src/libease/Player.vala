@@ -32,8 +32,8 @@ namespace Ease
 		private Gtk.Window window;
 		
 		// current and transitioning out slide
-		private SlideActor2 current_slide;
-		private SlideActor2 old_slide;
+		private SlideActor current_slide;
+		private SlideActor old_slide;
 		private Clutter.Group stack_container;
 		
 		// timelines
@@ -553,7 +553,7 @@ namespace Ease
 		
 		private void create_current_slide(Slide slide)
 		{
-			current_slide = new SlideActor2.from_slide(document, slide, true, ActorContext.Presentation);
+			current_slide = new SlideActor.from_slide(document, slide, true, ActorContext.Presentation);
 		}
 		
 		private void prepare_slide_transition()
