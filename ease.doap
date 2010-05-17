@@ -15,4 +15,11 @@
       <gnome:userid>natesm</gnome:userid>
     </foaf:Person>
   </maintainer>
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Stéphane Maniaci</foaf:name>
+      <foaf:mbox rdf:resource="mailto:stephane.maniaci@gmail.com" />
+      <gnome:userid>maniacis</gnome:userid>
+    </foaf:Person>
+  </maintainer>
 </Project>
