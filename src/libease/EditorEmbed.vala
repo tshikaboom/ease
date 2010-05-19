@@ -222,6 +222,15 @@ namespace Ease
 			                             zoom * selected.height);
 		}
 		
+		/**
+		 * Signal handler for clicking on {@link Actor}s.
+		 * 
+		 * This handler is attached to the button_press_event of all
+		 * {@link Actor}s in the currently displayed {@link SlideActor}.
+		 *
+		 * @param sender The {@link Actor} that was clicked
+		 * @param event The corresponding Clutter.Event
+		 */
 		public bool actor_clicked(Clutter.Actor sender, Clutter.Event event)
 		{
 			Actor act = (Actor)sender;
@@ -254,6 +263,17 @@ namespace Ease
 			return true;
 		}
 		
+		/**
+		 * Signal handler for releasing an {@link Actor}.
+		 * 
+		 * This handler is attached to the button_release_event of all
+		 * {@link Actor}s in the currently displayed {@link SlideActor}.
+		 *
+		 * When the {@link Actor} is being dragged, this ends the drag action.
+		 *
+		 * @param sender The {@link Actor} that was released
+		 * @param event The corresponding Clutter.Event
+		 */
 		public bool actor_released(Clutter.Actor sender, Clutter.Event event)
 		{
 			if (sender == selected && is_dragging)
@@ -263,6 +283,16 @@ namespace Ease
 			return true;
 		}
 		
+		/**
+		 * Signal handler for dragging an {@link Actor}.
+		 * 
+		 * This handler is attached to the motion_event of all
+		 * {@link Actor}s in the currently displayed {@link SlideActor}.
+		 * It will only have an effect if a drag is active.
+		 *
+		 * @param sender The {@link Actor} that was dragged
+		 * @param event The corresponding Clutter.Event
+		 */
 		public bool actor_motion(Clutter.Actor sender, Clutter.Event event)
 		{
 			Actor actor = (Actor)sender;
