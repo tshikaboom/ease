@@ -23,7 +23,7 @@
  * {@link EditorWindow} source somewhat cleaner, and allows for easy
  * changes to the toolbar.
  */
-public class MainToolbar : Gtk.Toolbar
+public class Ease.MainToolbar : Gtk.Toolbar
 {
 	public Gtk.ToolButton new_slide;
 	public Gtk.ToolButton play;
