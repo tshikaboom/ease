@@ -109,8 +109,12 @@ public class Ease.Element : GLib.Object
 				html += " position: absolute;";
 				
 				// set the text-specific properties of the element
-				html += " color:" + data.get("color").substring(0, 7) +
-				        ";";
+				string c = data.get("color");
+				if (c.length > 7) // clip the string if alpha is included
+				{
+					c = c.substring(0, 7);
+				}
+				html += " color:" + c + ";";
 				        
 				html += " font-family:'" + data.get("font_name") +
 				        "', sans-serif;";
