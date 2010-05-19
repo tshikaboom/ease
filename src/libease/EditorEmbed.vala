@@ -241,6 +241,7 @@ namespace Ease
 			{
 				is_dragging = true;
 				is_drag_ready = false;
+				Clutter.grab_pointer(sender);
 				return true;
 			}
 			
@@ -279,6 +280,7 @@ namespace Ease
 			if (sender == selected && is_dragging)
 			{
 				is_dragging = false;
+				Clutter.ungrab_pointer();
 			}
 			return true;
 		}
