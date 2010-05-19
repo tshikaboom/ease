@@ -17,13 +17,13 @@
 
 namespace Ease
 {
-	public class DraggableRectangle : Clutter.Group
+	public class Handle : Clutter.Group
 	{
 		// the graphical element of the rectangle
 		private Clutter.Rectangle rectangle;
 		
 		// the position of this rectangle
-		private RectanglePosition position;
+		private HandlePosition position;
 
 		// the offset of the pointer, so things don't jump
 		private int pointer_offset_x;
@@ -32,7 +32,7 @@ namespace Ease
 		// constants
 		public static const float SIZE = 10;
 		
-		public DraggableRectangle(RectanglePosition pos)
+		public Handle(HandlePosition pos)
 		{
 			// set the rectangle's position
 			position = pos;
@@ -41,14 +41,11 @@ namespace Ease
 			rectangle = new Clutter.Rectangle();
 
 			// set the rectangle's color
-			Clutter.Color color = Clutter.Color();
-			color.from_string("Black");
-			rectangle.color = color;
+			rectangle.color = {0, 0, 0, 255};
 
 			// set the rectangle's border
-			rectangle.border_width = 1;
-			color.from_string("White");
-			rectangle.border_color = color;
+			rectangle.border_width = 2;
+			rectangle.border_color = {255, 255, 255, 255};
 
 			// set the rectangle's size
 			rectangle.width = SIZE;
@@ -59,71 +56,50 @@ namespace Ease
 			add_actor(rectangle);
 			
 			reactive = true;
-			button_press_event.connect(e => {
-				//if (e.get_button() == 1)
-				{
-					start_drag();
-				}
-				return false;
-			});
-			
-			button_release_event.connect(e => {
-				//if (e.get_button() == 1)
-				{
-					stop_drag();
-				}
-				return false;
-			});
-			
-			motion_event.connect(e => {
-				if (Clutter.get_pointer_grab() == this)
-				{
-					drag(e.motion);
-				}
-				return false;
-			});
-			
-			reposition();
 		}
 		
-		public void start_drag()
-		{
-			Clutter.grab_pointer(this);
-			
-			//TODO: actually set the offsets
-			pointer_offset_x = 0;
-			pointer_offset_y = 0;
-		}
-		
-		private void stop_drag()
-		{
-			Clutter.ungrab_pointer();
-		}
-		
-		private void drag(Clutter.MotionEvent m)
-		{
-			
-		}
-		
-		public void reposition()
+		public void reposition(Clutter.Actor selection)
 		{
 			switch (position)
 			{
-				case RectanglePosition.TopLeft:
+				case HandlePosition.TopLeft:
+					x = selection.x;
+					y = selection.y;
 					break;
-				case RectanglePosition.TopRight:
+					
+				case HandlePosition.TopRight:
+					x = selection.x + selection.width;
+					y = selection.y;
 					break;
-				case RectanglePosition.Top:
+					
+				case HandlePosition.Top:
+					x = selection.x + selection.width / 2;
+					y = selection.y;
 					break;
-				case RectanglePosition.Left:
+					
+				case HandlePosition.Left:
+					x = selection.x;
+					y = selection.y + selection.height / 2;
 					break;
-				case RectanglePosition.Right:
+					
+				case HandlePosition.Right:
+					x = selection.x + selection.width;
+					y = selection.y + selection.height / 2;
 					break;
-				case RectanglePosition.BottomLeft:
+					
+				case HandlePosition.BottomLeft:
+					x = selection.x;
+					y = selection.y + selection.height;
 					break;
-				case RectanglePosition.BottomRight:
+					
+				case HandlePosition.BottomRight:
+					x = selection.x + selection.width;
+					y = selection.y + selection.height;
 					break;
-				case RectanglePosition.Bottom:
+					
+				case HandlePosition.Bottom:
+					x = selection.x + selection.width / 2;
+					y = selection.y + selection.height;
 					break;
 			}
 		}

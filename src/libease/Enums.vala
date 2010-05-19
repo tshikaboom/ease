@@ -17,16 +17,16 @@
 
 namespace Ease
 {
-	public enum RectanglePosition
+	public enum HandlePosition
 	{
-		TopLeft,
-		TopRight,
-		Top,
-		Left,
-		Right,
-		BottomLeft,
-		BottomRight,
-		Bottom
+		TopLeft = 0,
+		TopRight = 1,
+		Top = 2,
+		Left = 3,
+		Right = 4,
+		BottomLeft = 5,
+		BottomRight = 6,
+		Bottom = 7
 	}
 
 	public enum ActorContext

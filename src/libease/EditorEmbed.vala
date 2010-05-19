@@ -36,6 +36,9 @@ namespace Ease
 		
 		// selection rectangle
 		private Clutter.Rectangle selection_rectangle;
+		
+		// handles
+		private Handle[] handles;
 
 		// the current slide's actor
 		private SlideActor slide_actor;
@@ -157,6 +160,10 @@ namespace Ease
 			if (selection_rectangle != null)
 			{
 				contents.remove_actor(selection_rectangle);
+				foreach (var h in handles)
+				{
+					contents.remove_actor(h);
+				}
 			}
 			
 			// create a new SlideActor
@@ -220,6 +227,11 @@ namespace Ease
 				                             zoom * selected.y + slide_actor.y);
 			selection_rectangle.set_size(zoom * selected.width,
 			                             zoom * selected.height);
+			
+			foreach (var h in handles)
+			{
+				h.reposition(selection_rectangle);
+			}
 		}
 		
 		/**
@@ -248,6 +260,10 @@ namespace Ease
 			// remove the selection rectangle
 			if (selection_rectangle != null)
 			{
+				foreach (var h in handles)
+				{
+					contents.remove_actor(h);
+				}
 				contents.remove_actor(selection_rectangle);
 			}
 			
@@ -260,6 +276,14 @@ namespace Ease
 			selection_rectangle.set_border_width(2);
 			position_selection();
 			contents.add_actor(selection_rectangle);
+			
+			handles = new Handle[8];
+			for (int i = 0; i < 8; i++)
+			{
+				handles[i] = new Handle((HandlePosition)i);
+				handles[i].reposition(selection_rectangle);
+				contents.add_actor(handles[i]);
+			}
 			
 			return true;
 		}
