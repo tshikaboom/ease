@@ -170,7 +170,7 @@ namespace Ease
 			slide_actor = new SlideActor.from_slide(document,
 			                                        slide,
 			                                        false,
-			                                        ActorContext.Editor);
+			                                        ActorContext.EDITOR);
 			                                        
 			// make the elements clickable
 			for (unowned List<Clutter.Actor>* itr = slide_actor.contents.get_children();

@@ -155,7 +155,7 @@ namespace Ease
 		private void create_current_slide(Slide slide)
 		{
 			current_slide = new SlideActor.from_slide(document, slide, true,
-			                                          ActorContext.Presentation);
+			                                          ActorContext.PRESENTATION);
 		}
 		
 		private void animation_complete()

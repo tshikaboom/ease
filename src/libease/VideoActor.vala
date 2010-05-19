@@ -43,7 +43,7 @@ namespace Ease
 			video.set_filename(e.parent.parent.path + e.data.get("filename"));
 
 			// play the video if it's in the presentation
-			if (c == ActorContext.Presentation)
+			if (c == ActorContext.PRESENTATION)
 			{
 				video.set_playing(true);
 			}
