@@ -15,52 +15,50 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Ease
+/**
+ * {@link Actor} for videos
+ *
+ * VideoActor uses Clutter-GStreamer, and therefore supports any video
+ * format supported by the GStreamer plugins on the user's system.
+ */
+public class Ease.VideoActor : Actor
 {
 	/**
-	 * {@link Actor} for videos
+	 * Instantiates a new VideoActor from an Element.
+	 * 
+	 * The VideoActor's context is particularly important due to playback.
+	 * Playing back automatically in the editor would, of course, not be
+	 * desired.
 	 *
-	 * VideoActor uses Clutter-GStreamer, and therefore supports any video
-	 * format supported by the GStreamer plugins on the user's system.
+	 * @param e The represented element.
+	 * @param c The context of this Actor (Presentation, Sidebar, Editor)
 	 */
-	public class VideoActor : Actor
+	public VideoActor(Element e, ActorContext c)
 	{
-		/**
-		 * Instantiates a new VideoActor from an Element.
-		 * 
-		 * The VideoActor's context is particularly important due to playback.
-		 * Playing back automatically in the editor would, of course, not be
-		 * desired.
-		 *
-		 * @param e The represented element.
-		 * @param c The context of this Actor (Presentation, Sidebar, Editor)
-		 */
-		public VideoActor(Element e, ActorContext c)
+		base(e, c);
+
+		var video = new ClutterGst.VideoTexture();
+		video.set_filename(e.parent.parent.path + e.data.get("filename"));
+
+		// play the video if it's in the presentation
+		if (c == ActorContext.PRESENTATION)
 		{
-			base(e, c);
-
-			var video = new ClutterGst.VideoTexture();
-			video.set_filename(e.parent.parent.path + e.data.get("filename"));
-
-			// play the video if it's in the presentation
-			if (c == ActorContext.PRESENTATION)
-			{
-				video.set_playing(true);
-			}
-			else
-			{
-				// FIXME: toggle playback to get a frame
-				video.set_playing(true);
-				video.set_playing(false);
-			}
-			
-			contents = video;
-
-			add_actor(contents);
-			contents.width = e.width;
-			contents.height = e.height;
-			x = e.x;
-			y = e.y;
+			video.set_playing(true);
 		}
+		else
+		{
+			// FIXME: toggle playback to get a frame
+			video.set_playing(true);
+			video.set_playing(false);
+		}
+		
+		contents = video;
+
+		add_actor(contents);
+		contents.width = e.width;
+		contents.height = e.height;
+		x = e.x;
+		y = e.y;
 	}
 }
+

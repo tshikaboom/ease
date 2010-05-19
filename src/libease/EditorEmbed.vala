@@ -15,335 +15,333 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Ease
+/**
+ * The main editing widget.
+ *
+ * EditorEmbed is the outermost part of the editing canvas in an Ease
+ * window. Each EditorEmbed is linked to a {@link Document}, and
+ * changes in the editor are immediately reflected in the Document, but
+ * are not saved to disk until the user clicks on a save button or
+ * menu item.
+ * 
+ * EditorEmbed is a subclass of {@link ScrollableEmbed}, and has both
+ * horizontal and vertical scrollbars.
+ */
+public class Ease.EditorEmbed : ScrollableEmbed
 {
+	// overall display
+	private Clutter.Rectangle view_background;
+	
+	// selection rectangle
+	private Clutter.Rectangle selection_rectangle;
+	
+	// handles
+	private Handle[] handles;
+
+	// the current slide's actor
+	private SlideActor slide_actor;
+	
+	// the currently selected Actor
+	private Actor selected;
+	
+	// if the selected Actor is being dragged
+	private bool is_dragging;
+	private bool is_drag_ready;
+	private float mouse_x;
+	private float mouse_y;
+	
+	private Document document;
+	public float zoom;
+	public bool zoom_fit;
+
 	/**
-	 * The main editing widget.
-	 *
+	 * Create an EditorEmbed representing a {@link Document}.
+	 * 
 	 * EditorEmbed is the outermost part of the editing canvas in an Ease
 	 * window. Each EditorEmbed is linked to a {@link Document}, and
 	 * changes in the editor are immediately reflected in the Document, but
 	 * are not saved to disk until the user clicks on a save button or
-	 * menu item.
-	 * 
-	 * EditorEmbed is a subclass of {@link ScrollableEmbed}, and has both
-	 * horizontal and vertical scrollbars.
+	 * menu item. 
+	 *
+	 * @param d The {@link Document} this EditorEmbed represents.
 	 */
-	public class EditorEmbed : ScrollableEmbed
+	public EditorEmbed(Document d)
 	{
-		// overall display
-		private Clutter.Rectangle view_background;
-		
-		// selection rectangle
-		private Clutter.Rectangle selection_rectangle;
-		
-		// handles
-		private Handle[] handles;
+		base(true);
 
-		// the current slide's actor
-		private SlideActor slide_actor;
+		// set up the background
+		view_background = new Clutter.Rectangle();
+		var color = Clutter.Color();
+		color.from_string("Gray");
+		view_background.color = color;
+		contents.add_actor(view_background);
 		
-		// the currently selected Actor
-		private Actor selected;
-		
-		// if the selected Actor is being dragged
-		private bool is_dragging;
-		private bool is_drag_ready;
-		private float mouse_x;
-		private float mouse_y;
-		
-		private Document document;
-		public float zoom;
-		public bool zoom_fit;
+		document = d;
+		set_size_request(320, 240);
 
-		/**
-		 * Create an EditorEmbed representing a {@link Document}.
-		 * 
-		 * EditorEmbed is the outermost part of the editing canvas in an Ease
-		 * window. Each EditorEmbed is linked to a {@link Document}, and
-		 * changes in the editor are immediately reflected in the Document, but
-		 * are not saved to disk until the user clicks on a save button or
-		 * menu item. 
-		 *
-		 * @param d The {@link Document} this EditorEmbed represents.
-		 */
-		public EditorEmbed(Document d)
+		zoom = 1;
+		zoom_fit = false;
+
+		// reposition everything when resized
+		size_allocate.connect(() => {
+			if (zoom_fit)
+			{
+				zoom = width / height > (float)document.width / document.height
+				     ? height / document.height
+				     : width / document.width;
+				reposition_group();
+			}
+			else
+			{
+				reposition_group();
+			}
+
+			// set the size of the background
+			view_background.width = (float)Math.fmax(width, slide_actor.width);
+			view_background.height = height;
+		});
+	}
+
+	/**
+	 * Sets the zoom level of the slide displayed by this EditorEmbed.
+	 * 
+	 * When this function is called, only the EditorEmbed's zoom level is
+	 * set. Therefore, any other relevant parts of the interface should
+	 * also be updated by the caller. 
+	 *
+	 * @param z The zoom level, on a 0-100 scale (higher values, are, of
+	 * course, possible, but values below 10 or so are unlikely to produce
+	 * desirable results.
+	 */
+	public void set_zoom(float z)
+	{
+		zoom = z / 100;
+		reposition_group();
+	}
+
+	/**
+	 * Sets the current {@link Slide} that the EditorEmbed is displaying.
+	 * 
+	 * The current slide is displayed in the center of the EditorEmbed.
+	 * Components of it should also be editable via interface elements such
+	 * as the Inspector.
+	 *
+	 * This function will work with a {@link Slide} that is not in the
+	 * displayed {@link Document}. For obvious reasons, this is not a 
+	 * particularly good idea.
+	 *
+	 * @param node The initial XML node to begin with.
+	 */
+	public void set_slide(Slide slide)
+	{
+		if (slide == null)
 		{
-			base(true);
-
-			// set up the background
-			view_background = new Clutter.Rectangle();
-			var color = Clutter.Color();
-			color.from_string("Gray");
-			view_background.color = color;
-			contents.add_actor(view_background);
-			
-			document = d;
-			set_size_request(320, 240);
-
-			zoom = 1;
-			zoom_fit = false;
-
-			// reposition everything when resized
-			size_allocate.connect(() => {
-				if (zoom_fit)
-				{
-					zoom = width / height > (float)document.width / document.height
-					     ? height / document.height
-					     : width / document.width;
-					reposition_group();
-				}
-				else
-				{
-					reposition_group();
-				}
-
-				// set the size of the background
-				view_background.width = (float)Math.fmax(width, slide_actor.width);
-				view_background.height = height;
-			});
+			return;
 		}
-
-		/**
-		 * Sets the zoom level of the slide displayed by this EditorEmbed.
-		 * 
-		 * When this function is called, only the EditorEmbed's zoom level is
-		 * set. Therefore, any other relevant parts of the interface should
-		 * also be updated by the caller. 
-		 *
-		 * @param z The zoom level, on a 0-100 scale (higher values, are, of
-		 * course, possible, but values below 10 or so are unlikely to produce
-		 * desirable results.
-		 */
-		public void set_zoom(float z)
+		
+		// clean up the previous slide
+		if (slide_actor != null)
 		{
-			zoom = z / 100;
-			reposition_group();
-		}
-
-		/**
-		 * Sets the current {@link Slide} that the EditorEmbed is displaying.
-		 * 
-		 * The current slide is displayed in the center of the EditorEmbed.
-		 * Components of it should also be editable via interface elements such
-		 * as the Inspector.
-		 *
-		 * This function will work with a {@link Slide} that is not in the
-		 * displayed {@link Document}. For obvious reasons, this is not a 
-		 * particularly good idea.
-		 *
-		 * @param node The initial XML node to begin with.
-		 */
-		public void set_slide(Slide slide)
-		{
-			if (slide == null)
-			{
-				return;
-			}
-			
-			// clean up the previous slide
-			if (slide_actor != null)
-			{
-				contents.remove_actor(slide_actor);
-				for (unowned List<Clutter.Actor>* itr = slide_actor.contents.get_children();
-				     itr != null;
-				     itr = itr->next)
-				{
-					((Actor*)(itr->data))->button_press_event.disconnect(actor_clicked);
-					((Actor*)(itr->data))->button_release_event.disconnect(actor_released);
-					((Actor*)(itr->data))->motion_event.disconnect(actor_motion);
-					((Actor*)(itr->data))->set_reactive(false);
-				}
-			}
-			
-			// remove the selection rectangle
-			if (selection_rectangle != null)
-			{
-				contents.remove_actor(selection_rectangle);
-				foreach (var h in handles)
-				{
-					contents.remove_actor(h);
-				}
-			}
-			
-			// create a new SlideActor
-			slide_actor = new SlideActor.from_slide(document,
-			                                        slide,
-			                                        false,
-			                                        ActorContext.EDITOR);
-			                                        
-			// make the elements clickable
+			contents.remove_actor(slide_actor);
 			for (unowned List<Clutter.Actor>* itr = slide_actor.contents.get_children();
 			     itr != null;
 			     itr = itr->next)
 			{
-				
-				((Actor*)(itr->data))->button_press_event.connect(actor_clicked);
-				((Actor*)(itr->data))->button_release_event.connect(actor_released);
-				((Actor*)(itr->data))->motion_event.connect(actor_motion);
-				((Actor*)(itr->data))->set_reactive(true);
-			}
-			
-			contents.add_actor(slide_actor);
-			reposition_group();
-		}
-
-		/**
-		 * Repositions the EditorEmbed's {@link SlideActor}.
-		 * 
-		 * Call this function after changing the zoom level, document size, or
-		 * any other properties that could place the slide off center. 
-		 */
-		public void reposition_group()
-		{
-			var w = zoom * document.width;
-			var h = zoom * document.height;
-			
-			slide_actor.set_scale_full(zoom, zoom, 0, 0);
-
-			slide_actor.x = w < width
-			              ? width / 2 - w / 2
-		                  : 0;
-			        
-			slide_actor.y = h < height
-			              ? height / 2 - h / 2
-			              : 0;
-			              
-			if (selection_rectangle != null)
-			{
-				position_selection();
+				((Actor*)(itr->data))->button_press_event.disconnect(actor_clicked);
+				((Actor*)(itr->data))->button_release_event.disconnect(actor_released);
+				((Actor*)(itr->data))->motion_event.disconnect(actor_motion);
+				((Actor*)(itr->data))->set_reactive(false);
 			}
 		}
 		
-		/**
-		 * Repositions the EditorEmbed's selection rectangle
-		 * 
-		 * Call this function after changing the zoom level, document size, or
-		 * any other properties that could place the slide off center. 
-		 */
-		private void position_selection()
+		// remove the selection rectangle
+		if (selection_rectangle != null)
 		{
-			selection_rectangle.set_position(zoom * selected.x + slide_actor.x,
-				                             zoom * selected.y + slide_actor.y);
-			selection_rectangle.set_size(zoom * selected.width,
-			                             zoom * selected.height);
-			
+			contents.remove_actor(selection_rectangle);
 			foreach (var h in handles)
 			{
-				h.reposition(selection_rectangle);
+				contents.remove_actor(h);
 			}
 		}
 		
-		/**
-		 * Signal handler for clicking on {@link Actor}s.
-		 * 
-		 * This handler is attached to the button_press_event of all
-		 * {@link Actor}s in the currently displayed {@link SlideActor}.
-		 *
-		 * @param sender The {@link Actor} that was clicked
-		 * @param event The corresponding Clutter.Event
-		 */
-		public bool actor_clicked(Clutter.Actor sender, Clutter.Event event)
+		// create a new SlideActor
+		slide_actor = new SlideActor.from_slide(document,
+		                                        slide,
+		                                        false,
+		                                        ActorContext.EDITOR);
+		                                        
+		// make the elements clickable
+		for (unowned List<Clutter.Actor>* itr = slide_actor.contents.get_children();
+		     itr != null;
+		     itr = itr->next)
 		{
-			Actor act = (Actor)sender;
-			stdout.printf("Name: %s\n", act.element.data.get("ease_name"));
+			
+			((Actor*)(itr->data))->button_press_event.connect(actor_clicked);
+			((Actor*)(itr->data))->button_release_event.connect(actor_released);
+			((Actor*)(itr->data))->motion_event.connect(actor_motion);
+			((Actor*)(itr->data))->set_reactive(true);
+		}
 		
-			// if the sender is already selected, drag it
-			if (sender == selected)
+		contents.add_actor(slide_actor);
+		reposition_group();
+	}
+
+	/**
+	 * Repositions the EditorEmbed's {@link SlideActor}.
+	 * 
+	 * Call this function after changing the zoom level, document size, or
+	 * any other properties that could place the slide off center. 
+	 */
+	public void reposition_group()
+	{
+		var w = zoom * document.width;
+		var h = zoom * document.height;
+		
+		slide_actor.set_scale_full(zoom, zoom, 0, 0);
+
+		slide_actor.x = w < width
+		              ? width / 2 - w / 2
+	                  : 0;
+		        
+		slide_actor.y = h < height
+		              ? height / 2 - h / 2
+		              : 0;
+		              
+		if (selection_rectangle != null)
+		{
+			position_selection();
+		}
+	}
+	
+	/**
+	 * Repositions the EditorEmbed's selection rectangle
+	 * 
+	 * Call this function after changing the zoom level, document size, or
+	 * any other properties that could place the slide off center. 
+	 */
+	private void position_selection()
+	{
+		selection_rectangle.set_position(zoom * selected.x + slide_actor.x,
+			                             zoom * selected.y + slide_actor.y);
+		selection_rectangle.set_size(zoom * selected.width,
+		                             zoom * selected.height);
+		
+		foreach (var h in handles)
+		{
+			h.reposition(selection_rectangle);
+		}
+	}
+	
+	/**
+	 * Signal handler for clicking on {@link Actor}s.
+	 * 
+	 * This handler is attached to the button_press_event of all
+	 * {@link Actor}s in the currently displayed {@link SlideActor}.
+	 *
+	 * @param sender The {@link Actor} that was clicked
+	 * @param event The corresponding Clutter.Event
+	 */
+	public bool actor_clicked(Clutter.Actor sender, Clutter.Event event)
+	{
+		Actor act = (Actor)sender;
+		stdout.printf("Name: %s\n", act.element.data.get("ease_name"));
+	
+		// if the sender is already selected, drag it
+		if (sender == selected)
+		{
+			is_dragging = true;
+			is_drag_ready = false;
+			Clutter.grab_pointer(sender);
+			return true;
+		}
+		
+		// remove the selection rectangle
+		if (selection_rectangle != null)
+		{
+			foreach (var h in handles)
 			{
-				is_dragging = true;
-				is_drag_ready = false;
-				Clutter.grab_pointer(sender);
+				contents.remove_actor(h);
+			}
+			contents.remove_actor(selection_rectangle);
+		}
+		
+		selected = (Actor)sender;
+		
+		// make a new selection rectangle
+		selection_rectangle = new Clutter.Rectangle();
+		selection_rectangle.border_color = {0, 0, 0, 255};
+		selection_rectangle.color = {0, 0, 0, 0};
+		selection_rectangle.set_border_width(2);
+		position_selection();
+		contents.add_actor(selection_rectangle);
+		
+		handles = new Handle[8];
+		for (int i = 0; i < 8; i++)
+		{
+			handles[i] = new Handle((HandlePosition)i);
+			handles[i].reposition(selection_rectangle);
+			contents.add_actor(handles[i]);
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Signal handler for releasing an {@link Actor}.
+	 * 
+	 * This handler is attached to the button_release_event of all
+	 * {@link Actor}s in the currently displayed {@link SlideActor}.
+	 *
+	 * When the {@link Actor} is being dragged, this ends the drag action.
+	 *
+	 * @param sender The {@link Actor} that was released
+	 * @param event The corresponding Clutter.Event
+	 */
+	public bool actor_released(Clutter.Actor sender, Clutter.Event event)
+	{
+		if (sender == selected && is_dragging)
+		{
+			is_dragging = false;
+			Clutter.ungrab_pointer();
+		}
+		return true;
+	}
+	
+	/**
+	 * Signal handler for dragging an {@link Actor}.
+	 * 
+	 * This handler is attached to the motion_event of all
+	 * {@link Actor}s in the currently displayed {@link SlideActor}.
+	 * It will only have an effect if a drag is active.
+	 *
+	 * @param sender The {@link Actor} that was dragged
+	 * @param event The corresponding Clutter.Event
+	 */
+	public bool actor_motion(Clutter.Actor sender, Clutter.Event event)
+	{
+		Actor actor = (Actor)sender;
+		
+		if (sender == selected && is_dragging)
+		{
+			if (!is_drag_ready)
+			{
+				is_drag_ready = true;
+				mouse_x = event.motion.x;
+				mouse_y = event.motion.y;
 				return true;
 			}
 			
-			// remove the selection rectangle
-			if (selection_rectangle != null)
-			{
-				foreach (var h in handles)
-				{
-					contents.remove_actor(h);
-				}
-				contents.remove_actor(selection_rectangle);
-			}
+			float factor = 1 / zoom;
 			
-			selected = (Actor)sender;
+			actor.translate(factor * (event.motion.x - mouse_x),
+			                factor * (event.motion.y - mouse_y));
 			
-			// make a new selection rectangle
-			selection_rectangle = new Clutter.Rectangle();
-			selection_rectangle.border_color = {0, 0, 0, 255};
-			selection_rectangle.color = {0, 0, 0, 0};
-			selection_rectangle.set_border_width(2);
+			mouse_x = event.motion.x;
+			mouse_y = event.motion.y;
+			
 			position_selection();
-			contents.add_actor(selection_rectangle);
-			
-			handles = new Handle[8];
-			for (int i = 0; i < 8; i++)
-			{
-				handles[i] = new Handle((HandlePosition)i);
-				handles[i].reposition(selection_rectangle);
-				contents.add_actor(handles[i]);
-			}
-			
-			return true;
 		}
-		
-		/**
-		 * Signal handler for releasing an {@link Actor}.
-		 * 
-		 * This handler is attached to the button_release_event of all
-		 * {@link Actor}s in the currently displayed {@link SlideActor}.
-		 *
-		 * When the {@link Actor} is being dragged, this ends the drag action.
-		 *
-		 * @param sender The {@link Actor} that was released
-		 * @param event The corresponding Clutter.Event
-		 */
-		public bool actor_released(Clutter.Actor sender, Clutter.Event event)
-		{
-			if (sender == selected && is_dragging)
-			{
-				is_dragging = false;
-				Clutter.ungrab_pointer();
-			}
-			return true;
-		}
-		
-		/**
-		 * Signal handler for dragging an {@link Actor}.
-		 * 
-		 * This handler is attached to the motion_event of all
-		 * {@link Actor}s in the currently displayed {@link SlideActor}.
-		 * It will only have an effect if a drag is active.
-		 *
-		 * @param sender The {@link Actor} that was dragged
-		 * @param event The corresponding Clutter.Event
-		 */
-		public bool actor_motion(Clutter.Actor sender, Clutter.Event event)
-		{
-			Actor actor = (Actor)sender;
-			
-			if (sender == selected && is_dragging)
-			{
-				if (!is_drag_ready)
-				{
-					is_drag_ready = true;
-					mouse_x = event.motion.x;
-					mouse_y = event.motion.y;
-					return true;
-				}
-				
-				float factor = 1 / zoom;
-				
-				actor.translate(factor * (event.motion.x - mouse_x),
-				                factor * (event.motion.y - mouse_y));
-				
-				mouse_x = event.motion.x;
-				mouse_y = event.motion.y;
-				
-				position_selection();
-			}
-			return true;
-		}
+		return true;
 	}
 }
+

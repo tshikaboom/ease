@@ -15,13 +15,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Ease
+/**
+ * Stores data in an {@link ElementMap}
+ */
+public class Ease.ElementMapValue
 {
-	/**
-	 * Stores data in an {@link ElementMap}
-	 */
-	public class ElementMapValue
-	{
-		public string str_val { get; set; }
-	}
+	public string str_val { get; set; }
 }
+

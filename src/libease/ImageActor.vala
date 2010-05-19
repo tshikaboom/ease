@@ -15,47 +15,45 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Ease
+/**
+ * {@link Actor} for images
+ *
+ * ImageActor can represent either a bitmap or vector image, as it is
+ * backed by {@link Clutter.Texture}. This should be automatically
+ * handled by the represented {@link Element} and Clutter.
+ */
+public class Ease.ImageActor : Actor
 {
 	/**
-	 * {@link Actor} for images
-	 *
+	 * Instantiates a new ImageActor from an Element.
+	 * 
 	 * ImageActor can represent either a bitmap or vector image, as it is
 	 * backed by {@link Clutter.Texture}. This should be automatically
 	 * handled by the represented {@link Element} and Clutter.
+	 *
+	 * @param e The represented element.
+	 * @param c The context of this Actor (Presentation, Sidebar, Editor)
 	 */
-	public class ImageActor : Actor
+	public ImageActor(Element e, ActorContext c)
 	{
-		/**
-		 * Instantiates a new ImageActor from an Element.
-		 * 
-		 * ImageActor can represent either a bitmap or vector image, as it is
-		 * backed by {@link Clutter.Texture}. This should be automatically
-		 * handled by the represented {@link Element} and Clutter.
-		 *
-		 * @param e The represented element.
-		 * @param c The context of this Actor (Presentation, Sidebar, Editor)
-		 */
-		public ImageActor(Element e, ActorContext c)
+		base(e, c);
+		
+		try
 		{
-			base(e, c);
-			
-			try
-			{
-				contents = new Clutter.Texture.from_file(e.parent.parent.path + e.data.get("filename"));
-			}
-			catch (GLib.Error e)
-			{
-				stdout.printf("Error loading ImageActor: %s", e.message);
-			}
-			finally
-			{
-				add_actor(contents);
-				contents.width = e.width;
-				contents.height = e.height;
-				x = e.x;
-				y = e.y;
-			}
+			contents = new Clutter.Texture.from_file(e.parent.parent.path + e.data.get("filename"));
+		}
+		catch (GLib.Error e)
+		{
+			stdout.printf("Error loading ImageActor: %s", e.message);
+		}
+		finally
+		{
+			add_actor(contents);
+			contents.width = e.width;
+			contents.height = e.height;
+			x = e.x;
+			y = e.y;
 		}
 	}
 }
+

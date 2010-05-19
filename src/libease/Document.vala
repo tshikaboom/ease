@@ -17,273 +17,270 @@
 
 using Xml;
 
-namespace Ease
+/**
+ * The internal representation of Ease documents. Contains {@link Slide}s.
+ *
+ * The Ease Document class is generated from XML and writes back to XML
+ * when saved.
+ */
+public class Ease.Document : GLib.Object
 {
+	public Gee.ArrayList<Slide> slides { get; set; }
+	public Theme theme { get; set; }
+	public int width { get; set; }
+	public int height { get; set; }
+	public string path { get; set; }
+
 	/**
-	 * The internal representation of Ease documents. Contains {@link Slide}s.
-	 *
-	 * The Ease Document class is generated from XML and writes back to XML
-	 * when saved.
+	 * Default constructor, used for new documents.
+	 * 
+	 * Creates a new, empty document with no slides. Used for creating new
+	 * documents (which can then add a default slide).
 	 */
-	public class Document : GLib.Object
+	public Document()
 	{
-		public Gee.ArrayList<Slide> slides { get; set; }
-		public Theme theme { get; set; }
-		public int width { get; set; }
-		public int height { get; set; }
-		public string path { get; set; }
+		slides = new Gee.ArrayList<Slide>();
+	}
 
-		/**
-		 * Default constructor, used for new documents.
-		 * 
-		 * Creates a new, empty document with no slides. Used for creating new
-		 * documents (which can then add a default slide).
-		 */
-		public Document()
+	/**
+	 * Create a document from a file that already exists.
+	 * 
+	 * Used for loading previously saved files. 
+	 *
+	 * @param filename The path to the filename.
+	 */
+	public Document.from_file(string filename)
+	{
+		this();
+		
+		path = filename;
+		
+		var doc = Parser.parse_file(filename + "Document.xml");
+		if (doc == null)
 		{
-			slides = new Gee.ArrayList<Slide>();
+			stdout.printf("No Document");
 		}
-
-		/**
-		 * Create a document from a file that already exists.
-		 * 
-		 * Used for loading previously saved files. 
-		 *
-		 * @param filename The path to the filename.
-		 */
-		public Document.from_file(string filename)
+		
+		var root = doc->get_root_element();
+		if (root == null)
 		{
-			this();
-			
-			path = filename;
-			
-			var doc = Parser.parse_file(filename + "Document.xml");
-			if (doc == null)
+			stdout.printf("No root node");
+		}
+		else
+		{
+			for (Xml.Attr* i = root -> properties; i != null; i = i->next)
 			{
-				stdout.printf("No Document");
-			}
-			
-			var root = doc->get_root_element();
-			if (root == null)
-			{
-				stdout.printf("No root node");
-			}
-			else
-			{
-				for (Xml.Attr* i = root -> properties; i != null; i = i->next)
+				switch (i->name)
 				{
-					switch (i->name)
-					{
-						case "width":
-							width = (i->children->content).to_int();
-							break;
-						case "height":
-							height = (i->children->content).to_int();
-							break;
-					}
-				}
-				parse_xml(root);
-			}
-			
-			delete doc;
-		}
-
-		/**
-		 * Writes the document to a file (currently, a folder).
-		 * 
-		 * to_file() uses the Document's "path" property to determine where the
-		 * file should be written. Currently, if writing fails, a dialog box
-		 * is displayed with the exception.
-		 *
-		 */
-		public void to_file()
-		{
-			string output = "<?xml version=\"1.0\" ?>\n" +
-			                "<document width=\"" + @"$width" + "\" height=\"" + @"$height" + "\">\n" +
-			                "\t<slides>\n";
-			foreach (var s in slides)
-			{
-				output += s.to_xml();
-			}
-			output += "\t</slides>\n</document>\n";
-
-			try
-			{
-				var file = File.new_for_path(path + "Document.xml");
-				var stream = file.replace(null, true, FileCreateFlags.NONE, null);
-				var data_stream = new DataOutputStream(stream);
-				data_stream.put_string(output, null);
-			}
-			catch (GLib.Error e)
-			{
-				var dialog = new Gtk.MessageDialog(null,
-				                                   Gtk.DialogFlags.NO_SEPARATOR,
-				                                   Gtk.MessageType.ERROR,
-				                                   Gtk.ButtonsType.CLOSE,
-				                                   "Error saving: %s", e. message);
-				dialog.title = "Error Saving";
-				dialog.border_width = 5;
-				dialog.run();
-			}
-		}
-
-		/**
-		 * Begins the parsing of an XML document.
-		 * 
-		 * This will be replaced with a JSON file format. 
-		 *
-		 * @param node The initial XML node to begin with.
-		 */
-		private void parse_xml(Xml.Node* node)
-		{
-			for (Xml.Node* iter = node->children; iter != null; iter = iter ->next)
-			{
-				switch (iter->name)
-				{
-					case "slides":
-						parse_slides(iter);
+					case "width":
+						width = (i->children->content).to_int();
+						break;
+					case "height":
+						height = (i->children->content).to_int();
 						break;
 				}
 			}
+			parse_xml(root);
 		}
+		
+		delete doc;
+	}
 
-		/**
-		 * Parses the slides from an XML document.
-		 * 
-		 * This will be replaced with a JSON file format.
-		 *
-		 * @param node The slides XML node.
-		 */
-		private void parse_slides(Xml.Node* node)
+	/**
+	 * Writes the document to a file (currently, a folder).
+	 * 
+	 * to_file() uses the Document's "path" property to determine where the
+	 * file should be written. Currently, if writing fails, a dialog box
+	 * is displayed with the exception.
+	 *
+	 */
+	public void to_file()
+	{
+		string output = "<?xml version=\"1.0\" ?>\n" +
+		                "<document width=\"" + @"$width" + "\" height=\"" + @"$height" + "\">\n" +
+		                "\t<slides>\n";
+		foreach (var s in slides)
 		{
-			for (Xml.Node* i = node->children; i != null; i = i->next)
+			output += s.to_xml();
+		}
+		output += "\t</slides>\n</document>\n";
+
+		try
+		{
+			var file = File.new_for_path(path + "Document.xml");
+			var stream = file.replace(null, true, FileCreateFlags.NONE, null);
+			var data_stream = new DataOutputStream(stream);
+			data_stream.put_string(output, null);
+		}
+		catch (GLib.Error e)
+		{
+			var dialog = new Gtk.MessageDialog(null,
+			                                   Gtk.DialogFlags.NO_SEPARATOR,
+			                                   Gtk.MessageType.ERROR,
+			                                   Gtk.ButtonsType.CLOSE,
+			                                   "Error saving: %s", e. message);
+			dialog.title = "Error Saving";
+			dialog.border_width = 5;
+			dialog.run();
+		}
+	}
+
+	/**
+	 * Begins the parsing of an XML document.
+	 * 
+	 * This will be replaced with a JSON file format. 
+	 *
+	 * @param node The initial XML node to begin with.
+	 */
+	private void parse_xml(Xml.Node* node)
+	{
+		for (Xml.Node* iter = node->children; iter != null; iter = iter ->next)
+		{
+			switch (iter->name)
 			{
-				// skip ahead if this isn't a node
-				if (i->type != ElementType.ELEMENT_NODE)
+				case "slides":
+					parse_slides(iter);
+					break;
+			}
+		}
+	}
+
+	/**
+	 * Parses the slides from an XML document.
+	 * 
+	 * This will be replaced with a JSON file format.
+	 *
+	 * @param node The slides XML node.
+	 */
+	private void parse_slides(Xml.Node* node)
+	{
+		for (Xml.Node* i = node->children; i != null; i = i->next)
+		{
+			// skip ahead if this isn't a node
+			if (i->type != ElementType.ELEMENT_NODE)
+			{
+				continue;
+			}
+			
+			// create a new slide to be added
+			var slide = new Slide(this);
+			slide.elements = new Gee.ArrayList<Element>();
+			
+			// scan the slide's properties
+			for (Xml.Attr* j = i->properties; j != null; j = j->next)
+			{
+				switch (j->name)
+				{
+					case "transition":
+						slide.transition = j->children->content;
+						break;
+					case "variant":
+						slide.variant = j->children->content;
+						break;
+					case "background_color":
+						slide.background_color.from_string(j->children->content);
+						break;
+					case "background_image":
+						slide.background_image = j->children->content;
+						break;
+					case "time":
+						slide.transition_time = j->children->content.to_double();
+						break;
+				}
+			}
+					
+			// scan the slide's elements
+			for (Xml.Node* j = i->children; j != null; j = j->next)
+			{					
+				if (j->type != ElementType.ELEMENT_NODE)
 				{
 					continue;
 				}
-				
-				// create a new slide to be added
-				var slide = new Slide(this);
-				slide.elements = new Gee.ArrayList<Element>();
-				
-				// scan the slide's properties
-				for (Xml.Attr* j = i->properties; j != null; j = j->next)
+
+				// build a list of the element's properties
+				var list = new Gee.ArrayList<string>();
+				for (Xml.Attr* k = j->properties; k != null; k = k->next)
 				{
-					switch (j->name)
-					{
-						case "transition":
-							slide.transition = j->children->content;
-							break;
-						case "variant":
-							slide.variant = j->children->content;
-							break;
-						case "background_color":
-							slide.background_color.from_string(j->children->content);
-							break;
-						case "background_image":
-							slide.background_image = j->children->content;
-							break;
-						case "time":
-							slide.transition_time = j->children->content.to_double();
-							break;
-					}
+					list.add(k->name);
+					list.add(k->children->content);
 				}
-						
-				// scan the slide's elements
-				for (Xml.Node* j = i->children; j != null; j = j->next)
-				{					
-					if (j->type != ElementType.ELEMENT_NODE)
-					{
-						continue;
-					}
 
-					// build a list of the element's properties
-					var list = new Gee.ArrayList<string>();
-					for (Xml.Attr* k = j->properties; k != null; k = k->next)
-					{
-						list.add(k->name);
-						list.add(k->children->content);
-					}
-
-					// if the element has text, add that as well
-					if (j->get_content() != null)
-					{
-						list.add("text");
-						list.add(j-> get_content());
-					}
-					
-					// create an appropriate element
-					var element = new Element(slide);
-					for (var index = 0; index < list.size; index += 2)
-					{
-						element.data.set(list[index], list[index + 1]);
-					}
-					
-					slide.elements.add(element);
+				// if the element has text, add that as well
+				if (j->get_content() != null)
+				{
+					list.add("text");
+					list.add(j-> get_content());
 				}
 				
-				slides.add(slide);
+				// create an appropriate element
+				var element = new Element(slide);
+				for (var index = 0; index < list.size; index += 2)
+				{
+					element.data.set(list[index], list[index + 1]);
+				}
+				
+				slide.elements.add(element);
 			}
+			
+			slides.add(slide);
 		}
+	}
+	
+	public void export_to_html(Gtk.Window window)
+	{
+		// make an HTMLExporter
+		var exporter = new HTMLExporter();
 		
-		public void export_to_html(Gtk.Window window)
+		if (!exporter.request_path(window))
 		{
-			// make an HTMLExporter
-			var exporter = new HTMLExporter();
-			
-			if (!exporter.request_path(window))
-			{
-				return;
-			}
-		
-			// intialize the html string
-			var html = "<!DOCTYPE html>\n<html>\n";
-			
-			// make the header
-			html += "<head>\n<title>Presentation</title>\n";
-			html += "<style>\n.slide {\nwidth:" + width.to_string() +
-			        "px;\nheight:" + height.to_string() +
-			        "px; position: relative;margin: 20px auto 20px auto}\n" + 
-			        "html { padding: 0px; margin: 0px; background-color:" +
-			        "black;}\n</style>\n</head>\n";
-			
-			// make the body
-			html += "<body>\n";
-			
-			// add each slide
-			for (var i = 0; i < slides.size; i++)
-			{
-				slides.get(i).to_html(ref html, exporter, 1.0 / slides.size, i);
-			}
-			
-			// finish the document
-			html += "</body>\n</html>\n";
-			
-			// write the document to file
-			try
-			{
-				var file = File.new_for_path(exporter.path);
-				var stream = file.replace(null, true, FileCreateFlags.NONE, null);
-				var data_stream = new DataOutputStream(stream);
-				data_stream.put_string(html, null);
-			}
-			catch (GLib.Error e)
-			{
-				var dialog = new Gtk.MessageDialog(null,
-				                                   Gtk.DialogFlags.NO_SEPARATOR,
-				                                   Gtk.MessageType.ERROR,
-				                                   Gtk.ButtonsType.CLOSE,
-				                                   "Error exporting: %s",
-				                                   e. message);
-				dialog.title = "Error Exporting";
-				dialog.border_width = 5;
-				dialog.run();
-			}
-			
-			exporter.finish();
+			return;
 		}
+	
+		// intialize the html string
+		var html = "<!DOCTYPE html>\n<html>\n";
+		
+		// make the header
+		html += "<head>\n<title>Presentation</title>\n";
+		html += "<style>\n.slide {\nwidth:" + width.to_string() +
+		        "px;\nheight:" + height.to_string() +
+		        "px; position: relative;margin: 20px auto 20px auto}\n" + 
+		        "html { padding: 0px; margin: 0px; background-color:" +
+		        "black;}\n</style>\n</head>\n";
+		
+		// make the body
+		html += "<body>\n";
+		
+		// add each slide
+		for (var i = 0; i < slides.size; i++)
+		{
+			slides.get(i).to_html(ref html, exporter, 1.0 / slides.size, i);
+		}
+		
+		// finish the document
+		html += "</body>\n</html>\n";
+		
+		// write the document to file
+		try
+		{
+			var file = File.new_for_path(exporter.path);
+			var stream = file.replace(null, true, FileCreateFlags.NONE, null);
+			var data_stream = new DataOutputStream(stream);
+			data_stream.put_string(html, null);
+		}
+		catch (GLib.Error e)
+		{
+			var dialog = new Gtk.MessageDialog(null,
+			                                   Gtk.DialogFlags.NO_SEPARATOR,
+			                                   Gtk.MessageType.ERROR,
+			                                   Gtk.ButtonsType.CLOSE,
+			                                   "Error exporting: %s",
+			                                   e. message);
+			dialog.title = "Error Exporting";
+			dialog.border_width = 5;
+			dialog.run();
+		}
+		
+		exporter.finish();
 	}
 }
 

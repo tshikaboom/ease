@@ -15,12 +15,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Ease
+/**
+ * Internal representation of Ease themes
+ */
+public class Ease.Theme : GLib.Object
 {
-	/**
-	 * Internal representation of Ease themes
-	 */
-	public class Theme : GLib.Object
-	{
-	}
 }
+

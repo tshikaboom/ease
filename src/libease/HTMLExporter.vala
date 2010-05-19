@@ -15,134 +15,132 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Ease
+/**
+ * Exports Ease {@link Document}s as HTML5 files
+ *
+ * HTMLExporter creates a save dialog and a progress dialog. The actual
+ * exporting is done with the {@link Document}, {@link Slide}, and
+ * {@link Element} classes. The exported {@link Document} reports back to
+ * HTMLExported when the export is complete, allowing the dialog to close.
+ *
+ * HTMLExporter also handles copying media files to the output directory.
+ */
+public class Ease.HTMLExporter : GLib.Object
 {
-	/**
-	 * Exports Ease {@link Document}s as HTML5 files
-	 *
-	 * HTMLExporter creates a save dialog and a progress dialog. The actual
-	 * exporting is done with the {@link Document}, {@link Slide}, and
-	 * {@link Element} classes. The exported {@link Document} reports back to
-	 * HTMLExported when the export is complete, allowing the dialog to close.
-	 *
-	 * HTMLExporter also handles copying media files to the output directory.
-	 */
-	public class HTMLExporter : GLib.Object
+	private Gtk.Dialog window;
+	private Gtk.ProgressBar progress;
+	
+	public string path { get; private set; }
+	
+	public HTMLExporter()
 	{
-		private Gtk.Dialog window;
-		private Gtk.ProgressBar progress;
+		progress = new Gtk.ProgressBar();
+	}
+	
+	/**
+	 * Asks the user for an output path
+	 *
+	 * Shows a file chooser dialog. If the user does not cancel the export,
+	 * creates a the progress dialog. Returns false if the user cancels,
+	 * otherwise returns true.
+	 * 
+	 * @param win The window that the dialog should be modal for
+	 */
+	public bool request_path(Gtk.Window win)
+	{
+		var dialog = new Gtk.FileChooserDialog("Export to HTML",
+		                                       win,
+		                                       Gtk.FileChooserAction.SAVE,
+		                                       "gtk-save",
+		                                       Gtk.ResponseType.ACCEPT,
+		                                       "gtk-cancel",
+		                                       Gtk.ResponseType.CANCEL,
+		                                       null);
 		
-		public string path { get; private set; }
-		
-		public HTMLExporter()
+		if (dialog.run() == Gtk.ResponseType.ACCEPT)
 		{
-			progress = new Gtk.ProgressBar();
-		}
-		
-		/**
-		 * Asks the user for an output path
-		 *
-		 * Shows a file chooser dialog. If the user does not cancel the export,
-		 * creates a the progress dialog. Returns false if the user cancels,
-		 * otherwise returns true.
-		 * 
-		 * @param win The window that the dialog should be modal for
-		 */
-		public bool request_path(Gtk.Window win)
-		{
-			var dialog = new Gtk.FileChooserDialog("Export to HTML",
-			                                       win,
-			                                       Gtk.FileChooserAction.SAVE,
-			                                       "gtk-save",
-			                                       Gtk.ResponseType.ACCEPT,
-			                                       "gtk-cancel",
-			                                       Gtk.ResponseType.CANCEL,
-			                                       null);
+			// clean up the file dialog
+			path = dialog.get_filename();
+			dialog.destroy();
 			
-			if (dialog.run() == Gtk.ResponseType.ACCEPT)
-			{
-				// clean up the file dialog
-				path = dialog.get_filename();
-				dialog.destroy();
-				
-				// create the progress dialog
-				window = new Gtk.Dialog();
-				window.width_request = 400;
-				window.set_title("Exporting as HTML");
-				Gtk.VBox vbox = (Gtk.VBox)(window.get_content_area());
-				vbox.pack_start(progress, true, true, 5);
-				window.show_all();
-				
-				return true;
-			}
-			else
-			{
-				dialog.destroy();
-				return false;
-			}
+			// create the progress dialog
+			window = new Gtk.Dialog();
+			window.width_request = 400;
+			window.set_title("Exporting as HTML");
+			Gtk.VBox vbox = (Gtk.VBox)(window.get_content_area());
+			vbox.pack_start(progress, true, true, 5);
+			window.show_all();
+			
+			return true;
 		}
-		
-		/**
-		 * Adds to the progress dialog's progress bar, which ranges from 0 to 1
-		 *
-		 * @param amount The amount of progress to add
-		 */
-		public void add_progress(double amount)
+		else
 		{
-			progress.set_fraction(progress.get_fraction() + amount);
+			dialog.destroy();
+			return false;
 		}
-		
-		/**
-		 * Finishes exporting and hides the progress dialog
-		 */
-		public void finish()
-		{
-			window.hide_all();
-			window.destroy();
-		}
-		
-		/**
-		 * Copies a file to the output path
-		 *
-		 * To show images or videos in an HTML presentation, they must be
-		 * copied to a path relative to the HTML document.
-		 *
-		 * @param end_path The file's path relative to the Ease file
-		 * @param base_path The output directory and filename
-		 */
-		public void copy_file(string end_path, string base_path)
-		{
-			var source = File.new_for_path(base_path + "/" + end_path);
-			var destination = File.new_for_path(path + " " + end_path);
+	}
+	
+	/**
+	 * Adds to the progress dialog's progress bar, which ranges from 0 to 1
+	 *
+	 * @param amount The amount of progress to add
+	 */
+	public void add_progress(double amount)
+	{
+		progress.set_fraction(progress.get_fraction() + amount);
+	}
+	
+	/**
+	 * Finishes exporting and hides the progress dialog
+	 */
+	public void finish()
+	{
+		window.hide_all();
+		window.destroy();
+	}
+	
+	/**
+	 * Copies a file to the output path
+	 *
+	 * To show images or videos in an HTML presentation, they must be
+	 * copied to a path relative to the HTML document.
+	 *
+	 * @param end_path The file's path relative to the Ease file
+	 * @param base_path The output directory and filename
+	 */
+	public void copy_file(string end_path, string base_path)
+	{
+		var source = File.new_for_path(base_path + "/" + end_path);
+		var destination = File.new_for_path(path + " " + end_path);
 
-			try
+		try
+		{
+			// if the destination directory doesn't exist, make it
+			var parent = destination.get_parent();
+			if (!parent.query_exists(null))
 			{
-				// if the destination directory doesn't exist, make it
-				var parent = destination.get_parent();
-				if (!parent.query_exists(null))
-				{
-					parent.make_directory_with_parents(null);
-				}
-				
-				// copy the image
-				source.copy(destination,
-					        FileCopyFlags.OVERWRITE,
-					        null,
-					        null);
+				parent.make_directory_with_parents(null);
 			}
-			catch (GLib.Error e)
-			{
-				var dialog = new Gtk.MessageDialog(null,
-					                               Gtk.DialogFlags.NO_SEPARATOR,
-					                               Gtk.MessageType.ERROR,
-					                               Gtk.ButtonsType.CLOSE,
-					                               "Error copying: %s",
-					                               e. message);
-				dialog.title = "Error Copying File";
-				dialog.border_width = 5;
-				dialog.run();
-				dialog.destroy();
-			}
+			
+			// copy the image
+			source.copy(destination,
+				        FileCopyFlags.OVERWRITE,
+				        null,
+				        null);
+		}
+		catch (GLib.Error e)
+		{
+			var dialog = new Gtk.MessageDialog(null,
+				                               Gtk.DialogFlags.NO_SEPARATOR,
+				                               Gtk.MessageType.ERROR,
+				                               Gtk.ButtonsType.CLOSE,
+				                               "Error copying: %s",
+				                               e. message);
+			dialog.title = "Error Copying File";
+			dialog.border_width = 5;
+			dialog.run();
+			dialog.destroy();
 		}
 	}
 }
+

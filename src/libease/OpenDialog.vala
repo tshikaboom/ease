@@ -15,50 +15,47 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Ease
+/**
+ * Manages "open file" windows
+ * 
+ * OpenDialog is a singleton. Before it can be used, init() must be
+ * called. After that, a dialog can be opened by calling the static 
+ * method run().
+ */
+public class Ease.OpenDialog : GLib.Object
 {
+	private static OpenDialog instance;
+	
 	/**
-	 * Manages "open file" windows
-	 * 
-	 * OpenDialog is a singleton. Before it can be used, init() must be
-	 * called. After that, a dialog can be opened by calling the static 
-	 * method run().
+	 * Initializes OpenDialog. Called when Ease starts.
 	 */
-	public class OpenDialog : GLib.Object
+	public static void init()
 	{
-		private static OpenDialog instance;
-		
-		/**
-		 * Initializes OpenDialog. Called when Ease starts.
-		 */
-		public static void init()
-		{
-			instance = new OpenDialog();
-		}
-		
-		/**
-		 * Displays an "Open" dialog.
-		 * 
-		 * Used for loading previously saved files. This is a static method.
-		 */
-		public static void run()
-		{
-			instance.instance_run();
-		}
+		instance = new OpenDialog();
+	}
+	
+	/**
+	 * Displays an "Open" dialog.
+	 * 
+	 * Used for loading previously saved files. This is a static method.
+	 */
+	public static void run()
+	{
+		instance.instance_run();
+	}
 
-		private void instance_run()
-		{
-			var dialog = new Gtk.FileChooserDialog("Open File",
-			                                       null,
-			                                       Gtk.FileChooserAction.SELECT_FOLDER,
-			                                       "gtk-cancel", Gtk.ResponseType.CANCEL,
-			                                       "gtk-open", Gtk.ResponseType.ACCEPT, null);
+	private void instance_run()
+	{
+		var dialog = new Gtk.FileChooserDialog("Open File",
+		                                       null,
+		                                       Gtk.FileChooserAction.SELECT_FOLDER,
+		                                       "gtk-cancel", Gtk.ResponseType.CANCEL,
+		                                       "gtk-open", Gtk.ResponseType.ACCEPT, null);
 
-			if (dialog.run() == Gtk.ResponseType.ACCEPT)
-			{
-				Main.test_editor(dialog.get_filename() + "/");
-			}
-			dialog.destroy();
+		if (dialog.run() == Gtk.ResponseType.ACCEPT)
+		{
+			Main.test_editor(dialog.get_filename() + "/");
 		}
+		dialog.destroy();
 	}
 }

@@ -15,61 +15,59 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Ease
+/**
+ * The basic Ease actor, subclassed for different types of
+ * {@link Element}.
+ *
+ * The Actor class should never be instantiated - instead,
+ * subclasses such as {@link TextActor} and {@link ImageActor}
+ * are placed on a {@link SlideActor} to form Ease presentations.
+ */
+public class Ease.Actor : Clutter.Group
 {
+	// the contents of the actor
+	protected Clutter.Actor contents;
+
+	// the element this actor represents
+	public Element element;
+
+	// where this actor is (editor, player, sidebar)
+	public ActorContext context;
+	
+	// if the actor is a slide background
+	public bool is_background;
+
 	/**
-	 * The basic Ease actor, subclassed for different types of
-	 * {@link Element}.
+	 * Instantiate a new Actor
+	 * 
+	 * Instantiates the Actor base class. In general, this should only be
+	 * called by subclasses.
 	 *
-	 * The Actor class should never be instantiated - instead,
-	 * subclasses such as {@link TextActor} and {@link ImageActor}
-	 * are placed on a {@link SlideActor} to form Ease presentations.
+	 * @param e The {@link Element} this Actor represents.
+	 * @param c The context of this Actor - sidebar, presentation, editor.
 	 */
-	public class Actor : Clutter.Group
+	public Actor(Element e, ActorContext c)
 	{
-		// the contents of the actor
-		protected Clutter.Actor contents;
-
-		// the element this actor represents
-		public Element element;
-
-		// where this actor is (editor, player, sidebar)
-		public ActorContext context;
+		element = e;
+		context = c;
+		is_background = false;
+	}
+	
+	/**
+	 * Move this Actor and update its {@link Element}
+	 * 
+	 * Used in the editor and tied to Clutter MotionEvents.
+	 *
+	 * @param x_change The amount of X motion.
+	 * @param y_change The amount of Y motion.
+	 */
+	public void translate(float x_change, float y_change)
+	{
+		x += x_change;
+		y += y_change;
 		
-		// if the actor is a slide background
-		public bool is_background;
-
-		/**
-		 * Instantiate a new Actor
-		 * 
-		 * Instantiates the Actor base class. In general, this should only be
-		 * called by subclasses.
-		 *
-		 * @param e The {@link Element} this Actor represents.
-		 * @param c The context of this Actor - sidebar, presentation, editor.
-		 */
-		public Actor(Element e, ActorContext c)
-		{
-			element = e;
-			context = c;
-			is_background = false;
-		}
-		
-		/**
-		 * Move this Actor and update its {@link Element}
-		 * 
-		 * Used in the editor and tied to Clutter MotionEvents.
-		 *
-		 * @param x_change The amount of X motion.
-		 * @param y_change The amount of Y motion.
-		 */
-		public void translate(float x_change, float y_change)
-		{
-			x += x_change;
-			y += y_change;
-			
-			element.x = x;
-			element.y = y;
-		}
+		element.x = x;
+		element.y = y;
 	}
 }
+
