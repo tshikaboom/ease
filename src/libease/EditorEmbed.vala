@@ -157,10 +157,18 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		// remove the selection rectangle
 		if (selection_rectangle != null)
 		{
-			contents.remove_actor(selection_rectangle);
+			if (selection_rectangle.get_parent() == contents)
+			{
+				contents.remove_actor(selection_rectangle);
+			}
 			foreach (var h in handles)
 			{
-				contents.remove_actor(h);
+				if (h.get_parent() == contents)
+				{
+					contents.remove_actor(h);
+				}
+				h.button_press_event.disconnect(handle_clicked);
+				h.button_release_event.disconnect(handle_released);
 			}
 		}
 		
@@ -255,14 +263,23 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			return true;
 		}
 		
-		// remove the selection rectangle
+		// remove the selection rectangle and handles
 		if (selection_rectangle != null)
 		{
 			foreach (var h in handles)
 			{
-				contents.remove_actor(h);
+				h.button_press_event.disconnect(handle_clicked);
+				h.button_release_event.disconnect(handle_released);
+				
+				if (h.get_parent() == contents)
+				{	
+					contents.remove_actor(h);
+				}
 			}
-			contents.remove_actor(selection_rectangle);
+			if (selection_rectangle.get_parent() == contents)
+			{
+				contents.remove_actor(selection_rectangle);
+			}
 		}
 		
 		selected = (Actor)sender;
@@ -281,6 +298,9 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			handles[i] = new Handle((HandlePosition)i);
 			handles[i].reposition(selection_rectangle);
 			contents.add_actor(handles[i]);
+			
+			handles[i].button_press_event.connect(handle_clicked);
+			handles[i].button_release_event.connect(handle_released);
 		}
 		
 		return true;
@@ -341,6 +361,87 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			
 			position_selection();
 		}
+		return true;
+	}
+	
+	/**
+	 * Signal handler for clicking on a {@link Handle}.
+	 * 
+	 * This handler is attached to the button_press_event of all
+	 * {@link Handle}s.
+	 *
+	 * @param sender The {@link Handle} that was clicked
+	 * @param event The corresponding Clutter.Event
+	 */
+	public bool handle_clicked(Clutter.Actor sender, Clutter.Event event)
+	{
+		is_dragging = true;
+		is_drag_ready = false;
+		sender.motion_event.connect(handle_motion);
+		Clutter.grab_pointer(sender);
+		return true;
+	}
+	
+	/**
+	 * Signal handler for releasing an {@link Handle}.
+	 * 
+	 * This handler is attached to the button_release_event of all
+	 * {@link Handle}s.
+	 *
+	 * When the {@link Handle} is being dragged, this ends the drag action.
+	 *
+	 * @param sender The {@link Handle} that was released
+	 * @param event The corresponding Clutter.Event
+	 */
+	public bool handle_released(Clutter.Actor sender, Clutter.Event event)
+	{
+		if (is_dragging)
+		{
+			is_dragging = false;
+			sender.motion_event.disconnect(handle_motion);
+		}
+		
+		Clutter.ungrab_pointer();
+		return true;
+	}
+	
+	/**
+	 * Signal handler for dragging an {@link Handle}.
+	 * 
+	 * This handler is attached to the motion_event of all
+	 * {@link Handle}s.
+	 *
+	 * It will only have an effect if a drag is active.
+	 *
+	 * @param sender The {@link Handle} that was dragged
+	 * @param event The corresponding Clutter.Event
+	 */
+	public bool handle_motion(Clutter.Actor sender, Clutter.Event event)
+	{
+		Handle handle = (Handle)sender;
+		
+		if (!is_drag_ready)
+		{
+			is_drag_ready = true;
+			mouse_x = event.motion.x;
+			mouse_y = event.motion.y;
+			return true;
+		}
+		
+		float factor = 1 / zoom;
+		var motion = event.motion;
+		var p = (motion.modifier_state & Clutter.ModifierType.SHIFT_MASK) != 0;
+		
+		handle.drag(factor * (motion.x - mouse_x),
+		            factor * (motion.y - mouse_y),
+		            selected,
+		            p);
+		
+		mouse_x = motion.x;
+		mouse_y = motion.y;
+		
+		position_selection();
+		
 		return true;
 	}
 }

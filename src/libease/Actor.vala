@@ -69,5 +69,43 @@ public class Ease.Actor : Clutter.Group
 		element.x = x;
 		element.y = y;
 	}
+	
+	/**
+	 * Resize this Actor and update its {@link Element}
+	 * 
+	 * Used in the editor and tied to Clutter MotionEvents on handles.
+	 *
+	 * @param w_change The amount of width change.
+	 * @param h_change The amount of height change.
+	 * @param proportional If the resize should be proportional only
+	 */
+	public void resize(float w_change, float h_change, bool proportional)
+	{
+		if (proportional)
+		{
+			if (w_change / h_change > width / height)
+			{
+				w_change = h_change * (width / height);
+			}
+			else if (w_change / h_change < width / height)
+			{
+				h_change = w_change * (height / width);
+			}
+		}
+	
+		if (width + w_change > 1)
+		{
+			width += w_change;
+			contents.width += w_change;
+		}
+		if (height + h_change > 1)
+		{
+			height += h_change;
+			contents.height += h_change;
+		}
+		
+		element.width = width;
+		element.height = height;	
+	}
 }
 
