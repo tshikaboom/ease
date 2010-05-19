@@ -62,42 +62,42 @@ namespace Ease
 		{
 			switch (position)
 			{
-				case HandlePosition.TopLeft:
+				case HandlePosition.TOP_LEFT:
 					x = selection.x;
 					y = selection.y;
 					break;
 					
-				case HandlePosition.TopRight:
+				case HandlePosition.TOP_RIGHT:
 					x = selection.x + selection.width;
 					y = selection.y;
 					break;
 					
-				case HandlePosition.Top:
+				case HandlePosition.TOP:
 					x = selection.x + selection.width / 2;
 					y = selection.y;
 					break;
 					
-				case HandlePosition.Left:
+				case HandlePosition.LEFT:
 					x = selection.x;
 					y = selection.y + selection.height / 2;
 					break;
 					
-				case HandlePosition.Right:
+				case HandlePosition.RIGHT:
 					x = selection.x + selection.width;
 					y = selection.y + selection.height / 2;
 					break;
 					
-				case HandlePosition.BottomLeft:
+				case HandlePosition.BOTTOM_LEFT:
 					x = selection.x;
 					y = selection.y + selection.height;
 					break;
 					
-				case HandlePosition.BottomRight:
+				case HandlePosition.BOTTOM_RIGHT:
 					x = selection.x + selection.width;
 					y = selection.y + selection.height;
 					break;
 					
-				case HandlePosition.Bottom:
+				case HandlePosition.BOTTOM:
 					x = selection.x + selection.width / 2;
 					y = selection.y + selection.height;
 					break;

@@ -19,20 +19,20 @@ namespace Ease
 {
 	public enum HandlePosition
 	{
-		TopLeft = 0,
-		TopRight = 1,
-		Top = 2,
-		Left = 3,
-		Right = 4,
-		BottomLeft = 5,
-		BottomRight = 6,
-		Bottom = 7
+		TOP_LEFT = 0,
+		TOP_RIGHT = 1,
+		TOP = 2,
+		LEFT = 3,
+		RIGHT = 4,
+		BOTTOM_LEFT = 5,
+		BOTTOM_RIGHT = 6,
+		BOTTOM = 7
 	}
 
 	public enum ActorContext
 	{
-		Presentation,
-		Editor,
-		Sidebar
+		PRESENTATION,
+		EDITOR,
+		SIDEBAR
 	}
 }
