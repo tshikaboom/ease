@@ -242,7 +242,7 @@ public class Ease.Document : GLib.Object
 		// make the header
 		html += "<head>\n<title>Presentation</title>\n";
 		html += "<style>\n.slide {\nwidth:" + width.to_string() +
-		        "px;\nheight:" + height.to_string() +
+		        "px;\noverflow:hidden;height:" + height.to_string() +
 		        "px; position: relative;margin: 20px auto 20px auto}\n" + 
 		        "html { padding: 0px; margin: 0px; background-color:" +
 		        "black;}\n</style>\n</head>\n";
