@@ -211,6 +211,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 */
 	public void reposition_group()
 	{
+		if (slide_actor == null)
+		{
+			return;
+		}
+		
 		var w = zoom * document.width;
 		var h = zoom * document.height;
 		
