@@ -240,15 +240,15 @@ public class Ease.Document : GLib.Object
 		var html = "<!DOCTYPE html>\n<html>\n";
 		
 		// make the header
-		html += "<head>\n<title>Presentation</title>\n";
-		html += "<style>\n.slide {\nwidth:" + width.to_string() +
+		html += "<head>\n<title>Presentation</title>\n" + HTMLExporter.js;
+		html += "<style>\n.slide {\ndisplay:none;\nwidth:" + width.to_string() +
 		        "px;\noverflow:hidden;height:" + height.to_string() +
 		        "px; position: relative;margin: 20px auto 20px auto}\n" + 
 		        "html { padding: 0px; margin: 0px; background-color:" +
 		        "black;}\n</style>\n</head>\n";
 		
 		// make the body
-		html += "<body>\n";
+		html += "<body onload=\"load()\">\n";
 		
 		// add each slide
 		for (var i = 0; i < slides.size; i++)
