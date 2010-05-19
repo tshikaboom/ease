@@ -42,7 +42,7 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 		owner = win;
 
 		// set the scrollbar policy
-		vscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
+		vscrollbar_policy = Gtk.PolicyType.ALWAYS;
 		hscrollbar_policy = Gtk.PolicyType.NEVER;
 		
 		slides_box = new Gtk.VBox(true, 1);
