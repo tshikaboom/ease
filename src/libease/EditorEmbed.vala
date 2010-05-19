@@ -160,7 +160,6 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			{
 				((Actor*)(itr->data))->button_press_event.disconnect(actor_clicked);
 				((Actor*)(itr->data))->button_release_event.disconnect(actor_released);
-				((Actor*)(itr->data))->motion_event.disconnect(actor_motion);
 				((Actor*)(itr->data))->set_reactive(false);
 			}
 		}
@@ -197,7 +196,6 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			
 			((Actor*)(itr->data))->button_press_event.connect(actor_clicked);
 			((Actor*)(itr->data))->button_release_event.connect(actor_released);
-			((Actor*)(itr->data))->motion_event.connect(actor_motion);
 			((Actor*)(itr->data))->set_reactive(true);
 		}
 		
@@ -271,6 +269,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			is_dragging = true;
 			is_drag_ready = false;
 			Clutter.grab_pointer(sender);
+			sender.motion_event.connect(actor_motion);
 			return true;
 		}
 		
@@ -334,6 +333,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		{
 			is_dragging = false;
 			Clutter.ungrab_pointer();
+			sender.motion_event.disconnect(actor_motion);
 			win.add_undo_action(new MoveUndoAction(selected,
 			                                       orig_x, orig_y,
 			                                       orig_w, orig_h));
