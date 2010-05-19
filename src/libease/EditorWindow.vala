@@ -43,12 +43,16 @@ public class Ease.EditorWindow : Gtk.Window
 	public Document document;
 	public Slide slide;
 	
+	// the UndoController for this window
+	private UndoController undo;
+	
 	// interface variables
 	public bool inspector_shown { get; set; }
 	public bool slides_shown { get; set; }
 	
 	// constants
-	private const int[] ZOOM_LEVELS = {10, 25, 33, 50, 66, 75, 100, 125, 150, 200, 250, 300, 400};
+	private const int[] ZOOM_LEVELS = {10, 25, 33, 50, 66, 75, 100, 125, 150,
+	                                   200, 250, 300, 400};
 	private const int ZOOM_COUNT = 13;
 
 	/**
@@ -70,6 +74,9 @@ public class Ease.EditorWindow : Gtk.Window
 		// slide display
 		var slides_win = new SlideButtonPanel(document, this);
 		
+		// undo controller
+		undo = new UndoController();
+		
 		// the inspector
 		inspector = new Gtk.HBox(false, 0);
 		var notebook = new Gtk.Notebook();
@@ -85,7 +92,7 @@ public class Ease.EditorWindow : Gtk.Window
 		inspector.pack_start(notebook, false, false, 0);
 		
 		// main editor
-		embed = new EditorEmbed(document);
+		embed = new EditorEmbed(document, this);
 		
 		// assemble middle contents			
 		var hbox = new Gtk.HBox(false, 0);
@@ -156,6 +163,13 @@ public class Ease.EditorWindow : Gtk.Window
 		// play presentation
 		main_toolbar.play.clicked.connect(() => {
 			player = new Player(document);
+		});
+		
+		// undo and redo
+		main_toolbar.undo.clicked.connect(() => {
+			undo.undo();
+			update_undo();
+			embed.reposition_group();
 		});
 		
 		// TODO: export HTML in a proper place
@@ -239,6 +253,7 @@ public class Ease.EditorWindow : Gtk.Window
 		hide.connect(() => Main.remove_window(this));
 		
 		load_slide(0);
+		update_undo();
 	}
 	
 	/**
@@ -258,6 +273,23 @@ public class Ease.EditorWindow : Gtk.Window
 		}
 		
 		embed.set_slide(slide);
+	}
+	
+	/**
+	 * Add the most recent action to the {@link UndoController}.
+	 *
+	 * @param action The new {@link UndoAction}.
+	 */
+	public void add_undo_action(UndoAction action)
+	{
+		undo.add_action(action);
+		update_undo();
+	}
+	
+	private void update_undo()
+	{
+		main_toolbar.undo.sensitive = undo.can_undo();
+		main_toolbar.redo.sensitive = false;
 	}
 	
 	// signal handlers

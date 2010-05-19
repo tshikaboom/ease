@@ -29,6 +29,9 @@
  */
 public class Ease.EditorEmbed : ScrollableEmbed
 {
+	// the editorwindow
+	private EditorWindow win;
+
 	// overall display
 	private Clutter.Rectangle view_background;
 	
@@ -50,6 +53,12 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	private float mouse_x;
 	private float mouse_y;
 	
+	// the origin position of a dragged element
+	private float orig_x;
+	private float orig_y;
+	private float orig_w;
+	private float orig_h;
+	
 	private Document document;
 	public float zoom;
 	public bool zoom_fit;
@@ -64,10 +73,12 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * menu item. 
 	 *
 	 * @param d The {@link Document} this EditorEmbed represents.
+	 * @param w The {@link EditorWindow} this EditorEmbed is part of.
 	 */
-	public EditorEmbed(Document d)
+	public EditorEmbed(Document d, EditorWindow w)
 	{
 		base(true);
+		win = w;
 
 		// set up the background
 		view_background = new Clutter.Rectangle();
@@ -323,6 +334,9 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		{
 			is_dragging = false;
 			Clutter.ungrab_pointer();
+			win.add_undo_action(new MoveUndoAction(selected,
+			                                       orig_x, orig_y,
+			                                       orig_w, orig_h));
 		}
 		return true;
 	}
@@ -348,6 +362,12 @@ public class Ease.EditorEmbed : ScrollableEmbed
 				is_drag_ready = true;
 				mouse_x = event.motion.x;
 				mouse_y = event.motion.y;
+				
+				orig_x = selected.x;
+				orig_y = selected.y;
+				orig_w = selected.width;
+				orig_h = selected.height;
+				
 				return true;
 			}
 			
@@ -399,6 +419,10 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		{
 			is_dragging = false;
 			sender.motion_event.disconnect(handle_motion);
+			
+			win.add_undo_action(new MoveUndoAction(selected,
+			                                       orig_x, orig_y,
+			                                       orig_w, orig_h));
 		}
 		
 		Clutter.ungrab_pointer();
@@ -425,6 +449,12 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			is_drag_ready = true;
 			mouse_x = event.motion.x;
 			mouse_y = event.motion.y;
+			
+			orig_x = selected.x;
+			orig_y = selected.y;
+			orig_w = selected.width;
+			orig_h = selected.height;
+			
 			return true;
 		}
 		

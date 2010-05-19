@@ -30,6 +30,8 @@ public class Ease.MainToolbar : Gtk.Toolbar
 	public Gtk.ToolButton save;
 	public Gtk.ToolButton new_presentation;
 	public Gtk.ToolButton open;
+	public Gtk.ToolButton undo;
+	public Gtk.ToolButton redo;
 	public Gtk.ToolButton inspector;
 	public Gtk.ToolButton slides;
 	public Gtk.ToolButton fonts;
@@ -50,6 +52,8 @@ public class Ease.MainToolbar : Gtk.Toolbar
 		new_presentation = new Gtk.ToolButton.from_stock("gtk-new");
 		save = new Gtk.ToolButton.from_stock("gtk-save");
 		open = new Gtk.ToolButton.from_stock("gtk-open");
+		undo = new Gtk.ToolButton.from_stock("gtk-undo");
+		redo = new Gtk.ToolButton.from_stock("gtk-redo");
 		slides = new Gtk.ToolButton.from_stock("gtk-dnd-multiple");
 		inspector = new Gtk.ToolButton.from_stock("gtk-info");
 		colors = new Gtk.ToolButton.from_stock("gtk-select-color");
@@ -62,6 +66,9 @@ public class Ease.MainToolbar : Gtk.Toolbar
 		insert(new_presentation, -1);
 		insert(open, -1);
 		insert(save, -1);
+		insert(new Gtk.SeparatorToolItem(), -1);
+		insert(undo, -1);
+		insert(redo, -1);
 		insert(new Gtk.SeparatorToolItem(), -1);
 		insert(slides, -1);
 		insert(inspector, -1);
