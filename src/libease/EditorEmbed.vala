@@ -201,6 +201,25 @@ namespace Ease
 			slide_actor.y = h < height
 			              ? height / 2 - h / 2
 			              : 0;
+			              
+			if (selection_rectangle != null)
+			{
+				position_selection();
+			}
+		}
+		
+		/**
+		 * Repositions the EditorEmbed's selection rectangle
+		 * 
+		 * Call this function after changing the zoom level, document size, or
+		 * any other properties that could place the slide off center. 
+		 */
+		private void position_selection()
+		{
+			selection_rectangle.set_position(zoom * selected.x + slide_actor.x,
+				                             zoom * selected.y + slide_actor.y);
+			selection_rectangle.set_size(zoom * selected.width,
+			                             zoom * selected.height);
 		}
 		
 		public bool actor_clicked(Clutter.Actor sender, Clutter.Event event)
@@ -229,9 +248,7 @@ namespace Ease
 			selection_rectangle.border_color = {0, 0, 0, 255};
 			selection_rectangle.color = {0, 0, 0, 0};
 			selection_rectangle.set_border_width(2);
-			selection_rectangle.set_position(selected.x + slide_actor.x,
-			                                 selected.y + slide_actor.y);
-			selection_rectangle.set_size(selected.width, selected.height);
+			position_selection();
 			contents.add_actor(selection_rectangle);
 			
 			return true;
@@ -259,15 +276,16 @@ namespace Ease
 					mouse_y = event.motion.y;
 					return true;
 				}
-				actor.translate(event.motion.x - mouse_x,
-				                event.motion.y - mouse_y);
+				
+				float factor = 1 / zoom;
+				
+				actor.translate(factor * (event.motion.x - mouse_x),
+				                factor * (event.motion.y - mouse_y));
 				
 				mouse_x = event.motion.x;
 				mouse_y = event.motion.y;
 				
-				selection_rectangle.set_position(selected.x + slide_actor.x,
-				                                 selected.y + slide_actor.y);
-				selection_rectangle.set_size(selected.width, selected.height);
+				position_selection();
 			}
 			return true;
 		}
