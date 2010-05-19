@@ -33,9 +33,21 @@ namespace Ease
 	{
 		// overall display
 		private Clutter.Rectangle view_background;
+		
+		// selection rectangle
+		private Clutter.Rectangle selection_rectangle;
 
 		// the current slide's actor
 		private SlideActor slide_actor;
+		
+		// the currently selected Actor
+		private Actor selected;
+		
+		// if the selected Actor is being dragged
+		private bool is_dragging;
+		private bool is_drag_ready;
+		private float mouse_x;
+		private float mouse_y;
 		
 		private Document document;
 		public float zoom;
@@ -130,9 +142,40 @@ namespace Ease
 			if (slide_actor != null)
 			{
 				contents.remove_actor(slide_actor);
+				for (unowned List<Clutter.Actor>* itr = slide_actor.contents.get_children();
+				     itr != null;
+				     itr = itr->next)
+				{
+					((Actor*)(itr->data))->button_press_event.disconnect(actor_clicked);
+					((Actor*)(itr->data))->button_release_event.disconnect(actor_released);
+					((Actor*)(itr->data))->motion_event.disconnect(actor_motion);
+					((Actor*)(itr->data))->set_reactive(false);
+				}
 			}
 			
-			slide_actor = new SlideActor.from_slide(document, slide, false, ActorContext.Editor);
+			// remove the selection rectangle
+			if (selection_rectangle != null)
+			{
+				contents.remove_actor(selection_rectangle);
+			}
+			
+			// create a new SlideActor
+			slide_actor = new SlideActor.from_slide(document,
+			                                        slide,
+			                                        false,
+			                                        ActorContext.Editor);
+			                                        
+			// make the elements clickable
+			for (unowned List<Clutter.Actor>* itr = slide_actor.contents.get_children();
+			     itr != null;
+			     itr = itr->next)
+			{
+				
+				((Actor*)(itr->data))->button_press_event.connect(actor_clicked);
+				((Actor*)(itr->data))->button_release_event.connect(actor_released);
+				((Actor*)(itr->data))->motion_event.connect(actor_motion);
+				((Actor*)(itr->data))->set_reactive(true);
+			}
 			
 			contents.add_actor(slide_actor);
 			reposition_group();
@@ -158,6 +201,75 @@ namespace Ease
 			slide_actor.y = h < height
 			              ? height / 2 - h / 2
 			              : 0;
+		}
+		
+		public bool actor_clicked(Clutter.Actor sender, Clutter.Event event)
+		{
+			Actor act = (Actor)sender;
+			stdout.printf("Name: %s\n", act.element.data.get("ease_name"));
+		
+			// if the sender is already selected, drag it
+			if (sender == selected)
+			{
+				is_dragging = true;
+				is_drag_ready = false;
+				return true;
+			}
+			
+			// remove the selection rectangle
+			if (selection_rectangle != null)
+			{
+				contents.remove_actor(selection_rectangle);
+			}
+			
+			selected = (Actor)sender;
+			
+			// make a new selection rectangle
+			selection_rectangle = new Clutter.Rectangle();
+			selection_rectangle.border_color = {0, 0, 0, 255};
+			selection_rectangle.color = {0, 0, 0, 0};
+			selection_rectangle.set_border_width(2);
+			selection_rectangle.set_position(selected.x + slide_actor.x,
+			                                 selected.y + slide_actor.y);
+			selection_rectangle.set_size(selected.width, selected.height);
+			contents.add_actor(selection_rectangle);
+			
+			return true;
+		}
+		
+		public bool actor_released(Clutter.Actor sender, Clutter.Event event)
+		{
+			if (sender == selected && is_dragging)
+			{
+				is_dragging = false;
+			}
+			return true;
+		}
+		
+		public bool actor_motion(Clutter.Actor sender, Clutter.Event event)
+		{
+			Actor actor = (Actor)sender;
+			
+			if (sender == selected && is_dragging)
+			{
+				if (!is_drag_ready)
+				{
+					is_drag_ready = true;
+					mouse_x = event.motion.x;
+					mouse_y = event.motion.y;
+					return true;
+				}
+				actor.translate(event.motion.x - mouse_x,
+				                event.motion.y - mouse_y);
+				
+				mouse_x = event.motion.x;
+				mouse_y = event.motion.y;
+				
+				selection_rectangle.set_position(selected.x + slide_actor.x,
+				                                 selected.y + slide_actor.y);
+				selection_rectangle.set_size(selected.width, selected.height);
+			}
+			return true;
 		}
 	}
 }

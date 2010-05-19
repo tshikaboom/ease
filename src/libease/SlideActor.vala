@@ -37,6 +37,9 @@ namespace Ease
 		// the group of the slide's contents
 		public Clutter.Group contents;
 		
+		// the context of the actor (presentation, etc.)
+		public ActorContext context;
+		
 		// timelines
 		public Clutter.Timeline animation_time { get; set; }
 		private Clutter.Alpha animation_alpha { get; set; }
@@ -59,9 +62,10 @@ namespace Ease
 		public const float ZOOM_OUT_SCALE = 0.75f;
 		
 		public SlideActor.from_slide(Document document, Slide s, bool clip,
-		                              ActorContext context)
+		                              ActorContext ctx)
 		{
 			slide = s;
+			context = ctx;
 			
 			// clip the actor's bounds
 			if (clip)
@@ -74,7 +78,8 @@ namespace Ease
 			{
 				try
 				{
-					background = new Clutter.Texture.from_file(document.path + slide.background_image);
+					background = new Clutter.Texture.from_file(document.path +
+					                                    slide.background_image);
 					background.width = document.width;
 					background.height = document.height;
 				}
@@ -244,8 +249,10 @@ namespace Ease
 					new_slide.opacity = 0;				
 					time1 = new Clutter.Timeline(length / 2);
 					time2 = new Clutter.Timeline(length / 2);
-					alpha1 = new Clutter.Alpha.full(time1, Clutter.AnimationMode.EASE_IN_SINE);
-					alpha2 = new Clutter.Alpha.full(time2, Clutter.AnimationMode.EASE_OUT_SINE);
+					alpha1 = new Clutter.Alpha.full(time1,
+					                       Clutter.AnimationMode.EASE_IN_SINE);
+					alpha2 = new Clutter.Alpha.full(time2,
+					                       Clutter.AnimationMode.EASE_OUT_SINE);
 					switch (slide.variant)
 					{
 						case "Bottom to Top":

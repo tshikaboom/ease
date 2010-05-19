@@ -35,6 +35,9 @@ namespace Ease
 
 		// where this actor is (editor, player, sidebar)
 		public ActorContext context;
+		
+		// if the actor is a slide background
+		public bool is_background;
 
 		/**
 		 * Instantiate a new Actor
@@ -49,6 +52,24 @@ namespace Ease
 		{
 			element = e;
 			context = c;
+			is_background = false;
+		}
+		
+		/**
+		 * Move this Actor and update its {@link Element}
+		 * 
+		 * Used in the editor and tied to Clutter MotionEvents.
+		 *
+		 * @param x_change The amount of X motion.
+		 * @param y_change The amount of Y motion.
+		 */
+		public void translate(float x_change, float y_change)
+		{
+			x += x_change;
+			y += y_change;
+			
+			element.x = x;
+			element.y = y;
 		}
 	}
 }
