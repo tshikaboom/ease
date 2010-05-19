@@ -53,8 +53,8 @@ namespace Ease
 				add_actor(contents);
 				contents.width = e.width;
 				contents.height = e.height;
-				contents.x = e.x;
-				contents.y = e.y;
+				x = e.x;
+				y = e.y;
 			}
 		}
 	}
