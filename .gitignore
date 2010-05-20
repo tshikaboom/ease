@@ -7,9 +7,13 @@
 *bin/
 *.AppleDouble/
 *DS_Store
+
+# build files
 ease
 *.h
+*.o
 src/*.c
+
 *.ogv
 RCOS.ease/
 doc
