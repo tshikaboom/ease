@@ -263,8 +263,6 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 */
 	public bool actor_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{
-		Actor act = (Actor)sender;
-	
 		// if the sender is already selected, drag it
 		if (sender == selected)
 		{
