@@ -24,6 +24,18 @@ public class Ease.ZoomSlider : Gtk.Alignment
 	private Gtk.Button zoom_in;
 	private Gtk.Button zoom_out;
 	private int[] values;
+	
+	public Gtk.PositionType value_pos
+	{
+		get { return zoom_slider.value_pos; }
+		set { zoom_slider.value_pos = value; }
+	}
+	
+	public int digits
+	{
+		get { return zoom_slider.digits; }
+		set { zoom_slider.digits = value; }
+	}	
 
 	public ZoomSlider(Gtk.Adjustment adjustment, int[] button_values)
 	{
@@ -85,6 +97,10 @@ public class Ease.ZoomSlider : Gtk.Alignment
 					break;
 				}
 			}
+		});
+		
+		zoom_slider.format_value.connect(val => {
+			return "%i%%".printf((int)val);
 		});
 	}
 	
