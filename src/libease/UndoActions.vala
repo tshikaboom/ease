@@ -37,7 +37,8 @@ public abstract class Ease.UndoAction : Object
  */
 public class Ease.MoveUndoAction : UndoAction
 {
-	private Actor actor;
+	private Element element;
+	private weak Actor actor;
 	private float x_pos;
 	private float y_pos;
 	private float width;
@@ -46,14 +47,15 @@ public class Ease.MoveUndoAction : UndoAction
 	/**
 	 * Creates a new MoveUndoAction.
 	 *
-	 * @param actor The {@link Actor} this applies to.
+	 * @param element The {@link Element} this applies to.
 	 * @param x The origin X position of the {@link Actor}.
 	 * @param y The origin Y position of the {@link Actor}.
 	 * @param w The origin width of the {@link Actor}
 	 * @param h The origin height position of the {@link Actor}
 	 */
-	public MoveUndoAction(Actor a, float x, float y, float w, float h)
+	public MoveUndoAction(Element e, float x, float y, float w, float h)
 	{
+		element = e;
 		actor = a;
 		x_pos = x;
 		y_pos = y;
@@ -63,8 +65,10 @@ public class Ease.MoveUndoAction : UndoAction
 	
 	public override void apply()
 	{
-		actor.translate(x_pos - actor.x, y_pos - actor.y);
-		actor.resize(width - actor.width, height - actor.height, false);
+		element.x = x_pos;
+		element.y = y_pos;
+		element.width = width;
+		element.height = height;
 	}
 }
 

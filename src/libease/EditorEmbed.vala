@@ -339,7 +339,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			is_dragging = false;
 			Clutter.ungrab_pointer();
 			sender.motion_event.disconnect(actor_motion);
-			win.add_undo_action(new MoveUndoAction(selected,
+			win.add_undo_action(new MoveUndoAction(selected.element, selected,
 			                                       orig_x, orig_y,
 			                                       orig_w, orig_h));
 		}
@@ -425,7 +425,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			is_dragging = false;
 			sender.motion_event.disconnect(handle_motion);
 			
-			win.add_undo_action(new MoveUndoAction(selected,
+			win.add_undo_action(new MoveUndoAction(selected.element, selected,
 			                                       orig_x, orig_y,
 			                                       orig_w, orig_h));
 		}
