@@ -27,6 +27,8 @@ look like this :
 - gir1.0-clutter-gtk-0.10
 ...
 
+Run the autogen script by typing : `./autogen.sh`
+
 Then, type `make` or `make CC=clang` if you want to use clang.
 
 Running
