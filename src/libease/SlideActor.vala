@@ -62,6 +62,7 @@ public class Ease.SlideActor : Clutter.Group
 	private const float OPEN_DEPTH = -3000;
 	private const float OPEN_MOVE = 0.15f;
 	private const float OPEN_TIME = 0.8f;
+	private const int SLAT_COUNT = 8;
 	
 	public SlideActor.from_slide(Document document, Slide s, bool clip,
 	                              ActorContext ctx)
@@ -358,6 +359,77 @@ public class Ease.SlideActor : Clutter.Group
 						break;
 				}
 				break;
+				
+			case "Slats":
+			{
+				// hide the real SlideActors
+				reparent(stack_container);
+				new_slide.reparent(stack_container);
+				x = slide.parent.width;
+				new_slide.x = slide.parent.width;
+				
+				// make arrays for the slats
+				var this_slats = new Clutter.Clone[SLAT_COUNT];
+				var new_slats = new Clutter.Clone[SLAT_COUNT];
+				var groups = new Clutter.Group[SLAT_COUNT];
+				
+				// calculate the width of each slat
+				float width = (float)slide.parent.width / SLAT_COUNT;
+				
+				// make the slats
+				for (int i = 0; i < SLAT_COUNT; i++)
+				{
+					// create groups
+					groups[i] = new Clutter.Group();
+					stack_container.add_actor(groups[i]);
+					
+					// create clones
+					this_slats[i] = new Clutter.Clone(this);
+					groups[i].add_actor(this_slats[i]);
+					new_slats[i] = new Clutter.Clone(new_slide);
+					groups[i].add_actor(new_slats[i]);
+					
+					// clip clones
+					this_slats[i].set_clip(width * i, 0,
+					                       width, slide.parent.height);
+					new_slats[i].set_clip(width * i, 0,
+					                      width, slide.parent.height);
+					                      
+					// flip the back slats
+					new_slats[i].set_rotation(Clutter.RotateAxis.Y_AXIS,
+					                          180, (i + 0) * angle, 0, 0);
+					
+					// place the new slats behind the current ones
+					new_slats[i].depth = -1;
+				}
+				
+				// make an alpha for easing
+				animation_alpha = new Clutter.Alpha.full(animation_time,
+				                        Clutter.AnimationMode.EASE_IN_OUT_BACK);
+				
+				// animate
+				animation_time.new_frame.connect((m) => {
+					for (int i = 0; i < SLAT_COUNT; i++)
+					{
+						groups[i].set_rotation(Clutter.RotateAxis.Y_AXIS,
+							              180 * animation_alpha.get_alpha(),
+							              (i + 0.5f) * width, 0, 0);
+					}
+				});
+				
+				animation_time.completed.connect(() => {
+					// clean up the slats
+					for (int i = 0; i < SLAT_COUNT; i++)
+					{
+						stack_container.remove_actor(groups[i]);
+					}
+					
+					// put the new slide in place
+					new_slide.x = 0;
+				});
+				
+				break;
+			}
 			
 			case "Flip":
 				new_slide.opacity = 0;				
