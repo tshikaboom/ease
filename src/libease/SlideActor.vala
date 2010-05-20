@@ -59,6 +59,7 @@ public class Ease.SlideActor : Clutter.Group
 		
 	public const float FLIP_DEPTH = -400;
 	public const float ZOOM_OUT_SCALE = 0.75f;
+	private const float OPEN_DEPTH = -2000;
 	
 	public SlideActor.from_slide(Document document, Slide s, bool clip,
 	                              ActorContext ctx)
@@ -269,6 +270,16 @@ public class Ease.SlideActor : Clutter.Group
 					                       angle * (1 - animation_alpha.get_alpha()),
 					                       xpos, ypos, 0);
 				});
+				break;
+				
+			case "Open Door":
+				// zoom the new slide in
+				new_slide.depth = OPEN_DEPTH;
+				new_slide.animate(Clutter.AnimationMode.EASE_OUT_SINE,
+				                  length, "depth", 0);
+				
+				animate(Clutter.AnimationMode.LINEAR, length / 2, "opacity", 0);
+				
 				break;
 			
 			case "Flip":

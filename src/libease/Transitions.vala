@@ -43,6 +43,7 @@ public static class Ease.Transitions : GLib.Object
 		add_transition("Flip", { "Top to Bottom", "Bottom to Top", "Left to Right", "Right to Left" }, 4);
 		add_transition("Revolving Door", { "Top", "Bottom", "Left", "Right" }, 4);
 		add_transition("Fall", {}, 0);
+		add_transition("Open Door", {}, 0);
 		add_transition("Zoom", { "Center", "Top Left", "Top Right", "Bottom Left", "Bottom Right" }, 5);
 		add_transition("Panel", { "Up", "Down", "Left", "Right" }, 4);
 		add_transition("Spin Contents", { "Left", "Right" }, 2);
