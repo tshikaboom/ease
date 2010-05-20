@@ -264,7 +264,6 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	public bool actor_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{
 		Actor act = (Actor)sender;
-		stdout.printf("Name: %s\n", act.element.data.get("ease_name"));
 	
 		// if the sender is already selected, drag it
 		if (sender == selected)
@@ -272,7 +271,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			is_dragging = true;
 			is_drag_ready = false;
 			Clutter.grab_pointer(sender);
-			//sender.motion_event.connect(actor_motion);
+			sender.motion_event.connect(actor_motion);
 			return true;
 		}
 		
@@ -336,7 +335,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		{
 			is_dragging = false;
 			Clutter.ungrab_pointer();
-			//sender.motion_event.disconnect(actor_motion);
+			sender.motion_event.disconnect(actor_motion);
 			win.add_undo_action(new MoveUndoAction(selected.element,
 			                                       orig_x, orig_y,
 			                                       orig_w, orig_h));
@@ -400,7 +399,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	{
 		is_dragging = true;
 		is_drag_ready = false;
-		//sender.motion_event.connect(handle_motion);
+		sender.motion_event.connect(handle_motion);
 		Clutter.grab_pointer(sender);
 		return true;
 	}
@@ -421,7 +420,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		if (is_dragging)
 		{
 			is_dragging = false;
-			//sender.motion_event.disconnect(handle_motion);
+			sender.motion_event.disconnect(handle_motion);
 			
 			win.add_undo_action(new MoveUndoAction(selected.element,
 			                                       orig_x, orig_y,
