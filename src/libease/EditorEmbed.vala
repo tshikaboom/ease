@@ -466,11 +466,21 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		float factor = 1 / zoom;
 		var motion = event.motion;
 		var p = (motion.modifier_state & Clutter.ModifierType.SHIFT_MASK) != 0;
+		float change_x = motion.x - mouse_x;
+		float change_y = motion.y - mouse_y;
 		
-		handle.drag(factor * (motion.x - mouse_x),
-		            factor * (motion.y - mouse_y),
-		            selected,
-		            p);
+		// if control is held, resize from the center
+		if ((motion.modifier_state & Clutter.ModifierType.CONTROL_MASK) != 0)
+		{
+			handle.drag_from_center(factor * change_x, factor * change_y,
+			                        selected, p);
+		}
+		
+		// otherwise, drag normally
+		else
+		{
+			handle.drag(factor * change_x, factor * change_y, selected, p);
+		}
 		
 		mouse_x = motion.x;
 		mouse_y = motion.y;
