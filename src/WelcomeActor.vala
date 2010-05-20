@@ -41,14 +41,13 @@ public class Ease.WelcomeActor : Clutter.Rectangle
 		height = w * 3 / 4; // 4:3
 	
 		// TODO: make this an actual preview
-		var color = Clutter.Color();
-		color.from_hls((float)Random.next_double() * 360, 0.5f, 0.5f);
-		color.from_string("Pink");
-		set_color(color);
+		var col = Clutter.Color();
+		col.from_string("Pink");
+		color = col;
 		
-		set_border_color({255, 255, 255, 255});
-		set_border_width(2);
-		set_reactive(true);
+		border_color = {255, 255, 255, 255};
+		border_width = 2;
+		reactive = true;
 		
 		opacity = 0;
 		animate(FADE_EASE, FADE_INIT_TIME, "opacity", 255);

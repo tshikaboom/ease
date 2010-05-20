@@ -50,7 +50,7 @@ public class Ease.TextActor : Actor
 		desc.set_variant(e.font_variant);
 		desc.set_size(e.font_size * Pango.SCALE);
 		((Clutter.Text)contents).font_name = desc.to_string();
-		((Clutter.Text)contents).set_line_alignment(e.text_align);
+		((Clutter.Text)contents).line_alignment = e.text_align;
 		
 		add_actor(contents);
 		contents.width = e.width;

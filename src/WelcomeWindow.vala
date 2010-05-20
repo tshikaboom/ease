@@ -179,8 +179,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 		// click on previews
 		foreach (var a in previews)
 		{
-			a.button_press_event.connect(e => {
-				((WelcomeActor)(e.button.source)).clicked();
+			a.button_press_event.connect((act, event) => {
+				((WelcomeActor)(act)).clicked();
 				return false;
 			});
 		}

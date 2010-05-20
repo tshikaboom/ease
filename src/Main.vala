@@ -50,6 +50,7 @@ public static class Ease.Main : GLib.Object
 		OpenDialog.init();
 		windows = new Gee.ArrayList<EditorWindow>();
 	
+		// TODO: non-awful args handling
 		if (args.length == 2)
 		{
 			test_editor(args[1]);

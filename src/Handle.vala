@@ -43,7 +43,7 @@ public class Ease.Handle : Clutter.Rectangle
 		height = SIZE;
 		set_anchor_point(SIZE / 2, SIZE / 2);
 		
-		set_reactive(true);
+		reactive = true;
 	}
 	
 	public void drag(float change_x, float change_y, Actor target, bool prop)

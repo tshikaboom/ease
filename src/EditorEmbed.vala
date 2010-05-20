@@ -160,7 +160,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			{
 				((Actor*)(itr->data))->button_press_event.disconnect(actor_clicked);
 				((Actor*)(itr->data))->button_release_event.disconnect(actor_released);
-				((Actor*)(itr->data))->set_reactive(false);
+				((Actor*)(itr->data))->reactive = false;
 			}
 		}
 		
@@ -196,7 +196,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			
 			((Actor*)(itr->data))->button_press_event.connect(actor_clicked);
 			((Actor*)(itr->data))->button_release_event.connect(actor_released);
-			((Actor*)(itr->data))->set_reactive(true);
+			((Actor*)(itr->data))->reactive = true;
 		}
 		
 		contents.add_actor(slide_actor);
@@ -263,7 +263,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param sender The {@link Actor} that was clicked
 	 * @param event The corresponding Clutter.Event
 	 */
-	public bool actor_clicked(Clutter.Actor sender, Clutter.Event event)
+	public bool actor_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{
 		Actor act = (Actor)sender;
 		stdout.printf("Name: %s\n", act.element.data.get("ease_name"));
@@ -274,7 +274,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			is_dragging = true;
 			is_drag_ready = false;
 			Clutter.grab_pointer(sender);
-			sender.motion_event.connect(actor_motion);
+			//sender.motion_event.connect(actor_motion);
 			return true;
 		}
 		
@@ -283,8 +283,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		{
 			foreach (var h in handles)
 			{
-				h.button_press_event.disconnect(handle_clicked);
-				h.button_release_event.disconnect(handle_released);
+				//h.button_press_event.disconnect(handle_clicked);
+				//h.button_release_event.disconnect(handle_released);
 				
 				if (h.get_parent() == contents)
 				{	
@@ -303,7 +303,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		selection_rectangle = new Clutter.Rectangle();
 		selection_rectangle.border_color = {0, 0, 0, 255};
 		selection_rectangle.color = {0, 0, 0, 0};
-		selection_rectangle.set_border_width(2);
+		selection_rectangle.border_width = 2;
 		position_selection();
 		contents.add_actor(selection_rectangle);
 		
@@ -332,13 +332,13 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param sender The {@link Actor} that was released
 	 * @param event The corresponding Clutter.Event
 	 */
-	public bool actor_released(Clutter.Actor sender, Clutter.Event event)
+	public bool actor_released(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{
 		if (sender == selected && is_dragging)
 		{
 			is_dragging = false;
 			Clutter.ungrab_pointer();
-			sender.motion_event.disconnect(actor_motion);
+			//sender.motion_event.disconnect(actor_motion);
 			win.add_undo_action(new MoveUndoAction(selected.element,
 			                                       orig_x, orig_y,
 			                                       orig_w, orig_h));
@@ -356,7 +356,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param sender The {@link Actor} that was dragged
 	 * @param event The corresponding Clutter.Event
 	 */
-	public bool actor_motion(Clutter.Actor sender, Clutter.Event event)
+	public bool actor_motion(Clutter.Actor sender, Clutter.MotionEvent event)
 	{
 		Actor actor = (Actor)sender;
 		
@@ -365,8 +365,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			if (!is_drag_ready)
 			{
 				is_drag_ready = true;
-				mouse_x = event.motion.x;
-				mouse_y = event.motion.y;
+				mouse_x = event.x;
+				mouse_y = event.y;
 				
 				orig_x = selected.x;
 				orig_y = selected.y;
@@ -378,11 +378,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			
 			float factor = 1 / zoom;
 			
-			actor.translate(factor * (event.motion.x - mouse_x),
-			                factor * (event.motion.y - mouse_y));
+			actor.translate(factor * (event.x - mouse_x),
+			                factor * (event.y - mouse_y));
 			
-			mouse_x = event.motion.x;
-			mouse_y = event.motion.y;
+			mouse_x = event.x;
+			mouse_y = event.y;
 			
 			position_selection();
 		}
@@ -398,11 +398,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param sender The {@link Handle} that was clicked
 	 * @param event The corresponding Clutter.Event
 	 */
-	public bool handle_clicked(Clutter.Actor sender, Clutter.Event event)
+	public bool handle_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{
 		is_dragging = true;
 		is_drag_ready = false;
-		sender.motion_event.connect(handle_motion);
+		//sender.motion_event.connect(handle_motion);
 		Clutter.grab_pointer(sender);
 		return true;
 	}
@@ -418,12 +418,12 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param sender The {@link Handle} that was released
 	 * @param event The corresponding Clutter.Event
 	 */
-	public bool handle_released(Clutter.Actor sender, Clutter.Event event)
+	public bool handle_released(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{
 		if (is_dragging)
 		{
 			is_dragging = false;
-			sender.motion_event.disconnect(handle_motion);
+			//sender.motion_event.disconnect(handle_motion);
 			
 			win.add_undo_action(new MoveUndoAction(selected.element,
 			                                       orig_x, orig_y,
@@ -445,15 +445,15 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param sender The {@link Handle} that was dragged
 	 * @param event The corresponding Clutter.Event
 	 */
-	public bool handle_motion(Clutter.Actor sender, Clutter.Event event)
+	public bool handle_motion(Clutter.Actor sender, Clutter.MotionEvent event)
 	{
 		Handle handle = (Handle)sender;
 		
 		if (!is_drag_ready)
 		{
 			is_drag_ready = true;
-			mouse_x = event.motion.x;
-			mouse_y = event.motion.y;
+			mouse_x = event.x;
+			mouse_y = event.y;
 			
 			orig_x = selected.x;
 			orig_y = selected.y;
@@ -464,13 +464,12 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		}
 		
 		float factor = 1 / zoom;
-		var motion = event.motion;
-		var p = (motion.modifier_state & Clutter.ModifierType.SHIFT_MASK) != 0;
-		float change_x = motion.x - mouse_x;
-		float change_y = motion.y - mouse_y;
+		var p = (event.modifier_state & Clutter.ModifierType.SHIFT_MASK) != 0;
+		float change_x = event.x - mouse_x;
+		float change_y = event.y - mouse_y;
 		
 		// if control is held, resize from the center
-		if ((motion.modifier_state & Clutter.ModifierType.CONTROL_MASK) != 0)
+		if ((event.modifier_state & Clutter.ModifierType.CONTROL_MASK) != 0)
 		{
 			handle.drag_from_center(factor * change_x, factor * change_y,
 			                        selected, p);
@@ -482,8 +481,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			handle.drag(factor * change_x, factor * change_y, selected, p);
 		}
 		
-		mouse_x = motion.x;
-		mouse_y = motion.y;
+		mouse_x = event.x;
+		mouse_y = event.y;
 		
 		position_selection();
 		
