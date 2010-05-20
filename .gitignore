@@ -8,9 +8,33 @@
 *.AppleDouble/
 *DS_Store
 ease
-ease-player
-libease.so
 *.h
 *.ogv
 RCOS.ease/
 doc
+
+# shamelessly copied from gnome-scan.
+# autotools generated files
+libtool
+compile
+config.guess
+config.log
+config.status
+config.sub
+configure
+config.*
+depcomp
+install-sh
+ltmain.sh
+m4
+missing
+mkinstalldirs
+Makefile
+Makefile.in
+po/Makefile.in.in
+*.cache
+intltool-*.in
+*.make
+aclocal.m4
+# don't version it to get always latest in tarball
+INSTALL
