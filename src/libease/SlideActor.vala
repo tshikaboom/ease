@@ -232,7 +232,7 @@ public class Ease.SlideActor : Clutter.Group
 					case "Left":
 						new_slide.x = slide.parent.width;
 						new_slide.animate(EASE_SLIDE, length, "x", 0);
-						this.animate(EASE_SLIDE, length, "x", -new_slide.x);
+						animate(EASE_SLIDE, length, "x", -new_slide.x);
 						break;
 					case "Right":
 						new_slide.x = -slide.parent.width;
@@ -329,6 +329,35 @@ public class Ease.SlideActor : Clutter.Group
 				
 				break;
 			}
+			
+			case "Reveal":
+				// TODO: make this transition not a total hack
+				((Clutter.Container)get_parent()).raise_child(this, new_slide);
+				
+				switch (slide.variant)
+				{
+					case "Top":
+						new_slide.y = slide.parent.height;
+						animate(EASE_SLIDE, length, "y", -new_slide.y);
+						new_slide.y = 0;
+						break;
+					case "Bottom":
+						new_slide.y = -slide.parent.height;
+						animate(EASE_SLIDE, length, "y", -new_slide.y);
+						new_slide.y = 0;
+						break;
+					case "Left":
+						new_slide.x = slide.parent.width;
+						this.animate(EASE_SLIDE, length, "x", -new_slide.x);
+						new_slide.x = 0;
+						break;
+					case "Right":
+						new_slide.x = -slide.parent.width;
+						animate(EASE_SLIDE, length, "x", -new_slide.x);
+						new_slide.x = 0;
+						break;
+				}
+				break;
 			
 			case "Flip":
 				new_slide.opacity = 0;				

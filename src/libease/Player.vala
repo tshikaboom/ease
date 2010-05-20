@@ -117,16 +117,17 @@ public class Ease.Player : GLib.Object
 			current_slide.opacity = 0;
 			current_slide.animate(Clutter.AnimationMode.EASE_IN_SINE,
 			                      1000, "opacity", 255);
+			stage.add_actor(current_slide);
 		}
 		else
 		{			
 			old_slide = current_slide;
 			create_current_slide(slide);
+			stage.add_actor(current_slide);
 			old_slide.transition(current_slide, stack_container);
 			old_slide.animation_time.completed.connect(animation_complete);
 			can_animate = false;
 		}
-		stage.add_actor(current_slide);
 	}
 	
 	private void retreat()
