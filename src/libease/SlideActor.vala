@@ -73,29 +73,7 @@ public class Ease.SlideActor : Clutter.Group
 		}
 
 		// set the background
-		if (slide.background_image != null)
-		{
-			try
-			{
-				background = new Clutter.Texture.from_file(document.path +
-				                                    slide.background_image);
-				background.width = document.width;
-				background.height = document.height;
-			}
-			catch (GLib.Error e)
-			{
-				stdout.printf("Error loading background: %s", e.message);
-			}
-		}
-		else // the background is a solid color
-		{
-			background = new Clutter.Rectangle();
-			((Clutter.Rectangle)background).set_color(slide.background_color);
-			background.width = document.width;
-			background.height = document.height;
-		}
-
-		add_actor(background);
+		set_background();
 
 		contents = new Clutter.Group();
 		
@@ -117,6 +95,55 @@ public class Ease.SlideActor : Clutter.Group
 		}
 
 		add_actor(contents);
+	}
+	
+	public void relayout()
+	{
+		set_background();
+		
+		for (unowned List<Clutter.Actor>* itr = contents.get_children();
+		     itr != null;
+		     itr = itr->next)
+		{
+			((Actor)(itr->data)).reposition();
+		}
+	}
+	
+	/**
+	 * Builds the background actor for this SlideActor.
+	 */	
+	private void set_background()
+	{
+		if (background != null)
+		{
+			if (background.get_parent() == this)
+			{
+				remove_actor(background);
+			}
+		}
+		
+		if (slide.background_image != null)
+		{
+			try
+			{
+				background = new Clutter.Texture.from_file(slide.parent.path +
+				                                    slide.background_image);
+			}
+			catch (GLib.Error e)
+			{
+				stdout.printf("Error loading background: %s", e.message);
+			}
+		}
+		else // the background is a solid color
+		{
+			background = new Clutter.Rectangle();
+			((Clutter.Rectangle)background).set_color(slide.background_color);
+		}
+		background.width = slide.parent.width;
+		background.height = slide.parent.height;
+		
+		add_actor(background);
+		lower_child(background, null);
 	}
 
 	// stack the actor, removing children from container if needed

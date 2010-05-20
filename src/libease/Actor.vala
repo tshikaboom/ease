@@ -54,6 +54,21 @@ public class Ease.Actor : Clutter.Group
 	}
 	
 	/**
+	 * Rereads the Actor's {@link Element} to position it properly.
+	 *
+	 * Used after reverting an action.
+	 */
+	public void reposition()
+	{
+		x = element.x;
+		y = element.y;
+		width = element.width;
+		height = element.height;
+		contents.width = width;
+		contents.height = height;
+	}
+	
+	/**
 	 * Move this Actor and update its {@link Element}
 	 * 
 	 * Used in the editor and tied to Clutter MotionEvents.

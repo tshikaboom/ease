@@ -38,7 +38,6 @@ public abstract class Ease.UndoAction : Object
 public class Ease.MoveUndoAction : UndoAction
 {
 	private Element element;
-	private weak Actor actor;
 	private float x_pos;
 	private float y_pos;
 	private float width;
@@ -48,15 +47,14 @@ public class Ease.MoveUndoAction : UndoAction
 	 * Creates a new MoveUndoAction.
 	 *
 	 * @param element The {@link Element} this applies to.
-	 * @param x The origin X position of the {@link Actor}.
-	 * @param y The origin Y position of the {@link Actor}.
-	 * @param w The origin width of the {@link Actor}
-	 * @param h The origin height position of the {@link Actor}
+	 * @param x The original X position of the {@link Element}.
+	 * @param y The original Y position of the {@link Element}.
+	 * @param w The original width of the {@link Element}
+	 * @param h The original height position of the {@link Element}
 	 */
 	public MoveUndoAction(Element e, float x, float y, float w, float h)
 	{
 		element = e;
-		actor = a;
 		x_pos = x;
 		y_pos = y;
 		width = w;

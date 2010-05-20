@@ -166,6 +166,7 @@ public class Ease.EditorWindow : Gtk.Window
 		main_toolbar.undo.clicked.connect(() => {
 			undo.undo();
 			update_undo();
+			embed.slide_actor.relayout();
 			embed.reposition_group();
 		});
 		
