@@ -24,10 +24,16 @@
 public class Ease.WelcomeActor : Clutter.Rectangle
 {
 	private Gee.ArrayList<WelcomeActor> others;
-	private bool selected = false;
-	private bool faded = false;
+	private bool is_selected = false;
 	
-	public WelcomeActor(int w, ref Gee.ArrayList<WelcomeActor> o)
+	// constants
+	private const int FADE_TIME = 200;
+	private const int FADE_EASE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
+	private const int FADE_VALUE = 100;
+	
+	public signal void selected();
+	
+	public WelcomeActor(int w, Gee.ArrayList<WelcomeActor> o)
 	{
 		width = w;
 		others = o;
@@ -39,57 +45,38 @@ public class Ease.WelcomeActor : Clutter.Rectangle
 		color.from_string("Pink");
 		set_color(color);
 		
-		color = Clutter.Color();
-		color.from_string("White");
-		set_border_color(color);
+		set_border_color({255, 255, 255, 255});
 		set_border_width(2);
+		set_reactive(true);
 	}
 	
 	public void clicked()
 	{
-		stdout.printf("clicked!\n");
-		if (selected)
+		if (!is_selected)
 		{
 			// unfade the others
 			foreach (var a in others)
+			{
 				if (a != this)
-					a.unfade();
-			
-			deselect();
-		}
-		else
-		{
-			// fade the others
-			foreach (var a in others)
-				if (a != this)
+				{
 					a.fade();
-			
-			select();
+				}
+			}
+			unfade();
+			selected();
 		}
 	}
 	
 	private void fade()
 	{
-		faded = true;
-		animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, 250, "alpha", 0.5f);
+		is_selected = false;
+		animate(FADE_EASE, FADE_TIME, "opacity", FADE_VALUE);
 	}
 	
 	private void unfade()
 	{
-		faded = false;
-		animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, 250, "alpha", 1);
-	}
-	
-	private void select()
-	{
-		selected = true;
-		//animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, 250, "alpha", 0.5f);
-	}
-	
-	private void deselect()
-	{
-		selected = false;
-		//animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, 250, "alpha", 1);
+		is_selected = true;
+		animate(FADE_EASE, FADE_TIME, "opacity", 255);
 	}
 }
 

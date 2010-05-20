@@ -93,6 +93,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 		hbox.pack_start(align, false, false, 0);
 		
 		new_button = new Gtk.Button.with_label("New Presentation");
+		new_button.sensitive = false;
 		new_button.image = new Gtk.Image.from_stock("gtk-new", Gtk.IconSize.BUTTON);
 		align = new Gtk.Alignment(0, 0.5f, 0, 0);
 		align.add(new_button);
@@ -121,9 +122,13 @@ public class Ease.WelcomeWindow : Gtk.Window
 		// create the previews
 		for (var i = 0; i < 10; i++)
 		{
-			var act = new WelcomeActor(preview_width, ref previews);
+			var act = new WelcomeActor(preview_width, previews);
 			previews.add(act);
 			preview_container.add_actor(act);
+			
+			act.selected.connect(() => {
+				new_button.sensitive = true;
+			});
 		}
 		embed.contents.add_actor(preview_container);
 		embed.contents.show_all();
