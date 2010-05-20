@@ -41,9 +41,7 @@ public class Ease.WelcomeActor : Clutter.Rectangle
 		height = w * 3 / 4; // 4:3
 	
 		// TODO: make this an actual preview
-		var col = Clutter.Color();
-		col.from_string("Pink");
-		color = col;
+		color = {200, 200, 200, 255};
 		
 		border_color = {255, 255, 255, 255};
 		border_width = 2;

@@ -82,9 +82,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 
 		// set up the background
 		view_background = new Clutter.Rectangle();
-		var color = Clutter.Color();
-		color.from_string("Gray");
-		view_background.color = color;
+		view_background.color = {200, 200, 200, 255};
 		contents.add_actor(view_background);
 		
 		document = d;
