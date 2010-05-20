@@ -40,9 +40,7 @@ public class Ease.TransitionPane : Gtk.VBox
 		// preview
 		preview = new GtkClutter.Embed();
 		preview.set_size_request(0, 100);
-		var color = Clutter.Color();
-		color.from_string("Black");
-		((Clutter.Stage)(preview.get_stage())).set_color(color);
+		((Clutter.Stage)(preview.get_stage())).color = {0, 0, 0, 255};
 		var frame = new Gtk.Frame(null);
 		frame.add(preview);
 		var hbox = new Gtk.HBox(false, 0);

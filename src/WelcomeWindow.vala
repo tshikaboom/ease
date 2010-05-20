@@ -119,9 +119,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 
 		// the background for the previews
 		preview_background = new Clutter.Rectangle();
-		var color = Clutter.Color();
-		color.from_string("Black");
-		preview_background.color = color;
+		preview_background.color = {0, 0, 0, 255};
 		preview_container.add_actor(preview_background);
 		
 		// create the previews
@@ -154,11 +152,13 @@ public class Ease.WelcomeWindow : Gtk.Window
 		// ui signals
 		// changing resolution values
 		x_res.value_changed.connect(() => {
-			set_resolution_box((int)(x_res.get_value()), (int)(y_res.get_value()));
+			set_resolution_box((int)(x_res.get_value()),
+			                   (int)(y_res.get_value()));
 		});
 		
 		y_res.value_changed.connect(() => {
-			set_resolution_box((int)(x_res.get_value()), (int)(y_res.get_value()));
+			set_resolution_box((int)(x_res.get_value()),
+			                   (int)(y_res.get_value()));
 		});
 		
 		resolution.changed.connect(() => {
@@ -179,8 +179,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 		// click on previews
 		foreach (var a in previews)
 		{
-			a.button_press_event.connect(e => {
-				((WelcomeActor)(e.button.source)).clicked();
+			a.button_press_event.connect((act, event) => {
+				((WelcomeActor)(act)).clicked();
 				return false;
 			});
 		}
@@ -215,7 +215,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 		
 		// calculate the number of previews per line
 		var per_line = 2;
-		for (; per_line * (preview_width + PREVIEW_PADDING) + PREVIEW_PADDING < embed.width;
+		for (; per_line * (preview_width + PREVIEW_PADDING) +
+		       PREVIEW_PADDING < embed.width;
 		     per_line++);
 		per_line--; // FIXME: the math is not strong in me at 2 AM
 

@@ -54,9 +54,7 @@ public class Ease.Player : GLib.Object
 		stage.hide_cursor();
 		
 		stage.show_all();
-		Clutter.Color color = Clutter.Color();
-		color.from_string("Black");
-		stage.color = color;
+		stage.color = {0, 0, 0, 255};
 		Clutter.grab_keyboard(stage);
 
 		// make the stacking container

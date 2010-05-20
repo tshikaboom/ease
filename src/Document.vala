@@ -177,8 +177,17 @@ public class Ease.Document : GLib.Object
 					case "variant":
 						slide.variant = j->children->content;
 						break;
-					case "background_color":
-						slide.background_color.from_string(j->children->content);
+					case "red":
+						slide.background_color.red = (uchar)(j->children->content.to_int());
+						slide.background_color.alpha = 255;
+						break;
+					case "green":
+						slide.background_color.green = (uchar)(j->children->content.to_int());
+						slide.background_color.alpha = 255;
+						break;
+					case "blue":
+						slide.background_color.blue = (uchar)(j->children->content.to_int());
+						slide.background_color.alpha = 255;
 						break;
 					case "background_image":
 						slide.background_image = j->children->content;
@@ -198,9 +207,11 @@ public class Ease.Document : GLib.Object
 				}
 
 				// build a list of the element's properties
+				//stdout.printf("\nNew Element:\n");
 				var list = new Gee.ArrayList<string>();
 				for (Xml.Attr* k = j->properties; k != null; k = k->next)
 				{
+					//stdout.printf("\t%s %s\n", k->name, k->children->content);
 					list.add(k->name);
 					list.add(k->children->content);
 				}

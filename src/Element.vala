@@ -249,13 +249,16 @@ public class Ease.Element : GLib.Object
 	{
 		get
 		{
-			Clutter.Color c = Clutter.Color();
-			c.from_string(data.get("color"));
-			return c;
+			return { (uchar)data.get("red").to_int(),
+			         (uchar)data.get("green").to_int(),
+			         (uchar)data.get("blue").to_int(),
+			         255};
 		}		
 		set
 		{
-			data.set("color", value.to_string());
+			data.set("red", ((int)value.red).to_string());
+			data.set("green", ((int)value.green).to_string());
+			data.set("blue", ((int)value.blue).to_string());
 		}
 	}
 	
