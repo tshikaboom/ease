@@ -37,17 +37,10 @@ public static class Ease.Main : GLib.Object
 	 * will open an {@link EditorWindow}. Otherwise, a {@link WelcomeWindow}
 	 * will be opened.
 	 *
-	 * @param argc Standard argc, passed through from C.
-	 * @param argv Standard argv, passed through from C.
+	 * @param args Program arguments.
 	 */
-	public static int main_editor(int argc, char** argv)
+	public static int main(string[] args)
 	{
-		string[] args = new string[argc];
-		for (var i = 0; i < argc; i++)
-		{
-			args[i] = (string)argv[i];
-		}
-	
 		GtkClutter.init(ref args);
 		Gst.init(ref args);
 		ClutterGst.init(ref args);
@@ -57,6 +50,7 @@ public static class Ease.Main : GLib.Object
 		OpenDialog.init();
 		windows = new Gee.ArrayList<EditorWindow>();
 	
+		// TODO: non-awful args handling
 		if (args.length == 2)
 		{
 			test_editor(args[1]);
@@ -65,44 +59,6 @@ public static class Ease.Main : GLib.Object
 		{
 			show_welcome();
 		}
-	
-		Gtk.main();
-	
-		return 0;
-	}
-
-	/**
-	 * Starts Ease to play back a file.
-	 * 
-	 * This function is primarily used by the ease-player executable. It runs
-	 * the slideshow, then exits. If no filename is given, it immediately
-	 * returns.
-	 *
-	 * @param argc Standard argc, passed through from C.
-	 * @param argv Standard argv, passed through from C.
-	 */
-	public static int main_player(int argc, char** argv)
-	{
-		string[] args = new string[argc];
-		for (var i = 0; i < argc; i++)
-		{
-			args[i] = (string)argv[i];
-		}
-	
-		if (args.length < 2)
-		{
-			return 0;
-		}
-	
-		GtkClutter.init(ref args);
-		Gst.init(ref args);
-		ClutterGst.init(ref args);
-	
-		var doc = new Document.from_file(args[1]);
-		var player = new Player(doc);
-		player.stage.hide.connect(() => {
-			Gtk.main_quit();
-		});
 	
 		Gtk.main();
 	

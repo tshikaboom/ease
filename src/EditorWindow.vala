@@ -169,6 +169,7 @@ public class Ease.EditorWindow : Gtk.Window, Clutter.Animatable
 		main_toolbar.undo.clicked.connect(() => {
 			undo.undo();
 			update_undo();
+			embed.slide_actor.relayout();
 			embed.reposition_group();
 		});
 		

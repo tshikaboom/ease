@@ -43,7 +43,7 @@ public class Ease.Handle : Clutter.Rectangle
 		height = SIZE;
 		set_anchor_point(SIZE / 2, SIZE / 2);
 		
-		set_reactive(true);
+		reactive = true;
 	}
 	
 	public void drag(float change_x, float change_y, Actor target, bool prop)
@@ -85,6 +85,53 @@ public class Ease.Handle : Clutter.Rectangle
 				
 			case HandlePosition.BOTTOM_RIGHT:
 				target.resize(change_x, change_y, prop);
+				break;
+		}
+	}
+	
+	public void drag_from_center(float change_x, float change_y, Actor target,
+	                             bool prop)
+	{
+		switch (position)
+		{
+			case HandlePosition.TOP_LEFT:
+				target.translate(change_x, change_y);
+				target.resize(-change_x * 2, -change_y * 2, false);
+				break;
+				
+			case HandlePosition.TOP_RIGHT:
+				target.translate(-change_x, change_y);
+				target.resize(change_x * 2, -change_y * 2, prop);
+				break;
+				
+			case HandlePosition.TOP:
+				target.translate(0, change_y);
+				target.resize(0, -change_y * 2, false);
+				break;
+				
+			case HandlePosition.BOTTOM:
+				target.translate(0, -change_y);
+				target.resize(0, change_y * 2, false);
+				break;
+				
+			case HandlePosition.LEFT:
+				target.translate(change_x, 0);
+				target.resize(-change_x * 2, 0, false);
+				break;
+				
+			case HandlePosition.RIGHT:
+				target.translate(-change_x, 0);
+				target.resize(change_x * 2, 0, false);
+				break;
+				
+			case HandlePosition.BOTTOM_LEFT:
+				target.translate(change_x, -change_y);
+				target.resize(-change_x * 2, change_y * 2, prop);
+				break;
+				
+			case HandlePosition.BOTTOM_RIGHT:
+				target.translate(-change_x, -change_y);
+				target.resize(change_x * 2, change_y * 2, prop);
 				break;
 		}
 	}

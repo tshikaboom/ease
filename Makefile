@@ -10,56 +10,28 @@ VALA_FLAGS = --vapidir=./vapi --pkg "glib-2.0"  --pkg "gtk+-2.0"  --pkg "clutter
 
 DOC_FLAGS = --vapidir=./vapi --pkg "glib-2.0"  --pkg "gtk+-2.0"  --pkg "clutter-1.0"  --pkg "gdk-2.0"  --pkg "libxml-2.0"  --pkg "gee-1.0"  --pkg "clutter-gtk-0.10"  --pkg "cogl-1.0" --pkg "gio-2.0" --pkg "clutter-gst-1.0"
 
-all: libease.so ease player
+all: clang
 
-libease.so: src/libease/*.vala
-	valac $(VALA_FLAGS) -C -H src/libease/libease.h src/libease/*.vala --basedir src/libease -d src/libease
-	gcc -g -O0 $(EASE_CFLAGS) --shared -fPIC src/libease/*.c -o libease.so
-	rm src/libease/*.c
-
-ease: libease.so src/ease/*.c
-	gcc -g -O0 $(EASE_CFLAGS) $(EASE_LDFLAGS) -Isrc -L. -lease src/ease/*.c -o ease
-
-player: libease.so src/ease-player/*.c
-	gcc -g -O0 $(EASE_CFLAGS) $(EASE_LDFLAGS) -Isrc -L. -lease src/ease-player/main.c -o ease-player
-	
-asone:
-	valac $(VALA_FLAGS) -C -H src/libease/libease.h src/libease/*.vala --basedir src/libease -d src/libease
-	gcc -O0 $(EASE_CFLAGS) $(EASE_LDFLAGS) -fPIC src/libease/*.c src/ease/*.c -o ease
-	rm src/libease/*.c
-
-clang:
-	valac $(VALA_FLAGS) -C -H src/libease/libease.h src/libease/*.vala --basedir src/libease -d src/libease
-	clang $(EASE_CFLAGS) $(EASE_LDFLAGS) -Wno-unused-value -Wno-pointer-sign -Wno-switch-enum -o ease src/libease/*.c src/ease/main.c
-	rm src/libease/*.c
+clang: src/*.vala
+	valac $(VALA_FLAGS) -C -H src/libease.h src/*.vala --basedir src/ -d src/
+	clang -O0 $(EASE_CFLAGS) $(EASE_LDFLAGS) -Wno-unused-value -Wno-pointer-sign -Wno-switch-enum -o ease src/*.c
+	rm src/*.c
 	
 vapi:
 
-doc: src/libease/*.vala
+doc: src/*.vala
 	rm -rf doc
-	valadoc $(DOC_FLAGS) --directory=./doc ./src/libease/*.vala
+	valadoc $(DOC_FLAGS) --directory=./doc ./src/*.vala
 
 todo:
-	grep -n "TODO" src/libease/*.vala src/ease/*.c src/ease-player/*.c | less
+	grep -n "TODO" src/*.vala | less
 
 gitclean:
 	git clean -x -f -d
 
 clean:
-	rm -f src/libease/*.o src/libease/*.so src/libease/*.vapi
-	rm -f src/ease/*.o
-	rm -f src/ease-player/*.o
-	rm -f src/libease/*.c
+	rm -f src/*.o src/*.so src/*.vapi
+	rm -f src/*.c
 	rm -f ease
-	rm -f ease-player
-	rm -f libease.so
 	rm -rf doc
 
-run: all
-	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:. ./ease
-	
-play: player
-	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:. ./ease-player ./Examples/RCOS.ease/
-	
-edit: ease
-	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:. ./ease ./Examples/RCOS.ease/

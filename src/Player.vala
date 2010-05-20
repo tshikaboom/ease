@@ -54,9 +54,7 @@ public class Ease.Player : GLib.Object
 		stage.hide_cursor();
 		
 		stage.show_all();
-		Clutter.Color color = Clutter.Color();
-		color.from_string("Black");
-		stage.color = color;
+		stage.color = {0, 0, 0, 255};
 		Clutter.grab_keyboard(stage);
 
 		// make the stacking container
@@ -117,16 +115,17 @@ public class Ease.Player : GLib.Object
 			current_slide.opacity = 0;
 			current_slide.animate(Clutter.AnimationMode.EASE_IN_SINE,
 			                      1000, "opacity", 255);
+			stage.add_actor(current_slide);
 		}
 		else
 		{			
 			old_slide = current_slide;
 			create_current_slide(slide);
+			stage.add_actor(current_slide);
 			old_slide.transition(current_slide, stack_container);
 			old_slide.animation_time.completed.connect(animation_complete);
 			can_animate = false;
 		}
-		stage.add_actor(current_slide);
 	}
 	
 	private void retreat()
