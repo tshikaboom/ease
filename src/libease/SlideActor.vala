@@ -59,7 +59,9 @@ public class Ease.SlideActor : Clutter.Group
 		
 	public const float FLIP_DEPTH = -400;
 	public const float ZOOM_OUT_SCALE = 0.75f;
-	private const float OPEN_DEPTH = -2000;
+	private const float OPEN_DEPTH = -3000;
+	private const float OPEN_MOVE = 0.15f;
+	private const float OPEN_TIME = 0.8f;
 	
 	public SlideActor.from_slide(Document document, Slide s, bool clip,
 	                              ActorContext ctx)
@@ -273,14 +275,60 @@ public class Ease.SlideActor : Clutter.Group
 				break;
 				
 			case "Open Door":
+			{
 				// zoom the new slide in
 				new_slide.depth = OPEN_DEPTH;
 				new_slide.animate(Clutter.AnimationMode.EASE_OUT_SINE,
 				                  length, "depth", 0);
 				
-				animate(Clutter.AnimationMode.LINEAR, length / 2, "opacity", 0);
+				animate(Clutter.AnimationMode.LINEAR, length, "opacity", 0);
+				reparent(stack_container);
+				x = slide.parent.width;
+				
+				// create left and right half clone actors
+				float width = slide.parent.width / 2f;
+				Clutter.Clone left = new Clutter.Clone(this),
+				              right = new Clutter.Clone(this);
+				              
+				left.set_clip(0, 0, width, slide.parent.height);
+				right.set_clip(width, 0, width, slide.parent.height);
+				
+				// add the left and right actors
+				stack_container.add_actor(left);
+				stack_container.add_actor(right);
+				
+				// move the left and right sides outwards
+				left.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
+				             length / 2, "x", left.x - width * OPEN_MOVE);
+				
+				right.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
+				              length / 2, "x", right.x + width * OPEN_MOVE);
+				
+				// animate the angles of the left and right sides
+				time1 = new Clutter.Timeline((int)(OPEN_TIME * length));
+				animation_alpha = new Clutter.Alpha.full(time1,
+				                            Clutter.AnimationMode.EASE_IN_SINE);
+				
+				time1.new_frame.connect((m) => {
+					left.set_rotation(Clutter.RotateAxis.Y_AXIS,
+					                  180 * animation_alpha.get_alpha(),
+					                  0, 0, 0);
+					                  
+					right.set_rotation(Clutter.RotateAxis.Y_AXIS,
+					                   -180 * animation_alpha.get_alpha(),
+					                   width * 2, 0, 0);
+				});
+				
+				// clean up
+				time1.completed.connect(() => {
+					stack_container.remove_actor(left);
+					stack_container.remove_actor(right);
+				});
+				
+				time1.start();
 				
 				break;
+			}
 			
 			case "Flip":
 				new_slide.opacity = 0;				
