@@ -61,6 +61,9 @@ public class Ease.WelcomeWindow : Gtk.Window
 	private const int RESOLUTION_COUNT = 5;
 	private const int PREVIEW_PADDING = 20;
 	
+	private const int ANIM_TIME = 75;
+	private const int ANIM_EASE = Clutter.AnimationMode.LINEAR;
+	
 	public WelcomeWindow()
 	{
 		title = "New Presentation";
@@ -228,13 +231,25 @@ public class Ease.WelcomeWindow : Gtk.Window
 		for (var i = 0; i < previews.size; i++)
 		{
 			// set the position of the preview
-			previews.get(i).x = x_origin + x_position * (PREVIEW_PADDING + preview_width);
-			previews.get(i).y = y_pixels;
+			WelcomeActor a = previews.get(i);
+			
+			if (a == null)
+			{
+				continue;
+			}
+
+			a.animate(ANIM_EASE, ANIM_TIME, "x",
+			          x_origin + x_position * (PREVIEW_PADDING + preview_width));
+
+			a.animate(ANIM_EASE, ANIM_TIME, "y", y_pixels);
 
 			// set the size of the preview
-			previews.get(i).width = preview_width;
-			previews.get(i).height = preview_width * preview_aspect;
-			
+			/*a.animate(ANIM_EASE, ANIM_TIME, "width", preview_width);
+			a.animate(ANIM_EASE, ANIM_TIME, "height",
+			         preview_width * preview_aspect);*/
+			a.width = preview_width;
+			a.height = preview_width * preview_aspect;
+
 			// go to the next line
 			if (++x_position >= per_line)
 			{
@@ -261,7 +276,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 		var hbox = new Gtk.HBox(false, 5);
 		
 		// create zoom slider
-		zoom_slider = new Gtk.HScale(new Gtk.Adjustment(100, 100, 400, 10, 50, 50));
+		zoom_slider = new Gtk.HScale(new Gtk.Adjustment(100, 100, 400, 10,
+		                                                50, 50));
 		zoom_slider.width_request = 200;
 		zoom_slider.draw_value = false;
 		zoom_slider.digits = 0;

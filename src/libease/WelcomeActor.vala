@@ -28,6 +28,7 @@ public class Ease.WelcomeActor : Clutter.Rectangle
 	
 	// constants
 	private const int FADE_TIME = 200;
+	private const int FADE_INIT_TIME = 1000;
 	private const int FADE_EASE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
 	private const int FADE_VALUE = 100;
 	
@@ -48,6 +49,9 @@ public class Ease.WelcomeActor : Clutter.Rectangle
 		set_border_color({255, 255, 255, 255});
 		set_border_width(2);
 		set_reactive(true);
+		
+		opacity = 0;
+		animate(FADE_EASE, FADE_INIT_TIME, "opacity", 255);
 	}
 	
 	public void clicked()
