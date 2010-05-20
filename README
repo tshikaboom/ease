@@ -4,7 +4,7 @@ Building
 ----------------------
 To build Ease, install the following tools:
 
-- valac
+- valac => 0.8.1
 - gcc (or clang)
 - make
 
@@ -20,4 +20,15 @@ As well as these dependencies:
 - cogl-1.0
 - gio-2.0
 
-Then, type `make all` or `make clang`.
+Remember to install the introspection packages as well, which
+look like this :
+
+- gir1.0-clutter-1.0
+- gir1.0-clutter-gtk-0.10
+...
+
+Then, type `make` or `make CC=clang` if you want to use clang.
+
+Running
+----------------------
+`./ease`
