@@ -20,7 +20,7 @@
  *
  * Each {@link EditorWindow} has an UndoController that manages undo actions.
  */
-public class Ease.UndoController
+public class Ease.UndoController : Object
 {
 	private Gee.LinkedList<UndoAction> undos;
 	
