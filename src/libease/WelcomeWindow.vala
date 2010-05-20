@@ -43,9 +43,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 	private float preview_aspect;
 
 	// zoom widgets
-	private Gtk.HScale zoom_slider;
-	private Gtk.Button zoom_in;
-	private Gtk.Button zoom_out;
+	private ZoomSlider zoom_slider;
 	
 	// constants
 	private const int[] RESOLUTIONS_X = {800,
@@ -63,6 +61,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 	
 	private const int ANIM_TIME = 75;
 	private const int ANIM_EASE = Clutter.AnimationMode.LINEAR;
+	
+	private int[] ZOOM_VALUES = {100, 150, 200, 250, 400};
 	
 	public WelcomeWindow()
 	{
@@ -102,7 +102,9 @@ public class Ease.WelcomeWindow : Gtk.Window
 		align.add(new_button);
 		hbox.pack_start(align, false, false, 0);
 		
-		hbox.pack_start(create_zoom_bar(), false, false, 0);
+		zoom_slider = new ZoomSlider(new Gtk.Adjustment(100, 100, 400, 10,
+		                                                50, 50), ZOOM_VALUES);
+		hbox.pack_start(zoom_slider, false, false, 0);
 		
 		open_button = new Gtk.Button.from_stock("gtk-open");
 		align = new Gtk.Alignment(0, 0.5f, 0, 0);
@@ -261,7 +263,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 		// set the size of the background
 		preview_background.width = embed.width;
 		preview_background.height = x_position != 0
-		                          ? y_pixels + preview_width * preview_aspect + PREVIEW_PADDING
+		                          ? y_pixels + preview_width * preview_aspect +
+		                            PREVIEW_PADDING
 		                          : y_pixels + PREVIEW_PADDING;
 
 		// always fill the background
@@ -269,45 +272,6 @@ public class Ease.WelcomeWindow : Gtk.Window
 		{
 			preview_background.height = embed.height;
 		}
-	}
-	
-	private Gtk.Alignment create_zoom_bar()
-	{
-		var hbox = new Gtk.HBox(false, 5);
-		
-		// create zoom slider
-		zoom_slider = new Gtk.HScale(new Gtk.Adjustment(100, 100, 400, 10,
-		                                                50, 50));
-		zoom_slider.width_request = 200;
-		zoom_slider.draw_value = false;
-		zoom_slider.digits = 0;
-		
-		// zoom in button
-		zoom_in = new Gtk.Button();
-		zoom_in.add(new Gtk.Image.from_stock("gtk-zoom-in", Gtk.IconSize.MENU));
-		zoom_in.relief = Gtk.ReliefStyle.NONE;
-		
-		// zoom out button
-		zoom_out = new Gtk.Button();
-		zoom_out.add(new Gtk.Image.from_stock("gtk-zoom-out", Gtk.IconSize.MENU));
-		zoom_out.relief = Gtk.ReliefStyle.NONE;
-		
-		// put it all together
-		var align = new Gtk.Alignment(0, 0.5f, 1, 0);
-		align.add(zoom_out);
-		hbox.pack_start(align, false, false, 0);
-		
-		align = new Gtk.Alignment(0, 0.5f, 1, 0);
-		align.add(zoom_slider);
-		hbox.pack_start(align, false, false, 0);
-		
-		align = new Gtk.Alignment(0, 0.5f, 1, 0);
-		align.add(zoom_in);
-		hbox.pack_start(align, false, false, 0);
-		
-		align = new Gtk.Alignment(1, 1, 1, 1);
-		align.add(hbox);
-		return align;
 	}
 }
 
