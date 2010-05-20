@@ -1,5 +1,9 @@
 NULL =
 
+INCLUDES = 
+	-include config.h \
+	$(EASE_CFLAGS)
+
 bin_PROGRAMS = ease
 
 AM_CPPFLAGS = \
@@ -40,10 +44,21 @@ ease_SOURCES = \
 	src/WelcomeWindow.vala \
 	src/ZoomSlider.vala \
 	$(NULL)
-
-ease_VALAFLAGS = $(EASE_PACKAGES)
+# ease_VALAFLAGS = $(EASE_PACKAGES)
+VALAFLAGS = --pkg glib-2.0 \
+		--pkg gtk+-2.0 \
+		--pkg clutter-1.0 \
+		--pkg gdk-2.0 \
+		--pkg libxml-2.0 \
+		--pkg gee-1.0 \
+		--pkg clutter-gtk-0.10 \
+		--pkg cogl-1.0 \
+		--pkg gio-2.0 \
+		--pkg clutter-gst-1.0
+		$(NULL)
 
 SUBDIRS = po
+
 ease_LDADD = \
 	$(EASE_LIBS) \
 	$(NULL)

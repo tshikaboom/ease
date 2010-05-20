@@ -9,6 +9,7 @@
 *DS_Store
 ease
 *.h
+src/*.c
 *.ogv
 RCOS.ease/
 doc
@@ -33,6 +34,7 @@ Makefile
 Makefile.in
 po/Makefile.in.in
 *.cache
+.deps
 intltool-*.in
 *.make
 aclocal.m4

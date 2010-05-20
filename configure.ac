@@ -25,11 +25,13 @@ dnl LT_PREREQ([2.2.6])
 GNOME_COMPILE_WARNINGS([maximum])
 GNOME_MAINTAINER_MODE_DEFINES
 
-pkg_modules="clutter-gtk-0.10 >= 0.10"
+dnl FIXME
+pkg_modules="clutter-gtk-0.10 >= 0.10 gee-1.0 >= 0.5.0 libxml-2.0 >= 2.7.6 clutter-gst-1.0 >= 1.0.0"
 
 EASE_PACKAGES="--pkg glib-2.0 --pkg gtk+-2.0 --pkg clutter-1.0 --pkg gdk-2.0 --pkg libxml-2.0 --pkg gee-1.0 --pkg clutter-gtk-0.10 --pkg cogl-1.0 --pkg gio-2.0 --pkg clutter-gst-1.0"
 
 PKG_CHECK_MODULES(EASE, [$pkg_modules])
+
 AC_SUBST(EASE_CFLAGS)
 AC_SUBST(EASE_LIBS)
 AC_SUBST(EASE_PACKAGES)
