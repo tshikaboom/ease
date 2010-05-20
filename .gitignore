@@ -20,6 +20,7 @@ doc
 
 # shamelessly copied from gnome-scan.
 # autotools generated files
+.dirstamp
 libtool
 compile
 config.guess
