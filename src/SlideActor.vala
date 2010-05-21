@@ -295,16 +295,19 @@ public class Ease.SlideActor : Clutter.Group
 				new_slide.animate(EASE_SLIDE, length, "y", 0);
 				animate(EASE_SLIDE, length, "y", -new_slide.y);
 				break;
+			
 			case "Down":
 				new_slide.y = -slide.parent.height;
 				new_slide.animate(EASE_SLIDE, length, "y", 0);
 				animate(EASE_SLIDE, length, "y", -new_slide.y);
 				break;
+			
 			case "Left":
 				new_slide.x = slide.parent.width;
 				new_slide.animate(EASE_SLIDE, length, "x", 0);
 				animate(EASE_SLIDE, length, "x", -new_slide.x);
 				break;
+			
 			case "Right":
 				new_slide.x = -slide.parent.width;
 				new_slide.animate(EASE_SLIDE, length, "x", 0);
@@ -339,10 +342,14 @@ public class Ease.SlideActor : Clutter.Group
 				ypos = slide.parent.height;
 				break;
 		}
+		
+		// set the new slide's intial angle
 		new_slide.set_rotation(Clutter.RotateAxis.Z_AXIS,
 		                       angle, xpos, ypos, 0);
 		animation_alpha = new Clutter.Alpha.full(animation_time,
 		                                         EASE_PIVOT);
+		
+		// rotate the new slide in
 		animation_time.new_frame.connect((m) => {
 			new_slide.set_rotation(Clutter.RotateAxis.Z_AXIS,
 			                       angle * (1 - animation_alpha.alpha),
@@ -353,86 +360,87 @@ public class Ease.SlideActor : Clutter.Group
 	private void flip_transition(SlideActor new_slide,
 	                             Clutter.Group stack_container, uint length)
 	{
+		// hide the new slide
 		new_slide.opacity = 0;
+		
+		// timing
 		time1 = new Clutter.Timeline(length / 2);
 		time2 = new Clutter.Timeline(length / 2);
 		alpha1 = new Clutter.Alpha.full(time1,
 		                                Clutter.AnimationMode.EASE_IN_SINE);
 		alpha2 = new Clutter.Alpha.full(time2,
 		                                Clutter.AnimationMode.EASE_OUT_SINE);
+		
+		// axis to flip on
+		Clutter.RotateAxis axis;
+		
+		// multiplier for angle
+		float positive;
+		
+		// rotation points
+		float x_point = 0, y_point = 0;
+		
 		switch (slide.variant)
 		{
 			case "Bottom to Top":
-				time1.new_frame.connect((m) => {
-					set_rotation(Clutter.RotateAxis.X_AXIS, 90 * alpha1.alpha,
-					             0, slide.parent.height / 2, 0);
-					depth = (float)(FLIP_DEPTH * alpha1.alpha);
-				});
-
-				time2.new_frame.connect((m) => {
-					new_slide.opacity = 255;
-					new_slide.depth = FLIP_DEPTH * (float)(1 - alpha2.alpha);
-					new_slide.set_rotation(Clutter.RotateAxis.X_AXIS,
-					                       -90 * (1 - alpha2.alpha), 0,
-					                       slide.parent.height / 2, 0);
-				});
+				axis = Clutter.RotateAxis.X_AXIS;
+				positive = 1;
+				y_point = slide.parent.height / 2;
 				break;
 
 			case "Top to Bottom":
-				time1.new_frame.connect((m) => {
-					set_rotation(Clutter.RotateAxis.X_AXIS, -90 * alpha1.alpha,
-					             0, slide.parent.height / 2, 0);
-					depth = (float)(FLIP_DEPTH * alpha1.alpha);
-				});
-
-				time2.new_frame.connect((m) => {
-					new_slide.opacity = 255;
-					new_slide.depth = FLIP_DEPTH * (float)(1 - alpha2.alpha);
-					new_slide.set_rotation(Clutter.RotateAxis.X_AXIS,
-					                       90 * (1 - alpha2.alpha), 0,
-					                       slide.parent.height / 2, 0);
-				});
+				axis = Clutter.RotateAxis.X_AXIS;
+				positive = -1;
 				break;
 
 			case "Left to Right":
-				time1.new_frame.connect((m) => {
-					set_rotation(Clutter.RotateAxis.Y_AXIS,
-					             90 * alpha1.alpha,
-					             slide.parent.width / 2, 0,0);
-
-					depth = (float)(FLIP_DEPTH * alpha1.alpha);
-				});
-
-				time2.new_frame.connect((m) => {
-					new_slide.opacity = 255;
-					new_slide.depth = FLIP_DEPTH * (float)(1 - alpha2.alpha);
-					new_slide.set_rotation(Clutter.RotateAxis.Y_AXIS,
-					                       -90 * (1 - alpha2.alpha),
-					                       slide.parent.width / 2, 0, 0);
-				});
+				axis = Clutter.RotateAxis.Y_AXIS;
+				positive = 1;
+				x_point = slide.parent.width / 2;
 				break;
 
-			case "Right to Left":
-				time1.new_frame.connect((m) => {
-					set_rotation(Clutter.RotateAxis.Y_AXIS, -90 * alpha1.alpha,
-					             slide.parent.width / 2, 0, 0);
-					depth = (float)(FLIP_DEPTH * alpha1.alpha);
-				});
-
-				time2.new_frame.connect((m) => {
-					new_slide.opacity = 255;
-					new_slide.depth = FLIP_DEPTH * (float)(1 - alpha2.alpha);
-					new_slide.set_rotation(Clutter.RotateAxis.Y_AXIS,
-					                       90 * (1 - alpha2.alpha),
-					                       slide.parent.width / 2, 0, 0);
-				});
+			default: // "Right to Left"
+				axis = Clutter.RotateAxis.Y_AXIS;
+				positive = -1;
+				x_point = slide.parent.width / 2;
 				break;
 		}
+		
+		// animate the first half of the transition
+		time1.new_frame.connect((m) => {
+			// rotate the slide
+			set_rotation(axis, positive * 90 * alpha1.alpha,
+			             x_point, y_point, 0);
+			
+			// zoom the slide in
+			depth = (float)(FLIP_DEPTH * alpha1.alpha);
+		});
+
+		// animate the second half of the transition
+		time2.new_frame.connect((m) => {
+			// rotate the slide
+			new_slide.set_rotation(axis, positive * -90 * (1 - alpha2.alpha),
+			                       x_point, y_point, 0);
+			
+			// zoom the slide in
+			new_slide.depth = FLIP_DEPTH * (float)(1 - alpha2.alpha);
+			
+			// make the new slide visible
+			new_slide.opacity = 255;
+		});
+		
 		time1.completed.connect(() => {
+			// hide the current slide
 			opacity = 0;
+			
+			// place the new slide
 			new_slide.depth = FLIP_DEPTH;
+			
+			// start the second half
 			time2.start();
 		});
+		
+		// start the transition
 		time1.start();
 	}
 
@@ -440,7 +448,8 @@ public class Ease.SlideActor : Clutter.Group
 	                                       Clutter.Group stack_container,
 	                                       uint length)
 	{
-		depth = 1; //ugly, but works
+		// set the current slide to slightly above the new slide
+		depth = 1;
 
 		animation_alpha = new Clutter.Alpha.full(animation_time, EASE_SLIDE);
 		
@@ -478,7 +487,8 @@ public class Ease.SlideActor : Clutter.Group
 				break;
 		}
 		
-		new_slide.set_rotation(axis, 90 * positive, 0, 0, 0);
+		// set the new slide's initial rotation
+		new_slide.set_rotation(axis, 90 * positive, x_point, y_point, 0);
 		
 		animation_time.new_frame.connect((m) => {
 			// rotate the new slide in
@@ -575,9 +585,9 @@ public class Ease.SlideActor : Clutter.Group
 			                      width, slide.parent.height);
 
 			// flip the back slats
-			new_slats[i].set_rotation(Clutter.RotateAxis.Y_AXIS,
-			                          180, width / 2, 0, 0);
-
+			//new_slats[i].set_rotation(Clutter.RotateAxis.Y_AXIS,
+			//                          180, width / 2 + i * width, 0, 0);
+			
 			// place the new slats behind the current ones
 			new_slats[i].depth = 5;
 		}
@@ -590,9 +600,10 @@ public class Ease.SlideActor : Clutter.Group
 		animation_time.new_frame.connect((m) => {
 			for (int i = 0; i < SLAT_COUNT; i++)
 			{
-				groups[i].set_rotation(Clutter.RotateAxis.Y_AXIS,
+				new_slats[i].set_rotation(Clutter.RotateAxis.Y_AXIS,
 					              180 * animation_alpha.alpha,
 					              (i + 0.5f) * width, 0, 0);
+				
 			}
 		});
 
