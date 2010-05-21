@@ -48,14 +48,11 @@ public class Ease.SlideActor : Clutter.Group
 	private Clutter.Alpha alpha2;
 
 	// constants
-	public const Clutter.AnimationMode EASE_SLIDE =
-		Clutter.AnimationMode.EASE_IN_OUT_SINE;
+	public const int EASE_SLIDE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
 
-	public const Clutter.AnimationMode EASE_DROP =
-		Clutter.AnimationMode.EASE_OUT_BOUNCE;
+	public const int EASE_DROP = Clutter.AnimationMode.EASE_OUT_BOUNCE;
 
-	public const Clutter.AnimationMode EASE_PIVOT =
-		Clutter.AnimationMode.EASE_OUT_SINE;
+	public const int EASE_PIVOT =	Clutter.AnimationMode.EASE_OUT_SINE;
 
 	public const float FLIP_DEPTH = -400;
 	public const float ZOOM_OUT_SCALE = 0.75f;
@@ -445,39 +442,55 @@ public class Ease.SlideActor : Clutter.Group
 	{
 		depth = 1; //ugly, but works
 
-		animation_alpha = new Clutter.Alpha.full(animation_time,
-		                                Clutter.AnimationMode.EASE_IN_OUT_SINE);
+		animation_alpha = new Clutter.Alpha.full(animation_time, EASE_SLIDE);
+		
+		// the axis of rotation
+		Clutter.RotateAxis axis;
+		
+		// angle multiplier, -1 or 1
+		float positive;
+		
+		// angle rotation points
+		float x_point = 0, y_point = 0;
+		
 		switch (slide.variant)
 		{
 			case "Left":
-				new_slide.set_rotation(Clutter.RotateAxis.Y_AXIS, 90, 0, 0, 0);
-				animation_time.new_frame.connect((m) => {
-					new_slide.set_rotation(Clutter.RotateAxis.Y_AXIS, 90 * (1 - animation_alpha.alpha), 0, 0, 0);
-					set_rotation(Clutter.RotateAxis.Y_AXIS, -110 * animation_alpha.alpha, 0, 0, 0);
-				});
+				axis = Clutter.RotateAxis.Y_AXIS;
+				positive = 1;
 				break;
+			
 			case "Right":
-				new_slide.set_rotation(Clutter.RotateAxis.Y_AXIS, 90, slide.parent.width, 0, 0);
-				animation_time.new_frame.connect((m) => {
-					new_slide.set_rotation(Clutter.RotateAxis.Y_AXIS, -90 * (1 - animation_alpha.alpha), slide.parent.width, 0, 0);
-					set_rotation(Clutter.RotateAxis.Y_AXIS, 110 * animation_alpha.alpha, slide.parent.width, 0, 0);
-				});
+				axis = Clutter.RotateAxis.Y_AXIS;
+				positive = -1;
+				x_point = slide.parent.width;
 				break;
+			
 			case "Top":
-				new_slide.set_rotation(Clutter.RotateAxis.X_AXIS, -90, 0, 0, 0);
-				animation_time.new_frame.connect((m) => {
-					new_slide.set_rotation(Clutter.RotateAxis.X_AXIS, -90 * (1 - animation_alpha.alpha), 0, 0, 0);
-					set_rotation(Clutter.RotateAxis.X_AXIS, 110 * animation_alpha.alpha, 0, 0, 0);
-				});
+				axis = Clutter.RotateAxis.X_AXIS;
+				positive = -1;
 				break;
-			case "Bottom":
-				new_slide.set_rotation(Clutter.RotateAxis.X_AXIS, 90, 0, slide.parent.height, 0);
-				animation_time.new_frame.connect((m) => {
-					new_slide.set_rotation(Clutter.RotateAxis.X_AXIS, 90 * (1 - animation_alpha.alpha), 0, slide.parent.height, 0);
-					set_rotation(Clutter.RotateAxis.X_AXIS, -110 * animation_alpha.alpha, 0, slide.parent.height, 0);
-				});
+			
+			default: // bottom
+				axis = Clutter.RotateAxis.X_AXIS;
+				positive = 1;
+				y_point = slide.parent.height;
 				break;
 		}
+		
+		new_slide.set_rotation(axis, 90 * positive, 0, 0, 0);
+		
+		animation_time.new_frame.connect((m) => {
+			// rotate the new slide in
+			new_slide.set_rotation(axis,
+			                       positive * 90 * (1 - animation_alpha.alpha),
+			                       x_point, y_point, 0);
+			
+			// rotate the old slide forwards
+			set_rotation(axis,
+			             positive * -110 * animation_alpha.alpha,
+			             x_point, y_point, 0);
+		});
 	}
 
 	private void reveal_transition(SlideActor new_slide,
@@ -678,11 +691,10 @@ public class Ease.SlideActor : Clutter.Group
 		}
 		animation_alpha = new Clutter.Alpha.full(animation_time,
 		                                   Clutter.AnimationMode.EASE_OUT_SINE);
+		
 		animation_time.new_frame.connect((m) => {
 			new_slide.set_scale(animation_alpha.alpha, animation_alpha.alpha);
 		});
-		//new_slide.animate(Clutter.AnimationMode.EASE_OUT_SINE, length, "scale_x", 1);
-		//new_slide.animate(Clutter.AnimationMode.EASE_OUT_SINE, length, "scale_y", 1);
 	}
 
 	private void panel_transition(SlideActor new_slide,
@@ -737,10 +749,12 @@ public class Ease.SlideActor : Clutter.Group
 		});
 		time2.completed.connect(() => {
 			time1.new_frame.connect((m) => {
-				new_slide.set_scale_full(ZOOM_OUT_SCALE + (1 - ZOOM_OUT_SCALE) * alpha1.alpha,
-					                         ZOOM_OUT_SCALE + (1 - ZOOM_OUT_SCALE) * alpha1.alpha,
-					                         slide.parent.width / 2,
-					                         slide.parent.height / 2);
+				new_slide.set_scale_full(ZOOM_OUT_SCALE +
+				                          (1 - ZOOM_OUT_SCALE) * alpha1.alpha,
+				                         ZOOM_OUT_SCALE +
+				                          (1 - ZOOM_OUT_SCALE) * alpha1.alpha,
+					                     slide.parent.width / 2,
+					                     slide.parent.height / 2);
 			});
 			time1.start();
 		});
@@ -813,7 +827,8 @@ public class Ease.SlideActor : Clutter.Group
 				                                  540 * alpha1.alpha,
 				                                  0, 0, 0);
 			}
-			for (itr = new_slide.contents.get_children(); itr != null; itr = itr->next)
+			for (itr = new_slide.contents.get_children();
+			     itr != null; itr = itr->next)
 			{
 				((Actor*)itr->data)->set_rotation(Clutter.RotateAxis.X_AXIS,
 				                                  -540 * (1 - alpha2.alpha),
@@ -828,42 +843,37 @@ public class Ease.SlideActor : Clutter.Group
 	{
 		prepare_stack_transition(false, new_slide, stack_container);
 
-		background.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
-		                   length, "opacity", 0);
+		background.animate(EASE_SLIDE, length, "opacity", 0);
 		
 		switch (slide.variant)
 		{
 			case "Right":
 				new_slide.contents.x = -slide.parent.width;
-				new_slide.contents.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
-				                           length, "x", 0);
+				new_slide.contents.animate(EASE_SLIDE, length, "x", 0);
 
-				contents.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
+				contents.animate(EASE_SLIDE,
 				                 length, "x", -new_slide.contents.x);
 				break;
 			case "Left":
 				new_slide.contents.x = slide.parent.width;
-				new_slide.contents.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
-				                           length, "x", 0);
+				new_slide.contents.animate(EASE_SLIDE, length, "x", 0);
 
-				contents.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
+				contents.animate(EASE_SLIDE,
 				                 length, "x", -new_slide.contents.x);
 				break;
 			case "Up":
 				new_slide.contents.y = slide.parent.height;
-				new_slide.contents.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
-				                           length, "y", 0);
+				new_slide.contents.animate(EASE_SLIDE, length, "y", 0);
 
-				contents.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
+				contents.animate(EASE_SLIDE,
 				                 length, "y", -new_slide.contents.y);
 				break;
 			case "Down":
 				new_slide.contents.y = -slide.parent.height;
-				new_slide.contents.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
-				                           length, "y", 0);
+				new_slide.contents.animate(EASE_SLIDE, length, "y", 0);
 
-				contents.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length,
-				                 "y", -new_slide.contents.y);
+				contents.animate(EASE_SLIDE,
+				                 length, "y", -new_slide.contents.y);
 				break;
 		}
 	}
