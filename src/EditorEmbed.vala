@@ -79,6 +79,9 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	{
 		base(true);
 		win = w;
+		
+		// don't fade actors out when zoomed out
+		get_stage().use_fog = false;
 
 		// set up the background
 		view_background = new Clutter.Rectangle();

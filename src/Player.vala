@@ -49,6 +49,7 @@ public class Ease.Player : GLib.Object
 		stage.width = document.width;
 		stage.height = document.height;
 		stage.title = "Ease Presentation";
+		stage.use_fog = false;
 		
 		stage.set_fullscreen(PRESENTATION_FULLSCREEN);
 		stage.hide_cursor();
