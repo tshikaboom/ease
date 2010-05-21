@@ -46,6 +46,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 	private int preview_row_count = -1;
 	private bool animate_resize = false;
 	private Clutter.Timeline animate_alarm;
+	private Gee.ArrayList<Clutter.Animation> x_anims;
+	private Gee.ArrayList<Clutter.Animation> y_anims;
 
 	// zoom widgets
 	private ZoomSlider zoom_slider;
@@ -64,8 +66,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 	private const int RESOLUTION_COUNT = 5;
 	private const int PREVIEW_PADDING = 20;
 	
-	private const int ANIM_TIME = 200;
-	private const int ANIM_EASE = Clutter.AnimationMode.LINEAR;
+	private const int ANIM_TIME = 300;
+	private const int ANIM_EASE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
 	
 	private int[] ZOOM_VALUES = {100, 150, 200, 250, 400};
 	
@@ -239,10 +241,18 @@ public class Ease.WelcomeWindow : Gtk.Window
 			
 			if (animate_alarm != null)
 				animate_alarm.stop();
+				
+			// create animation arrays
+			x_anims = new Gee.ArrayList<Clutter.Animation>();
+			y_anims = new Gee.ArrayList<Clutter.Animation>();
 			
 			animate_alarm = new Clutter.Timeline(ANIM_TIME);
 			animate_alarm.start();
-			animate_alarm.completed.connect(() => animate_resize = false );
+			animate_alarm.completed.connect(() => {
+				animate_resize = false;
+				x_anims = null;
+				y_anims = null;
+			});
 		}
 
 		// find the initial x position of previews
@@ -271,14 +281,23 @@ public class Ease.WelcomeWindow : Gtk.Window
 			                  (PREVIEW_PADDING + preview_width);
 			
 			if (animate_resize)
-			{
-				var time = (double)animate_alarm.get_elapsed_time() / 
-				                   animate_alarm.duration;
-				time = 1 - time;
-			
-				// animate the repositioning
-				a.animate(ANIM_EASE, (int)(ANIM_TIME * time), "x", x_pixels);
-				a.animate(ANIM_EASE, (int)(ANIM_TIME * time), "y", y_pixels);
+			{	
+				// create new animations if the reshuffle is starting
+				if (x_anims.size == i)
+				{
+					x_anims.add(a.animate(ANIM_EASE, ANIM_TIME, "x", x_pixels));
+					y_anims.add(a.animate(ANIM_EASE, ANIM_TIME, "y", y_pixels));
+				}
+				
+				// otherwise, replace the intial target with a new one
+				else
+				{
+					x_anims.get(i).unbind_property("x");
+					y_anims.get(i).unbind_property("y");
+					
+					x_anims.get(i).bind("x", x_pixels);
+					y_anims.get(i).bind("y", y_pixels);
+				}
 			}
 			else
 			{
