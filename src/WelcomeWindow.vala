@@ -41,6 +41,11 @@ public class Ease.WelcomeWindow : Gtk.Window
 	private Gee.ArrayList<WelcomeActor> previews = new Gee.ArrayList<WelcomeActor>();
 	private int preview_width = 100;
 	private float preview_aspect;
+	
+	// preview reshuffle animation
+	private int preview_row_count = -1;
+	private bool animate_resize = false;
+	private Clutter.Timeline animate_alarm;
 
 	// zoom widgets
 	private ZoomSlider zoom_slider;
@@ -59,7 +64,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 	private const int RESOLUTION_COUNT = 5;
 	private const int PREVIEW_PADDING = 20;
 	
-	private const int ANIM_TIME = 75;
+	private const int ANIM_TIME = 200;
 	private const int ANIM_EASE = Clutter.AnimationMode.LINEAR;
 	
 	private int[] ZOOM_VALUES = {100, 150, 200, 250, 400};
@@ -219,6 +224,26 @@ public class Ease.WelcomeWindow : Gtk.Window
 		       PREVIEW_PADDING < embed.width;
 		     per_line++);
 		per_line--; // FIXME: the math is not strong in me at 2 AM
+		
+		// don't animate when the window first opens
+		if (preview_row_count == -1)
+		{
+			preview_row_count = per_line;
+		}
+		
+		// animate if the previews need to be shuffled
+		if (preview_row_count != per_line)
+		{
+			preview_row_count = per_line;
+			animate_resize = true;
+			
+			if (animate_alarm != null)
+				animate_alarm.stop();
+			
+			animate_alarm = new Clutter.Timeline(ANIM_TIME);
+			animate_alarm.start();
+			animate_alarm.completed.connect(() => animate_resize = false );
+		}
 
 		// find the initial x position of previews
 		var x_origin = embed.width / 2 -
@@ -240,16 +265,29 @@ public class Ease.WelcomeWindow : Gtk.Window
 			{
 				continue;
 			}
-
-			a.animate(ANIM_EASE, ANIM_TIME, "x",
-			          x_origin + x_position * (PREVIEW_PADDING + preview_width));
-
-			a.animate(ANIM_EASE, ANIM_TIME, "y", y_pixels);
+			
+			// the target x position of the preview
+			float x_pixels = x_origin + x_position *
+			                  (PREVIEW_PADDING + preview_width);
+			
+			if (animate_resize)
+			{
+				var time = (double)animate_alarm.get_elapsed_time() / 
+				                   animate_alarm.duration;
+				time = 1 - time;
+			
+				// animate the repositioning
+				a.animate(ANIM_EASE, (int)(ANIM_TIME * time), "x", x_pixels);
+				a.animate(ANIM_EASE, (int)(ANIM_TIME * time), "y", y_pixels);
+			}
+			else
+			{
+				// simply set the positions
+				a.x = x_pixels;
+				a.y = y_pixels;
+			}
 
 			// set the size of the preview
-			/*a.animate(ANIM_EASE, ANIM_TIME, "width", preview_width);
-			a.animate(ANIM_EASE, ANIM_TIME, "height",
-			         preview_width * preview_aspect);*/
 			a.width = preview_width;
 			a.height = preview_width * preview_aspect;
 
