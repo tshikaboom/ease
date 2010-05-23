@@ -236,6 +236,7 @@ public class Ease.EditorWindow : Gtk.Window
 		if (slide.variant != "" && slide.variant != null)
 		{
 			pane_transition.variant.set_active(Transitions.get_variant_id(slide.transition, slide.variant));
+			pane_transition.slide = slide;
 		}
 		
 		embed.set_slide(slide);
