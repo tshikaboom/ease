@@ -90,13 +90,17 @@ public class Ease.WelcomeWindow : Gtk.Window
 		align.add(resolution);
 		hbox.pack_start(align, false, false, 0);
 		
-		x_res = new Gtk.SpinButton.with_range(320, 1920, 1);
+		x_res = new Gtk.SpinButton.with_range(RESOLUTIONS_X[0],
+											  RESOLUTIONS_Y[RESOLUTION_COUNT-1],
+											  1);
 		x_res.set_value(1024);
 		align = new Gtk.Alignment(0, 0.5f, 0, 0);
 		align.add(x_res);
 		hbox.pack_start(align, false, false, 0);
 		
-		y_res = new Gtk.SpinButton.with_range(240, 1920, 1);
+		y_res = new Gtk.SpinButton.with_range(RESOLUTIONS_Y[0],
+											  RESOLUTIONS_Y[RESOLUTION_COUNT-1],
+											  1);
 		y_res.set_value(768);
 		align = new Gtk.Alignment(0, 0.5f, 0, 0);
 		align.add(y_res);
