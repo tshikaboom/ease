@@ -42,7 +42,6 @@ public static class Ease.Main : GLib.Object
 	public static int main(string[] args)
 	{
 		GtkClutter.init(ref args);
-		Gst.init(ref args);
 		ClutterGst.init(ref args);
 
 		// initalize static classes
