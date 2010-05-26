@@ -1,7 +1,7 @@
 # Ease : presentation editor for the GNOME desktop
 # Copyright (C) 2010 Nate Stedman 
 # This file is distributed under the same license as the EASE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Stéphane Maniaci <stephane.maniaci@gmail.com>, 2010.
 #
 #, fuzzy
 msgid ""
@@ -10,40 +10,40 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=ease\n"
 "POT-Creation-Date: 2010-05-26 18:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Last-Translator: Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
+"Language-Team: French <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../src/Transitions.vala:39
 msgid "Fade"
-msgstr ""
+msgstr "Fondu"
 
 #. FIXME : is there a way to put the redundants variants into the same string ?
 #: ../src/Transitions.vala:41
 msgid "Slide"
-msgstr ""
+msgstr "Glisse"
 
 #: ../src/Transitions.vala:41
 msgid "Up"
-msgstr ""
+msgstr "Haut"
 
 #: ../src/Transitions.vala:41
 msgid "Down"
-msgstr ""
+msgstr "Bas"
 
 #: ../src/Transitions.vala:41
 msgid "Left"
-msgstr ""
+msgstr "Gauche"
 
 #: ../src/Transitions.vala:41
 msgid "Right"
-msgstr ""
+msgstr "Droite"
 
 #: ../src/Transitions.vala:42
 msgid "Drop"
-msgstr ""
+msgstr "Chute"
 
 #: ../src/Transitions.vala:43
 msgid "Pivot"
@@ -71,13 +71,13 @@ msgstr ""
 
 #: ../src/WelcomeWindow.vala:76 ../src/WelcomeWindow.vala:109
 msgid "New Presentation"
-msgstr ""
+msgstr "Nouvelle présentation"
 
 #: ../src/WelcomeWindow.vala:82
 msgid "Custom"
-msgstr ""
+msgstr "Personnalisé"
 
 #: ../src/WelcomeWindow.vala:85
 #, c-format
 msgid "%i by %i"
-msgstr ""
+msgstr "%i par %i"

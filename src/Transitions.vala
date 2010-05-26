@@ -36,11 +36,12 @@ public static class Ease.Transitions : GLib.Object
 	{
 		Transitions = new Gee.ArrayList<Transition>();
 		add_transition("None", {}, 0);
-		add_transition("Fade", {}, 0);
-		add_transition("Slide", { "Up", "Down", "Left", "Right" }, 4);
-		add_transition("Drop", {}, 0);
-		add_transition("Pivot", { "Top Left", "Top Right", "Bottom Left", "Bottom Right" }, 4);
-		add_transition("Flip", { "Top to Bottom", "Bottom to Top", "Left to Right", "Right to Left" }, 4);
+		add_transition(_("Fade"), {}, 0);
+		/* FIXME : is there a way to put the redundants variants into the same string ? */
+		add_transition(_("Slide"), { _("Up"), _("Down"), _("Left"), _("Right") }, 4);
+		add_transition(_("Drop"), {}, 0);
+		add_transition(_("Pivot"), { _("Top Left"), _("Top Right"), _("Bottom Left"), _("Bottom Right") }, 4);
+		add_transition(_("Flip"), { "Top to Bottom", "Bottom to Top", "Left to Right", "Right to Left" }, 4);
 		add_transition("Revolving Door", { "Top", "Bottom", "Left", "Right" }, 4);
 		add_transition("Reveal", { "Top", "Bottom", "Left", "Right" }, 4);
 		add_transition("Fall", {}, 0);

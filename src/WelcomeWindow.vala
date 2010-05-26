@@ -73,16 +73,16 @@ public class Ease.WelcomeWindow : Gtk.Window
 	
 	public WelcomeWindow()
 	{
-		title = "New Presentation";
+		title = _("New Presentation");
 		set_default_size(640, 480);
 		
 		// build the bottom UI
 		var hbox = new Gtk.HBox(false, 5);
 		resolution = new Gtk.ComboBox.text();
-		resolution.append_text("Custom");
+		resolution.append_text(_("Custom"));
 		for (var i = 0; i < RESOLUTION_COUNT; i++)
 		{
-			resolution.append_text("%i by %i".printf(RESOLUTIONS_X[i], RESOLUTIONS_Y[i]));
+			resolution.append_text(_("%i by %i").printf(RESOLUTIONS_X[i], RESOLUTIONS_Y[i]));
 		}
 		resolution.set_active(2);
 		
@@ -106,7 +106,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 		align.add(y_res);
 		hbox.pack_start(align, false, false, 0);
 		
-		new_button = new Gtk.Button.with_label("New Presentation");
+		new_button = new Gtk.Button.with_label(_("New Presentation"));
 		new_button.sensitive = false;
 		new_button.image = new Gtk.Image.from_stock("gtk-new", Gtk.IconSize.BUTTON);
 		align = new Gtk.Alignment(0, 0.5f, 0, 0);
