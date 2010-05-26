@@ -1,2 +1,33 @@
 # List of source files which contain translatable strings.
-../src/*.vala
+[encoding: UTF-8]
+src/Actor.vala
+src/Document.vala
+src/EditorEmbed.vala
+src/EditorWindow.vala
+src/ElementMap.vala
+src/ElementMapValue.vala
+src/Element.vala
+src/Enums.vala
+src/Handle.vala
+src/HTMLExporter.vala
+src/ImageActor.vala
+src/MainToolbar.vala
+src/Main.vala
+src/OpenDialog.vala
+src/Player.vala
+src/ScrollableEmbed.vala
+src/SlideActor.vala
+src/SlideButtonPanel.vala
+src/SlideButton.vala
+src/SlidePane.vala
+src/Slide.vala
+src/TextActor.vala
+src/Theme.vala
+src/TransitionPane.vala
+src/Transitions.vala
+src/UndoActions.vala
+src/UndoController.vala
+src/VideoActor.vala
+src/WelcomeActor.vala
+src/WelcomeWindow.vala
+src/ZoomSlider.vala
