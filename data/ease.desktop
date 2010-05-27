@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Ease
-Comment=A Desktop Presentation Application
+Name=Ease presentation editor
+Comment=Create nice and elegant presentations
 Exec=ease
 Type=Application
 Categories=Office;

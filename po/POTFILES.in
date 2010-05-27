@@ -1,5 +1,6 @@
 # List of source files which contain translatable strings.
 [encoding: UTF-8]
+data/ease.desktop
 src/Actor.vala
 src/Document.vala
 src/EditorEmbed.vala
