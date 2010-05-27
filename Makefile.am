@@ -63,7 +63,7 @@ ease_LDADD = \
 	$(EASE_LIBS) \
 	$(NULL)
 
-EXTRA_DIST = config.rpath m4/ChangeLog data/ease.desktop  \
+EXTRA_DIST = config.rpath m4/ChangeLog data/ease.desktop.in  \
 	$(NULL)
 
 DISTCLEANFILES = \
@@ -71,5 +71,10 @@ DISTCLEANFILES = \
 
 ACLOCAL_AMFLAGS = -I m4
 
+desktopdir = $(datadir)/applications
+desktop_in_files = data/ease.desktop.in
+desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
+@INTLTOOL_DESKTOP_RULE@
+
 Applicationsdir = /usr/share/applications
-Applications_DATA = data/ease.desktop
+Applications_DATA = data/ease.desktop.in
