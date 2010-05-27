@@ -262,7 +262,7 @@ public class Ease.EditorWindow : Gtk.Window
 	// signal handlers
 	private void show_open_dialog()
 	{
-		var dialog = new Gtk.FileChooserDialog("Open File",
+		var dialog = new Gtk.FileChooserDialog(_("Open File"),
 		                                       this,
 		                                       Gtk.FileChooserAction.OPEN,
 		                                       null);
@@ -287,15 +287,15 @@ public class Ease.EditorWindow : Gtk.Window
 	private Gtk.MenuItem create_file_menu()
 	{
 		/* TODO : use mnemonics */
-		var menuItem = new Gtk.MenuItem.with_label("File");
+		var menuItem = new Gtk.MenuItem.with_label(_("File"));
 		var menu = new Gtk.Menu();
 		
-		var newItem = new Gtk.MenuItem.with_label("New");
+		var newItem = new Gtk.MenuItem.with_label(_("New"));
 		var newMenu = new Gtk.Menu();
-		var newPres = new Gtk.MenuItem.with_label("Presentation");
+		var newPres = new Gtk.MenuItem.with_label(_("Presentation"));
 		newPres.activate.connect(new_presentation);
-		var newTheme = new Gtk.MenuItem.with_label("Theme");
-		var Quit = new Gtk.MenuItem.with_label("Quit");
+		var newTheme = new Gtk.MenuItem.with_label(_("Theme"));
+		var Quit = new Gtk.MenuItem.with_label(_("Quit"));
 		Quit.activate.connect( Gtk.main_quit );
 
 		newMenu.append(newPres);
@@ -303,7 +303,7 @@ public class Ease.EditorWindow : Gtk.Window
 		newItem.set_submenu(newMenu);
 		menu.append(newItem);
 		
-		var openItem = new Gtk.MenuItem.with_label("Open");
+		var openItem = new Gtk.MenuItem.with_label(_("Open"));
 		openItem.activate.connect(show_open_dialog);
 		openItem.set_accel_path("<-Document>/File/Open");
 		Gtk.AccelMap.add_entry("<-Document>/File/Open",

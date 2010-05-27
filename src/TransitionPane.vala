@@ -62,7 +62,7 @@ public class Ease.TransitionPane : Gtk.VBox
 		var vbox = new Gtk.VBox(false, 0);
 		hbox = new Gtk.HBox(false, 0);
 		var align = new Gtk.Alignment(0, 0, 0, 0);
-		align.add(new Gtk.Label("Effect"));
+		align.add(new Gtk.Label(_("Effect")));
 		vbox.pack_start(align, false, false, 0);
 		effect = new Gtk.ComboBox.text();
 		for (var i = 0; i < Transitions.size; i++)
@@ -78,7 +78,7 @@ public class Ease.TransitionPane : Gtk.VBox
 		// transition transition_time
 		vbox = new Gtk.VBox(false, 0);
 		align = new Gtk.Alignment(0, 0, 0, 0);
-		align.add(new Gtk.Label("Duration"));
+		align.add(new Gtk.Label(_("Duration")));
 		vbox.pack_start(align, false, false, 0);
 		transition_time = new Gtk.SpinButton.with_range(0, 10, 0.25);
 		transition_time.digits = 2;
@@ -96,7 +96,7 @@ public class Ease.TransitionPane : Gtk.VBox
 		hbox = new Gtk.HBox(false, 0);
 		vbox = new Gtk.VBox(false, 0);
 		align = new Gtk.Alignment(0, 0, 0, 0);
-		align.add(new Gtk.Label("Direction"));
+		align.add(new Gtk.Label(_("Direction")));
 		vbox.pack_start(align, false, false, 0);
 		variant = new Gtk.ComboBox.text();
 		variant_align = new Gtk.Alignment(0, 0, 1, 1);
@@ -109,11 +109,11 @@ public class Ease.TransitionPane : Gtk.VBox
 		vbox = new Gtk.VBox(false, 0);
 		hbox = new Gtk.HBox(false, 0);
 		align = new Gtk.Alignment(0, 0, 0, 0);
-		align.add(new Gtk.Label("Start Transition"));
+		align.add(new Gtk.Label(_("Start Transition")));
 		vbox.pack_start(align, false, false, 0);
 		start_transition = new Gtk.ComboBox.text();
-		start_transition.append_text("Manually");
-		start_transition.append_text("Automatically");
+		start_transition.append_text(_("Manually"));
+		start_transition.append_text(_("Automatically"));
 		start_transition.set_active(0);
 		align = new Gtk.Alignment(0, 0, 1, 1);
 		align.add(start_transition);
@@ -123,7 +123,7 @@ public class Ease.TransitionPane : Gtk.VBox
 		// start transition delay
 		vbox = new Gtk.VBox(false, 0);
 		align = new Gtk.Alignment(0, 0, 0, 0);
-		align.add(new Gtk.Label("Delay"));
+		align.add(new Gtk.Label(_("Delay")));
 		vbox.pack_start(align, false, false, 0);
 		delay = new Gtk.SpinButton.with_range(0, 10, 0.25);
 		delay.digits = 2;

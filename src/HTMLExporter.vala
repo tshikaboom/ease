@@ -48,7 +48,7 @@ public class Ease.HTMLExporter : GLib.Object
 	 */
 	public bool request_path(Gtk.Window win)
 	{
-		var dialog = new Gtk.FileChooserDialog("Export to HTML",
+		var dialog = new Gtk.FileChooserDialog(_("Export to HTML"),
 		                                       win,
 		                                       Gtk.FileChooserAction.SAVE,
 		                                       "gtk-save",
@@ -66,7 +66,7 @@ public class Ease.HTMLExporter : GLib.Object
 			// create the progress dialog
 			window = new Gtk.Dialog();
 			window.width_request = 400;
-			window.set_title("Exporting as HTML");
+			window.set_title(_("Exporting as HTML"));
 			Gtk.VBox vbox = (Gtk.VBox)(window.get_content_area());
 			vbox.pack_start(progress, true, true, 5);
 			window.show_all();
@@ -134,9 +134,9 @@ public class Ease.HTMLExporter : GLib.Object
 				                               Gtk.DialogFlags.NO_SEPARATOR,
 				                               Gtk.MessageType.ERROR,
 				                               Gtk.ButtonsType.CLOSE,
-				                               "Error copying: %s",
+				                               _("Error copying: %s"),
 				                               e. message);
-			dialog.title = "Error Copying File";
+			dialog.title = _("Error Copying File");
 			dialog.border_width = 5;
 			dialog.run();
 			dialog.destroy();

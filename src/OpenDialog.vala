@@ -46,7 +46,7 @@ public class Ease.OpenDialog : GLib.Object
 
 	private void instance_run()
 	{
-		var dialog = new Gtk.FileChooserDialog("Open File",
+		var dialog = new Gtk.FileChooserDialog(_("Open File"),
 		                                       null,
 		                                       Gtk.FileChooserAction.SELECT_FOLDER,
 		                                       "gtk-cancel", Gtk.ResponseType.CANCEL,

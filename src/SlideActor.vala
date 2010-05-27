@@ -132,7 +132,7 @@ public class Ease.SlideActor : Clutter.Group
 			}
 			catch (GLib.Error e)
 			{
-				stdout.printf("Error loading background: %s", e.message);
+				stdout.printf(_("Error loading background: %s"), e.message);
 			}
 		}
 		else // the background is a solid color

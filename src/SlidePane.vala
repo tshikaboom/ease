@@ -38,7 +38,7 @@ public class Ease.SlidePane : Gtk.VBox
 		var vbox = new Gtk.VBox(false, 0);
 		var hbox = new Gtk.HBox(false, 0);
 		var align = new Gtk.Alignment(0, 0, 0, 0);
-		align.add(new Gtk.Label("Effect"));
+		align.add(new Gtk.Label(_("Effect")));
 		vbox.pack_start(align, false, false, 0);
 		effect = new Gtk.ComboBox();
 		align = new Gtk.Alignment(0, 0, 1, 1);
@@ -49,7 +49,7 @@ public class Ease.SlidePane : Gtk.VBox
 		// effect duration
 		vbox = new Gtk.VBox(false, 0);
 		align = new Gtk.Alignment(0, 0, 0, 0);
-		align.add(new Gtk.Label("Duration"));
+		align.add(new Gtk.Label(_("Duration")));
 		vbox.pack_start(align, false, false, 0);
 		duration = new Gtk.SpinButton.with_range(0, 10, 0.25);
 		duration.digits = 2;

@@ -58,13 +58,13 @@ public class Ease.Document : GLib.Object
 		var doc = Parser.parse_file(filename + "Document.xml");
 		if (doc == null)
 		{
-			stdout.printf("No Document");
+			stdout.printf(_("No Document"));
 		}
 		
 		var root = doc->get_root_element();
 		if (root == null)
 		{
-			stdout.printf("No root node");
+			stdout.printf(_("No root node"));
 		}
 		else
 		{
@@ -118,8 +118,8 @@ public class Ease.Document : GLib.Object
 			                                   Gtk.DialogFlags.NO_SEPARATOR,
 			                                   Gtk.MessageType.ERROR,
 			                                   Gtk.ButtonsType.CLOSE,
-			                                   "Error saving: %s", e. message);
-			dialog.title = "Error Saving";
+			                                   _("Error saving: %s"), e. message);
+			dialog.title = _("Error Saving");
 			dialog.border_width = 5;
 			dialog.run();
 		}
@@ -284,9 +284,9 @@ public class Ease.Document : GLib.Object
 			                                   Gtk.DialogFlags.NO_SEPARATOR,
 			                                   Gtk.MessageType.ERROR,
 			                                   Gtk.ButtonsType.CLOSE,
-			                                   "Error exporting: %s",
+			                                   _("Error exporting: %s"),
 			                                   e. message);
-			dialog.title = "Error Exporting";
+			dialog.title = _("Error Exporting");
 			dialog.border_width = 5;
 			dialog.run();
 		}

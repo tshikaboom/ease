@@ -44,7 +44,7 @@ public class Ease.ImageActor : Actor
 		}
 		catch (GLib.Error e)
 		{
-			stdout.printf("Error loading ImageActor: %s", e.message);
+			stdout.printf(_("Error loading ImageActor: %s"), e.message);
 		}
 		finally
 		{

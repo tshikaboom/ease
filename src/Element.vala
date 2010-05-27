@@ -152,7 +152,7 @@ public class Ease.Element : GLib.Object
 				html += "src=\"" + exporter.path + " " +
 				        data.get("filename") + "\" " +
 				        "controls=\"yes\">" +
-				        "Your browser does not support the video tag" + 
+				        _("Your browser does not support the video tag") + 
 				        "</video>";
 				        
 				// copy the video file
