@@ -23,6 +23,8 @@ ease_SOURCES = \
 	src/Handle.vala \
 	src/HTMLExporter.vala \
 	src/ImageActor.vala \
+	src/Inspector.vala\
+	src/InspectorWindow.vala\
 	src/MainToolbar.vala \
 	src/Main.vala \
 	src/OpenDialog.vala \

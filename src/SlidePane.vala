@@ -20,12 +20,14 @@
  */
 public class Ease.SlidePane : Gtk.VBox
 {
-	public Gtk.ComboBox effect { get; set; }
-	public Gtk.SpinButton duration { get; set; }
-	public Gtk.ComboBox variant { get; set; }
-	public Gtk.Label variant_label { get; set; }
-	public Gtk.ComboBox start_transition { get; set; }
-	public Gtk.SpinButton delay { get; set; }
+	public Gtk.ComboBox effect;
+	public Gtk.SpinButton duration;
+	public Gtk.ComboBox variant;
+	public Gtk.Label variant_label;
+	public Gtk.ComboBox start_transition;
+	public Gtk.SpinButton delay;
+	
+	public Slide slide { get; set; }
 
 	public SlidePane()
 	{

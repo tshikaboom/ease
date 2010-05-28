@@ -28,9 +28,7 @@ public class Ease.EditorWindow : Gtk.Window
 	// interface elements
 	public EditorEmbed embed;
 	public MainToolbar main_toolbar;
-	public Gtk.HBox inspector;
 	public Gtk.HBox slides;
-	public TransitionPane pane_transition;
 	public SlidePane pane_slide;
 	public ZoomSlider zoom_slider;
 
@@ -39,6 +37,8 @@ public class Ease.EditorWindow : Gtk.Window
 	
 	public Document document;
 	public Slide slide;
+	
+	private Inspector inspector;
 	
 	// the UndoController for this window
 	private UndoController undo;
@@ -75,18 +75,7 @@ public class Ease.EditorWindow : Gtk.Window
 		undo = new UndoController();
 		
 		// the inspector
-		inspector = new Gtk.HBox(false, 0);
-		var notebook = new Gtk.Notebook();
-		notebook.scrollable = true;
-		pane_transition = new TransitionPane();
-		pane_slide = new SlidePane();
-		notebook.append_page(pane_slide,
-		                     new Gtk.Image.from_stock("gtk-page-setup",
-		                                              Gtk.IconSize.SMALL_TOOLBAR));
-		notebook.append_page(pane_transition,
-		                     new Gtk.Image.from_stock("gtk-media-forward",
-		                                              Gtk.IconSize.SMALL_TOOLBAR));
-		inspector.pack_start(notebook, false, false, 0);
+		inspector = new Inspector();
 		
 		// main editor
 		embed = new EditorEmbed(document, this);
@@ -175,42 +164,6 @@ public class Ease.EditorWindow : Gtk.Window
 			document.export_to_html(this);
 		});
 		
-		// inspector
-		
-		// transition pane
-		pane_transition.effect.changed.connect(() => {
-			var variants = Transitions.get_variants(pane_transition.effect.active);
-			pane_transition.variant_align.remove(pane_transition.variant);
-			pane_transition.variant = new Gtk.ComboBox.text();
-			pane_transition.variant_align.add(pane_transition.variant);
-			pane_transition.variant.show();
-			pane_transition.variant.changed.connect(() => {
-				slide.variant = Transitions.get_variants(pane_transition.effect.active)[pane_transition.variant.active];
-			});
-			var variant_count = Transitions.get_variant_count(pane_transition.effect.active);
-			if (variant_count > 0)
-			{
-				for (var i = 0; i < variant_count; i++)
-				{
-					pane_transition.variant.append_text(variants[i]);
-				}
-				pane_transition.variant.set_active(0);
-				slide.variant = Transitions.get_variants(pane_transition.effect.active)[pane_transition.variant.active];
-			}
-			slide.transition = Transitions.get_name(pane_transition.effect.active);
-		});
-		
-		pane_transition.start_transition.changed.connect(() => {
-			if (pane_transition.start_transition.active == 0)
-			{
-				pane_transition.delay.sensitive = false;
-			}
-			else
-			{
-				pane_transition.delay.sensitive = true;
-			}
-		});
-		
 		// change the embed's zoom when the zoom slider is moved
 		zoom_slider.value_changed.connect(() => {
 			embed.set_zoom((float)zoom_slider.get_value());
@@ -232,13 +185,7 @@ public class Ease.EditorWindow : Gtk.Window
 		slide = document.slides.get(index);
 		
 		// update ui elements for this new slide
-		pane_transition.effect.set_active(Transitions.get_transition_id(slide.transition));
-		if (slide.variant != "" && slide.variant != null)
-		{
-			pane_transition.variant.set_active(Transitions.get_variant_id(slide.transition, slide.variant));
-			pane_transition.slide = slide;
-		}
-		
+		inspector.slide = slide;
 		embed.set_slide(slide);
 	}
 	

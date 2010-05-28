@@ -21,14 +21,14 @@
  */
 public class Ease.TransitionPane : Gtk.VBox
 {
-	public Gtk.ComboBox effect { get; set; }
-	public Gtk.SpinButton transition_time { get; set; }
-	public Gtk.ComboBox variant { get; set; }
-	public Gtk.Alignment variant_align { get; set; }
-	public Gtk.Label variant_label { get; set; }
-	public Gtk.ComboBox start_transition { get; set; }
-	public Gtk.SpinButton delay { get; set; }
-	public GtkClutter.Embed preview;
+	public Gtk.ComboBox effect;
+	private Gtk.SpinButton transition_time;
+	public Gtk.ComboBox variant;
+	private Gtk.Alignment variant_align;
+	private Gtk.Label variant_label;
+	private Gtk.ComboBox start_transition;
+	private Gtk.SpinButton delay;
+	private GtkClutter.Embed preview;
 	
 	
 	private Slide slide_priv;
@@ -37,7 +37,14 @@ public class Ease.TransitionPane : Gtk.VBox
 		get { return slide_priv; }
 		set {
 			slide_priv = value;
+			
 			transition_time.set_value(value.transition_time);
+			effect.set_active(Transitions.get_transition_id(slide.transition));
+			if (slide.variant != "" && slide.variant != null)
+			{
+				variant.set_active(Transitions.get_variant_id(slide.transition,
+				                                              slide.variant));
+			}
 		}
 	}
 
@@ -132,6 +139,41 @@ public class Ease.TransitionPane : Gtk.VBox
 		vbox.pack_start(align, true, true, 0);
 		hbox.pack_start(vbox, false, false, 5);
 		pack_start(hbox, false, false, 5);
+		
+		
+		// signal handlers
+		effect.changed.connect(() => {
+			var variants = Transitions.get_variants(effect.active);
+			variant_align.remove(variant);
+			variant = new Gtk.ComboBox.text();
+			variant_align.add(variant);
+			variant.show();
+			variant.changed.connect(() => {
+				slide.variant = Transitions.get_variants(effect.active)[variant.active];
+			});
+			var variant_count = Transitions.get_variant_count(effect.active);
+			if (variant_count > 0)
+			{
+				for (var i = 0; i < variant_count; i++)
+				{
+					variant.append_text(variants[i]);
+				}
+				variant.set_active(0);
+				slide.variant = Transitions.get_variants(effect.active)[variant.active];
+			}
+			slide.transition = Transitions.get_name(effect.active);
+		});
+		
+		start_transition.changed.connect(() => {
+			if (start_transition.active == 0)
+			{
+				delay.sensitive = false;
+			}
+			else
+			{
+				delay.sensitive = true;
+			}
+		});
 	}
 }
 
