@@ -88,7 +88,7 @@ public static class Ease.Main : GLib.Object
 		{
 			for (int i = 0; filenames[i] != null; i++)
 			{
-				test_editor(filenames[i]);
+				open_file(filenames[i]);
 			}
 		}
 		
@@ -118,8 +118,27 @@ public static class Ease.Main : GLib.Object
 		return 0;
 	}
 
-	public static void test_editor(string path)
+	/**
+	 * Creates a new {@link EditorWindow}, or raises an existing one.
+	 *
+	 * If the passed filename does not have a window associated with it,
+	 * a new window will be created to edit that file. Otherwise, the currently
+	 * existing window will be raised.
+	 *
+	 * @param path The filename
+	 */
+	public static void open_file(string path)
 	{
+		foreach (var w in windows)
+		{
+			if (w.document.path == path)
+			{
+				w.present();
+				
+				return;
+			}
+		}
+		
 		add_window(new EditorWindow(path));
 	}
 
@@ -151,7 +170,7 @@ public static class Ease.Main : GLib.Object
 	 *
 	 * @param win The {@link EditorWindow}.
 	 */
-	public static void add_window(EditorWindow win)
+	private static void add_window(EditorWindow win)
 	{
 		windows.add(win);
 	}
