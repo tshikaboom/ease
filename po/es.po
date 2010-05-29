@@ -1,0 +1,297 @@
+# Spanish translation for ease.
+# Copyright (C) 2010 ease's COPYRIGHT HOLDER
+# This file is distributed under the same license as the ease package.
+# Jorge González <jorgegonz@svn.gnome.org>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ease master\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=ease&component=general\n"
+"POT-Creation-Date: 2010-05-29 07:26+0000\n"
+"PO-Revision-Date: 2010-05-29 11:07+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/ease.desktop.in.h:1
+msgid "Create nice and elegant presentations"
+msgstr ""
+
+#: ../data/ease.desktop.in.h:2
+msgid "Ease presentation editor"
+msgstr ""
+
+#: ../src/Document.vala:61
+#, c-format
+msgid "No Document"
+msgstr ""
+
+#: ../src/Document.vala:67
+#, c-format
+msgid "No root node"
+msgstr ""
+
+#: ../src/Document.vala:121
+#, c-format
+msgid "Error saving: %s"
+msgstr ""
+
+#: ../src/Document.vala:122
+msgid "Error Saving"
+msgstr ""
+
+#: ../src/Document.vala:287
+#, c-format
+msgid "Error exporting: %s"
+msgstr ""
+
+#: ../src/Document.vala:289
+msgid "Error Exporting"
+msgstr ""
+
+#: ../src/EditorWindow.vala:212 ../src/OpenDialog.vala:49
+msgid "Open File"
+msgstr "Abrir archivo"
+
+#. TODO : use mnemonics
+#: ../src/EditorWindow.vala:237
+msgid "File"
+msgstr "Archivo"
+
+#: ../src/EditorWindow.vala:240
+msgid "New"
+msgstr "Nueva"
+
+#: ../src/EditorWindow.vala:242
+msgid "Presentation"
+msgstr "Presentación"
+
+#: ../src/EditorWindow.vala:244
+msgid "Theme"
+msgstr "Tema"
+
+#: ../src/EditorWindow.vala:245
+msgid "Quit"
+msgstr "Salir"
+
+#: ../src/EditorWindow.vala:253
+msgid "Open"
+msgstr "Abrir"
+
+#: ../src/Element.vala:155
+msgid "Your browser does not support the video tag"
+msgstr ""
+
+#: ../src/HTMLExporter.vala:51
+msgid "Export to HTML"
+msgstr "Exportar a HTML"
+
+#: ../src/HTMLExporter.vala:69
+msgid "Exporting as HTML"
+msgstr ""
+
+#: ../src/HTMLExporter.vala:137
+#, c-format
+msgid "Error copying: %s"
+msgstr ""
+
+#: ../src/HTMLExporter.vala:139
+msgid "Error Copying File"
+msgstr ""
+
+#: ../src/ImageActor.vala:47
+#, c-format
+msgid "Error loading ImageActor: %s"
+msgstr ""
+
+#. parse command line options
+#: ../src/Main.vala:57
+msgid " - a presentation editor"
+msgstr ""
+
+#: ../src/Main.vala:75
+#, c-format
+msgid "error parsing options: %s\n"
+msgstr ""
+
+#: ../src/SlideActor.vala:135
+#, c-format
+msgid "Error loading background: %s"
+msgstr ""
+
+#: ../src/SlidePane.vala:41 ../src/TransitionPane.vala:54
+msgid "Effect"
+msgstr "Efecto"
+
+#: ../src/SlidePane.vala:52 ../src/TransitionPane.vala:70
+msgid "Duration"
+msgstr "Duración"
+
+#: ../src/TransitionPane.vala:88
+msgid "Direction"
+msgstr "Dirección"
+
+#: ../src/TransitionPane.vala:101
+msgid "Start Transition"
+msgstr ""
+
+#: ../src/TransitionPane.vala:104
+msgid "Manually"
+msgstr "Manualmente"
+
+#: ../src/TransitionPane.vala:105
+msgid "Automatically"
+msgstr ""
+
+#: ../src/TransitionPane.vala:115
+msgid "Delay"
+msgstr "Retardo"
+
+#: ../src/Transitions.vala:38 ../src/Transitions.vala:56
+msgid "Up"
+msgstr "Arriba"
+
+#: ../src/Transitions.vala:38 ../src/Transitions.vala:56
+msgid "Down"
+msgstr "Abajo"
+
+#: ../src/Transitions.vala:38 ../src/Transitions.vala:53
+msgid "Left"
+msgstr "Izquierda"
+
+#: ../src/Transitions.vala:38 ../src/Transitions.vala:53
+msgid "Right"
+msgstr "Derecha"
+
+#: ../src/Transitions.vala:40
+msgid "None"
+msgstr "Ninguna"
+
+#: ../src/Transitions.vala:41
+msgid "Fade"
+msgstr "Desvanecer"
+
+#: ../src/Transitions.vala:42
+msgid "Slide"
+msgstr "Diapositivas"
+
+#: ../src/Transitions.vala:43
+msgid "Drop"
+msgstr "Soltar"
+
+#: ../src/Transitions.vala:44
+msgid "Pivot"
+msgstr ""
+
+#: ../src/Transitions.vala:44 ../src/Transitions.vala:51
+msgid "Top Left"
+msgstr ""
+
+#: ../src/Transitions.vala:44 ../src/Transitions.vala:51
+msgid "Top Right"
+msgstr ""
+
+#: ../src/Transitions.vala:44 ../src/Transitions.vala:51
+msgid "Bottom Left"
+msgstr ""
+
+#: ../src/Transitions.vala:44 ../src/Transitions.vala:51
+msgid "Bottom Right"
+msgstr ""
+
+#: ../src/Transitions.vala:45
+msgid "Flip"
+msgstr "Voltear"
+
+#: ../src/Transitions.vala:45
+msgid "Top to Bottom"
+msgstr ""
+
+#: ../src/Transitions.vala:45
+msgid "Bottom to Top"
+msgstr ""
+
+#: ../src/Transitions.vala:45
+msgid "Left to Right"
+msgstr ""
+
+#: ../src/Transitions.vala:45
+msgid "Right to Left"
+msgstr ""
+
+#: ../src/Transitions.vala:46
+msgid "Revolving Door"
+msgstr ""
+
+#: ../src/Transitions.vala:47
+msgid "Reveal"
+msgstr "Mostrar"
+
+#: ../src/Transitions.vala:48
+msgid "Fall"
+msgstr "Caída"
+
+#: ../src/Transitions.vala:49
+msgid "Slats"
+msgstr ""
+
+#: ../src/Transitions.vala:50
+msgid "Open Door"
+msgstr ""
+
+#: ../src/Transitions.vala:51
+msgid "Zoom"
+msgstr "Ampliación"
+
+#: ../src/Transitions.vala:51
+msgid "Center"
+msgstr "Centrar"
+
+#: ../src/Transitions.vala:52
+msgid "Panel"
+msgstr "Panel"
+
+#: ../src/Transitions.vala:53
+msgid "Spin Contents"
+msgstr ""
+
+#: ../src/Transitions.vala:54
+msgid "Swing Contents"
+msgstr ""
+
+#: ../src/Transitions.vala:55
+msgid "Slide Contents"
+msgstr ""
+
+#: ../src/Transitions.vala:56
+msgid "Spring Contents"
+msgstr ""
+
+#: ../src/Transitions.vala:57
+msgid "Zoom Contents"
+msgstr ""
+
+#: ../src/Transitions.vala:57
+msgid "In"
+msgstr ""
+
+#: ../src/Transitions.vala:57
+msgid "Out"
+msgstr ""
+
+#: ../src/WelcomeWindow.vala:76 ../src/WelcomeWindow.vala:109
+msgid "New Presentation"
+msgstr "Presentación nueva"
+
+#: ../src/WelcomeWindow.vala:82
+msgid "Custom"
+msgstr "Personalizada"
+
+#: ../src/WelcomeWindow.vala:85
+#, c-format
+msgid "%i by %i"
+msgstr ""
