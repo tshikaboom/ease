@@ -58,11 +58,13 @@ public static class Ease.JSONParser
 	{
 		var slide = new Slide();
 		
+		// read the slide's transition properties
 		slide.transition = obj.get_string_member("transition");
 		slide.variant = obj.get_string_member("variant");
 		slide.transition_time =
 			obj.get_string_member("transition_time").to_double();
 		
+		// read the slide's background properties
 		if (obj.has_member("background_image"))
 		{
 			slide.background_image = obj.get_string_member("background_image");
@@ -108,6 +110,11 @@ public static class Ease.JSONParser
 		return element;
 	}
 	
+	/**
+	 * Saves a {@link Document} to JSON.
+	 *
+	 * @param document The {@link Document} to be saved.
+	 */
 	public static void document_write(Document document) throws GLib.Error
 	{
 		var root = new Json.Node(Json.NodeType.OBJECT);
@@ -117,20 +124,21 @@ public static class Ease.JSONParser
 		obj.set_string_member("width", document.width.to_string());
 		obj.set_string_member("height", document.height.to_string());
 		
+		// add the document's slides
 		var slides = new Json.Array();
 		foreach (var s in document.slides)
 		{
 			slides.add_element(document_write_slide(s));
 		}
-		
 		obj.set_array_member("slides", slides);
 		
+		// set the root object
 		root.set_object(obj);
-	
+		
+		// write to file
 		var generator = new Json.Generator();
 		generator.set_root(root);
 		generator.pretty = true;
-		
 		generator.to_file(document.path + "/Document.json");
 	}
 	
@@ -139,11 +147,13 @@ public static class Ease.JSONParser
 		var node = new Json.Node(Json.NodeType.OBJECT);
 		var obj = new Json.Object();
 		
+		// write the slide's transition properties
 		obj.set_string_member("transition", slide.transition);
 		obj.set_string_member("variant", slide.variant);
 		obj.set_string_member("transition_time",
 		                      slide.transition_time.to_string());
 		
+		// write the slide's background properties
 		if (slide.background_image != null)
 		{
 			obj.set_string_member("background_image", slide.background_image);
@@ -158,12 +168,12 @@ public static class Ease.JSONParser
 			                      slide.background_color.blue.to_string());
 		}
 		
+		// add the slide's elements
 		var elements = new Json.Array();
 		foreach (var e in slide.elements)
 		{
 			elements.add_element(e.data.to_json());
 		}
-		
 		obj.set_array_member("elements", elements);
 		
 		node.set_object(obj);
