@@ -139,6 +139,7 @@ public static class Ease.JSONParser
 		var generator = new Json.Generator();
 		generator.set_root(root);
 		generator.pretty = true;
+		
 		generator.to_file(document.path + "/Document.json");
 	}
 	
@@ -174,6 +175,7 @@ public static class Ease.JSONParser
 		{
 			elements.add_element(e.data.to_json());
 		}
+
 		obj.set_array_member("elements", elements);
 		
 		node.set_object(obj);
