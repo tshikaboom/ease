@@ -139,7 +139,6 @@ public static class Ease.JSONParser
 		var generator = new Json.Generator();
 		generator.set_root(root);
 		generator.pretty = true;
-		
 		generator.to_file(document.path + "/Document.json");
 	}
 	
