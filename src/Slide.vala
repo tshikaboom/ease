@@ -32,12 +32,12 @@ public class Ease.Slide
 	/**
 	 * The Slide's transition
 	 */
-	public string transition { get; set; }
+	public TransitionType transition { get; set; }
 	
 	/**
 	 * The variant (if any) of the Slide's transition
 	 */
-	public string variant { get; set; }
+	public TransitionVariant variant { get; set; }
 	
 	/**
 	 * The duration of this Slide's transition
