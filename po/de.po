@@ -1,0 +1,300 @@
+# German translation for ease.
+# Copyright (C) 2010 ease's COPYRIGHT HOLDER
+# This file is distributed under the same license as the ease package.
+# Mario Blättermann <mariobl@gnome.org>, 2010.
+# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ease master\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=ease&component=general\n"
+"POT-Creation-Date: 2010-05-29 09:09+0000\n"
+"PO-Revision-Date: 2010-05-29 13:16+0200\n"
+"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"Language-Team: Deutsch <gnome-de@gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+
+#: ../data/ease.desktop.in.h:1
+msgid "Create nice and elegant presentations"
+msgstr "Erstellen ansprechender und eleganter Präsentationen"
+
+#: ../data/ease.desktop.in.h:2
+msgid "Ease presentation editor"
+msgstr "Ease Präsentationsprogramm"
+
+#: ../src/Document.vala:61
+#, c-format
+msgid "No Document"
+msgstr "Kein Dokument"
+
+#: ../src/Document.vala:67
+#, c-format
+msgid "No root node"
+msgstr "Kein Hauptknoten"
+
+#: ../src/Document.vala:121
+#, c-format
+msgid "Error saving: %s"
+msgstr "Fehler beim Speichern: %s"
+
+#: ../src/Document.vala:122
+msgid "Error Saving"
+msgstr "Fehler beim Speichern"
+
+#: ../src/Document.vala:287
+#, c-format
+msgid "Error exporting: %s"
+msgstr "Fehler beim Exportieren: %s"
+
+#: ../src/Document.vala:289
+msgid "Error Exporting"
+msgstr "Fehler beim Exportieren"
+
+#: ../src/EditorWindow.vala:212 ../src/OpenDialog.vala:49
+msgid "Open File"
+msgstr "Datei öffnen"
+
+#. TODO : use mnemonics
+#: ../src/EditorWindow.vala:237
+msgid "File"
+msgstr "Datei"
+
+#: ../src/EditorWindow.vala:240
+msgid "New"
+msgstr "Neu"
+
+#: ../src/EditorWindow.vala:242
+msgid "Presentation"
+msgstr "Präsentation"
+
+#: ../src/EditorWindow.vala:244
+msgid "Theme"
+msgstr "Thema"
+
+#: ../src/EditorWindow.vala:245
+msgid "Quit"
+msgstr "Beenden"
+
+#: ../src/EditorWindow.vala:253
+msgid "Open"
+msgstr "Öffnen"
+
+#: ../src/Element.vala:155
+msgid "Your browser does not support the video tag"
+msgstr "Ihr Browser unterstützt die Video-Markierung nicht"
+
+#: ../src/HTMLExporter.vala:51
+msgid "Export to HTML"
+msgstr "Nach HTML exportieren"
+
+#: ../src/HTMLExporter.vala:69
+msgid "Exporting as HTML"
+msgstr "Als HTML exportieren"
+
+#: ../src/HTMLExporter.vala:137
+#, c-format
+msgid "Error copying: %s"
+msgstr "Fehler beim Kopieren: %s"
+
+#: ../src/HTMLExporter.vala:139
+msgid "Error Copying File"
+msgstr "Fehler beim Kopieren der Datei"
+
+#: ../src/ImageActor.vala:47
+#, c-format
+msgid "Error loading ImageActor: %s"
+msgstr "Fehler beim Laden von ImageActor: %s"
+
+#. parse command line options
+#: ../src/Main.vala:57
+msgid " - a presentation editor"
+msgstr " - ein Präsentationsprogramm"
+
+#: ../src/Main.vala:75
+#, c-format
+msgid "error parsing options: %s\n"
+msgstr "Fehler beim Verarbeiten der Optionen: %s\n"
+
+#: ../src/SlideActor.vala:135
+#, c-format
+msgid "Error loading background: %s"
+msgstr "Fehler beim Laden des Hintergrunds: %s"
+
+#: ../src/SlidePane.vala:41 ../src/TransitionPane.vala:54
+msgid "Effect"
+msgstr "Effekt"
+
+#: ../src/SlidePane.vala:52 ../src/TransitionPane.vala:70
+msgid "Duration"
+msgstr "Dauer"
+
+#: ../src/TransitionPane.vala:88
+msgid "Direction"
+msgstr "Richtung"
+
+#: ../src/TransitionPane.vala:101
+msgid "Start Transition"
+msgstr "Übergangseffekt starten"
+
+#: ../src/TransitionPane.vala:104
+msgid "Manually"
+msgstr "Manuell"
+
+#: ../src/TransitionPane.vala:105
+msgid "Automatically"
+msgstr "Automatisch"
+
+#: ../src/TransitionPane.vala:115
+msgid "Delay"
+msgstr "Verzögerung"
+
+#: ../src/Transitions.vala:38 ../src/Transitions.vala:56
+msgid "Up"
+msgstr "Nach oben"
+
+#: ../src/Transitions.vala:38 ../src/Transitions.vala:56
+msgid "Down"
+msgstr "Nach unten"
+
+#: ../src/Transitions.vala:38 ../src/Transitions.vala:53
+msgid "Left"
+msgstr "Links"
+
+#: ../src/Transitions.vala:38 ../src/Transitions.vala:53
+msgid "Right"
+msgstr "Rechts"
+
+#: ../src/Transitions.vala:40
+msgid "None"
+msgstr "Keiner"
+
+#: ../src/Transitions.vala:41
+msgid "Fade"
+msgstr "Überblenden"
+
+#: ../src/Transitions.vala:42
+msgid "Slide"
+msgstr "Gleiten"
+
+#: ../src/Transitions.vala:43
+msgid "Drop"
+msgstr "Abwerfen"
+
+#: ../src/Transitions.vala:44
+msgid "Pivot"
+msgstr "Um Achse drehen"
+
+#: ../src/Transitions.vala:44 ../src/Transitions.vala:51
+msgid "Top Left"
+msgstr "Oben links"
+
+#: ../src/Transitions.vala:44 ../src/Transitions.vala:51
+msgid "Top Right"
+msgstr "Oben rechts"
+
+#: ../src/Transitions.vala:44 ../src/Transitions.vala:51
+msgid "Bottom Left"
+msgstr "Unten links"
+
+#: ../src/Transitions.vala:44 ../src/Transitions.vala:51
+msgid "Bottom Right"
+msgstr "Unten rechts"
+
+#: ../src/Transitions.vala:45
+msgid "Flip"
+msgstr "Spiegeln"
+
+#: ../src/Transitions.vala:45
+msgid "Top to Bottom"
+msgstr "Von oben nach unten"
+
+#: ../src/Transitions.vala:45
+msgid "Bottom to Top"
+msgstr "Von unten nach oben"
+
+#: ../src/Transitions.vala:45
+msgid "Left to Right"
+msgstr "Von links nach rechts"
+
+#: ../src/Transitions.vala:45
+msgid "Right to Left"
+msgstr "Von rechts nach links"
+
+#: ../src/Transitions.vala:46
+msgid "Revolving Door"
+msgstr "Drehtür"
+
+#: ../src/Transitions.vala:47
+msgid "Reveal"
+msgstr "Enthüllen"
+
+#: ../src/Transitions.vala:48
+msgid "Fall"
+msgstr "Fallen"
+
+#: ../src/Transitions.vala:49
+msgid "Slats"
+msgstr "Latten"
+
+#: ../src/Transitions.vala:50
+msgid "Open Door"
+msgstr "Tür öffnen"
+
+#: ../src/Transitions.vala:51
+msgid "Zoom"
+msgstr "Vergrößerung"
+
+#: ../src/Transitions.vala:51
+msgid "Center"
+msgstr "Zentrieren"
+
+#: ../src/Transitions.vala:52
+msgid "Panel"
+msgstr "Panel"
+
+#: ../src/Transitions.vala:53
+msgid "Spin Contents"
+msgstr "Inhalt drehen"
+
+#: ../src/Transitions.vala:54
+msgid "Swing Contents"
+msgstr "Inhalt pendeln"
+
+#: ../src/Transitions.vala:55
+msgid "Slide Contents"
+msgstr "Inhalt gleiten lassen"
+
+#: ../src/Transitions.vala:56
+msgid "Spring Contents"
+msgstr "Inhalt federn lassen"
+
+#: ../src/Transitions.vala:57
+msgid "Zoom Contents"
+msgstr "Inhalt vergrößern"
+
+#: ../src/Transitions.vala:57
+msgid "In"
+msgstr "Ein"
+
+#: ../src/Transitions.vala:57
+msgid "Out"
+msgstr "Aus"
+
+#: ../src/WelcomeWindow.vala:76 ../src/WelcomeWindow.vala:109
+msgid "New Presentation"
+msgstr "Neue Präsentation"
+
+#: ../src/WelcomeWindow.vala:82
+msgid "Custom"
+msgstr "Benutzerdefiniert"
+
+#: ../src/WelcomeWindow.vala:85
+#, c-format
+msgid "%i by %i"
+msgstr "%i mal %i"
