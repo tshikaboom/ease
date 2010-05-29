@@ -25,7 +25,7 @@
 public class Ease.SlideActor : Clutter.Group
 {
 	// the represented slide
-	private Slide slide;
+	public Slide slide;
 
 	// the slide's background
 	public Clutter.Actor background;

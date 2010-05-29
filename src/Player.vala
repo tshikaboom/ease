@@ -119,13 +119,21 @@ public class Ease.Player : GLib.Object
 			stage.add_actor(current_slide);
 		}
 		else
-		{			
+		{
 			old_slide = current_slide;
 			create_current_slide(slide);
 			stage.add_actor(current_slide);
-			old_slide.transition(current_slide, stack_container);
-			old_slide.animation_time.completed.connect(animation_complete);
-			can_animate = false;
+			
+			if (old_slide.slide.transition_time > 0)
+			{
+				old_slide.transition(current_slide, stack_container);
+				old_slide.animation_time.completed.connect(animation_complete);
+				can_animate = false;
+			}
+			else
+			{
+				animation_complete();
+			}
 		}
 	}
 	
