@@ -37,10 +37,15 @@ public class Ease.Element : GLib.Object
 	
 	/**
 	 * Create a new element.
+	 */
+	public Element() {}
+	
+	/**
+	 * Create a new element.
 	 *
 	 * @param owner The slide that this Element belongs to.
 	 */
-	public Element(Slide owner)
+	public Element.with_owner(Slide owner)
 	{
 		parent = owner;
 	}

@@ -69,6 +69,25 @@ public class Ease.ElementMap
 		     ? "\t\t\t<element " + xml + "/>\n"
 		     : "\t\t\t<element " + xml + ">" + text + "</element>\n";
 	}
+	
+	/**
+	 * Output this ElementData as JSON.
+	 * 
+	 * Returns a JSON object with the element's data.
+	 */
+	public Json.Node to_json()
+	{
+		var node = new Json.Node(Json.NodeType.OBJECT);
+		var obj = new Json.Object();
+		
+		foreach (var key in map.keys)
+		{
+			obj.set_string_member(key, get(key));
+		}
+		
+		node.set_object(obj);
+		return node;
+	}
 
 	/**
 	 * Set a value.

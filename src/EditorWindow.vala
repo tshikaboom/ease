@@ -61,12 +61,12 @@ public class Ease.EditorWindow : Gtk.Window
 	 *
 	 * @param node The initial XML node to begin with.
 	 */
-	public EditorWindow(string filename)
+	public EditorWindow(Document doc)
 	{
-		title = "Ease - " + filename;
+		title = "Ease";
 		set_default_size(1024, 768);
 		
-		document = new Document.from_file(filename);
+		document = doc;
 		
 		// slide display
 		var slides_win = new SlideButtonPanel(document, this);
@@ -143,7 +143,20 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		// save file
 		main_toolbar.save.clicked.connect(() => {
-			document.to_file();
+			try { JSONParser.document_write(document); }
+			catch (GLib.Error e)
+			{
+				var dialog = new Gtk.MessageDialog(null,
+					                               Gtk.DialogFlags.NO_SEPARATOR,
+					                               Gtk.MessageType.ERROR,
+					                               Gtk.ButtonsType.CLOSE,
+					                               _("Error saving: %s"),
+					                               e. message);
+			
+				dialog.title = _("Error Saving");
+				dialog.border_width = 5;
+				dialog.run();
+			}
 		});
 		
 		// play presentation

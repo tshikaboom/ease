@@ -26,6 +26,7 @@ ease_SOURCES = \
 	src/Inspector.vala\
 	src/InspectorPane.vala\
 	src/InspectorWindow.vala\
+	src/JSONParser.vala\
 	src/MainToolbar.vala \
 	src/Main.vala \
 	src/OpenDialog.vala \
@@ -57,7 +58,8 @@ VALAFLAGS = --pkg glib-2.0 \
 		--pkg clutter-gtk-0.10 \
 		--pkg cogl-1.0 \
 		--pkg gio-2.0 \
-		--pkg clutter-gst-1.0
+		--pkg clutter-gst-1.0\
+		--pkg json-glib-1.0\
 		$(NULL)
 
 SUBDIRS = po

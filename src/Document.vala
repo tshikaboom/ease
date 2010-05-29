@@ -15,8 +15,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-using Xml;
-
 /**
  * The internal representation of Ease documents. Contains {@link Slide}s.
  *
@@ -27,9 +25,26 @@ public class Ease.Document : GLib.Object
 {
 	public Gee.ArrayList<Slide> slides { get; set; }
 	public Theme theme { get; set; }
+	
+	/**
+	 * The width of the Document, in pixels.
+	 */
 	public int width { get; set; }
+	
+	/**
+	 * The height of the Document, in pixels.
+	 */
 	public int height { get; set; }
+	
+	/**
+	 * The file path of the Document.
+	 */
 	public string path { get; set; }
+	
+	/**
+	 * The number of {@link Slide}s in the Document.
+	 */
+	public int length { get { return slides.size; } }
 
 	/**
 	 * Default constructor, used for new documents.
@@ -41,200 +56,17 @@ public class Ease.Document : GLib.Object
 	{
 		slides = new Gee.ArrayList<Slide>();
 	}
-
+	
 	/**
-	 * Create a document from a file that already exists.
-	 * 
-	 * Used for loading previously saved files. 
+	 * Inserts a new {@link Slide} into the Document
 	 *
-	 * @param filename The path to the filename.
+	 * @param s The {@link Slide} to insert.
+	 * @param index The position of the new {@link Slide} in the Document.
 	 */
-	public Document.from_file(string filename)
+	public void add_slide(int index, Slide s)
 	{
-		this();
-		
-		path = filename;
-		
-		var doc = Parser.parse_file(filename + "Document.xml");
-		if (doc == null)
-		{
-			stdout.printf(_("No Document"));
-		}
-		
-		var root = doc->get_root_element();
-		if (root == null)
-		{
-			stdout.printf(_("No root node"));
-		}
-		else
-		{
-			for (Xml.Attr* i = root -> properties; i != null; i = i->next)
-			{
-				switch (i->name)
-				{
-					case "width":
-						width = (i->children->content).to_int();
-						break;
-					case "height":
-						height = (i->children->content).to_int();
-						break;
-				}
-			}
-			parse_xml(root);
-		}
-		
-		delete doc;
-	}
-
-	/**
-	 * Writes the document to a file (currently, a folder).
-	 * 
-	 * to_file() uses the Document's "path" property to determine where the
-	 * file should be written. Currently, if writing fails, a dialog box
-	 * is displayed with the exception.
-	 *
-	 */
-	public void to_file()
-	{
-		string output = "<?xml version=\"1.0\" ?>\n" +
-		                "<document width=\"" + @"$width" + "\" height=\"" + @"$height" + "\">\n" +
-		                "\t<slides>\n";
-		foreach (var s in slides)
-		{
-			output += s.to_xml();
-		}
-		output += "\t</slides>\n</document>\n";
-
-		try
-		{
-			var file = File.new_for_path(path + "Document.xml");
-			var stream = file.replace(null, true, FileCreateFlags.NONE, null);
-			var data_stream = new DataOutputStream(stream);
-			data_stream.put_string(output, null);
-		}
-		catch (GLib.Error e)
-		{
-			var dialog = new Gtk.MessageDialog(null,
-			                                   Gtk.DialogFlags.NO_SEPARATOR,
-			                                   Gtk.MessageType.ERROR,
-			                                   Gtk.ButtonsType.CLOSE,
-			                                   _("Error saving: %s"), e. message);
-			dialog.title = _("Error Saving");
-			dialog.border_width = 5;
-			dialog.run();
-		}
-	}
-
-	/**
-	 * Begins the parsing of an XML document.
-	 * 
-	 * This will be replaced with a JSON file format. 
-	 *
-	 * @param node The initial XML node to begin with.
-	 */
-	private void parse_xml(Xml.Node* node)
-	{
-		for (Xml.Node* iter = node->children; iter != null; iter = iter ->next)
-		{
-			switch (iter->name)
-			{
-				case "slides":
-					parse_slides(iter);
-					break;
-			}
-		}
-	}
-
-	/**
-	 * Parses the slides from an XML document.
-	 * 
-	 * This will be replaced with a JSON file format.
-	 *
-	 * @param node The slides XML node.
-	 */
-	private void parse_slides(Xml.Node* node)
-	{
-		for (Xml.Node* i = node->children; i != null; i = i->next)
-		{
-			// skip ahead if this isn't a node
-			if (i->type != ElementType.ELEMENT_NODE)
-			{
-				continue;
-			}
-			
-			// create a new slide to be added
-			var slide = new Slide(this);
-			slide.elements = new Gee.ArrayList<Element>();
-			
-			// scan the slide's properties
-			for (Xml.Attr* j = i->properties; j != null; j = j->next)
-			{
-				switch (j->name)
-				{
-					case "transition":
-						slide.transition = j->children->content;
-						break;
-					case "variant":
-						slide.variant = j->children->content;
-						break;
-					case "red":
-						slide.background_color.red = (uchar)(j->children->content.to_int());
-						slide.background_color.alpha = 255;
-						break;
-					case "green":
-						slide.background_color.green = (uchar)(j->children->content.to_int());
-						slide.background_color.alpha = 255;
-						break;
-					case "blue":
-						slide.background_color.blue = (uchar)(j->children->content.to_int());
-						slide.background_color.alpha = 255;
-						break;
-					case "background_image":
-						slide.background_image = j->children->content;
-						break;
-					case "time":
-						slide.transition_time = j->children->content.to_double();
-						break;
-				}
-			}
-					
-			// scan the slide's elements
-			for (Xml.Node* j = i->children; j != null; j = j->next)
-			{					
-				if (j->type != ElementType.ELEMENT_NODE)
-				{
-					continue;
-				}
-
-				// build a list of the element's properties
-				//stdout.printf("\nNew Element:\n");
-				var list = new Gee.ArrayList<string>();
-				for (Xml.Attr* k = j->properties; k != null; k = k->next)
-				{
-					//stdout.printf("\t%s %s\n", k->name, k->children->content);
-					list.add(k->name);
-					list.add(k->children->content);
-				}
-
-				// if the element has text, add that as well
-				if (j->get_content() != null)
-				{
-					list.add("text");
-					list.add(j-> get_content());
-				}
-				
-				// create an appropriate element
-				var element = new Element(slide);
-				for (var index = 0; index < list.size; index += 2)
-				{
-					element.data.set(list[index], list[index + 1]);
-				}
-				
-				slide.elements.add(element);
-			}
-			
-			slides.add(slide);
-		}
+		s.parent = this;
+		slides.insert(index, s);
 	}
 	
 	public void export_to_html(Gtk.Window window)

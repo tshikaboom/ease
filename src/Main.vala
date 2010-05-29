@@ -95,15 +95,31 @@ public static class Ease.Main : GLib.Object
 		// if --play is specified, play the presentation
 		if (play_filename != null)
 		{
-			var doc = new Document.from_file(play_filename);
-			player = new Player(doc);
-			
-			// if no editor windows are specified, quit when done
-			if (filenames == null)
+			try
 			{
-				player.stage.hide.connect(() => {
-					Gtk.main_quit();
-				});
+				var doc = JSONParser.document(play_filename);
+				player = new Player(doc);
+			
+				// if no editor windows are specified, quit when done
+				if (filenames == null)
+				{
+					player.stage.hide.connect(() => {
+						Gtk.main_quit();
+					});
+				}
+			}
+			catch (Error e)
+			{
+				var dialog = new Gtk.MessageDialog(null,
+					                               Gtk.DialogFlags.NO_SEPARATOR,
+					                               Gtk.MessageType.ERROR,
+					                               Gtk.ButtonsType.CLOSE,
+					                               _("Error playing: %s"),
+					                               e.message);
+			
+				dialog.title = _("Error Playing");
+				dialog.border_width = 5;
+				dialog.run();
 			}
 		}
 		
@@ -139,7 +155,26 @@ public static class Ease.Main : GLib.Object
 			}
 		}
 		
-		add_window(new EditorWindow(path));
+		try
+		{
+			var doc = JSONParser.document(path);
+			add_window(new EditorWindow(doc));
+		}
+		catch (Error e)
+		{
+			var dialog = new Gtk.MessageDialog(null,
+			                                   Gtk.DialogFlags.NO_SEPARATOR,
+			                                   Gtk.MessageType.ERROR,
+			                                   Gtk.ButtonsType.CLOSE,
+			                                   _("Error loading: %s"),
+			                                   e.message);
+			
+			dialog.title = _("Error Loading");
+			dialog.border_width = 5;
+			dialog.run();
+			
+			return;
+		}
 	}
 
 	/**
