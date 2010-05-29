@@ -24,6 +24,7 @@ ease_SOURCES = \
 	src/HTMLExporter.vala \
 	src/ImageActor.vala \
 	src/Inspector.vala\
+	src/InspectorPane.vala\
 	src/InspectorWindow.vala\
 	src/MainToolbar.vala \
 	src/Main.vala \

@@ -16,40 +16,29 @@
 */
 
 /**
- * Inspector widget for editing slide properties
+ * Base class for inspector panes
  */
-public class Ease.Inspector : Gtk.Notebook
+public abstract class Ease.InspectorPane : Gtk.VBox
 {
-	private TransitionPane transition_pane;
-	private SlidePane slide_pane;
-	
 	private Slide slide_priv;
-	
-	/**
-	 * The {@link Slide} that this Inspector is currently affecting.
-	 */
+
 	public Slide slide
 	{
 		get { return slide_priv; }
 		set {
 			slide_priv = value;
-			transition_pane.slide = value;
-			slide_pane.slide = value;
+			slide_updated();
 		}
 	}
-	
-	public Inspector()
-	{
-		transition_pane = new TransitionPane();
-		slide_pane = new SlidePane();
-		
-		// add pages
-		append_page(slide_pane,
-		            new Gtk.Image.from_stock("gtk-page-setup",
-		                                     Gtk.IconSize.SMALL_TOOLBAR));
-		append_page(transition_pane,
-		            new Gtk.Image.from_stock("gtk-media-forward",
-		                                     Gtk.IconSize.SMALL_TOOLBAR));
-	}
-}
 
+	public InspectorPane()
+	{
+		
+	}
+	
+	/**
+	 * Override this method to update interface elements when the displayed
+	 * slide changes.
+	 */
+	protected virtual void slide_updated() {}
+}

@@ -19,7 +19,7 @@
 /**
  * The inspector pane for changing transitions
  */
-public class Ease.TransitionPane : Gtk.VBox
+public class Ease.TransitionPane : InspectorPane
 {
 	public Gtk.ComboBox effect;
 	private Gtk.SpinButton transition_time;
@@ -29,24 +29,6 @@ public class Ease.TransitionPane : Gtk.VBox
 	private Gtk.ComboBox start_transition;
 	private Gtk.SpinButton delay;
 	private GtkClutter.Embed preview;
-	
-	
-	private Slide slide_priv;
-	public Slide slide
-	{
-		get { return slide_priv; }
-		set {
-			slide_priv = value;
-			
-			transition_time.set_value(value.transition_time);
-			effect.set_active(Transitions.get_transition_id(slide.transition));
-			if (slide.variant != "" && slide.variant != null)
-			{
-				variant.set_active(Transitions.get_variant_id(slide.transition,
-				                                              slide.variant));
-			}
-		}
-	}
 
 	public TransitionPane()
 	{
@@ -174,6 +156,20 @@ public class Ease.TransitionPane : Gtk.VBox
 				delay.sensitive = true;
 			}
 		});
+	}
+	
+	protected override void slide_updated()
+	{
+		// set transition time box
+		transition_time.set_value(slide.transition_time);
+		
+		// set effect and variant combo boxes
+		effect.set_active(Transitions.get_transition_id(slide.transition));
+		if (slide.variant != "" && slide.variant != null)
+		{
+			variant.set_active(Transitions.get_variant_id(slide.transition,
+			                                              slide.variant));
+		}
 	}
 }
 

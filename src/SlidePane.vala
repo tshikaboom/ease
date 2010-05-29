@@ -18,7 +18,7 @@
 /**
  * The inspector pane concerning slides
  */
-public class Ease.SlidePane : Gtk.VBox
+public class Ease.SlidePane : InspectorPane
 {
 	public Gtk.ComboBox effect;
 	public Gtk.SpinButton duration;
@@ -26,8 +26,6 @@ public class Ease.SlidePane : Gtk.VBox
 	public Gtk.Label variant_label;
 	public Gtk.ComboBox start_transition;
 	public Gtk.SpinButton delay;
-	
-	public Slide slide { get; set; }
 
 	public SlidePane()
 	{
