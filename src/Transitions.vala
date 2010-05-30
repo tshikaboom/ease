@@ -22,55 +22,74 @@
  * information about each transition and each transition's variants.
  */
 public static class Ease.Transitions : GLib.Object
-{
-	private const TransitionVariant[] directions = { TransitionVariant.UP,
-	                                                 TransitionVariant.DOWN,
-	                                                 TransitionVariant.LEFT,
-	                                                 TransitionVariant.RIGHT };
-	                                               
-	private const Transition[] transitions = {
-		{ TransitionType.NONE },
-		{ TransitionType.FADE },
-		{ TransitionType.SLIDE, directions },
-		{ TransitionType.DROP },
-		{ TransitionType.PIVOT,
-		               { TransitionVariant.TOP_LEFT,
-		                            TransitionVariant.TOP_RIGHT,
-		                            TransitionVariant.BOTTOM_LEFT,
-		                            TransitionVariant.BOTTOM_RIGHT } },
-		{ TransitionType.FLIP,
-		               { TransitionVariant.TOP_TO_BOTTOM,
-		                            TransitionVariant.BOTTOM_TO_TOP,
-		                            TransitionVariant.LEFT_TO_RIGHT,
-		                            TransitionVariant.RIGHT_TO_LEFT } },
-		{ TransitionType.REVOLVING_DOOR,
-		               directions },
-		{ TransitionType.REVEAL, directions },
-		{ TransitionType.FALL },
-		{ TransitionType.SLATS },
-		{ TransitionType.OPEN_DOOR },
-		{ TransitionType.ZOOM,
-		               { TransitionVariant.CENTER,
-		                            TransitionVariant.TOP_LEFT,
-		                            TransitionVariant.TOP_RIGHT,
-		                            TransitionVariant.BOTTOM_LEFT,
-		                            TransitionVariant.BOTTOM_RIGHT } },
-		{ TransitionType.PANEL, directions },
-		{ TransitionType.SPIN_CONTENTS,
-		               { TransitionVariant.LEFT,
-		                            TransitionVariant.RIGHT } },
-		{ TransitionType.SWING_CONTENTS },
-		{ TransitionType.SLIDE_CONTENTS,
-		               directions },
-		{ TransitionType.SPRING_CONTENTS,
-		               { TransitionVariant.UP,
-		                            TransitionVariant.DOWN } },
-		{ TransitionType.ZOOM_CONTENTS,
-		               { TransitionVariant.IN,
-		                            TransitionVariant.OUT } }
-	};
+{	                                  
+	private static Transition[] transitions;
 	
 	public static int size { get { return transitions.length; } }
+	
+	public static void init()
+	{
+		transitions = {
+			Transition() { type = TransitionType.NONE, variants = {} },
+			Transition() { type = TransitionType.FADE, variants = {} },
+			Transition() { type = TransitionType.SLIDE,
+			               variants =  { TransitionVariant.UP,
+	                                     TransitionVariant.DOWN,
+	                                     TransitionVariant.LEFT,
+	                                     TransitionVariant.RIGHT } },
+			Transition() { type = TransitionType.DROP, variants = {} },
+			Transition() { type = TransitionType.PIVOT,
+				           variants = { TransitionVariant.TOP_LEFT,
+				                        TransitionVariant.TOP_RIGHT,
+				                        TransitionVariant.BOTTOM_LEFT,
+				                        TransitionVariant.BOTTOM_RIGHT } },
+			Transition() { type = TransitionType.FLIP,
+				           variants = { TransitionVariant.TOP_TO_BOTTOM,
+				                        TransitionVariant.BOTTOM_TO_TOP,
+				                        TransitionVariant.LEFT_TO_RIGHT,
+				                        TransitionVariant.RIGHT_TO_LEFT } },
+			Transition() { type = TransitionType.REVOLVING_DOOR,
+				           variants =  { TransitionVariant.UP,
+	                                     TransitionVariant.DOWN,
+	                                     TransitionVariant.LEFT,
+	                                     TransitionVariant.RIGHT } },
+			Transition() { type = TransitionType.REVEAL,
+			               variants =  { TransitionVariant.UP,
+	                                     TransitionVariant.DOWN,
+	                                     TransitionVariant.LEFT,
+	                                     TransitionVariant.RIGHT } },
+			Transition() { type = TransitionType.FALL, variants = {} },
+			Transition() { type = TransitionType.SLATS, variants = {} },
+			Transition() { type = TransitionType.OPEN_DOOR, variants = {} },
+			Transition() { type = TransitionType.ZOOM,
+				           variants = { TransitionVariant.CENTER,
+				                        TransitionVariant.TOP_LEFT,
+				                        TransitionVariant.TOP_RIGHT,
+				                        TransitionVariant.BOTTOM_LEFT,
+				                        TransitionVariant.BOTTOM_RIGHT } },
+			Transition() { type = TransitionType.PANEL,
+			               variants =  { TransitionVariant.UP,
+	                                     TransitionVariant.DOWN,
+	                                     TransitionVariant.LEFT,
+	                                     TransitionVariant.RIGHT } },
+			Transition() { type = TransitionType.SPIN_CONTENTS,
+				           variants = { TransitionVariant.LEFT,
+				                        TransitionVariant.RIGHT } },
+			Transition() { type = TransitionType.SWING_CONTENTS,
+			               variants = {} },
+			Transition() { type = TransitionType.SLIDE_CONTENTS,
+				           variants =  { TransitionVariant.UP,
+	                                     TransitionVariant.DOWN,
+	                                     TransitionVariant.LEFT,
+	                                     TransitionVariant.RIGHT } },
+			Transition() { type = TransitionType.SPRING_CONTENTS,
+				           variants = { TransitionVariant.UP,
+				                        TransitionVariant.DOWN } },
+			Transition() { type = TransitionType.ZOOM_CONTENTS,
+				           variants = { TransitionVariant.IN,
+				                        TransitionVariant.OUT } }
+		};
+	}
 	
 	/**
 	 * Returns the string name of a transition.
@@ -274,7 +293,7 @@ public static class Ease.Transitions : GLib.Object
 			              get_name(transitions[i].type),
 			              transitions[i].variants.length);
 			
-			for (int j = 0; j < transitions[i].variants.length; i++)
+			for (int j = 0; j < transitions[i].variants.length; j++)
 			{
 				stdout.printf("\t\t%s\n",
 				              get_variant_name(transitions[i].variants[j]));
