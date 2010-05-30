@@ -152,8 +152,10 @@ public static class Ease.JSONParser
 		var obj = new Json.Object();
 		
 		// write the slide's transition properties
-		obj.set_string_member("transition", slide.transition.to_string());
-		obj.set_string_member("variant", slide.variant.to_string());
+		obj.set_string_member("transition",
+		                      ((int)slide.transition).to_string());
+		obj.set_string_member("variant",
+		                      ((int)slide.variant).to_string());
 		obj.set_string_member("transition_time",
 		                      slide.transition_time.to_string());
 		
