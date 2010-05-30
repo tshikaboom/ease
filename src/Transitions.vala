@@ -115,8 +115,10 @@ public static class Ease.Transitions : GLib.Object
 				return _("Swing Contents");
 			case TransitionType.SLIDE_CONTENTS:
 				return _("Slide Contents");
-			default: // ZOOM_CONTENTS
+			case TransitionType.ZOOM_CONTENTS:
 				return _("Zoom Contents");
+			default:
+				return _("Undefined");
 		}
 	}
 	
@@ -161,8 +163,10 @@ public static class Ease.Transitions : GLib.Object
 				return _("Right to Left");
 			case TransitionVariant.IN:
 				return _("In");
-			default: // OUT
+			case TransitionVariant.OUT:
 				return _("Out");
+			default:
+				return _("Undefined");
 		}
 	}
 	
@@ -307,7 +311,7 @@ public enum Ease.TransitionType
 	SPRING_CONTENTS,
 	SWING_CONTENTS,
 	SLIDE_CONTENTS,
-	ZOOM_CONTENTS
+	ZOOM_CONTENTS,
 }
 
 /**
