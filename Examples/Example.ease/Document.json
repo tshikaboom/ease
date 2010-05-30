@@ -24,8 +24,8 @@ See Ease Run.",
         }
       ],
       "background_image" : "Media/Themes/Pink/Background.svg",
-      "variant" : "0",
-      "transition" : "10",
+      "variant" : "2",
+      "transition" : "3",
       "transition_time" : "1"
     },
     {
@@ -102,8 +102,8 @@ See Ease Run.",
         }
       ],
       "background_image" : "Media/Themes/Pink/Background.svg",
-      "variant" : "0",
-      "transition" : "0",
+      "variant" : "7",
+      "transition" : "4",
       "transition_time" : "1"
     }
   ],
