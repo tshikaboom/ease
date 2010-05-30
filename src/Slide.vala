@@ -88,34 +88,6 @@ public class Ease.Slide
 	}
 	
 	/**
-	 * Outputs this Slide to XML.
-	 * 
-	 * This returns a <slide> tag containing information soecific to the
-	 * Slide and a tag for each {@link Element}.
-	 */
-	public string to_xml()
-	{
-		string output = "\t\t<slide " +
-		                "transition=\"" + transition + "\" " +
-		                "variant=\"" + variant + "\" " +
-		                "time=\"" + transition_time.to_string() + "\" " +
-		                (background_image != null ?
-                                ("background_image=\"" +
-                                 background_image + "\" ") :
-                                ("background_color=\"" +
-                                 background_color.to_string()
-                                 + "\" ")) + ">\n";
-		
-		foreach (var e in elements)
-		{
-			output += e.to_xml();
-		}
-		
-		output += "</slide>\n";
-		return output;
-	}
-	
-	/**
 	 * Creates HTML markup for this Slide.
 	 * 
 	 * The <div> tag for this Slide is appended to the "HTML" parameter.

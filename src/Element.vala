@@ -51,19 +51,6 @@ public class Ease.Element : GLib.Object
 	}
 	
 	/**
-	 * Create a document from a file that already exists.
-	 * 
-	 * Currently, this simply invokes to_xml() on the Element's
-	 * {@link ElementMap}. Although the {@link ElementMap} is a public
-	 * field, this could change in the future, so always use to_xml()
-	 * on the Element itself.
-	 */
-	public string to_xml()
-	{
-		return data.to_xml();
-	}
-	
-	/**
 	 * Creates HTML markup for this Element.
 	 * 
 	 * The <div> tag for this Element is appended to the "HTML" parameter.

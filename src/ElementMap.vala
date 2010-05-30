@@ -44,33 +44,6 @@ public class Ease.ElementMap
 	}
 	
 	/**
-	 * Output this ElementData as XML.
-	 * 
-	 * Returns an XML string of the represented {@link Element}'s
-	 * data. Called by the represented {@link Element} when that
-	 * object's to_xml() method is called.
-	 */
-	public string to_xml()
-	{
-		string xml = "", text = "";
-		
-		foreach (var key in map.keys)
-		{
-			if (key != "text")
-			{
-				xml += key + "=\"" + get(key) + "\" ";
-			}
-			else
-			{
-				text = get(key);
-			}
-		}
-		return text == ""
-		     ? "\t\t\t<element " + xml + "/>\n"
-		     : "\t\t\t<element " + xml + ">" + text + "</element>\n";
-	}
-	
-	/**
 	 * Output this ElementData as JSON.
 	 * 
 	 * Returns a JSON object with the element's data.
