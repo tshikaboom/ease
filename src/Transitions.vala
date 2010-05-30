@@ -22,121 +22,338 @@
  * information about each transition and each transition's variants.
  */
 public static class Ease.Transitions : GLib.Object
-{
-	private static Gee.ArrayList<Transition> Transitions;
+{	                                  
+	private static Transition[] transitions;
 	
-	public static int size { get { return Transitions.size; } }
+	public static int size { get { return transitions.length; } }
 	
-	/**
-	 * Initialize the Transitions class.
-	 *
-	 * Called when Ease starts.
-	 */
 	public static void init()
 	{
-		Transitions = new Gee.ArrayList<Transition>();
-		string []directions = { _("Up"), _("Down"), _("Left"), _("Right") };
-
-		add_transition(_("None"), {}, 0);
-		add_transition(_("Fade"), {}, 0);
-		add_transition(_("Slide"), directions, 4);
-		add_transition(_("Drop"), {}, 0);
-		add_transition(_("Pivot"), { _("Top Left"), _("Top Right"), _("Bottom Left"), _("Bottom Right") }, 4);
-		add_transition(_("Flip"), { _("Top to Bottom"), _("Bottom to Top"), _("Left to Right"), _("Right to Left") }, 4);
-		add_transition(_("Revolving Door"), directions, 4);
-		add_transition(_("Reveal"), directions, 4);
-		add_transition(_("Fall"), {}, 0);
-		add_transition(_("Slats"), {}, 0);
-		add_transition(_("Open Door"), {}, 0);
-		add_transition(_("Zoom"), { _("Center"), _("Top Left"), _("Top Right"), _("Bottom Left"), _("Bottom Right") }, 5);
-		add_transition(_("Panel"), directions, 4);
-		add_transition(_("Spin Contents"), { _("Left"), _("Right") }, 2);
-		add_transition(_("Swing Contents"), {}, 0);
-		add_transition(_("Slide Contents"), directions, 4);
-		add_transition(_("Spring Contents"), { _("Up"), _("Down") }, 2);
-		add_transition(_("Zoom Contents"), { _("In"), _("Out") }, 2);
+		transitions = {
+			Transition() { type = TransitionType.NONE, variants = {} },
+			Transition() { type = TransitionType.FADE, variants = {} },
+			Transition() { type = TransitionType.SLIDE,
+			               variants =  { TransitionVariant.UP,
+	                                     TransitionVariant.DOWN,
+	                                     TransitionVariant.LEFT,
+	                                     TransitionVariant.RIGHT } },
+			Transition() { type = TransitionType.DROP, variants = {} },
+			Transition() { type = TransitionType.PIVOT,
+				           variants = { TransitionVariant.TOP_LEFT,
+				                        TransitionVariant.TOP_RIGHT,
+				                        TransitionVariant.BOTTOM_LEFT,
+				                        TransitionVariant.BOTTOM_RIGHT } },
+			Transition() { type = TransitionType.FLIP,
+				           variants = { TransitionVariant.TOP_TO_BOTTOM,
+				                        TransitionVariant.BOTTOM_TO_TOP,
+				                        TransitionVariant.LEFT_TO_RIGHT,
+				                        TransitionVariant.RIGHT_TO_LEFT } },
+			Transition() { type = TransitionType.REVOLVING_DOOR,
+				           variants =  { TransitionVariant.UP,
+	                                     TransitionVariant.DOWN,
+	                                     TransitionVariant.LEFT,
+	                                     TransitionVariant.RIGHT } },
+			Transition() { type = TransitionType.REVEAL,
+			               variants =  { TransitionVariant.UP,
+	                                     TransitionVariant.DOWN,
+	                                     TransitionVariant.LEFT,
+	                                     TransitionVariant.RIGHT } },
+			Transition() { type = TransitionType.FALL, variants = {} },
+			Transition() { type = TransitionType.SLATS, variants = {} },
+			Transition() { type = TransitionType.OPEN_DOOR, variants = {} },
+			Transition() { type = TransitionType.ZOOM,
+				           variants = { TransitionVariant.CENTER,
+				                        TransitionVariant.TOP_LEFT,
+				                        TransitionVariant.TOP_RIGHT,
+				                        TransitionVariant.BOTTOM_LEFT,
+				                        TransitionVariant.BOTTOM_RIGHT } },
+			Transition() { type = TransitionType.PANEL,
+			               variants =  { TransitionVariant.UP,
+	                                     TransitionVariant.DOWN,
+	                                     TransitionVariant.LEFT,
+	                                     TransitionVariant.RIGHT } },
+			Transition() { type = TransitionType.SPIN_CONTENTS,
+				           variants = { TransitionVariant.LEFT,
+				                        TransitionVariant.RIGHT } },
+			Transition() { type = TransitionType.SWING_CONTENTS,
+			               variants = {} },
+			Transition() { type = TransitionType.SLIDE_CONTENTS,
+				           variants =  { TransitionVariant.UP,
+	                                     TransitionVariant.DOWN,
+	                                     TransitionVariant.LEFT,
+	                                     TransitionVariant.RIGHT } },
+			Transition() { type = TransitionType.SPRING_CONTENTS,
+				           variants = { TransitionVariant.UP,
+				                        TransitionVariant.DOWN } },
+			Transition() { type = TransitionType.ZOOM_CONTENTS,
+				           variants = { TransitionVariant.IN,
+				                        TransitionVariant.OUT } }
+		};
 	}
 	
 	/**
 	 * Returns the string name of a transition.
 	 *
-	 * @param i The transition index.
+	 * @param type The {@link TransitionType} to find a name for..
 	 */
-	public static string get_name(int i)
+	public static string get_name(TransitionType type)
 	{
-		return Transitions.get(i).name;
+		switch (type)
+		{
+			case TransitionType.NONE:
+				return _("None");
+			case TransitionType.FADE:
+				return _("Fade");
+			case TransitionType.SLIDE:
+				return _("Slide");
+			case TransitionType.DROP:
+				return _("Drop");
+			case TransitionType.PIVOT:
+				return _("Pivot");
+			case TransitionType.FLIP:
+				return _("Flip");
+			case TransitionType.REVOLVING_DOOR:
+				return _("Revolving Door");
+			case TransitionType.REVEAL:
+				return _("Reveal");
+			case TransitionType.FALL:
+				return _("Fall");
+			case TransitionType.SLATS:
+				return _("Slats");
+			case TransitionType.OPEN_DOOR:
+				return _("Open Door");
+			case TransitionType.ZOOM:
+				return _("Zoom");
+			case TransitionType.PANEL:
+				return _("Panel");
+			case TransitionType.SPIN_CONTENTS:
+				return _("Spin Contents");
+			case TransitionType.SPRING_CONTENTS:
+				return _("Spring Contents");
+			case TransitionType.SWING_CONTENTS:
+				return _("Swing Contents");
+			case TransitionType.SLIDE_CONTENTS:
+				return _("Slide Contents");
+			case TransitionType.ZOOM_CONTENTS:
+				return _("Zoom Contents");
+			default:
+				return _("Undefined");
+		}
 	}
 	
 	/**
-	 * Given a name, returns the ID of a transition.
-	 * 
-	 * @param name The name of the transition.
+	 * Returns the string name of a variant.
+	 *
+	 * @param variant The {@link TransitionVariant} to find a name for.
 	 */
-	public static int get_transition_id(string name)
+	public static string get_variant_name(TransitionVariant variant)
 	{
-		for (var i = 0; i < Transitions.size; i++)
+		switch (variant)
 		{
-			if (Transitions.get(i).name == name)
+			case TransitionVariant.UP:
+				return _("Up");
+			case TransitionVariant.DOWN:
+				return _("Down");
+			case TransitionVariant.LEFT:
+				return _("Left");
+			case TransitionVariant.RIGHT:
+				return _("Right");
+			case TransitionVariant.BOTTOM:
+				return _("Bottom");
+			case TransitionVariant.TOP:
+				return _("Top");
+			case TransitionVariant.CENTER:
+				return _("Center");
+			case TransitionVariant.TOP_LEFT:
+				return _("Top Left");
+			case TransitionVariant.TOP_RIGHT:
+				return _("Top Right");
+			case TransitionVariant.BOTTOM_LEFT:
+				return _("Bottom Left");
+			case TransitionVariant.BOTTOM_RIGHT:
+				return _("Bottom Right");
+			case TransitionVariant.TOP_TO_BOTTOM:
+				return _("Top to Bottom");
+			case TransitionVariant.BOTTOM_TO_TOP:
+				return _("Bottom to Top");
+			case TransitionVariant.LEFT_TO_RIGHT:
+				return _("Left to Right");
+			case TransitionVariant.RIGHT_TO_LEFT:
+				return _("Right to Left");
+			case TransitionVariant.IN:
+				return _("In");
+			case TransitionVariant.OUT:
+				return _("Out");
+			default:
+				return _("Undefined");
+		}
+	}
+	
+	/**
+	 * Returns a {@link Transition} struct for the given {@link TransitionType}.
+	 *
+	 * @param type The {@link TransitionType} to find the transition for.
+	 */
+	public static Transition? get_transition(TransitionType type)
+	{
+		for (int i = 0; i < transitions.length; i++)
+		{
+			if (transitions[i].type == type)
+			{
+				return transitions[i];
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Returns the index of the given {@link TransitionType}.
+	 *
+	 * @param type The {@link TransitionType} to find the index of.
+	 */
+	public static int? get_index(TransitionType type)
+	{
+		for (int i = 0; i < transitions.length; i++)
+		{
+			if (transitions[i].type == type)
 			{
 				return i;
 			}
 		}
-		return 0;
+		
+		return null;
 	}
 	
 	/**
-	 * Returns the ID of a transition, given the names of both.
+	 * Returns the {@link TransitionType} for a given index.
 	 *
-	 * @param transition The name of the transition.
-	 * @param variant The name of the variant.
+	 * @param index The index to find the {@link TransitionType} of.
 	 */
-	public static int get_variant_id(string transition, string variant)
+	public static TransitionType transition_for_index(int index)
 	{
-		var id = get_transition_id(transition);
-		for (var i = 0; i < Transitions.get(id).count; i++)
+		return transitions[index].type;
+	}
+	
+	/**
+	 * Returns the variants for a given index.
+	 *
+	 * @param index The index to find the variants of.
+	 */
+	public static TransitionVariant[] variants_for_index(int index)
+	{
+		return transitions[index].variants;
+	}
+	
+	/**
+	 * Returns the variants of a given {@link TransitionType}.
+	 *
+	 * @param t The {@link TransitionType} to find the variants of.
+	 */
+	public static TransitionVariant[] variants_for_transition(TransitionType t)
+	{
+		return variants_for_index(get_index(t));
+	}
+	
+	/**
+	 * Returns the names of all transitions.
+	 */
+	public static string[] names()
+	{
+		var names = new string[transitions.length];
+		
+		for (int i = 0; i < transitions.length; i++)
 		{
-			if (Transitions.get(id).variants[i] == variant)
+			names[i] = get_name(transitions[i].type);
+		}
+		
+		return names;
+	}
+	
+	/**
+	 * Returns a specific transition name
+	 *
+	 * @param index The index of the transition to find the name of.
+	 */
+	public static string name(int index)
+	{
+		return get_name(transitions[index].type);
+	}
+	
+	/**
+	 * Runs a test print of all transitions and variants.
+	 */
+	public static void test()
+	{
+		stdout.printf("%i Transitions:\n", (int)transitions.length);
+		
+		for (int i = 0; i < transitions.length; i++)
+		{
+			stdout.printf("\t%s has %i variants:\n",
+			              get_name(transitions[i].type),
+			              transitions[i].variants.length);
+			
+			for (int j = 0; j < transitions[i].variants.length; j++)
 			{
-				return i;
+				stdout.printf("\t\t%s\n",
+				              get_variant_name(transitions[i].variants[j]));
 			}
 		}
-		return 0;
 	}
-	
-	/**
-	 * Returns an array of variants, given a transition ID.
-	 *
-	 * @param i A transition index.
-	 */
-	public static string[] get_variants(int i)
-	{
-		return Transitions.get(i).variants;
-	}
-	
-	/**
-	 * Returns the size of the variant array, give a transition ID.
-	 *
-	 * @param i A transition index.
-	 */
-	public static int get_variant_count(int i)
-	{
-		return Transitions.get(i).count;
-	}
-	
-	private static void add_transition(string n, string[] v, int c)
-	{
-		Transition t = new Transition();
-		t.name = n;
-		t.variants = v;
-		t.count = c;
-		Transitions.add(t);
-	}
-	
-	private class Transition : GLib.Object
-	{
-		public string name { get; set; }
-		public int count { get; set; }
-		public string[] variants;
-	}
+}
+
+public struct Ease.Transition
+{
+	public TransitionType type;
+	public TransitionVariant[] variants;
+}
+
+/**
+ * All transitions available in Ease
+ */
+public enum Ease.TransitionType
+{
+	NONE,
+	FADE,
+	SLIDE,
+	DROP,
+	PIVOT,
+	FLIP,
+	REVOLVING_DOOR,
+	REVEAL,
+	FALL,
+	SLATS,
+	OPEN_DOOR,
+	ZOOM,
+	PANEL,
+	SPIN_CONTENTS,
+	SPRING_CONTENTS,
+	SWING_CONTENTS,
+	SLIDE_CONTENTS,
+	ZOOM_CONTENTS,
+}
+
+/**
+ * All transition variants available in Ease. Each transition uses a subset.
+ */
+public enum Ease.TransitionVariant
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	BOTTOM,
+	TOP,
+	CENTER,
+	TOP_LEFT,
+	TOP_RIGHT,
+	BOTTOM_LEFT,
+	BOTTOM_RIGHT,
+	TOP_TO_BOTTOM,
+	BOTTOM_TO_TOP,
+	LEFT_TO_RIGHT,
+	RIGHT_TO_LEFT,
+	IN,
+	OUT
 }
 

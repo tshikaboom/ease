@@ -123,26 +123,40 @@ public class Ease.TransitionPane : InspectorPane
 		
 		
 		// signal handlers
-		effect.changed.connect(() => {
-			var variants = Transitions.get_variants(effect.active);
+		effect.changed.connect(() => {			
+			// create a new ComboBox
 			variant_align.remove(variant);
 			variant = new Gtk.ComboBox.text();
 			variant_align.add(variant);
 			variant.show();
-			variant.changed.connect(() => {
-				slide.variant = Transitions.get_variants(effect.active)[variant.active];
-			});
-			var variant_count = Transitions.get_variant_count(effect.active);
-			if (variant_count > 0)
+			
+			// get the variants for the new transition
+			var variants = Transitions.variants_for_index(effect.active);
+			
+			// add the transition's variants
+			for (var i = 0; i < variants.length; i++)
 			{
-				for (var i = 0; i < variant_count; i++)
-				{
-					variant.append_text(variants[i]);
-				}
-				variant.set_active(0);
-				slide.variant = Transitions.get_variants(effect.active)[variant.active];
+				variant.append_text(Transitions.get_variant_name(variants[i]));
 			}
-			slide.transition = Transitions.get_name(effect.active);
+			
+			// if the slide has variants, make the appropriate one active
+			for (int i = 0; i < variants.length; i++)
+			{
+				if (variants[i] == slide.variant)
+				{
+					variant.set_active(i);
+					break;
+				}
+			}
+			
+			// set the transition
+			slide.transition = Transitions.transition_for_index(effect.active);
+			
+			// allow the user to change the variant
+			variant.changed.connect(() => {
+				var v = Transitions.variants_for_transition(slide.transition);
+				slide.variant = v[variant.active];
+			});
 		});
 		
 		start_transition.changed.connect(() => {
@@ -163,12 +177,8 @@ public class Ease.TransitionPane : InspectorPane
 		transition_time.set_value(slide.transition_time);
 		
 		// set effect and variant combo boxes
-		effect.set_active(Transitions.get_transition_id(slide.transition));
-		if (slide.variant != "" && slide.variant != null)
-		{
-			variant.set_active(Transitions.get_variant_id(slide.transition,
-			                                              slide.variant));
-		}
+		var index = Transitions.get_index(slide.transition);
+		effect.set_active(index);
 	}
 }
 

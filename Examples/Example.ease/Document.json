@@ -2,20 +2,16 @@
   "height" : "480",
   "slides" : [
     {
-      "background_image" : "Media/Themes/Pink/Background.svg",
-      "variant" : "Left",
-      "transition" : "Spin Contents",
-      "transition_time" : "1",
       "elements" : [
         {
           "font_variant" : "Normal",
           "y" : "26",
           "x" : "41",
-          "element_type" : "text",
-          "font_style" : "Normal",
           "height" : "188",
+          "font_style" : "Normal",
           "text" : "See Ease.
 See Ease Run.",
+          "element_type" : "text",
           "green" : "255",
           "align" : "left",
           "width" : "556",
@@ -26,15 +22,13 @@ See Ease Run.",
           "font_name" : "Myriad Pro",
           "font_size" : "72"
         }
-      ]
+      ],
+      "background_image" : "Media/Themes/Pink/Background.svg",
+      "variant" : "2",
+      "transition" : "3",
+      "transition_time" : "1"
     },
     {
-      "blue" : "0",
-      "green" : "0",
-      "variant" : "Up",
-      "red" : "0",
-      "transition" : "Panel",
-      "transition_time" : "1",
       "elements" : [
         {
           "element_type" : "image",
@@ -48,13 +42,15 @@ See Ease Run.",
           "filename" : "Media/psyduck.jpg",
           "ease_name" : "psyduck"
         }
-      ]
+      ],
+      "blue" : "0",
+      "green" : "0",
+      "variant" : "0",
+      "red" : "0",
+      "transition" : "10",
+      "transition_time" : "1"
     },
     {
-      "background_image" : "Media/Themes/Pink/Background.svg",
-      "variant" : "",
-      "transition" : "Drop",
-      "transition_time" : "1",
       "elements" : [
         {
           "element_type" : "image",
@@ -104,7 +100,11 @@ See Ease Run.",
           "filename" : "Media/psyduck.jpg",
           "ease_name" : "psyduck"
         }
-      ]
+      ],
+      "background_image" : "Media/Themes/Pink/Background.svg",
+      "variant" : "7",
+      "transition" : "4",
+      "transition_time" : "1"
     }
   ],
   "width" : "640"
