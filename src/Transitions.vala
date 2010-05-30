@@ -256,6 +256,27 @@ public static class Ease.Transitions : GLib.Object
 	{
 		return get_name(transitions[index].type);
 	}
+	
+	/**
+	 * Runs a test print of all transitions and variants.
+	 */
+	public static void test()
+	{
+		stdout.printf("%i Transitions:\n", (int)transitions.length);
+		
+		for (int i = 0; i < transitions.length; i++)
+		{
+			stdout.printf("\t%s has %i variants:\n",
+			              get_name(transitions[i].type),
+			              transitions[i].variants.length);
+			
+			for (int j = 0; j < transitions[i].variants.length; i++)
+			{
+				stdout.printf("\t\t%s\n",
+				              get_variant_name(transitions[i].variants[j]));
+			}
+		}
+	}
 }
 
 public struct Ease.Transition

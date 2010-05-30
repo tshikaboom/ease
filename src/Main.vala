@@ -53,6 +53,8 @@ public static class Ease.Main : GLib.Object
 	 */
 	public static int main(string[] args)
 	{
+		Transitions.test();
+	
 		// parse command line options
 		var context = new OptionContext(_(" - a presentation editor"));
 		
