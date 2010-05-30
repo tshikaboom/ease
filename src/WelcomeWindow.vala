@@ -41,6 +41,13 @@ public class Ease.WelcomeWindow : Gtk.Window
 	private Gee.ArrayList<WelcomeActor> previews = new Gee.ArrayList<WelcomeActor>();
 	private int preview_width = 100;
 	private float preview_aspect;
+	
+	// preview reshuffle animation
+	private int preview_row_count = -1;
+	private bool animate_resize = false;
+	private Clutter.Timeline animate_alarm;
+	private Gee.ArrayList<Clutter.Animation> x_anims;
+	private Gee.ArrayList<Clutter.Animation> y_anims;
 
 	// zoom widgets
 	private ZoomSlider zoom_slider;
@@ -59,23 +66,23 @@ public class Ease.WelcomeWindow : Gtk.Window
 	private const int RESOLUTION_COUNT = 5;
 	private const int PREVIEW_PADDING = 20;
 	
-	private const int ANIM_TIME = 75;
-	private const int ANIM_EASE = Clutter.AnimationMode.LINEAR;
+	private const int ANIM_TIME = 300;
+	private const int ANIM_EASE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
 	
 	private int[] ZOOM_VALUES = {100, 150, 200, 250, 400};
 	
 	public WelcomeWindow()
 	{
-		title = "New Presentation";
+		title = _("New Presentation");
 		set_default_size(640, 480);
 		
 		// build the bottom UI
 		var hbox = new Gtk.HBox(false, 5);
 		resolution = new Gtk.ComboBox.text();
-		resolution.append_text("Custom");
+		resolution.append_text(_("Custom"));
 		for (var i = 0; i < RESOLUTION_COUNT; i++)
 		{
-			resolution.append_text("%i by %i".printf(RESOLUTIONS_X[i], RESOLUTIONS_Y[i]));
+			resolution.append_text(_("%i by %i").printf(RESOLUTIONS_X[i], RESOLUTIONS_Y[i]));
 		}
 		resolution.set_active(2);
 		
@@ -83,19 +90,23 @@ public class Ease.WelcomeWindow : Gtk.Window
 		align.add(resolution);
 		hbox.pack_start(align, false, false, 0);
 		
-		x_res = new Gtk.SpinButton.with_range(320, 1920, 1);
+		x_res = new Gtk.SpinButton.with_range(RESOLUTIONS_X[0],
+											  RESOLUTIONS_Y[RESOLUTION_COUNT-1],
+											  1);
 		x_res.set_value(1024);
 		align = new Gtk.Alignment(0, 0.5f, 0, 0);
 		align.add(x_res);
 		hbox.pack_start(align, false, false, 0);
 		
-		y_res = new Gtk.SpinButton.with_range(240, 1920, 1);
+		y_res = new Gtk.SpinButton.with_range(RESOLUTIONS_Y[0],
+											  RESOLUTIONS_Y[RESOLUTION_COUNT-1],
+											  1);
 		y_res.set_value(768);
 		align = new Gtk.Alignment(0, 0.5f, 0, 0);
 		align.add(y_res);
 		hbox.pack_start(align, false, false, 0);
 		
-		new_button = new Gtk.Button.with_label("New Presentation");
+		new_button = new Gtk.Button.with_label(_("New Presentation"));
 		new_button.sensitive = false;
 		new_button.image = new Gtk.Image.from_stock("gtk-new", Gtk.IconSize.BUTTON);
 		align = new Gtk.Alignment(0, 0.5f, 0, 0);
@@ -219,6 +230,34 @@ public class Ease.WelcomeWindow : Gtk.Window
 		       PREVIEW_PADDING < embed.width;
 		     per_line++);
 		per_line--; // FIXME: the math is not strong in me at 2 AM
+		
+		// don't animate when the window first opens
+		if (preview_row_count == -1)
+		{
+			preview_row_count = per_line;
+		}
+		
+		// animate if the previews need to be shuffled
+		if (preview_row_count != per_line)
+		{
+			preview_row_count = per_line;
+			animate_resize = true;
+			
+			if (animate_alarm != null)
+				animate_alarm.stop();
+				
+			// create animation arrays
+			x_anims = new Gee.ArrayList<Clutter.Animation>();
+			y_anims = new Gee.ArrayList<Clutter.Animation>();
+			
+			animate_alarm = new Clutter.Timeline(ANIM_TIME);
+			animate_alarm.start();
+			animate_alarm.completed.connect(() => {
+				animate_resize = false;
+				x_anims = null;
+				y_anims = null;
+			});
+		}
 
 		// find the initial x position of previews
 		var x_origin = embed.width / 2 -
@@ -240,16 +279,38 @@ public class Ease.WelcomeWindow : Gtk.Window
 			{
 				continue;
 			}
-
-			a.animate(ANIM_EASE, ANIM_TIME, "x",
-			          x_origin + x_position * (PREVIEW_PADDING + preview_width));
-
-			a.animate(ANIM_EASE, ANIM_TIME, "y", y_pixels);
+			
+			// the target x position of the preview
+			float x_pixels = x_origin + x_position *
+			                  (PREVIEW_PADDING + preview_width);
+			
+			if (animate_resize)
+			{	
+				// create new animations if the reshuffle is starting
+				if (x_anims.size == i)
+				{
+					x_anims.add(a.animate(ANIM_EASE, ANIM_TIME, "x", x_pixels));
+					y_anims.add(a.animate(ANIM_EASE, ANIM_TIME, "y", y_pixels));
+				}
+				
+				// otherwise, replace the intial target with a new one
+				else
+				{
+					x_anims.get(i).unbind_property("x");
+					y_anims.get(i).unbind_property("y");
+					
+					x_anims.get(i).bind("x", x_pixels);
+					y_anims.get(i).bind("y", y_pixels);
+				}
+			}
+			else
+			{
+				// simply set the positions
+				a.x = x_pixels;
+				a.y = y_pixels;
+			}
 
 			// set the size of the preview
-			/*a.animate(ANIM_EASE, ANIM_TIME, "width", preview_width);
-			a.animate(ANIM_EASE, ANIM_TIME, "height",
-			         preview_width * preview_aspect);*/
 			a.width = preview_width;
 			a.height = preview_width * preview_aspect;
 

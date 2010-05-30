@@ -1,0 +1,92 @@
+# Ease : presentation editor for the GNOME desktop
+# Copyright (C) 2010 Nate Stedman 
+# This file is distributed under the same license as the EASE package.
+# Stéphane Maniaci <stephane.maniaci@gmail.com>, 2010.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Ease 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-05-28 00:31+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
+"Language-Team: French <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/ease.desktop.in.h:1
+msgid "Create nice and elegant presentations"
+msgstr "Créez des présentations élégantes"
+
+#: ../data/ease.desktop.in.h:2
+#, fuzzy
+msgid "Ease presentation editor"
+msgstr "Éditeur de présentation Ease"
+
+#: ../src/Transitions.vala:39
+msgid "Fade"
+msgstr "Fondu"
+
+#. FIXME : is there a way to put the redundants variants into the same string ?
+#: ../src/Transitions.vala:41
+msgid "Slide"
+msgstr "Glisse"
+
+#: ../src/Transitions.vala:41
+msgid "Up"
+msgstr "Haut"
+
+#: ../src/Transitions.vala:41
+msgid "Down"
+msgstr "Bas"
+
+#: ../src/Transitions.vala:41
+msgid "Left"
+msgstr "Gauche"
+
+#: ../src/Transitions.vala:41
+msgid "Right"
+msgstr "Droite"
+
+#: ../src/Transitions.vala:42
+msgid "Drop"
+msgstr "Chute"
+
+#: ../src/Transitions.vala:43
+msgid "Pivot"
+msgstr ""
+
+#: ../src/Transitions.vala:43
+msgid "Top Left"
+msgstr ""
+
+#: ../src/Transitions.vala:43
+msgid "Top Right"
+msgstr ""
+
+#: ../src/Transitions.vala:43
+msgid "Bottom Left"
+msgstr ""
+
+#: ../src/Transitions.vala:43
+msgid "Bottom Right"
+msgstr ""
+
+#: ../src/Transitions.vala:44
+msgid "Flip"
+msgstr ""
+
+#: ../src/WelcomeWindow.vala:76 ../src/WelcomeWindow.vala:109
+msgid "New Presentation"
+msgstr "Nouvelle présentation"
+
+#: ../src/WelcomeWindow.vala:82
+msgid "Custom"
+msgstr "Personnalisée"
+
+#: ../src/WelcomeWindow.vala:85
+#, c-format
+msgid "%i by %i"
+msgstr "%i par %i"

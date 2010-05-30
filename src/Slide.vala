@@ -24,24 +24,67 @@
  */
 public class Ease.Slide
 {
-	public Gee.ArrayList<Element> elements { get; set; }
+	/**
+	 * The {@link Element}s contained by this Slide
+	 */
+	public Gee.ArrayList<Element> elements = new Gee.ArrayList<Element>();
+	
+	/**
+	 * The Slide's transition
+	 */
 	public string transition { get; set; }
+	
+	/**
+	 * The variant (if any) of the Slide's transition
+	 */
 	public string variant { get; set; }
-	public Clutter.Color background_color;
-	public string background_image { get; set; }
-	public Document parent { get; set; }
+	
+	/**
+	 * The duration of this Slide's transition
+	 */
 	public double transition_time { get; set; }
 	
 	/**
+	 * The background color, if there is no background image
+	 */
+	public Clutter.Color background_color;
+	
+	/**
+	 * The background image, if one is set
+	 */
+	public string background_image { get; set; }
+	
+	/**
+	 * The {@link Document} that this Slide is part of
+	 */
+	public Document parent { get; set; }
+	
+	/**
+	 * The number of {@link Element}s on this Slide
+	 */
+	public int count { get { return elements.size; } }
+	
+	/**
 	 * Create a new Slide.
+	 */
+	public Slide() {}
+	
+	/**
+	 * Create a new Slide assigned to a {@link Document}.
 	 * 
 	 * Used for loading previously saved files. 
 	 *
 	 * @param owner The {@link Document} this slide is a part of.
 	 */
-	public Slide(Document owner)
+	public Slide.with_owner(Document owner)
 	{
 		parent = owner;
+	}
+	
+	public void add_element(int index, Element e)
+	{
+		e.parent = this;
+		elements.insert(index, e);
 	}
 	
 	/**

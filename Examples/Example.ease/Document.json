@@ -1,0 +1,111 @@
+{
+  "height" : "480",
+  "slides" : [
+    {
+      "background_image" : "Media/Themes/Pink/Background.svg",
+      "variant" : "Left",
+      "transition" : "Spin Contents",
+      "transition_time" : "1",
+      "elements" : [
+        {
+          "font_variant" : "Normal",
+          "y" : "26",
+          "x" : "41",
+          "element_type" : "text",
+          "font_style" : "Normal",
+          "height" : "188",
+          "text" : "See Ease.
+See Ease Run.",
+          "green" : "255",
+          "align" : "left",
+          "width" : "556",
+          "blue" : "255",
+          "font_weight" : "300",
+          "red" : "255",
+          "ease_name" : "blehhhh",
+          "font_name" : "Myriad Pro",
+          "font_size" : "72"
+        }
+      ]
+    },
+    {
+      "blue" : "0",
+      "green" : "0",
+      "variant" : "Up",
+      "red" : "0",
+      "transition" : "Panel",
+      "transition_time" : "1",
+      "elements" : [
+        {
+          "element_type" : "image",
+          "y" : "-1",
+          "x" : "-1",
+          "height" : "482",
+          "scale_y" : "1",
+          "scale_x" : "1",
+          "text" : "",
+          "width" : "641",
+          "filename" : "Media/psyduck.jpg",
+          "ease_name" : "psyduck"
+        }
+      ]
+    },
+    {
+      "background_image" : "Media/Themes/Pink/Background.svg",
+      "variant" : "",
+      "transition" : "Drop",
+      "transition_time" : "1",
+      "elements" : [
+        {
+          "element_type" : "image",
+          "y" : "20",
+          "x" : "20",
+          "height" : "240",
+          "scale_y" : "0.25",
+          "scale_x" : "0.25",
+          "text" : "",
+          "width" : "320",
+          "filename" : "Media/psyduck.jpg",
+          "ease_name" : "psyduck"
+        },
+        {
+          "element_type" : "image",
+          "y" : "340",
+          "x" : "20",
+          "height" : "240",
+          "scale_y" : "0.25",
+          "scale_x" : "0.25",
+          "text" : "",
+          "width" : "320",
+          "filename" : "Media/psyduck.jpg",
+          "ease_name" : "psyduck"
+        },
+        {
+          "element_type" : "image",
+          "y" : "20",
+          "x" : "440",
+          "height" : "240",
+          "scale_y" : "0.25",
+          "scale_x" : "0.25",
+          "text" : "",
+          "width" : "320",
+          "filename" : "Media/psyduck.jpg",
+          "ease_name" : "psyduck"
+        },
+        {
+          "element_type" : "image",
+          "y" : "340",
+          "x" : "440",
+          "height" : "240",
+          "scale_y" : "0.25",
+          "scale_x" : "0.25",
+          "text" : "",
+          "width" : "320",
+          "filename" : "Media/psyduck.jpg",
+          "ease_name" : "psyduck"
+        }
+      ]
+    }
+  ],
+  "width" : "640"
+}

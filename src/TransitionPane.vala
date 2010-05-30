@@ -19,16 +19,16 @@
 /**
  * The inspector pane for changing transitions
  */
-public class Ease.TransitionPane : Gtk.VBox
+public class Ease.TransitionPane : InspectorPane
 {
-	public Gtk.ComboBox effect { get; set; }
-	public Gtk.SpinButton duration { get; set; }
-	public Gtk.ComboBox variant { get; set; }
-	public Gtk.Alignment variant_align { get; set; }
-	public Gtk.Label variant_label { get; set; }
-	public Gtk.ComboBox start_transition { get; set; }
-	public Gtk.SpinButton delay { get; set; }
-	public GtkClutter.Embed preview;
+	public Gtk.ComboBox effect;
+	private Gtk.SpinButton transition_time;
+	public Gtk.ComboBox variant;
+	private Gtk.Alignment variant_align;
+	private Gtk.Label variant_label;
+	private Gtk.ComboBox start_transition;
+	private Gtk.SpinButton delay;
+	private GtkClutter.Embed preview;
 
 	public TransitionPane()
 	{
@@ -51,7 +51,7 @@ public class Ease.TransitionPane : Gtk.VBox
 		var vbox = new Gtk.VBox(false, 0);
 		hbox = new Gtk.HBox(false, 0);
 		var align = new Gtk.Alignment(0, 0, 0, 0);
-		align.add(new Gtk.Label("Effect"));
+		align.add(new Gtk.Label(_("Effect")));
 		vbox.pack_start(align, false, false, 0);
 		effect = new Gtk.ComboBox.text();
 		for (var i = 0; i < Transitions.size; i++)
@@ -64,24 +64,28 @@ public class Ease.TransitionPane : Gtk.VBox
 		vbox.pack_start(align, false, false, 0);
 		hbox.pack_start(vbox, true, true, 5);
 		
-		// transition duration
+		// transition transition_time
 		vbox = new Gtk.VBox(false, 0);
 		align = new Gtk.Alignment(0, 0, 0, 0);
-		align.add(new Gtk.Label("Duration"));
+		align.add(new Gtk.Label(_("Duration")));
 		vbox.pack_start(align, false, false, 0);
-		duration = new Gtk.SpinButton.with_range(0, 10, 0.25);
-		duration.digits = 2;
+		transition_time = new Gtk.SpinButton.with_range(0, 10, 0.25);
+		transition_time.digits = 2;
 		align = new Gtk.Alignment(0, 0.5f, 1, 1);
-		align.add(duration);
+		align.add(transition_time);
 		vbox.pack_start(align, true, true, 0);
 		hbox.pack_start(vbox, false, false, 5);
 		pack_start(hbox, false, false, 5);
+		
+		transition_time.value_changed.connect(() => {
+			slide.transition_time = transition_time.get_value();
+		});
 		
 		// transition variant
 		hbox = new Gtk.HBox(false, 0);
 		vbox = new Gtk.VBox(false, 0);
 		align = new Gtk.Alignment(0, 0, 0, 0);
-		align.add(new Gtk.Label("Direction"));
+		align.add(new Gtk.Label(_("Direction")));
 		vbox.pack_start(align, false, false, 0);
 		variant = new Gtk.ComboBox.text();
 		variant_align = new Gtk.Alignment(0, 0, 1, 1);
@@ -94,11 +98,11 @@ public class Ease.TransitionPane : Gtk.VBox
 		vbox = new Gtk.VBox(false, 0);
 		hbox = new Gtk.HBox(false, 0);
 		align = new Gtk.Alignment(0, 0, 0, 0);
-		align.add(new Gtk.Label("Start Transition"));
+		align.add(new Gtk.Label(_("Start Transition")));
 		vbox.pack_start(align, false, false, 0);
 		start_transition = new Gtk.ComboBox.text();
-		start_transition.append_text("Manually");
-		start_transition.append_text("Automatically");
+		start_transition.append_text(_("Manually"));
+		start_transition.append_text(_("Automatically"));
 		start_transition.set_active(0);
 		align = new Gtk.Alignment(0, 0, 1, 1);
 		align.add(start_transition);
@@ -108,7 +112,7 @@ public class Ease.TransitionPane : Gtk.VBox
 		// start transition delay
 		vbox = new Gtk.VBox(false, 0);
 		align = new Gtk.Alignment(0, 0, 0, 0);
-		align.add(new Gtk.Label("Delay"));
+		align.add(new Gtk.Label(_("Delay")));
 		vbox.pack_start(align, false, false, 0);
 		delay = new Gtk.SpinButton.with_range(0, 10, 0.25);
 		delay.digits = 2;
@@ -117,6 +121,55 @@ public class Ease.TransitionPane : Gtk.VBox
 		vbox.pack_start(align, true, true, 0);
 		hbox.pack_start(vbox, false, false, 5);
 		pack_start(hbox, false, false, 5);
+		
+		
+		// signal handlers
+		effect.changed.connect(() => {
+			var variants = Transitions.get_variants(effect.active);
+			variant_align.remove(variant);
+			variant = new Gtk.ComboBox.text();
+			variant_align.add(variant);
+			variant.show();
+			variant.changed.connect(() => {
+				slide.variant = Transitions.get_variants(effect.active)[variant.active];
+			});
+			var variant_count = Transitions.get_variant_count(effect.active);
+			if (variant_count > 0)
+			{
+				for (var i = 0; i < variant_count; i++)
+				{
+					variant.append_text(variants[i]);
+				}
+				variant.set_active(0);
+				slide.variant = Transitions.get_variants(effect.active)[variant.active];
+			}
+			slide.transition = Transitions.get_name(effect.active);
+		});
+		
+		start_transition.changed.connect(() => {
+			if (start_transition.active == 0)
+			{
+				delay.sensitive = false;
+			}
+			else
+			{
+				delay.sensitive = true;
+			}
+		});
+	}
+	
+	protected override void slide_updated()
+	{
+		// set transition time box
+		transition_time.set_value(slide.transition_time);
+		
+		// set effect and variant combo boxes
+		effect.set_active(Transitions.get_transition_id(slide.transition));
+		if (slide.variant != "" && slide.variant != null)
+		{
+			variant.set_active(Transitions.get_variant_id(slide.transition,
+			                                              slide.variant));
+		}
 	}
 }
 

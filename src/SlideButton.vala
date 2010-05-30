@@ -68,6 +68,7 @@ public class Ease.SlideButton : Gtk.Button
 		// make the embed
 		slide_image = new GtkClutter.Embed();
 		((Clutter.Stage)(slide_image.get_stage())).color = {0, 0, 0, 255};
+		((Clutter.Stage)(slide_image.get_stage())).use_fog = false;
 
 		// make the slide actor
 		actor = new SlideActor.from_slide(s.parent, s, true, ActorContext.SIDEBAR);

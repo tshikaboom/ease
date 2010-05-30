@@ -28,9 +28,7 @@ public class Ease.EditorWindow : Gtk.Window, Clutter.Animatable
 	// interface elements
 	public EditorEmbed embed;
 	public MainToolbar main_toolbar;
-	public Gtk.HBox inspector;
 	public Gtk.HBox slides;
-	public TransitionPane pane_transition;
 	public SlidePane pane_slide;
 	
 	// zoom
@@ -42,6 +40,8 @@ public class Ease.EditorWindow : Gtk.Window, Clutter.Animatable
 	
 	public Document document;
 	public Slide slide;
+	
+	private Inspector inspector;
 	
 	// the UndoController for this window
 	private UndoController undo;
@@ -64,12 +64,12 @@ public class Ease.EditorWindow : Gtk.Window, Clutter.Animatable
 	 *
 	 * @param node The initial XML node to begin with.
 	 */
-	public EditorWindow(string filename)
+	public EditorWindow(Document doc)
 	{
-		title = "Ease - " + filename;
+		title = "Ease";
 		set_default_size(1024, 768);
 		
-		document = new Document.from_file(filename);
+		document = doc;
 		
 		// slide display
 		var slides_win = new SlideButtonPanel(document, this);
@@ -78,18 +78,7 @@ public class Ease.EditorWindow : Gtk.Window, Clutter.Animatable
 		undo = new UndoController();
 		
 		// the inspector
-		inspector = new Gtk.HBox(false, 0);
-		var notebook = new Gtk.Notebook();
-		notebook.scrollable = true;
-		pane_transition = new TransitionPane();
-		pane_slide = new SlidePane();
-		notebook.append_page(pane_slide,
-		                     new Gtk.Image.from_stock("gtk-page-setup",
-		                                              Gtk.IconSize.SMALL_TOOLBAR));
-		notebook.append_page(pane_transition,
-		                     new Gtk.Image.from_stock("gtk-media-forward",
-		                                              Gtk.IconSize.SMALL_TOOLBAR));
-		inspector.pack_start(notebook, false, false, 0);
+		inspector = new Inspector();
 		
 		// main editor
 		embed = new EditorEmbed(document, this);
@@ -157,7 +146,20 @@ public class Ease.EditorWindow : Gtk.Window, Clutter.Animatable
 		
 		// save file
 		main_toolbar.save.clicked.connect(() => {
-			document.to_file();
+			try { JSONParser.document_write(document); }
+			catch (GLib.Error e)
+			{
+				var dialog = new Gtk.MessageDialog(null,
+					                               Gtk.DialogFlags.NO_SEPARATOR,
+					                               Gtk.MessageType.ERROR,
+					                               Gtk.ButtonsType.CLOSE,
+					                               _("Error saving: %s"),
+					                               e. message);
+			
+				dialog.title = _("Error Saving");
+				dialog.border_width = 5;
+				dialog.run();
+			}
 		});
 		
 		// play presentation
@@ -176,42 +178,6 @@ public class Ease.EditorWindow : Gtk.Window, Clutter.Animatable
 		// TODO: export HTML in a proper place
 		main_toolbar.fonts.clicked.connect(() => {
 			document.export_to_html(this);
-		});
-		
-		// inspector
-		
-		// transition pane
-		pane_transition.effect.changed.connect(() => {
-			var variants = Transitions.get_variants(pane_transition.effect.active);
-			pane_transition.variant_align.remove(pane_transition.variant);
-			pane_transition.variant = new Gtk.ComboBox.text();
-			pane_transition.variant_align.add(pane_transition.variant);
-			pane_transition.variant.show();
-			pane_transition.variant.changed.connect(() => {
-				slide.variant = Transitions.get_variants(pane_transition.effect.active)[pane_transition.variant.active];
-			});
-			var variant_count = Transitions.get_variant_count(pane_transition.effect.active);
-			if (variant_count > 0)
-			{
-				for (var i = 0; i < variant_count; i++)
-				{
-					pane_transition.variant.append_text(variants[i]);
-				}
-				pane_transition.variant.set_active(0);
-				slide.variant = Transitions.get_variants(pane_transition.effect.active)[pane_transition.variant.active];
-			}
-			slide.transition = Transitions.get_name(pane_transition.effect.active);
-		});
-		
-		pane_transition.start_transition.changed.connect(() => {
-			if (pane_transition.start_transition.active == 0)
-			{
-				pane_transition.delay.sensitive = false;
-			}
-			else
-			{
-				pane_transition.delay.sensitive = true;
-			}
 		});
 		
 		// change the embed's zoom when the zoom slider is moved
@@ -235,12 +201,7 @@ public class Ease.EditorWindow : Gtk.Window, Clutter.Animatable
 		slide = document.slides.get(index);
 		
 		// update ui elements for this new slide
-		pane_transition.effect.set_active(Transitions.get_transition_id(slide.transition));
-		if (slide.variant != "" && slide.variant != null)
-		{
-			pane_transition.variant.set_active(Transitions.get_variant_id(slide.transition, slide.variant));
-		}
-		
+		inspector.slide = slide;
 		embed.set_slide(slide);
 	}
 	
@@ -264,7 +225,7 @@ public class Ease.EditorWindow : Gtk.Window, Clutter.Animatable
 	// signal handlers
 	private void show_open_dialog()
 	{
-		var dialog = new Gtk.FileChooserDialog("Open File",
+		var dialog = new Gtk.FileChooserDialog(_("Open File"),
 		                                       this,
 		                                       Gtk.FileChooserAction.OPEN,
 		                                       null);
@@ -289,15 +250,15 @@ public class Ease.EditorWindow : Gtk.Window, Clutter.Animatable
 	private Gtk.MenuItem create_file_menu()
 	{
 		/* TODO : use mnemonics */
-		var menuItem = new Gtk.MenuItem.with_label("File");
+		var menuItem = new Gtk.MenuItem.with_label(_("File"));
 		var menu = new Gtk.Menu();
 		
-		var newItem = new Gtk.MenuItem.with_label("New");
+		var newItem = new Gtk.MenuItem.with_label(_("New"));
 		var newMenu = new Gtk.Menu();
-		var newPres = new Gtk.MenuItem.with_label("Presentation");
+		var newPres = new Gtk.MenuItem.with_label(_("Presentation"));
 		newPres.activate.connect(new_presentation);
-		var newTheme = new Gtk.MenuItem.with_label("Theme");
-		var Quit = new Gtk.MenuItem.with_label("Quit");
+		var newTheme = new Gtk.MenuItem.with_label(_("Theme"));
+		var Quit = new Gtk.MenuItem.with_label(_("Quit"));
 		Quit.activate.connect( Gtk.main_quit );
 
 		newMenu.append(newPres);
@@ -305,7 +266,7 @@ public class Ease.EditorWindow : Gtk.Window, Clutter.Animatable
 		newItem.set_submenu(newMenu);
 		menu.append(newItem);
 		
-		var openItem = new Gtk.MenuItem.with_label("Open");
+		var openItem = new Gtk.MenuItem.with_label(_("Open"));
 		openItem.activate.connect(show_open_dialog);
 		openItem.set_accel_path("<-Document>/File/Open");
 		Gtk.AccelMap.add_entry("<-Document>/File/Open",

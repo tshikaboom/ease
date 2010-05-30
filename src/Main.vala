@@ -29,7 +29,19 @@ public static class Ease.Main : GLib.Object
 {
 	private static Gee.ArrayList<EditorWindow> windows;
 	private static WelcomeWindow welcome;
-
+	
+	// options
+	static string play_filename;
+	static string[] filenames;
+	
+	private const OptionEntry[] options = {
+		{ "play", 'p', 0, OptionArg.FILENAME, ref play_filename,
+		   "Play the specified file", "FILE" },
+		{ "", 0, 0, OptionArg.FILENAME_ARRAY, ref filenames, null, "FILE..." },
+		{ null } };
+	
+	private static Player player;
+	
 	/**
 	 * Start Ease to edit files.
 	 * 
@@ -41,8 +53,29 @@ public static class Ease.Main : GLib.Object
 	 */
 	public static int main(string[] args)
 	{
-		GtkClutter.init(ref args);
-		Gst.init(ref args);
+		// parse command line options
+		var context = new OptionContext(_(" - a presentation editor"));
+		
+		// TODO: set translation
+		context.add_main_entries(options, null);
+
+		// add library option groups
+		context.add_group(Gtk.get_option_group(true));
+		context.add_group(Clutter.get_option_group());
+		
+		try
+		{
+			if (!context.parse(ref args))
+			{
+				return 1;
+			}
+		}
+		catch (OptionError e)
+		{
+			stdout.printf(_("error parsing options: %s\n"), e.message);
+			return 1;
+		}
+	
 		ClutterGst.init(ref args);
 
 		// initalize static classes
@@ -50,12 +83,48 @@ public static class Ease.Main : GLib.Object
 		OpenDialog.init();
 		windows = new Gee.ArrayList<EditorWindow>();
 	
-		// TODO: non-awful args handling
-		if (args.length == 2)
+		// open editor windows for each argument specified
+		if (filenames != null)
 		{
-			test_editor(args[1]);
+			for (int i = 0; filenames[i] != null; i++)
+			{
+				open_file(filenames[i]);
+			}
 		}
-		else
+		
+		// if --play is specified, play the presentation
+		if (play_filename != null)
+		{
+			try
+			{
+				var doc = JSONParser.document(play_filename);
+				player = new Player(doc);
+			
+				// if no editor windows are specified, quit when done
+				if (filenames == null)
+				{
+					player.stage.hide.connect(() => {
+						Gtk.main_quit();
+					});
+				}
+			}
+			catch (Error e)
+			{
+				var dialog = new Gtk.MessageDialog(null,
+					                               Gtk.DialogFlags.NO_SEPARATOR,
+					                               Gtk.MessageType.ERROR,
+					                               Gtk.ButtonsType.CLOSE,
+					                               _("Error playing: %s"),
+					                               e.message);
+			
+				dialog.title = _("Error Playing");
+				dialog.border_width = 5;
+				dialog.run();
+			}
+		}
+		
+		// if no files are given, show the new presentation window
+		if (filenames == null && play_filename == null)
 		{
 			show_welcome();
 		}
@@ -65,9 +134,47 @@ public static class Ease.Main : GLib.Object
 		return 0;
 	}
 
-	public static void test_editor(string path)
+	/**
+	 * Creates a new {@link EditorWindow}, or raises an existing one.
+	 *
+	 * If the passed filename does not have a window associated with it,
+	 * a new window will be created to edit that file. Otherwise, the currently
+	 * existing window will be raised.
+	 *
+	 * @param path The filename
+	 */
+	public static void open_file(string path)
 	{
-		add_window(new EditorWindow(path));
+		foreach (var w in windows)
+		{
+			if (w.document.path == path)
+			{
+				w.present();
+				
+				return;
+			}
+		}
+		
+		try
+		{
+			var doc = JSONParser.document(path);
+			add_window(new EditorWindow(doc));
+		}
+		catch (Error e)
+		{
+			var dialog = new Gtk.MessageDialog(null,
+			                                   Gtk.DialogFlags.NO_SEPARATOR,
+			                                   Gtk.MessageType.ERROR,
+			                                   Gtk.ButtonsType.CLOSE,
+			                                   _("Error loading: %s"),
+			                                   e.message);
+			
+			dialog.title = _("Error Loading");
+			dialog.border_width = 5;
+			dialog.run();
+			
+			return;
+		}
 	}
 
 	/**
@@ -98,7 +205,7 @@ public static class Ease.Main : GLib.Object
 	 *
 	 * @param win The {@link EditorWindow}.
 	 */
-	public static void add_window(EditorWindow win)
+	private static void add_window(EditorWindow win)
 	{
 		windows.add(win);
 	}

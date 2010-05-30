@@ -7,10 +7,41 @@
 *bin/
 *.AppleDouble/
 *DS_Store
+
+# build files
 ease
-ease-player
-libease.so
 *.h
+*.o
+src/*.c
+
 *.ogv
 RCOS.ease/
 doc
+
+# shamelessly copied from gnome-scan.
+# autotools generated files
+.dirstamp
+libtool
+compile
+config.guess
+config.log
+config.status
+config.sub
+configure
+config.*
+depcomp
+install-sh
+ltmain.sh
+m4
+missing
+mkinstalldirs
+Makefile
+Makefile.in
+po/Makefile.in.in
+*.cache
+.deps
+intltool-*.in
+*.make
+aclocal.m4
+# don't version it to get always latest in tarball
+INSTALL

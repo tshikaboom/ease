@@ -35,24 +35,26 @@ public static class Ease.Transitions : GLib.Object
 	public static void init()
 	{
 		Transitions = new Gee.ArrayList<Transition>();
-		add_transition("None", {}, 0);
-		add_transition("Fade", {}, 0);
-		add_transition("Slide", { "Up", "Down", "Left", "Right" }, 4);
-		add_transition("Drop", {}, 0);
-		add_transition("Pivot", { "Top Left", "Top Right", "Bottom Left", "Bottom Right" }, 4);
-		add_transition("Flip", { "Top to Bottom", "Bottom to Top", "Left to Right", "Right to Left" }, 4);
-		add_transition("Revolving Door", { "Top", "Bottom", "Left", "Right" }, 4);
-		add_transition("Reveal", { "Top", "Bottom", "Left", "Right" }, 4);
-		add_transition("Fall", {}, 0);
-		add_transition("Slats", {}, 0);
-		add_transition("Open Door", {}, 0);
-		add_transition("Zoom", { "Center", "Top Left", "Top Right", "Bottom Left", "Bottom Right" }, 5);
-		add_transition("Panel", { "Up", "Down", "Left", "Right" }, 4);
-		add_transition("Spin Contents", { "Left", "Right" }, 2);
-		add_transition("Swing Contents", {}, 0);
-		add_transition("Slide Contents", { "Up", "Down", "Left", "Right" }, 4);
-		add_transition("Spring Contents", { "Up", "Down" }, 2);
-		add_transition("Zoom Contents", { "In", "Out" }, 2);
+		string []directions = { _("Up"), _("Down"), _("Left"), _("Right") };
+
+		add_transition(_("None"), {}, 0);
+		add_transition(_("Fade"), {}, 0);
+		add_transition(_("Slide"), directions, 4);
+		add_transition(_("Drop"), {}, 0);
+		add_transition(_("Pivot"), { _("Top Left"), _("Top Right"), _("Bottom Left"), _("Bottom Right") }, 4);
+		add_transition(_("Flip"), { _("Top to Bottom"), _("Bottom to Top"), _("Left to Right"), _("Right to Left") }, 4);
+		add_transition(_("Revolving Door"), directions, 4);
+		add_transition(_("Reveal"), directions, 4);
+		add_transition(_("Fall"), {}, 0);
+		add_transition(_("Slats"), {}, 0);
+		add_transition(_("Open Door"), {}, 0);
+		add_transition(_("Zoom"), { _("Center"), _("Top Left"), _("Top Right"), _("Bottom Left"), _("Bottom Right") }, 5);
+		add_transition(_("Panel"), directions, 4);
+		add_transition(_("Spin Contents"), { _("Left"), _("Right") }, 2);
+		add_transition(_("Swing Contents"), {}, 0);
+		add_transition(_("Slide Contents"), directions, 4);
+		add_transition(_("Spring Contents"), { _("Up"), _("Down") }, 2);
+		add_transition(_("Zoom Contents"), { _("In"), _("Out") }, 2);
 	}
 	
 	/**
