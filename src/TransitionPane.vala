@@ -25,7 +25,6 @@ public class Ease.TransitionPane : InspectorPane
 	private Gtk.SpinButton transition_time;
 	public Gtk.ComboBox variant;
 	private Gtk.Alignment variant_align;
-	private Gtk.Label variant_label;
 	private Gtk.ComboBox start_transition;
 	private Gtk.SpinButton delay;
 	private GtkClutter.Embed preview;

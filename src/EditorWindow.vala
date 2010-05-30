@@ -33,7 +33,6 @@ public class Ease.EditorWindow : Gtk.Window
 	
 	// zoom
 	public ZoomSlider zoom_slider;
-	private Clutter.Animation zoom_animation;
 
 	// the player for this window
 	private Player player;
