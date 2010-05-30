@@ -1,0 +1,359 @@
+# Slovenian translation for ease.
+# Copyright (C) 2009 accerciser COPYRIGHT HOLDER
+# This file is distributed under the same license as the ease package.
+#
+#  <>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ease master\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=ease&component=general\n"
+"POT-Creation-Date: 2010-05-29 12:30+0000\n"
+"PO-Revision-Date: 2010-05-30 08:50+0100\n"
+"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
+"Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"X-Poedit-Language: Slovenian\n"
+"X-Poedit-Country: SLOVENIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../data/ease.desktop.in.h:1
+msgid "Create nice and elegant presentations"
+msgstr ""
+
+#: ../data/ease.desktop.in.h:2
+#, fuzzy
+msgid "Ease presentation editor"
+msgstr "_Dodaj pogled urejevalnika"
+
+#: ../src/Document.vala:61
+#, fuzzy, c-format
+msgid "No Document"
+msgstr "Ni korena dokumenta"
+
+#: ../src/Document.vala:67
+#, fuzzy, c-format
+msgid "No root node"
+msgstr "Slabo korensko vozlišče = \"%s\""
+
+#: ../src/Document.vala:121
+#, fuzzy, c-format
+msgid "Error saving: %s"
+msgstr "Napaka shranjevanja %s"
+
+#: ../src/Document.vala:122
+#, fuzzy
+msgid "Error Saving"
+msgstr "Napaka shranjevanja %s"
+
+#: ../src/Document.vala:287
+#, fuzzy, c-format
+msgid "Error exporting: %s"
+msgstr "Napaka pri shranjevanju v '%s'!"
+
+#: ../src/Document.vala:289
+#, fuzzy
+msgid "Error Exporting"
+msgstr "Napaka pri shranjevanju v '%s'!"
+
+#: ../src/EditorWindow.vala:212
+#: ../src/OpenDialog.vala:49
+msgid "Open File"
+msgstr "Odpri datoteko"
+
+#. TODO : use mnemonics
+#: ../src/EditorWindow.vala:237
+msgid "File"
+msgstr "Datoteka"
+
+#: ../src/EditorWindow.vala:240
+msgid "New"
+msgstr "Novo"
+
+#: ../src/EditorWindow.vala:242
+#, fuzzy
+msgid "Presentation"
+msgstr "Predstavitev"
+
+#: ../src/EditorWindow.vala:244
+msgid "Theme"
+msgstr "Tema"
+
+#: ../src/EditorWindow.vala:245
+msgid "Quit"
+msgstr "Končaj"
+
+#: ../src/EditorWindow.vala:253
+#, fuzzy
+msgid "Open"
+msgstr "Odpri"
+
+#: ../src/Element.vala:155
+msgid "Your browser does not support the video tag"
+msgstr ""
+
+#: ../src/HTMLExporter.vala:51
+#, fuzzy
+msgid "Export to HTML"
+msgstr "Izvozi v HTML"
+
+#: ../src/HTMLExporter.vala:69
+#, fuzzy
+msgid "Exporting as HTML"
+msgstr "Shrani kot H_TML ..."
+
+#: ../src/HTMLExporter.vala:137
+#, fuzzy, c-format
+msgid "Error copying: %s"
+msgstr "Napaka med kopiranjem datoteke %s: %s\n"
+
+#: ../src/HTMLExporter.vala:139
+#, fuzzy
+msgid "Error Copying File"
+msgstr "Napaka med kopiranjem datoteke %s: %s\n"
+
+#: ../src/ImageActor.vala:47
+#, fuzzy, c-format
+msgid "Error loading ImageActor: %s"
+msgstr "Napaka pri nalaganju datoteke '%s'"
+
+#. parse command line options
+#: ../src/Main.vala:57
+#, fuzzy
+msgid " - a presentation editor"
+msgstr "Zavihki urejevalnika"
+
+#: ../src/Main.vala:75
+#, fuzzy, c-format
+msgid "error parsing options: %s\n"
+msgstr "Napaka med razčlenjevanjem možnosti ukazne vrstice: %s\n"
+
+#: ../src/SlideActor.vala:135
+#, fuzzy, c-format
+msgid "Error loading background: %s"
+msgstr "Napaka pri nalaganju datoteke '%s'"
+
+#: ../src/SlidePane.vala:41
+#: ../src/TransitionPane.vala:54
+msgid "Effect"
+msgstr "Učinek"
+
+#: ../src/SlidePane.vala:52
+#: ../src/TransitionPane.vala:70
+#, fuzzy
+msgid "Duration"
+msgstr "Trajanje"
+
+#: ../src/TransitionPane.vala:88
+#, fuzzy
+msgid "Direction"
+msgstr "Smer"
+
+#: ../src/TransitionPane.vala:101
+#, fuzzy
+msgid "Start Transition"
+msgstr "Prehodi med diapozitivi:"
+
+#: ../src/TransitionPane.vala:104
+#, fuzzy
+msgid "Manually"
+msgstr "ročno"
+
+#: ../src/TransitionPane.vala:105
+#, fuzzy
+msgid "Automatically"
+msgstr "Samodejno"
+
+#: ../src/TransitionPane.vala:115
+#, fuzzy
+msgid "Delay"
+msgstr "Zakasnitev"
+
+#: ../src/Transitions.vala:38
+#: ../src/Transitions.vala:56
+#, fuzzy
+msgid "Up"
+msgstr "Gor"
+
+#: ../src/Transitions.vala:38
+#: ../src/Transitions.vala:56
+#, fuzzy
+msgid "Down"
+msgstr "Dol"
+
+#: ../src/Transitions.vala:38
+#: ../src/Transitions.vala:53
+#, fuzzy
+msgid "Left"
+msgstr "Levo"
+
+#: ../src/Transitions.vala:38
+#: ../src/Transitions.vala:53
+#, fuzzy
+msgid "Right"
+msgstr "Desno"
+
+#: ../src/Transitions.vala:40
+#, fuzzy
+msgid "None"
+msgstr "Brez"
+
+#: ../src/Transitions.vala:41
+msgid "Fade"
+msgstr ""
+
+#: ../src/Transitions.vala:42
+#, fuzzy
+msgid "Slide"
+msgstr "Diapozitiv"
+
+#: ../src/Transitions.vala:43
+#, fuzzy
+msgid "Drop"
+msgstr "Spusti"
+
+#: ../src/Transitions.vala:44
+msgid "Pivot"
+msgstr ""
+
+#: ../src/Transitions.vala:44
+#: ../src/Transitions.vala:51
+#, fuzzy
+msgid "Top Left"
+msgstr "Zgoraj levo"
+
+#: ../src/Transitions.vala:44
+#: ../src/Transitions.vala:51
+#, fuzzy
+msgid "Top Right"
+msgstr "Zgoraj desno"
+
+#: ../src/Transitions.vala:44
+#: ../src/Transitions.vala:51
+#, fuzzy
+msgid "Bottom Left"
+msgstr "Spodaj levo"
+
+#: ../src/Transitions.vala:44
+#: ../src/Transitions.vala:51
+#, fuzzy
+msgid "Bottom Right"
+msgstr "Spodaj desno"
+
+#: ../src/Transitions.vala:45
+#, fuzzy
+msgid "Flip"
+msgstr "_Navpično zrcaljenje"
+
+#: ../src/Transitions.vala:45
+#, fuzzy
+msgid "Top to Bottom"
+msgstr "Z vrha proti dnu"
+
+#: ../src/Transitions.vala:45
+#, fuzzy
+msgid "Bottom to Top"
+msgstr "Z dna proti vrhu."
+
+#: ../src/Transitions.vala:45
+#, fuzzy
+msgid "Left to Right"
+msgstr "Z leve proti desni"
+
+#: ../src/Transitions.vala:45
+#, fuzzy
+msgid "Right to Left"
+msgstr "Z desne proti levi"
+
+#: ../src/Transitions.vala:46
+#, fuzzy
+msgid "Revolving Door"
+msgstr "Vrteča vrata"
+
+#: ../src/Transitions.vala:47
+#, fuzzy
+msgid "Reveal"
+msgstr "Razkrij"
+
+#: ../src/Transitions.vala:48
+#, fuzzy
+msgid "Fall"
+msgstr "Čas spusta"
+
+#: ../src/Transitions.vala:49
+msgid "Slats"
+msgstr ""
+
+#: ../src/Transitions.vala:50
+#, fuzzy
+msgid "Open Door"
+msgstr "Vrteča vrata"
+
+#: ../src/Transitions.vala:51
+#, fuzzy
+msgid "Zoom"
+msgstr "Približanje"
+
+#: ../src/Transitions.vala:51
+#, fuzzy
+msgid "Center"
+msgstr "Sredinsko"
+
+#: ../src/Transitions.vala:52
+#, fuzzy
+msgid "Panel"
+msgstr "Pult"
+
+#: ../src/Transitions.vala:53
+#, fuzzy
+msgid "Spin Contents"
+msgstr "Zavihek _vsebine"
+
+#: ../src/Transitions.vala:54
+#, fuzzy
+msgid "Swing Contents"
+msgstr "Zavihek _vsebine"
+
+#: ../src/Transitions.vala:55
+#, fuzzy
+msgid "Slide Contents"
+msgstr "Zavihek _vsebine"
+
+#: ../src/Transitions.vala:56
+#, fuzzy
+msgid "Spring Contents"
+msgstr "Zavihek _vsebine"
+
+#: ../src/Transitions.vala:57
+#, fuzzy
+msgid "Zoom Contents"
+msgstr "Zavihek _vsebine"
+
+#: ../src/Transitions.vala:57
+#, fuzzy
+msgid "In"
+msgstr "Znotraj"
+
+#: ../src/Transitions.vala:57
+#, fuzzy
+msgid "Out"
+msgstr "Zunaj"
+
+#: ../src/WelcomeWindow.vala:76
+#: ../src/WelcomeWindow.vala:109
+#, fuzzy
+msgid "New Presentation"
+msgstr "Nova predstavitev"
+
+#: ../src/WelcomeWindow.vala:82
+msgid "Custom"
+msgstr "Po meri"
+
+#: ../src/WelcomeWindow.vala:85
+#, fuzzy, c-format
+msgid "%i by %i"
+msgstr "do %d. %B %Y, %H:%M"
+
