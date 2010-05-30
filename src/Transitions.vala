@@ -23,10 +23,10 @@
  */
 public static class Ease.Transitions : GLib.Object
 {
-	private const TransitionVariant[] directions = { TransitionVariant.UP,
-	                                               TransitionVariant.DOWN,
-	                                               TransitionVariant.LEFT,
-	                                               TransitionVariant.RIGHT };
+	private static TransitionVariant[] directions = { TransitionVariant.UP,
+	                                                  TransitionVariant.DOWN,
+	                                                  TransitionVariant.LEFT,
+	                                                  TransitionVariant.RIGHT };
 	                                               
 	private static Transition[] transitions = {
 		Transition() { type = TransitionType.NONE, variants = {} },
@@ -43,7 +43,8 @@ public static class Ease.Transitions : GLib.Object
 		                            TransitionVariant.BOTTOM_TO_TOP,
 		                            TransitionVariant.LEFT_TO_RIGHT,
 		                            TransitionVariant.RIGHT_TO_LEFT } },
-		Transition() { type = TransitionType.REVOLVING_DOOR, variants = directions },
+		Transition() { type = TransitionType.REVOLVING_DOOR,
+		               variants = directions },
 		Transition() { type = TransitionType.REVEAL, variants = directions },
 		Transition() { type = TransitionType.FALL, variants = {} },
 		Transition() { type = TransitionType.SLATS, variants = {} },
@@ -59,7 +60,8 @@ public static class Ease.Transitions : GLib.Object
 		               variants = { TransitionVariant.LEFT,
 		                            TransitionVariant.RIGHT } },
 		Transition() { type = TransitionType.SWING_CONTENTS, variants = {} },
-		Transition() { type = TransitionType.SLIDE_CONTENTS, variants = directions },
+		Transition() { type = TransitionType.SLIDE_CONTENTS,
+		               variants = directions },
 		Transition() { type = TransitionType.SPRING_CONTENTS,
 		               variants = { TransitionVariant.UP,
 		                            TransitionVariant.DOWN } },
@@ -73,7 +75,7 @@ public static class Ease.Transitions : GLib.Object
 	/**
 	 * Returns the string name of a transition.
 	 *
-	 * @param type The transition type.
+	 * @param type The {@link TransitionType} to find a name for..
 	 */
 	public static string get_name(TransitionType type)
 	{
@@ -81,62 +83,159 @@ public static class Ease.Transitions : GLib.Object
 		{
 			case TransitionType.NONE:
 				return _("None");
-				break;
 			case TransitionType.FADE:
 				return _("Fade");
-				break;
 			case TransitionType.SLIDE:
 				return _("Slide");
-				break;
 			case TransitionType.DROP:
 				return _("Drop");
-				break;
 			case TransitionType.PIVOT:
 				return _("Pivot");
-				break;
 			case TransitionType.FLIP:
 				return _("Flip");
-				break;
 			case TransitionType.REVOLVING_DOOR:
 				return _("Revolving Door");
-				break;
 			case TransitionType.REVEAL:
 				return _("Reveal");
-				break;
 			case TransitionType.FALL:
 				return _("Fall");
-				break;
 			case TransitionType.SLATS:
 				return _("Slats");
-				break;
 			case TransitionType.OPEN_DOOR:
 				return _("Open Door");
-				break;
 			case TransitionType.ZOOM:
 				return _("Zoom");
-				break;
 			case TransitionType.PANEL:
 				return _("Panel");
-				break;
 			case TransitionType.SPIN_CONTENTS:
 				return _("Spin Contents");
-				break;
 			case TransitionType.SPRING_CONTENTS:
 				return _("Spring Contents");
-				break;
 			case TransitionType.SWING_CONTENTS:
 				return _("Swing Contents");
-				break;
 			case TransitionType.SLIDE_CONTENTS:
 				return _("Slide Contents");
-				break;
 			default: // ZOOM_CONTENTS
 				return _("Zoom Contents");
-				break;
 		}
 	}
 	
-	public string[] names()
+	/**
+	 * Returns the string name of a variant.
+	 *
+	 * @param variant The {@link TransitionVariant} to find a name for.
+	 */
+	public static string get_variant_name(TransitionVariant variant)
+	{
+		switch (variant)
+		{
+			case TransitionVariant.UP:
+				return _("Up");
+			case TransitionVariant.DOWN:
+				return _("Down");
+			case TransitionVariant.LEFT:
+				return _("Left");
+			case TransitionVariant.RIGHT:
+				return _("Right");
+			case TransitionVariant.BOTTOM:
+				return _("Bottom");
+			case TransitionVariant.TOP:
+				return _("Top");
+			case TransitionVariant.CENTER:
+				return _("Center");
+			case TransitionVariant.TOP_LEFT:
+				return _("Top Left");
+			case TransitionVariant.TOP_RIGHT:
+				return _("Top Right");
+			case TransitionVariant.BOTTOM_LEFT:
+				return _("Bottom Left");
+			case TransitionVariant.BOTTOM_RIGHT:
+				return _("Bottom Right");
+			case TransitionVariant.TOP_TO_BOTTOM:
+				return _("Top to Bottom");
+			case TransitionVariant.BOTTOM_TO_TOP:
+				return _("Bottom to Top");
+			case TransitionVariant.LEFT_TO_RIGHT:
+				return _("Left to Right");
+			case TransitionVariant.RIGHT_TO_LEFT:
+				return _("Right to Left");
+			case TransitionVariant.IN:
+				return _("In");
+			default: // OUT
+				return _("Out");
+		}
+	}
+	
+	/**
+	 * Returns a {@link Transition} struct for the given {@link TransitionType}.
+	 *
+	 * @param type The {@link TransitionType} to find the transition for.
+	 */
+	public static Transition? get_transition(TransitionType type)
+	{
+		for (int i = 0; i < transitions.length; i++)
+		{
+			if (transitions[i].type == type)
+			{
+				return transitions[i];
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Returns the index of the given {@link TransitionType}.
+	 *
+	 * @param type The {@link TransitionType} to find the index of.
+	 */
+	public static int? get_index(TransitionType type)
+	{
+		for (int i = 0; i < transitions.length; i++)
+		{
+			if (transitions[i].type == type)
+			{
+				return i;
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Returns the {@link TransitionType} for a given index.
+	 *
+	 * @param index The index to find the {@link TransitionType} of.
+	 */
+	public static TransitionType transition_for_index(int index)
+	{
+		return transitions[index].type;
+	}
+	
+	/**
+	 * Returns the variants for a given index.
+	 *
+	 * @param index The index to find the variants of.
+	 */
+	public static TransitionVariant[] variants_for_index(int index)
+	{
+		return transitions[index].variants;
+	}
+	
+	/**
+	 * Returns the variants of a given {@link TransitionType}.
+	 *
+	 * @param t The {@link TransitionType} to find the variants of.
+	 */
+	public static TransitionVariant[] variants_for_transition(TransitionType t)
+	{
+		return variants_for_index(get_index(t));
+	}
+	
+	/**
+	 * Returns the names of all transitions.
+	 */
+	public static string[] names()
 	{
 		var names = new string[transitions.length];
 		
@@ -149,50 +248,14 @@ public static class Ease.Transitions : GLib.Object
 	}
 	
 	/**
-	 * Given a name, returns the ID of a transition.
-	 * 
-	 * @param name The name of the transition.
-	 */
-	/*public static int get_transition_id(string name)
-	{
-		for (var i = 0; i < transitions.length; i++)
-		{
-			if (get_name(transitions[i].type) == name)
-			{
-				return i;
-			}
-		}
-		return 0;
-	}*/
-	
-	/**
-	 * Returns the ID of a transition, given the names of both.
+	 * Returns a specific transition name
 	 *
-	 * @param transition The name of the transition.
-	 * @param variant The name of the variant.
+	 * @param index The index of the transition to find the name of.
 	 */
-	/*public static int get_variant_id(string transition, string variant)
+	public static string name(int index)
 	{
-		var id = get_transition_id(transition);
-		for (var i = 0; i < Transitions.get(id).count; i++)
-		{
-			if (Transitions.get(id).variants[i] == variant)
-			{
-				return i;
-			}
-		}
-		return 0;
-	}*/
-	
-	/**
-	 * Returns an array of variants, given a transition ID.
-	 *
-	 * @param i A transition index.
-	 */
-	/*public static string[] get_variants(int i)
-	{
-		return Transitions.get(i).variants;
-	}*/
+		return get_name(transitions[index].type);
+	}
 }
 
 public struct Ease.Transition
@@ -201,6 +264,9 @@ public struct Ease.Transition
 	public TransitionVariant[] variants;
 }
 
+/**
+ * All transitions available in Ease
+ */
 public enum Ease.TransitionType
 {
 	NONE,
@@ -223,6 +289,9 @@ public enum Ease.TransitionType
 	ZOOM_CONTENTS
 }
 
+/**
+ * All transition variants available in Ease. Each transition uses a subset.
+ */
 public enum Ease.TransitionVariant
 {
 	UP,

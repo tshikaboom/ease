@@ -204,10 +204,6 @@ public class Ease.SlideActor : Clutter.Group
 
 		switch (slide.transition)
 		{
-			case TransitionType.FADE:
-				fade_transition(new_slide, stack_container, length);
-				break;
-
 			case TransitionType.SLIDE:
 				slide_transition(new_slide, stack_container, length);
 				break;
@@ -270,6 +266,10 @@ public class Ease.SlideActor : Clutter.Group
 
 			case TransitionType.PANEL:
 				panel_transition(new_slide, stack_container, length);
+				break;
+				
+			default: // FADE, or something undefined
+				fade_transition(new_slide, stack_container, length);
 				break;
 		}
 		

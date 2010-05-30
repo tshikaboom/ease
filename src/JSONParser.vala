@@ -59,8 +59,12 @@ public static class Ease.JSONParser
 		var slide = new Slide();
 		
 		// read the slide's transition properties
-		slide.transition = obj.get_string_member("transition");
-		slide.variant = obj.get_string_member("variant");
+		slide.transition =
+			(TransitionType)obj.get_string_member("transition").to_int();
+			
+		slide.variant =
+			(TransitionVariant)obj.get_string_member("variant").to_int();
+			
 		slide.transition_time =
 			obj.get_string_member("transition_time").to_double();
 		
@@ -148,8 +152,8 @@ public static class Ease.JSONParser
 		var obj = new Json.Object();
 		
 		// write the slide's transition properties
-		obj.set_string_member("transition", slide.transition);
-		obj.set_string_member("variant", slide.variant);
+		obj.set_string_member("transition", slide.transition.to_string());
+		obj.set_string_member("variant", slide.variant.to_string());
 		obj.set_string_member("transition_time",
 		                      slide.transition_time.to_string());
 		
