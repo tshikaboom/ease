@@ -18,12 +18,16 @@
 /*
  * A widget containing a Gtk.HScale and two zoom buttons
  */
-public class Ease.ZoomSlider : Gtk.Alignment
+public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 {
 	private Gtk.HScale zoom_slider;
 	private Gtk.Button zoom_in;
 	private Gtk.Button zoom_out;
 	private int[] values;
+	
+	private Clutter.Animation zoom_anim;
+	private const int ZOOM_TIME = 100;
+	private const int ZOOM_MODE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
 	
 	public Gtk.PositionType value_pos
 	{
@@ -35,7 +39,13 @@ public class Ease.ZoomSlider : Gtk.Alignment
 	{
 		get { return zoom_slider.digits; }
 		set { zoom_slider.digits = value; }
-	}	
+	}
+	
+	public double sliderpos
+	{
+		get { return zoom_slider.get_value(); }
+		set { zoom_slider.set_value(value); }
+	}
 
 	public ZoomSlider(Gtk.Adjustment adjustment, int[] button_values)
 	{
@@ -82,7 +92,7 @@ public class Ease.ZoomSlider : Gtk.Alignment
 			{
 				if (zoom_slider.get_value() < values[i])
 				{
-					zoom_slider.set_value(values[i]);
+					animate_zoom(values[i]);
 					break;
 				}
 			}
@@ -93,7 +103,7 @@ public class Ease.ZoomSlider : Gtk.Alignment
 			{
 				if (zoom_slider.get_value() > values[i])
 				{
-					zoom_slider.set_value(values[i]);
+					animate_zoom(values[i]);
 					break;
 				}
 			}
@@ -107,6 +117,31 @@ public class Ease.ZoomSlider : Gtk.Alignment
 	public double get_value()
 	{
 		return zoom_slider.get_value();
+	}
+	
+	
+	private void animate_zoom(double value)
+	{
+		zoom_anim = new Clutter.Animation();
+		zoom_anim.object = this;
+		zoom_anim.bind("sliderpos", value);
+		zoom_anim.duration = ZOOM_TIME;
+		zoom_anim.mode = ZOOM_MODE;
+		zoom_anim.timeline.start();
+	}
+	
+	private bool animate_property(Clutter.Animation animation,
+	                                      string property_name,
+	                                      GLib.Value initial_value,
+	                                      GLib.Value final_value,
+	                                      double progress,
+	                                      GLib.Value value)
+	{
+		if (property_name != "sliderpos") { return false; }
+		
+		value.set_double(initial_value.get_double() * (1 - progress) + 
+		                 final_value.get_double() * progress);
+		return true;
 	}
 	
 	public signal void value_changed();

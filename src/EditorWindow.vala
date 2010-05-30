@@ -23,7 +23,7 @@
  * controls. The window is linked to a {@link Document}, and all changes
  * are made directly to that object.
  */
-public class Ease.EditorWindow : Gtk.Window, Clutter.Animatable
+public class Ease.EditorWindow : Gtk.Window
 {
 	// interface elements
 	public EditorEmbed embed;
@@ -300,16 +300,6 @@ public class Ease.EditorWindow : Gtk.Window, Clutter.Animatable
 		var align = new Gtk.Alignment(1, 1, 1, 1);
 		align.add(vbox);
 		return align;
-	}
-	
-	public bool animate_property(Clutter.Animation animation,
-	                             string property_name,
-	                             Value initial_value,
-	                             Value final_value,
-	                             double progress,
-	                             Value val)
-	{
-		return true;
 	}
 }
 
