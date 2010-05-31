@@ -61,6 +61,10 @@ public class Ease.MainToolbar : Gtk.Toolbar
 		fonts = new Gtk.ToolButton.from_stock("gtk-select-font");
 		pdf = new Gtk.ToolButton.from_stock("gtk-dnd");
 		
+		// add buttons
+		insert(new_slide, -1);
+		insert(play, -1);
+		insert(new Gtk.SeparatorToolItem(), -1);
 		insert(new_presentation, -1);
 		insert(open, -1);
 		insert(save, -1);
