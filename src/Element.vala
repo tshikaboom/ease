@@ -165,6 +165,9 @@ public class Ease.Element : GLib.Object
 			case "image":
 				pdf_render_image(context);
 				break;
+			case "text":
+				pdf_render_text(context);
+				break;
 		}
 	}
 	
@@ -182,6 +185,37 @@ public class Ease.Element : GLib.Object
 		
 		context.rectangle(x, y, width, height);
 		context.fill();
+	}
+	
+	private void pdf_render_text(Cairo.Context context) throws Error
+	{	
+		// create the font description
+		var desc = new Pango.FontDescription();
+		desc.set_family(data.get("font_name"));
+		desc.set_style(font_style);
+		desc.set_weight(font_weight);
+		desc.set_variant(font_variant);
+		desc.set_size(font_size * Pango.SCALE);
+		
+		// create the layout
+		var layout = Pango.cairo_create_layout(context);
+		layout.set_text(data.get("text"), (int)data.get("text").length);
+		layout.set_width((int)(width * Pango.SCALE));
+		layout.set_height((int)(height * Pango.SCALE));
+		layout.set_font_description(desc);
+		
+		// render
+		context.save();
+		
+		context.set_source_rgb(color.red / 255f,
+		                       color.green / 255f,
+		                       color.blue / 255f);
+		
+		Pango.cairo_update_layout(context, layout);
+		context.move_to((int)x, (int)y);
+		
+		Pango.cairo_show_layout(context, layout);
+		context.restore();
 	}
 
 	// convenience properties
