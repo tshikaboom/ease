@@ -60,6 +60,7 @@ public class Ease.SlideActor : Clutter.Group
 	private const float OPEN_MOVE = 0.15f;
 	private const float OPEN_TIME = 0.8f;
 	private const int SLAT_COUNT = 8;
+	private const int REFLECTION_OPACITY = 70;
 
 	public SlideActor.from_slide(Document document, Slide s, bool clip,
 	                              ActorContext ctx)
@@ -623,10 +624,22 @@ public class Ease.SlideActor : Clutter.Group
 	                                  Clutter.Group stack_container,
 	                                  uint length)
 	{
+		// create a reflection of the new slide
+		var reflection = new Clutter.Clone(new_slide);
+		reflection.rotation_angle_z = 180;
+		reflection.rotation_angle_y = 180;
+		reflection.y = 2 * slide.parent.height;
+		reflection.opacity = REFLECTION_OPACITY;
+		
 		// zoom the new slide in
 		new_slide.depth = OPEN_DEPTH;
 		new_slide.animate(Clutter.AnimationMode.EASE_OUT_SINE,
 		                  length, "depth", 0);
+		
+		reflection.depth = OPEN_DEPTH;
+		reflection.animate(Clutter.AnimationMode.EASE_OUT_SINE,
+		                   length, "depth", 0);
+		stack_container.add_actor(reflection);
 
 		animate(Clutter.AnimationMode.LINEAR, length, "opacity", 0);
 		reparent(stack_container);
@@ -639,40 +652,70 @@ public class Ease.SlideActor : Clutter.Group
 
 		left.set_clip(0, 0, width, slide.parent.height);
 		right.set_clip(width, 0, width, slide.parent.height);
+		
+		// create left and right half reflections
+		Clutter.Clone left_ref = new Clutter.Clone(left),
+		              right_ref = new Clutter.Clone(right);
+		
+		left_ref.rotation_angle_z = 180;
+		left_ref.rotation_angle_y = 180;
+		left_ref.y = 2 * slide.parent.height;
+		left_ref.opacity = REFLECTION_OPACITY;
+		
+		right_ref.rotation_angle_z = 180;
+		right_ref.rotation_angle_y = 180;
+		right_ref.y = 2 * slide.parent.height;
+		right_ref.opacity = REFLECTION_OPACITY;
+		
+		// create left and right groups
+		Clutter.Group left_group = new Clutter.Group(),
+		              right_group = new Clutter.Group();
 
+		// add actors to groups
+		left_group.add_actor(left_ref);
+		left_group.add_actor(left);
+		right_group.add_actor(right_ref);
+		right_group.add_actor(right);		
+		
 		// add the left and right actors
-		stack_container.add_actor(left);
-		stack_container.add_actor(right);
+		stack_container.add_actor(left_group);
+		stack_container.add_actor(right_group);
 
 		// move the left and right sides outwards
-		left.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
-		             length / 2, "x", left.x - width * OPEN_MOVE);
+		left_group.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
+		                   length / 2, "x", left.x - width * OPEN_MOVE);
 
-		right.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
-		              length / 2, "x", right.x + width * OPEN_MOVE);
+		right_group.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
+		                    length / 2, "x", right.x + width * OPEN_MOVE);
 
 		// animate the angles of the left and right sides
 		time1 = new Clutter.Timeline((int)(OPEN_TIME * length));
+		time2 = new Clutter.Timeline(length);
 		animation_alpha = new Clutter.Alpha.full(time1,
 		                            Clutter.AnimationMode.EASE_IN_SINE);
 
 		time1.new_frame.connect((m) => {
-			left.set_rotation(Clutter.RotateAxis.Y_AXIS,
-			                  180 * animation_alpha.alpha,
-			                  0, 0, 0);
+			left_group.set_rotation(Clutter.RotateAxis.Y_AXIS,
+			                        180 * animation_alpha.alpha,
+			                        0, 0, 0);
 
-			right.set_rotation(Clutter.RotateAxis.Y_AXIS,
-			                   -180 * animation_alpha.alpha,
-			                   width * 2, 0, 0);
+			right_group.set_rotation(Clutter.RotateAxis.Y_AXIS,
+			                        -180 * animation_alpha.alpha,
+			                        width * 2, 0, 0);
 		});
 
 		// clean up
 		time1.completed.connect(() => {
-			stack_container.remove_actor(left);
-			stack_container.remove_actor(right);
+			stack_container.remove_actor(left_group);
+			stack_container.remove_actor(right_group);
+		});
+		
+		time2.completed.connect(() => {
+			stack_container.remove_actor(reflection);
 		});
 
 		time1.start();
+		time2.start();
 	}
 
 	private void zoom_transition(SlideActor new_slide,
