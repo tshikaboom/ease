@@ -152,6 +152,7 @@ public class Ease.Player : GLib.Object
 		slide_index--;
 		can_animate = true;
 		stage.remove_all();
+		stage.add_actor(stack_container);
 		
 		create_current_slide(document.slides.get(slide_index));
 		current_slide.stack(stack_container);
