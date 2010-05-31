@@ -157,6 +157,32 @@ public class Ease.Element : GLib.Object
 		// advance the progress bar
 		exporter.add_progress(amount);
 	}
+	
+	public void pdf_render(Cairo.Context context) throws Error
+	{
+		switch (data.get("element_type"))
+		{
+			case "image":
+				pdf_render_image(context);
+				break;
+		}
+	}
+	
+	private void pdf_render_image(Cairo.Context context) throws Error
+	{
+		var filename = parent.parent.path + "/" + data.get("filename");
+		
+		// load the image
+		var pixbuf = new Gdk.Pixbuf.from_file_at_scale(filename,
+		                                               (int)width,
+		                                               (int)height,
+		                                               false);
+		
+		Gdk.cairo_set_source_pixbuf(context, pixbuf, x, y);
+		
+		context.rectangle(x, y, width, height);
+		context.fill();
+	}
 
 	// convenience properties
 

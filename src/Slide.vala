@@ -55,6 +55,14 @@ public class Ease.Slide
 	public string background_image { get; set; }
 	
 	/**
+	 * The absolute path of the background image, if one is set.
+	 */
+	public string background_abs
+	{
+		owned get { return parent.path + "/" + background_image; }
+	}
+	
+	/**
 	 * The {@link Document} that this Slide is part of
 	 */
 	public Document parent { get; set; }

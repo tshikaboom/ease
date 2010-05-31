@@ -30,6 +30,7 @@ ease_SOURCES = \
 	src/MainToolbar.vala \
 	src/Main.vala \
 	src/OpenDialog.vala \
+	src/PDFExporter.vala \
 	src/Player.vala \
 	src/ScrollableEmbed.vala \
 	src/SlideActor.vala \

@@ -36,6 +36,7 @@ public class Ease.MainToolbar : Gtk.Toolbar
 	public Gtk.ToolButton slides;
 	public Gtk.ToolButton fonts;
 	public Gtk.ToolButton colors;
+	public Gtk.ToolButton pdf;
 	
 	/**
 	 * Builds the main toolbar of an {@link EditorWindow}.
@@ -58,11 +59,8 @@ public class Ease.MainToolbar : Gtk.Toolbar
 		inspector = new Gtk.ToolButton.from_stock("gtk-info");
 		colors = new Gtk.ToolButton.from_stock("gtk-select-color");
 		fonts = new Gtk.ToolButton.from_stock("gtk-select-font");
+		pdf = new Gtk.ToolButton.from_stock("gtk-dnd");
 		
-		// add buttons
-		insert(new_slide, -1);
-		insert(play, -1);
-		insert(new Gtk.SeparatorToolItem(), -1);
 		insert(new_presentation, -1);
 		insert(open, -1);
 		insert(save, -1);
@@ -75,6 +73,8 @@ public class Ease.MainToolbar : Gtk.Toolbar
 		insert(new Gtk.SeparatorToolItem(), -1);
 		insert(fonts, -1);
 		insert(colors, -1);
+		insert(new Gtk.SeparatorToolItem(), -1);
+		insert(pdf, -1);
 		
 		// format toolbar
 		toolbar_style = Gtk.ToolbarStyle.ICONS;

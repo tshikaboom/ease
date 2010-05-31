@@ -179,6 +179,10 @@ public class Ease.EditorWindow : Gtk.Window
 			document.export_to_html(this);
 		});
 		
+		main_toolbar.pdf.clicked.connect(() => {
+			PDFExporter.export(document, this);
+		});
+		
 		// change the embed's zoom when the zoom slider is moved
 		zoom_slider.value_changed.connect(() => {
 			embed.set_zoom((float)zoom_slider.get_value());
