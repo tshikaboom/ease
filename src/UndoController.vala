@@ -22,12 +22,10 @@
  */
 public class Ease.UndoController : Object
 {
-	private Gee.LinkedList<UndoAction> undos;
+	private Gee.LinkedList<UndoAction> undos = new Gee.LinkedList<UndoAction>();
+	private Gee.LinkedList<UndoAction> redos = new Gee.LinkedList<UndoAction>();
 	
-	public UndoController()
-	{
-		undos = new Gee.LinkedList<UndoAction>();
-	}
+	public UndoController() { }
 	
 	/**
 	 * Returns true if there is an action available to undo.
@@ -38,11 +36,35 @@ public class Ease.UndoController : Object
 	}
 	
 	/**
-	 * Undoes the first available {@link UndoAction}.
+	 * Returns true if there is an action available to redo.
+	 */
+	public bool can_redo()
+	{
+		return redos.size > 0;
+	}
+	
+	/**
+	 * Undoes the first available {@link UndoAction} in the undo queue.
 	 */
 	public void undo()
 	{
-		undos.poll_head().apply();
+		add_redo_action(undos.poll_head().apply());
+	}
+	
+	/**
+	 * Redoes the first available {@link UndoAction} in the redo queue.
+	 */
+	public void redo()
+	{
+		add_action(redos.poll_head().apply());
+	}
+	
+	/**
+	 * Clears the redo queue.
+	 */
+	public void clear_redo()
+	{
+		redos.clear();
 	}
 	
 	/**
@@ -53,5 +75,15 @@ public class Ease.UndoController : Object
 	public void add_action(UndoAction action)
 	{
 		undos.offer_head(action);
+	}
+	
+	/**
+	 * Adds a new {@link UndoAction} as the first action.
+	 *
+	 * @param action The new {@link UndoAction}.
+	 */
+	private void add_redo_action(UndoAction action)
+	{
+		redos.offer_head(action);
 	}
 }

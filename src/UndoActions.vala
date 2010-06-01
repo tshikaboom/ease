@@ -27,9 +27,9 @@ public abstract class Ease.UndoAction : Object
 	 * Applies the {@link UndoAction}.
 	 *
 	 * This method should be overriden by subclasses to undo the appropriate
-	 * action.
+	 * action. It should return an UndoAction that will redo the UndoAction.
 	 */
-	public abstract void apply();
+	public abstract UndoAction apply();
 }
 
 /**
@@ -61,12 +61,17 @@ public class Ease.MoveUndoAction : UndoAction
 		height = h;
 	}
 	
-	public override void apply()
+	public override UndoAction apply()
 	{
+		var ret = new MoveUndoAction(element, element.x, element.y,
+		                             element.width, element.height);
+		
 		element.x = x_pos;
 		element.y = y_pos;
 		element.width = width;
 		element.height = height;
+		
+		return ret;
 	}
 }
 

@@ -174,6 +174,13 @@ public class Ease.EditorWindow : Gtk.Window
 			embed.reposition_group();
 		});
 		
+		main_toolbar.redo.clicked.connect(() => {
+			undo.redo();
+			update_undo();
+			embed.slide_actor.relayout();
+			embed.reposition_group();
+		});
+		
 		// TODO: export HTML in a proper place
 		main_toolbar.fonts.clicked.connect(() => {
 			document.export_to_html(this);
@@ -216,13 +223,14 @@ public class Ease.EditorWindow : Gtk.Window
 	public void add_undo_action(UndoAction action)
 	{
 		undo.add_action(action);
+		undo.clear_redo();
 		update_undo();
 	}
 	
 	private void update_undo()
 	{
 		main_toolbar.undo.sensitive = undo.can_undo();
-		main_toolbar.redo.sensitive = false;
+		main_toolbar.redo.sensitive = undo.can_redo();
 	}
 	
 	// signal handlers
