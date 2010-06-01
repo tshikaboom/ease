@@ -34,8 +34,12 @@ public class Ease.Player : GLib.Object
 	private SlideActor old_slide;
 	private Clutter.Group stack_container;
 	
+	// automatic advance alarm
+	private Clutter.Timeline advance_alarm;
+	
 	// constants
-	public const bool PRESENTATION_FULLSCREEN = false;
+	private const bool PRESENTATION_FULLSCREEN = false;
+	private const uint FADE_IN_TIME = 1000;
 
 	public Player(Document doc)
 	{
@@ -98,6 +102,13 @@ public class Ease.Player : GLib.Object
 		{
 			return;
 		}
+		
+		// stop the advance alarm
+		if (advance_alarm != null)
+		{
+			advance_alarm.stop();
+			advance_alarm = null;
+		}
 	
 		slide_index++;
 		if (slide_index == document.slides.size) // slideshow complete
@@ -115,8 +126,16 @@ public class Ease.Player : GLib.Object
 			current_slide.stack(stack_container);
 			current_slide.opacity = 0;
 			current_slide.animate(Clutter.AnimationMode.EASE_IN_SINE,
-			                      1000, "opacity", 255);
+			                      FADE_IN_TIME, "opacity", 255);
 			stage.add_actor(current_slide);
+			
+			advance_alarm = new Clutter.Timeline(FADE_IN_TIME);
+			advance_alarm.completed.connect(animation_complete);
+			advance_alarm.start();
+			
+			can_animate = false;
+			
+			
 		}
 		else
 		{
@@ -167,9 +186,28 @@ public class Ease.Player : GLib.Object
 	
 	private void animation_complete()
 	{
-		stage.remove_actor(old_slide);
+		if (old_slide != null)
+		{
+			if (old_slide.get_parent() == stage)
+			{
+				stage.remove_actor(old_slide);
+			}
+		}
+		
 		can_animate = true;
 		current_slide.stack(stack_container);
+		
+		// prepare to automatically advance if necessary
+		if (current_slide.slide.automatically_advance)
+		{
+			uint time = (uint)(1000 * current_slide.slide.advance_delay);
+			
+			advance_alarm = new Clutter.Timeline(time);
+			advance_alarm.completed.connect(() => {
+				advance();
+			});
+			advance_alarm.start();
+		}
 	}
 	
 	private bool key_press(Gtk.Widget sender, Gdk.EventKey event)

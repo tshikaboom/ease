@@ -45,6 +45,16 @@ public class Ease.Slide
 	public double transition_time { get; set; }
 	
 	/**
+	 * If the slide advances automatically or on key press
+	 */
+	public bool automatically_advance { get; set; }
+	
+	/**
+	 * If the slide advances automatically, the amount of delay
+	 */
+	public double advance_delay { get; set; }
+	
+	/**
 	 * The background color, if there is no background image
 	 */
 	public Clutter.Color background_color;

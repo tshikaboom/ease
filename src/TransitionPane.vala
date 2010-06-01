@@ -27,7 +27,14 @@ public class Ease.TransitionPane : InspectorPane
 	private Gtk.Alignment variant_align;
 	private Gtk.ComboBox start_transition;
 	private Gtk.SpinButton delay;
+	
+	// transition preview
+	private Gtk.AspectFrame aspect;
 	private GtkClutter.Embed preview;
+	private SlideActor current_slide;
+	private SlideActor new_slide;
+	private const int PREVIEW_HEIGHT = 150;
+	
 
 	public TransitionPane()
 	{
@@ -38,17 +45,16 @@ public class Ease.TransitionPane : InspectorPane
 		
 		// preview
 		preview = new GtkClutter.Embed();
-		preview.set_size_request(0, 100);
+		preview.set_size_request(0, PREVIEW_HEIGHT);
 		((Clutter.Stage)(preview.get_stage())).color = {0, 0, 0, 255};
-		var frame = new Gtk.Frame(null);
-		frame.add(preview);
-		var hbox = new Gtk.HBox(false, 0);
-		hbox.pack_start(frame, true, true, 5);
-		pack_start(hbox, false, false, 5);
+		aspect = new Gtk.AspectFrame("", 0.5f, 0.5f, 0.5f, false);
+		aspect.add(preview);
+		aspect.shadow_type = Gtk.ShadowType.IN;
+		pack_start(aspect, false, false, 5);
 		
 		// transition selection
 		var vbox = new Gtk.VBox(false, 0);
-		hbox = new Gtk.HBox(false, 0);
+		var hbox = new Gtk.HBox(false, 0);
 		var align = new Gtk.Alignment(0, 0, 0, 0);
 		align.add(new Gtk.Label(_("Effect")));
 		vbox.pack_start(align, false, false, 0);
@@ -75,10 +81,6 @@ public class Ease.TransitionPane : InspectorPane
 		vbox.pack_start(align, true, true, 0);
 		hbox.pack_start(vbox, false, false, 5);
 		pack_start(hbox, false, false, 5);
-		
-		transition_time.value_changed.connect(() => {
-			slide.transition_time = transition_time.get_value();
-		});
 		
 		// transition variant
 		hbox = new Gtk.HBox(false, 0);
@@ -121,7 +123,6 @@ public class Ease.TransitionPane : InspectorPane
 		hbox.pack_start(vbox, false, false, 5);
 		pack_start(hbox, false, false, 5);
 		
-		
 		// signal handlers
 		effect.changed.connect(() => {			
 			// create a new ComboBox
@@ -163,22 +164,40 @@ public class Ease.TransitionPane : InspectorPane
 			if (start_transition.active == 0)
 			{
 				delay.sensitive = false;
+				slide.automatically_advance = false;
 			}
 			else
 			{
 				delay.sensitive = true;
+				slide.automatically_advance = true;
 			}
+		});
+		
+		transition_time.value_changed.connect(() => {
+			slide.transition_time = transition_time.get_value();
+		});
+		
+		delay.value_changed.connect(() => {
+			slide.advance_delay = delay.get_value();
 		});
 	}
 	
 	protected override void slide_updated()
 	{
+		// set preview aspect ratio
+		aspect.ratio = (float)slide.parent.width / (float)slide.parent.height;
+	
 		// set transition time box
 		transition_time.set_value(slide.transition_time);
 		
 		// set effect and variant combo boxes
 		var index = Transitions.get_index(slide.transition);
 		effect.set_active(index);
+		
+		// set the automatic advance boxes
+		start_transition.set_active(slide.automatically_advance ? 1 : 0);
+		delay.set_value(slide.advance_delay);
+		delay.sensitive = slide.automatically_advance;
 	}
 }
 

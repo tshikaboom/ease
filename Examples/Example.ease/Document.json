@@ -24,11 +24,18 @@ See Ease Run.",
         }
       ],
       "background_image" : "Media/Themes/Pink/Background.svg",
+      "automatically_advance" : "true",
       "variant" : "2",
+      "advance_delay" : "0.75",
       "transition" : "3",
       "transition_time" : "1"
     },
     {
+      "transition" : "10",
+      "green" : "0",
+      "variant" : "0",
+      "automatically_advance" : "false",
+      "advance_delay" : "0",
       "elements" : [
         {
           "element_type" : "image",
@@ -44,10 +51,7 @@ See Ease Run.",
         }
       ],
       "blue" : "0",
-      "green" : "0",
-      "variant" : "0",
       "red" : "0",
-      "transition" : "10",
       "transition_time" : "1"
     },
     {
@@ -102,7 +106,9 @@ See Ease Run.",
         }
       ],
       "background_image" : "Media/Themes/Pink/Background.svg",
+      "automatically_advance" : "false",
       "variant" : "7",
+      "advance_delay" : "0",
       "transition" : "4",
       "transition_time" : "1"
     }

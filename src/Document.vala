@@ -37,6 +37,11 @@ public class Ease.Document : GLib.Object
 	public int height { get; set; }
 	
 	/**
+	 * The aspect ratio of the Document.
+	 */
+	public float aspect { get { return (float)width / (float)height; } }
+	
+	/**
 	 * The file path of the Document.
 	 */
 	public string path { get; set; }

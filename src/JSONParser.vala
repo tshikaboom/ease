@@ -67,6 +67,12 @@ public static class Ease.JSONParser
 			
 		slide.transition_time =
 			obj.get_string_member("transition_time").to_double();
+			
+		slide.automatically_advance = 
+			obj.get_string_member("automatically_advance").to_bool();
+			
+		slide.advance_delay =
+			obj.get_string_member("advance_delay").to_double();
 		
 		// read the slide's background properties
 		if (obj.has_member("background_image"))
@@ -158,6 +164,10 @@ public static class Ease.JSONParser
 		                      ((int)slide.variant).to_string());
 		obj.set_string_member("transition_time",
 		                      slide.transition_time.to_string());
+		obj.set_string_member("automatically_advance",
+		                      slide.automatically_advance.to_string());
+		obj.set_string_member("advance_delay",
+		                      slide.advance_delay.to_string());
 		
 		// write the slide's background properties
 		if (slide.background_image != null)

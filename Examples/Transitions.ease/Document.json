@@ -2,6 +2,11 @@
   "height" : "768",
   "slides" : [
     {
+      "transition" : "1",
+      "automatically_advance" : "true",
+      "green" : "34",
+      "variant" : "0",
+      "advance_delay" : "0.5",
       "elements" : [
         {
           "font_variant" : "Normal",
@@ -41,105 +46,15 @@
         }
       ],
       "blue" : "34",
-      "green" : "34",
-      "variant" : "0",
       "red" : "34",
-      "transition" : "1",
       "transition_time" : "1"
     },
     {
-      "elements" : [
-        {
-          "font_variant" : "Normal",
-          "y" : "30",
-          "x" : "30",
-          "height" : "200",
-          "font_style" : "Normal",
-          "text" : "Lorem Ipsum Dolor",
-          "element_type" : "text",
-          "green" : "34",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "34",
-          "font_weight" : "900",
-          "red" : "34",
-          "ease_name" : "header",
-          "font_name" : "Sans",
-          "font_size" : "36"
-        },
-        {
-          "font_variant" : "Normal",
-          "y" : "90",
-          "x" : "30",
-          "height" : "768",
-          "font_style" : "Normal",
-          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
-          "element_type" : "text",
-          "green" : "34",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "34",
-          "font_weight" : "500",
-          "red" : "34",
-          "ease_name" : "text",
-          "font_name" : "Sans",
-          "font_size" : "16"
-        }
-      ],
-      "blue" : "255",
+      "transition" : "2",
+      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "2",
-      "red" : "255",
-      "transition" : "2",
-      "transition_time" : "1"
-    },
-    {
-      "elements" : [
-        {
-          "font_variant" : "Normal",
-          "y" : "30",
-          "x" : "30",
-          "height" : "200",
-          "font_style" : "Normal",
-          "text" : "Lorem Ipsum Dolor",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "900",
-          "red" : "255",
-          "ease_name" : "header",
-          "font_name" : "Sans",
-          "font_size" : "36"
-        },
-        {
-          "font_variant" : "Normal",
-          "y" : "90",
-          "x" : "30",
-          "height" : "768",
-          "font_style" : "Normal",
-          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "500",
-          "red" : "255",
-          "ease_name" : "text",
-          "font_name" : "Sans",
-          "font_size" : "16"
-        }
-      ],
-      "blue" : "34",
-      "green" : "34",
-      "variant" : "0",
-      "red" : "34",
-      "transition" : "3",
-      "transition_time" : "1"
-    },
-    {
+      "advance_delay" : "0.5",
       "elements" : [
         {
           "font_variant" : "Normal",
@@ -179,13 +94,63 @@
         }
       ],
       "blue" : "255",
+      "red" : "255",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "3",
+      "automatically_advance" : "true",
+      "green" : "34",
+      "variant" : "0",
+      "advance_delay" : "0.5",
+      "elements" : [
+        {
+          "font_variant" : "Normal",
+          "y" : "30",
+          "x" : "30",
+          "height" : "200",
+          "font_style" : "Normal",
+          "text" : "Lorem Ipsum Dolor",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "900",
+          "red" : "255",
+          "ease_name" : "header",
+          "font_name" : "Sans",
+          "font_size" : "36"
+        },
+        {
+          "font_variant" : "Normal",
+          "y" : "90",
+          "x" : "30",
+          "height" : "768",
+          "font_style" : "Normal",
+          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "500",
+          "red" : "255",
+          "ease_name" : "text",
+          "font_name" : "Sans",
+          "font_size" : "16"
+        }
+      ],
+      "blue" : "34",
+      "red" : "34",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "4",
+      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "7",
-      "red" : "255",
-      "transition" : "4",
-      "transition_time" : "1"
-    },
-    {
+      "advance_delay" : "0.5",
       "elements" : [
         {
           "font_variant" : "Normal",
@@ -195,12 +160,12 @@
           "font_style" : "Normal",
           "text" : "Lorem Ipsum Dolor",
           "element_type" : "text",
-          "green" : "255",
+          "green" : "34",
           "align" : "left",
           "width" : "964",
-          "blue" : "255",
+          "blue" : "34",
           "font_weight" : "900",
-          "red" : "255",
+          "red" : "34",
           "ease_name" : "header",
           "font_name" : "Sans",
           "font_size" : "36"
@@ -213,25 +178,27 @@
           "font_style" : "Normal",
           "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
           "element_type" : "text",
-          "green" : "255",
+          "green" : "34",
           "align" : "left",
           "width" : "964",
-          "blue" : "255",
+          "blue" : "34",
           "font_weight" : "500",
-          "red" : "255",
+          "red" : "34",
           "ease_name" : "text",
           "font_name" : "Sans",
           "font_size" : "16"
         }
       ],
-      "blue" : "34",
+      "blue" : "255",
+      "red" : "255",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "5",
+      "automatically_advance" : "true",
       "green" : "34",
       "variant" : "13",
-      "red" : "34",
-      "transition" : "5",
-      "transition_time" : "1"
-    },
-    {
+      "advance_delay" : "0.5",
       "elements" : [
         {
           "font_variant" : "Normal",
@@ -241,12 +208,12 @@
           "font_style" : "Normal",
           "text" : "Lorem Ipsum Dolor",
           "element_type" : "text",
-          "green" : "34",
+          "green" : "255",
           "align" : "left",
           "width" : "964",
-          "blue" : "34",
+          "blue" : "255",
           "font_weight" : "900",
-          "red" : "34",
+          "red" : "255",
           "ease_name" : "header",
           "font_name" : "Sans",
           "font_size" : "36"
@@ -259,71 +226,27 @@
           "font_style" : "Normal",
           "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
           "element_type" : "text",
-          "green" : "34",
+          "green" : "255",
           "align" : "left",
           "width" : "964",
-          "blue" : "34",
+          "blue" : "255",
           "font_weight" : "500",
-          "red" : "34",
+          "red" : "255",
           "ease_name" : "text",
           "font_name" : "Sans",
           "font_size" : "16"
         }
       ],
-      "blue" : "255",
+      "blue" : "34",
+      "red" : "34",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "6",
+      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "2",
-      "red" : "255",
-      "transition" : "6",
-      "transition_time" : "1"
-    },
-    {
-      "elements" : [
-        {
-          "font_variant" : "Normal",
-          "y" : "30",
-          "x" : "30",
-          "height" : "200",
-          "font_style" : "Normal",
-          "text" : "Lorem Ipsum Dolor",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "900",
-          "red" : "255",
-          "ease_name" : "header",
-          "font_name" : "Sans",
-          "font_size" : "36"
-        },
-        {
-          "font_variant" : "Normal",
-          "y" : "90",
-          "x" : "30",
-          "height" : "768",
-          "font_style" : "Normal",
-          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "500",
-          "red" : "255",
-          "ease_name" : "text",
-          "font_name" : "Sans",
-          "font_size" : "16"
-        }
-      ],
-      "blue" : "34",
-      "green" : "34",
-      "variant" : "0",
-      "red" : "34",
-      "transition" : "7",
-      "transition_time" : "1"
-    },
-    {
+      "advance_delay" : "0.5",
       "elements" : [
         {
           "font_variant" : "Normal",
@@ -363,59 +286,63 @@
         }
       ],
       "blue" : "255",
+      "red" : "255",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "7",
+      "automatically_advance" : "true",
+      "green" : "34",
+      "variant" : "0",
+      "advance_delay" : "0.5",
+      "elements" : [
+        {
+          "font_variant" : "Normal",
+          "y" : "30",
+          "x" : "30",
+          "height" : "200",
+          "font_style" : "Normal",
+          "text" : "Lorem Ipsum Dolor",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "900",
+          "red" : "255",
+          "ease_name" : "header",
+          "font_name" : "Sans",
+          "font_size" : "36"
+        },
+        {
+          "font_variant" : "Normal",
+          "y" : "90",
+          "x" : "30",
+          "height" : "768",
+          "font_style" : "Normal",
+          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "500",
+          "red" : "255",
+          "ease_name" : "text",
+          "font_name" : "Sans",
+          "font_size" : "16"
+        }
+      ],
+      "blue" : "34",
+      "red" : "34",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "8",
+      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "0",
-      "red" : "255",
-      "transition" : "8",
-      "transition_time" : "1"
-    },
-    {
-      "elements" : [
-        {
-          "font_variant" : "Normal",
-          "y" : "30",
-          "x" : "30",
-          "height" : "200",
-          "font_style" : "Normal",
-          "text" : "Lorem Ipsum Dolor",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "900",
-          "red" : "255",
-          "ease_name" : "header",
-          "font_name" : "Sans",
-          "font_size" : "36"
-        },
-        {
-          "font_variant" : "Normal",
-          "y" : "90",
-          "x" : "30",
-          "height" : "768",
-          "font_style" : "Normal",
-          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "500",
-          "red" : "255",
-          "ease_name" : "text",
-          "font_name" : "Sans",
-          "font_size" : "16"
-        }
-      ],
-      "blue" : "34",
-      "green" : "34",
-      "variant" : "0",
-      "red" : "34",
-      "transition" : "10",
-      "transition_time" : "1"
-    },
-    {
+      "advance_delay" : "0.5",
       "elements" : [
         {
           "font_variant" : "Normal",
@@ -455,59 +382,63 @@
         }
       ],
       "blue" : "255",
+      "red" : "255",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "10",
+      "automatically_advance" : "true",
+      "green" : "34",
+      "variant" : "0",
+      "advance_delay" : "0.5",
+      "elements" : [
+        {
+          "font_variant" : "Normal",
+          "y" : "30",
+          "x" : "30",
+          "height" : "200",
+          "font_style" : "Normal",
+          "text" : "Lorem Ipsum Dolor",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "900",
+          "red" : "255",
+          "ease_name" : "header",
+          "font_name" : "Sans",
+          "font_size" : "36"
+        },
+        {
+          "font_variant" : "Normal",
+          "y" : "90",
+          "x" : "30",
+          "height" : "768",
+          "font_style" : "Normal",
+          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "500",
+          "red" : "255",
+          "ease_name" : "text",
+          "font_name" : "Sans",
+          "font_size" : "16"
+        }
+      ],
+      "blue" : "34",
+      "red" : "34",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "11",
+      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "6",
-      "red" : "255",
-      "transition" : "11",
-      "transition_time" : "1"
-    },
-    {
-      "elements" : [
-        {
-          "font_variant" : "Normal",
-          "y" : "30",
-          "x" : "30",
-          "height" : "200",
-          "font_style" : "Normal",
-          "text" : "Lorem Ipsum Dolor",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "900",
-          "red" : "255",
-          "ease_name" : "header",
-          "font_name" : "Sans",
-          "font_size" : "36"
-        },
-        {
-          "font_variant" : "Normal",
-          "y" : "90",
-          "x" : "30",
-          "height" : "768",
-          "font_style" : "Normal",
-          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "500",
-          "red" : "255",
-          "ease_name" : "text",
-          "font_name" : "Sans",
-          "font_size" : "16"
-        }
-      ],
-      "blue" : "34",
-      "green" : "34",
-      "variant" : "0",
-      "red" : "34",
-      "transition" : "12",
-      "transition_time" : "1"
-    },
-    {
+      "advance_delay" : "0.5",
       "elements" : [
         {
           "font_variant" : "Normal",
@@ -547,59 +478,63 @@
         }
       ],
       "blue" : "255",
+      "red" : "255",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "12",
+      "automatically_advance" : "true",
+      "green" : "34",
+      "variant" : "0",
+      "advance_delay" : "0.5",
+      "elements" : [
+        {
+          "font_variant" : "Normal",
+          "y" : "30",
+          "x" : "30",
+          "height" : "200",
+          "font_style" : "Normal",
+          "text" : "Lorem Ipsum Dolor",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "900",
+          "red" : "255",
+          "ease_name" : "header",
+          "font_name" : "Sans",
+          "font_size" : "36"
+        },
+        {
+          "font_variant" : "Normal",
+          "y" : "90",
+          "x" : "30",
+          "height" : "768",
+          "font_style" : "Normal",
+          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "500",
+          "red" : "255",
+          "ease_name" : "text",
+          "font_name" : "Sans",
+          "font_size" : "16"
+        }
+      ],
+      "blue" : "34",
+      "red" : "34",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "13",
+      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "2",
-      "red" : "255",
-      "transition" : "13",
-      "transition_time" : "1"
-    },
-    {
-      "elements" : [
-        {
-          "font_variant" : "Normal",
-          "y" : "30",
-          "x" : "30",
-          "height" : "200",
-          "font_style" : "Normal",
-          "text" : "Lorem Ipsum Dolor",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "900",
-          "red" : "255",
-          "ease_name" : "header",
-          "font_name" : "Sans",
-          "font_size" : "36"
-        },
-        {
-          "font_variant" : "Normal",
-          "y" : "90",
-          "x" : "30",
-          "height" : "768",
-          "font_style" : "Normal",
-          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "500",
-          "red" : "255",
-          "ease_name" : "text",
-          "font_name" : "Sans",
-          "font_size" : "16"
-        }
-      ],
-      "blue" : "34",
-      "green" : "34",
-      "variant" : "0",
-      "red" : "34",
-      "transition" : "15",
-      "transition_time" : "1"
-    },
-    {
+      "advance_delay" : "0.5",
       "elements" : [
         {
           "font_variant" : "Normal",
@@ -639,59 +574,63 @@
         }
       ],
       "blue" : "255",
+      "red" : "255",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "15",
+      "automatically_advance" : "true",
+      "green" : "34",
+      "variant" : "0",
+      "advance_delay" : "0.5",
+      "elements" : [
+        {
+          "font_variant" : "Normal",
+          "y" : "30",
+          "x" : "30",
+          "height" : "200",
+          "font_style" : "Normal",
+          "text" : "Lorem Ipsum Dolor",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "900",
+          "red" : "255",
+          "ease_name" : "header",
+          "font_name" : "Sans",
+          "font_size" : "36"
+        },
+        {
+          "font_variant" : "Normal",
+          "y" : "90",
+          "x" : "30",
+          "height" : "768",
+          "font_style" : "Normal",
+          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "500",
+          "red" : "255",
+          "ease_name" : "text",
+          "font_name" : "Sans",
+          "font_size" : "16"
+        }
+      ],
+      "blue" : "34",
+      "red" : "34",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "16",
+      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "0",
-      "red" : "255",
-      "transition" : "16",
-      "transition_time" : "1"
-    },
-    {
-      "elements" : [
-        {
-          "font_variant" : "Normal",
-          "y" : "30",
-          "x" : "30",
-          "height" : "200",
-          "font_style" : "Normal",
-          "text" : "Lorem Ipsum Dolor",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "900",
-          "red" : "255",
-          "ease_name" : "header",
-          "font_name" : "Sans",
-          "font_size" : "36"
-        },
-        {
-          "font_variant" : "Normal",
-          "y" : "90",
-          "x" : "30",
-          "height" : "768",
-          "font_style" : "Normal",
-          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "500",
-          "red" : "255",
-          "ease_name" : "text",
-          "font_name" : "Sans",
-          "font_size" : "16"
-        }
-      ],
-      "blue" : "34",
-      "green" : "34",
-      "variant" : "0",
-      "red" : "34",
-      "transition" : "14",
-      "transition_time" : "1"
-    },
-    {
+      "advance_delay" : "0.5",
       "elements" : [
         {
           "font_variant" : "Normal",
@@ -731,59 +670,63 @@
         }
       ],
       "blue" : "255",
+      "red" : "255",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "14",
+      "automatically_advance" : "true",
+      "green" : "34",
+      "variant" : "0",
+      "advance_delay" : "0.5",
+      "elements" : [
+        {
+          "font_variant" : "Normal",
+          "y" : "30",
+          "x" : "30",
+          "height" : "200",
+          "font_style" : "Normal",
+          "text" : "Lorem Ipsum Dolor",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "900",
+          "red" : "255",
+          "ease_name" : "header",
+          "font_name" : "Sans",
+          "font_size" : "36"
+        },
+        {
+          "font_variant" : "Normal",
+          "y" : "90",
+          "x" : "30",
+          "height" : "768",
+          "font_style" : "Normal",
+          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "500",
+          "red" : "255",
+          "ease_name" : "text",
+          "font_name" : "Sans",
+          "font_size" : "16"
+        }
+      ],
+      "blue" : "34",
+      "red" : "34",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "17",
+      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "15",
-      "red" : "255",
-      "transition" : "17",
-      "transition_time" : "1"
-    },
-    {
-      "elements" : [
-        {
-          "font_variant" : "Normal",
-          "y" : "30",
-          "x" : "30",
-          "height" : "200",
-          "font_style" : "Normal",
-          "text" : "Lorem Ipsum Dolor",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "900",
-          "red" : "255",
-          "ease_name" : "header",
-          "font_name" : "Sans",
-          "font_size" : "36"
-        },
-        {
-          "font_variant" : "Normal",
-          "y" : "90",
-          "x" : "30",
-          "height" : "768",
-          "font_style" : "Normal",
-          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
-          "element_type" : "text",
-          "green" : "255",
-          "align" : "left",
-          "width" : "964",
-          "blue" : "255",
-          "font_weight" : "500",
-          "red" : "255",
-          "ease_name" : "text",
-          "font_name" : "Sans",
-          "font_size" : "16"
-        }
-      ],
-      "blue" : "34",
-      "green" : "34",
-      "variant" : "0",
-      "red" : "34",
-      "transition" : "0",
-      "transition_time" : "1"
-    },
-    {
+      "advance_delay" : "0.5",
       "elements" : [
         {
           "font_variant" : "Normal",
@@ -823,10 +766,103 @@
         }
       ],
       "blue" : "255",
+      "red" : "255",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "0",
+      "automatically_advance" : "true",
+      "green" : "34",
+      "variant" : "0",
+      "advance_delay" : "0.5",
+      "elements" : [
+        {
+          "font_variant" : "Normal",
+          "y" : "30",
+          "x" : "30",
+          "height" : "200",
+          "font_style" : "Normal",
+          "text" : "Lorem Ipsum Dolor",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "900",
+          "red" : "255",
+          "ease_name" : "header",
+          "font_name" : "Sans",
+          "font_size" : "36"
+        },
+        {
+          "font_variant" : "Normal",
+          "y" : "90",
+          "x" : "30",
+          "height" : "768",
+          "font_style" : "Normal",
+          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
+          "element_type" : "text",
+          "green" : "255",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "255",
+          "font_weight" : "500",
+          "red" : "255",
+          "ease_name" : "text",
+          "font_name" : "Sans",
+          "font_size" : "16"
+        }
+      ],
+      "blue" : "34",
+      "red" : "34",
+      "transition_time" : "1"
+    },
+    {
+      "transition" : "0",
+      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "0",
+      "advance_delay" : "0.5",
+      "elements" : [
+        {
+          "font_variant" : "Normal",
+          "y" : "30",
+          "x" : "30",
+          "height" : "200",
+          "font_style" : "Normal",
+          "text" : "Lorem Ipsum Dolor",
+          "element_type" : "text",
+          "green" : "34",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "34",
+          "font_weight" : "900",
+          "red" : "34",
+          "ease_name" : "header",
+          "font_name" : "Sans",
+          "font_size" : "36"
+        },
+        {
+          "font_variant" : "Normal",
+          "y" : "90",
+          "x" : "30",
+          "height" : "768",
+          "font_style" : "Normal",
+          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
+          "element_type" : "text",
+          "green" : "34",
+          "align" : "left",
+          "width" : "964",
+          "blue" : "34",
+          "font_weight" : "500",
+          "red" : "34",
+          "ease_name" : "text",
+          "font_name" : "Sans",
+          "font_size" : "16"
+        }
+      ],
+      "blue" : "255",
       "red" : "255",
-      "transition" : "0",
       "transition_time" : "1"
     }
   ],
