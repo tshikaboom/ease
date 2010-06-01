@@ -23,7 +23,7 @@
  * subclasses such as {@link TextActor} and {@link ImageActor}
  * are placed on a {@link SlideActor} to form Ease presentations.
  */
-public class Ease.Actor : Clutter.Group
+public abstract class Ease.Actor : Clutter.Group
 {
 	// the contents of the actor
 	protected Clutter.Actor contents;
@@ -122,5 +122,7 @@ public class Ease.Actor : Clutter.Group
 		element.width = width;
 		element.height = height;	
 	}
+	
+	
 }
 
