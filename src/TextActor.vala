@@ -34,23 +34,18 @@ public class Ease.TextActor : Actor
 	{
 		base(e, c);
 		
-		contents = new Clutter.Text();
+		var text = new Clutter.Text();
 
-		// set basic actor properties
-		((Clutter.Text)contents).use_markup = true;
-		((Clutter.Text)contents).line_wrap = true;
-		((Clutter.Text)contents).line_wrap_mode = Pango.WrapMode.WORD_CHAR;
-		((Clutter.Text)contents).color = e.color;
-		((Clutter.Text)contents).set_markup(e.data.get("text"));
+		// set actor properties
+		text.use_markup = true;
+		text.line_wrap = true;
+		text.line_wrap_mode = Pango.WrapMode.WORD_CHAR;
+		text.color = e.color;
+		text.set_markup(e.data.get("text"));
+		text.font_name = e.font_description.to_string();
+		text.line_alignment = e.text_align;
 		
-		// create the font description
-		var desc = new Pango.FontDescription();
-		desc.set_family(e.data.get("font_name"));
-		desc.set_weight(e.font_weight);
-		desc.set_variant(e.font_variant);
-		desc.set_size(e.font_size * Pango.SCALE);
-		((Clutter.Text)contents).font_name = desc.to_string();
-		((Clutter.Text)contents).line_alignment = e.text_align;
+		contents = text;
 		
 		add_actor(contents);
 		contents.width = e.width;

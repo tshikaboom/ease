@@ -31,8 +31,16 @@
  */
 public class Ease.Element : GLib.Object
 {
+	/**
+	 * The {@link Slide} that this Element is a part of.
+	 */
 	public Slide parent { get; set; }
-
+	
+	/**
+	 * The store of information for this Slide. Data can be accessed either
+	 * directly though get() and set(), or though the typed convenience
+	 * properties that Element provides.
+	 */
 	public ElementMap data = new ElementMap();
 	
 	/**
@@ -189,20 +197,12 @@ public class Ease.Element : GLib.Object
 	
 	private void pdf_render_text(Cairo.Context context) throws Error
 	{	
-		// create the font description
-		var desc = new Pango.FontDescription();
-		desc.set_family(data.get("font_name"));
-		desc.set_style(font_style);
-		desc.set_weight(font_weight);
-		desc.set_variant(font_variant);
-		desc.set_size(font_size * Pango.SCALE);
-		
 		// create the layout
 		var layout = Pango.cairo_create_layout(context);
 		layout.set_text(data.get("text"), (int)data.get("text").length);
 		layout.set_width((int)(width * Pango.SCALE));
 		layout.set_height((int)(height * Pango.SCALE));
-		layout.set_font_description(desc);
+		layout.set_font_description(font_description);
 		
 		// render
 		context.save();
@@ -221,20 +221,23 @@ public class Ease.Element : GLib.Object
 	// convenience properties
 
 	// base element
+	
+	/**
+	 * A unique identifier for this Element.
+	 */
 	public string ease_name
 	{
-		set
-		{
-			data.set("ease_name", value);
-		}
+		owned get { return data.get("ease_name"); }
+		set	{ data.set("ease_name", value);	}
 	}
 	
+	/**
+	 * The Element's type: currently "text", "image", or "video".
+	 */
 	public string element_type
 	{
-		set
-		{
-			data.set("element_type", value);
-		}
+		owned get { return data.get("element_type"); }
+		set	{ data.set("element_type", value); }
 	}
 	
 	/**
@@ -252,6 +255,9 @@ public class Ease.Element : GLib.Object
 		}
 	}
 	
+	/**
+	 * The Y position of this Element.
+	 */
 	public float y
 	{
 		get
@@ -264,6 +270,9 @@ public class Ease.Element : GLib.Object
 		}
 	}
 	
+	/**
+	 * The width of this Element.
+	 */
 	public float width
 	{
 		get
@@ -276,6 +285,9 @@ public class Ease.Element : GLib.Object
 		}
 	}
 	
+	/**
+	 * The height of this Element.
+	 */
 	public float height
 	{
 		get
@@ -289,14 +301,19 @@ public class Ease.Element : GLib.Object
 	}
 
 	// text elements
+	
+	/**
+	 * The text value of this Element. Only available for "text" Elements.
+	 */
 	public string text
 	{
-		set
-		{
-			data.set("text", value);
-		}
+		owned get { return data.get("text"); }
+		set	{ data.set("text", value); }
 	}
 	
+	/**
+	 * The color of the text. Only available for "text" Elements.
+	 */
 	public Clutter.Color color
 	{
 		get
@@ -314,6 +331,9 @@ public class Ease.Element : GLib.Object
 		}
 	}
 	
+	/**
+	 * The name of the text's font family. Only available for "text" Elements.
+	 */
 	public string font_name
 	{
 		set
@@ -322,6 +342,9 @@ public class Ease.Element : GLib.Object
 		}
 	}
 	
+	/**
+	 * The PangoStyle for this Element. Only available for "text" Elements.
+	 */
 	public Pango.Style font_style
 	{
 		get
@@ -353,6 +376,9 @@ public class Ease.Element : GLib.Object
 		}
 	}
 	
+	/**
+	 * The PangoVariant for this Element. Only available for "text" Elements.
+	 */
 	public Pango.Variant font_variant
 	{
 		get
@@ -369,6 +395,9 @@ public class Ease.Element : GLib.Object
 		}
 	}
 	
+	/**
+	 * The font's weight. Only available for "text" Elements.
+	 */
 	public Pango.Weight font_weight
 	{
 		get
@@ -382,6 +411,39 @@ public class Ease.Element : GLib.Object
 		}
 	}
 	
+	/**
+	 * A full PangoFontDescription for this Element.
+	 *
+	 * This property creates a new FontDescription when retrieved, and
+	 * sets all appropriate properties (font_weight, etc.) when set. Only
+	 * available for "text" Elements.
+	 */
+	public Pango.FontDescription font_description
+	{
+		owned get
+		{
+			var desc = new Pango.FontDescription();
+			desc.set_family(data.get("font_name"));
+			desc.set_style(font_style);
+			desc.set_weight(font_weight);
+			desc.set_variant(font_variant);
+			desc.set_size(font_size * Pango.SCALE);
+			
+			return desc;
+		}
+		set
+		{
+			data.set("font_name", value.get_family());
+			font_style = value.get_style();
+			font_weight = value.get_weight();
+			font_variant = value.get_variant();
+			font_size = value.get_size() / Pango.SCALE;
+		}
+	}
+	
+	/**
+	 * The alignment of the text. Only available for "text" Elements.
+	 */
 	public Pango.Alignment text_align
 	{
 		get
@@ -413,6 +475,12 @@ public class Ease.Element : GLib.Object
 		}
 	}
 	
+	/**
+	 * The size of the font. Only available for "text" Elements.
+	 *
+	 * This value should be multiplied by Pango.SCALE for rendering, otherwise
+	 * the text will be far too small to be visible.
+	 */
 	public int font_size
 	{
 		get
@@ -425,37 +493,15 @@ public class Ease.Element : GLib.Object
 		}
 	}
 
-	// image elements
-	public string filename 
-	{
-		set
-		{
-			data.set("filename", value);
-		}
-	}
+	// image and video elements
 	
-	public float scale_x
+	/**
+	 * The path to a media file. Applies to "image" and "video" Elements.
+	 */
+	public string filename
 	{
-		get
-		{
-			return (float)(data.get("scale_x").to_double());
-		}
-		set
-		{
-			data.set("scale_x", @"$value");
-		}
-	}
-	
-	public float scale_y
-	{
-		get
-		{
-			return (float)(data.get("scale_y").to_double());
-		}
-		set
-		{
-			data.set("scale_y", @"$value");
-		}
+		owned get { return data.get("filename"); }
+		set	{ data.set("filename", value); }
 	}
 }
 
