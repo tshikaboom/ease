@@ -23,6 +23,10 @@ public class Ease.Inspector : Gtk.Notebook
 	private TransitionPane transition_pane;
 	private SlidePane slide_pane;
 	
+	// constants
+	private const int REQUEST_WIDTH = 200;
+	private const int REQUEST_HEIGHT = 0;
+	
 	private Slide slide_priv;
 	
 	/**
@@ -40,6 +44,8 @@ public class Ease.Inspector : Gtk.Notebook
 	
 	public Inspector()
 	{
+		set_size_request(REQUEST_WIDTH, REQUEST_HEIGHT);
+	
 		transition_pane = new TransitionPane();
 		slide_pane = new SlidePane();
 		

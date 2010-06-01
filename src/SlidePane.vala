@@ -28,11 +28,8 @@ public class Ease.SlidePane : InspectorPane
 	public Gtk.SpinButton delay;
 
 	public SlidePane()
-	{
-		homogeneous = false;
-		spacing = 0;
-		
-		set_size_request(200, 0);
+	{	
+		base();
 		
 		// effect selection
 		var vbox = new Gtk.VBox(false, 0);

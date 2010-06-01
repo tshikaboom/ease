@@ -31,17 +31,14 @@ public class Ease.TransitionPane : InspectorPane
 	// transition preview
 	private Gtk.AspectFrame aspect;
 	private GtkClutter.Embed preview;
+	private Gtk.Alignment preview_align;
 	private SlideActor current_slide;
 	private SlideActor new_slide;
 	private const int PREVIEW_HEIGHT = 150;
 	
-
 	public TransitionPane()
 	{
-		homogeneous = false;
-		spacing = 0;
-		
-		set_size_request(200, 0);
+		base();
 		
 		// preview
 		preview = new GtkClutter.Embed();

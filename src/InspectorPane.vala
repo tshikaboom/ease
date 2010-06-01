@@ -33,7 +33,8 @@ public abstract class Ease.InspectorPane : Gtk.VBox
 
 	public InspectorPane()
 	{
-		
+		homogeneous = false;
+		spacing = 0;
 	}
 	
 	/**
