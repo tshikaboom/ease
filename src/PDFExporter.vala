@@ -46,7 +46,7 @@ public static class Ease.PDFExporter : Object
 		{
 			// create a PDF surface
 			var surface = new Cairo.PdfSurface(path,
-				                               document.width, document.height);
+			                                   document.width, document.height);
 		
 			var context = new Cairo.Context(surface);
 		

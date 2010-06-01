@@ -22,7 +22,7 @@
  * information about each transition and each transition's variants.
  */
 public static class Ease.Transitions : GLib.Object
-{	                                  
+{
 	private static Transition[] transitions;
 	
 	public static int size { get { return transitions.length; } }
@@ -94,7 +94,7 @@ public static class Ease.Transitions : GLib.Object
 	/**
 	 * Returns the string name of a transition.
 	 *
-	 * @param type The {@link TransitionType} to find a name for..
+	 * @param type The {@link TransitionType} to find a name for.
 	 */
 	public static string get_name(TransitionType type)
 	{
