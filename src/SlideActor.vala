@@ -233,21 +233,21 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void prepare_slide_transition(SlideActor new_slide,
-	                                      Clutter.Group stack_container)
+	                                      Clutter.Group container)
 	{
-		new_slide.stack(stack_container);
-		stack(stack_container);
+		new_slide.stack(container);
+		stack(container);
 	}
 
 	private void prepare_stack_transition(bool current_on_top,
 	                                      SlideActor new_slide,
-	                                      Clutter.Group stack_container)
+	                                      Clutter.Group container)
 	{
-		unstack(new_slide, stack_container);
+		unstack(new_slide, container);
 	}
 
 	public void transition(SlideActor new_slide,
-	                       Clutter.Group stack_container)
+	                       Clutter.Group container)
 	{
 		uint length = (uint)max(1, slide.transition_time * 1000);
 
@@ -256,71 +256,71 @@ public class Ease.SlideActor : Clutter.Group
 		switch (slide.transition)
 		{
 			case TransitionType.SLIDE:
-				slide_transition(new_slide, stack_container, length);
+				slide_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.DROP:
-				drop_transition(new_slide, stack_container, length);
+				drop_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.PIVOT:
-				pivot_transition(new_slide, stack_container, length);
+				pivot_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.OPEN_DOOR:
-				open_door_transition(new_slide, stack_container, length);
+				open_door_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.REVEAL:
-				reveal_transition(new_slide, stack_container, length);
+				reveal_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.SLATS:
-				slats_transition(new_slide, stack_container, length);
+				slats_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.FLIP:
-				flip_transition(new_slide, stack_container, length);
+				flip_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.REVOLVING_DOOR:
-				revolving_door_transition(new_slide, stack_container, length);
+				revolving_door_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.FALL:
-				fall_transition(new_slide, stack_container, length);
+				fall_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.SPIN_CONTENTS:
-				spin_contents_transition(new_slide, stack_container, length);
+				spin_contents_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.SWING_CONTENTS:
-				swing_contents_transition(new_slide, stack_container, length);
+				swing_contents_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.ZOOM:
-				zoom_transition(new_slide, stack_container, length);
+				zoom_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.SLIDE_CONTENTS:
-				slide_contents_transition(new_slide, stack_container, length);
+				slide_contents_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.SPRING_CONTENTS:
-				spring_contents_transition(new_slide, stack_container, length);
+				spring_contents_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.ZOOM_CONTENTS:
-				zoom_contents_transition(new_slide, stack_container, length);
+				zoom_contents_transition(new_slide, container, length);
 				break;
 
 			case TransitionType.PANEL:
-				panel_transition(new_slide, stack_container, length);
+				panel_transition(new_slide, container, length);
 				break;
 				
 			default: // FADE, or something undefined
-				fade_transition(new_slide, stack_container, length);
+				fade_transition(new_slide, container, length);
 				break;
 		}
 		
@@ -328,16 +328,16 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void fade_transition(SlideActor new_slide,
-	                             Clutter.Group stack_container, uint length)
+	                             Clutter.Group container, uint length)
 	{
-		prepare_slide_transition(new_slide, stack_container);
+		prepare_slide_transition(new_slide, container);
 		new_slide.opacity = 0;
 		new_slide.animate(Clutter.AnimationMode.LINEAR,
 		                  length, "opacity", 255);
 	}
 
 	private void slide_transition(SlideActor new_slide,
-	                              Clutter.Group stack_container, uint length)
+	                              Clutter.Group container, uint length)
 	{
 		switch (slide.variant)
 		{
@@ -368,14 +368,14 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void drop_transition(SlideActor new_slide,
-	                             Clutter.Group stack_container, uint length)
+	                             Clutter.Group container, uint length)
 	{
 		new_slide.y = -slide.parent.height;
 		new_slide.animate(EASE_DROP, length, "y", 0);
 	}
 
 	private void pivot_transition(SlideActor new_slide,
-	                              Clutter.Group stack_container, uint length)
+	                              Clutter.Group container, uint length)
 	{
 		float xpos = 0, ypos = 0, angle = 90;
 		switch (slide.variant)
@@ -409,7 +409,7 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void flip_transition(SlideActor new_slide,
-	                             Clutter.Group stack_container, uint length)
+	                             Clutter.Group container, uint length)
 	{
 		// hide the new slide
 		new_slide.opacity = 0;
@@ -496,7 +496,7 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void revolving_door_transition(SlideActor new_slide,
-	                                       Clutter.Group stack_container,
+	                                       Clutter.Group container,
 	                                       uint length)
 	{
 		// set the current slide to slightly above the new slide
@@ -555,7 +555,7 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void reveal_transition(SlideActor new_slide,
-	                               Clutter.Group stack_container, uint length)
+	                               Clutter.Group container, uint length)
 	{
 		// TODO: make this transition not a total hack
 		((Clutter.Container)get_parent()).raise_child(this, new_slide);
@@ -586,7 +586,7 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void fall_transition(SlideActor new_slide,
-	                             Clutter.Group stack_container, uint length)
+	                             Clutter.Group container, uint length)
 	{
 		depth = 1;
 
@@ -600,11 +600,11 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void slats_transition(SlideActor new_slide,
-	                              Clutter.Group stack_container, uint length)
+	                              Clutter.Group container, uint length)
 	{
 		// hide the real SlideActors
-		reparent(stack_container);
-		new_slide.reparent(stack_container);
+		reparent(container);
+		new_slide.reparent(container);
 		x = slide.parent.width;
 		new_slide.x = slide.parent.width;
 
@@ -621,7 +621,7 @@ public class Ease.SlideActor : Clutter.Group
 		{
 			// create groups
 			groups[i] = new Clutter.Group();
-			stack_container.add_actor(groups[i]);
+			container.add_actor(groups[i]);
 
 			// create clones
 			this_slats[i] = new Clutter.Clone(this);
@@ -662,7 +662,7 @@ public class Ease.SlideActor : Clutter.Group
 			// clean up the slats
 			for (int i = 0; i < SLAT_COUNT; i++)
 			{
-				stack_container.remove_actor(groups[i]);
+				container.remove_actor(groups[i]);
 			}
 
 			// put the new slide in place
@@ -671,7 +671,7 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void open_door_transition(SlideActor new_slide,
-	                                  Clutter.Group stack_container,
+	                                  Clutter.Group container,
 	                                  uint length)
 	{
 		// create a reflection of the new slide
@@ -689,10 +689,10 @@ public class Ease.SlideActor : Clutter.Group
 		reflection.depth = OPEN_DEPTH;
 		reflection.animate(Clutter.AnimationMode.EASE_OUT_SINE,
 		                   length, "depth", 0);
-		stack_container.add_actor(reflection);
+		container.add_actor(reflection);
 
 		animate(Clutter.AnimationMode.LINEAR, length, "opacity", 0);
-		reparent(stack_container);
+		reparent(container);
 		x = slide.parent.width;
 
 		// create left and right half clone actors
@@ -728,8 +728,8 @@ public class Ease.SlideActor : Clutter.Group
 		right_group.add_actor(right);		
 		
 		// add the left and right actors
-		stack_container.add_actor(left_group);
-		stack_container.add_actor(right_group);
+		container.add_actor(left_group);
+		container.add_actor(right_group);
 
 		// move the left and right sides outwards
 		left_group.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
@@ -756,12 +756,12 @@ public class Ease.SlideActor : Clutter.Group
 
 		// clean up
 		time1.completed.connect(() => {
-			stack_container.remove_actor(left_group);
-			stack_container.remove_actor(right_group);
+			container.remove_actor(left_group);
+			container.remove_actor(right_group);
 		});
 		
 		time2.completed.connect(() => {
-			stack_container.remove_actor(reflection);
+			container.remove_actor(reflection);
 		});
 
 		time1.start();
@@ -769,7 +769,7 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void zoom_transition(SlideActor new_slide,
-	                             Clutter.Group stack_container, uint length)
+	                             Clutter.Group container, uint length)
 	{
 		switch (slide.variant)
 		{
@@ -802,7 +802,7 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void panel_transition(SlideActor new_slide,
-	                              Clutter.Group stack_container, uint length)
+	                              Clutter.Group container, uint length)
 	{
 		float pos = 0;
 		string property="";
@@ -867,10 +867,10 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void spin_contents_transition(SlideActor new_slide,
-	                                      Clutter.Group stack_container,
+	                                      Clutter.Group container,
 	                                      uint length)
 	{
-		prepare_stack_transition(false, new_slide, stack_container);
+		prepare_stack_transition(false, new_slide, container);
 
 		new_slide.contents.opacity = 0;
 		background.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length,
@@ -903,10 +903,10 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void swing_contents_transition(SlideActor new_slide,
-	                                       Clutter.Group stack_container,
+	                                       Clutter.Group container,
 	                                       uint length)
 	{
-		prepare_stack_transition(false, new_slide, stack_container);
+		prepare_stack_transition(false, new_slide, container);
 
 		new_slide.contents.opacity = 0;
 		background.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
@@ -942,10 +942,10 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void slide_contents_transition(SlideActor new_slide,
-	                                       Clutter.Group stack_container,
+	                                       Clutter.Group container,
 	                                       uint length)
 	{
-		prepare_stack_transition(false, new_slide, stack_container);
+		prepare_stack_transition(false, new_slide, container);
 
 		background.animate(EASE_SLIDE, length, "opacity", 0);
 		
@@ -983,10 +983,10 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void spring_contents_transition(SlideActor new_slide,
-	                                        Clutter.Group stack_container,
+	                                        Clutter.Group container,
 	                                        uint length)
 	{
-		prepare_stack_transition(false, new_slide, stack_container);
+		prepare_stack_transition(false, new_slide, container);
 
 		background.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length,
 		                   "opacity", 0);
@@ -1011,11 +1011,11 @@ public class Ease.SlideActor : Clutter.Group
 	}
 
 	private void zoom_contents_transition(SlideActor new_slide,
-	                                      Clutter.Group stack_container,
+	                                      Clutter.Group container,
 	                                      uint length)
 	{
 		prepare_stack_transition(slide.variant == TransitionVariant.OUT,
-		                         new_slide, stack_container);
+		                         new_slide, container);
 
 		animation_alpha = new Clutter.Alpha.full(animation_time,
 		                                Clutter.AnimationMode.EASE_IN_OUT_SINE);

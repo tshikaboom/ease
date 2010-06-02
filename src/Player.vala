@@ -32,7 +32,7 @@ public class Ease.Player : GLib.Object
 	// current and transitioning out slide
 	private SlideActor current_slide;
 	private SlideActor old_slide;
-	private Clutter.Group stack_container;
+	private Clutter.Group container;
 	
 	// automatic advance alarm
 	private Clutter.Timeline advance_alarm;
@@ -63,8 +63,8 @@ public class Ease.Player : GLib.Object
 		Clutter.grab_keyboard(stage);
 
 		// make the stacking container
-		stack_container = new Clutter.Group();
-		stage.add_actor(stack_container);
+		container = new Clutter.Group();
+		stage.add_actor(container);
 		
 		// make the window that everything will be displayed in
 		window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
@@ -123,29 +123,29 @@ public class Ease.Player : GLib.Object
 		if (slide_index == 0)
 		{
 			create_current_slide(slide);
-			current_slide.stack(stack_container);
+			current_slide.stack(container);
 			current_slide.opacity = 0;
 			current_slide.animate(Clutter.AnimationMode.EASE_IN_SINE,
 			                      FADE_IN_TIME, "opacity", 255);
-			stage.add_actor(current_slide);
+			container.add_actor(current_slide);
 			
 			advance_alarm = new Clutter.Timeline(FADE_IN_TIME);
 			advance_alarm.completed.connect(animation_complete);
 			advance_alarm.start();
 			
 			can_animate = false;
-			
-			
 		}
+		
+		// otherwise, animate as usual
 		else
 		{
 			old_slide = current_slide;
 			create_current_slide(slide);
-			stage.add_actor(current_slide);
+			container.add_actor(current_slide);
 			
 			if (old_slide.slide.transition_time > 0)
 			{
-				old_slide.transition(current_slide, stack_container);
+				old_slide.transition(current_slide, container);
 				old_slide.animation_time.completed.connect(animation_complete);
 				can_animate = false;
 			}
@@ -170,12 +170,11 @@ public class Ease.Player : GLib.Object
 		
 		slide_index--;
 		can_animate = true;
-		stage.remove_all();
-		stage.add_actor(stack_container);
 		
+		container.remove_all();
 		create_current_slide(document.slides.get(slide_index));
-		current_slide.stack(stack_container);
-		stage.add_actor(current_slide);
+		current_slide.stack(container);
+		container.add_actor(current_slide);
 	}
 	
 	private void create_current_slide(Slide slide)
@@ -186,16 +185,10 @@ public class Ease.Player : GLib.Object
 	
 	private void animation_complete()
 	{
-		if (old_slide != null)
-		{
-			if (old_slide.get_parent() == stage)
-			{
-				stage.remove_actor(old_slide);
-			}
-		}
+		container.remove_all();
 		
 		can_animate = true;
-		current_slide.stack(stack_container);
+		current_slide.stack(container);
 		
 		// prepare to automatically advance if necessary
 		if (current_slide.slide.automatically_advance)
