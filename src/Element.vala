@@ -109,12 +109,8 @@ public class Ease.Element : GLib.Object
 				html += " position: absolute;";
 				
 				// set the text-specific properties of the element
-				string c = data.get("color");
-				if (c.length > 7) // clip the string if alpha is included
-				{
-					c = c.substring(0, 7);
-				}
-				html += " color:" + c + ";";
+				html += " color:" + 
+				        @"rgb($(color.red),$(color.green),$(color.blue));";
 				        
 				html += " font-family:'" + data.get("font_name") +
 				        "', sans-serif;";
