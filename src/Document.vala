@@ -74,6 +74,24 @@ public class Ease.Document : GLib.Object
 		slides.insert(index, s);
 	}
 	
+	/**
+	 * Returns whether or not the Document has a {@link Slide} after the
+	 * passed in {@link Slide}.
+	 *
+	 * @param slide
+	 */
+	public bool has_next_slide(Slide slide)
+	{
+		for (int i = 0; i < slides.size - 1; i++)
+		{
+			if (slides.get(i) == slide)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void export_to_html(Gtk.Window window)
 	{
 		// make an HTMLExporter

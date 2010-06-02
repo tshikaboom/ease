@@ -63,7 +63,7 @@ public class Ease.SlideActor : Clutter.Group
 	private const int REFLECTION_OPACITY = 70;
 
 	public SlideActor.from_slide(Document document, Slide s, bool clip,
-	                              ActorContext ctx)
+	                             ActorContext ctx)
 	{
 		slide = s;
 		context = ctx;
@@ -98,7 +98,53 @@ public class Ease.SlideActor : Clutter.Group
 
 		add_actor(contents);
 	}
-
+	
+	/**
+	 * Instantiates a SlideActor of a single color. Used for transition previews
+	 * with no "next" slide.
+	 *
+	 * @param document The {@link Document} this slide is "part of", to make it
+	 * the proper size.
+	 * @param color The background color.
+	 */
+	public SlideActor.blank(Document document, Clutter.Color color)
+	{
+		// create the background
+		background = new Clutter.Rectangle();
+		((Clutter.Rectangle)background).color = color;
+		
+		// create a blank contents actor
+		contents = new Clutter.Group();
+		
+		// set the background size
+		background.width = document.width;
+		background.height = document.height;
+	}
+	
+	/**
+	 * Resets all transformations on this SlideActor.
+	 */
+	public void reset(Clutter.Group container)
+	{
+		reset_actor(this);
+		reset_actor(background);
+		reset_actor(contents);
+		stack(container);
+	}
+	
+	private void reset_actor(Clutter.Actor actor)
+	{
+		actor.depth = 0;
+		actor.opacity = 255;
+		actor.rotation_angle_x = 0;
+		actor.rotation_angle_y = 0;
+		actor.rotation_angle_z = 0;
+		actor.scale_x = 1;
+		actor.scale_y = 1;
+		actor.x = 0;
+		actor.y = 0;
+	}
+	
 	public void relayout()
 	{
 		set_background();
@@ -158,6 +204,10 @@ public class Ease.SlideActor : Clutter.Group
 		if (contents.get_parent() != this)
 		{
 			contents.reparent(this);
+		}
+		if (get_parent() != container)
+		{
+			reparent(container);
 		}
 	}
 

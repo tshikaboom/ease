@@ -45,6 +45,15 @@ public class Ease.Slide
 	public double transition_time { get; set; }
 	
 	/**
+	 * The duration of this Slide's transition, in milliseconds
+	 */
+	public uint transition_msecs
+	{
+		get { return (uint)(transition_time * 1000); }
+		set { transition_time = value / 1000f; }
+	}
+	
+	/**
 	 * If the slide advances automatically or on key press
 	 */
 	public bool automatically_advance { get; set; }
@@ -81,6 +90,42 @@ public class Ease.Slide
 	 * The number of {@link Element}s on this Slide
 	 */
 	public int count { get { return elements.size; } }
+	
+	/**
+	 * The next Slide in this Slide's {@link Document}.
+	 */
+	public Slide? next
+	{
+		owned get
+		{
+			for (int i = 0; i < parent.slides.size - 1; i++)
+			{
+				if (parent.slides.get(i) == this)
+				{
+					return parent.slides.get(i + 1);
+				}
+			}
+			return null;
+		}
+	}
+	
+	/**
+	 * The previous Slide in this Slide's {@link Document}.
+	 */
+	public Slide? previous
+	{
+		owned get
+		{
+			for (int i = 1; i < parent.slides.size; i++)
+			{
+				if (parent.slides.get(i) == this)
+				{
+					return parent.slides.get(i - 1);
+				}
+			}
+			return null;
+		}
+	}
 	
 	/**
 	 * Create a new Slide.

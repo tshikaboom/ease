@@ -29,12 +29,16 @@ public class Ease.TransitionPane : InspectorPane
 	private Gtk.SpinButton delay;
 	
 	// transition preview
-	private Gtk.AspectFrame aspect;
 	private GtkClutter.Embed preview;
+	private Clutter.Group preview_group;
 	private Gtk.Alignment preview_align;
 	private SlideActor current_slide;
 	private SlideActor new_slide;
+	private Clutter.Timeline preview_alarm;
+	
+	// constants
 	private const int PREVIEW_HEIGHT = 150;
+	private const uint PREVIEW_DELAY = 500;
 	
 	public TransitionPane()
 	{
@@ -42,12 +46,17 @@ public class Ease.TransitionPane : InspectorPane
 		
 		// preview
 		preview = new GtkClutter.Embed();
-		preview.set_size_request(0, PREVIEW_HEIGHT);
 		((Clutter.Stage)(preview.get_stage())).color = {0, 0, 0, 255};
-		aspect = new Gtk.AspectFrame("", 0.5f, 0.5f, 0.5f, false);
-		aspect.add(preview);
-		aspect.shadow_type = Gtk.ShadowType.IN;
-		pack_start(aspect, false, false, 5);
+		
+		preview_align = new Gtk.Alignment(0.5f, 0.5f, 1, 1);
+		var frame = new Gtk.Frame(null);
+		frame.shadow_type = Gtk.ShadowType.IN;
+		preview_align.add(preview);
+		frame.add(preview_align);
+		
+		pack_start(frame, false, false, 5);
+		preview_group = new Clutter.Group();
+		((Clutter.Stage)preview.get_stage()).add_actor(preview_group);
 		
 		// transition selection
 		var vbox = new Gtk.VBox(false, 0);
@@ -66,7 +75,7 @@ public class Ease.TransitionPane : InspectorPane
 		vbox.pack_start(align, false, false, 0);
 		hbox.pack_start(vbox, true, true, 5);
 		
-		// transition transition_time
+		// transition time
 		vbox = new Gtk.VBox(false, 0);
 		align = new Gtk.Alignment(0, 0, 0, 0);
 		align.add(new Gtk.Label(_("Duration")));
@@ -177,13 +186,59 @@ public class Ease.TransitionPane : InspectorPane
 		delay.value_changed.connect(() => {
 			slide.advance_delay = delay.get_value();
 		});
+		
+		// automatically scale the preview to fit in the embed
+		preview.get_stage().allocation_changed.connect((box, flags) => {
+			preview_group.scale_x = (box.x2 - box.x1) / slide.parent.width;
+			preview_group.scale_y = (box.y2 - box.y1) / slide.parent.height;
+		});
+		
+		// automatically set the correct aspect ratio for the preview
+		preview_align.size_allocate.connect((widget, allocation) => {
+			if (slide == null) return;
+			
+			preview_align.height_request =
+				(int)(allocation.width / slide.parent.aspect);
+		});
+	}
+	
+	private void animate_preview()
+	{
+		current_slide.reset(preview_group);
+		new_slide.reset(preview_group);
+		new_slide.opacity = 0;
+		
+		preview_alarm = new Clutter.Timeline(PREVIEW_DELAY);
+		preview_alarm.completed.connect(() => {
+			animate_preview_start();
+		});
+		preview_alarm.start();
+	}
+	
+	private void animate_preview_start()
+	{
+		new_slide.opacity = 255;
+		
+		current_slide.transition(new_slide, preview_group);
+		
+		preview_alarm = new Clutter.Timeline(slide.transition_msecs);
+		preview_alarm.completed.connect(() => {
+			animate_preview_delay();
+		});
+		preview_alarm.start();
+	}
+	
+	private void animate_preview_delay()
+	{
+		preview_alarm = new Clutter.Timeline(PREVIEW_DELAY);
+		preview_alarm.completed.connect(() => {
+			animate_preview();
+		});
+		preview_alarm.start();
 	}
 	
 	protected override void slide_updated()
 	{
-		// set preview aspect ratio
-		aspect.ratio = (float)slide.parent.width / (float)slide.parent.height;
-	
 		// set transition time box
 		transition_time.set_value(slide.transition_time);
 		
@@ -195,6 +250,33 @@ public class Ease.TransitionPane : InspectorPane
 		start_transition.set_active(slide.automatically_advance ? 1 : 0);
 		delay.set_value(slide.advance_delay);
 		delay.sensitive = slide.automatically_advance;
+		
+		// size the preview box
+		Gtk.Allocation alloc = Gtk.Allocation();
+		preview_align.get_allocation(alloc);
+		preview_align.height_request = (int)(alloc.width / slide.parent.aspect);
+		
+		// remove the old preview slide actors
+		preview_group.remove_all();
+		
+		// add new slide previews
+		current_slide = new SlideActor.from_slide(slide.parent, slide, true,
+		                                          ActorContext.PRESENTATION);
+		
+		new_slide = slide.parent.has_next_slide(slide) ?
+		            new SlideActor.from_slide(slide.parent, slide.next, true,
+		                                      ActorContext.PRESENTATION) :
+		            new SlideActor.blank(slide.parent, { 0, 0, 0, 255 });
+		
+		preview_group.add_actor(current_slide);
+		preview_group.add_actor(new_slide);
+		
+		// start the preview animation
+		if (preview_alarm != null)
+		{
+			preview_alarm.stop();
+		}
+		animate_preview();
 	}
 }
 
