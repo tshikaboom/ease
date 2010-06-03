@@ -15,6 +15,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A window containing an {@link Inspector}. Includes static methods for using
+ * a single InspectorWindow across the entire application.
+ */
 public class Ease.InspectorWindow : Gtk.Window
 {
 	private Inspector inspector;
@@ -24,5 +28,47 @@ public class Ease.InspectorWindow : Gtk.Window
 		inspector = new Inspector();
 		
 		add(inspector);
+	}
+	
+	// static implemention
+	private static InspectorWindow instance;
+	
+	/**
+	 * Toggles the visibility of the single InspectorWindow.
+	 */
+	public static void toggle()
+	{
+		if (instance == null)
+		{
+			instance = new InspectorWindow();
+		}
+		
+		if (instance.visible)
+		{
+			instance.hide();
+		}
+		else
+		{
+			instance.show_all();
+			instance.present();
+		}
+	}
+	
+	private static Slide slide_priv;
+	
+	/**
+	 * The slide visible in the {@link Inspector} of the single InspectorWindow.
+	 */
+	public static Slide slide
+	{
+		get { return slide_priv; }
+		set
+		{
+			if (slide_priv != value)
+			{
+				instance.inspector.slide = value;
+				slide_priv = value;
+			}
+		}
 	}
 }
