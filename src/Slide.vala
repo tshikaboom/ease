@@ -82,6 +82,11 @@ public class Ease.Slide
 	}
 	
 	/**
+	 * The title of this Slide's master (unless the Slide is a master itself)
+	 */
+	public string title { get; set; }
+	
+	/**
 	 * The {@link Document} that this Slide is part of
 	 */
 	public Document parent { get; set; }
@@ -142,6 +147,63 @@ public class Ease.Slide
 	public Slide.with_owner(Document owner)
 	{
 		parent = owner;
+	}
+	
+	/**
+	 * Create a Slide from a master Slide.
+	 *
+	 * Used for creating new Slides in a {@link Document} linked to a
+	 * {@link Theme}.
+	 *
+	 * @param master The master slide.
+	 * @param document The {@link Document} this slide is being inserted into.
+	 * @param width The width, in pixels, of the Slide.
+	 * @param height The height, in pixels, of the Slide.
+	 */
+	public Slide.from_master(Slide master, Document? document,
+	                         int width, int height)
+	{
+		// set basic properties
+		transition = master.transition;
+		transition_time = master.transition_time;
+		variant = master.variant;
+		automatically_advance = master.automatically_advance;
+		advance_delay = master.advance_delay;
+		parent = document;
+		
+		// set the background
+		if (master.background_image != null)
+		{
+			background_image = master.background_image.dup();
+		}
+		else
+		{
+			background_color = master.background_color;
+		}
+		
+		if (master.title != null)
+		{
+			title = master.title.dup();
+		}
+		
+		// add all of the master Slide's elements
+		foreach (var e in master.elements)
+		{
+			// copy the Element
+			var element = e.copy();
+			element.parent = this;
+			
+			// resize the Element to fit the Document
+			element.x = (int)(element.data.get("x").to_double() * width);
+			element.y = (int)(element.data.get("y").to_double() * height);
+			element.width = (int)(element.data.get("width").to_double() *
+			                      width);
+			element.height = (int)(element.data.get("height").to_double() *
+			                       height);
+			
+			// add the Element to the new Slide
+			elements.add(element);
+		}
 	}
 	
 	public void add_element(int index, Element e)

@@ -41,12 +41,29 @@ public class Ease.Element : GLib.Object
 	 * directly though get() and set(), or though the typed convenience
 	 * properties that Element provides.
 	 */
-	public ElementMap data = new ElementMap();
+	public ElementMap data;
 	
 	/**
 	 * Create a new element.
 	 */
-	public Element() {}
+	public Element()
+	{
+		data = new ElementMap();
+	}
+	
+	private Element.empty() { }
+	
+	/**
+	 * Return a copy of this Element
+	 */
+	public Element copy()
+	{
+		var element = new Element.empty();
+		element.parent = parent;
+		element.data = data.copy();
+		
+		return element;
+	}
 	
 	/**
 	 * Create a new element.
@@ -56,6 +73,30 @@ public class Ease.Element : GLib.Object
 	public Element.with_owner(Slide owner)
 	{
 		parent = owner;
+	}
+	
+	/**
+	 * Get a value, given a key.
+	 *
+	 * @param key The key to get a value for.
+	 */
+	public new string get(string key)
+	{
+		return data.get(key);
+	}
+	
+	/**
+	 * Set a value.
+	 * 
+	 * Element uses a key/value system to make exporting JSON and adding
+	 * new types of Elements easy. 
+	 *
+	 * @param key The map key.
+	 * @param val A string to be stored as the key's value.
+	 */
+	public new void set(string key, string val)
+	{
+		data.set(key, val);
 	}
 	
 	/**
@@ -233,6 +274,15 @@ public class Ease.Element : GLib.Object
 	{
 		owned get { return data.get("element_type"); }
 		set	{ data.set("element_type", value); }
+	}
+	
+	/**
+	 * The Element's identifier on its master {@link Slide}
+	 */
+	public string identifier
+	{
+		owned get { return data.get("identifier"); }
+		set	{ data.set("identifier", value); }
 	}
 	
 	/**

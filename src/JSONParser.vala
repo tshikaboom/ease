@@ -21,7 +21,7 @@
 public static class Ease.JSONParser
 {
 	/**
-	 * Parses a JSON file, creating a {@link Document}.
+	 * Parses a document JSON file, creating a {@link Document}.
 	 *
 	 * @param filename The filename of the {@link Document}
 	 */
@@ -33,7 +33,7 @@ public static class Ease.JSONParser
 		var parser = new Json.Parser();
 		
 		// attempt to load the file
-		parser.load_from_file(filename + "/Document.json");
+		parser.load_from_file(Path.build_path("/", filename, "Document.json"));
 		
 		// grab the root object
 		var root = parser.get_root().get_object();
@@ -48,13 +48,45 @@ public static class Ease.JSONParser
 		for (var i = 0; i < slides.get_length(); i++)
 		{
 			var node = slides.get_object_element(i);
-			document.add_slide(document.length, document_parse_slide(node));
+			document.add_slide(document.length, parse_slide(node));
 		}
 		
 		return document;
 	}
 	
-	private static Slide document_parse_slide(Json.Object obj)
+	/**
+	 * Parses a theme JSON file, creating a {@link Theme}.
+	 *
+	 * @param filename The path to the {@link Theme}
+	 */
+	public static Theme theme(string filename) throws GLib.Error
+	{
+		var theme = new Theme();
+	
+		var parser = new Json.Parser();
+		
+		// attempt to load the file
+		parser.load_from_file(Path.build_path("/", filename, "Theme.json"));
+		
+		// grab the root object
+		var root = parser.get_root().get_object();
+		
+		// set theme properties
+		theme.title = root.get_string_member("title");
+		
+		// add all slides
+		var slides = root.get_array_member("slides");
+		
+		for (var i = 0; i < slides.get_length(); i++)
+		{
+			var node = slides.get_object_element(i);
+			theme.add_slide(theme.length, parse_slide(node));
+		}
+		
+		return theme;
+	}
+	
+	private static Slide parse_slide(Json.Object obj)
 	{
 		var slide = new Slide();
 		
@@ -73,6 +105,8 @@ public static class Ease.JSONParser
 			
 		slide.advance_delay =
 			obj.get_string_member("advance_delay").to_double();
+		
+		slide.title = obj.get_string_member("title");
 		
 		// read the slide's background properties
 		if (obj.has_member("background_image"))
@@ -99,13 +133,13 @@ public static class Ease.JSONParser
 		for (var i = 0; i < elements.get_length(); i++)
 		{
 			var node = elements.get_object_element(i);
-			slide.add_element(slide.count, document_parse_element(node));
+			slide.add_element(slide.count, parse_element(node));
 		}
 		
 		return slide;
 	}
 	
-	private static Element document_parse_element(Json.Object obj)
+	private static Element parse_element(Json.Object obj)
 	{
 		var element = new Element();
 		
@@ -168,6 +202,7 @@ public static class Ease.JSONParser
 		                      slide.automatically_advance.to_string());
 		obj.set_string_member("advance_delay",
 		                      slide.advance_delay.to_string());
+		obj.set_string_member("title", slide.title);
 		
 		// write the slide's background properties
 		if (slide.background_image != null)

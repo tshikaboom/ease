@@ -205,7 +205,7 @@ public static class Ease.Main : GLib.Object
 	 *
 	 * @param win The {@link EditorWindow}.
 	 */
-	private static void add_window(EditorWindow win)
+	public static void add_window(EditorWindow win)
 	{
 		windows.add(win);
 	}

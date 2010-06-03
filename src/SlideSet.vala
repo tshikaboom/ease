@@ -31,7 +31,7 @@ public abstract class Ease.SlideSet : Object
 	public int length { get { return slides.size; } }
 	
 	/**
-	 * Inserts a new {@link Slide} into the SlideSet
+	 * Inserts a new {@link Slide} into the SlideSet.
 	 *
 	 * @param s The {@link Slide} to insert.
 	 * @param index The position of the new {@link Slide} in the SlideSet.
@@ -40,4 +40,49 @@ public abstract class Ease.SlideSet : Object
 	{
 		slides.insert(index, s);
 	}
+	
+	/**
+	 * Adds a new {@link Slide to the end of the SlideSet.
+	 *
+	 * @param s The {@link Slide} to append.
+	 */
+	public void append_slide(Slide s)
+	{
+		slides.insert(length, s);
+	}
+	
+	/**
+	 * Finds the index of the given slide, or returns -1 if it is not found.
+	 *
+	 * @param s The {@link Slide} to find the index of.
+	 */
+	public int index_of(Slide s)
+	{
+		for (int i = 0; i < slides.size; i++)
+		{
+			if (slides.get(i) == s)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	/**
+	 * Finds a {@link Slide} by its "title" property.
+	 *
+	 * @param id The title to search for.
+	 */
+	public Slide? slide_by_title(string title)
+	{
+		foreach (Slide s in slides)
+		{
+			if (s.title == title)
+			{
+				return s;
+			}
+		}
+		return null;
+	}
 }
+

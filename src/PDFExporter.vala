@@ -73,7 +73,7 @@ public static class Ease.PDFExporter : Object
 		}
 	}
 	
-	private static void write_slide(Slide s, Cairo.Context context) throws Error
+	public static void write_slide(Slide s, Cairo.Context context) throws Error
 	{
 		// write the background color if there is no image
 		if (s.background_image == null)

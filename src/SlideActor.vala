@@ -38,6 +38,10 @@ public class Ease.SlideActor : Clutter.Group
 
 	// the context of the actor (presentation, etc.)
 	public ActorContext context;
+	
+	// dimensions
+	private float width_px;
+	private float height_px;
 
 	// timelines
 	public Clutter.Timeline animation_time { get; set; }
@@ -65,13 +69,21 @@ public class Ease.SlideActor : Clutter.Group
 	public SlideActor.from_slide(Document document, Slide s, bool clip,
 	                             ActorContext ctx)
 	{
+		with_dimensions(document.width, document.height, s, clip, ctx);
+	}
+	
+	public SlideActor.with_dimensions(float w, float h, Slide s, bool clip,
+	                                  ActorContext ctx)
+	{
 		slide = s;
 		context = ctx;
+		width_px = w;
+		height_px = h;
 
 		// clip the actor's bounds
 		if (clip)
 		{
-			set_clip(0, 0, document.width, document.height);
+			set_clip(0, 0, w, h);
 		}
 
 		// set the background
@@ -117,8 +129,8 @@ public class Ease.SlideActor : Clutter.Group
 		contents = new Clutter.Group();
 		
 		// set the background size
-		background.width = document.width;
-		background.height = document.height;
+		background.width = width_px;
+		background.height = height_px;
 	}
 	
 	/**
@@ -187,8 +199,8 @@ public class Ease.SlideActor : Clutter.Group
 			background = new Clutter.Rectangle();
 			((Clutter.Rectangle)background).color = slide.background_color;
 		}
-		background.width = slide.parent.width;
-		background.height = slide.parent.height;
+		background.width = width_px;
+		background.height = height_px;
 
 		add_actor(background);
 		lower_child(background, null);

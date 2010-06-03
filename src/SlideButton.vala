@@ -26,16 +26,11 @@ public class Ease.SlideButton : Gtk.Button
 	public int slide_id { get; set; }
 	public Slide slide { get; set; }
 
+	private Gtk.AspectFrame aspect;
 	private Gtk.Alignment align;
 
-	// the clutter view
-	private GtkClutter.Embed slide_image;
-
-	// the clutter actor
-	private SlideActor actor;
-
-	// the frame to maintain the aspect ratio
-	private Gtk.AspectFrame aspect;
+	// the Slide preview
+	private Gtk.DrawingArea drawing;
 
 	// the editor window this button is in
 	private EditorWindow owner;
@@ -43,7 +38,7 @@ public class Ease.SlideButton : Gtk.Button
 	// the panel the button is in
 	private SlideButtonPanel panel;
 
-	bool dont_loop = false;
+	bool dont_loop;
 	
 	/**
 	 * Creates a new SlideButton.
@@ -65,55 +60,27 @@ public class Ease.SlideButton : Gtk.Button
 		owner = win;
 		panel = pan;
 
-		// make the embed
-		slide_image = new GtkClutter.Embed();
-		((Clutter.Stage)(slide_image.get_stage())).color = {0, 0, 0, 255};
-		((Clutter.Stage)(slide_image.get_stage())).use_fog = false;
-
-		// make the slide actor
-		actor = new SlideActor.from_slide(s.parent, s, true, ActorContext.SIDEBAR);
-		actor.width = s.parent.width;
-		actor.height = s.parent.height;
-		((Clutter.Stage)(slide_image.get_stage())).add_actor(actor);
-
+		// make the slide thumbnail
+		drawing = new Gtk.DrawingArea();
+		
 		// make the aspect frame
-		aspect = new Gtk.AspectFrame("Slide", 0, 0,
-		                             (float)slide.parent.width /
-		                                    slide.parent.height,
-		                             false);
-		aspect.set_size_request(75, 50);
+		aspect = new Gtk.AspectFrame("", 0.5f, 0.5f, s.parent.aspect, false);
 		aspect.label = null;
-		aspect.add(slide_image);
+		aspect.add(drawing);
 
 		// place things together
-		align = new Gtk.Alignment(0.5f, 0.5f, 0, 0);
+		align = new Gtk.Alignment(0.5f, 0.5f, 1, 1);
 		align.set_padding(0, 0, 0, 0);
-		align.add(aspect);
 
 		// set the style of the button
-		aspect.shadow_type = Gtk.ShadowType.IN;
 		relief = Gtk.ReliefStyle.NONE;
 		focus_on_click = false;
 		show_all();
-		add(align);
-
-		// resize the slide actor appropriately
-		slide_image.size_allocate.connect((rect) => {
-			actor.set_scale_full(rect.width / actor.width, rect.height / actor.height, 0, 0);
-		});
-
-		align.size_allocate.connect((rect) => {
-			if (dont_loop)
-			{
-				dont_loop = false;
-				return;
-			}
-			aspect.set_size_request(rect.width, (int)(rect.width * (float)slide.parent.height / slide.parent.width));
-			dont_loop = true;
-		});
+		add(aspect);
 
 		clicked.connect(() => {
-			for (unowned GLib.List<Gtk.Widget>* itr = panel.slides_box.get_children();
+			for (unowned GLib.List<Gtk.Widget>* itr =
+			     panel.slides_box.get_children();
 			     itr != null; itr = itr->next)
 			{
 				((SlideButton*)(itr->data))->set_relief(Gtk.ReliefStyle.NONE);
@@ -122,6 +89,42 @@ public class Ease.SlideButton : Gtk.Button
 			relief = Gtk.ReliefStyle.NORMAL;
 			owner.load_slide(slide_id);
 		});
+		
+		aspect.size_allocate.connect((rect) => {
+			if (dont_loop)
+			{
+				dont_loop = false;
+				return;
+			}
+			aspect.set_size_request(0, (int)(rect.width / slide.parent.aspect));
+			dont_loop = true;
+		});
+		
+		drawing.expose_event.connect((area, event) => {
+			draw();
+			return false;
+		});
+	}
+	
+	/**
+	 * Draws the SlideButton's preview.
+	 */
+	public void draw()
+	{
+		// get a context for the drawing area
+		var context = Gdk.cairo_create(drawing.get_window());
+		
+		// get the size of the drawing area
+		var allocation = Gtk.Allocation();
+		drawing.get_allocation(allocation);
+		
+		context.save();
+		context.scale(((float)allocation.width) / slide.parent.width,
+		              ((float)allocation.height) / slide.parent.height);
+		
+		// write the slide
+		PDFExporter.write_slide(slide, context);
+		context.restore();
 	}
 }
 

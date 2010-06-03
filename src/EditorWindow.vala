@@ -29,7 +29,7 @@ public class Ease.EditorWindow : Gtk.Window
 	public EditorEmbed embed;
 	public MainToolbar main_toolbar;
 	public Gtk.HBox slides;
-	public SlidePane pane_slide;
+	public SlideButtonPanel slide_button_panel;
 	
 	// zoom
 	public ZoomSlider zoom_slider;
@@ -71,7 +71,7 @@ public class Ease.EditorWindow : Gtk.Window
 		document = doc;
 		
 		// slide display
-		var slides_win = new SlideButtonPanel(document, this);
+		slide_button_panel = new SlideButtonPanel(document, this);
 		
 		// undo controller
 		undo = new UndoController();
@@ -84,10 +84,9 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		// assemble middle contents			
 		var hbox = new Gtk.HBox(false, 0);
-		var hpaned = new Gtk.HPaned();
-		hpaned.pack1(slides_win, false, false);
-		hpaned.pack2(embed, true, true);
-		hbox.pack_start(hpaned, true, true, 0);
+		hbox.pack_start(slide_button_panel, false, false, 0);
+		hbox.pack_start(new Gtk.VSeparator(), false, false, 0);
+		hbox.pack_start(embed, true, true, 0);
 		hbox.pack_start(inspector, false, false, 0);
 		
 		// assemble window contents
@@ -110,6 +109,20 @@ public class Ease.EditorWindow : Gtk.Window
 		// USER INTERFACE SIGNALS
 		
 		// toolbar
+		
+		// create new slides
+		main_toolbar.new_slide.clicked.connect(() => {
+			var master = document.theme.slide_by_title(slide.title);
+			
+			var slide = new Slide.from_master(master, document,
+			                                  document.width,
+			                                  document.height);
+			
+			var index = document.index_of(slide) + 1;
+			
+			document.add_slide(index, slide);
+			slide_button_panel.add_slide(index, slide);
+		});
 		
 		// show and hide inspector
 		main_toolbar.inspector.clicked.connect(() => {
@@ -145,6 +158,29 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		// save file
 		main_toolbar.save.clicked.connect(() => {
+			if (document.path == null)
+			{
+				var dialog =
+					new Gtk.FileChooserDialog(_("Save Document"),
+		        	                          null,
+		        	                          Gtk.FileChooserAction.SELECT_FOLDER,
+		        	                          "gtk-cancel",
+		        	                          Gtk.ResponseType.CANCEL,
+		        	                          "gtk-open",
+		        	                          Gtk.ResponseType.ACCEPT, null);
+
+				if (dialog.run() == Gtk.ResponseType.ACCEPT)
+				{
+					document.path = dialog.get_filename();
+				}
+				else
+				{
+					dialog.destroy();
+					return;
+				}
+				dialog.destroy();
+			}
+		
 			try { JSONParser.document_write(document); }
 			catch (GLib.Error e)
 			{

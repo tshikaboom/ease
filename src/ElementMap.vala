@@ -25,7 +25,7 @@
  * The vast majority of XML conversion of {@link Element}s is done by
  * ElementMap.
  */
-public class Ease.ElementMap
+public class Ease.ElementMap : Object
 {
 	private Gee.Map<string, ElementMapValue> map;
 	
@@ -41,6 +41,18 @@ public class Ease.ElementMap
 	public ElementMap()
 	{
 		map = new Gee.HashMap<string, ElementMapValue>();
+	}
+	
+	public ElementMap copy()
+	{
+		var ret = new ElementMap();
+		
+		foreach (var key in map.keys)
+		{
+			ret.set("%s".printf(key), "%s".printf(get(key)));
+		}
+		
+		return ret;
 	}
 	
 	/**
@@ -71,7 +83,7 @@ public class Ease.ElementMap
 	 * @param key The map key.
 	 * @param val A string to be stored as the key's value.
 	 */
-	public void set(string key, string val)
+	public new void set(string key, string val)
 	{
 		if (map.has_key(key))
 		{
@@ -90,9 +102,17 @@ public class Ease.ElementMap
 	 *
 	 * @param key The key to get a value for.
 	 */
-	public string get(string key)
+	public new string get(string key)
 	{
 		return map.get(key).str_val;
+	}
+	
+	public void print()
+	{
+		foreach (var key in map.keys)
+		{
+			stdout.printf("%s: %s\n", key, get(key));
+		}
 	}
 }
 

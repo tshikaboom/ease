@@ -31,6 +31,10 @@ public class Ease.WelcomeWindow : Gtk.Window
 	private Gtk.ComboBox resolution;
 	private Gtk.SpinButton x_res;
 	private Gtk.SpinButton y_res;
+	
+	// themes
+	private Gee.ArrayList<Theme> themes = new Gee.ArrayList<Theme>();
+	private Theme selected_theme;
 
 	// clutter view
 	private ScrollableEmbed embed;
@@ -39,7 +43,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 	private Clutter.Group preview_container;
 	private Clutter.Rectangle preview_background;
 	private Gee.ArrayList<WelcomeActor> previews = new Gee.ArrayList<WelcomeActor>();
-	private int preview_width = 100;
+	private int preview_width;
 	private float preview_aspect;
 	
 	// preview reshuffle animation
@@ -53,26 +57,35 @@ public class Ease.WelcomeWindow : Gtk.Window
 	private ZoomSlider zoom_slider;
 	
 	// constants
-	private const int[] RESOLUTIONS_X = {800,
+	private const int[] RESOLUTIONS_X = {640,
+	                                     800,
 	                                     1024,
 	                                     1280,
 	                                     1280,
 	                                     1920};
-	private const int[] RESOLUTIONS_Y = {600,
+	private const int[] RESOLUTIONS_Y = {480,
+	                                     600,
 	                                     768,
 	                                     1024,
 	                                     720,
 	                                     1080};
-	private const int RESOLUTION_COUNT = 5;
+	
 	private const int PREVIEW_PADDING = 20;
+	private const int PREVIEW_VERT_PADDING = 35;
+	
+	private const int DEFAULT_ACTIVE = 2;
 	
 	private const int ANIM_TIME = 300;
 	private const int ANIM_EASE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
 	
 	private int[] ZOOM_VALUES = {100, 150, 200, 250, 400};
 	
+	private const string PREVIEW_ID = "Standard";
+	
 	public WelcomeWindow()
 	{
+		assert(RESOLUTIONS_X.length == RESOLUTIONS_Y.length);
+	
 		title = _("New Presentation");
 		set_default_size(640, 480);
 		
@@ -80,35 +93,37 @@ public class Ease.WelcomeWindow : Gtk.Window
 		var hbox = new Gtk.HBox(false, 5);
 		resolution = new Gtk.ComboBox.text();
 		resolution.append_text(_("Custom"));
-		for (var i = 0; i < RESOLUTION_COUNT; i++)
+		for (var i = 0; i < RESOLUTIONS_X.length; i++)
 		{
-			resolution.append_text(_("%i by %i").printf(RESOLUTIONS_X[i], RESOLUTIONS_Y[i]));
+			resolution.append_text(_("%i by %i").printf(RESOLUTIONS_X[i],
+			                                            RESOLUTIONS_Y[i]));
 		}
-		resolution.set_active(2);
 		
 		var align = new Gtk.Alignment(0, 0.5f, 0, 0);
 		align.add(resolution);
 		hbox.pack_start(align, false, false, 0);
 		
+		var resolution_count = RESOLUTIONS_X.length;
 		x_res = new Gtk.SpinButton.with_range(RESOLUTIONS_X[0],
-											  RESOLUTIONS_Y[RESOLUTION_COUNT-1],
+											  RESOLUTIONS_X[resolution_count-1],
 											  1);
-		x_res.set_value(1024);
+											  
 		align = new Gtk.Alignment(0, 0.5f, 0, 0);
 		align.add(x_res);
 		hbox.pack_start(align, false, false, 0);
 		
 		y_res = new Gtk.SpinButton.with_range(RESOLUTIONS_Y[0],
-											  RESOLUTIONS_Y[RESOLUTION_COUNT-1],
+											  RESOLUTIONS_Y[resolution_count-1],
 											  1);
-		y_res.set_value(768);
+		
 		align = new Gtk.Alignment(0, 0.5f, 0, 0);
 		align.add(y_res);
 		hbox.pack_start(align, false, false, 0);
 		
 		new_button = new Gtk.Button.with_label(_("New Presentation"));
 		new_button.sensitive = false;
-		new_button.image = new Gtk.Image.from_stock("gtk-new", Gtk.IconSize.BUTTON);
+		new_button.image = new Gtk.Image.from_stock("gtk-new",
+		                                            Gtk.IconSize.BUTTON);
 		align = new Gtk.Alignment(0, 0.5f, 0, 0);
 		align.add(new_button);
 		hbox.pack_start(align, false, false, 0);
@@ -124,6 +139,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 		
 		// create the upper UI - the embed
 		embed = new ScrollableEmbed(false);
+		embed.get_stage().use_fog = false;
 
 		// create the preview container
 		preview_container = new Clutter.Group();
@@ -133,10 +149,17 @@ public class Ease.WelcomeWindow : Gtk.Window
 		preview_background.color = {0, 0, 0, 255};
 		preview_container.add_actor(preview_background);
 		
+		// load themes
+		for (int i = 0; i < 20; i++)
+			themes.add(JSONParser.theme("themes/White.easetheme"));
+		
 		// create the previews
-		for (var i = 0; i < 10; i++)
+		foreach (var theme in themes)
 		{
-			var act = new WelcomeActor(preview_width, previews);
+			var master = theme.slide_by_title(PREVIEW_ID);
+			if (master == null) continue;
+			
+			var act = new WelcomeActor(theme, previews, master);
 			previews.add(act);
 			preview_container.add_actor(act);
 			
@@ -158,18 +181,49 @@ public class Ease.WelcomeWindow : Gtk.Window
 		
 		add(vbox);
 		show_all();
-		reflow_previews();
 		
 		// ui signals
+		new_button.clicked.connect(() => {
+			// create a new Document
+			var document = new Document();
+			document.width = (int)x_res.get_value();
+			document.height = (int)y_res.get_value();
+			document.theme = selected_theme;
+			
+			// get the master
+			var master = selected_theme.slide_by_title(PREVIEW_ID);
+			
+			// add the first slide
+			document.append_slide(new Slide.from_master(master, document,
+			                                            document.width,
+			                                            document.height));
+			
+			// create an EditorWindow for the new Document
+			var editor = new EditorWindow(document);
+			
+			Main.add_window(editor);
+			Main.remove_welcome();
+		});
+		
 		// changing resolution values
 		x_res.value_changed.connect(() => {
 			set_resolution_box((int)(x_res.get_value()),
 			                   (int)(y_res.get_value()));
+			foreach (var p in previews)
+			{
+				p.set_slide_size((int)x_res.get_value(),
+				                 (int)y_res.get_value());
+			}
 		});
 		
 		y_res.value_changed.connect(() => {
 			set_resolution_box((int)(x_res.get_value()),
 			                   (int)(y_res.get_value()));
+			foreach (var p in previews)
+			{
+				p.set_slide_size((int)x_res.get_value(),
+				                 (int)y_res.get_value());
+			}
 		});
 		
 		resolution.changed.connect(() => {
@@ -192,6 +246,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 		{
 			a.button_press_event.connect((act, event) => {
 				((WelcomeActor)(act)).clicked();
+				selected_theme = ((WelcomeActor)(act)).theme;
 				return false;
 			});
 		}
@@ -203,11 +258,19 @@ public class Ease.WelcomeWindow : Gtk.Window
 		});
 
 		open_button.clicked.connect((sender) => OpenDialog.run());
+		
+		resolution.set_active(DEFAULT_ACTIVE + 1);
+		
+		preview_width = (int)zoom_slider.get_value();
+		
+		// reflow previews without animation
+		preview_row_count = -1;
+		reflow_previews();
 	}
 	
 	private void set_resolution_box(int width, int height)
 	{
-		for (var i = 0; i < RESOLUTION_COUNT; i++)
+		for (var i = 0; i < RESOLUTIONS_X.length; i++)
 		{
 			if (width == RESOLUTIONS_X[i] && height == RESOLUTIONS_Y[i])
 			{
@@ -229,7 +292,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 		for (; per_line * (preview_width + PREVIEW_PADDING) +
 		       PREVIEW_PADDING < embed.width;
 		     per_line++);
-		per_line--; // FIXME: the math is not strong in me at 2 AM
+		per_line--;
 		
 		// don't animate when the window first opens
 		if (preview_row_count == -1)
@@ -311,14 +374,13 @@ public class Ease.WelcomeWindow : Gtk.Window
 			}
 
 			// set the size of the preview
-			a.width = preview_width;
-			a.height = preview_width * preview_aspect;
+			a.set_dims(preview_width, preview_width * preview_aspect);
 
 			// go to the next line
 			if (++x_position >= per_line)
 			{
 				x_position = 0;
-				y_pixels += PREVIEW_PADDING + preview_width * preview_aspect;
+				y_pixels += PREVIEW_VERT_PADDING + preview_width * preview_aspect;
 			}
 		}
 
@@ -326,8 +388,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 		preview_background.width = embed.width;
 		preview_background.height = x_position != 0
 		                          ? y_pixels + preview_width * preview_aspect +
-		                            PREVIEW_PADDING
-		                          : y_pixels + PREVIEW_PADDING;
+		                            PREVIEW_VERT_PADDING
+		                          : y_pixels + PREVIEW_VERT_PADDING;
 
 		// always fill the background
 		if (preview_background.height < embed.height)
