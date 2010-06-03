@@ -189,6 +189,7 @@ public class Ease.TransitionPane : InspectorPane
 		
 		// automatically scale the preview to fit in the embed
 		preview.get_stage().allocation_changed.connect((box, flags) => {
+			if (slide == null) return;
 			preview_group.scale_x = (box.x2 - box.x1) / slide.parent.width;
 			preview_group.scale_y = (box.y2 - box.y1) / slide.parent.height;
 		});

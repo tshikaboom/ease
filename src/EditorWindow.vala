@@ -40,14 +40,11 @@ public class Ease.EditorWindow : Gtk.Window
 	public Document document;
 	public Slide slide;
 	
-	private Inspector inspector;
-	
 	// the UndoController for this window
 	private UndoController undo;
 	
 	// interface variables
-	public bool inspector_shown { get; set; }
-	public bool slides_shown { get; set; }
+	private bool slides_shown;
 	
 	// constants
 	private int[] ZOOM_LEVELS = {10, 25, 33, 50, 66, 75, 100, 125, 150,
@@ -76,9 +73,6 @@ public class Ease.EditorWindow : Gtk.Window
 		// undo controller
 		undo = new UndoController();
 		
-		// the inspector
-		inspector = new Inspector();
-		
 		// main editor
 		embed = new EditorEmbed(document, this);
 		
@@ -86,7 +80,6 @@ public class Ease.EditorWindow : Gtk.Window
 		var hbox = new Gtk.HBox(false, 0);
 		hbox.pack_start(slide_button_panel, false, false, 0);
 		hbox.pack_start(embed, true, true, 0);
-		hbox.pack_start(inspector, false, false, 0);
 		
 		// assemble window contents
 		var vbox = new Gtk.VBox(false, 0);
@@ -100,8 +93,6 @@ public class Ease.EditorWindow : Gtk.Window
 		add(vbox);
 		show_all();
 		embed.show();
-		inspector.hide();
-		inspector_shown = false;
 		slides_shown = true;
 		
 		// USER INTERFACE SIGNALS
@@ -124,15 +115,7 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		// show and hide inspector
 		main_toolbar.inspector.clicked.connect(() => {
-			if (inspector_shown)
-			{
-				inspector.hide();
-			}
-			else
-			{
-				inspector.show();
-			}
-			inspector_shown = !inspector_shown;
+			InspectorWindow.toggle();
 		});
 		
 		// show and hide slides
@@ -240,7 +223,7 @@ public class Ease.EditorWindow : Gtk.Window
 		slide = document.slides.get(index);
 		
 		// update ui elements for this new slide
-		inspector.slide = slide;
+		InspectorWindow.slide = slide;
 		embed.set_slide(slide);
 	}
 	

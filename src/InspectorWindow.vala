@@ -22,10 +22,18 @@
 public class Ease.InspectorWindow : Gtk.Window
 {
 	private Inspector inspector;
+	private const bool SKIP_TASKBAR = true;
+	private const int MIN_WIDTH = 200;
+	private const int MIN_HEIGHT = 500;
 	
 	public InspectorWindow()
 	{
 		inspector = new Inspector();
+		
+		title = _("Inspector");
+		
+		height_request = MIN_HEIGHT;
+		skip_taskbar_hint = SKIP_TASKBAR;
 		
 		add(inspector);
 	}
@@ -41,6 +49,10 @@ public class Ease.InspectorWindow : Gtk.Window
 		if (instance == null)
 		{
 			instance = new InspectorWindow();
+			if (slide_priv != null)
+			{
+				instance.slide = slide_priv;
+			}
 		}
 		
 		if (instance.visible)
@@ -66,7 +78,10 @@ public class Ease.InspectorWindow : Gtk.Window
 		{
 			if (slide_priv != value)
 			{
-				instance.inspector.slide = value;
+				if (instance != null)
+				{
+					instance.inspector.slide = value;
+				}
 				slide_priv = value;
 			}
 		}
