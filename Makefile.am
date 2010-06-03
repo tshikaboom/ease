@@ -37,6 +37,7 @@ ease_SOURCES = \
 	src/SlideButtonPanel.vala \
 	src/SlideButton.vala \
 	src/SlidePane.vala \
+	src/SlideSet.vala \
 	src/Slide.vala \
 	src/TextActor.vala \
 	src/Theme.vala \

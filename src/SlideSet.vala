@@ -16,18 +16,28 @@
 */
 
 /**
- * Internal representation of Ease themes
+ * A base class for {@link Document} and {@link Theme}.
  */
-public class Ease.Theme : SlideSet
+public abstract class Ease.SlideSet : Object
 {
 	/**
-	 * The title of the Theme.
+	 * All {@link Slide}s in this SlideSet.
 	 */
-	public string title { get; set; }
-
+	public Gee.ArrayList<Slide> slides = new Gee.ArrayList<Slide>();
+	
 	/**
-	 * Creates an empty Theme.
+	 * The number of {@link Slide}s in the SlideSet.
 	 */
-	public Theme() { }
+	public int length { get { return slides.size; } }
+	
+	/**
+	 * Inserts a new {@link Slide} into the SlideSet
+	 *
+	 * @param s The {@link Slide} to insert.
+	 * @param index The position of the new {@link Slide} in the SlideSet.
+	 */
+	public virtual void add_slide(int index, Slide s)
+	{
+		slides.insert(index, s);
+	}
 }
-

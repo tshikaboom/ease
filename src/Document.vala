@@ -21,9 +21,11 @@
  * The Ease Document class is generated from XML and writes back to XML
  * when saved.
  */
-public class Ease.Document : GLib.Object
+public class Ease.Document : SlideSet
 {
-	public Gee.ArrayList<Slide> slides { get; set; }
+	/**
+	 * The {@link Theme} linked to this Document.
+	 */
 	public Theme theme { get; set; }
 	
 	/**
@@ -45,11 +47,6 @@ public class Ease.Document : GLib.Object
 	 * The file path of the Document.
 	 */
 	public string path { get; set; }
-	
-	/**
-	 * The number of {@link Slide}s in the Document.
-	 */
-	public int length { get { return slides.size; } }
 
 	/**
 	 * Default constructor, used for new documents.
@@ -57,10 +54,7 @@ public class Ease.Document : GLib.Object
 	 * Creates a new, empty document with no slides. Used for creating new
 	 * documents (which can then add a default slide).
 	 */
-	public Document()
-	{
-		slides = new Gee.ArrayList<Slide>();
-	}
+	public Document() { }
 	
 	/**
 	 * Inserts a new {@link Slide} into the Document
@@ -68,17 +62,15 @@ public class Ease.Document : GLib.Object
 	 * @param s The {@link Slide} to insert.
 	 * @param index The position of the new {@link Slide} in the Document.
 	 */
-	public void add_slide(int index, Slide s)
+	public override void add_slide(int index, Slide s)
 	{
 		s.parent = this;
-		slides.insert(index, s);
+		base.add_slide(index, s);
 	}
 	
 	/**
 	 * Returns whether or not the Document has a {@link Slide} after the
 	 * passed in {@link Slide}.
-	 *
-	 * @param slide
 	 */
 	public bool has_next_slide(Slide slide)
 	{
