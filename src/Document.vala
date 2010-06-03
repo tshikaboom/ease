@@ -103,18 +103,30 @@ public class Ease.Document : GLib.Object
 		}
 	
 		// intialize the html string
-		var html = "<!DOCTYPE html>\n<html>\n";
-		
-		// make the header
-		html += "<head>\n<title>Presentation</title>\n" + HTMLExporter.js;
-		html += "<style>\n.slide {\ndisplay:none;\nwidth:" + width.to_string() +
-		        "px;\noverflow:hidden;height:" + height.to_string() +
-		        "px; position: relative;margin: 20px auto 20px auto}\n" + 
-		        "html { padding: 0px; margin: 0px; background-color:" +
-		        "black;}\n</style>\n</head>\n";
-		
-		// make the body
-		html += "<body onload=\"load()\">\n";
+		var html = """<!DOCTYPE html>
+<html>
+<head>
+	<title>Presentation</title>
+	%s
+	<style>
+		.slide {
+			width: %ipx;
+			height: %ipx;
+			display: none;
+			overflow: hidden;
+			position: relative;
+			margin: 20px auto 20px auto;
+		}
+		html {
+			padding: 0px;
+			margin: 0px;
+			background-color: black;
+		}
+	</style>
+</head>
+<body onload=load()>""".printf(exporter.js, width, height);
+	
+		// substitute in the values
 		
 		// add each slide
 		for (var i = 0; i < slides.size; i++)
@@ -123,7 +135,7 @@ public class Ease.Document : GLib.Object
 		}
 		
 		// finish the document
-		html += "</body>\n</html>\n";
+		html += "\n</body>\n</html>\n";
 		
 		// write the document to file
 		try
