@@ -117,8 +117,7 @@ public class Ease.Element : GLib.Object
 				        
 				html += " font-size:" + data.get("font_size") + "pt;";
 				
-				html += " font-weight:" + data.get("font_name").to_int().to_string() +
-				        ";";
+				html += " font-weight:" + data.get("font_weight") + ";";
 				html += " font-style:" + data.get("font_style").down() +
 				        ";";
 				        
