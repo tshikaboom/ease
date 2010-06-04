@@ -602,6 +602,9 @@ public class Ease.SlideActor : Clutter.Group
 	private void slats_transition(SlideActor new_slide,
 	                              Clutter.Group container, uint length)
 	{
+		// use depth testing
+		Cogl.set_depth_test_enabled(true);
+	
 		// hide the real SlideActors
 		reparent(container);
 		new_slide.reparent(container);
@@ -636,11 +639,11 @@ public class Ease.SlideActor : Clutter.Group
 			                      width, slide.parent.height);
 
 			// flip the back slats
-			//new_slats[i].set_rotation(Clutter.RotateAxis.Y_AXIS,
-			//                          180, width / 2 + i * width, 0, 0);
+			new_slats[i].set_rotation(Clutter.RotateAxis.Y_AXIS,
+			                          180, width / 2 + i * width, 0, 0);
 			
 			// place the new slats behind the current ones
-			new_slats[i].depth = 5;
+			new_slats[i].depth = -2;
 		}
 
 		// make an alpha for easing
@@ -651,9 +654,9 @@ public class Ease.SlideActor : Clutter.Group
 		animation_time.new_frame.connect((m) => {
 			for (int i = 0; i < SLAT_COUNT; i++)
 			{
-				new_slats[i].set_rotation(Clutter.RotateAxis.Y_AXIS,
-					              180 * animation_alpha.alpha,
-					              (i + 0.5f) * width, 0, 0);
+				groups[i].set_rotation(Clutter.RotateAxis.Y_AXIS,
+					                   180 * animation_alpha.alpha,
+					                   (i + 0.5f) * width, 0, 0);
 				
 			}
 		});
@@ -667,6 +670,9 @@ public class Ease.SlideActor : Clutter.Group
 
 			// put the new slide in place
 			new_slide.x = 0;
+			
+			// disable depth testing
+			Cogl.set_depth_test_enabled(false);
 		});
 	}
 

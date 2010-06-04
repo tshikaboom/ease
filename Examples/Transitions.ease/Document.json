@@ -3,9 +3,9 @@
   "slides" : [
     {
       "transition" : "1",
-      "automatically_advance" : "true",
       "green" : "34",
       "variant" : "0",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -51,9 +51,9 @@
     },
     {
       "transition" : "2",
-      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "2",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -99,9 +99,9 @@
     },
     {
       "transition" : "3",
-      "automatically_advance" : "true",
       "green" : "34",
       "variant" : "0",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -147,9 +147,9 @@
     },
     {
       "transition" : "4",
-      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "7",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -195,9 +195,9 @@
     },
     {
       "transition" : "5",
-      "automatically_advance" : "true",
       "green" : "34",
       "variant" : "13",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -243,9 +243,9 @@
     },
     {
       "transition" : "6",
-      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "2",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -291,9 +291,9 @@
     },
     {
       "transition" : "7",
-      "automatically_advance" : "true",
       "green" : "34",
       "variant" : "0",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -339,9 +339,9 @@
     },
     {
       "transition" : "8",
-      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "0",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -387,9 +387,9 @@
     },
     {
       "transition" : "10",
-      "automatically_advance" : "true",
       "green" : "34",
       "variant" : "0",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -435,9 +435,9 @@
     },
     {
       "transition" : "11",
-      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "6",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -483,9 +483,9 @@
     },
     {
       "transition" : "12",
-      "automatically_advance" : "true",
       "green" : "34",
       "variant" : "0",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -531,9 +531,9 @@
     },
     {
       "transition" : "13",
-      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "2",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -579,9 +579,9 @@
     },
     {
       "transition" : "15",
-      "automatically_advance" : "true",
       "green" : "34",
       "variant" : "0",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -627,9 +627,9 @@
     },
     {
       "transition" : "16",
-      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "0",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -675,9 +675,9 @@
     },
     {
       "transition" : "14",
-      "automatically_advance" : "true",
       "green" : "34",
       "variant" : "0",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -723,9 +723,9 @@
     },
     {
       "transition" : "17",
-      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "15",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -770,10 +770,10 @@
       "transition_time" : "1"
     },
     {
-      "transition" : "0",
-      "automatically_advance" : "true",
+      "transition" : "9",
       "green" : "34",
       "variant" : "0",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
@@ -819,9 +819,9 @@
     },
     {
       "transition" : "0",
-      "automatically_advance" : "true",
       "green" : "255",
       "variant" : "0",
+      "automatically_advance" : "true",
       "advance_delay" : "0.5",
       "elements" : [
         {
