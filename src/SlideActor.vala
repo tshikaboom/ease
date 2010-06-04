@@ -186,8 +186,8 @@ public class Ease.SlideActor : Clutter.Group
 		{
 			try
 			{
-				background = new Clutter.Texture.from_file(slide.parent.path +
-				                                    slide.background_image);
+				background =
+					new Clutter.Texture.from_file(slide.background_abs);
 			}
 			catch (GLib.Error e)
 			{

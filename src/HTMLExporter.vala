@@ -110,7 +110,8 @@ public class Ease.HTMLExporter : GLib.Object
 	 */
 	public void copy_file(string end_path, string base_path)
 	{
-		var source = File.new_for_path(base_path + "/" + end_path);
+		var source = File.new_for_path(Path.build_path("/",
+		                                               base_path, end_path));
 		var destination = File.new_for_path(path + " " + end_path);
 
 		try

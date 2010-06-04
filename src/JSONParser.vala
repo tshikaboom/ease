@@ -62,6 +62,7 @@ public static class Ease.JSONParser
 	public static Theme theme(string filename) throws GLib.Error
 	{
 		var theme = new Theme();
+		theme.path = filename;
 	
 		var parser = new Json.Parser();
 		
@@ -183,7 +184,7 @@ public static class Ease.JSONParser
 		var generator = new Json.Generator();
 		generator.set_root(root);
 		generator.pretty = true;
-		generator.to_file(document.path + "/Document.json");
+		generator.to_file(Path.build_path("/", document.path, "Document.json"));
 	}
 	
 	private static Json.Node document_write_slide(Slide slide)

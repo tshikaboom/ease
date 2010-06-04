@@ -78,7 +78,10 @@ public class Ease.Slide
 	 */
 	public string background_abs
 	{
-		owned get { return parent.path + "/" + background_image; }
+		owned get
+		{
+			return Path.build_path("/",parent.path, background_image);
+		}
 	}
 	
 	/**

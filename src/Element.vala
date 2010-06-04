@@ -217,7 +217,9 @@ public class Ease.Element : GLib.Object
 	
 	private void pdf_render_image(Cairo.Context context) throws Error
 	{
-		var filename = parent.parent.path + "/" + data.get("filename");
+		var filename = Path.build_path("/",
+		                               parent.parent.path,
+		                               data.get("filename"));
 		
 		// load the image
 		var pixbuf = new Gdk.Pixbuf.from_file_at_scale(filename,

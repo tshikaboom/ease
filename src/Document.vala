@@ -42,11 +42,6 @@ public class Ease.Document : SlideSet
 	 * The aspect ratio of the Document.
 	 */
 	public float aspect { get { return (float)width / (float)height; } }
-	
-	/**
-	 * The file path of the Document.
-	 */
-	public string path { get; set; }
 
 	/**
 	 * Default constructor, used for new documents.

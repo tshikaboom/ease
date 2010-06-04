@@ -21,6 +21,11 @@
 public abstract class Ease.SlideSet : Object
 {
 	/**
+	 * The file path of the SlideSet.
+	 */
+	public string path { get; set; }
+
+	/**
 	 * All {@link Slide}s in this SlideSet.
 	 */
 	public Gee.ArrayList<Slide> slides = new Gee.ArrayList<Slide>();
