@@ -15,8 +15,17 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Renders {@link Slide}s with Cairo.
+ */
 public static class Ease.PDFExporter : Object
 {
+	/**
+	 * Exports a {@link Document} as a PDF.
+	 *
+	 * @param document The {@link Document} to export.
+	 * @param win The window that dialogs should be modal for.
+	 */
 	public static void export(Document document, Gtk.Window win)
 	{
 		string path;
@@ -65,6 +74,12 @@ public static class Ease.PDFExporter : Object
 		}
 	}
 	
+	/** 
+	 * Draws a {@link Slide} to a Cairo.Context.
+	 *
+	 * @param s The {@link Slide} to draw.
+	 * @param context The Cairo.Context to draw to.
+	 */
 	private static void write_slide(Slide s, Cairo.Context context) throws Error
 	{
 		// write the background color if there is no image

@@ -17,6 +17,9 @@
 
 namespace Ease
 {
+	/**
+	 * The position of editing handles.
+	 */
 	public enum HandlePosition
 	{
 		TOP_LEFT = 0,
@@ -28,7 +31,10 @@ namespace Ease
 		BOTTOM_RIGHT = 6,
 		BOTTOM = 7
 	}
-
+	
+	/**
+	 * The context of an {@link Actor}: presentation, editor, etc.
+	 */
 	public enum ActorContext
 	{
 		PRESENTATION,

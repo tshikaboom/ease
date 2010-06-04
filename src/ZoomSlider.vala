@@ -15,8 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*
- * A widget containing a Gtk.HScale and two zoom buttons
+/**
+ * A zoom widget containing a Gtk.HScale and two (+/-) buttons.
  */
 public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 {
@@ -29,24 +29,40 @@ public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 	private const int ZOOM_TIME = 100;
 	private const int ZOOM_MODE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
 	
+	/** 
+	 * The position of the zoom slider's value.
+	 */
 	public Gtk.PositionType value_pos
 	{
 		get { return zoom_slider.value_pos; }
 		set { zoom_slider.value_pos = value; }
 	}
 	
+	/** 
+	 * The number of digits that the zoom slider displays.
+	 */
 	public int digits
 	{
 		get { return zoom_slider.digits; }
 		set { zoom_slider.digits = value; }
 	}
 	
+	/**
+	 * The position of the zoom slider.
+	 */
 	public double sliderpos
 	{
 		get { return zoom_slider.get_value(); }
 		set { zoom_slider.set_value(value); }
 	}
-
+	
+	/** 
+	 * Creates a new ZoomSlider.
+	 *
+	 * @param adjustment The Gtk.Adjustment to use.
+	 * @param button_values The values that the slider should stop on when the
+	 * zoom in and out buttons are pressed.
+	 */
 	public ZoomSlider(Gtk.Adjustment adjustment, int[] button_values)
 	{
 		values = button_values;
@@ -114,6 +130,9 @@ public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 		});
 	}
 	
+	/** 
+	 * Returns the value of the zoom slider.
+	 */
 	public double get_value()
 	{
 		return zoom_slider.get_value();
@@ -144,5 +163,8 @@ public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 		return true;
 	}
 	
+	/** 
+	 * Fires when the value of the zoom slider changes.
+	 */
 	public signal void value_changed();
 }
