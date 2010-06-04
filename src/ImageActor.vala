@@ -40,7 +40,7 @@ public class Ease.ImageActor : Actor
 		
 		try
 		{
-			contents = new Clutter.Texture.from_file(e.parent.parent.path + e.data.get("filename"));
+			contents = new Clutter.Texture.from_file(e.parent.parent.path + e.get("filename"));
 		}
 		catch (GLib.Error e)
 		{

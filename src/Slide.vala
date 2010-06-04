@@ -194,11 +194,11 @@ public class Ease.Slide
 			element.parent = this;
 			
 			// resize the Element to fit the Document
-			element.x = (int)(element.data.get("x").to_double() * width);
-			element.y = (int)(element.data.get("y").to_double() * height);
-			element.width = (int)(element.data.get("width").to_double() *
+			element.x = (int)(element.get("x").to_double() * width);
+			element.y = (int)(element.get("y").to_double() * height);
+			element.width = (int)(element.get("width").to_double() *
 			                      width);
-			element.height = (int)(element.data.get("height").to_double() *
+			element.height = (int)(element.get("height").to_double() *
 			                       height);
 			
 			// add the Element to the new Slide

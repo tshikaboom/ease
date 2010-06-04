@@ -41,7 +41,7 @@ public class Ease.TextActor : Actor
 		text.line_wrap = true;
 		text.line_wrap_mode = Pango.WrapMode.WORD_CHAR;
 		text.color = e.color;
-		text.set_markup(e.data.get("text"));
+		text.set_markup(e.get("text"));
 		text.font_name = e.font_description.to_string();
 		text.line_alignment = e.text_align;
 		
