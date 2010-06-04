@@ -21,6 +21,7 @@ ease_SOURCES = \
 	src/ElementMapValue.vala \
 	src/Element.vala \
 	src/Enums.vala \
+	src/ErrorDialog.vala \
 	src/Handle.vala \
 	src/HTMLExporter.vala \
 	src/ImageActor.vala \

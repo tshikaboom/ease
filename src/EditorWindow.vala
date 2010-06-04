@@ -148,16 +148,7 @@ public class Ease.EditorWindow : Gtk.Window
 			try { JSONParser.document_write(document); }
 			catch (GLib.Error e)
 			{
-				var dialog = new Gtk.MessageDialog(null,
-					                               Gtk.DialogFlags.NO_SEPARATOR,
-					                               Gtk.MessageType.ERROR,
-					                               Gtk.ButtonsType.CLOSE,
-					                               _("Error saving: %s"),
-					                               e. message);
-			
-				dialog.title = _("Error Saving");
-				dialog.border_width = 5;
-				dialog.run();
+				error_dialog(_("Error Saving Document"), e.message);
 			}
 		});
 		

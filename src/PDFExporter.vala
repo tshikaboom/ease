@@ -61,15 +61,7 @@ public static class Ease.PDFExporter : Object
 		}
 		catch (Error e)
 		{
-			var error = new Gtk.MessageDialog(null,
-			                                  0,
-			                                   Gtk.MessageType.ERROR,
-			                                   Gtk.ButtonsType.CLOSE,
-			                                   _("Error exporting: %s"),
-			                                   e.message);
-			
-			error.title = _("Error Exporting to PDF");
-			error.run();
+			error_dialog(_("Error Exporting to PDF"), e.message);
 		}
 	}
 	

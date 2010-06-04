@@ -77,8 +77,6 @@ public class Ease.Document : GLib.Object
 	/**
 	 * Returns whether or not the Document has a {@link Slide} after the
 	 * passed in {@link Slide}.
-	 *
-	 * @param slide
 	 */
 	public bool has_next_slide(Slide slide)
 	{
@@ -147,15 +145,7 @@ public class Ease.Document : GLib.Object
 		}
 		catch (GLib.Error e)
 		{
-			var dialog = new Gtk.MessageDialog(null,
-			                                   Gtk.DialogFlags.NO_SEPARATOR,
-			                                   Gtk.MessageType.ERROR,
-			                                   Gtk.ButtonsType.CLOSE,
-			                                   _("Error exporting: %s"),
-			                                   e. message);
-			dialog.title = _("Error Exporting");
-			dialog.border_width = 5;
-			dialog.run();
+			error_dialog(_("Error exporting as HTML"), e.message);
 		}
 		
 		exporter.finish();

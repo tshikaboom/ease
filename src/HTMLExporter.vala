@@ -130,16 +130,7 @@ public class Ease.HTMLExporter : GLib.Object
 		}
 		catch (GLib.Error e)
 		{
-			var dialog = new Gtk.MessageDialog(null,
-				                               Gtk.DialogFlags.NO_SEPARATOR,
-				                               Gtk.MessageType.ERROR,
-				                               Gtk.ButtonsType.CLOSE,
-				                               _("Error copying: %s"),
-				                               e. message);
-			dialog.title = _("Error Copying File");
-			dialog.border_width = 5;
-			dialog.run();
-			dialog.destroy();
+			error_dialog(_("Error Copying File"), e.message);
 		}
 	}
 	
