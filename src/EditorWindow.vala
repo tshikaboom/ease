@@ -95,7 +95,6 @@ public class Ease.EditorWindow : Gtk.Window
 		vbox.pack_start(create_menu_bar(), false, false, 0);
 		main_toolbar = new MainToolbar();
 		vbox.pack_start(main_toolbar, false, false, 0);
-		vbox.pack_start(new Gtk.HSeparator(), false, false, 0);
 		vbox.pack_start(hbox, true, true, 0);
 		vbox.pack_end(create_bottom_bar(), false, false, 0);
 		
@@ -316,7 +315,6 @@ public class Ease.EditorWindow : Gtk.Window
 		hbox.pack_start(zoom_slider, false, false, 0);
 		
 		var vbox = new Gtk.VBox(false, 0);
-		vbox.pack_start(new Gtk.HSeparator(), false, false, 0);
 		vbox.pack_start(hbox, true, true, 2);
 		
 		var align = new Gtk.Alignment(1, 1, 1, 1);

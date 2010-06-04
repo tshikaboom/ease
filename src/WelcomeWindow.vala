@@ -123,7 +123,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 		hbox.pack_end(align, false, false, 0);
 		
 		// create the upper UI - the embed
-		embed = new ScrollableEmbed(false);
+		embed = new ScrollableEmbed(false, false);
 
 		// create the preview container
 		preview_container = new Clutter.Group();

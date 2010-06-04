@@ -53,11 +53,17 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	private float mouse_x;
 	private float mouse_y;
 	
-	// the origin position of a dragged element
+	// the original position of a dragged element
 	private float orig_x;
 	private float orig_y;
 	private float orig_w;
 	private float orig_h;
+	
+	// constants
+	private const string SPLIT = "\n;";
+	private const string BG_COLOR = "bg_color:";
+	private const string PREFIX = "#";
+	private const double SHADE_FACTOR = 0.9;
 	
 	private Document document;
 	public float zoom;
@@ -77,7 +83,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 */
 	public EditorEmbed(Document d, EditorWindow w)
 	{
-		base(true);
+		base(true, true);
 		win = w;
 		
 		// don't fade actors out when zoomed out
@@ -85,7 +91,37 @@ public class Ease.EditorEmbed : ScrollableEmbed
 
 		// set up the background
 		view_background = new Clutter.Rectangle();
-		view_background.color = {200, 200, 200, 255};
+		
+		// find the appropriate color
+		var settings = Gtk.Settings.get_default();
+		var colors = settings.gtk_color_scheme.split_set(SPLIT);
+		for (int i = 0; i < colors.length; i++)
+		{
+			colors[i] = colors[i].strip();
+			
+			if (colors[i].has_prefix(BG_COLOR))
+			{
+				for (; !colors[i].has_prefix(PREFIX) && colors[i].length > 3;
+			         colors[i] = colors[i].substring(1, colors[i].length - 1));
+				
+				Gdk.Color gdk_color;
+				Gdk.Color.parse(colors[i], out gdk_color);
+				
+				Clutter.Color clutter_color = { (uchar)(gdk_color.red / 256),
+				                                (uchar)(gdk_color.green / 256),
+				                                (uchar)(gdk_color.blue / 256),
+				                                255};
+				
+				Clutter.Color out_color;
+				
+				clutter_color.shade(SHADE_FACTOR, out out_color);
+				
+				view_background.color = out_color;
+				
+				break;
+			}
+		}
+		
 		contents.add_actor(view_background);
 		
 		document = d;
