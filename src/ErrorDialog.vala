@@ -18,27 +18,20 @@
 namespace Ease
 {
 	/**
-	 * The position of editing handles.
+	 * Display a simple error message.
+	 *
+	 * @param title The title of the dialog.
+	 * @param message The error message.
 	 */
-	public enum HandlePosition
+	public void error_dialog(string title, string message)
 	{
-		TOP_LEFT = 0,
-		TOP_RIGHT = 1,
-		TOP = 2,
-		LEFT = 3,
-		RIGHT = 4,
-		BOTTOM_LEFT = 5,
-		BOTTOM_RIGHT = 6,
-		BOTTOM = 7
-	}
-	
-	/**
-	 * The context of an {@link Actor}: presentation, editor, etc.
-	 */
-	public enum ActorContext
-	{
-		PRESENTATION,
-		EDITOR,
-		SIDEBAR
+		var dialog = new Gtk.MessageDialog(null, 0,
+		                                   Gtk.MessageType.ERROR,
+		                                   Gtk.ButtonsType.CLOSE,
+		                                   "%s", message);
+		dialog.title = title;
+		dialog.border_width = 5;
+		dialog.run();
+		dialog.destroy();
 	}
 }

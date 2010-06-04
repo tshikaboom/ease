@@ -139,15 +139,7 @@ public class Ease.Document : SlideSet
 		}
 		catch (GLib.Error e)
 		{
-			var dialog = new Gtk.MessageDialog(null,
-			                                   Gtk.DialogFlags.NO_SEPARATOR,
-			                                   Gtk.MessageType.ERROR,
-			                                   Gtk.ButtonsType.CLOSE,
-			                                   _("Error exporting: %s"),
-			                                   e. message);
-			dialog.title = _("Error Exporting");
-			dialog.border_width = 5;
-			dialog.run();
+			error_dialog(_("Error exporting as HTML"), e.message);
 		}
 		
 		exporter.finish();

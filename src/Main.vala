@@ -110,16 +110,7 @@ public static class Ease.Main : GLib.Object
 			}
 			catch (Error e)
 			{
-				var dialog = new Gtk.MessageDialog(null,
-					                               Gtk.DialogFlags.NO_SEPARATOR,
-					                               Gtk.MessageType.ERROR,
-					                               Gtk.ButtonsType.CLOSE,
-					                               _("Error playing: %s"),
-					                               e.message);
-			
-				dialog.title = _("Error Playing");
-				dialog.border_width = 5;
-				dialog.run();
+				error_dialog(_("Error Playing Document"), e.message);
 			}
 		}
 		
@@ -162,17 +153,7 @@ public static class Ease.Main : GLib.Object
 		}
 		catch (Error e)
 		{
-			var dialog = new Gtk.MessageDialog(null,
-			                                   Gtk.DialogFlags.NO_SEPARATOR,
-			                                   Gtk.MessageType.ERROR,
-			                                   Gtk.ButtonsType.CLOSE,
-			                                   _("Error loading: %s"),
-			                                   e.message);
-			
-			dialog.title = _("Error Loading");
-			dialog.border_width = 5;
-			dialog.run();
-			
+			error_dialog(_("Error Opening Document"), e.message);
 			return;
 		}
 	}

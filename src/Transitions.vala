@@ -302,9 +302,19 @@ public static class Ease.Transitions : GLib.Object
 	}
 }
 
+/** 
+ * The representation of a transition and its possible variants.
+ */
 public struct Ease.Transition
 {
+	/**
+	 * The specific transition.
+	 */
 	public TransitionType type;
+	
+	/**
+	 * The variants of the transition (if any).
+	 */
 	public TransitionVariant[] variants;
 }
 

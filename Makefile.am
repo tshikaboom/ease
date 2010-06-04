@@ -12,6 +12,7 @@ AM_CPPFLAGS = \
 	$(NULL)
 
 ease_SOURCES = \
+	src/AboutDialog.vala \
 	src/Actor.vala \
 	src/Document.vala \
 	src/EditorEmbed.vala \
@@ -20,6 +21,7 @@ ease_SOURCES = \
 	src/ElementMapValue.vala \
 	src/Element.vala \
 	src/Enums.vala \
+	src/ErrorDialog.vala \
 	src/Handle.vala \
 	src/HTMLExporter.vala \
 	src/ImageActor.vala \
