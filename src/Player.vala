@@ -37,8 +37,11 @@ public class Ease.Player : GLib.Object
 	// automatic advance alarm
 	private Clutter.Timeline advance_alarm;
 	
+	// scale the presentation, if needed
+	private float scale = 1;
+	
 	// constants
-	private const bool PRESENTATION_FULLSCREEN = false;
+	private const bool PRESENTATION_FULLSCREEN = true;
 	private const uint FADE_IN_TIME = 1000;
 
 	public Player(Document doc)
@@ -46,12 +49,29 @@ public class Ease.Player : GLib.Object
 		document = doc;
 		slide_index = -1;
 		
+		// get the screen
+		var screen = Gdk.Screen.get_default();
+		
+		// get the size of the primary monitor
+		var rect = Gdk.Rectangle();
+		screen.get_monitor_geometry(screen.get_primary_monitor(), out rect);
+		
+		// scale the presentation if needed
+		if (rect.width < document.width || rect.height < document.height)
+		{
+			var x = ((float)rect.width) / document.width;
+			var y = ((float)rect.height) / document.height;
+			
+			scale = x < y ? x : y;
+		}
+		
 		var embed = new GtkClutter.Embed();
-		embed.set_size_request(document.width, document.height);
+		embed.set_size_request((int)(document.width * scale),
+		                       (int)(document.height * scale));
 		
 		stage = (Clutter.Stage)embed.get_stage();
-		stage.width = document.width;
-		stage.height = document.height;
+		stage.width = document.width * scale;
+		stage.height = document.height * scale;
 		stage.title = "Ease Presentation";
 		stage.use_fog = false;
 		
@@ -65,6 +85,8 @@ public class Ease.Player : GLib.Object
 		// make the stacking container
 		container = new Clutter.Group();
 		stage.add_actor(container);
+		container.scale_x = scale;
+		container.scale_y = scale;
 		
 		// make the window that everything will be displayed in
 		window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
