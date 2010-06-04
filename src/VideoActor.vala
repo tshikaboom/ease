@@ -21,8 +21,10 @@
  * VideoActor uses Clutter-GStreamer, and therefore supports any video
  * format supported by the GStreamer plugins on the user's system.
  */
-public class Ease.VideoActor : Actor
+public class Ease.VideoActor : Actor, Clutter.Media
 {
+	private ClutterGst.VideoTexture video;
+
 	/**
 	 * Instantiates a new VideoActor from an Element.
 	 * 
@@ -37,7 +39,7 @@ public class Ease.VideoActor : Actor
 	{
 		base(e, c);
 
-		var video = new ClutterGst.VideoTexture();
+		video = new ClutterGst.VideoTexture();
 		video.set_filename(e.parent.parent.path + e.data.get("filename"));
 
 		// play the video if it's in the presentation
@@ -59,6 +61,86 @@ public class Ease.VideoActor : Actor
 		contents.height = e.height;
 		x = e.x;
 		y = e.y;
+	}
+	
+	public double get_audio_volume()
+	{
+		return video.get_audio_volume();
+	}
+	
+	public double get_buffer_fill()
+	{
+		return video.get_buffer_fill();
+	}
+	
+	public bool get_can_seek()
+	{
+		return video.get_can_seek();
+	}
+	
+	public double get_duration()
+	{
+		return video.get_duration();
+	}
+	
+	public bool get_playing()
+	{
+		return video.get_playing();
+	}
+	
+	public double get_progress()
+	{
+		return video.get_progress();
+	}
+	
+	public unowned string get_subtitle_font_name()
+	{
+		return video.get_subtitle_font_name();
+	}
+	
+	public unowned string get_subtitle_uri()
+	{
+		return video.get_subtitle_uri();
+	}
+	
+	public unowned string get_uri()
+	{
+		return video.get_uri();
+	}
+	
+	public void set_audio_volume(double volume)
+	{
+		video.set_audio_volume(volume);
+	}
+	
+	public void set_filename(string filename)
+	{
+		video.set_filename(filename);
+	}
+	
+	public void set_playing(bool playing)
+	{
+		video.set_playing(playing);
+	}
+	
+	public void set_progress(double progress)
+	{
+		video.set_progress(progress);
+	}
+	
+	public void set_subtitle_font_name(string font_name)
+	{
+		video.set_subtitle_font_name(font_name);
+	}
+	
+	public void set_subtitle_uri(string uri)
+	{
+		video.set_subtitle_uri(uri);
+	}
+	
+	public void set_uri(string uri)
+	{
+		video.set_uri(uri);
 	}
 }
 
