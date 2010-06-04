@@ -17,6 +17,9 @@
 
 /**
  * A zoom widget containing a Gtk.HScale and two (+/-) buttons.
+ *
+ * ZoomSlider uses ClutterAnimation to smoothly adjust the slider when th
+ * zoom in or zoom out button is clicked.
  */
 public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 {
@@ -54,6 +57,20 @@ public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 	{
 		get { return zoom_slider.get_value(); }
 		set { zoom_slider.set_value(value); }
+	}
+	
+	private bool buttons_shown_priv = true;
+	public bool buttons_shown
+	{
+		get { return buttons_shown; }
+		set
+		{
+			if (value == buttons_shown_priv) return;
+			
+			buttons_shown_priv = value;
+			zoom_in.visible = value;
+			zoom_out.visible = value;
+		}
 	}
 	
 	/** 
@@ -125,9 +142,17 @@ public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 			}
 		});
 		
+		zoom_in.show.connect(buttons_show_handler);
+		zoom_out.show.connect(buttons_show_handler);
+		
 		zoom_slider.format_value.connect(val => {
 			return "%i%%".printf((int)val);
 		});
+	}
+	
+	private void buttons_show_handler(Gtk.Widget sender)
+	{
+		buttons_shown_priv = true;
 	}
 	
 	/** 

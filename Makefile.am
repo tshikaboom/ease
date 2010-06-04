@@ -41,6 +41,7 @@ ease_SOURCES = \
 	src/SlidePane.vala \
 	src/SlideSet.vala \
 	src/Slide.vala \
+	src/Temp.vala \
 	src/TextActor.vala \
 	src/Theme.vala \
 	src/TransitionPane.vala \
@@ -63,6 +64,7 @@ VALAFLAGS = --pkg glib-2.0 \
 		--pkg gio-2.0 \
 		--pkg clutter-gst-1.0\
 		--pkg json-glib-1.0\
+		--pkg libarchive\
 		$(NULL)
 
 SUBDIRS = po

@@ -20,6 +20,8 @@
  */
 public static class Ease.JSONParser
 {
+	private const int ARCHIVE_BUFFER = 4096;
+	
 	/**
 	 * Parses a document JSON file, creating a {@link Document}.
 	 *
@@ -61,13 +63,44 @@ public static class Ease.JSONParser
 	 */
 	public static Theme theme(string filename) throws GLib.Error
 	{
+		// initialize the .easetheme archive
+		var archive = new Archive.Read();
+		
+		// automatically detect archive type
+		archive.support_compression_all();
+		archive.support_format_all();
+		
+		// open the archive
+		archive.open_filename(filename, ARCHIVE_BUFFER);
+		
+		// extract the archive
+		string path = Temp.request();
+		
+		weak Archive.Entry entry;
+		while (archive.next_header(out entry) == Archive.Result.OK)
+		{
+			var fpath = Path.build_path("/", path, entry.pathname());
+			var file = GLib.File.new_for_path(fpath);
+			if (Posix.S_ISDIR(entry.mode()))
+			{
+				file.make_directory_with_parents(null);
+			}
+			else
+			{
+				file.create(FileCreateFlags.REPLACE_DESTINATION, null);
+				int fd = Posix.open(fpath, Posix.O_WRONLY, 0644);
+				archive.read_data_into_fd(fd);
+				Posix.close(fd);
+			}
+		}
+		
 		var theme = new Theme();
-		theme.path = filename;
+		theme.path = path;
 	
 		var parser = new Json.Parser();
 		
 		// attempt to load the file
-		parser.load_from_file(Path.build_path("/", filename, "Theme.json"));
+		parser.load_from_file(Path.build_path("/", path, "Theme.json"));
 		
 		// grab the root object
 		var root = parser.get_root().get_object();

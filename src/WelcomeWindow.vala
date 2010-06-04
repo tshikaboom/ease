@@ -35,6 +35,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 	// themes
 	private Gee.ArrayList<Theme> themes = new Gee.ArrayList<Theme>();
 	private Theme selected_theme;
+	private const string THEME_DIR = "/usr/local/share/ease/themes";
 
 	// clutter view
 	private ScrollableEmbed embed;
@@ -138,7 +139,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 		hbox.pack_end(align, false, false, 0);
 		
 		// create the upper UI - the embed
-		embed = new ScrollableEmbed(false);
+		embed = new ScrollableEmbed(false, false);
 		embed.get_stage().use_fog = false;
 
 		// create the preview container
@@ -150,8 +151,19 @@ public class Ease.WelcomeWindow : Gtk.Window
 		preview_container.add_actor(preview_background);
 		
 		// load themes
-		for (int i = 0; i < 20; i++)
-			themes.add(JSONParser.theme("themes/White.easetheme"));
+		try
+		{
+			var dir = GLib.Dir.open(THEME_DIR, 0);
+			
+			string name = dir.read_name();
+			while (name != null)
+			{
+				var path = Path.build_path("/", THEME_DIR, name);
+				themes.add(JSONParser.theme(path));
+				name = dir.read_name();
+			}
+		}
+		catch (Error e) { error_dialog("Error Loading Themes", e.message); }
 		
 		// create the previews
 		foreach (var theme in themes)

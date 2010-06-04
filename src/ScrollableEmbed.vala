@@ -32,9 +32,14 @@ public class Ease.ScrollableEmbed : Gtk.HBox
 	// scrolling
 	private Gtk.HScrollbar h_scrollbar;
 	private Gtk.VScrollbar v_scrollbar;
+	private Gtk.Alignment h_padder;
+	private Gtk.Alignment v_padder;
 	private Gtk.Adjustment h_adjust;
 	private Gtk.Adjustment v_adjust;
 	private Gtk.Adjustment z_adjust;
+	
+	// constants
+	private const int FRAME_PADDING = 2;
 	
 	public bool has_horizontal { get; private set; }
 
@@ -62,8 +67,9 @@ public class Ease.ScrollableEmbed : Gtk.HBox
 	 *
 	 * @param horizontal If true, the ScrollableEmbed has a horizontal
 	 * scrollbar in addition to the vertical scrollbar.
+	 * @param has_frame If the EditorEmbed should have a frame around its stage.
 	 */
-	public ScrollableEmbed(bool horizontal)
+	public ScrollableEmbed(bool horizontal, bool has_frame)
 	{
 		has_horizontal = horizontal;
 		
@@ -83,16 +89,58 @@ public class Ease.ScrollableEmbed : Gtk.HBox
 		stage.add_actor(viewport);
 		viewport.child = contents;
 
+		// add the embed to a frame if requested
 		var vbox = new Gtk.VBox(false, 0);
-		vbox.pack_start(embed, true, true, 0);
+		if (has_frame)
+		{
+			// create the frame
+			var frame = new Gtk.Frame(null);
+			frame.shadow_type = Gtk.ShadowType.IN;
+			frame.add(embed);
+			
+			// add the frame to padded alignment
+			var align = new Gtk.Alignment(0, 0, 1, 1);
+			align.set_padding(0, horizontal ? FRAME_PADDING : 0,
+			                  0, FRAME_PADDING);
+			align.add(frame);
+			
+			vbox.pack_start(align, true, true, 0);
+		}
+		else
+		{
+			vbox.pack_start(embed, true, true, 0);
+		}
 		
 		if (has_horizontal)
 		{
-			vbox.pack_start(h_scrollbar, false, false, 0);
+			// this widget shifts the scrollbar to line up with the frame
+			h_padder = new Gtk.Alignment(0, 0, 0, 0);
+			
+			var hscroll_box = new Gtk.HBox(false, 0);
+			hscroll_box.pack_start(h_scrollbar, true, true, 0);
+			hscroll_box.pack_start(h_padder, false, false, 0);
+			vbox.pack_start(hscroll_box, false, false, 0);
+			
+			// so that the vertical scrollbar doesn't extend to the bottom
+			// of the horizontal scrollbar, a padding widget is added
+			v_padder = new Gtk.Alignment(0, 0, 0, 0);
+			
+			var vscroll_box = new Gtk.VBox(false, 0);
+			vscroll_box.pack_start(v_scrollbar, true, true, 0);
+			vscroll_box.pack_start(v_padder, false, false, 0);
+			pack_end(vscroll_box, false, false, 0);
+			
+			h_scrollbar.size_allocate.connect((sender, rect) => {
+				h_padder.width_request = FRAME_PADDING;
+				v_padder.height_request = rect.height + FRAME_PADDING;
+			});
+		}
+		else
+		{
+			pack_end(v_scrollbar, false, false, 0);
 		}
 
 		pack_start(vbox, true, true, 0);
-		pack_start(v_scrollbar, false, false, 0);
 		
 		stage.show_all();
 		
