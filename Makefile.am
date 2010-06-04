@@ -12,6 +12,7 @@ AM_CPPFLAGS = \
 	$(NULL)
 
 ease_SOURCES = \
+	src/AboutDialog.vala \
 	src/Actor.vala \
 	src/Document.vala \
 	src/EditorEmbed.vala \

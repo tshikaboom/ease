@@ -254,6 +254,7 @@ public class Ease.EditorWindow : Gtk.Window
 		var menubar = new Gtk.MenuBar();
 		
 		menubar.append(create_file_menu());
+		menubar.append(create_help_menu());
 		
 		return menubar;
 	}
@@ -261,33 +262,52 @@ public class Ease.EditorWindow : Gtk.Window
 	private Gtk.MenuItem create_file_menu()
 	{
 		/* TODO : use mnemonics */
-		var menuItem = new Gtk.MenuItem.with_label(_("File"));
+		var menu_item = new Gtk.MenuItem.with_label(_("File"));
 		var menu = new Gtk.Menu();
 		
-		var newItem = new Gtk.MenuItem.with_label(_("New"));
-		var newMenu = new Gtk.Menu();
-		var newPres = new Gtk.MenuItem.with_label(_("Presentation"));
-		newPres.activate.connect(new_presentation);
-		var newTheme = new Gtk.MenuItem.with_label(_("Theme"));
-		var Quit = new Gtk.MenuItem.with_label(_("Quit"));
-		Quit.activate.connect( Gtk.main_quit );
+		var new_item = new Gtk.MenuItem.with_label(_("New"));
+		var new_menu = new Gtk.Menu();
+		var new_pres = new Gtk.MenuItem.with_label(_("Presentation"));
+		new_pres.activate.connect(new_presentation);
+		var new_theme = new Gtk.MenuItem.with_label(_("Theme"));
+		var quit = new Gtk.MenuItem.with_label(_("Quit"));
+		quit.activate.connect(Gtk.main_quit);
 
-		newMenu.append(newPres);
-		newMenu.append(newTheme);
-		newItem.set_submenu(newMenu);
-		menu.append(newItem);
+		new_menu.append(new_pres);
+		new_menu.append(new_theme);
+		new_item.set_submenu(new_menu);
+		menu.append(new_item);
 		
-		var openItem = new Gtk.MenuItem.with_label(_("Open"));
-		openItem.activate.connect(show_open_dialog);
-		openItem.set_accel_path("<-Document>/File/Open");
+		var open_item = new Gtk.MenuItem.with_label(_("Open"));
+		open_item.activate.connect(show_open_dialog);
+		open_item.set_accel_path("<-Document>/File/Open");
 		Gtk.AccelMap.add_entry("<-Document>/File/Open",
 		                       Gdk.keyval_from_name("o"),
 		                       Gdk.ModifierType.CONTROL_MASK);
-		menu.append(openItem);
-		menu.append(Quit);
-		menuItem.set_submenu(menu);
+		menu.append(open_item);
+		menu.append(quit);
+		menu_item.set_submenu(menu);
 		
-		return menuItem;
+		return menu_item;
+	}
+	
+	private Gtk.MenuItem create_help_menu()
+	{
+		var menu_item = new Gtk.MenuItem.with_label(_("Help"));
+		var menu = new Gtk.Menu();
+		
+		var about = new Gtk.MenuItem.with_label(_("About Ease"));
+		about.activate.connect(() => {
+			var dialog = new AboutDialog();
+			dialog.run();
+			dialog.destroy();
+		});
+
+		menu.append(about);
+		
+		menu_item.set_submenu(menu);
+		
+		return menu_item;
 	}
 	
 	private Gtk.Alignment create_bottom_bar()
