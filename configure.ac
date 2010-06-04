@@ -44,4 +44,7 @@ AC_SUBST(GETTEXT_PACKAGE)
 AM_GLIB_GNU_GETTEXT
 AM_GNU_GETTEXT([external])
 
+dnl Package Themes
+AC_CONFIG_COMMANDS([build-themes], [sh themes/build.sh])
+
 AC_OUTPUT

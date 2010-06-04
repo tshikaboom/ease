@@ -86,3 +86,7 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
 Applicationsdir = /usr/share/applications
 Applications_DATA = data/ease.desktop.in
+
+themedir = $(datadir)/ease/themes
+theme_DATA = themes/*.easetheme
+

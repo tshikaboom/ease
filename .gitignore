@@ -15,8 +15,10 @@ ease
 src/*.c
 
 *.ogv
-RCOS.ease/
 doc
+
+# ignore theme packages
+*.easetheme
 
 # shamelessly copied from gnome-scan.
 # autotools generated files
