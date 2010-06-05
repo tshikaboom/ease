@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-05-30 23:28+0000\n"
-"PO-Revision-Date: 2010-06-01 20:32+0100\n"
+"POT-Creation-Date: 2010-06-04 09:36+0000\n"
+"PO-Revision-Date: 2010-06-05 22:28+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,54 +28,54 @@ msgstr "Erstellen ansprechender und eleganter Präsentationen"
 msgid "Ease presentation editor"
 msgstr "Ease Präsentationsprogramm"
 
-#: ../src/Document.vala:119
-#, c-format
-msgid "Error exporting: %s"
-msgstr "Fehler beim Exportieren: %s"
+#: ../src/Document.vala:148
+#| msgid "Exporting as HTML"
+msgid "Error exporting as HTML"
+msgstr "Fehler beim Exportieren als HTML"
 
-#: ../src/Document.vala:121
-msgid "Error Exporting"
-msgstr "Fehler beim Exportieren"
+#: ../src/EditorWindow.vala:151
+#| msgid "Error Saving"
+msgid "Error Saving Document"
+msgstr "Fehler beim Speichern des Dokuments"
 
-#: ../src/EditorWindow.vala:155
-#, c-format
-msgid "Error saving: %s"
-msgstr "Fehler beim Speichern: %s"
-
-#: ../src/EditorWindow.vala:158
-msgid "Error Saving"
-msgstr "Fehler beim Speichern"
-
-#: ../src/EditorWindow.vala:227 ../src/OpenDialog.vala:49
+#: ../src/EditorWindow.vala:230 ../src/OpenDialog.vala:49
 msgid "Open File"
 msgstr "Datei öffnen"
 
 #. TODO : use mnemonics
-#: ../src/EditorWindow.vala:252
+#: ../src/EditorWindow.vala:256
 msgid "File"
 msgstr "Datei"
 
-#: ../src/EditorWindow.vala:255
+#: ../src/EditorWindow.vala:259
 msgid "New"
 msgstr "Neu"
 
-#: ../src/EditorWindow.vala:257
+#: ../src/EditorWindow.vala:261
 msgid "Presentation"
 msgstr "Präsentation"
 
-#: ../src/EditorWindow.vala:259
+#: ../src/EditorWindow.vala:263
 msgid "Theme"
 msgstr "Thema"
 
-#: ../src/EditorWindow.vala:260
+#: ../src/EditorWindow.vala:264
 msgid "Quit"
 msgstr "Beenden"
 
-#: ../src/EditorWindow.vala:268
+#: ../src/EditorWindow.vala:272
 msgid "Open"
 msgstr "Öffnen"
 
-#: ../src/Element.vala:147
+#: ../src/EditorWindow.vala:287
+msgid "Help"
+msgstr "Hilfe"
+
+#: ../src/EditorWindow.vala:290
+msgid "About Ease"
+msgstr "Info zu Ease"
+
+#: ../src/Element.vala:150
 msgid "Your browser does not support the video tag"
 msgstr "Ihr Browser unterstützt die Video-Markierung nicht"
 
@@ -87,12 +87,7 @@ msgstr "Nach HTML exportieren"
 msgid "Exporting as HTML"
 msgstr "Als HTML exportieren"
 
-#: ../src/HTMLExporter.vala:137
-#, c-format
-msgid "Error copying: %s"
-msgstr "Fehler beim Kopieren: %s"
-
-#: ../src/HTMLExporter.vala:139
+#: ../src/HTMLExporter.vala:133
 msgid "Error Copying File"
 msgstr "Fehler beim Kopieren der Datei"
 
@@ -111,58 +106,46 @@ msgstr " - ein Präsentationsprogramm"
 msgid "error parsing options: %s\n"
 msgstr "Fehler beim Verarbeiten der Optionen: %s\n"
 
-#: ../src/Main.vala:117
-#, c-format
-#| msgid "Error copying: %s"
-msgid "Error playing: %s"
-msgstr "Fehler beim Abspielen: %s"
+#: ../src/Main.vala:113
+#| msgid "Error Playing"
+msgid "Error Playing Document"
+msgstr "Fehler beim Abspielen des Dokuments"
 
-#: ../src/Main.vala:120
-#| msgid "Error Saving"
-msgid "Error Playing"
-msgstr "Fehler beim Abspielen"
+#: ../src/Main.vala:156
+#| msgid "No Document"
+msgid "Error Opening Document"
+msgstr "Fehler beim Öffnen des Dokuments"
 
-#: ../src/Main.vala:169
-#, c-format
-#| msgid "Error saving: %s"
-msgid "Error loading: %s"
-msgstr "Fehler beim Laden: %s"
-
-#: ../src/Main.vala:172
-#| msgid "Error Saving"
-msgid "Error Loading"
-msgstr "Fehler beim Laden"
-
-#: ../src/SlideActor.vala:135
+#: ../src/SlideActor.vala:182
 #, c-format
 msgid "Error loading background: %s"
 msgstr "Fehler beim Laden des Hintergrunds: %s"
 
-#: ../src/SlidePane.vala:41 ../src/TransitionPane.vala:53
+#: ../src/SlidePane.vala:38 ../src/TransitionPane.vala:65
 msgid "Effect"
 msgstr "Effekt"
 
-#: ../src/SlidePane.vala:52 ../src/TransitionPane.vala:69
+#: ../src/SlidePane.vala:49 ../src/TransitionPane.vala:81
 msgid "Duration"
 msgstr "Dauer"
 
-#: ../src/TransitionPane.vala:87
+#: ../src/TransitionPane.vala:95
 msgid "Direction"
 msgstr "Richtung"
 
-#: ../src/TransitionPane.vala:100
+#: ../src/TransitionPane.vala:108
 msgid "Start Transition"
 msgstr "Übergangseffekt starten"
 
-#: ../src/TransitionPane.vala:103
+#: ../src/TransitionPane.vala:111
 msgid "Manually"
 msgstr "Manuell"
 
-#: ../src/TransitionPane.vala:104
+#: ../src/TransitionPane.vala:112
 msgid "Automatically"
 msgstr "Automatisch"
 
-#: ../src/TransitionPane.vala:114
+#: ../src/TransitionPane.vala:122
 msgid "Delay"
 msgstr "Verzögerung"
 
@@ -259,7 +242,6 @@ msgid "Right"
 msgstr "Rechts"
 
 #: ../src/Transitions.vala:162
-#| msgid "Bottom Left"
 msgid "Bottom"
 msgstr "Unten"
 
@@ -324,8 +306,14 @@ msgstr "Benutzerdefiniert"
 msgid "%i by %i"
 msgstr "%i mal %i"
 
-#~ msgid "No Document"
-#~ msgstr "Kein Dokument"
+#~ msgid "Error exporting: %s"
+#~ msgstr "Fehler beim Exportieren: %s"
 
-#~ msgid "No root node"
-#~ msgstr "Kein Hauptknoten"
+#~ msgid "Error Exporting"
+#~ msgstr "Fehler beim Exportieren"
+
+#~ msgid "Error saving: %s"
+#~ msgstr "Fehler beim Speichern: %s"
+
+#~ msgid "Error copying: %s"
+#~ msgstr "Fehler beim Kopieren: %s"
