@@ -559,7 +559,7 @@ public class Ease.Element : GLib.Object
 	{
 		owned get
 		{
-			var str = Path.build_path("/", parent.parent.path, filename);
+			var str = Path.build_filename(parent.parent.path, filename);
 			return str;
 		}
 	}

@@ -158,7 +158,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 			string name = dir.read_name();
 			while (name != null)
 			{
-				var path = Path.build_path("/", THEME_DIR, name);
+				var path = Path.build_filename(THEME_DIR, name);
 				themes.add(JSONParser.theme(path));
 				name = dir.read_name();
 			}

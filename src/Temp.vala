@@ -33,35 +33,26 @@ public static class Ease.Temp : Object
 	 */
 	public static string request() throws GLib.Error
 	{
+		// get the temporary directory
+		string tmp = Environment.get_tmp_dir();
+		
 		// remove any temporary directories from previous runs of Ease
 		if (index == 0)
 		{
-			string tmp = Environment.get_tmp_dir();
-			var file =
-				GLib.File.new_for_path(Path.build_path("/", tmp, "ease"));
+			var ease_tmp = Path.build_filename(tmp, "ease");
+			var file = GLib.File.new_for_path(ease_tmp);
 			
 			if (file.query_exists(null))
 			{
 				// TODO: not this
-				Posix.system("rm -rf /tmp/ease");
-//				var enumerator = file.enumerate_children("standard::", 0, null);
-//				
-//				var info = enumerator.next_file(null);
-//				while (info != null)
-//				{
-//					stdout.printf("%s\n", info.get_display_name());
-//					info = enumerator.next_file(null);
-//				}
-//				
-//				file.delete(null);
+				Posix.system("rm -rf %s".printf(ease_tmp));
 			}
 		}
 		
 		index++;
 		
 		// build the path
-		string tmp = Environment.get_tmp_dir();
-		tmp = Path.build_path("/", tmp, "ease", index.to_string());
+		tmp = Path.build_filename(tmp, "ease", index.to_string());
 		
 		// make the directory
 		var file = GLib.File.new_for_path(tmp);
@@ -98,7 +89,7 @@ public static class Ease.Temp : Object
 		weak Archive.Entry entry;
 		while (archive.next_header(out entry) == Archive.Result.OK)
 		{
-			var fpath = Path.build_path("/", path, entry.pathname());
+			var fpath = Path.build_filename(path, entry.pathname());
 			var file = GLib.File.new_for_path(fpath);
 			if (Posix.S_ISDIR(entry.mode()))
 			{

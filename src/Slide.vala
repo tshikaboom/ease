@@ -81,7 +81,7 @@ public class Ease.Slide
 		owned get
 		{
 			string p = parent == null ? theme.path : parent.path;
-			return Path.build_path("/", p, background_image);
+			return Path.build_filename(p, background_image);
 		}
 	}
 	

@@ -33,7 +33,7 @@ public static class Ease.JSONParser
 		var parser = new Json.Parser();
 		
 		// attempt to load the file
-		parser.load_from_file(Path.build_path("/", filename, "Document.json"));
+		parser.load_from_file(Path.build_filename(filename, "Document.json"));
 		
 		// grab the root object
 		var root = parser.get_root().get_object();
@@ -67,7 +67,7 @@ public static class Ease.JSONParser
 		var parser = new Json.Parser();
 		
 		// attempt to load the file
-		parser.load_from_file(Path.build_path("/", theme.path, "Theme.json"));
+		parser.load_from_file(Path.build_filename(theme.path, "Theme.json"));
 		
 		// grab the root object
 		var root = parser.get_root().get_object();
@@ -184,7 +184,7 @@ public static class Ease.JSONParser
 		var generator = new Json.Generator();
 		generator.set_root(root);
 		generator.pretty = true;
-		generator.to_file(Path.build_path("/", document.path, "Document.json"));
+		generator.to_file(Path.build_filename(document.path, "Document.json"));
 	}
 	
 	private static Json.Node document_write_slide(Slide slide)

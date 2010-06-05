@@ -40,8 +40,8 @@ public class Ease.VideoActor : Actor, Clutter.Media
 		base(e, c);
 
 		video = new ClutterGst.VideoTexture();
-		video.set_filename(Path.build_path("/", e.parent.parent.path,
-		                                   e.get("filename")));
+		video.set_filename(Path.build_filename(e.parent.parent.path,
+		                                       e.get("filename")));
 
 		// play the video if it's in the presentation
 		if (c == ActorContext.PRESENTATION)
