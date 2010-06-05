@@ -98,8 +98,8 @@ public class Ease.WelcomeActor : Clutter.Group
 		rect.width = w;
 		rect.height = h;
 		
-		text.x = rect.width / 2 - text.width / 2;
-		text.y = h + TEXT_OFFSET;
+		text.x = Math.roundf(rect.width / 2 - text.width / 2);
+		text.y = Math.roundf(h + TEXT_OFFSET);
 		
 		if (slide_actor != null)
 		{

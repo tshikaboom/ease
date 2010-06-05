@@ -258,13 +258,13 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		
 		slide_actor.set_scale_full(zoom, zoom, 0, 0);
 
-		slide_actor.x = w < width
-		              ? width / 2 - w / 2
-	                  : 0;
+		slide_actor.x = Math.roundf(w < width
+		                            ? width / 2 - w / 2
+	                                : 0);
 		        
-		slide_actor.y = h < height
-		              ? height / 2 - h / 2
-		              : 0;
+		slide_actor.y = Math.roundf(h < height
+		                            ? height / 2 - h / 2
+		                            : 0);
 		              
 		if (selection_rectangle != null)
 		{

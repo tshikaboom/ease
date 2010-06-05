@@ -359,13 +359,16 @@ public class Ease.WelcomeWindow : Gtk.Window
 			float x_pixels = x_origin + x_position *
 			                  (PREVIEW_PADDING + preview_width);
 			
+			float x_round = Math.roundf(x_pixels);
+			float y_round = Math.roundf(y_pixels);
+			
 			if (animate_resize)
 			{	
 				// create new animations if the reshuffle is starting
 				if (x_anims.size == i)
 				{
-					x_anims.add(a.animate(ANIM_EASE, ANIM_TIME, "x", x_pixels));
-					y_anims.add(a.animate(ANIM_EASE, ANIM_TIME, "y", y_pixels));
+					x_anims.add(a.animate(ANIM_EASE, ANIM_TIME, "x", x_round));
+					y_anims.add(a.animate(ANIM_EASE, ANIM_TIME, "y", y_round));
 				}
 				
 				// otherwise, replace the intial target with a new one
@@ -374,8 +377,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 					x_anims.get(i).unbind_property("x");
 					y_anims.get(i).unbind_property("y");
 					
-					x_anims.get(i).bind("x", x_pixels);
-					y_anims.get(i).bind("y", y_pixels);
+					x_anims.get(i).bind("x", x_round);
+					y_anims.get(i).bind("y", y_round);
 				}
 			}
 			else
