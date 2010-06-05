@@ -67,7 +67,7 @@ public static class Ease.JSONParser
 		var parser = new Json.Parser();
 		
 		// attempt to load the file
-		parser.load_from_file(Path.build_path("/", path, "Theme.json"));
+		parser.load_from_file(Path.build_path("/", theme.path, "Theme.json"));
 		
 		// grab the root object
 		var root = parser.get_root().get_object();
