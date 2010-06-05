@@ -37,14 +37,13 @@ public class Ease.ImageActor : Actor
 	public ImageActor(Element e, ActorContext c)
 	{
 		base(e, c);
-		
 		try
 		{
-			contents = new Clutter.Texture.from_file(Path.build_path("/", e.parent.parent.path, e.get("filename")));
+			contents = new Clutter.Texture.from_file(e.full_filename);
 		}
 		catch (GLib.Error e)
 		{
-			stdout.printf(_("Error loading ImageActor: %s"), e.message);
+			stdout.printf(_("Error loading ImageActor: %s\n"), e.message);
 		}
 		finally
 		{

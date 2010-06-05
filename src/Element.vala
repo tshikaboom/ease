@@ -550,5 +550,18 @@ public class Ease.Element : GLib.Object
 		owned get { return data.get("filename"); }
 		set	{ data.set("filename", value); }
 	}
+	
+	/**
+	 * The full path to a media file. Applies to "image" and "video"
+	 * Elements. Cannot be set.
+	 */
+	public string full_filename
+	{
+		owned get
+		{
+			var str = Path.build_path("/", parent.parent.path, filename);
+			return str;
+		}
+	}
 }
 

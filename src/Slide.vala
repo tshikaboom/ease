@@ -80,7 +80,8 @@ public class Ease.Slide
 	{
 		owned get
 		{
-			return Path.build_path("/",parent.path, background_image);
+			string p = parent == null ? theme.path : parent.path;
+			return Path.build_path("/", p, background_image);
 		}
 	}
 	
@@ -93,6 +94,11 @@ public class Ease.Slide
 	 * The {@link Document} that this Slide is part of
 	 */
 	public Document parent { get; set; }
+	
+	/**
+	 * The {@link Theme} that this Slide is based on.
+	 */
+	public Theme theme { get; set; }
 	
 	/**
 	 * The number of {@link Element}s on this Slide

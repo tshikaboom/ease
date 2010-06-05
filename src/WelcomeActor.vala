@@ -81,6 +81,7 @@ public class Ease.WelcomeActor : Clutter.Group
 		
 		slide = new Slide.from_master(master, null,
 		                              (int)WIDTH, (int)slide_height);
+		slide.theme = theme;
 		slide_actor = new SlideActor.with_dimensions(w, h, slide, true,
 		                                             ActorContext.PRESENTATION);
 		
