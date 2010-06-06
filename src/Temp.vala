@@ -17,12 +17,22 @@
 
 /**
  * Creates temporary directories for use by Ease.
+ *
+ * Temporary directories are (typically) stored in /tmp/ease/{PID}/{INDEX},
+ * where {PID} is the process ID and {INDEX} increments with each new directory.
+ * Ease automatically cleans up temporary directories when exiting, and will
+ * remove /tmp/ease if no other folders are being used in it.
  */
 public static class Ease.Temp : Object
 {
 	private static int index = 0;
+	private static int pid;
+	private static string temp;
+	
+	private static Gee.LinkedList<string> folders;
 	
 	private const int ARCHIVE_BUFFER = 4096;
+	private const string TEMP_DIR = "ease";
 	
 	/**
 	 * Requests a temporary directory.
@@ -33,26 +43,26 @@ public static class Ease.Temp : Object
 	 */
 	public static string request() throws GLib.Error
 	{
-		// get the temporary directory
-		string tmp = Environment.get_tmp_dir();
-		
-		// remove any temporary directories from previous runs of Ease
-		if (index == 0)
+		if (folders == null)
 		{
-			var ease_tmp = Path.build_filename(tmp, "ease");
-			var file = GLib.File.new_for_path(ease_tmp);
+			folders = new Gee.LinkedList<string>();
+			pid = Posix.getpid();
 			
-			if (file.query_exists(null))
-			{
-				// TODO: not this
-				Posix.system("rm -rf %s".printf(ease_tmp));
-			}
+			temp = Path.build_filename(Environment.get_tmp_dir(), TEMP_DIR,
+			                           pid.to_string());
 		}
 		
-		index++;
+		// find a safe directory to extract to
+		while (exists(index, temp))
+		{
+			index++;
+		}
 		
 		// build the path
-		tmp = Path.build_filename(tmp, "ease", index.to_string());
+		string tmp = Path.build_filename(temp, index.to_string());
+		
+		// track the directories used by this instance of the program
+		folders.offer_head(tmp);
 		
 		// make the directory
 		var file = GLib.File.new_for_path(tmp);
@@ -105,5 +115,50 @@ public static class Ease.Temp : Object
 		}
 		
 		return path;
+	}
+	
+	/**
+	 * Deletes all temporary directories created by this instance of Ease.
+	 * Call when exiting.
+	 */
+	public static void clean()
+	{
+		string dir;
+		while ((dir = folders.poll_head()) != null)
+		{
+			// TODO: not this
+			Posix.system("rm -rf %s".printf(dir));
+		}
+		
+		// Attempt to delete the parent temp directory.
+		//
+		// This will throw an exception if other instances of Ease are running,
+		// but that's what should happen, so we'll just ignore the exception.
+		string tmp = Path.build_filename(Environment.get_tmp_dir(), TEMP_DIR);
+		try
+		{
+			// delete {TEMP}/ease/pid
+			var file = GLib.File.new_for_path(temp);
+			file.delete(null);
+			
+			// delete {TEMP}/ease
+			file = GLib.File.new_for_path(tmp);
+			file.delete(null);
+		}
+		catch (Error e) {}
+	}
+	
+	/**
+	 * Checks if a temporary directory already exists.
+	 *
+	 * @param dir The index of the directory.
+	 * @param tmp The parent temporary directory (typically /tmp/ease).
+	 */
+	private static bool exists(int dir, string tmp)
+	{
+		var dir_tmp = Path.build_filename(tmp, dir.to_string());
+		var file = GLib.File.new_for_path(dir_tmp);
+		
+		return file.query_exists(null);
 	}
 }

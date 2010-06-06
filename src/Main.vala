@@ -121,6 +121,8 @@ public static class Ease.Main : GLib.Object
 		}
 	
 		Gtk.main();
+		
+		Temp.clean();
 	
 		return 0;
 	}
