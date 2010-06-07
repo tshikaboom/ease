@@ -51,7 +51,7 @@ public static class Ease.JSONParser
 		for (var i = 0; i < slides.get_length(); i++)
 		{
 			var node = slides.get_object_element(i);
-			document.add_slide(document.length, parse_slide(node));
+			document.add_slide(document.length, parse_slide(node, false));
 		}
 		
 		return document;
@@ -85,13 +85,13 @@ public static class Ease.JSONParser
 		for (var i = 0; i < slides.get_length(); i++)
 		{
 			var node = slides.get_object_element(i);
-			theme.add_slide(theme.length, parse_slide(node));
+			theme.add_slide(theme.length, parse_slide(node, true));
 		}
 		
 		return theme;
 	}
 	
-	private static Slide parse_slide(Json.Object obj)
+	private static Slide parse_slide(Json.Object obj, bool theme)
 	{
 		var slide = new Slide();
 		
@@ -138,15 +138,23 @@ public static class Ease.JSONParser
 		for (var i = 0; i < elements.get_length(); i++)
 		{
 			var node = elements.get_object_element(i);
-			slide.add_element(slide.count, parse_element(node));
+			slide.add_element(slide.count, parse_element(node, theme));
 		}
 		
 		return slide;
 	}
 	
-	private static Element parse_element(Json.Object obj)
+	private static Element parse_element(Json.Object obj, bool theme)
 	{
-		var element = new Element();
+		Element element;
+		if (theme)
+		{
+			element = new MasterElement();
+		}
+		else
+		{
+			element = new Element();
+		}
 		
 		// set the Element's properties
 		for (unowned List<string>* itr = obj.get_members();

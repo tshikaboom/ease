@@ -31,6 +31,7 @@ ease_SOURCES = \
 	src/JSONParser.vala\
 	src/MainToolbar.vala \
 	src/Main.vala \
+	src/MasterElement.vala \
 	src/OpenDialog.vala \
 	src/PDFExporter.vala \
 	src/Player.vala \
@@ -53,6 +54,7 @@ ease_SOURCES = \
 	src/WelcomeWindow.vala \
 	src/ZoomSlider.vala \
 	$(NULL)
+
 # ease_VALAFLAGS = $(EASE_PACKAGES)
 VALAFLAGS = --pkg glib-2.0 \
 		--pkg gtk+-2.0 \

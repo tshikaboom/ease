@@ -22,7 +22,7 @@
  * children. The currently selected Slide is often acted upon by an
  * {@link EditorWindow}.
  */
-public class Ease.Slide
+public class Ease.Slide : GLib.Object
 {
 	/**
 	 * The {@link Element}s contained by this Slide
@@ -198,20 +198,7 @@ public class Ease.Slide
 		// add all of the master Slide's elements
 		foreach (var e in master.elements)
 		{
-			// copy the Element
-			var element = e.copy();
-			element.parent = this;
-			
-			// resize the Element to fit the Document
-			element.x = (int)(element.get("x").to_double() * width);
-			element.y = (int)(element.get("y").to_double() * height);
-			element.width = (int)(element.get("width").to_double() *
-			                      width);
-			element.height = (int)(element.get("height").to_double() *
-			                       height);
-			
-			// add the Element to the new Slide
-			elements.add(element);
+			elements.add(((MasterElement)e).sized_element(width, height));
 		}
 	}
 	
