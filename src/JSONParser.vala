@@ -23,17 +23,20 @@ public static class Ease.JSONParser
 	/**
 	 * Parses a document JSON file, creating a {@link Document}.
 	 *
-	 * @param filename The filename of the {@link Document}
+	 * @param path The filename of the {@link Document}
 	 */
-	public static Document document(string filename) throws GLib.Error
+	public static Document document(string path) throws GLib.Error
 	{
+		string filename = absolute_path(path);
 		var document = new Document();
-		document.path = filename;
+		document.path = Temp.extract(filename);
+		document.filename = filename;
 	
 		var parser = new Json.Parser();
 		
 		// attempt to load the file
-		parser.load_from_file(Path.build_filename(filename, "Document.json"));
+		parser.load_from_file(Path.build_filename(document.path,
+		                                          "Document.json"));
 		
 		// grab the root object
 		var root = parser.get_root().get_object();
@@ -57,10 +60,11 @@ public static class Ease.JSONParser
 	/**
 	 * Parses a theme JSON file, creating a {@link Theme}.
 	 *
-	 * @param filename The path to the {@link Theme}
+	 * @param path The path to the {@link Theme}
 	 */
-	public static Theme theme(string filename) throws GLib.Error
+	public static Theme theme(string path) throws GLib.Error
 	{
+		string filename = absolute_path(path);
 		var theme = new Theme();
 		theme.path = Temp.extract(filename);
 	
@@ -180,11 +184,14 @@ public static class Ease.JSONParser
 		// set the root object
 		root.set_object(obj);
 		
-		// write to file
+		// write to JSON file
 		var generator = new Json.Generator();
 		generator.set_root(root);
 		generator.pretty = true;
 		generator.to_file(Path.build_filename(document.path, "Document.json"));
+		
+		// archive
+		Temp.archive(document.path, document.filename);
 	}
 	
 	private static Json.Node document_write_slide(Slide slide)
@@ -231,6 +238,12 @@ public static class Ease.JSONParser
 		
 		node.set_object(obj);
 		return node;
+	}
+	
+	private static string absolute_path(string path)
+	{
+		var file = GLib.File.new_for_path(path);
+		return file.resolve_relative_path(".").get_path();
 	}
 }
 

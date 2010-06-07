@@ -21,7 +21,13 @@
 public abstract class Ease.SlideSet : Object
 {
 	/**
-	 * The file path of the SlideSet.
+	 * The filename of the of the SlideSet when archived. Typically, this is a
+	 * .ease or .easetheme file.
+	 */
+	public string filename { get; set; }
+	
+	/**
+	 * The file path of the SlideSet (extracted).
 	 */
 	public string path { get; set; }
 
@@ -47,7 +53,7 @@ public abstract class Ease.SlideSet : Object
 	}
 	
 	/**
-	 * Adds a new {@link Slide to the end of the SlideSet.
+	 * Adds a new {@link Slide} to the end of the SlideSet.
 	 *
 	 * @param s The {@link Slide} to append.
 	 */

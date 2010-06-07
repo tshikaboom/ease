@@ -18,8 +18,8 @@
 /**
  * Creates temporary directories for use by Ease.
  *
- * Temporary directories are (typically) stored in /tmp/ease/{PID}/{INDEX},
- * where {PID} is the process ID and {INDEX} increments with each new directory.
+ * Temporary directories are (typically) stored in /tmp/ease/[PID]/[INDEX],
+ * where [PID] is the process ID and [INDEX] increments with each new directory.
  * Ease automatically cleans up temporary directories when exiting, and will
  * remove /tmp/ease if no other folders are being used in it.
  */
@@ -118,6 +118,25 @@ public static class Ease.Temp : Object
 	}
 	
 	/**
+	 * Creates an archive from a temporary directory.
+	 *
+	 * archive() will use libarchive to archive a temporary directory (or,
+	 * technically, any directory) to a single file. Currently, it runs "tar"
+	 * with Posix.system(), a solution that should be replaced with a more
+	 * portable alternative.
+	 *
+	 * @param temp_path The path of the temporary directory.
+	 * @param filename The filename of the archive to save to.
+	 */
+	public static void archive(string temp_path, string filename) throws Error
+	{
+		// TODO: implementation with libarchive
+		var file = GLib.File.new_for_path(filename);
+		string last_path = file.get_basename();
+		Posix.system("cd %s; tar -cf %s `ls`; mv %s %s".printf(temp_path, last_path, last_path, filename));
+	}
+	
+	/**
 	 * Deletes all temporary directories created by this instance of Ease.
 	 * Call when exiting.
 	 */
@@ -126,8 +145,11 @@ public static class Ease.Temp : Object
 		string dir;
 		while ((dir = folders.poll_head()) != null)
 		{
-			// TODO: not this
-			Posix.system("rm -rf %s".printf(dir));
+			try { recursive_delete(dir); }
+			catch (FileError e)
+			{
+				debug(e.message);
+			}
 		}
 		
 		// Attempt to delete the parent temp directory.
@@ -137,11 +159,11 @@ public static class Ease.Temp : Object
 		string tmp = Path.build_filename(Environment.get_tmp_dir(), TEMP_DIR);
 		try
 		{
-			// delete {TEMP}/ease/pid
+			// delete [TEMP]/ease/pid
 			var file = GLib.File.new_for_path(temp);
 			file.delete(null);
 			
-			// delete {TEMP}/ease
+			// delete [TEMP]/ease
 			file = GLib.File.new_for_path(tmp);
 			file.delete(null);
 		}
@@ -154,11 +176,45 @@ public static class Ease.Temp : Object
 	 * @param dir The index of the directory.
 	 * @param tmp The parent temporary directory (typically /tmp/ease).
 	 */
-	private static bool exists(int dir, string tmp)
+	public static bool exists(int dir, string tmp)
 	{
 		var dir_tmp = Path.build_filename(tmp, dir.to_string());
 		var file = GLib.File.new_for_path(dir_tmp);
 		
 		return file.query_exists(null);
+	}
+	
+	/**
+	 * Recursively removes a directory.
+	 *
+	 * Ported from Will Thompson's code located [[http://git.collabora.co.uk/?p=telepathy-haze.git;a=blob;f=src/util.c;h=5cbb4fb30b181a6c0f32c08bdadffae43b6e6ec3;hb=HEAD|here]].
+	 *
+	 * @param path The directory to be recursively deleted.
+	 */
+	public static void recursive_delete(string path) throws FileError
+	{
+		string child_path;
+		var dir = GLib.Dir.open(path, 0);
+		
+		if (dir == null)
+		{
+			throw new FileError.NOENT(
+				_("Directory to remove doesn't exist: %s"), path);
+		}
+		
+		while ((child_path = dir.read_name()) != null)
+		{
+			var child_full_path = Path.build_filename(path, child_path);
+			if (FileUtils.test(child_full_path, FileTest.IS_DIR))
+			{
+				recursive_delete(child_full_path);
+			}
+			else // the path is a file
+			{
+				FileUtils.unlink(child_full_path);
+			}
+		}
+		
+		DirUtils.remove(path);
 	}
 }

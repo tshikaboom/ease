@@ -47,4 +47,7 @@ AM_GNU_GETTEXT([external])
 dnl Package Themes
 AC_CONFIG_COMMANDS([build-themes], [sh themes/build.sh])
 
+dnl Package Example .ease files
+AC_CONFIG_COMMANDS([build-examples], [sh examples/build.sh])
+
 AC_OUTPUT

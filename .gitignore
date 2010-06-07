@@ -20,6 +20,9 @@ doc
 # ignore theme packages
 *.easetheme
 
+# ignore .ease files (for now at least)
+*.ease
+
 # shamelessly copied from gnome-scan.
 # autotools generated files
 .dirstamp
