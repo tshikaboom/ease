@@ -166,6 +166,10 @@ public class Ease.EditorWindow : Gtk.Window
 		        	                          Gtk.ResponseType.CANCEL,
 		        	                          "gtk-open",
 		        	                          Gtk.ResponseType.ACCEPT, null);
+		        
+		        var filter = new Gtk.FileFilter();
+				filter.add_pattern("*.ease");
+				dialog.filter = filter;
 
 				if (dialog.run() == Gtk.ResponseType.ACCEPT)
 				{

@@ -53,6 +53,11 @@ public class Ease.OpenDialog : GLib.Object
 		                                       Gtk.ResponseType.CANCEL,
 		                                       "gtk-open",
 		                                       Gtk.ResponseType.ACCEPT);
+		
+		// filter to only .ease files
+		var filter = new Gtk.FileFilter();
+		filter.add_pattern("*.ease");
+		dialog.filter = filter;
 
 		if (dialog.run() == Gtk.ResponseType.ACCEPT)
 		{
