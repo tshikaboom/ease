@@ -1,0 +1,67 @@
+{
+  "title" : "Pink",
+  "slides" : [
+    {
+      "transition" : "1",
+      "variant" : "0",
+      "automatically_advance" : "false",
+      "advance_delay" : "0",
+      "elements" : [
+        {
+          "font_variant" : "Normal",
+          "font_style" : "Normal",
+          "element_type" : "text",
+          "identifier" : "header",
+          "green" : "255",
+          "align" : "left",
+          "text" : "Lorem Ipsum Dolor",
+          "blue" : "255",
+          "font_weight" : "900",
+          "red" : "255",
+          "ease_name" : "header",
+          "font_name" : "Sans",
+          "font_size" : "36",
+          "left" : "30",
+          "right" : "30",
+          "top" : "30",
+          "bottom" : "678",
+          "bind_left" : "true",
+          "bind_right" : "true",
+          "bind_top" : "true",
+          "bind_bottom" : "false",
+          "expand_horizontally" : "true",
+          "expand_vertically" : "false"
+        },
+        
+        {
+          "font_variant" : "Normal",
+          "font_style" : "Normal",
+          "element_type" : "text",
+          "identifier" : "header",
+          "green" : "255",
+          "align" : "left",
+          "text" : "Sit amet, consectetur adipiscing elit. Maecenas sed odio eget purus laoreet volutpat. Etiam nulla orci, eleifend nec sodales in, tempor cursus urna. Aenean posuere aliquet malesuada. Integer varius placerat massa. Pellentesque enim urna, cursus et molestie et, iaculis vitae libero. Quisque vel metus sed magna lacinia luctus. Suspendisse vel lectus eget diam dapibus condimentum. Aliquam a dolor vel sem rutrum mattis sit amet vitae nisl. Etiam vel sem tortor. Vestibulum varius metus id orci vulputate viverra luctus magna commodo. Duis dignissim sollicitudin leo eget tristique. Maecenas adipiscing neque nec mauris mollis ut ultrices sem porta. Cras vitae massa lectus. Aenean orci lectus, pretium nec sodales eu, aliquam vitae neque. Mauris nibh lectus, porta et vestibulum a, vestibulum a nulla.",
+          "blue" : "255",
+          "font_weight" : "900",
+          "red" : "255",
+          "ease_name" : "header",
+          "font_name" : "Sans",
+          "font_size" : "16",
+          "left" : "30",
+          "right" : "30",
+          "top" : "100",
+          "bottom" : "30",
+          "bind_left" : "true",
+          "bind_right" : "true",
+          "bind_top" : "true",
+          "bind_bottom" : "true",
+          "expand_horizontally" : "true",
+          "expand_vertically" : "true"
+        }
+      ],
+      "background_image" : "Media/Background.svg",
+      "title" : "Standard",
+      "transition_time" : "0.5"
+    }
+  ]
+}
