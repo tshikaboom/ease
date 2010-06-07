@@ -7,6 +7,7 @@ To build Ease, install the following tools:
 - valac => 0.8.1
 - gcc (or clang)
 - make
+- tar
 
 As well as these dependencies:
 
