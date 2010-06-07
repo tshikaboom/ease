@@ -156,12 +156,12 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		// save file
 		main_toolbar.save.clicked.connect(() => {
-			if (document.path == null)
+			if (document.filename == null)
 			{
 				var dialog =
 					new Gtk.FileChooserDialog(_("Save Document"),
 		        	                          null,
-		        	                          Gtk.FileChooserAction.SELECT_FOLDER,
+		        	                          Gtk.FileChooserAction.SAVE,
 		        	                          "gtk-cancel",
 		        	                          Gtk.ResponseType.CANCEL,
 		        	                          "gtk-open",
@@ -169,7 +169,7 @@ public class Ease.EditorWindow : Gtk.Window
 
 				if (dialog.run() == Gtk.ResponseType.ACCEPT)
 				{
-					document.path = dialog.get_filename();
+					document.filename = dialog.get_filename();
 				}
 				else
 				{

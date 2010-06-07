@@ -202,6 +202,9 @@ public class Ease.WelcomeWindow : Gtk.Window
 			document.height = (int)y_res.get_value();
 			document.theme = selected_theme;
 			
+			// allocate a temp directory for the new document
+			document.path = Temp.request();
+			
 			// get the master
 			var master = selected_theme.slide_by_title(PREVIEW_ID);
 			
