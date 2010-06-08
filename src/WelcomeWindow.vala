@@ -196,28 +196,24 @@ public class Ease.WelcomeWindow : Gtk.Window
 		
 		// ui signals
 		new_button.clicked.connect(() => {
-			// create a new Document
-			var document = new Document();
-			document.width = (int)x_res.get_value();
-			document.height = (int)y_res.get_value();
-			document.theme = selected_theme;
+			try
+			{
+				// create a new Document
+				var document = new Document.from_theme(selected_theme,
+					                                   (int)x_res.get_value(),
+					                                   (int)y_res.get_value());
 			
-			// allocate a temp directory for the new document
-			document.path = Temp.request();
 			
-			// get the master
-			var master = selected_theme.slide_by_title(PREVIEW_ID);
+				// create an EditorWindow for the new Document
+				var editor = new EditorWindow(document);
 			
-			// add the first slide
-			document.append_slide(new Slide.from_master(master, document,
-			                                            document.width,
-			                                            document.height));
-			
-			// create an EditorWindow for the new Document
-			var editor = new EditorWindow(document);
-			
-			Main.add_window(editor);
-			Main.remove_welcome();
+				Main.add_window(editor);
+				Main.remove_welcome();
+			}
+			catch (Error e)
+			{
+				error_dialog(_("Error creating new document"), e.message);
+			}
 		});
 		
 		// changing resolution values

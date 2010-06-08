@@ -23,6 +23,8 @@
  */
 public class Ease.Document : SlideSet
 {
+	private const string DEFAULT_SLIDE = "Standard";
+
 	/**
 	 * The {@link Theme} linked to this Document.
 	 */
@@ -44,12 +46,38 @@ public class Ease.Document : SlideSet
 	public float aspect { get { return (float)width / (float)height; } }
 
 	/**
-	 * Default constructor, used for new documents.
+	 * Default constructor, creates an empty Document.
 	 * 
 	 * Creates a new, empty document with no slides. Used for creating new
 	 * documents (which can then add a default slide).
 	 */
 	public Document() { }
+	
+	/**
+	 * Theme constructor, used for new documents.
+	 *
+	 * @param doc_theme The {@link Theme} for this Document.
+	 * @param w The width of the new Document.
+	 * @param h The height of the new Document.
+	 */
+	public Document.from_theme(Theme doc_theme, int w, int h) throws GLib.Error
+	{
+		width = w;
+		height = h;
+		theme = doc_theme;
+		
+		// allocate a temp directory for the new document
+		path = Temp.request();
+		
+		// copy media to the new path
+		doc_theme.copy_media(path);
+		
+		// get the master
+		var master = theme.slide_by_title(DEFAULT_SLIDE);
+		
+		// add the first slide
+		append_slide(new Slide.from_master(master, this, width, height));
+	}
 	
 	/**
 	 * Inserts a new {@link Slide} into the Document
