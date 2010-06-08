@@ -253,7 +253,7 @@ public class Ease.TransitionPane : InspectorPane
 		
 		// size the preview box
 		Gtk.Allocation alloc = Gtk.Allocation();
-		preview_align.get_allocation(alloc);
+		preview_align.get_allocation(out alloc);
 		preview_align.height_request = (int)(alloc.width / slide.parent.aspect);
 		
 		// remove the old preview slide actors

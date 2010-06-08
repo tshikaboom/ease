@@ -31,9 +31,6 @@ public class Ease.EditorEmbed : ScrollableEmbed
 {
 	// the editorwindow
 	private EditorWindow win;
-
-	// overall display
-	private Clutter.Rectangle view_background;
 	
 	// selection rectangle
 	private Clutter.Rectangle selection_rectangle;
@@ -88,9 +85,6 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		
 		// don't fade actors out when zoomed out
 		get_stage().use_fog = false;
-
-		// set up the background
-		view_background = new Clutter.Rectangle();
 		
 		// find the appropriate color
 		var settings = Gtk.Settings.get_default();
@@ -116,13 +110,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 				
 				clutter_color.shade(SHADE_FACTOR, out out_color);
 				
-				view_background.color = out_color;
+				get_stage().color = out_color;
 				
 				break;
 			}
 		}
-		
-		contents.add_actor(view_background);
 		
 		document = d;
 		set_size_request(320, 240);
@@ -143,10 +135,6 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			{
 				reposition_group();
 			}
-
-			// set the size of the background
-			view_background.width = (float)Math.fmax(width, slide_actor.width);
-			view_background.height = height;
 		});
 	}
 

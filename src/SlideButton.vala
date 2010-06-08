@@ -116,7 +116,7 @@ public class Ease.SlideButton : Gtk.Button
 		
 		// get the size of the drawing area
 		var allocation = Gtk.Allocation();
-		drawing.get_allocation(allocation);
+		drawing.get_allocation(out allocation);
 		
 		context.save();
 		context.scale(((float)allocation.width) / slide.parent.width,

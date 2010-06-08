@@ -167,6 +167,11 @@ public class Ease.MasterElement : Element
 		set { data.set("right", value.to_string()); }
 	}
 	
+	public MasterElement()
+	{
+		data = new ElementMap();
+	}
+	
 	/**
 	 * Creates an {@link Element} from this MasterElement at the specified size.
 	 *
