@@ -18,31 +18,31 @@
 /**
  * Interface element for manipulating the size of {@link Actor}s.
  */
-public class Ease.Handle : Clutter.Rectangle
+public class Ease.Handle : Clutter.Texture
 {	
 	// the position of this handle
 	private HandlePosition position;
 	
+	// if the handle has been "flipped"
+	private bool flipped = false;
+	
 	// constants
-	public const float SIZE = 50;
+	public const float SIZE = 20;
+	public const string W_PATH = "/usr/local/share/ease/svg/handle-white.svg";
+	public const string B_PATH = "/usr/local/share/ease/svg/handle-black.svg";
 	
 	public Handle(HandlePosition pos)
 	{
-		// set the rectangle's position
+		// set the handle's position
 		position = pos;
 
-		// set the rectangle's color
-		color = {0, 0, 0, 255};
+		// load the handle texture
+		filename = W_PATH;
 
-		// set the rectangle's border
-		border_width = 2;
-		border_color = {255, 255, 255, 255};
-
-		// set the rectangle's size
-		width = SIZE;
-		height = SIZE;
-		set_anchor_point(SIZE / 2, SIZE / 2);
+		// set the handle's anchor
+		set_anchor_point(width / 2, height / 2);
 		
+		// react to clicks
 		reactive = true;
 	}
 	
@@ -180,6 +180,23 @@ public class Ease.Handle : Clutter.Rectangle
 				y = selection.y + selection.height;
 				break;
 		}
+	}
+	
+	/**
+	 * Flips the colors of the handle.
+	 */
+	public void flip()
+	{
+		if (flipped)
+		{
+			filename = W_PATH;
+		}
+		else
+		{
+			filename = B_PATH;
+		}
+		
+		flipped = !flipped;
 	}
 }
 

@@ -422,6 +422,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 */
 	public bool handle_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{
+		(sender as Handle).flip();
 		is_dragging = true;
 		is_drag_ready = false;
 		sender.motion_event.connect(handle_motion);
@@ -444,6 +445,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	{
 		if (is_dragging)
 		{
+			(sender as Handle).flip();
 			is_dragging = false;
 			sender.motion_event.disconnect(handle_motion);
 			

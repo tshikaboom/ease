@@ -94,3 +94,6 @@ Applications_DATA = data/ease.desktop.in
 themedir = $(datadir)/ease/themes
 theme_DATA = themes/*.easetheme
 
+svgdir = $(datadir)/ease/svg
+svg_DATA = data/svg/*.svg
+
