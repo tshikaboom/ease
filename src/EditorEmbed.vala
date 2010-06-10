@@ -44,6 +44,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	// the currently selected Actor
 	private Actor selected;
 	
+	/**
+	 * If the selected {@link Actor} is being edited.
+	 */
+	public bool is_editing { get; set; }
+	
 	// if the selected Actor is being dragged
 	private bool is_dragging;
 	private bool is_drag_ready;
@@ -61,6 +66,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	private const string BG_COLOR = "bg_color:";
 	private const string PREFIX = "#";
 	private const double SHADE_FACTOR = 0.9;
+	private const int HANDLE_COUNT = 8;
 	
 	private Document document;
 	public float zoom;
@@ -290,8 +296,16 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 */
 	public bool actor_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{
-		// if the sender is already selected, drag it
-		if (sender == selected)
+		// if this is a double click, edit the actor
+		if (event.click_count == 2)
+		{
+			(sender as Actor).edit(this);
+			is_editing = true;
+			return true;
+		}
+		
+		// otherwise, if the sender is already selected, drag it
+		else if (sender == selected)
 		{
 			is_dragging = true;
 			is_drag_ready = false;
@@ -300,26 +314,23 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			return true;
 		}
 		
+		// if editing another Actor, finish that edit
+		if (selected != null && is_editing)
+		{
+			selected.end_edit(this);
+			is_editing = false;
+		}
+		
 		// remove the selection rectangle and handles
 		if (selection_rectangle != null)
 		{
-			foreach (var h in handles)
-			{
-				//h.button_press_event.disconnect(handle_clicked);
-				//h.button_release_event.disconnect(handle_released);
-				
-				if (h.get_parent() == contents)
-				{	
-					contents.remove_actor(h);
-				}
-			}
 			if (selection_rectangle.get_parent() == contents)
 			{
 				contents.remove_actor(selection_rectangle);
 			}
 		}
 		
-		selected = (Actor)sender;
+		selected = sender as Actor;
 		
 		// make a new selection rectangle
 		selection_rectangle = new Clutter.Rectangle();
@@ -329,15 +340,23 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		position_selection();
 		contents.add_actor(selection_rectangle);
 		
-		handles = new Handle[8];
-		for (int i = 0; i < 8; i++)
+		// place the handles
+		if (handles == null)
 		{
-			handles[i] = new Handle((HandlePosition)i);
+			handles = new Handle[HANDLE_COUNT];
+			for (int i = 0; i < HANDLE_COUNT; i++)
+			{
+				handles[i] = new Handle((HandlePosition)i);
+				contents.add_actor(handles[i]);
+				handles[i].button_press_event.connect(handle_clicked);
+				handles[i].button_release_event.connect(handle_released);
+			}
+		}
+		
+		for (int i = 0; i < HANDLE_COUNT; i++)
+		{
 			handles[i].reposition(selection_rectangle);
-			contents.add_actor(handles[i]);
-			
-			handles[i].button_press_event.connect(handle_clicked);
-			handles[i].button_release_event.connect(handle_released);
+			contents.raise_child(handles[i], selection_rectangle);
 		}
 		
 		return true;
@@ -421,7 +440,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param event The corresponding Clutter.Event
 	 */
 	public bool handle_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
-	{
+	{	
 		(sender as Handle).flip();
 		is_dragging = true;
 		is_drag_ready = false;

@@ -123,6 +123,19 @@ public abstract class Ease.Actor : Clutter.Group
 		element.height = height;	
 	}
 	
+	/**
+	 * Called when the actor should be edited. Subclasses should override this.
+	 *
+	 * @param sender The {@link EditorEmbed} this Actor is on.
+	 */
+	public virtual void edit(EditorEmbed sender) {}
 	
+	/**
+	 * Called when the actor end editing. Subclasses with editing that is not
+	 * instant (popping up a dialog box) should override this.
+	 *
+	 * @param sender The {@link EditorEmbed} this Actor is on.
+	 */
+	public virtual void end_edit(EditorEmbed sender) {}
 }
 

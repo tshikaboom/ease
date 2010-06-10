@@ -53,5 +53,41 @@ public class Ease.TextActor : Actor
 		x = e.x;
 		y = e.y;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public override void edit(EditorEmbed sender)
+	{
+		// set text to editable
+		var text = contents as Clutter.Text;
+		text.editable = true;
+		text.reactive = true;
+		text.text_changed.connect(text_changed);
+		
+		// grab key focus
+		((Clutter.Stage)get_stage()).set_key_focus(text);
+		sender.key_focus();
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public override void end_edit(EditorEmbed sender)
+	{
+		// release key focus
+		((Clutter.Stage)get_stage()).set_key_focus(null);
+		
+		// disable text editing
+		var text = contents as Clutter.Text;
+		text.editable = false;
+		text.reactive = false;
+		text.text_changed.disconnect(text_changed);
+	}
+	
+	private void text_changed(Clutter.Text sender)
+	{
+		element.set("text", sender.text);
+	}
 }
 

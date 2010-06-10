@@ -189,4 +189,12 @@ public class Ease.ScrollableEmbed : Gtk.HBox
 		viewport.width = allocation.width;
 		viewport.height = allocation.height;
 	}
+	
+	/**
+	 * Sets keyboard focus to this ScrollableEmbed's GtkClutter.Embed
+	 */
+	public void key_focus()
+	{
+		embed.grab_focus();
+	}
 }

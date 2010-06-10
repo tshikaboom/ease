@@ -30,6 +30,9 @@ public static class Ease.Main : GLib.Object
 	private static Gee.ArrayList<EditorWindow> windows;
 	private static WelcomeWindow welcome;
 	
+	private const int DOUBLE_CLICK_TIME = 1000;
+	private const int DOUBLE_CLICK_DISTANCE = 5;
+	
 	// options
 	static string play_filename;
 	static string[] filenames;
@@ -82,6 +85,11 @@ public static class Ease.Main : GLib.Object
 		Transitions.init();
 		OpenDialog.init();
 		windows = new Gee.ArrayList<EditorWindow>();
+		
+		// Clutter settings
+		var backend = Clutter.get_default_backend();
+		backend.set_double_click_time(DOUBLE_CLICK_TIME);
+		backend.set_double_click_distance(DOUBLE_CLICK_DISTANCE);
 	
 		// open editor windows for each argument specified
 		if (filenames != null)
