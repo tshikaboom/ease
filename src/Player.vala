@@ -41,7 +41,7 @@ public class Ease.Player : GLib.Object
 	private float scale = 1;
 	
 	// constants
-	private const bool PRESENTATION_FULLSCREEN = true;
+	private const bool PRESENTATION_FULLSCREEN = false;
 	private const uint FADE_IN_TIME = 1000;
 
 	public Player(Document doc)
@@ -149,7 +149,6 @@ public class Ease.Player : GLib.Object
 			current_slide.opacity = 0;
 			current_slide.animate(Clutter.AnimationMode.EASE_IN_SINE,
 			                      FADE_IN_TIME, "opacity", 255);
-			container.add_actor(current_slide);
 			
 			advance_alarm = new Clutter.Timeline(FADE_IN_TIME);
 			advance_alarm.completed.connect(animation_complete);

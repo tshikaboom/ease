@@ -988,10 +988,6 @@ public class Ease.SlideActor : Clutter.Group
 			container.remove_actor(left_group);
 			container.remove_actor(right_group);
 		});
-		
-		time2.completed.connect(() => {
-			container.remove_actor(reflection);
-		});
 
 		time1.start();
 		time2.start();
