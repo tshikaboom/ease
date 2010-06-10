@@ -29,7 +29,7 @@ public abstract class Ease.Actor : Clutter.Group
 	protected Clutter.Actor contents;
 
 	// the element this actor represents
-	public Element element;
+	public weak Element element;
 
 	// where this actor is (editor, player, sidebar)
 	public ActorContext context;
@@ -46,7 +46,7 @@ public abstract class Ease.Actor : Clutter.Group
 	 * @param e The {@link Element} this Actor represents.
 	 * @param c The context of this Actor - sidebar, presentation, editor.
 	 */
-	public Actor(Element e, ActorContext c)
+	public Actor(ref Element e, ActorContext c)
 	{
 		element = e;
 		context = c;

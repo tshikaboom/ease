@@ -34,9 +34,10 @@ public class Ease.ImageActor : Actor
 	 * @param e The represented element.
 	 * @param c The context of this Actor (Presentation, Sidebar, Editor)
 	 */
-	public ImageActor(Element e, ActorContext c)
+	public ImageActor(ref Element e, ActorContext c)
 	{
-		base(e, c);
+		base(ref e, c);
+		
 		try
 		{
 			contents = new Clutter.Texture.from_file(e.full_filename);

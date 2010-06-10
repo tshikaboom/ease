@@ -24,26 +24,41 @@
  */
 public class Ease.SlideActor : Clutter.Group
 {
-	// the represented slide
-	public Slide slide;
+	/**
+	 * The {@link Slide} represented by this SlideActor.
+	 */
+	public weak Slide slide { get; set; }
 
-	// the slide's background
+	/**
+	 * The actor for the slide's background.
+	 */
 	public Clutter.Actor background;
 
-	// the slide's contents
-	//public Gee.ArrayList<Actor> contents_list;
-
-	// the group of the slide's contents
+	/**
+	 * The group for the slide's contents.
+	 */
 	public Clutter.Group contents;
 
-	// the context of the actor (presentation, etc.)
+	/**
+	 * The context of the actor (presentation, etc.)
+	 */
 	public ActorContext context;
 	
-	// dimensions
+	/**
+	 * The SlideActor's width (note that this may differ from the actual width
+	 * of the actor);
+	 */
 	private float width_px;
+	
+	/**
+	 * The SlideActor's height (note that this may differ from the actual height
+	 * of the actor);
+	 */
 	private float height_px;
-
-	// timelines
+	
+	/**
+	 * The ClutterTimeline for a transition animation.
+	 */
 	public Clutter.Timeline animation_time { get; set; }
 	private Clutter.Alpha animation_alpha { get; set; }
 	private Clutter.Timeline time1;
@@ -51,27 +66,86 @@ public class Ease.SlideActor : Clutter.Group
 	private Clutter.Alpha alpha1;
 	private Clutter.Alpha alpha2;
 
-	// constants
+	/**
+	 * The easing mode for the Slide transition.
+	 */
 	public const int EASE_SLIDE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
-
+	
+	/**
+	 * The easing mode for the Drop transition.
+	 */
 	public const int EASE_DROP = Clutter.AnimationMode.EASE_OUT_BOUNCE;
-
-	public const int EASE_PIVOT =	Clutter.AnimationMode.EASE_OUT_SINE;
-
+	
+	/**
+	 * The easing mode for the Pivot transition.
+	 */
+	public const int EASE_PIVOT = Clutter.AnimationMode.EASE_OUT_SINE;
+	
+	/**
+	 * The depth of the Flip transition.
+	 */
 	public const float FLIP_DEPTH = -400;
-	public const float ZOOM_OUT_SCALE = 0.75f;
+	
+	/**
+	 * The scale of slides in the Panel transition.
+	 */
+	public const float PANEL_SCALE = 0.75f;
+	
+	/**
+	 * The depth at which a new slide in the Open Door transition
+	 * starts.
+	 */
 	private const float OPEN_DEPTH = -3000;
+	
+	/**
+	 * How far outwards the "doors" in the Open Door transition
+	 * move.
+	 */
 	private const float OPEN_MOVE = 0.15f;
+	
+	/**
+	 * The fraction of the Open Door transition's length that the door
+	 * opening should take.
+	 */
 	private const float OPEN_TIME = 0.8f;
+	
+	/**
+	 * The number of slats in the Slats transition.
+	 */
 	private const int SLAT_COUNT = 8;
+	
+	/**
+	 * The opacity of transiton reflections.
+	 */
 	private const int REFLECTION_OPACITY = 70;
-
+	
+	/**
+	 * Creates a SlideActor from a {@link Slide} and a {@link Document}.
+	 * This calls the with_dimensions() constructor with the Document's
+	 * dimensions.
+	 *
+	 * @param document The document.
+	 * @param s The slide.
+	 * @param clip If the edges of the SlideActor should be clipped to its
+	 * dimensions.
+	 * @param ctx The {@link ActorContext} for this SlideActor.
+	 */
 	public SlideActor.from_slide(Document document, Slide s, bool clip,
 	                             ActorContext ctx)
 	{
 		with_dimensions(document.width, document.height, s, clip, ctx);
 	}
 	
+	/**
+	 * Creates a SlideActor from a {@link Slide} with the given dimensions.
+	 *
+	 * @param w The width of the actor.
+	 * @param h The height of the actor.
+	 * @param s The slide.
+	 * @param clip If the edges of the SlideActor should be clipped to its
+	 * dimensions.
+	 * @param ctx The {@link ActorContext} for this SlideActor.
+	 */
 	public SlideActor.with_dimensions(float w, float h, Slide s, bool clip,
 	                                  ActorContext ctx)
 	{
@@ -97,13 +171,13 @@ public class Ease.SlideActor : Clutter.Group
 			switch (e.get("element_type"))
 			{
 				case "image":
-					contents.add_actor(new ImageActor(e, context));
+					contents.add_actor(new ImageActor(ref e, context));
 					break;
 				case "text":
-					contents.add_actor(new TextActor(e, context));
+					contents.add_actor(new TextActor(ref e, context));
 					break;
 				case "video":
-					contents.add_actor(new VideoActor(e, context));
+					contents.add_actor(new VideoActor(ref e, context));
 					break;
 			}
 		}
@@ -144,6 +218,11 @@ public class Ease.SlideActor : Clutter.Group
 		stack(container);
 	}
 	
+	/**
+	 * Resets transformations of a Clutter.Actor.
+	 *
+	 * @param actor The actor to reset.
+	 */
 	private void reset_actor(Clutter.Actor actor)
 	{
 		actor.depth = 0;
@@ -157,6 +236,10 @@ public class Ease.SlideActor : Clutter.Group
 		actor.y = 0;
 	}
 	
+	/**
+	 * Lays out this SlideActor, replacing the background and rearranging
+	 * child actors if necessary.
+	 */
 	public void relayout()
 	{
 		set_background();
@@ -206,7 +289,23 @@ public class Ease.SlideActor : Clutter.Group
 		lower_child(background, null);
 	}
 
-	// stack the actor, removing children from container if needed
+	/**
+	 * Places all child elements of this slide back into the SlideActor.
+	 *
+	 * Ease has two types of transitions. The first manipulates entire slides.
+	 * For this type of transition, the background and contents of the slide
+	 * should be stacked into the SlideActor. stack() is used to prepare for
+	 * this.
+	 *
+	 * The second type of transition manipulates the content and backgrounds
+	 * separately, typically fading between the backgrounds while moving the
+	 * contents around. The contents need to be above both backgrounds in this
+	 * case, so they are stacked inside of the container that typically holds
+	 * the full SlideActors. unstack() performs this.
+	 *
+	 * @param container The container that holds the SlideActor and unstacked
+	 * elements.
+	 */
 	public void stack(Clutter.Actor container)
 	{
 		if (background.get_parent() != this)
@@ -223,7 +322,24 @@ public class Ease.SlideActor : Clutter.Group
 		}
 	}
 
-	// unstack the actor, layering it with another actor
+	/**
+	 * Places all child elements of this slide back into the SlideActor.
+	 *
+	 * Ease has two types of transitions. The first manipulates entire slides.
+	 * For this type of transition, the background and contents of the slide
+	 * should be stacked into the SlideActor. stack() is used to prepare for
+	 * this.
+	 *
+	 * The second type of transition manipulates the content and backgrounds
+	 * separately, typically fading between the backgrounds while moving the
+	 * contents around. The contents need to be above both backgrounds in this
+	 * case, so they are stacked inside of the container that typically holds
+	 * the full SlideActors. unstack() performs this.
+	 *
+	 * @param other The other SlideActor to be unstacked.
+	 * @param container The container that holds the SlideActor and unstacked
+	 * elements.
+	 */
 	public void unstack(SlideActor other, Clutter.Actor container)
 	{
 		if (other.background.get_parent() != container)
@@ -243,14 +359,30 @@ public class Ease.SlideActor : Clutter.Group
 			other.contents.reparent(container);
 		}
 	}
-
+	
+	/**
+	 * Prepares for a "slide" transition (manipulation of entire slides).
+	 *
+	 * This method simply calls stack() for both SlideActors, but could change
+	 * in the future.
+	 *
+	 * @param new_slide The SlideActor that will replace this one.
+	 * @param container The container that holds the SlideActors and unstacked
+	 * elements.
+	 */
 	private void prepare_slide_transition(SlideActor new_slide,
 	                                      Clutter.Group container)
 	{
 		new_slide.stack(container);
 		stack(container);
 	}
-
+	
+	/**
+	 * Prepares for a "stack" transition (manipulation of entire slides).
+	 *
+	 * This method simply calls unstack() for both SlideActors, but could
+	 * change in the future.
+	 */
 	private void prepare_stack_transition(bool current_on_top,
 	                                      SlideActor new_slide,
 	                                      Clutter.Group container)
@@ -258,10 +390,19 @@ public class Ease.SlideActor : Clutter.Group
 		unstack(new_slide, container);
 	}
 
+	/**
+	 * Starts a transition to a new SlideActor.
+	 *
+	 * This method calls the appropriate method for the current {@link Slide}'s
+	 * {@link TransitionType}.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 */
 	public void transition(SlideActor new_slide,
 	                       Clutter.Group container)
 	{
-		uint length = (uint)max(1, slide.transition_time * 1000);
+		uint length = (uint)Math.fmax(1, slide.transition_time * 1000);
 
 		animation_time = new Clutter.Timeline(length);
 
@@ -339,6 +480,13 @@ public class Ease.SlideActor : Clutter.Group
 		animation_time.start();
 	}
 
+	/**
+	 * Starts a "fade" transition.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void fade_transition(SlideActor new_slide,
 	                             Clutter.Group container, uint length)
 	{
@@ -348,6 +496,13 @@ public class Ease.SlideActor : Clutter.Group
 		                  length, "opacity", 255);
 	}
 
+	/**
+	 * Starts a "slide" transition.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void slide_transition(SlideActor new_slide,
 	                              Clutter.Group container, uint length)
 	{
@@ -379,6 +534,13 @@ public class Ease.SlideActor : Clutter.Group
 		}
 	}
 
+	/**
+	 * Starts a "drop" transition.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void drop_transition(SlideActor new_slide,
 	                             Clutter.Group container, uint length)
 	{
@@ -386,6 +548,13 @@ public class Ease.SlideActor : Clutter.Group
 		new_slide.animate(EASE_DROP, length, "y", 0);
 	}
 
+	/**
+	 * Starts a "pivot" transition.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void pivot_transition(SlideActor new_slide,
 	                              Clutter.Group container, uint length)
 	{
@@ -420,6 +589,13 @@ public class Ease.SlideActor : Clutter.Group
 		});
 	}
 
+	/**
+	 * Starts a "flip" transition.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void flip_transition(SlideActor new_slide,
 	                             Clutter.Group container, uint length)
 	{
@@ -507,6 +683,13 @@ public class Ease.SlideActor : Clutter.Group
 		time1.start();
 	}
 
+	/**
+	 * Starts a "revolving door" transition.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void revolving_door_transition(SlideActor new_slide,
 	                                       Clutter.Group container,
 	                                       uint length)
@@ -566,6 +749,13 @@ public class Ease.SlideActor : Clutter.Group
 		});
 	}
 
+	/**
+	 * Starts a "reveal" transition.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void reveal_transition(SlideActor new_slide,
 	                               Clutter.Group container, uint length)
 	{
@@ -597,6 +787,13 @@ public class Ease.SlideActor : Clutter.Group
 		}
 	}
 
+	/**
+	 * Starts a "fall" transition.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void fall_transition(SlideActor new_slide,
 	                             Clutter.Group container, uint length)
 	{
@@ -611,6 +808,13 @@ public class Ease.SlideActor : Clutter.Group
 		});
 	}
 
+	/**
+	 * Starts a "slats" transition.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void slats_transition(SlideActor new_slide,
 	                              Clutter.Group container, uint length)
 	{
@@ -688,6 +892,13 @@ public class Ease.SlideActor : Clutter.Group
 		});
 	}
 
+	/**
+	 * Starts an "open door" transition.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void open_door_transition(SlideActor new_slide,
 	                                  Clutter.Group container,
 	                                  uint length)
@@ -786,6 +997,13 @@ public class Ease.SlideActor : Clutter.Group
 		time2.start();
 	}
 
+	/**
+	 * Starts a "zoom" transition.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void zoom_transition(SlideActor new_slide,
 	                             Clutter.Group container, uint length)
 	{
@@ -819,6 +1037,13 @@ public class Ease.SlideActor : Clutter.Group
 		});
 	}
 
+	/**
+	 * Starts a "panel" transition.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void panel_transition(SlideActor new_slide,
 	                              Clutter.Group container, uint length)
 	{
@@ -847,7 +1072,7 @@ public class Ease.SlideActor : Clutter.Group
 
 		time1 = new Clutter.Timeline(length / 4);
 		time2 = new Clutter.Timeline(3 * length / 4);
-		new_slide.set_scale_full(ZOOM_OUT_SCALE, ZOOM_OUT_SCALE,
+		new_slide.set_scale_full(PANEL_SCALE, PANEL_SCALE,
 		                         slide.parent.width / 2,
 		                         slide.parent.height / 2);
 
@@ -856,9 +1081,9 @@ public class Ease.SlideActor : Clutter.Group
 		                                Clutter.AnimationMode.EASE_IN_OUT_SINE);
 
 		time1.new_frame.connect((m) => {
-			set_scale_full(ZOOM_OUT_SCALE + (1 - ZOOM_OUT_SCALE) *
+			set_scale_full(PANEL_SCALE + (1 - PANEL_SCALE) *
 			                                (1 - alpha1.alpha),
-			               ZOOM_OUT_SCALE + (1 - ZOOM_OUT_SCALE) *
+			               PANEL_SCALE + (1 - PANEL_SCALE) *
 			                                (1 - alpha1.alpha),
 				           slide.parent.width / 2, slide.parent.height / 2);
 		});
@@ -871,10 +1096,10 @@ public class Ease.SlideActor : Clutter.Group
 		});
 		time2.completed.connect(() => {
 			time1.new_frame.connect((m) => {
-				new_slide.set_scale_full(ZOOM_OUT_SCALE +
-				                          (1 - ZOOM_OUT_SCALE) * alpha1.alpha,
-				                         ZOOM_OUT_SCALE +
-				                          (1 - ZOOM_OUT_SCALE) * alpha1.alpha,
+				new_slide.set_scale_full(PANEL_SCALE +
+				                          (1 - PANEL_SCALE) * alpha1.alpha,
+				                         PANEL_SCALE +
+				                          (1 - PANEL_SCALE) * alpha1.alpha,
 					                     slide.parent.width / 2,
 					                     slide.parent.height / 2);
 			});
@@ -884,6 +1109,14 @@ public class Ease.SlideActor : Clutter.Group
 		time2.start();
 	}
 
+	/**
+	 * Starts a "spin contents" transition. This transition unstacks the
+	 * SlideActors.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void spin_contents_transition(SlideActor new_slide,
 	                                      Clutter.Group container,
 	                                      uint length)
@@ -920,6 +1153,14 @@ public class Ease.SlideActor : Clutter.Group
 		time1.start();
 	}
 
+	/**
+	 * Starts a "swing contents" transition. This transition unstacks the
+	 * SlideActors.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void swing_contents_transition(SlideActor new_slide,
 	                                       Clutter.Group container,
 	                                       uint length)
@@ -959,6 +1200,14 @@ public class Ease.SlideActor : Clutter.Group
 		});
 	}
 
+	/**
+	 * Starts a "slide contents" transition. This transition unstacks the
+	 * SlideActors.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void slide_contents_transition(SlideActor new_slide,
 	                                       Clutter.Group container,
 	                                       uint length)
@@ -1000,6 +1249,14 @@ public class Ease.SlideActor : Clutter.Group
 		}
 	}
 
+	/**
+	 * Starts a "spring contents" transition. This transition unstacks the
+	 * SlideActors.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void spring_contents_transition(SlideActor new_slide,
 	                                        Clutter.Group container,
 	                                        uint length)
@@ -1028,6 +1285,14 @@ public class Ease.SlideActor : Clutter.Group
 		}
 	}
 
+	/**
+	 * Starts a "zoom contents" transition. This transition unstacks the
+	 * SlideActors.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
 	private void zoom_contents_transition(SlideActor new_slide,
 	                                      Clutter.Group container,
 	                                      uint length)
@@ -1081,19 +1346,12 @@ public class Ease.SlideActor : Clutter.Group
 		}
 	}
 
-	private double min(double a, double b)
+	/**
+	 * Clamps a double to an opacity value, an unsigned 8-bit integer.
+	 */
+	private static uint8 clamp_opacity(double o)
 	{
-		return a > b ? b : a;
-	}
-
-	private double max(double a, double b)
-	{
-		return a > b ? a : b;
-	}
-
-	private uint8 clamp_opacity(double o)
-	{
-		return (uint8)(max(0, min(255, o)));
+		return (uint8)(Math.fmax(0, Math.fmin(255, o)));
 	}
 }
 

@@ -35,9 +35,9 @@ public class Ease.VideoActor : Actor, Clutter.Media
 	 * @param e The represented element.
 	 * @param c The context of this Actor (Presentation, Sidebar, Editor)
 	 */
-	public VideoActor(Element e, ActorContext c)
+	public VideoActor(ref Element e, ActorContext c)
 	{
-		base(e, c);
+		base(ref e, c);
 
 		video = new ClutterGst.VideoTexture();
 		video.set_filename(Path.build_filename(e.parent.parent.path,
