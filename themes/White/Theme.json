@@ -11,7 +11,7 @@
         {
           "font_variant" : "Normal",
           "font_style" : "Normal",
-          "element_type" : "text",
+          "element_type" : "EaseTextElement",
           "identifier" : "header",
           "green" : "0",
           "align" : "left",
@@ -37,7 +37,7 @@
         {
           "font_variant" : "Normal",
           "font_style" : "Normal",
-          "element_type" : "text",
+          "element_type" : "EaseTextElement",
           "identifier" : "header",
           "green" : "0",
           "align" : "left",

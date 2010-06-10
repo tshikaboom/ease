@@ -52,7 +52,7 @@ public abstract class Ease.Actor : Clutter.Group
 	 * @param e The {@link Element} this Actor represents.
 	 * @param c The context of this Actor - sidebar, presentation, editor.
 	 */
-	public Actor(ref Element e, ActorContext c)
+	public Actor(Element e, ActorContext c)
 	{
 		element = e;
 		context = c;

@@ -25,13 +25,14 @@ ease_SOURCES = \
 	src/Handle.vala \
 	src/HTMLExporter.vala \
 	src/ImageActor.vala \
+	src/ImageElement.vala \
 	src/Inspector.vala\
 	src/InspectorPane.vala\
 	src/InspectorWindow.vala\
 	src/JSONParser.vala\
 	src/MainToolbar.vala \
 	src/Main.vala \
-	src/MasterElement.vala \
+	src/MediaElement.vala \
 	src/OpenDialog.vala \
 	src/PDFExporter.vala \
 	src/Player.vala \
@@ -44,12 +45,14 @@ ease_SOURCES = \
 	src/Slide.vala \
 	src/Temp.vala \
 	src/TextActor.vala \
+	src/TextElement.vala \
 	src/Theme.vala \
 	src/TransitionPane.vala \
 	src/Transitions.vala \
 	src/UndoActions.vala \
 	src/UndoController.vala \
 	src/VideoActor.vala \
+	src/VideoElement.vala \
 	src/WelcomeActor.vala \
 	src/WelcomeWindow.vala \
 	src/ZoomSlider.vala \

@@ -167,19 +167,7 @@ public class Ease.SlideActor : Clutter.Group
 
 		foreach (var e in slide.elements)
 		{
-			// load the proper type of actor
-			switch (e.get("element_type"))
-			{
-				case "image":
-					contents.add_actor(new ImageActor(ref e, context));
-					break;
-				case "text":
-					contents.add_actor(new TextActor(ref e, context));
-					break;
-				case "video":
-					contents.add_actor(new VideoActor(ref e, context));
-					break;
-			}
+			contents.add_actor(e.actor(context));
 		}
 
 		add_actor(contents);

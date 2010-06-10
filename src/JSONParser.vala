@@ -19,7 +19,10 @@
  * Parses JSON files to load Ease {@link Document}s
  */
 public static class Ease.JSONParser
-{	
+{
+	private const Type VIDEO_TYPE = typeof(VideoElement);
+	private const Type IMAGE_TYPE = typeof(ImageElement);
+
 	/**
 	 * Parses a document JSON file, creating a {@link Document}.
 	 *
@@ -51,7 +54,7 @@ public static class Ease.JSONParser
 		for (var i = 0; i < slides.get_length(); i++)
 		{
 			var node = slides.get_object_element(i);
-			document.add_slide(document.length, parse_slide(node, false));
+			document.add_slide(document.length, parse_slide(node));
 		}
 		
 		return document;
@@ -85,13 +88,13 @@ public static class Ease.JSONParser
 		for (var i = 0; i < slides.get_length(); i++)
 		{
 			var node = slides.get_object_element(i);
-			theme.add_slide(theme.length, parse_slide(node, true));
+			theme.add_slide(theme.length, parse_slide(node));
 		}
 		
 		return theme;
 	}
 	
-	private static Slide parse_slide(Json.Object obj, bool theme)
+	private static Slide parse_slide(Json.Object obj)
 	{
 		var slide = new Slide();
 		
@@ -138,30 +141,33 @@ public static class Ease.JSONParser
 		for (var i = 0; i < elements.get_length(); i++)
 		{
 			var node = elements.get_object_element(i);
-			slide.add_element(slide.count, parse_element(node, theme));
+			slide.add_element(slide.count, parse_element(node));
 		}
 		
 		return slide;
 	}
 	
-	private static Element parse_element(Json.Object obj, bool theme)
+	private static Element parse_element(Json.Object obj)
 	{
 		Element element;
-		if (theme)
-		{
-			element = new MasterElement();
-		}
+		
+		// find the proper type
+		var type = Type.from_name(obj.get_string_member("element_type"));
+		
+		// create the element
+		if (type == VIDEO_TYPE)
+			element = new VideoElement();
+		else if (type == IMAGE_TYPE)
+			element = new ImageElement();
 		else
-		{
-			element = new Element();
-		}
+			element = new TextElement();
 		
 		// set the Element's properties
 		for (unowned List<string>* itr = obj.get_members();
 		     itr != null; itr = itr->next)
 		{
 			string name = itr->data;
-			element.data.set(name, obj.get_member(name).get_string());
+			element.set(name, obj.get_member(name).get_string());
 		}
 		
 		return element;
@@ -239,7 +245,7 @@ public static class Ease.JSONParser
 		var elements = new Json.Array();
 		foreach (var e in slide.elements)
 		{
-			elements.add_element(e.data.to_json());
+			elements.add_element(e.to_json());
 		}
 
 		obj.set_array_member("elements", elements);

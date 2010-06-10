@@ -16,21 +16,40 @@
 */
 
 /**
- * An object on a {@link Slide}
+ * An object on a {@link Slide}.
  *
- * While there are several subclasses of {@link Actor} for different types
- * of presentation objects, there is a single Element class. The Element
- * class uses an {@link ElementMap} to store data. The "type" key
- * specifies the type of Element ("text", "image", "video", etc.)
- * 
- * For accessing data stored in the {@link ElementMap}, Element provides
- * several convenience properties. Many of these are specific to a single
- * type of Element, such as the font_name property for text elements.
- * Accessing these properties in the wrong type of Element will cause
- * bad things to happen, including the heat death of the universe.
+ * Element is also used in {@link Theme}s, which handle sizing differently.
+ *
+ * Ease uses a "base resolution" of 1024 by 768, a common projector resolution.
+ * Unlike {@link Element}, which expresses positions in x, y, width, and height,
+ * MasterElement expressed them in left, right, top, and bottom. As the total
+ * size of the presentation is known, the actual sizes can be easily calculated.
+ * Then, the Element's size can be increased or decreased by using the
+ * four directional bind_ properties and the expand_.
+ *
+ * For example, the "header" font for a theme will often be selected so that a
+ * single line fits perfectly in the space allocated for the header. Therefore,
+ * increasing the height at a greater resolution is a waste of space, and
+ * decreasing the size at a lower resolution will cause the text not to fit in
+ * the box. Therefore, the header should be bound to the top, but not to the
+ * bottom. expand_vertically should be false.
+ *
+ * In contrast, the content box below the header is designed for an arbitrary
+ * amount of lines. Therefore, this box should scale vertically, shrinking as
+ * the presentation gets smaller, and enlarging as the presentation gets larger.
+ * To do this, both bind_bottom and bind_top should be true, as well as
+ * expand_vertically.
+ *
+ * While the bind_left and bind_right properties exist, it's not clear whether
+ * or not they will actually be useful at any point. They perform in the same
+ * manner as the other two bind_ properties, but for horizontal scaling. The
+ * same applies to the expand_horizontally property.
  */
-public class Ease.Element : GLib.Object
+public abstract class Ease.Element : GLib.Object
 {
+	private const float THEME_WIDTH = 800;
+	private const float THEME_HEIGHT = 600;
+
 	/**
 	 * The {@link Slide} that this Element is a part of.
 	 */
@@ -41,7 +60,7 @@ public class Ease.Element : GLib.Object
 	 * directly though get() and set(), or though the typed convenience
 	 * properties that Element provides.
 	 */
-	public ElementMap data;
+	protected ElementMap data;
 	
 	/**
 	 * Create a new element, with an empty {@link ElementMap}.
@@ -54,19 +73,12 @@ public class Ease.Element : GLib.Object
 	/**
 	 * Creates a completely empty Element, without an {@link ElementMap}.
 	 */
-	private Element.empty() { }
+	public Element.empty() {}	
 	
 	/**
 	 * Creates and returns a copy of this Element.
 	 */
-	public Element copy()
-	{
-		var element = new Element.empty();
-		element.parent = parent;
-		element.data = data.copy();
-		
-		return element;
-	}
+	public abstract Element copy();
 	
 	/**
 	 * Create a new element.
@@ -103,6 +115,16 @@ public class Ease.Element : GLib.Object
 	}
 	
 	/**
+	 * Output this Element as JSON.
+	 * 
+	 * Returns a JSON object with the element's data.
+	 */
+	public Json.Node to_json()
+	{
+		return data.to_json();
+	}
+	
+	/**
 	 * Creates HTML markup for this Element.
 	 * 
 	 * The <div> tag for this Element is appended to the "HTML" parameter.
@@ -112,165 +134,94 @@ public class Ease.Element : GLib.Object
 	 * @param exporter The {@link HTMLExporter}, for the path and progress.
 	 * @param amount The amount progress should increase by when done.
 	 */
-	public void to_html(ref string html,
-	                    HTMLExporter exporter,
-	                    double amount)
+	public virtual void to_html(ref string html,
+	                            HTMLExporter exporter,
+	                            double amount)
 	{
-		switch (data.get("element_type"))
-		{
-			case "image":
-				// open the img tag
-				html += "<img class=\"image element\" ";
-				
-				// set the image's style
-				html += "style=\"";
-				html += "left:" + data.get("x") + "px;";
-				html += " top:" + data.get("y") + "px;";
-				html += " width:" + data.get("width") + "px;";
-				html += " height:" + data.get("height") + "px;";
-				html += " position: absolute;\" ";
-				
-				// add the image
-				html += "src=\"" + exporter.path + " " +
-				        data.get("filename") + "\" alt=\"Image\" />";
-				
-				// copy the image file
-				exporter.copy_file(data.get("filename"),
-				                   parent.parent.path);
-				
-				break;
-				
-			case "text":
-				// open the tag
-				html += "<div class=\"text element\" ";
-				
-				// set the size and position of the element
-				html += "style=\"";
-				html += "left:" + data.get("x") + "px;";
-				html += " top:" + data.get("y") + "px;";
-				html += " width:" + data.get("width") + "px;";
-				html += " height:" + data.get("height") + "px;";
-				html += " position: absolute;";
-				
-				// set the text-specific properties of the element
-				html += " color:" + 
-				        @"rgb($(color.red),$(color.green),$(color.blue));";
-				        
-				html += " font-family:'" + data.get("font_name") +
-				        "', sans-serif;";
-				        
-				html += " font-size:" + data.get("font_size") + "pt;";
-				
-				html += " font-weight:" + data.get("font_weight") + ";";
-				html += " font-style:" + data.get("font_style").down() +
-				        ";";
-				        
-				html += " text-align:" + data.get("align") + ";\"";
-				
-				// write the actual content
-				html += ">" + data.get("text").replace("\n", "<br />") +
-				        "</div>";
-				
-				break;
-				
-			case "video":
-				// open the tag
-				html += "<video class=\"video element\" ";
-				
-				// set the video's style
-				html += "style=\"";
-				html += "left:" + data.get("x") + "px;";
-				html += " top:" + data.get("y") + "px;";
-				html += " position: absolute;\" ";
-				
-				// set the video's size
-				html += " width=\"" + data.get("width") + "\" ";
-				html += " height=\"" + data.get("height") + "\" ";
-				
-				// set the video's source and controls
-				html += "src=\"" + exporter.path + " " +
-				        data.get("filename") + "\" " +
-				        "controls=\"yes\">" +
-				        _("Your browser does not support the video tag") + 
-				        "</video>";
-				        
-				// copy the video file
-				exporter.copy_file(data.get("filename"),
-				                   parent.parent.path);
-				
-				break;
-		}
+		// write the markup
+		write_html(ref html, exporter);
 		
 		// advance the progress bar
 		exporter.add_progress(amount);
 	}
 	
+	protected abstract void write_html(ref string html, HTMLExporter exporter);
+	
+	public abstract void cairo_render(Cairo.Context context) throws Error;
+	
+	public abstract Actor actor(ActorContext c);
+	
 	/**
-	 * Renders this Element with Cairo.
+	 * Creates a new Element from this Element at the specified size.
+	 *
+	 * @param w The width of the {@link Document} the new Element will be a
+	 * part of.
+	 * @param w The height of the {@link Document} the new Element will be a
+	 * part of.
 	 */
-	public void pdf_render(Cairo.Context context) throws Error
+	public Element sized_element(float w, float h)
 	{
-		switch (data.get("element_type"))
+		// copy this element
+		var element = copy();
+		
+		// find the differences in each direction for the new resolution
+		var x_diff = (w - THEME_WIDTH) / 2;
+		var y_diff = (h - THEME_HEIGHT) / 2;
+		
+		// set the base size (at 1024x768)
+		element.width = THEME_WIDTH - left - right;
+		element.height = THEME_HEIGHT - top - bottom;
+		
+		// handle binding to the left
+		if (bind_left)
 		{
-			case "image":
-				pdf_render_image(context);
-				break;
-			case "text":
-				pdf_render_text(context);
-				break;
+			element.x = left;
+			
+			if (expand_horizontally)
+			{
+				element.width += x_diff;
+			}
 		}
+		else
+		{
+			element.x = left + x_diff; 
+		}
+		
+		// handle binding to the top
+		if (bind_top)
+		{
+			element.y = top;
+			
+			if (expand_vertically)
+			{
+				element.height += y_diff;
+			}
+		}
+		else
+		{
+			element.y = top + y_diff;
+		}
+		
+		// handle binding to the right
+		if (bind_right)
+		{	
+			if (expand_horizontally)
+			{
+				element.width += x_diff;
+			}
+		}
+		
+		// handle binding to the bottom
+		if (bind_bottom)
+		{	
+			if (expand_vertically)
+			{
+				element.height += y_diff;
+			}
+		}
+		
+		return element;
 	}
-	
-	/**
-	 * Renders an image Element with Cairo.
-	 */
-	private void pdf_render_image(Cairo.Context context) throws Error
-	{
-		var filename = Path.build_path("/",
-		                               parent.parent.path,
-		                               data.get("filename"));
-		
-		// load the image
-		var pixbuf = new Gdk.Pixbuf.from_file_at_scale(filename,
-		                                               (int)width,
-		                                               (int)height,
-		                                               false);
-		
-		Gdk.cairo_set_source_pixbuf(context, pixbuf, x, y);
-		
-		context.rectangle(x, y, width, height);
-		context.fill();
-	}
-	
-	/**
-	 * Renders a text Element with Cairo.
-	 */
-	private void pdf_render_text(Cairo.Context context) throws Error
-	{	
-		// create the layout
-		var layout = Pango.cairo_create_layout(context);
-		layout.set_text(data.get("text"), (int)data.get("text").length);
-		layout.set_width((int)(width * Pango.SCALE));
-		layout.set_height((int)(height * Pango.SCALE));
-		layout.set_font_description(font_description);
-		
-		// render
-		context.save();
-		
-		context.set_source_rgb(color.red / 255f,
-		                       color.green / 255f,
-		                       color.blue / 255f);
-		
-		Pango.cairo_update_layout(context, layout);
-		context.move_to((int)x, (int)y);
-		
-		Pango.cairo_show_layout(context, layout);
-		context.restore();
-	}
-
-	// convenience properties
-
-	// base element
 	
 	/**
 	 * A unique identifier for this Element.
@@ -310,7 +261,7 @@ public class Ease.Element : GLib.Object
 		}
 		set
 		{
-			data.set("x", @"$value");
+			data.set("x", value.to_string());
 		}
 	}
 	
@@ -325,7 +276,7 @@ public class Ease.Element : GLib.Object
 		}
 		set
 		{
-			data.set("y", @"$value");
+			data.set("y", value.to_string());
 		}
 	}
 	
@@ -340,7 +291,7 @@ public class Ease.Element : GLib.Object
 		}
 		set
 		{
-			data.set("width", @"$value");
+			data.set("width", value.to_string());
 		}
 	}
 	
@@ -355,225 +306,122 @@ public class Ease.Element : GLib.Object
 		}
 		set
 		{
-			data.set("height", @"$value");
-		}
-	}
-
-	// text elements
-	
-	/**
-	 * The text value of this Element. Only available for "text" Elements.
-	 */
-	public string text
-	{
-		owned get { return data.get("text"); }
-		set	{ data.set("text", value); }
-	}
-	
-	/**
-	 * The color of the text. Only available for "text" Elements.
-	 */
-	public Clutter.Color color
-	{
-		get
-		{
-			return { (uchar)data.get("red").to_int(),
-			         (uchar)data.get("green").to_int(),
-			         (uchar)data.get("blue").to_int(),
-			         255};
-		}		
-		set
-		{
-			data.set("red", ((int)value.red).to_string());
-			data.set("green", ((int)value.green).to_string());
-			data.set("blue", ((int)value.blue).to_string());
+			data.set("height", value.to_string());
 		}
 	}
 	
 	/**
-	 * The name of the text's font family. Only available for "text" Elements.
-	 */
-	public string font_name
-	{
-		set
-		{
-			data.set("font_name", value);
-		}
-	}
-	
-	/**
-	 * The PangoStyle for this Element. Only available for "text" Elements.
-	 */
-	public Pango.Style font_style
-	{
-		get
-		{
-			switch (data.get("font_style"))
-			{
-				case "Oblique":
-					return Pango.Style.OBLIQUE;
-				case "Italic":
-					return Pango.Style.ITALIC;
-				default:
-					return Pango.Style.NORMAL;
-			}
-		}
-		set
-		{
-			switch (value)
-			{
-				case Pango.Style.OBLIQUE:
-					data.set("font_style", "Oblique");
-					break;
-				case Pango.Style.ITALIC:
-					data.set("font_style", "Italic");
-					break;
-				case Pango.Style.NORMAL:
-					data.set("font_style", "Normal");
-					break;
-			}
-		}
-	}
-	
-	/**
-	 * The PangoVariant for this Element. Only available for "text" Elements.
-	 */
-	public Pango.Variant font_variant
-	{
-		get
-		{
-			return data.get("font_variant") == "Normal"
-			     ? Pango.Variant.NORMAL
-			     : Pango.Variant.SMALL_CAPS;
-		}
-		set
-		{
-			data.set("font_name",
-			             value == Pango.Variant.NORMAL ?
-			                      "Normal" : "Small Caps");
-		}
-	}
-	
-	/**
-	 * The font's weight. Only available for "text" Elements.
-	 */
-	public Pango.Weight font_weight
-	{
-		get
-		{
-			var str = "font_name";
-			return (Pango.Weight)(data.get(str).to_int());
-		}
-		set
-		{
-			data.set("font_weight", ((int)value).to_string());
-		}
-	}
-	
-	/**
-	 * A full PangoFontDescription for this Element.
+	 * If the Element should maintain "top" when resized.
 	 *
-	 * This property creates a new FontDescription when retrieved, and
-	 * sets all appropriate properties (font_weight, etc.) when set. Only
-	 * available for "text" Elements.
+	 * To scale to different resolutions, MasterElement tracks the distance of
+	 * Elements from each edge, and maintains them as these edges expand if the
+	 * appropriate bind_ and expand_ properties are true.
 	 */
-	public Pango.FontDescription font_description
+	public bool bind_top
 	{
-		owned get
-		{
-			var desc = new Pango.FontDescription();
-			desc.set_family(data.get("font_name"));
-			desc.set_style(font_style);
-			desc.set_weight(font_weight);
-			desc.set_variant(font_variant);
-			desc.set_size(font_size * Pango.SCALE);
-			
-			return desc;
-		}
-		set
-		{
-			data.set("font_name", value.get_family());
-			font_style = value.get_style();
-			font_weight = value.get_weight();
-			font_variant = value.get_variant();
-			font_size = value.get_size() / Pango.SCALE;
-		}
+		get { return data.get("bind_top").to_bool(); }
+		set { data.set("bind_top", value.to_string()); }
 	}
 	
 	/**
-	 * The alignment of the text. Only available for "text" Elements.
-	 */
-	public Pango.Alignment text_align
-	{
-		get
-		{
-			switch (data.get("align"))
-			{
-				case "right":
-					return Pango.Alignment.RIGHT;
-				case "center":
-					return Pango.Alignment.CENTER;
-				default:
-					return Pango.Alignment.LEFT;
-			}
-		}
-		set
-		{
-			switch (value)
-			{
-				case Pango.Alignment.RIGHT:
-					data.set("font_style", "right");
-					break;
-				case Pango.Alignment.CENTER:
-					data.set("font_style", "center");
-					break;
-				case Pango.Alignment.LEFT:
-					data.set("font_style", "left");
-					break;
-			}
-		}
-	}
-	
-	/**
-	 * The size of the font. Only available for "text" Elements.
+	 * If the Element should maintain "bottom" when resized.
 	 *
-	 * This value should be multiplied by Pango.SCALE for rendering, otherwise
-	 * the text will be far too small to be visible.
+	 * To scale to different resolutions, MasterElement tracks the distance of
+	 * Elements from each edge, and maintains them as these edges expand if the
+	 * appropriate bind_ and expand_ properties are true.
 	 */
-	public int font_size
+	public bool bind_bottom
 	{
-		get
-		{
-			return data.get("font_size").to_int();
-		}
-		set
-		{
-			data.set("font_size", @"$value");
-		}
-	}
-
-	// image and video elements
-	
-	/**
-	 * The path to a media file. Applies to "image" and "video" Elements.
-	 */
-	public string filename
-	{
-		owned get { return data.get("filename"); }
-		set	{ data.set("filename", value); }
+		get { return data.get("bind_bottom").to_bool(); }
+		set { data.set("bind_bottom", value.to_string()); }
 	}
 	
 	/**
-	 * The full path to a media file. Applies to "image" and "video"
-	 * Elements. Cannot be set.
+	 * If the Element should maintain "left" when resized.
+	 *
+	 * To scale to different resolutions, MasterElement tracks the distance of
+	 * Elements from each edge, and maintains them as these edges expand if the
+	 * appropriate bind_ and expand_ properties are true.
 	 */
-	public string full_filename
+	public bool bind_left
 	{
-		owned get
-		{
-			var str = Path.build_filename(parent.parent.path, filename);
-			return str;
-		}
+		get { return data.get("bind_left").to_bool(); }
+		set { data.set("bind_left", value.to_string()); }
+	}
+	
+	/**
+	 * If the Element should maintain "right" when resized.
+	 *
+	 * To scale to different resolutions, MasterElement tracks the distance of
+	 * Elements from each edge, and maintains them as these edges expand if the
+	 * appropriate bind_ and expand_ properties are true.
+	 */
+	public bool bind_right
+	{
+		get { return data.get("bind_right").to_bool(); }
+		set { data.set("bind_right", value.to_string()); }
+	}
+	
+	/**
+	 * If the Element should expand horizontally when resized.
+	 *
+	 * To scale to different resolutions, MasterElement tracks the distance of
+	 * Elements from each edge, and maintains them as these edges expand if the
+	 * appropriate bind_ and expand_ properties are true.
+	 */
+	public bool expand_horizontally
+	{
+		get { return data.get("expand_horizontally").to_bool(); }
+		set { data.set("expand_horizontally", value.to_string()); }
+	}
+	
+	/**
+	 * If the Element should expand vertically when resized.
+	 *
+	 * To scale to different resolutions, MasterElement tracks the distance of
+	 * Elements from each edge, and maintains them as these edges expand if the
+	 * appropriate bind_ and expand_ properties are true.
+	 */
+	public bool expand_vertically
+	{
+		get { return data.get("expand_vertically").to_bool(); }
+		set { data.set("expand_vertically", value.to_string()); }
+	}
+	
+	/**
+	 * The Element's distance from the top of the screen.
+	 */
+	public float top
+	{
+		get { return (float)data.get("top").to_double(); }
+		set { data.set("top", value.to_string()); }
+	}
+	
+	/**
+	 * The Element's distance from the bottom of the screen.
+	 */
+	public float bottom
+	{
+		get { return (float)data.get("bottom").to_double(); }
+		set { data.set("bottom", value.to_string()); }
+	}
+	
+	/**
+	 * The Element's distance from the left edge of the screen.
+	 */
+	public float left
+	{
+		get { return (float)data.get("left").to_double(); }
+		set { data.set("left", value.to_string()); }
+	}
+	
+	/**
+	 * The Element's distance from the right edge of the screen.
+	 */
+	public float right
+	{
+		get { return (float)data.get("right").to_double(); }
+		set { data.set("right", value.to_string()); }
 	}
 }
 

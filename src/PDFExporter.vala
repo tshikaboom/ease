@@ -108,7 +108,7 @@ public static class Ease.PDFExporter : Object
 		
 		foreach (var e in s.elements)
 		{
-			e.pdf_render(context);
+			e.cairo_render(context);
 		}
 	}
 }

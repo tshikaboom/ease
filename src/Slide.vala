@@ -198,7 +198,7 @@ public class Ease.Slide : GLib.Object
 		// add all of the master Slide's elements
 		foreach (var e in master.elements)
 		{
-			elements.add(((MasterElement)e).sized_element(width, height));
+			elements.add(e.sized_element(width, height));
 		}
 	}
 	

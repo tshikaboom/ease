@@ -30,9 +30,9 @@ public class Ease.TextActor : Actor
 	 * @param e The represented element.
 	 * @param c The context of this Actor (Presentation, Sidebar, Editor)
 	 */
-	public TextActor(ref Element e, ActorContext c)
+	public TextActor(TextElement e, ActorContext c)
 	{
-		base(ref e, c);
+		base(e, c);
 		
 		var text = new Clutter.Text();
 

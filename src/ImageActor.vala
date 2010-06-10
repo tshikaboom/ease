@@ -34,9 +34,9 @@ public class Ease.ImageActor : Actor
 	 * @param e The represented element.
 	 * @param c The context of this Actor (Presentation, Sidebar, Editor)
 	 */
-	public ImageActor(ref Element e, ActorContext c)
+	public ImageActor(ImageElement e, ActorContext c)
 	{
-		base(ref e, c);
+		base(e, c);
 		
 		try
 		{
