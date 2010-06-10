@@ -50,8 +50,8 @@
  */
 public class Ease.MasterElement : Element
 {
-	private const float WIDTH = 1024;
-	private const float HEIGHT = 768;
+	private const float WIDTH = 800;
+	private const float HEIGHT = 600;
 
 	/**
 	 * If the Element should maintain "top" when resized.
