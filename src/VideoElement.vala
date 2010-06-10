@@ -16,8 +16,8 @@
 */
 
 /**
- * A {MediaElement} subclass for playing a vide. Linked with
- * {link VideoActor}.
+ * A {@link MediaElement} subclass for playing a vide. Linked with
+ * {@link VideoActor}.
  */
 public class Ease.VideoElement : MediaElement
 {

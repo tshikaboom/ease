@@ -16,8 +16,8 @@
 */
 
 /**
- * A {MediaElement} subclass for displaying an image. Linked with
- * {link ImageActor}.
+ * A {@link MediaElement} subclass for displaying an image. Linked with
+ * {@link ImageActor}.
  */
 public class Ease.ImageElement : MediaElement
 {

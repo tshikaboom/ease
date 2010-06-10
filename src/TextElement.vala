@@ -16,7 +16,7 @@
 */
 
 /**
- * An {Element} subclass for displaying text. Linked with {@link TextActor}.
+ * An {@link Element} subclass for displaying text. Linked with {@link TextActor}.
  */
 public class Ease.TextElement : Element
 {
