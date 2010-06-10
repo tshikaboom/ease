@@ -27,6 +27,9 @@
  */
 public class Ease.ElementMap : Object
 {
+	/**
+	 * The internal data store for ElementMap.
+	 */
 	private Gee.Map<string, ElementMapValue> map;
 	
 	/**
@@ -43,6 +46,9 @@ public class Ease.ElementMap : Object
 		map = new Gee.HashMap<string, ElementMapValue>();
 	}
 	
+	/**
+	 * Creates and returns a copy of this ElementMap.
+	 */
 	public ElementMap copy()
 	{
 		var ret = new ElementMap();
@@ -107,6 +113,9 @@ public class Ease.ElementMap : Object
 		return map.get(key).str_val;
 	}
 	
+	/**
+	 * Prints each of the map's keys and values to stdout.
+	 */
 	public void print()
 	{
 		foreach (var key in map.keys)

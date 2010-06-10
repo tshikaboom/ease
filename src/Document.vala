@@ -23,6 +23,9 @@
  */
 public class Ease.Document : SlideSet
 {
+	/**
+	 * The default master title for newly created {@link Slide}s.
+	 */
 	private const string DEFAULT_SLIDE = "Standard";
 
 	/**
@@ -107,6 +110,11 @@ public class Ease.Document : SlideSet
 		return false;
 	}
 	
+	/**
+	 * Exports this Document to an HTML file.
+	 *
+	 * @param window The window that the progress dialog should be modal for.
+	 */
 	public void export_to_html(Gtk.Window window)
 	{
 		// make an HTMLExporter

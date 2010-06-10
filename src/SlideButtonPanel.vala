@@ -58,24 +58,6 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 		viewport.set_shadow_type(Gtk.ShadowType.NONE);
 		viewport.add(align);
 		add(viewport);
-		
-//		slides_box.size_allocate.connect((box, rect) => {
-//			slides_box.child_min_height = (int)(rect.width / document.aspect);
-//			slides_box.child_min_width = rect.width;
-//		});
-//		
-//		size_allocate.connect((self, rect) => {
-//			var allocation = Gtk.Allocation();
-//			slides_box.get_allocation(allocation);
-//			
-//			stdout.printf("\nasdf %i %i\n", rect.width, allocation.width);
-//			
-//			if (allocation.width > rect.width)
-//			{
-//				stdout.printf("\nsmaller");
-//				slides_box.child_min_width = 0;
-//			}
-//		});
 	}
 	
 	/**

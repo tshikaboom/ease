@@ -29,48 +29,140 @@
  */
 public class Ease.EditorEmbed : ScrollableEmbed
 {
-	// the editorwindow
+	/**
+	 * The {@link EditorWindow} that owns this EditorEmbed.
+	 */
 	private EditorWindow win;
 	
-	// selection rectangle
+	/**
+	 * The rectangle displayed around selected {@link Actor}s.
+	 */
 	private Clutter.Rectangle selection_rectangle;
 	
-	// handles
+	/**
+	 * The {@link Handle}s attached to the selection rectangle.
+	 */
 	private Handle[] handles;
 
-	// the current slide's actor
+	/**
+	 * The current slide's actor.
+	 */
 	public SlideActor slide_actor;
 	
-	// the currently selected Actor
+	/**
+	 * The currently selected {@link Actor}.
+	 */
 	private Actor selected;
 	
 	/**
 	 * If the selected {@link Actor} is being edited.
 	 */
-	public bool is_editing { get; set; }
+	private bool is_editing { get; set; }
 	
-	// if the selected Actor is being dragged
+	/**
+	 * If the selected Actor is being dragged.
+	 */
 	private bool is_dragging;
-	private bool is_drag_ready;
+	
+	/**
+	 * If the drag has been initialized.
+	 */
+	private bool is_drag_initialized;
+	
+	/**
+	 * The X position of the mouse in the prior drag event.
+	 */
 	private float mouse_x;
+	
+	/**
+	 * The Y position of the mouse in the prior drag event.
+	 */
 	private float mouse_y;
 	
-	// the original position of a dragged element
+	/**
+	 * The original X position of a dragged {@link Actor}.
+	 */
 	private float orig_x;
+	
+	/**
+	 * The original Y position of a dragged {@link Actor}.
+	 */
 	private float orig_y;
+	
+	/**
+	 * The original width of a dragged {@link Actor}.
+	 */
 	private float orig_w;
+	
+	/**
+	 * The original height of a dragged {@link Actor}.
+	 */
 	private float orig_h;
 	
-	// constants
+	/**
+	 * The split string for parsing GTK colors.
+	 */
 	private const string SPLIT = "\n;";
+	
+	/**
+	 * The gtk background color identifier.
+	 */
 	private const string BG_COLOR = "bg_color:";
+	
+	/**
+	 * The gtk background color prefix.
+	 */
 	private const string PREFIX = "#";
+	
+	/**
+	 * The shade factor of the EditorEmbed's background relative to typical
+	 * GTK background color.
+	 */
 	private const double SHADE_FACTOR = 0.9;
+	
+	/**
+	 * The size of the handles[] array.
+	 */
 	private const int HANDLE_COUNT = 8;
 	
+	/**
+	 * The {@link Document} linked with this EditorEmbed.
+	 */
 	private Document document;
-	public float zoom;
-	public bool zoom_fit;
+	
+	/**
+	 * The zoom level of the slide displayed by this EditorEmbed.
+	 * 
+	 * When this property is set is called, only the EditorEmbed's zoom level
+	 * is set. Therefore, any other relevant parts of the interface should
+	 * also be updated by the method setting the zoom value.
+	 *
+	 * The zoom level is set on a 0-1 scale. Higher values, are, of
+	 * course, possible, but values below 0.1 or so are unlikely to produce
+	 * desirable results.
+	 */
+	public float zoom
+	{
+		get
+		{
+			return zoom_priv;
+		}
+		set
+		{
+			zoom_priv = value;
+			reposition_group();
+		}
+	}
+	
+	/**
+	 * Store for "zoom" property.
+	 */
+	private float zoom_priv;
+	
+	/**
+	 * If the zoom factor should automatically be set to fill the EditorEmbed.
+	 */
+	private bool zoom_fit { get; set; }
 
 	/**
 	 * Create an EditorEmbed representing a {@link Document}.
@@ -142,23 +234,6 @@ public class Ease.EditorEmbed : ScrollableEmbed
 				reposition_group();
 			}
 		});
-	}
-
-	/**
-	 * Sets the zoom level of the slide displayed by this EditorEmbed.
-	 * 
-	 * When this function is called, only the EditorEmbed's zoom level is
-	 * set. Therefore, any other relevant parts of the interface should
-	 * also be updated by the caller. 
-	 *
-	 * @param z The zoom level, on a 0-100 scale (higher values, are, of
-	 * course, possible, but values below 10 or so are unlikely to produce
-	 * desirable results.
-	 */
-	public void set_zoom(float z)
-	{
-		zoom = z / 100;
-		reposition_group();
 	}
 
 	/**
@@ -294,7 +369,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param sender The {@link Actor} that was clicked
 	 * @param event The corresponding Clutter.Event
 	 */
-	public bool actor_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
+	private bool actor_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{
 		// if this is a double click, edit the actor
 		if (event.click_count == 2)
@@ -308,7 +383,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		else if (sender == selected)
 		{
 			is_dragging = true;
-			is_drag_ready = false;
+			is_drag_initialized = false;
 			Clutter.grab_pointer(sender);
 			sender.motion_event.connect(actor_motion);
 			return true;
@@ -373,7 +448,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param sender The {@link Actor} that was released
 	 * @param event The corresponding Clutter.Event
 	 */
-	public bool actor_released(Clutter.Actor sender, Clutter.ButtonEvent event)
+	private bool actor_released(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{
 		if (sender == selected && is_dragging)
 		{
@@ -397,15 +472,15 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param sender The {@link Actor} that was dragged
 	 * @param event The corresponding Clutter.Event
 	 */
-	public bool actor_motion(Clutter.Actor sender, Clutter.MotionEvent event)
+	private bool actor_motion(Clutter.Actor sender, Clutter.MotionEvent event)
 	{
 		Actor actor = (Actor)sender;
 		
 		if (sender == selected && is_dragging)
 		{
-			if (!is_drag_ready)
+			if (!is_drag_initialized)
 			{
-				is_drag_ready = true;
+				is_drag_initialized = true;
 				mouse_x = event.x;
 				mouse_y = event.y;
 				
@@ -439,11 +514,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param sender The {@link Handle} that was clicked
 	 * @param event The corresponding Clutter.Event
 	 */
-	public bool handle_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
+	private bool handle_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{	
 		(sender as Handle).flip();
 		is_dragging = true;
-		is_drag_ready = false;
+		is_drag_initialized = false;
 		sender.motion_event.connect(handle_motion);
 		Clutter.grab_pointer(sender);
 		return true;
@@ -460,7 +535,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param sender The {@link Handle} that was released
 	 * @param event The corresponding Clutter.Event
 	 */
-	public bool handle_released(Clutter.Actor sender, Clutter.ButtonEvent event)
+	private bool handle_released(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{
 		if (is_dragging)
 		{
@@ -488,13 +563,13 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param sender The {@link Handle} that was dragged
 	 * @param event The corresponding Clutter.Event
 	 */
-	public bool handle_motion(Clutter.Actor sender, Clutter.MotionEvent event)
+	private bool handle_motion(Clutter.Actor sender, Clutter.MotionEvent event)
 	{
 		Handle handle = (Handle)sender;
 		
-		if (!is_drag_ready)
+		if (!is_drag_initialized)
 		{
-			is_drag_ready = true;
+			is_drag_initialized = true;
 			mouse_x = event.x;
 			mouse_y = event.y;
 			

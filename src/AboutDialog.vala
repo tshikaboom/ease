@@ -26,6 +26,10 @@ public class Ease.AboutDialog : Gtk.AboutDialog
 	                           null };
 	const string[] ARTISTS = { "Nate Stedman <natesm@gmail.com>", null };
 	
+	/**
+	 * Creates the "About Ease" dialog, with all fields filled out. This
+	 * constructor does not actually run the dialog.
+	 */
 	public AboutDialog()
 	{
 		program_name = "Ease";

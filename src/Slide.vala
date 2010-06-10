@@ -202,6 +202,12 @@ public class Ease.Slide : GLib.Object
 		}
 	}
 	
+	/**
+	 * Adds an {@link Element} to this slide at a specified index.
+	 *
+	 * @param index The index to add the {@link Element} at.
+	 * @param e The {@link Element} to add.
+	 */
 	public void add_element(int index, Element e)
 	{
 		e.parent = this;

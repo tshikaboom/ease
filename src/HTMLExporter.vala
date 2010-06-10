@@ -30,8 +30,14 @@ public class Ease.HTMLExporter : GLib.Object
 	private Gtk.Dialog window;
 	private Gtk.ProgressBar progress;
 	
+	/**
+	 * The path to export HTML to.
+	 */
 	public string path { get; private set; }
 	
+	/**
+	 * Creates a new HTMLExporter.
+	 */
 	public HTMLExporter()
 	{
 		progress = new Gtk.ProgressBar();

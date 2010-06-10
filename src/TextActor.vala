@@ -85,6 +85,10 @@ public class Ease.TextActor : Actor
 		text.text_changed.disconnect(text_changed);
 	}
 	
+	/**
+	 * Signal handler for text editing. Updates the "text" property on the
+	 * linked {@link Element}.
+	 */
 	private void text_changed(Clutter.Text sender)
 	{
 		element.set("text", sender.text);

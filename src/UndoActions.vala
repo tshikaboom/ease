@@ -61,6 +61,11 @@ public class Ease.MoveUndoAction : UndoAction
 		height = h;
 	}
 	
+	/**
+	 * Moves the {@link Element} back to its original position.
+	 *
+	 * {@inheritDoc}
+	 */
 	public override UndoAction apply()
 	{
 		var ret = new MoveUndoAction(element, element.x, element.y,

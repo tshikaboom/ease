@@ -39,6 +39,6 @@ namespace Ease
 	{
 		PRESENTATION,
 		EDITOR,
-		SIDEBAR
+		INSPECTOR
 	}
 }

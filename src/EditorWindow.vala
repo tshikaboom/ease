@@ -25,34 +25,67 @@
  */
 public class Ease.EditorWindow : Gtk.Window
 {
-	// interface elements
+	/**
+	 * The {@link EditorEmbed} associated with this EditorWindow.
+	 */ 
 	public EditorEmbed embed;
+	
+	/**
+	 * The {@link MainToolbar} of this EditorWindow.
+	 */
 	public MainToolbar main_toolbar;
-	public Gtk.HBox slides;
+	
+	/**
+	 * The {@link SlideButtonPanel} of this EditorWindow.
+	 */
 	public SlideButtonPanel slide_button_panel;
 	
-	// zoom
+	/**
+	 * A {@link ZoomSlider} at the bottom of the window, controlling the zoom
+	 * level of the {@link EditorEmbed}.
+	 */
 	public ZoomSlider zoom_slider;
 
-	// the player for this window
+	/**
+	 * A {@link Player} for the {@link Document} displayed in this window.
+	 */
 	private Player player;
 	
+	/**
+	 * The {@link Document} associated with this EditorWindow.
+	 */
 	public Document document;
+	
+	/**
+	 * The currently selected and displayed {@link Slide}.
+	 */
 	public Slide slide;
 	
+	/**
+	 * The {@link Inspector} for this window.
+	 */
 	private Inspector inspector;
 	
-	// the UndoController for this window
+	/**
+	 * The {@link UndoController} for this window.
+	 */
 	private UndoController undo;
 	
-	// interface variables
+	/**
+	 * If the {@link Inspector} is visible.
+	 */
 	public bool inspector_shown { get; set; }
+	
+	/**
+	 * If the {@link SlideButtonPanel} is visible.
+	 */
 	public bool slides_shown { get; set; }
 	
-	// constants
+	/**
+	 * The zoom levels for the {@link ZoomSlider}
+	 */
 	private int[] ZOOM_LEVELS = {10, 25, 33, 50, 66, 75, 100, 125, 150,
 	                             200, 250, 300, 400};
-	private const int ZOOM_COUNT = 13;
 
 	/**
 	 * Creates a new EditorWindow.
@@ -139,11 +172,11 @@ public class Ease.EditorWindow : Gtk.Window
 		main_toolbar.slides.clicked.connect(() => {
 			if (slides_shown)
 			{
-				slides.hide();
+				slide_button_panel.hide();
 			}
 			else
 			{
-				slides.show();
+				slide_button_panel.show();
 			}
 			slides_shown = !slides_shown;
 		});
@@ -221,7 +254,7 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		// change the embed's zoom when the zoom slider is moved
 		zoom_slider.value_changed.connect(() => {
-			embed.set_zoom((float)zoom_slider.get_value());
+			embed.zoom = (float)zoom_slider.get_value() / 100f;
 		});
 
 		hide.connect(() => Main.remove_window(this));
@@ -256,6 +289,10 @@ public class Ease.EditorWindow : Gtk.Window
 		update_undo();
 	}
 	
+	/**
+	 * Updates the undo and redo items, enabling and disabling them as is
+	 * applicable.
+	 */
 	private void update_undo()
 	{
 		main_toolbar.undo.sensitive = undo.can_undo();
@@ -263,19 +300,6 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	// signal handlers
-	private void show_open_dialog()
-	{
-		var dialog = new Gtk.FileChooserDialog(_("Open File"),
-		                                       this,
-		                                       Gtk.FileChooserAction.OPEN,
-		                                       null);
-		dialog.run();
-	}
-	
-	private void new_presentation()
-	{
-		//var window = new EditorWindow("../../../../Examples/Example.ease/");
-	}
 	
 	// menu bar creation
 	private Gtk.MenuBar create_menu_bar()
@@ -297,7 +321,7 @@ public class Ease.EditorWindow : Gtk.Window
 		var new_item = new Gtk.MenuItem.with_label(_("New"));
 		var new_menu = new Gtk.Menu();
 		var new_pres = new Gtk.MenuItem.with_label(_("Presentation"));
-		new_pres.activate.connect(new_presentation);
+		new_pres.activate.connect(Main.show_welcome);
 		var new_theme = new Gtk.MenuItem.with_label(_("Theme"));
 		var quit = new Gtk.MenuItem.with_label(_("Quit"));
 		quit.activate.connect(Gtk.main_quit);
@@ -308,7 +332,7 @@ public class Ease.EditorWindow : Gtk.Window
 		menu.append(new_item);
 		
 		var open_item = new Gtk.MenuItem.with_label(_("Open"));
-		open_item.activate.connect(show_open_dialog);
+		open_item.activate.connect(() => OpenDialog.run());
 		open_item.set_accel_path("<-Document>/File/Open");
 		Gtk.AccelMap.add_entry("<-Document>/File/Open",
 		                       Gdk.keyval_from_name("o"),

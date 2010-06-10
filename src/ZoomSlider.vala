@@ -59,7 +59,14 @@ public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 		set { zoom_slider.set_value(value); }
 	}
 	
+	/**
+	 * Private store for buttons_shown property.
+	 */
 	private bool buttons_shown_priv = true;
+	
+	/**
+	 * If the + and - buttons should be shown. Defaults to true.
+	 */
 	public bool buttons_shown
 	{
 		get { return buttons_shown; }

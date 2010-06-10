@@ -28,13 +28,19 @@ public abstract class Ease.Actor : Clutter.Group
 	// the contents of the actor
 	protected Clutter.Actor contents;
 
-	// the element this actor represents
+	/**
+	 * The {@link Element} this Actor represents
+	 */
 	public weak Element element;
 
-	// where this actor is (editor, player, sidebar)
+	/**
+	 * Where this actor is (editor, player, sidebar).
+	 */
 	public ActorContext context;
 	
-	// if the actor is a slide background
+	/**
+	 * If the Actor is a slide background.
+	 */
 	public bool is_background;
 
 	/**

@@ -20,9 +20,15 @@
  *
  * VideoActor uses Clutter-GStreamer, and therefore supports any video
  * format supported by the GStreamer plugins on the user's system.
+ *
+ * VideoActor "implements" Clutter.Media by passing through all function calls
+ * to its VideoTexture.
  */
 public class Ease.VideoActor : Actor, Clutter.Media
 {
+	/**
+	 * The VideoTexture displayed by this VideoActor.
+	 */
 	private ClutterGst.VideoTexture video;
 
 	/**

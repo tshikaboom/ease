@@ -20,17 +20,33 @@
  */
 public class Ease.Handle : Clutter.Texture
 {	
-	// the position of this handle
+	/**
+	 * The position of this handle relative to the selection rectangle.
+	 */
 	private HandlePosition position;
 	
-	// if the handle has been "flipped"
+	/**
+	 * If the handle is being dragged and should alter its appearance.
+	 */
 	private bool flipped = false;
 	
-	// constants
-	public const float SIZE = 20;
+	/**
+	 * The path to the white circle with a black border.
+	 */
 	public const string W_PATH = "/usr/local/share/ease/svg/handle-white.svg";
+	
+	/**
+	 * The path to the black circle with a white border.
+	 */
 	public const string B_PATH = "/usr/local/share/ease/svg/handle-black.svg";
 	
+	/**
+	 * Creates a Handle. Does automatically set the Handle's position - call
+	 * reposition() to do this.
+	 *
+	 * @param pos The position of this handle relative to the selection
+	 * rectangle.
+	 */
 	public Handle(HandlePosition pos)
 	{
 		// set the handle's position
@@ -46,6 +62,15 @@ public class Ease.Handle : Clutter.Texture
 		reactive = true;
 	}
 	
+	/**
+	 * Performs a drag of the handle, updating the selected {@link Actor}'s size
+	 * and position.
+	 *
+	 * @param change_x The x drag distance.
+	 * @param change_y The y drag distance.
+	 * @param target The actor to update.
+	 * @param prop If any scaling should be proportional, if possible.
+	 */
 	public void drag(float change_x, float change_y, Actor target, bool prop)
 	{
 		switch (position)
@@ -89,6 +114,15 @@ public class Ease.Handle : Clutter.Texture
 		}
 	}
 	
+	/**
+	 * Performs a drag of the handle, scaling from the center. Updates the
+	 * selected {@link Actor}'s size and position.
+	 *
+	 * @param change_x The x drag distance.
+	 * @param change_y The y drag distance.
+	 * @param target The actor to update.
+	 * @param prop If any scaling should be proportional, if possible.
+	 */
 	public void drag_from_center(float change_x, float change_y, Actor target,
 	                             bool prop)
 	{
@@ -136,6 +170,12 @@ public class Ease.Handle : Clutter.Texture
 		}
 	}
 	
+	/**
+	 * Places this Handle in its proper location, relative to the selection
+	 * rectangle.
+	 *
+	 * @param selection The selection rectangle to position the Handle around.
+	 */
 	public void reposition(Clutter.Actor selection)
 	{
 		switch (position)

@@ -22,9 +22,19 @@
  */
 public class Ease.UndoController : Object
 {
+	/**
+	 * The undo queue.
+	 */
 	private Gee.LinkedList<UndoAction> undos = new Gee.LinkedList<UndoAction>();
+	
+	/**
+	 * The redo queue.
+	 */
 	private Gee.LinkedList<UndoAction> redos = new Gee.LinkedList<UndoAction>();
 	
+	/**
+	 * Creates an UndoController. Used by EditorWindow.
+	 */
 	public UndoController() { }
 	
 	/**

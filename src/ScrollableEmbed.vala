@@ -42,22 +42,16 @@ public class Ease.ScrollableEmbed : Gtk.HBox
 	private const int FRAME_PADDING = 2;
 	
 	public bool has_horizontal { get; private set; }
+	
+	/**
+	 * The width of this ScrollableEmbed's Stage.
+	 */
+	public float width { get{ return stage.width; } }
 
-	public float width
-	{
-		get
-		{
-			return stage.width;
-		}
-	}
-
-	public float height
-	{
-		get
-		{
-			return stage.height;
-		}
-	}
+	/**
+	 * The height of this ScrollableEmbed's Stage.
+	 */
+	public float height { get { return stage.height; } }
 	
 	/**
 	 * Instantiate a ScollableEmbed with an optional vertical sidebar.
@@ -176,11 +170,18 @@ public class Ease.ScrollableEmbed : Gtk.HBox
 		embed.size_allocate.connect(embed_allocate);
 	}
 	
+	/**
+	 * Returns the stage of this ScrollableEmbed. Use with caution. Most
+	 * actors should be placed onto the "contents" ClutterGroup.
+	 */
 	public Clutter.Stage get_stage()
 	{
 		return (Clutter.Stage)(embed.get_stage());
 	}
-
+	
+	/**
+	 * Signal handler for size allocation.
+	 */
 	private void embed_allocate(Gtk.Widget sender, Gdk.Rectangle rect)
 	{
 		// pass on to Clutter actors

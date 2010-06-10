@@ -44,17 +44,20 @@ public class Ease.Element : GLib.Object
 	public ElementMap data;
 	
 	/**
-	 * Create a new element.
+	 * Create a new element, with an empty {@link ElementMap}.
 	 */
 	public Element()
 	{
 		data = new ElementMap();
 	}
 	
+	/**
+	 * Creates a completely empty Element, without an {@link ElementMap}.
+	 */
 	private Element.empty() { }
 	
 	/**
-	 * Return a copy of this Element
+	 * Creates and returns a copy of this Element.
 	 */
 	public Element copy()
 	{
@@ -202,6 +205,9 @@ public class Ease.Element : GLib.Object
 		exporter.add_progress(amount);
 	}
 	
+	/**
+	 * Renders this Element with Cairo.
+	 */
 	public void pdf_render(Cairo.Context context) throws Error
 	{
 		switch (data.get("element_type"))
@@ -215,6 +221,9 @@ public class Ease.Element : GLib.Object
 		}
 	}
 	
+	/**
+	 * Renders an image Element with Cairo.
+	 */
 	private void pdf_render_image(Cairo.Context context) throws Error
 	{
 		var filename = Path.build_path("/",
@@ -233,6 +242,9 @@ public class Ease.Element : GLib.Object
 		context.fill();
 	}
 	
+	/**
+	 * Renders a text Element with Cairo.
+	 */
 	private void pdf_render_text(Cairo.Context context) throws Error
 	{	
 		// create the layout
