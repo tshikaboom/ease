@@ -18,11 +18,20 @@
 /**
  * An object on a {@link Slide}.
  *
+ * Elements form the content of {@link Document}s. The Element class is
+ * abstract, so each type of element is represented by a subclass. The Element
+ * base class contains properties common to all types of element.
+ *
+ * To store data, Element uses a key/value store, {@link ElementMap}. All
+ * properties of Element and its subclasses are simply wrappers around
+ * strings stored in ElementMap. This makes writing to and reading from JSON
+ * files very simple.
+ *
  * Element is also used in {@link Theme}s, which handle sizing differently.
  *
  * Ease uses a "base resolution" of 1024 by 768, a common projector resolution.
  * Unlike {@link Element}, which expresses positions in x, y, width, and height,
- * MasterElement expressed them in left, right, top, and bottom. As the total
+ * a master element expresses them in left, right, top, and bottom. As the total
  * size of the presentation is known, the actual sizes can be easily calculated.
  * Then, the Element's size can be increased or decreased by using the
  * four directional bind_ properties and the expand_.
@@ -47,7 +56,14 @@
  */
 public abstract class Ease.Element : GLib.Object
 {
+	/**
+	 * The default width of {@link Theme} master slides.
+	 */
 	private const float THEME_WIDTH = 800;
+	
+	/**
+	 * The default height of {@link Theme} master slides.
+	 */
 	private const float THEME_HEIGHT = 600;
 
 	/**
@@ -61,19 +77,6 @@ public abstract class Ease.Element : GLib.Object
 	 * properties that Element provides.
 	 */
 	protected ElementMap data;
-	
-	/**
-	 * Create a new element, with an empty {@link ElementMap}.
-	 */
-	public Element()
-	{
-		data = new ElementMap();
-	}
-	
-	/**
-	 * Creates a completely empty Element, without an {@link ElementMap}.
-	 */
-	public Element.empty() {}	
 	
 	/**
 	 * Creates and returns a copy of this Element.
@@ -145,10 +148,26 @@ public abstract class Ease.Element : GLib.Object
 		exporter.add_progress(amount);
 	}
 	
+	/**
+	 * Creates the actual HTML markup for this Element.
+	 *
+	 * @param html The HTML string in its current state.
+	 * @param exporter The {@link HTMLExporter}, for its path.
+	 */
 	protected abstract void write_html(ref string html, HTMLExporter exporter);
 	
+	/**
+	 * Renders this Element to a CairoContext.
+	 *
+	 * @param context The context to render to.
+	 */
 	public abstract void cairo_render(Cairo.Context context) throws Error;
 	
+	/**
+	 * Returns a ClutterActor for use in presentations and the editor.
+	 *
+	 * @param c The context of the actor.
+	 */
 	public abstract Actor actor(ActorContext c);
 	
 	/**

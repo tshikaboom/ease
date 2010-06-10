@@ -15,8 +15,25 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A {MediaElement} subclass for displaying an image. Linked with
+ * {link ImageActor}.
+ */
 public class Ease.ImageElement : MediaElement
-{	
+{
+	/**
+	 * Create a new element, with an empty {@link ElementMap}.
+	 */
+	public ImageElement()
+	{
+		data = new ElementMap();
+	}
+	
+	/**
+	 * Creates a completely empty ImageElement, without an {@link ElementMap}.
+	 */
+	public ImageElement.empty() {}	
+	
 	public override Element copy()
 	{
 		var element = new ImageElement.empty();

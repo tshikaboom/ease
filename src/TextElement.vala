@@ -15,8 +15,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * An {Element} subclass for displaying text. Linked with {@link TextActor}.
+ */
 public class Ease.TextElement : Element
-{		
+{
+	/**
+	 * Create a new element, with an empty {@link ElementMap}.
+	 */
+	public TextElement()
+	{
+		data = new ElementMap();
+	}
+	
+	/**
+	 * Creates a completely empty TextElement, without an {@link ElementMap}.
+	 */
+	public TextElement.empty() {}	
+
 	public override Element copy()
 	{
 		var element = new TextElement.empty();

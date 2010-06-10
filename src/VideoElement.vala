@@ -15,8 +15,25 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A {MediaElement} subclass for playing a vide. Linked with
+ * {link VideoActor}.
+ */
 public class Ease.VideoElement : MediaElement
-{	
+{
+	/**
+	 * Create a new element, with an empty {@link ElementMap}.
+	 */
+	public VideoElement()
+	{
+		data = new ElementMap();
+	}
+	
+	/**
+	 * Creates a completely empty VideoElement, without an {@link ElementMap}.
+	 */
+	public VideoElement.empty() {}	
+
 	public override Element copy()
 	{
 		var element = new VideoElement.empty();
