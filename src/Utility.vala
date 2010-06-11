@@ -34,4 +34,27 @@ namespace Ease
 		dialog.run();
 		dialog.destroy();
 	}
+	
+	/**
+	 * Finds the given path in the data directories (ie /usr/share). Return null
+	 * if the path cannot be found.
+	 *
+	 * @param path The path to search for.
+	 */
+	public string? data_path(string path)
+	{
+		string[] data_dirs = Environment.get_system_data_dirs();
+		foreach (string dir in data_dirs)
+		{
+			var filename = Path.build_filename(dir, path);
+			var file = File.new_for_path(filename);
+			
+			if (file.query_exists(null))
+			{
+				return filename;
+			}
+		}
+		
+		return null;
+	}
 }

@@ -21,7 +21,6 @@ ease_SOURCES = \
 	src/ElementMapValue.vala \
 	src/Element.vala \
 	src/Enums.vala \
-	src/ErrorDialog.vala \
 	src/Handle.vala \
 	src/HTMLExporter.vala \
 	src/ImageActor.vala \
@@ -51,6 +50,7 @@ ease_SOURCES = \
 	src/Transitions.vala \
 	src/UndoActions.vala \
 	src/UndoController.vala \
+	src/Utility.vala \
 	src/VideoActor.vala \
 	src/VideoElement.vala \
 	src/WelcomeActor.vala \

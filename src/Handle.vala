@@ -33,12 +33,12 @@ public class Ease.Handle : Clutter.Texture
 	/**
 	 * The path to the white circle with a black border.
 	 */
-	public const string W_PATH = "/usr/local/share/ease/svg/handle-white.svg";
+	public const string W_PATH = "ease/svg/handle-white.svg";
 	
 	/**
 	 * The path to the black circle with a white border.
 	 */
-	public const string B_PATH = "/usr/local/share/ease/svg/handle-black.svg";
+	public const string B_PATH = "ease/svg/handle-black.svg";
 	
 	/**
 	 * Creates a Handle. Does automatically set the Handle's position - call
@@ -53,7 +53,7 @@ public class Ease.Handle : Clutter.Texture
 		position = pos;
 
 		// load the handle texture
-		filename = W_PATH;
+		filename = data_path(W_PATH);
 
 		// set the handle's anchor
 		set_anchor_point(width / 2, height / 2);
@@ -229,11 +229,11 @@ public class Ease.Handle : Clutter.Texture
 	{
 		if (flipped)
 		{
-			filename = W_PATH;
+			filename = data_path(W_PATH);
 		}
 		else
 		{
-			filename = B_PATH;
+			filename = data_path(B_PATH);
 		}
 		
 		flipped = !flipped;
