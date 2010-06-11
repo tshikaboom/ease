@@ -55,7 +55,7 @@ public static class Ease.Main : GLib.Object
 	 * @param args Program arguments.
 	 */
 	public static int main(string[] args)
-	{
+	{	
 		// parse command line options
 		var context = new OptionContext(_(" - a presentation editor"));
 		
@@ -128,6 +128,8 @@ public static class Ease.Main : GLib.Object
 		{
 			show_welcome();
 		}
+		
+		test_sourceview();
 	
 		Gtk.main();
 		
@@ -238,6 +240,48 @@ public static class Ease.Main : GLib.Object
 		{
 			Gtk.main_quit();
 		}
+	}
+	
+	public static void test_sourceview()
+	{
+		SourceView view = new SourceView();
+		
+		var group = new SourceGroup("Test Group 1");
+		var text = new Gtk.TextView();
+		var item = new SourceItem.from_stock("gtk-new", text);
+		group.add_item(item);
+		text = new Gtk.TextView();
+		item = new SourceItem.from_stock("gtk-open", text);
+		group.add_item(item);
+		text = new Gtk.TextView();
+		item = new SourceItem.from_stock("gtk-undo", text);
+		group.add_item(item);
+		text = new Gtk.TextView();
+		item = new SourceItem.from_stock("gtk-redo", text);
+		group.add_item(item);
+		view.add_group(group);
+		
+		group = new SourceGroup("Test Group 2");
+		text = new Gtk.TextView();
+		item = new SourceItem.from_stock("gtk-add", text);
+		group.add_item(item);
+		text = new Gtk.TextView();
+		item = new SourceItem.from_stock("gtk-about", text);
+		group.add_item(item);
+		text = new Gtk.TextView();
+		item = new SourceItem.from_stock("gtk-floppy", text);
+		group.add_item(item);
+		view.add_group(group);
+		
+		item.selected = true;
+		
+		text = new Gtk.TextView();
+		
+		var window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
+		window.add(view);
+		//window.add(new SourceItem.from_stock("gtk-new", text));
+		window.set_size_request(640, 480);
+		window.show_all();
 	}
 }
 

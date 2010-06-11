@@ -42,6 +42,10 @@ ease_SOURCES = \
 	src/SlidePane.vala \
 	src/SlideSet.vala \
 	src/Slide.vala \
+	src/SourceGroup.vala \
+	src/SourceItem.vala \
+	src/SourceList.vala \
+	src/SourceView.vala \
 	src/Temp.vala \
 	src/TextActor.vala \
 	src/TextElement.vala \
