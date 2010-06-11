@@ -196,26 +196,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 		show_all();
 		
 		// ui signals
-		new_button.clicked.connect(() => {
-			try
-			{
-				// create a new Document
-				var document = new Document.from_theme(selected_theme,
-					                                   (int)x_res.get_value(),
-					                                   (int)y_res.get_value());
-			
-			
-				// create an EditorWindow for the new Document
-				var editor = new EditorWindow(document);
-			
-				Main.add_window(editor);
-				Main.remove_welcome();
-			}
-			catch (Error e)
-			{
-				error_dialog(_("Error creating new document"), e.message);
-			}
-		});
+		new_button.clicked.connect(new_document);
 		
 		// changing resolution values
 		x_res.value_changed.connect(() => {
@@ -259,27 +240,10 @@ public class Ease.WelcomeWindow : Gtk.Window
 			a.button_press_event.connect((act, event) =>
                 {
                     if (event.click_count == 2) {
-                        // TODO : copy-pasted from above, let's fix that info a function.
-						try
-						{
-							// create a new Document
-							var document = new Document.from_theme(selected_theme,
-																   (int)x_res.get_value(),
-																   (int)y_res.get_value());
-
-							// create an EditorWindow for the new Document
-							var editor = new EditorWindow(document);
-
-							Main.add_window(editor);
-							Main.remove_welcome();
-						}
-						catch (Error e)
-						{
-							error_dialog(_("Error creating new document"), e.message);
-						}
+						new_document();
 					}
-					((WelcomeActor)(act)).clicked();
-					selected_theme = ((WelcomeActor)(act)).theme;
+					(act as WelcomeActor).clicked();
+					selected_theme = (act as WelcomeActor).theme;
 					return false;
 				});
 		}
@@ -299,6 +263,27 @@ public class Ease.WelcomeWindow : Gtk.Window
 		// reflow previews without animation
 		preview_row_count = -1;
 		reflow_previews();
+	}
+	
+	private void new_document()
+	{
+		try
+		{
+			// create a new Document
+			var document = new Document.from_theme(selected_theme,
+												   (int)x_res.get_value(),
+												   (int)y_res.get_value());
+
+			// create an EditorWindow for the new Document
+			var editor = new EditorWindow(document);
+
+			Main.add_window(editor);
+			Main.remove_welcome();
+		}
+		catch (Error e)
+		{
+			error_dialog(_("Error creating new document"), e.message);
+		}
 	}
 	
 	private void set_resolution_box(int width, int height)
