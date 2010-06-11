@@ -100,3 +100,12 @@ theme_DATA = themes/*.easetheme
 svgdir = $(datadir)/ease/svg
 svg_DATA = data/svg/*.svg
 
+doc: src/*.vala
+	rm -rf doc
+	valadoc --internal --private --pkg "json-glib-1.0" --pkg "gee-1.0"  --pkg "clutter-gtk-0.10" --pkg "clutter-gst-1.0" --pkg "libarchive" --directory=./doc --basedir=src ./src/*.vala
+	gnome-open doc/doc/Ease.html
+
+archive: themes/* examples/*
+	sh themes/build.sh
+	sh examples/build.sh
+
