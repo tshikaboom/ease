@@ -22,7 +22,15 @@
  */
 public class Ease.TextActor : Actor
 {
+	/**
+	 * The text shown for unedited Elements.
+	 */
 	private const string DEFAULT_TEXT = _("Double Click to Edit");
+	
+	/**
+	 * The opacity of the selection highlight.
+	 */
+	private const uchar SELECTION_ALPHA = 200;
 
 	/**
 	 * Instantiates a new TextActor from an Element.
@@ -70,8 +78,14 @@ public class Ease.TextActor : Actor
 		text.activate.connect(text_activate);
 		
 		// grab key focus
-		((Clutter.Stage)get_stage()).set_key_focus(text);
 		sender.key_focus();
+		((Clutter.Stage)get_stage()).set_key_focus(text);
+		
+		// set the selection color
+		text.selection_color = { 255 - text.color.red,
+		                         255 - text.color.green,
+		                         255 - text.color.blue,
+		                         SELECTION_ALPHA };
 		
 		// if the element hasn't been edited, empty it
 		if (!element.has_been_edited)
