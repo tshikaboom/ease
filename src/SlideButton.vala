@@ -123,7 +123,11 @@ public class Ease.SlideButton : Gtk.Button
 		              ((float)allocation.height) / slide.parent.height);
 		
 		// write the slide
-		PDFExporter.write_slide(slide, context);
+		try { PDFExporter.write_slide(slide, context); }
+		catch (Error e)
+		{
+			log("", LogLevelFlags.LEVEL_WARNING, "%s\n", e.message);
+		}
 		context.restore();
 	}
 }
