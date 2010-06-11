@@ -130,15 +130,13 @@ public class Ease.WelcomeActor : Clutter.Group
 	private void fade()
 	{
 		is_selected = false;
-		slide_actor.animate(FADE_EASE, FADE_TIME, "opacity", FADE_VALUE);
-		text.animate(FADE_EASE, FADE_TIME, "opacity", FADE_VALUE);
+		this.animate(FADE_EASE, FADE_TIME, "opacity", FADE_VALUE);
 	}
 	
 	private void unfade()
 	{
 		is_selected = true;
-		slide_actor.animate(FADE_EASE, FADE_TIME, "opacity", 255);
-		text.animate(FADE_EASE, FADE_TIME, "opacity", 255);
+		this.animate(FADE_EASE, FADE_TIME, "opacity", 255);
 	}
 }
 

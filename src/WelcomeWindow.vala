@@ -35,7 +35,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 	// themes
 	private Gee.ArrayList<Theme> themes = new Gee.ArrayList<Theme>();
 	private Theme selected_theme;
-	private const string THEME_DIR = "/usr/local/share/ease/themes";
+	// TODO : don't hardcode the theme path.
+	private const string THEME_DIR = "/usr/share/ease/themes";
 
 	// clutter view
 	private ScrollableEmbed embed;
@@ -255,11 +256,32 @@ public class Ease.WelcomeWindow : Gtk.Window
 		// click on previews
 		foreach (var a in previews)
 		{
-			a.button_press_event.connect((act, event) => {
-				((WelcomeActor)(act)).clicked();
-				selected_theme = ((WelcomeActor)(act)).theme;
-				return false;
-			});
+			a.button_press_event.connect((act, event) =>
+                {
+                    if (event.click_count == 2) {
+                        // TODO : copy-pasted from above, let's fix that info a function.
+						try
+						{
+							// create a new Document
+							var document = new Document.from_theme(selected_theme,
+																   (int)x_res.get_value(),
+																   (int)y_res.get_value());
+
+							// create an EditorWindow for the new Document
+							var editor = new EditorWindow(document);
+
+							Main.add_window(editor);
+							Main.remove_welcome();
+						}
+						catch (Error e)
+						{
+							error_dialog(_("Error creating new document"), e.message);
+						}
+					}
+					((WelcomeActor)(act)).clicked();
+					selected_theme = ((WelcomeActor)(act)).theme;
+					return false;
+				});
 		}
 		
 		// change the zoom of the previews when the zoom slider is moved
@@ -412,4 +434,3 @@ public class Ease.WelcomeWindow : Gtk.Window
 		}
 	}
 }
-
