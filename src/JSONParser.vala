@@ -20,8 +20,8 @@
  */
 public static class Ease.JSONParser
 {
-	private const Type VIDEO_TYPE = typeof(VideoElement);
-	private const Type IMAGE_TYPE = typeof(ImageElement);
+	private const string VIDEO_TYPE = "EaseVideoElement";
+	private const string IMAGE_TYPE = "EaseImageElement";
 
 	/**
 	 * Parses a document JSON file, creating a {@link Document}.
@@ -152,7 +152,7 @@ public static class Ease.JSONParser
 		Element element;
 		
 		// find the proper type
-		var type = Type.from_name(obj.get_string_member("element_type"));
+		var type = obj.get_string_member("element_type");
 		
 		// create the element
 		if (type == VIDEO_TYPE)
