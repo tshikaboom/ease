@@ -63,7 +63,9 @@ public class Ease.TextActor : Actor
 		var text = contents as Clutter.Text;
 		text.editable = true;
 		text.reactive = true;
+		text.activatable = true;
 		text.text_changed.connect(text_changed);
+		text.activate.connect(text_activate);
 		
 		// grab key focus
 		((Clutter.Stage)get_stage()).set_key_focus(text);
@@ -82,7 +84,9 @@ public class Ease.TextActor : Actor
 		var text = contents as Clutter.Text;
 		text.editable = false;
 		text.reactive = false;
+		text.activatable = false;
 		text.text_changed.disconnect(text_changed);
+		text.activate.disconnect(text_activate);
 	}
 	
 	/**
@@ -92,6 +96,14 @@ public class Ease.TextActor : Actor
 	private void text_changed(Clutter.Text sender)
 	{
 		element.set("text", sender.text);
+	}
+	
+	/**
+	 * Signal handler for text "activation", inserts a newline character.
+	 */
+	private void text_activate(Clutter.Text sender)
+	{
+		(contents as Clutter.Text).insert_unichar('\n');
 	}
 }
 
