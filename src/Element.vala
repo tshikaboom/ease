@@ -177,8 +177,10 @@ public abstract class Ease.Element : GLib.Object
 	 * part of.
 	 * @param w The height of the {@link Document} the new Element will be a
 	 * part of.
+	 * @param is_new If this Element is part of a new {@link Document}. Sets
+	 * the has_been_edited property to false.
 	 */
-	public Element sized_element(float w, float h)
+	public Element sized_element(float w, float h, bool is_new)
 	{
 		// copy this element
 		var element = copy();
@@ -190,6 +192,9 @@ public abstract class Ease.Element : GLib.Object
 		// set the base size (at 1024x768)
 		element.width = THEME_WIDTH - left - right;
 		element.height = THEME_HEIGHT - top - bottom;
+		
+		// this is a new element, so it hasn't been edited
+		element.has_been_edited = !is_new;
 		
 		// handle binding to the left
 		if (bind_left)
@@ -327,6 +332,15 @@ public abstract class Ease.Element : GLib.Object
 		{
 			data.set("height", value.to_string());
 		}
+	}
+	
+	/**
+	 * If the Element has been edited by the user in the past.
+	 */
+	public bool has_been_edited
+	{
+		get { return data.get("has_been_edited").to_bool(); }
+		set { data.set("has_been_edited", value.to_string()); }
 	}
 	
 	/**

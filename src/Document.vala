@@ -79,7 +79,7 @@ public class Ease.Document : SlideSet
 		var master = theme.slide_by_title(DEFAULT_SLIDE);
 		
 		// add the first slide
-		append_slide(new Slide.from_master(master, this, width, height));
+		append_slide(new Slide.from_master(master, this, width, height, true));
 	}
 	
 	/**

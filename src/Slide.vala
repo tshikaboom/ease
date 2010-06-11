@@ -168,9 +168,11 @@ public class Ease.Slide : GLib.Object
 	 * @param document The {@link Document} this slide is being inserted into.
 	 * @param width The width, in pixels, of the Slide.
 	 * @param height The height, in pixels, of the Slide.
+	 * @param is_new If this Slide is part of a new {@link Document}. Sets
+	 * the has_been_edited property of {@link Element}s to false.
 	 */
 	public Slide.from_master(Slide master, Document? document,
-	                         int width, int height)
+	                         int width, int height, bool is_new)
 	{
 		// set basic properties
 		transition = master.transition;
@@ -198,7 +200,7 @@ public class Ease.Slide : GLib.Object
 		// add all of the master Slide's elements
 		foreach (var e in master.elements)
 		{
-			elements.add(e.sized_element(width, height));
+			elements.add(e.sized_element(width, height, is_new));
 		}
 	}
 	

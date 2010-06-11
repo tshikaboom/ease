@@ -147,7 +147,7 @@ public class Ease.EditorWindow : Gtk.Window
 			
 			var slide = new Slide.from_master(master, document,
 			                                  document.width,
-			                                  document.height);
+			                                  document.height, true);
 			
 			var index = document.index_of(slide) + 1;
 			

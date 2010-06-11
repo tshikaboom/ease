@@ -22,6 +22,8 @@
  */
 public class Ease.TextActor : Actor
 {
+	private const string DEFAULT_TEXT = _("Double Click to Edit");
+
 	/**
 	 * Instantiates a new TextActor from an Element.
 	 * 
@@ -41,7 +43,7 @@ public class Ease.TextActor : Actor
 		text.line_wrap = true;
 		text.line_wrap_mode = Pango.WrapMode.WORD_CHAR;
 		text.color = e.color;
-		text.set_markup(e.get("text"));
+		text.set_markup(e.has_been_edited ? e.get("text") : DEFAULT_TEXT);
 		text.font_name = e.font_description.to_string();
 		text.line_alignment = e.text_align;
 		
@@ -70,6 +72,12 @@ public class Ease.TextActor : Actor
 		// grab key focus
 		((Clutter.Stage)get_stage()).set_key_focus(text);
 		sender.key_focus();
+		
+		// if the element hasn't been edited, empty it
+		if (!element.has_been_edited)
+		{
+			text.text = "";
+		}
 	}
 	
 	/**
