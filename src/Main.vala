@@ -36,10 +36,13 @@ public static class Ease.Main : GLib.Object
 	// options
 	static string play_filename;
 	static string[] filenames;
+	public static bool presentation_windowed = false;
 	
 	private const OptionEntry[] options = {
 		{ "play", 'p', 0, OptionArg.FILENAME, ref play_filename,
 		   "Play the specified file", "FILE" },
+		{ "window", 'w', 0, OptionArg.NONE, ref presentation_windowed,
+		  "Display presentations in a window", null},
 		{ "", 0, 0, OptionArg.FILENAME_ARRAY, ref filenames, null, "FILE..." },
 		{ null } };
 	

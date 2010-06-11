@@ -41,7 +41,6 @@ public class Ease.Player : GLib.Object
 	private float scale = 1;
 	
 	// constants
-	private const bool PRESENTATION_FULLSCREEN = false;
 	private const uint FADE_IN_TIME = 1000;
 
 	public Player(Document doc)
@@ -75,7 +74,6 @@ public class Ease.Player : GLib.Object
 		stage.title = "Ease Presentation";
 		stage.use_fog = false;
 		
-		stage.set_fullscreen(PRESENTATION_FULLSCREEN);
 		stage.hide_cursor();
 		
 		stage.show_all();
@@ -101,7 +99,7 @@ public class Ease.Player : GLib.Object
 		align.add(embed);
 
 		// show the window
-		if (PRESENTATION_FULLSCREEN)
+		if (!Main.presentation_windowed)
 		{
 			window.fullscreen();
 		}
