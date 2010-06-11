@@ -35,8 +35,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 	// themes
 	private Gee.ArrayList<Theme> themes = new Gee.ArrayList<Theme>();
 	private Theme selected_theme;
-	// TODO : don't hardcode the theme path.
-	private const string THEME_DIR = "/usr/share/ease/themes";
+	private const string EASE_DIR = "ease";
+	private const string THEME_DIR = "themes";
 
 	// clutter view
 	private ScrollableEmbed embed;
@@ -154,14 +154,24 @@ public class Ease.WelcomeWindow : Gtk.Window
 		// load themes
 		try
 		{
-			var dir = GLib.Dir.open(THEME_DIR, 0);
-			
-			string name = dir.read_name();
-			while (name != null)
+			string[] data_dirs = Environment.get_system_data_dirs();
+			foreach (string dir in data_dirs)
 			{
-				var path = Path.build_filename(THEME_DIR, name);
-				themes.add(JSONParser.theme(path));
-				name = dir.read_name();
+				var filename = Path.build_filename(dir, EASE_DIR, THEME_DIR);
+				var file = File.new_for_path(filename);
+				
+				if (file.query_exists(null))
+				{
+					var directory = GLib.Dir.open(filename, 0);
+					
+					string name = directory.read_name();
+					while (name != null)
+					{
+						var path = Path.build_filename(filename, name);
+						themes.add(JSONParser.theme(path));
+						name = directory.read_name();
+					}
+				}
 			}
 		}
 		catch (Error e) { error_dialog("Error Loading Themes", e.message); }
