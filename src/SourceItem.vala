@@ -35,6 +35,55 @@ public class Source.Item : Gtk.HBox
 	private Gtk.Label label;
 	
 	/**
+	 * The right label widget, which can display a number if desired.
+	 */
+	private Gtk.Label right_label;
+	
+	/**
+	 * The alignment for the right label.
+	 */
+	private Gtk.Alignment right_align;
+	
+	/**
+	 * A number, displayed on the righthand side of the Source.Item. If
+	 * notification is 0, the label is not displayed.
+	 */
+	public int notification
+	{
+		get { return notification_priv; }
+		set
+		{
+			if (value == notification_priv) return;
+			
+			// if value is 0, notification_priv can't be
+			if (value == 0)
+			{
+				// therefore, the widget has been added, so remove it
+				right_align.remove(right_label);
+			}
+			
+			// update the label
+			right_label.label = (selected ?
+			                     FORMAT_RIGHT_OLD : 
+			                     FORMAT_RIGHT_NEW).printf(value);
+			
+			// if necessary, add the label
+			if (notification_priv == 0)
+			{
+				right_align.add(right_label);
+			}
+			
+			// store the value
+			notification_priv = value;
+		}
+	}
+	
+	/**
+	 * Private store for notification value
+	 */
+	private int notification_priv = 0;
+	
+	/**
 	 * The Source.Item's button widget, containing the image and label.
 	 */
 	private Gtk.Button button;
@@ -70,9 +119,20 @@ public class Source.Item : Gtk.HBox
 	private const string FORMAT_DESELECTED = "%s";
 	
 	/**
-	 * Left padding of label.
+	 * Format string for right notification number when new.
 	 */
-	private const int LABEL_LEFT_PADDING = 5;
+	private const string FORMAT_RIGHT_NEW = "<small><b>%i</b></small>";
+	
+	/**
+	 * Format string for right notification number once viewed.
+	 */
+	private const string FORMAT_RIGHT_OLD = "<small><b>%i</b></small>";
+	
+	/**
+	 * Padding to the sides of the label and image. Not used on the right of
+	 * the image, as the label left padding covers this space.
+	 */
+	private const int ITEM_PADDING = 5;
 	
 	/**
 	 * Alignment of label.
@@ -110,6 +170,9 @@ public class Source.Item : Gtk.HBox
 			if (value)
 			{
 				clicked(this);
+				
+				// remove bold from notification text
+				right_label.label = FORMAT_RIGHT_OLD.printf(notification);
 			}
 		}
 	}
@@ -145,16 +208,24 @@ public class Source.Item : Gtk.HBox
 		button.can_focus = false;
 		selected = false;
 		var label_align = new Gtk.Alignment(0, LABEL_VERT_ALIGN, 0, 0);
-		label_align.set_padding(0, 0, LABEL_LEFT_PADDING, 0);
+		label_align.set_padding(0, 0, ITEM_PADDING, ITEM_PADDING);
+		right_label = new Gtk.Label("");
+		right_label.use_markup = true;
+		right_align = new Gtk.Alignment(1, LABEL_VERT_ALIGN, 1, 1);
+		var image_align = new Gtk.Alignment(0.5f, 0.5f, 0, 1);
+		image_align.set_padding(0, 0, ITEM_PADDING, 0);
 		
 		// build the source item
 		label_align.add(label);
+		image_align.add(image);
 		var hbox = new Gtk.HBox(false, HBOX_PADDING);
-		hbox.pack_start(image, false, false, 0);
+		hbox.pack_start(image_align, false, false, 0);
 		hbox.pack_start(label_align, true, true, 0);
 		button.add(hbox);
 		
 		pack_start(button, false, false, 0);
+		pack_start(new Gtk.Alignment(1, 1, 0, 0), true, true, 0);
+		pack_end(right_align, false, false, 0);
 		
 		// send the clicked signal when the button is clicked
 		button.clicked.connect(() => {

@@ -18,7 +18,7 @@
 /**
  * A simple implementation of a widget using {@link Source.List}.
  *
- * Source.View consists of a {@link Source.List}, a separator and a Gtk.Bin
+ * Source.View consists of a {@link Source.List}, a separator, and a Gtk.Bin
  * packed into a Gtk.HBox.
  */
 public class Source.View : Gtk.HBox

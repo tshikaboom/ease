@@ -51,7 +51,7 @@ public class Source.Group : Gtk.Alignment
 	/**
 	 * Padding to the left of all items.
 	 */
-	private const int ITEMS_PADDING_LEFT = 15;
+	private const int ITEMS_PADDING_LEFT = 5;
 	
 	/**
 	 * Padding to the right of all items.
