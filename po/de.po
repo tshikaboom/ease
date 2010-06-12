@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-06-04 09:36+0000\n"
-"PO-Revision-Date: 2010-06-05 22:28+0100\n"
+"POT-Creation-Date: 2010-06-11 05:11+0000\n"
+"PO-Revision-Date: 2010-06-12 20:47+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,95 +28,93 @@ msgstr "Erstellen ansprechender und eleganter Präsentationen"
 msgid "Ease presentation editor"
 msgstr "Ease Präsentationsprogramm"
 
-#: ../src/Document.vala:148
-#| msgid "Exporting as HTML"
+#: ../src/Document.vala:173
 msgid "Error exporting as HTML"
 msgstr "Fehler beim Exportieren als HTML"
 
-#: ../src/EditorWindow.vala:151
-#| msgid "Error Saving"
+#: ../src/EditorWindow.vala:195
+#| msgid "Error Saving Document"
+msgid "Save Document"
+msgstr "Dokument speichern"
+
+#: ../src/EditorWindow.vala:222
 msgid "Error Saving Document"
 msgstr "Fehler beim Speichern des Dokuments"
 
-#: ../src/EditorWindow.vala:230 ../src/OpenDialog.vala:49
-msgid "Open File"
-msgstr "Datei öffnen"
-
 #. TODO : use mnemonics
-#: ../src/EditorWindow.vala:256
+#: ../src/EditorWindow.vala:318
 msgid "File"
 msgstr "Datei"
 
-#: ../src/EditorWindow.vala:259
+#: ../src/EditorWindow.vala:321
 msgid "New"
 msgstr "Neu"
 
-#: ../src/EditorWindow.vala:261
+#: ../src/EditorWindow.vala:323
 msgid "Presentation"
 msgstr "Präsentation"
 
-#: ../src/EditorWindow.vala:263
+#: ../src/EditorWindow.vala:325
 msgid "Theme"
 msgstr "Thema"
 
-#: ../src/EditorWindow.vala:264
+#: ../src/EditorWindow.vala:326
 msgid "Quit"
 msgstr "Beenden"
 
-#: ../src/EditorWindow.vala:272
+#: ../src/EditorWindow.vala:334
 msgid "Open"
 msgstr "Öffnen"
 
-#: ../src/EditorWindow.vala:287
+#: ../src/EditorWindow.vala:349
 msgid "Help"
 msgstr "Hilfe"
 
-#: ../src/EditorWindow.vala:290
+#: ../src/EditorWindow.vala:352
 msgid "About Ease"
 msgstr "Info zu Ease"
 
-#: ../src/Element.vala:150
-msgid "Your browser does not support the video tag"
-msgstr "Ihr Browser unterstützt die Video-Markierung nicht"
-
-#: ../src/HTMLExporter.vala:51
+#: ../src/HTMLExporter.vala:57
 msgid "Export to HTML"
 msgstr "Nach HTML exportieren"
 
-#: ../src/HTMLExporter.vala:69
+#: ../src/HTMLExporter.vala:75
 msgid "Exporting as HTML"
 msgstr "Als HTML exportieren"
 
-#: ../src/HTMLExporter.vala:133
+#: ../src/HTMLExporter.vala:140
 msgid "Error Copying File"
 msgstr "Fehler beim Kopieren der Datei"
 
 #: ../src/ImageActor.vala:47
 #, c-format
-msgid "Error loading ImageActor: %s"
-msgstr "Fehler beim Laden von ImageActor: %s"
+#| msgid "Error loading ImageActor: %s"
+msgid "Error loading ImageActor: %s\n"
+msgstr "Fehler beim Laden von ImageActor: %s\n"
 
 #. parse command line options
-#: ../src/Main.vala:57
+#: ../src/Main.vala:63
 msgid " - a presentation editor"
 msgstr " - ein Präsentationsprogramm"
 
-#: ../src/Main.vala:75
+#: ../src/Main.vala:81
 #, c-format
 msgid "error parsing options: %s\n"
 msgstr "Fehler beim Verarbeiten der Optionen: %s\n"
 
-#: ../src/Main.vala:113
-#| msgid "Error Playing"
+#: ../src/Main.vala:124
 msgid "Error Playing Document"
 msgstr "Fehler beim Abspielen des Dokuments"
 
-#: ../src/Main.vala:156
-#| msgid "No Document"
+#: ../src/Main.vala:169
 msgid "Error Opening Document"
 msgstr "Fehler beim Öffnen des Dokuments"
 
-#: ../src/SlideActor.vala:182
+#: ../src/OpenDialog.vala:49
+msgid "Open File"
+msgstr "Datei öffnen"
+
+#: ../src/SlideActor.vala:265
 #, c-format
 msgid "Error loading background: %s"
 msgstr "Fehler beim Laden des Hintergrunds: %s"
@@ -128,6 +126,10 @@ msgstr "Effekt"
 #: ../src/SlidePane.vala:49 ../src/TransitionPane.vala:81
 msgid "Duration"
 msgstr "Dauer"
+
+#: ../src/TextActor.vala:25
+msgid "Double Click to Edit"
+msgstr "Doppelklicken zum Bearbeiten"
 
 #: ../src/TransitionPane.vala:95
 msgid "Direction"
@@ -293,18 +295,26 @@ msgstr "Ein"
 msgid "Out"
 msgstr "Aus"
 
-#: ../src/WelcomeWindow.vala:76 ../src/WelcomeWindow.vala:109
+#: ../src/WelcomeWindow.vala:91 ../src/WelcomeWindow.vala:125
 msgid "New Presentation"
 msgstr "Neue Präsentation"
 
-#: ../src/WelcomeWindow.vala:82
+#: ../src/WelcomeWindow.vala:97
 msgid "Custom"
 msgstr "Benutzerdefiniert"
 
-#: ../src/WelcomeWindow.vala:85
+#: ../src/WelcomeWindow.vala:100
 #, c-format
 msgid "%i by %i"
 msgstr "%i mal %i"
+
+#: ../src/WelcomeWindow.vala:295
+#| msgid "Error Saving Document"
+msgid "Error creating new document"
+msgstr "Fehler beim Erstellen des neuen Dokuments"
+
+#~ msgid "Your browser does not support the video tag"
+#~ msgstr "Ihr Browser unterstützt die Video-Markierung nicht"
 
 #~ msgid "Error exporting: %s"
 #~ msgstr "Fehler beim Exportieren: %s"
