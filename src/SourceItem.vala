@@ -16,31 +16,31 @@
 */
 
 /**
- * An individual item in a {@link SourceGroup}.
+ * An individual item in a {@link Source.Group}.
  *
- * SourceItem contains a Gtk.Button, which in turn contains an image and a
- * label. When added to a {@link SourceGroup}, signals are automatically set
- * up to manage the {@link SourceView} this item is a part of.
+ * Source.Item contains a Gtk.Button, which in turn contains an image and a
+ * label. When added to a {@link Source.Group}, signals are automatically set
+ * up to manage the {@link Source.View} this item is a part of.
  */
-public class Ease.SourceItem : Gtk.HBox
+public class Source.Item : Gtk.HBox
 {
 	/**
-	 * The SourceItem's image widget, displayed on the left.
+	 * The Source.Item's image widget, displayed on the left.
 	 */
 	private Gtk.Image image;
 	
 	/**
-	 * The SourceItem's label widget, displayed to the right of the image.
+	 * The Source.Item's label widget, displayed to the right of the image.
 	 */
 	private Gtk.Label label;
 	
 	/**
-	 * The SourceItem's button widget, containing the image and label.
+	 * The Source.Item's button widget, containing the image and label.
 	 */
 	private Gtk.Button button;
 	
 	/**
-	 * The widget this SourceItem is linked with in its {@link SourceView}.
+	 * The widget this Source.Item is linked with in its {@link Source.View}.
 	 */
 	public Gtk.Widget widget;
 	
@@ -90,7 +90,7 @@ public class Ease.SourceItem : Gtk.HBox
 	private const Gtk.ReliefStyle RELIEF_DESELECTED = Gtk.ReliefStyle.NONE;
 	
 	/**
-	 * If this SourceItem is the selected item in its {@link SourceList}.
+	 * If this Source.Item is the selected item in its {@link Source.List}.
 	 */
 	public bool selected
 	{
@@ -115,22 +115,22 @@ public class Ease.SourceItem : Gtk.HBox
 	}
 	
 	/**
-	 * Emitted when the SourceItem's Gtk.Button is clicked. Generally used
-	 * internally to change {@link SourceList} selection.
+	 * Emitted when the Source.Item's Gtk.Button is clicked. Generally used
+	 * internally to change {@link Source.List} selection.
 	 *
-	 * @param sender The SourceItem that emitted the signal (generally, "this").
+	 * @param sender The Source.Item that emitted the signal (generally, "this").
 	 */
-	public signal void clicked(SourceItem sender);
+	public signal void clicked(Source.Item sender);
 	
 	/**
-	 * Creates a SourceItem with a customizable icon and text.
+	 * Creates a Source.Item with a customizable icon and text.
 	 *
 	 * @param text The text to display in the source item.
 	 * @param img The image widget to use (note that this icon should use
 	 * the Gtk.IconSize constant ICON_SIZE to fit in with other items).
-	 * @param widg The widget that this SourceItem should be linked with.
+	 * @param widg The widget that this Source.Item should be linked with.
 	 */
-	public SourceItem(string text, Gtk.Image img, Gtk.Widget widg)
+	public Item(string text, Gtk.Image img, Gtk.Widget widg)
 	{
 		// set properties
 		homogeneous = false;
@@ -166,24 +166,42 @@ public class Ease.SourceItem : Gtk.HBox
 	}
 	
 	/**
-	 * Creates a SourceItem with a stock icon and customizable text.
+	 * Creates a Source.Item with a stock icon and customizable text.
 	 *
 	 * @param text The text to display in the source item.
 	 * @param item The stock item to take the icon from.
-	 * @param widg The widget that this SourceItem should be linked with.
+	 * @param widg The widget that this Source.Item should be linked with.
 	 */
-	public SourceItem.stock_icon(string text, string item, Gtk.Widget widg)
+	public Item.from_stock_icon(string text, string item, Gtk.Widget widg)
 	{
 		this(text, new Gtk.Image.from_stock(item, ICON_SIZE), widg);
 	}
 	
 	/**
-	 * Creates a SourceItem with a stock icon and text.
+	 * Creates a Source.Item with a stock icon and customizable text.
+	 *
+	 * @param text The text to display in the source item.
+	 * @param item The stock item to take the label from.
+	 * @param img The image widget to use (note that this icon should use
+	 * the Gtk.IconSize constant ICON_SIZE to fit in with other items).
+	 * @param widg The widget that this Source.Item should be linked with.
+	 */
+	public Item.from_stock_text(string item, Gtk.Image img, Gtk.Widget widg)
+	{
+		Gtk.StockItem stock = Gtk.StockItem();
+		if (Gtk.stock_lookup(item, stock))
+		{
+			this(stock.label.replace("_", ""), img, widg);
+		}
+	}
+	
+	/**
+	 * Creates a Source.Item with a stock icon and text.
 	 *
 	 * @param item The stock item to take the icon and text from.
-	 * @param widg The widget that this SourceItem should be linked with.
+	 * @param widg The widget that this Source.Item should be linked with.
 	 */
-	public SourceItem.from_stock(string item, Gtk.Widget widg)
+	public Item.from_stock(string item, Gtk.Widget widg)
 	{
 		Gtk.StockItem stock = Gtk.StockItem();
 		if (Gtk.stock_lookup(item, stock))

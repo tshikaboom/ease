@@ -18,13 +18,13 @@
 /**
  * A widget for switching between multiple data sources.
  *
- * SourceList contains {@link SourceGroup}s, which in turn contain
- * {@link SourceItem}s. Each SourceItem is linked to a Gtk.Widget, which
- * is displayed in the SourceList's linked Gtk.Bin when clicked.
+ * Source.List contains {@link Source.Group}s, which in turn contain
+ * {@link Source.Item}s. Each Source.Item is linked to a Gtk.Widget, which
+ * is displayed in the Source.List's linked Gtk.Bin when clicked.
  *
- * For a simple SourceList next to bin implementation, use {@link SourceView}.
+ * For a simple Source.List next to bin implementation, use {@link Source.View}.
  */
-public class Ease.SourceList : Gtk.Alignment
+public class Source.List : Gtk.Alignment
 {
 	/**
 	 * The child of this widget, provides scrollbars if necessary.
@@ -32,20 +32,20 @@ public class Ease.SourceList : Gtk.Alignment
 	private Gtk.ScrolledWindow scroll;
 	
 	/**
-	 * Gtk.VBox to contain this SourceList's {@link SourceGroup}s.
+	 * Gtk.VBox to contain this Source.List's {@link Source.Group}s.
 	 */
 	private Gtk.VBox box;
 	
 	/**
-	 * The bin used by this widget's {@link SourceItem}s to display their
+	 * The bin used by this widget's {@link Source.Item}s to display their
 	 * linked widgets.
 	 */
 	private Gtk.Bin bin;
 	
 	/**
-	 * The currently selected {@link SourceItem}.
+	 * The currently selected {@link Source.Item}.
 	 */
-	private SourceItem selected;
+	private Source.Item selected;
 	
 	/**
 	 * The Gtk.ShadowType of the scrolled window.
@@ -63,18 +63,18 @@ public class Ease.SourceList : Gtk.Alignment
 	private const Gtk.PolicyType V_POLICY = Gtk.PolicyType.AUTOMATIC;
 	
 	/**
-	 * Emitted when a {@link SourceItem} in this SourceList is clicked.
+	 * Emitted when a {@link Source.Item} in this Source.List is clicked.
 	 *
-	 * @param sender The SourceItem that was clicked.
+	 * @param sender The Source.Item that was clicked.
 	 */
-	public signal void clicked(SourceItem sender);
+	public signal void clicked(Source.Item sender);
 
 	/**
-	 * Creates a SourceList and links it to a Gtk.Bin
+	 * Creates a Source.List and links it to a Gtk.Bin
 	 *
-	 * @param linked_bin The Gtk.Bin to link this SourceView with.
+	 * @param linked_bin The Gtk.Bin to link this Source.View with.
 	 */
-	public SourceList(Gtk.Bin linked_bin)
+	public List(Gtk.Bin linked_bin)
 	{
 		// create widgets
 		scroll = new Gtk.ScrolledWindow(null, null);
@@ -93,12 +93,12 @@ public class Ease.SourceList : Gtk.Alignment
 	}
 	
 	/**
-	 * Adds a group to the {@link SourceList}, automatically setting up click
+	 * Adds a group to the {@link Source.List}, automatically setting up click
 	 * signals.
 	 *
 	 * @param group The group to add.
 	 */
-	public void add_group(SourceGroup group)
+	public void add_group(Source.Group group)
 	{
 		box.pack_start(group, false, false, 0);
 		

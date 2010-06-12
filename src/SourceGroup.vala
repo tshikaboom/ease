@@ -16,20 +16,20 @@
 */
 
 /**
- * A group in a {@link SourceList}.
+ * A group in a {@link Source.List}.
  *
- * SourceGroup can contain any amount of {@link SourceItem}s. Above these items,
- * a header is shown in order to categorize a {@link SourceList}.
+ * Source.Group can contain any amount of {@link Source.Item}s. Above these items,
+ * a header is shown in order to categorize a {@link Source.List}.
  */
-public class Ease.SourceGroup : Gtk.Alignment
+public class Source.Group : Gtk.Alignment
 {
 	/**
-	 * The group header, displayed on top of the {@link SourceItem}s.
+	 * The group header, displayed on top of the {@link Source.Item}s.
 	 */
 	private Gtk.Label header;
 	
 	/**
-	 * The Gtk.VBox containing all {@link SourceItem}s.
+	 * The Gtk.VBox containing all {@link Source.Item}s.
 	 */
 	private Gtk.VBox items_box;
 	
@@ -44,7 +44,7 @@ public class Ease.SourceGroup : Gtk.Alignment
 	private const string HEADER_FORMAT = "<b>%s</b>";
 	
 	/**
-	 * Padding between each {@link SourceItem}.
+	 * Padding between each {@link Source.Item}.
 	 */
 	private const int ITEM_PADDING = 2;
 	
@@ -69,18 +69,18 @@ public class Ease.SourceGroup : Gtk.Alignment
 	private const int ITEMS_PADDING_BOTTOM = 10;
 	
 	/**
-	 * Emitted when a child {@link SourceItem} of this group is clicked.
+	 * Emitted when a child {@link Source.Item} of this group is clicked.
 	 *
-	 * @param sender The {@link SourceItem} that was clicked.
+	 * @param sender The {@link Source.Item} that was clicked.
 	 */
-	public signal void clicked(SourceItem sender);
+	public signal void clicked(Item sender);
 	
 	/**
-	 * Create a new, empty, SourceGroup.
+	 * Create a new, empty, Source.Group.
 	 *
-	 * @param title The header of the SourceGroup.
+	 * @param title The header of the Source.Group.
 	 */
-	public SourceGroup(string title)
+	public Group(string title)
 	{
 		// create subwidgets
 		all_box = new Gtk.VBox(false, 0);
@@ -105,11 +105,11 @@ public class Ease.SourceGroup : Gtk.Alignment
 	}
 	
 	/**
-	 * Adds a {@link SourceItem} to the end of this group.
+	 * Adds a {@link Source.Item} to the end of this group.
 	 *
-	 * @param item The {@link SourceItem} to add.
+	 * @param item The {@link Source.Item} to add.
 	 */
-	public void add_item(SourceItem item)
+	public void add_item(Item item)
 	{
 		items_box.pack_start(item, false, false, 0);
 		

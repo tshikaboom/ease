@@ -16,12 +16,12 @@
 */
 
 /**
- * A simple implementation of a widget using {@link SourceList}.
+ * A simple implementation of a widget using {@link Source.List}.
  *
- * SourceView consists of a {@link SourceList} and a Gtk.Bin packed into a
- * Gtk.HBox.
+ * Source.View consists of a {@link Source.List}, a separator and a Gtk.Bin
+ * packed into a Gtk.HBox.
  */
-public class Ease.SourceView : Gtk.HBox
+public class Source.View : Gtk.HBox
 {
 	/**
 	 * The content view.
@@ -29,18 +29,18 @@ public class Ease.SourceView : Gtk.HBox
 	private Gtk.Alignment bin;
 	
 	/**
-	 * The {@link SourceList} for this SourceView.
+	 * The {@link Source.List} for this Source.View.
 	 */
-	private SourceList list;
+	private Source.List list;
 	
 	/**
-	 * Creates an empty SourceView. Add groups with add_group().
+	 * Creates an empty Source.View. Add groups with add_group().
 	 */
-	public SourceView()
+	public View()
 	{
 		// create widgets
 		bin = new Gtk.Alignment(0, 0, 1, 1);
-		list = new SourceList(bin);
+		list = new Source.List(bin);
 		
 		// set properties
 		homogeneous = false;
@@ -52,11 +52,11 @@ public class Ease.SourceView : Gtk.HBox
 	}
 	
 	/**
-	 * Adds a {@link SourceGroup} to this SourceView's {@link SourceList}.
+	 * Adds a {@link Source.Group} to this Source.View's {@link Source.List}.
 	 *
 	 * @param group The group to add.
 	 */
-	public void add_group(SourceGroup group)
+	public void add_group(Source.Group group)
 	{
 		list.add_group(group);
 	}
