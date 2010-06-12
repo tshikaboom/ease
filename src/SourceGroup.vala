@@ -85,7 +85,7 @@ public class Source.Group : Gtk.Alignment
 		// create subwidgets
 		all_box = new Gtk.VBox(false, 0);
 		items_box = new Gtk.VBox(true, ITEM_PADDING);
-		var items_align = new Gtk.Alignment(0, 0, 0, 0);
+		var items_align = new Gtk.Alignment(0, 0, 1, 0);
 		items_align.set_padding(ITEMS_PADDING_TOP,
 		                        ITEMS_PADDING_BOTTOM,
 		                        ITEMS_PADDING_LEFT,

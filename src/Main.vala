@@ -256,6 +256,7 @@ public static class Ease.Main : GLib.Object
 		text = new Gtk.TextView();
 		item = new Source.Item.from_stock("gtk-undo", text);
 		group.add_item(item);
+		item.notification = 20;
 		text = new Gtk.TextView();
 		item = new Source.Item.from_stock("gtk-redo", text);
 		group.add_item(item);
@@ -265,6 +266,7 @@ public static class Ease.Main : GLib.Object
 		text = new Gtk.TextView();
 		item = new Source.Item.from_stock("gtk-add", text);
 		group.add_item(item);
+		item.notification = 5;
 		text = new Gtk.TextView();
 		item = new Source.Item.from_stock("gtk-about", text);
 		group.add_item(item);

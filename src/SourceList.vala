@@ -63,6 +63,11 @@ public class Source.List : Gtk.Alignment
 	private const Gtk.PolicyType V_POLICY = Gtk.PolicyType.AUTOMATIC;
 	
 	/**
+	 * Padding around the Source.List
+	 */
+	public const int PADDING = 5;
+	
+	/**
 	 * Emitted when a {@link Source.Item} in this Source.List is clicked.
 	 *
 	 * @param sender The Source.Item that was clicked.
@@ -79,16 +84,20 @@ public class Source.List : Gtk.Alignment
 		// create widgets
 		scroll = new Gtk.ScrolledWindow(null, null);
 		box = new Gtk.VBox(false, 0);
+		var viewport = new Gtk.Viewport(null, null);
 		
 		// set properties
 		bin = linked_bin;
 		scroll.shadow_type = SHADOW;
+		viewport.shadow_type = SHADOW;
 		scroll.hscrollbar_policy = H_POLICY;
 		scroll.vscrollbar_policy = V_POLICY;
 		set(0, 0, 1, 1);
+		set_padding(PADDING, PADDING, PADDING, PADDING);
 		
 		// assemble
-		scroll.add_with_viewport(box);
+		viewport.add(box);
+		scroll.add(viewport);
 		add(scroll);
 	}
 	
