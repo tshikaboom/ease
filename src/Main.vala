@@ -244,8 +244,19 @@ public static class Ease.Main : GLib.Object
 	
 	public static void test_sourceview()
 	{
-		Source.View view = new Source.View();
+		Source.BaseView view = new Source.View();
+		view.list_width_request = 150;
+		build_test_sourceview(view);
 		
+		view = new Source.PaneView(false);
+		build_test_sourceview(view);
+		
+		view = new Source.PaneView(true);
+		build_test_sourceview(view);
+	}
+	
+	private static void build_test_sourceview(Source.BaseView view)
+	{
 		var group = new Source.Group("Test Group 1");
 		var text = new Gtk.TextView();
 		var item = new Source.Item.from_stock("gtk-new", text);
@@ -277,11 +288,8 @@ public static class Ease.Main : GLib.Object
 		
 		item.selected = true;
 		
-		text = new Gtk.TextView();
-		
 		var window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
 		window.add(view);
-		//window.add(new Source.Item.from_stock("gtk-new", text));
 		window.set_size_request(640, 480);
 		window.show_all();
 	}

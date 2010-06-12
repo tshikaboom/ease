@@ -16,27 +16,45 @@
 */
 
 /**
- * A simple implementation of a widget using {@link Source.List}.
+ * An implementation of {@link Source.BaseView} with a Gtk.HPaned
  *
  * Source.View consists of a {@link Source.List}, a separator, and a Gtk.Bin
  * packed into a Gtk.HBox.
  */
-public class Source.View : BaseView
+public class Source.PaneView : BaseView
 {	
 	/**
 	 * Creates an empty Source.View. Add groups with add_group().
+	 *
+	 * @param with_separator If true, a Gtk.Separator is included to the right
+	 * of the drag handle.
 	 */
-	public View()
+	public PaneView(bool with_separator)
 	{
-		// create the bin and list widgets
+		// create base widgets
 		base();
 		
-		// create the hbox widget and build the full view
-		var hbox = new Gtk.HBox(false, 0);
-		hbox.pack_start(list, false, false, 0);
-		hbox.pack_start(new Gtk.VSeparator(), false, false, 0);
-		hbox.pack_start(bin, true, true, 0);
-		add(hbox);
+		// create pane widgets and build the view
+		var hpane = new Gtk.HPaned();
+		hpane.pack1(list, false, false);
+		
+		// if a separator is requested, build an hbox with it and the bin
+		if (with_separator)
+		{
+			var hbox = new Gtk.HBox(false, 0);
+			hbox.pack_start(new Gtk.VSeparator(), false, false, 0);
+			hbox.pack_start(bin, true, true, 0);
+			hpane.pack2(hbox, true, false);
+		}
+		
+		// otherwise, just pack the bin in
+		else
+		{
+			hpane.pack2(bin, true, false);
+		}
+		
+		// add the hpaned to the view
+		add(hpane);
 	}
 }
 
