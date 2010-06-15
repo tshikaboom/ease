@@ -23,6 +23,8 @@ doc
 # ignore .ease files (for now at least)
 *.ease
 
+po/.intltool-merge-cache
+
 # shamelessly copied from gnome-scan.
 # autotools generated files
 .dirstamp
