@@ -128,8 +128,6 @@ public static class Ease.Main : GLib.Object
 		{
 			show_welcome();
 		}
-		
-		test_sourceview();
 	
 		Gtk.main();
 		
@@ -240,58 +238,6 @@ public static class Ease.Main : GLib.Object
 		{
 			Gtk.main_quit();
 		}
-	}
-	
-	public static void test_sourceview()
-	{
-		Source.BaseView view = new Source.View();
-		view.list_width_request = 150;
-		build_test_sourceview(view);
-		
-		view = new Source.PaneView(false);
-		build_test_sourceview(view);
-		
-		view = new Source.PaneView(true);
-		build_test_sourceview(view);
-	}
-	
-	private static void build_test_sourceview(Source.BaseView view)
-	{
-		var group = new Source.Group("Test Group 1");
-		var text = new Gtk.TextView();
-		var item = new Source.Item.from_stock("gtk-new", text);
-		group.add_item(item);
-		text = new Gtk.TextView();
-		item = new Source.Item.from_stock("gtk-open", text);
-		group.add_item(item);
-		text = new Gtk.TextView();
-		item = new Source.Item.from_stock("gtk-undo", text);
-		group.add_item(item);
-		item.notification = 20;
-		text = new Gtk.TextView();
-		item = new Source.Item.from_stock("gtk-redo", text);
-		group.add_item(item);
-		view.add_group(group);
-		
-		group = new Source.Group("Test Group 2");
-		text = new Gtk.TextView();
-		item = new Source.Item.from_stock("gtk-add", text);
-		group.add_item(item);
-		item.notification = 5;
-		text = new Gtk.TextView();
-		item = new Source.Item.from_stock("gtk-about", text);
-		group.add_item(item);
-		text = new Gtk.TextView();
-		item = new Source.Item.from_stock("gtk-floppy", text);
-		group.add_item(item);
-		view.add_group(group);
-		
-		item.selected = true;
-		
-		var window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
-		window.add(view);
-		window.set_size_request(640, 480);
-		window.show_all();
 	}
 }
 
