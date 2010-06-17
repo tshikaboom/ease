@@ -4,13 +4,14 @@ public class OCA.Dialog : Gtk.Dialog
 	private Gtk.ScrolledWindow icons_scroll;
 	private Sexy.IconEntry search;
 	private Gtk.Button button;
-	private Gtk.Spinner spinner;
-	private Gtk.Alignment spinner_align;
+	private Gtk.ProgressBar progress;
+	private Gtk.Alignment progress_align;
 	private Rest.Proxy proxy;
 	private Rest.ProxyCall call;
 	private Gtk.VBox main_vbox;
 	private Gee.LinkedList<Image?> images_list;
 	private Gtk.ListStore model;
+	private double list_size;
 	
 	private const string REST_URL =
 		"http://www.openclipart.org/media/feed/rss/";
@@ -42,20 +43,20 @@ public class OCA.Dialog : Gtk.Dialog
 				main_vbox.remove(icons_scroll);
 			}
 			
-			// add the spinner
-			main_vbox.pack_end(spinner_align, true, true, 0);
-			spinner.start();
-			spinner_align.show_all();
+			// add the progress
+			main_vbox.pack_end(progress_align, false, false, 0);
+			progress.pulse();
+			progress_align.show_all();
 			
 			// run the call
 			call.run_async(on_call_finish, this);
 		});
 		
-		// spinner
-		spinner = new Gtk.Spinner();
-		spinner.set_size_request(SPIN_SIZE, SPIN_SIZE);
-		spinner_align = new Gtk.Alignment(0.5f, 0.5f, 0, 0);
-		spinner_align.add(spinner);
+		// progress
+		progress = new Gtk.ProgressBar();
+		progress.set_size_request(SPIN_SIZE, SPIN_SIZE);
+		progress_align = new Gtk.Alignment(0, 1, 1, 0);
+		progress_align.add(progress);
 		
 		// icon view
 		icons = new Gtk.IconView();
@@ -68,7 +69,7 @@ public class OCA.Dialog : Gtk.Dialog
 		hbox.pack_start(button, false, false, 0);
 		
 		// pack top and bottom
-		main_vbox = new Gtk.VBox(false, 0);
+		main_vbox = new Gtk.VBox(false, 5);
 		main_vbox.pack_start(hbox, false, false, 0);
 		(get_content_area() as Gtk.Box).pack_start(main_vbox, true, true, 0);
 	}
@@ -76,7 +77,6 @@ public class OCA.Dialog : Gtk.Dialog
 	private void on_call_finish(Rest.ProxyCall call)
 	{
 		// update UI
-		main_vbox.remove(spinner_align);
 		main_vbox.pack_start(icons_scroll, true, true, 0);
 		icons_scroll.show_all();
 		
@@ -154,6 +154,9 @@ public class OCA.Dialog : Gtk.Dialog
 			}
 		}
 		
+		// remember the list size for the progress bar
+		list_size = images_list.size;
+		
 		// clean up the XML parser
 		Xml.Parser.cleanup();
 		
@@ -181,10 +184,17 @@ public class OCA.Dialog : Gtk.Dialog
 		model.set(tree_itr, Column.PIXBUF, pixbuf,
 		                    Column.TEXT, image.title);
 		
+		// set the progress bar
+		progress.set_fraction(1 - (images_list.size / list_size));
+		
 		// continue if there are more images
 		if (images_list.size > 0) threaded_get_pixbufs();
 		
-		// otherwise, return
+		// otherwise, remove the progress bar and return
+		if (progress_align.get_parent() == main_vbox)
+		{
+			main_vbox.remove(progress_align);
+		}
 		return null;
 	}
 	
