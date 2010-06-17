@@ -1,18 +1,5 @@
-public class OCA.Dialog : Gtk.Dialog
-{
-	private Gtk.IconView icons;
-	private Gtk.ScrolledWindow icons_scroll;
-	private Sexy.IconEntry search;
-	private Gtk.Button button;
-	private Gtk.ProgressBar progress;
-	private Gtk.Alignment progress_align;
-	private Rest.Proxy proxy;
-	private Rest.ProxyCall call;
-	private Gtk.VBox main_vbox;
-	private Gee.LinkedList<Image?> images_list;
-	private Gtk.ListStore model;
-	private double list_size;
-	
+public class OCA.Dialog : Ease.PluginImportDialog
+{	
 	private const string REST_URL =
 		"http://www.openclipart.org/media/feed/rss/";
 	
@@ -24,65 +11,26 @@ public class OCA.Dialog : Gtk.Dialog
 	
 	public Dialog()
 	{
-		// search field
-		search = new Sexy.IconEntry();
-		search.set_icon(ICON_POS, new Gtk.Image.from_stock("gtk-find", SIZE));
-		search.add_clear_button();
-		
-		// search button
-		button = new Gtk.Button.from_stock("gtk-find");
-		button.clicked.connect((sender) => {
-			// create the rest proxy call
-			proxy = new Rest.Proxy(REST_URL, false);
-			call = proxy.new_call();
-			call.set_function(search.text);
-			
-			// remove the icons, if needed
-			if (icons_scroll.get_parent() == main_vbox)
-			{
-				main_vbox.remove(icons_scroll);
-			}
-			
-			// add the progress
-			main_vbox.pack_end(progress_align, false, false, 0);
-			progress.pulse();
-			progress_align.show_all();
-			
-			// run the call
-			call.run_async(on_call_finish, this);
-		});
-		
-		// progress
-		progress = new Gtk.ProgressBar();
-		progress_align = new Gtk.Alignment(0, 1, 1, 0);
-		progress_align.add(progress);
-		
-		// icon view
-		icons = new Gtk.IconView();
-		icons_scroll = new Gtk.ScrolledWindow(null, null);
-		icons_scroll.add_with_viewport(icons);
-		icons_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.ALWAYS);
-		
-		// pack search field and button
-		var hbox = new Gtk.HBox(false, 5);
-		hbox.pack_start(search, true, true, 0);
-		hbox.pack_start(button, false, false, 0);
-		
-		// pack top and bottom
-		main_vbox = new Gtk.VBox(false, 5);
-		main_vbox.pack_start(hbox, false, false, 0);
-		(get_content_area() as Gtk.Box).pack_start(main_vbox, true, true, 0);
+		base();
 	}
 	
-	private void on_call_finish(Rest.ProxyCall call)
+	protected override Rest.Proxy get_proxy()
 	{
-		// update UI
-		main_vbox.pack_start(icons_scroll, true, true, 0);
-		icons_scroll.show_all();
-		
+		return proxy = new Rest.Proxy(REST_URL, false);
+	}
+
+	protected override Rest.ProxyCall get_call()
+	{
+		call = proxy.new_call();
+		call.set_function(search.text);
+		return call;
+	}
+	
+	public override void parse_image_data(string data)
+	{	
 		Xml.Parser.init();
 		
-		Xml.Doc* doc = Xml.Parser.parse_doc(call.get_payload());
+		Xml.Doc* doc = Xml.Parser.parse_doc(data);
 		// TODO: better error handling
 		if (doc == null) return;
 		
@@ -91,10 +39,6 @@ public class OCA.Dialog : Gtk.Dialog
 		// find the "channel" node
 		Xml.Node* channel = root->children;
 		for (; channel->name != "channel"; channel = channel->next);
-		
-		// create list and model
-		model = new Gtk.ListStore(2, typeof(Gdk.Pixbuf), typeof(string));
-		images_list = new Gee.LinkedList<Image?>();
 		
 		// loop over outermost nodes
 		for (Xml.Node* itr = channel->children;
@@ -105,7 +49,7 @@ public class OCA.Dialog : Gtk.Dialog
 			// if the node is an item, add it
 			if (itr->name == "item")
 			{
-				OCA.Image image = OCA.Image();
+				OCA.Image image = new OCA.Image();
 				
 				for (Xml.Node* tag = itr->children;
 				     tag != null; tag = tag->next)
@@ -153,49 +97,6 @@ public class OCA.Dialog : Gtk.Dialog
 				images_list.add(image);
 			}
 		}
-		
-		// remember the list size for the progress bar
-		list_size = images_list.size;
-		
-		// clean up the XML parser
-		Xml.Parser.cleanup();
-		
-		// set icons
-		icons.set_model(model);
-		icons.text_column = Column.TEXT;
-		icons.pixbuf_column = Column.PIXBUF;
-		
-		unowned Thread thread = Thread.create(threaded_get_pixbufs, false);
-	}
-	
-	private void* threaded_get_pixbufs()
-	{
-		// get the next image
-		var image = images_list.poll_head();
-		
-		// get the pixbuf for this image
-		var pixbuf = gdk_pixbuf_from_uri(image.thumb_link == null ?
-		                                 image.file_link : 
-		                                 image.thumb_link);
-		
-		// append to the model
-		var tree_itr = Gtk.TreeIter();
-		model.append(out tree_itr);
-		model.set(tree_itr, Column.PIXBUF, pixbuf,
-		                    Column.TEXT, image.title);
-		
-		// set the progress bar
-		progress.set_fraction(1 - (images_list.size / list_size));
-		
-		// continue if there are more images
-		if (images_list.size > 0) threaded_get_pixbufs();
-		
-		// otherwise, remove the progress bar and return
-		if (progress_align.get_parent() == main_vbox)
-		{
-			main_vbox.remove(progress_align);
-		}
-		return null;
 	}
 	
 	private enum Column

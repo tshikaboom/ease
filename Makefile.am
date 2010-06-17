@@ -34,6 +34,8 @@ ease_SOURCES = \
 	src/ease-open-dialog.vala \
 	src/ease-pdf-exporter.vala \
 	src/ease-player.vala \
+	src/ease-plugin-import-dialog.vala \
+	src/ease-plugin-import-image.vala \
 	src/ease-scrollable-embed.vala \
 	src/ease-slide-actor.vala \
 	src/ease-slide-button-panel.vala \
@@ -78,6 +80,8 @@ VALAFLAGS = --pkg glib-2.0 \
 		--pkg clutter-gst-1.0\
 		--pkg json-glib-1.0\
 		--pkg libarchive\
+		--pkg libsexy\
+		--pkg rest-extras-0.6\
 		$(NULL)
 
 SUBDIRS = po

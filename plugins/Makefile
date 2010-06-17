@@ -5,7 +5,7 @@ flickr:flickr.vala
 	valac $(CFLAGS) flickr.vala
 	
 oca: oca-dialog.vala oca-image.vala
-	valac -g $(OCAFLAGS) oca-dialog.vala oca-image.vala
+	valac -g $(OCAFLAGS) oca-dialog.vala oca-image.vala ../src/ease-plugin-import-dialog.vala ../src/ease-plugin-import-image.vala
 
 clean:
 	rm -rf flickr
