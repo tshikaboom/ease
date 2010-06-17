@@ -9,6 +9,8 @@ public class OCA.Dialog : Gtk.Dialog
 	private Rest.Proxy proxy;
 	private Rest.ProxyCall call;
 	private Gtk.VBox main_vbox;
+	private Gee.LinkedList<Image?> images_list;
+	private Gtk.ListStore model;
 	
 	private const string REST_URL =
 		"http://www.openclipart.org/media/feed/rss/";
@@ -90,10 +92,9 @@ public class OCA.Dialog : Gtk.Dialog
 		Xml.Node* channel = root->children;
 		for (; channel->name != "channel"; channel = channel->next);
 		
-		// create list and iterator
-		var model = new Gtk.ListStore(3, typeof(Gdk.Pixbuf), typeof(string),
-		                                 typeof(OCA.Image));
-		var tree_itr = Gtk.TreeIter();
+		// create list and model
+		model = new Gtk.ListStore(2, typeof(Gdk.Pixbuf), typeof(string));
+		images_list = new Gee.LinkedList<Image?>();
 		
 		// loop over outermost nodes
 		for (Xml.Node* itr = channel->children;
@@ -149,24 +150,42 @@ public class OCA.Dialog : Gtk.Dialog
 					}
 				}
 				
-				// get the pixbuf
-				var pixbuf = gdk_pixbuf_from_uri(image.thumb_link == null ?
-				                                 image.file_link : 
-				                                 image.thumb_link);
-				
-				// append to the model
-				model.append(out tree_itr);
-				model.set(tree_itr, Column.PIXBUF, pixbuf,
-				                    Column.TEXT, image.title);
+				images_list.add(image);
 			}
 		}
 		
+		// clean up the XML parser
 		Xml.Parser.cleanup();
 		
 		// set icons
 		icons.set_model(model);
 		icons.text_column = Column.TEXT;
 		icons.pixbuf_column = Column.PIXBUF;
+		
+		unowned Thread thread = Thread.create(threaded_get_pixbufs, false);
+	}
+	
+	private void* threaded_get_pixbufs()
+	{
+		// get the next image
+		var image = images_list.poll_head();
+		
+		// get the pixbuf for this image
+		var pixbuf = gdk_pixbuf_from_uri(image.thumb_link == null ?
+		                                 image.file_link : 
+		                                 image.thumb_link);
+		
+		// append to the model
+		var tree_itr = Gtk.TreeIter();
+		model.append(out tree_itr);
+		model.set(tree_itr, Column.PIXBUF, pixbuf,
+		                    Column.TEXT, image.title);
+		
+		// continue if there are more images
+		if (images_list.size > 0) threaded_get_pixbufs();
+		
+		// otherwise, return
+		return null;
 	}
 	
 	private enum Column
