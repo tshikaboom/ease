@@ -27,19 +27,18 @@ public class FlickrFetcher {
 	private Gdk.Pixbuf? gdk_pixbug_from_uri (string uri) {
 
 		var file = File.new_for_uri (uri);
-		FileInputStream filestream;
+		FileInputStream filestream = null;
 		try {
 			filestream = file.read (null);
 		} catch (Error e) {
-			filestream = null;
 			error ("Couldn't read distant file : %s", e.message);
 		}
 		assert (filestream != null);
 		Gdk.Pixbuf pix;
 		try {
 			pix = new Gdk.Pixbuf.from_stream_at_scale (filestream,
-														   200,
-														   200,
+														   150,
+														   150,
 														   true,
 														   null);
 		} catch (Error e) {
@@ -56,6 +55,7 @@ public class FlickrFetcher {
 		call.add_params ("tags", tags,
 						 "per_page", "10",
 						 "format", "json",
+						 "sort", "relevance",
 						 /* Flickr adds a function around the JSon payload,
 							setting 'nojsoncallback' disable that : we get
 							only plain JSON. */
@@ -83,7 +83,7 @@ public class FlickrFetcher {
 			error ("Couldn't parse JSON data: %s", e.message);
 		}
 
-		// print ("Payload: %s", jsondata);
+		print ("Payload: %s\nDELIMIT", jsondata);
 		Json.Object obj = parser.get_root().get_object ();
 		var photos = obj.get_object_member ("photos");
 		var photo_array = photos.get_array_member ("photo");
@@ -102,7 +102,7 @@ public class FlickrFetcher {
 				string http = "http://farm";
 				string stat = ".static.flickr.com/";
 
-				string uri = http + farm + stat + server + "/" + id + "_" + secret + ".jpg";
+				string uri = http + farm + stat + server + "/" + id + "_" + secret + "_t.jpg";
 				// TODO : unittest to track Flickr's URIs changes.
 
 				var pixbuf = gdk_pixbug_from_uri (uri);
