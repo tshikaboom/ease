@@ -79,6 +79,7 @@ VALAFLAGS = --pkg glib-2.0 \
 		--pkg clutter-gst-1.0\
 		--pkg json-glib-1.0\
 		--pkg libarchive\
+		-g \
 		$(NULL)
 
 SUBDIRS = po
