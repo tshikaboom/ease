@@ -54,7 +54,6 @@ public class OCA.Dialog : Gtk.Dialog
 		
 		// progress
 		progress = new Gtk.ProgressBar();
-		progress.set_size_request(SPIN_SIZE, SPIN_SIZE);
 		progress_align = new Gtk.Alignment(0, 1, 1, 0);
 		progress_align.add(progress);
 		
@@ -62,6 +61,7 @@ public class OCA.Dialog : Gtk.Dialog
 		icons = new Gtk.IconView();
 		icons_scroll = new Gtk.ScrolledWindow(null, null);
 		icons_scroll.add_with_viewport(icons);
+		icons_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.ALWAYS);
 		
 		// pack search field and button
 		var hbox = new Gtk.HBox(false, 5);
