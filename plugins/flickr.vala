@@ -26,7 +26,7 @@ public class FlickrFetcher {
 
 	private Gdk.Pixbuf? gdk_pixbug_from_uri (string uri) {
 
-		File file = File.new_for_uri (uri);
+		var file = File.new_for_uri (uri);
 		FileInputStream filestream;
 		try {
 			filestream = file.read (null);
@@ -123,7 +123,10 @@ public class FlickrFetcher {
 	[CCode (instance_pos = -1)]
 	public void on_search_button (Button? b) {
 		
-		string tags = this.search_entry.get_text ();
+		string entry = this.search_entry.get_text ();
+		// convert spaces to comas
+		string tags = entry.delimit (" ", ',');
+		search_entry.set_text (tags);
 
 		string answer = get_flickr_photos_from_tags (tags);
 		parse_flickr_photos (answer);
