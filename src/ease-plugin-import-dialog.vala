@@ -106,7 +106,8 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 			progress_align.show_all();
 			
 			// run the call
-			call.run_async(on_call_finish, this);
+			try { call.run_async(on_call_finish, this); }
+			catch (Error e) { error(e.message); }
 		});
 		
 		// progress
@@ -156,13 +157,23 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 		icons.text_column = Column.TEXT;
 		icons.pixbuf_column = Column.PIXBUF;
 		
-		Thread.create(threaded_get_pixbufs, false);
+		// if threads are supported, get the pixbufs in a thread
+		if (Thread.supported())
+		{
+			try { Thread.create(threaded_get_pixbufs, false); }
+			catch { threaded_get_pixbufs(); }
+		}
+		else
+		{
+			threaded_get_pixbufs();
+		}
 	}
 	
 	private void* threaded_get_pixbufs()
 	{
 		// get the next image
-		var image = images_list.poll_head();
+		PluginImportImage image;
+		lock (images_list) { image = images_list.poll_head(); }
 		
 		// get the pixbuf for this image
 		var pixbuf = gdk_pixbuf_from_uri(image.thumb_link == null ?
@@ -171,20 +182,32 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 		
 		// append to the model
 		var tree_itr = Gtk.TreeIter();
-		model.append(out tree_itr);
-		model.set(tree_itr, Column.PIXBUF, pixbuf,
-		                    Column.TEXT, image.title);
+		lock (model)
+		{
+			model.append(out tree_itr);
+			model.set(tree_itr, Column.PIXBUF, pixbuf,
+				                Column.TEXT, image.title);
+		}
 		
 		// set the progress bar
-		progress.set_fraction(1 - (images_list.size / list_size));
-		
-		// continue if there are more images
-		if (images_list.size > 0) threaded_get_pixbufs();
-		
-		// otherwise, remove the progress bar and return
-		if (progress_align.get_parent() == main_vbox)
+		lock (progress)
 		{
-			main_vbox.remove(progress_align);
+			progress.set_fraction(1 - (images_list.size / list_size));
+		}
+			
+		// continue if there are more images
+		lock (images_list)
+		{
+			if (images_list.size > 0) threaded_get_pixbufs();
+		}
+			
+		// otherwise, remove the progress bar and return
+		lock (main_vbox)
+		{
+			if (progress_align.get_parent() == main_vbox)
+			{
+				main_vbox.remove(progress_align);
+			}
 		}
 		return null;
 	}

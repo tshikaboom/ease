@@ -98,38 +98,6 @@ public class OCA.Dialog : Ease.PluginImportDialog
 			}
 		}
 	}
-	
-	private enum Column
-	{
-		PIXBUF = 0,
-		TEXT = 1,
-		OCA_IMAGE = 2
-	}
-	
-	private Gdk.Pixbuf? gdk_pixbuf_from_uri (string uri) {
-
-		File file = File.new_for_uri (uri);
-		FileInputStream filestream;
-		try {
-			filestream = file.read (null);
-		} catch (Error e) {
-			filestream = null;
-			error ("Couldn't read distant file : %s", e.message);
-		}
-		assert (filestream != null);
-		Gdk.Pixbuf pix;
-		try {
-			pix = new Gdk.Pixbuf.from_stream_at_scale (filestream,
-														   200,
-														   200,
-														   true,
-														   null);
-		} catch (Error e) {
-			error ("Couldn't create pixbuf from file: %s", e.message);
-			pix = null;
-		}
-		return pix;
-	}
 }
 
 public static int main(string[] args)
