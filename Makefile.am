@@ -93,7 +93,7 @@ ease_LDADD = \
 	$(EASE_LIBS) \
 	$(NULL)
 
-EXTRA_DIST = config.rpath m4/ChangeLog data/ease.desktop.in  \
+EXTRA_DIST = data/ease.desktop.in  \
 	$(NULL)
 
 DISTCLEANFILES = \
