@@ -3,12 +3,6 @@ public class OCA.Dialog : Ease.PluginImportDialog
 	private const string REST_URL =
 		"http://www.openclipart.org/media/feed/rss/";
 	
-	private const Sexy.IconEntryPosition ICON_POS =
-		Sexy.IconEntryPosition.PRIMARY;
-	
-	private const Gtk.IconSize SIZE = Gtk.IconSize.MENU;
-	private const int SPIN_SIZE = 40;
-	
 	public Dialog()
 	{
 		base();

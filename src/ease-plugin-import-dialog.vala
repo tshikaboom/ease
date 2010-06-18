@@ -17,6 +17,13 @@
 
 /**
  * Base class for an "import media" dialog that searches a website for media.
+ *
+ * PluginImportDialog offers a generic interface and almost entirely controls
+ * the user interface for the dialog. Therefore, by using PluginImportDialog
+ * to write a plugin, the author ensures that it fits in with all similar
+ * plugins. PluginImportDialog also automatically manages the downloading
+ * of images and image data - subclasses only need to provide a REST call,
+ * and parse the response to generate a list of data.
  */
 public abstract class Ease.PluginImportDialog : Gtk.Dialog
 {
@@ -81,6 +88,10 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 	 */
 	private double list_size;
 	
+	/**
+	 * This base constructor must be called by subclasses to set up the
+	 * interface and search functionality.
+	 */
 	public PluginImportDialog()
 	{
 		// search field
@@ -132,10 +143,33 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 		(get_content_area() as Gtk.Box).pack_start(main_vbox, true, true, 0);
 	}
 	
+	/**
+	 * Subclasses must override this function to parse the data returned from
+	 * their Rest.ProxyCall.
+	 *
+	 * This method should construct images_list, a Gee.LinkedList of
+	 * {@link PluginImportImage}s (or a subclass specific to your plugin).
+	 * PluginImportDialog will then automatically download the images.
+	 *
+	 * @param data The data returned from the REST call.
+	 */
 	protected abstract void parse_image_data(string data);
+	
+	/**
+	 * Allows subclasses to provide a Rest.Proxy for their website.
+	 */
 	protected abstract Rest.Proxy get_proxy();
+	
+	/**
+	 * Allows subclasses to provide a Rest.ProxyCall for their website.
+	 */
 	protected abstract Rest.ProxyCall get_call();
 	
+	/**
+	 * Signal handler for Rest.ProxyCall completion.
+	 *
+	 * @param call The completed Rest.ProxyCall.
+	 */
 	private void on_call_finish(Rest.ProxyCall call)
 	{
 		// update UI
@@ -169,6 +203,16 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 		}
 	}
 	
+	/**
+	 * Retrieves the first pixbuf in "images_list", then calls itself again if
+	 * there are more images.
+	 *
+	 * As its name implies, threaded_get_pixbufs should be used in a thread,
+	 * because getting images from the web can be slow. While it will work
+	 * when not run in a thread (if, for example, threads are not supported),
+	 * this will lock up the user interface and be a bad experience for the
+	 * user.
+	 */
 	private void* threaded_get_pixbufs()
 	{
 		// get the next image
@@ -243,9 +287,20 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 		return pix;
 	}
 	
+	/**
+	 * Enumerator for columns in the "model" ListStore.
+	 */
 	private enum Column
 	{
+		/**
+		 * The column storing Gdk.Pixbufs, downloaded from the internet.
+		 * Note that these pixbufs are often only the thumbnails.
+		 */
 		PIXBUF = 0,
+		
+		/**
+		 * The column for the label displayed in the Gtk.IconView.
+		 */
 		TEXT = 1
 	}
 }
