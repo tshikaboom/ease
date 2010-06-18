@@ -82,6 +82,11 @@ public class Ease.EditorWindow : Gtk.Window
 	public bool slides_shown { get; set; }
 	
 	/**
+	 * The time the document was last saved.
+	 */
+	long last_saved = 0;
+	
+	/**
 	 * The zoom levels for the {@link ZoomSlider}
 	 */
 	private int[] ZOOM_LEVELS = {10, 25, 33, 50, 66, 75, 100, 125, 150,
@@ -139,6 +144,25 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		// USER INTERFACE SIGNALS
 		
+		// close the window
+		delete_event.connect((sender, event) => {
+			if (last_saved == 0) return false;
+			
+			var name = document.filename == null ? _("Untitled Document") :
+			                                       document.filename;
+			var time_diff = (int)(time_t() - last_saved);
+			
+			var dialog = new CloseConfirmDialog(name, time_diff);
+			var response = dialog.run();
+			dialog.destroy();
+			
+			if (response == Gtk.ResponseType.CANCEL) return true;
+			if (response == Gtk.ResponseType.NO) return false;
+			
+			// otherwise, save and quit
+			return !save_document();
+		});
+		
 		// toolbar
 		
 		// create new slides
@@ -189,38 +213,7 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		// save file
 		main_toolbar.save.clicked.connect(() => {
-			if (document.filename == null)
-			{
-				var dialog =
-					new Gtk.FileChooserDialog(_("Save Document"),
-		        	                          null,
-		        	                          Gtk.FileChooserAction.SAVE,
-		        	                          "gtk-cancel",
-		        	                          Gtk.ResponseType.CANCEL,
-		        	                          "gtk-open",
-		        	                          Gtk.ResponseType.ACCEPT, null);
-		        
-		        var filter = new Gtk.FileFilter();
-				filter.add_pattern("*.ease");
-				dialog.filter = filter;
-
-				if (dialog.run() == Gtk.ResponseType.ACCEPT)
-				{
-					document.filename = dialog.get_filename();
-				}
-				else
-				{
-					dialog.destroy();
-					return;
-				}
-				dialog.destroy();
-			}
-		
-			try { JSONParser.document_write(document); }
-			catch (GLib.Error e)
-			{
-				error_dialog(_("Error Saving Document"), e.message);
-			}
+			save_document();
 		});
 		
 		// play presentation
@@ -287,6 +280,12 @@ public class Ease.EditorWindow : Gtk.Window
 		undo.add_action(action);
 		undo.clear_redo();
 		update_undo();
+		
+		// the document has been edited, first change at this time
+		if (last_saved == 0)
+		{
+			last_saved = time_t();
+		}
 	}
 	
 	/**
@@ -300,6 +299,47 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	// signal handlers
+	private bool save_document()
+	{
+		if (document.filename == null)
+		{
+			var dialog =
+				new Gtk.FileChooserDialog(_("Save Document"),
+	        	                          null,
+	        	                          Gtk.FileChooserAction.SAVE,
+	        	                          "gtk-cancel",
+	        	                          Gtk.ResponseType.CANCEL,
+	        	                          "gtk-save",
+	        	                          Gtk.ResponseType.ACCEPT, null);
+	        
+	        var filter = new Gtk.FileFilter();
+			filter.add_pattern("*.ease");
+			dialog.filter = filter;
+
+			if (dialog.run() == Gtk.ResponseType.ACCEPT)
+			{
+				document.filename = dialog.get_filename();
+			}
+			else
+			{
+				dialog.destroy();
+				return false;
+			}
+			dialog.destroy();
+		}
+	
+		try
+		{
+			JSONParser.document_write(document);
+			last_saved = 0;
+		}
+		catch (GLib.Error e)
+		{
+			error_dialog(_("Error Saving Document"), e.message);
+			return false;
+		}
+		return true;
+	}
 	
 	// menu bar creation
 	private Gtk.MenuBar create_menu_bar()

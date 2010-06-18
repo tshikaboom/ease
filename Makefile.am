@@ -14,6 +14,7 @@ AM_CPPFLAGS = \
 ease_SOURCES = \
 	src/ease-about-dialog.vala \
 	src/ease-actor.vala \
+	src/ease-close-confirm-dialog.vala \
 	src/ease-document.vala \
 	src/ease-editor-embed.vala \
 	src/ease-editor-window.vala \
@@ -82,6 +83,8 @@ VALAFLAGS = --pkg glib-2.0 \
 		--pkg libarchive\
 		--pkg libsexy\
 		--pkg rest-extras-0.6\
+		-g \
+		--thread \
 		$(NULL)
 
 SUBDIRS = po
