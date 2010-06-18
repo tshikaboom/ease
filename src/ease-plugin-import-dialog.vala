@@ -58,6 +58,16 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 	private Gtk.Alignment progress_align;
 	
 	/**
+	 * Spinner displayed while REST call is being made.
+	 */
+	private Gtk.Spinner spinner;
+	
+	/**
+	 * Alignment containing the spinner.
+	 */
+	private Gtk.Alignment spinner_align;
+	
+	/**
 	 * REST Proxy for retrieving image data.
 	 */
 	protected Rest.Proxy proxy;
@@ -89,6 +99,11 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 	private double list_size;
 	
 	/**
+	 * Size of the spinner
+	 */
+	private const int SPINNER_SIZE = 40;
+	
+	/**
 	 * This base constructor must be called by subclasses to set up the
 	 * interface and search functionality.
 	 */
@@ -111,10 +126,10 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 				main_vbox.remove(icons_scroll);
 			}
 			
-			// add the progress
-			main_vbox.pack_end(progress_align, false, false, 0);
-			progress.pulse();
-			progress_align.show_all();
+			// display the spinner
+			main_vbox.pack_end(spinner_align, true, true, 0);
+			spinner.start();
+			spinner_align.show_all();
 			
 			// run the call
 			try { call.run_async(on_call_finish, this); }
@@ -125,6 +140,12 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 		progress = new Gtk.ProgressBar();
 		progress_align = new Gtk.Alignment(0, 1, 1, 0);
 		progress_align.add(progress);
+		
+		// spinner
+		spinner = new Gtk.Spinner();
+		spinner_align = new Gtk.Alignment(0.5f, 0.5f, 0, 0);
+		spinner_align.add(spinner);
+		spinner.set_size_request(SPINNER_SIZE, SPINNER_SIZE);
 		
 		// icon view
 		icons = new Gtk.IconView();
@@ -172,9 +193,20 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 	 */
 	private void on_call_finish(Rest.ProxyCall call)
 	{
-		// update UI
+		// remove the spinner
+		if (spinner_align.get_parent() == main_vbox)
+		{
+			main_vbox.remove(spinner_align);
+		}
+		spinner.stop();
+		
+		// add the icon view
 		main_vbox.pack_start(icons_scroll, true, true, 0);
 		icons_scroll.show_all();
+		
+		// add the progress
+		main_vbox.pack_end(progress_align, false, false, 0);
+		progress_align.show_all();
 		
 		// create list and model
 		model = new Gtk.ListStore(2, typeof(Gdk.Pixbuf), typeof(string));
@@ -304,3 +336,4 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 		TEXT = 1
 	}
 }
+
