@@ -40,7 +40,7 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 	/**
 	 * Search field.
 	 */
-	protected Sexy.IconEntry search;
+	protected Gtk.Entry search;
 	
 	/**
 	 * Search button.
@@ -110,8 +110,9 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 	public PluginImportDialog()
 	{
 		// search field
-		search = new Sexy.IconEntry();
-		search.add_clear_button();
+		search = new Gtk.Entry();
+		search.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, "gtk-clear");
+		search.icon_press.connect ( () => { search.text = ""; });
 		
 		// search button
 		button = new Gtk.Button.from_stock("gtk-find");
@@ -163,7 +164,7 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 		main_vbox.pack_start(hbox, false, false, 0);
 		(get_content_area() as Gtk.Box).pack_start(main_vbox, true, true, 0);
 	}
-	
+
 	/**
 	 * Subclasses must override this function to parse the data returned from
 	 * their Rest.ProxyCall.

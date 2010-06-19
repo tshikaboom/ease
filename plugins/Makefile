@@ -1,5 +1,5 @@
 CFLAGS = --pkg gtk+-2.0 --pkg gmodule-2.0 --pkg json-glib-1.0 --pkg rest-extras-0.6
-OCAFLAGS = --pkg gtk+-2.0 --pkg libsexy --pkg rest-extras-0.6 --pkg libxml-2.0 --pkg gee-1.0 -o openclipart
+OCAFLAGS = --pkg gtk+-2.0 --pkg rest-extras-0.6 --pkg libxml-2.0 --pkg gee-1.0 -o openclipart
 
 flickr:flickr.vala
 	valac $(CFLAGS) flickr.vala
