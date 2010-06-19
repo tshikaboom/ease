@@ -81,7 +81,6 @@ VALAFLAGS = --pkg glib-2.0 \
 		--pkg clutter-gst-1.0\
 		--pkg json-glib-1.0\
 		--pkg libarchive\
-		--pkg libsexy\
 		--pkg rest-extras-0.6\
 		-g \
 		--thread \

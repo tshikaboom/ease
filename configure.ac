@@ -27,9 +27,9 @@ GNOME_COMPILE_WARNINGS([maximum])
 GNOME_MAINTAINER_MODE_DEFINES
 
 dnl FIXME
-pkg_modules="clutter-gtk-0.10 >= 0.10 gee-1.0 >= 0.5.0 clutter-gst-1.0 >= 1.0.0 json-glib-1.0 >= 0.7.6 libarchive libsexy rest-extras-0.6"
+pkg_modules="clutter-gtk-0.10 >= 0.10 gee-1.0 >= 0.5.0 clutter-gst-1.0 >= 1.0.0 json-glib-1.0 >= 0.7.6 libarchive rest-extras-0.6"
 
-EASE_PACKAGES="--pkg glib-2.0 --pkg gtk+-2.0 --pkg clutter-1.0 --pkg gdk-2.0 --pkg libxml-2.0 --pkg gee-1.0 --pkg clutter-gtk-0.10 --pkg cogl-1.0 --pkg gio-2.0 --pkg clutter-gst-1.0 --pkg libarchive --pkg rest-extras-0.6 --pkg libsexy"
+EASE_PACKAGES="--pkg glib-2.0 --pkg gtk+-2.0 --pkg clutter-1.0 --pkg gdk-2.0 --pkg libxml-2.0 --pkg gee-1.0 --pkg clutter-gtk-0.10 --pkg cogl-1.0 --pkg gio-2.0 --pkg clutter-gst-1.0 --pkg libarchive --pkg rest-extras-0.6"
 
 PKG_CHECK_MODULES(EASE, [$pkg_modules])
 
