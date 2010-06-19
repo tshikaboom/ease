@@ -21,6 +21,8 @@ public class FlickrFetcher {
 	private Gtk.Button search_button;
 	private Gtk.IconView iconview;
 	private Gtk.Builder builder;
+	private Gtk.VBox vbox;
+	private Gtk.Spinner spinner;
 
 	private Gtk.ListStore store;
 
@@ -67,11 +69,12 @@ public class FlickrFetcher {
 		try {
 			call.run (null);
 		} catch (Error e) {
-			error ("Could make call: %s\n", e.message);
+			print ("Couldn't make call: %s\n", e.message);
 		}
 
 		string answer = call.get_payload ();
 		assert (answer != null);
+		print (answer);
 		return answer;
 	}
 
@@ -128,8 +131,10 @@ public class FlickrFetcher {
 		string tags = entry.delimit (" ", ',');
 		search_entry.set_text (tags);
 
+		spinner.start ();
 		string answer = get_flickr_photos_from_tags (tags);
 		parse_flickr_photos (answer);
+		spinner.stop ();
 	}
 
 	[CCode (instance_pos = -1)]
@@ -159,6 +164,10 @@ public class FlickrFetcher {
 		search_button = builder.get_object ("searchbutton") as Gtk.Button;
 		search_entry = builder.get_object ("searchentry") as Gtk.Entry;
 		store = builder.get_object ("liststore1") as Gtk.ListStore;
+		vbox = builder.get_object ("vbox1") as Gtk.VBox;
+
+		spinner = new Gtk.Spinner ();
+		vbox.pack_end (spinner);
 
 		iconview.set_pixbuf_column (2);
 		iconview.set_text_column (1);
