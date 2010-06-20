@@ -2,6 +2,18 @@ using Rest;
 using Json;
 using Gtk;
 
+
+/*
+  TODO :
+  - launching multiple requests
+  - escaping the description tags
+  - wrapping the long fields (emo-descriptions)
+  - asyncing
+  - getting licence and author's realname based on the IDs we get right now
+  - make a nice combo-box for licenses
+  - make the UI prettier
+*/
+
 public class FlickrFetcher {
 
 	/* Flickr stuff */
