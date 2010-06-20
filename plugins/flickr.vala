@@ -12,6 +12,10 @@ using Gtk;
   - getting licence and author's realname based on the IDs we get right now
   - make a nice combo-box for licenses
   - make the UI prettier
+  - split out in a common Ease.ResourceImporter dialog or something
+  - raise accuracy (ie use the keywords to search tags _and_ description, and others)
+  - get the next set of photos
+  - show a tiny spinner when loading
 */
 
 public class FlickrFetcher {
