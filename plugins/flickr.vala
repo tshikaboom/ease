@@ -22,7 +22,7 @@ public class FlickrFetcher {
 	private Gtk.IconView iconview;
 	private Gtk.Builder builder;
 	private Gtk.VBox vbox;
-	private Gtk.Spinner spinner;
+	private Gtk.Label infos;
 
 	private Gtk.ListStore store;
 
@@ -63,7 +63,7 @@ public class FlickrFetcher {
 							only plain JSON. */
 						 "nojsoncallback", "1",
 						 /* Extras info to fetch. */
-						 "extras", "description,licence,owner_name",
+						 "extras", "description,licence",
 						 null);
 		// TODO : asyncing
 		try {
@@ -74,12 +74,11 @@ public class FlickrFetcher {
 
 		string answer = call.get_payload ();
 		assert (answer != null);
-		print (answer);
 		return answer;
 	}
 
 	private void parse_flickr_photos (string jsondata) {
-		
+
 		try {
 			parser.load_from_data (jsondata);
 		} catch (Error e) {
@@ -97,7 +96,7 @@ public class FlickrFetcher {
 				Gtk.TreeIter iter;
 				Json.Object photo = element.get_object ();
 				int64 farm_int = photo.get_int_member ("farm");
-				
+
 				string farm = @"$farm_int";
 				string secret = photo.get_string_member ("secret");
 				string server = photo.get_string_member ("server");
@@ -111,30 +110,67 @@ public class FlickrFetcher {
 				var pixbuf = gdk_pixbug_from_uri (uri);
 
 				string title = photo.get_string_member ("title");
+				string description = photo.get_object_member ("description").get_string_member ("_content");
+				string author = photo.get_string_member ("owner");
+				// We did specified license in the extras, but it doesn't appear in the payload
+				// string licence = photo.get_string_member ("license");
 
 				/* Adding to the IconView */
 				store.append (out iter);
 				store.set (iter,
-						   0, id, 
+						   0, id,
 						   1, title,
 						   2, pixbuf,
+						   3, description,
+						   4, author,
+//						   5, licence,
 						   -1);
 				// FIXME : window is not updated till the whole function finishes.
 			});
-	}	
-	
+	}
+
+
+	[CCode (instance_pos = -1)]
+	public void on_item_activated (Gtk.IconView view, Gtk.TreePath path) {
+
+		debug ("We have a signal.");
+
+	}
+
 	[CCode (instance_pos = -1)]
 	public void on_search_button (Button? b) {
-		
+
 		string entry = this.search_entry.get_text ();
 		// convert spaces to comas
 		string tags = entry.delimit (" ", ',');
 		search_entry.set_text (tags);
 
-		spinner.start ();
 		string answer = get_flickr_photos_from_tags (tags);
 		parse_flickr_photos (answer);
-		spinner.stop ();
+	}
+
+	[CCode (instance_pos = -1)]
+	public void on_selection_changed (Gtk.IconView view) {
+
+		string description;
+		string title;
+		string author;
+		string license;
+
+		List<Gtk.TreePath> selected = view.get_selected_items ();
+		Gtk.TreeIter iter;
+		store.get_iter (out iter, selected.data);
+		store.get (iter,
+				   1, out title,
+				   3, out description,
+				   4, out author,
+				   5, out license, -1);
+
+		string informations = Markup.printf_escaped ("<b>Title : </b>%s\n" +
+													 "<b>Description : </b>%s\n" +
+													 "<b>Author : </b>: %s",
+													 title, description, author);
+		infos.set_markup (informations);
 	}
 
 	[CCode (instance_pos = -1)]
@@ -165,9 +201,7 @@ public class FlickrFetcher {
 		search_entry = builder.get_object ("searchentry") as Gtk.Entry;
 		store = builder.get_object ("liststore1") as Gtk.ListStore;
 		vbox = builder.get_object ("vbox1") as Gtk.VBox;
-
-		spinner = new Gtk.Spinner ();
-		vbox.pack_end (spinner);
+		infos = builder.get_object ("infos_label") as Gtk.Label;
 
 		iconview.set_pixbuf_column (2);
 		iconview.set_text_column (1);
