@@ -15,7 +15,6 @@ using Gtk;
   - raise accuracy (ie use the keywords to search tags _and_ description, and others)
   - get the next set of photos
   - show a tiny spinner when loading
-  - avoid segfault when unselecting an icon
 */
 
 public class FlickrFetcher {
@@ -185,6 +184,10 @@ public class FlickrFetcher {
 		string license;
 
 		List<Gtk.TreePath> selected = view.get_selected_items ();
+		if (selected.first () == null) {
+			debug ("No data!");
+			return;
+		}
 		Gtk.TreeIter iter;
 		store.get_iter (out iter, selected.data);
 		store.get (iter,
