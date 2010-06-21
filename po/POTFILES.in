@@ -24,8 +24,6 @@ src/ease-media-element.vala
 src/ease-open-dialog.vala
 src/ease-pdf-exporter.vala
 src/ease-player.vala
-src/ease-plugin-import-dialog.vala
-src/ease-plugin-import-image.vala
 src/ease-scrollable-embed.vala
 src/ease-slide-actor.vala
 src/ease-slide-button-panel.vala
