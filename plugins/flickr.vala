@@ -5,7 +5,6 @@ using Gtk;
 
 /*
   TODO :
-  - launching multiple requests
   - escaping the description tags
   - wrapping the long fields (emo-descriptions)
   - asyncing
@@ -69,6 +68,7 @@ public class FlickrFetcher {
 
 	private string get_flickr_photos_from_tags (string tags) {
 
+		call = proxy.new_call ();
 		call.set_function ("flickr.photos.search");
 		call.add_params ("tags", tags,
 						 "per_page", "10",
@@ -115,6 +115,7 @@ public class FlickrFetcher {
 		var photos = obj.get_object_member ("photos");
 		var photo_array = photos.get_array_member ("photo");
 
+		store.clear ();
 		// TODO : optimization
 		photo_array.foreach_element ( (array, index, element) =>
 			{
@@ -207,7 +208,6 @@ public class FlickrFetcher {
 	public FlickrFetcher() {
 
 		proxy = new Rest.FlickrProxy (api_key, secret);
-		call = proxy.new_call ();
 		parser = new Json.Parser ();
 		builder = new Gtk.Builder ();
 
