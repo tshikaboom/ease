@@ -15,6 +15,7 @@ using Gtk;
   - raise accuracy (ie use the keywords to search tags _and_ description, and others)
   - get the next set of photos
   - show a tiny spinner when loading
+  - avoid segfault when unselecting an icon
 */
 
 public class FlickrFetcher {
