@@ -35,12 +35,13 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="searchbutton">
-                    <property name="label" translatable="yes">_Search</property>
+                    <property name="label">gtk-find</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="can_default">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_underline">True</property>
+                    <property name="use_stock">True</property>
                     <signal name="clicked" handler="flickr_fetcher_on_search_button"/>
                   </object>
                   <packing>
@@ -67,7 +68,7 @@
                   <object class="GtkIconView" id="iconview1">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="border_width">1</property>
+                    <property name="border_width">2</property>
                     <property name="model">liststore1</property>
                     <signal name="item_activated" handler="flickr_fetcher_on_item_activated"/>
                     <signal name="selection_changed" handler="flickr_fetcher_on_selection_changed"/>
