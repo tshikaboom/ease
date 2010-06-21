@@ -13,7 +13,7 @@ using Gtk;
   - make the UI prettier
   - split out in a common Ease.ResourceImporter dialog or something
   - raise accuracy (ie use the keywords to search tags _and_ description, and others)
-  - get the next set of photos
+  - get the next set of photos (use the "page" param of flickr.photos.search)
   - show a tiny spinner when loading
 */
 
@@ -71,6 +71,7 @@ public class FlickrFetcher {
 		call = proxy.new_call ();
 		call.set_function ("flickr.photos.search");
 		call.add_params ("tags", tags,
+						 "tag_mode", "all",
 						 "per_page", "10",
 						 "format", "json",
 						 "sort", "relevance",
