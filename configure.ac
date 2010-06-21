@@ -2,7 +2,7 @@ AC_INIT([Ease], [0.1], [https://bugzilla.gnome.org/enter_bug.cgi?product=ease], 
 
 AC_PREREQ([2.59])
 
-AC_CONFIG_FILES([Makefile po/Makefile.in])
+AC_CONFIG_FILES([Makefile po/Makefile.in data/Makefile])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([config.h])
 

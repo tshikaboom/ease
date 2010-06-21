@@ -82,7 +82,7 @@ VALAFLAGS = --pkg glib-2.0 \
 		-g \
 		$(NULL)
 
-SUBDIRS = po
+SUBDIRS = po data
 
 ease_LDADD = \
 	$(EASE_LIBS) \
@@ -91,25 +91,13 @@ ease_LDADD = \
 EXTRA_DIST = data/ease.desktop.in  \
 	$(NULL)
 
-DISTCLEANFILES = \
+DISTCLEANFILES = data/ease.desktop \
 	$(NULL)
 
 ACLOCAL_AMFLAGS = -I m4
 
-desktopdir = $(datadir)/applications
-desktop_IN = data/ease.desktop.in
-desktop_DATA = \
-	$(desktop_IN:.in=)
-@INTLTOOL_DESKTOP_RULE@
-
-Applicationsdir = /usr/share/applications
-Applications_DATA = data/ease.desktop.in
-
 themedir = $(datadir)/ease/themes
-theme_DATA = themes/*.easetheme
-
-svgdir = $(datadir)/ease/svg
-svg_DATA = data/svg/*.svg
+theme_DATA = $(wildcard $(top_srcdir)/themes/*.easetheme)
 
 doc: src/*.vala
 	rm -rf doc
