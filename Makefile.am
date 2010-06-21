@@ -101,8 +101,9 @@ DISTCLEANFILES = \
 ACLOCAL_AMFLAGS = -I m4
 
 desktopdir = $(datadir)/applications
-desktop_in_files = data/ease.desktop.in
-desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
+desktop_IN = data/ease.desktop.in
+desktop_DATA = \
+	$(desktop_IN:.in=)
 @INTLTOOL_DESKTOP_RULE@
 
 Applicationsdir = /usr/share/applications
