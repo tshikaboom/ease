@@ -12,7 +12,7 @@ using Gtk;
   - make a nice combo-box for licenses
   - make the UI prettier
   - split out in a common Ease.ResourceImporter dialog or something
-  - raise accuracy (ie use the keywords to search tags _and_ description, and others)
+  - raise accuracy (ie use the keywords to search tags _and_ description, and others) 50% DONE
   - get the next set of photos (use the "page" param of flickr.photos.search)
   - show a tiny spinner when loading
 */
