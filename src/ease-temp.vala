@@ -129,11 +129,11 @@ public static class Ease.Temp : Object
 	 * @param filename The filename of the archive to save to.
 	 */
 	public static void archive(string temp_path, string filename) throws Error
-	{
+	{	
 		// TODO: implementation with libarchive
 		var file = GLib.File.new_for_path(filename);
 		string last_path = file.get_basename();
-		Posix.system("cd %s; tar -cf %s `ls`; mv %s %s".printf(temp_path, last_path, last_path, filename));
+		Posix.system("cd \"%s\"; tar -cf \"%s\" `ls`; mv \"%s\" \"%s\"".printf(temp_path, last_path, last_path, filename));
 	}
 	
 	/**
