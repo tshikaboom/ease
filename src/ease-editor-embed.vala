@@ -327,11 +327,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		
 		slide_actor.set_scale_full(zoom, zoom, 0, 0);
 
-		slide_actor.x = Math.roundf(w < width
+		slide_actor.x = roundd(w < width
 		                            ? width / 2 - w / 2
 	                                : 0);
 		        
-		slide_actor.y = Math.roundf(h < height
+		slide_actor.y = roundd(h < height
 		                            ? height / 2 - h / 2
 		                            : 0);
 		              

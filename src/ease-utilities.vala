@@ -57,4 +57,19 @@ namespace Ease
 		
 		return null;
 	}
+
+	public double dmax(double a, double b)
+	{
+		return a > b ? a : b;
+	}
+
+	public double dmin(double a, double b)
+	{
+		return a < b ? a : b;
+	}
+	
+	public int roundd(double num)
+	{
+		return (int)(num - (int)num < 0.5 ? num : num + 1);
+	}
 }

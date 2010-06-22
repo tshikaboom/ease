@@ -390,7 +390,7 @@ public class Ease.SlideActor : Clutter.Group
 	public void transition(SlideActor new_slide,
 	                       Clutter.Group container)
 	{
-		uint length = (uint)Math.fmax(1, slide.transition_time * 1000);
+		uint length = (uint)dmax(1, slide.transition_time * 1000);
 
 		animation_time = new Clutter.Timeline(length);
 
@@ -1335,7 +1335,7 @@ public class Ease.SlideActor : Clutter.Group
 	 */
 	private static uint8 clamp_opacity(double o)
 	{
-		return (uint8)(Math.fmax(0, Math.fmin(255, o)));
+		return (uint8)(dmax(0, dmin(255, o)));
 	}
 }
 

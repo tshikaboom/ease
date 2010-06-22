@@ -375,8 +375,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 			float x_pixels = x_origin + x_position *
 			                  (PREVIEW_PADDING + preview_width);
 			
-			float x_round = Math.roundf(x_pixels);
-			float y_round = Math.roundf(y_pixels);
+			float x_round = roundd(x_pixels);
+			float y_round = roundd(y_pixels);
 			
 			if (animate_resize)
 			{	
