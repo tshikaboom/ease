@@ -144,6 +144,10 @@ public static class Ease.Temp : Object
 	 */
 	public static void clean()
 	{
+		if (folders == null) {
+			return;
+		}
+
 		string dir;
 		while ((dir = folders.poll_head()) != null)
 		{
