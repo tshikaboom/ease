@@ -62,6 +62,11 @@ public class Ease.TextActor : Actor
 		contents.height = e.height;
 		x = e.x;
 		y = e.y;
+		
+		// add notify event handlers to update when changes to the element occur
+		e.notify["color"].connect((sender, spec) => {
+			text.color = (sender as TextElement).color;
+		});
 	}
 	
 	/**

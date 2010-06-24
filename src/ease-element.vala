@@ -248,6 +248,28 @@ public abstract class Ease.Element : GLib.Object
 	}
 	
 	/**
+	 * If applicable, this method sets the color of an Element and returns true.
+	 * Otherwise, it returns false. The method should be overridden by
+	 * subclasses that provide a "color" property.
+	 *
+	 * @param c The color to set the element to.
+	 */
+	public virtual bool set_color(Clutter.Color c)
+	{
+		return false;
+	}
+	
+	/**
+	 * If applicable, this method returns the color of an Element. By default,
+	 * it returns null. Subclasses that provide a color property should override
+	 * this method.
+	 */
+	public virtual Clutter.Color? get_color()
+	{
+		return null;
+	}
+	
+	/**
 	 * A unique identifier for this Element.
 	 */
 	public string ease_name

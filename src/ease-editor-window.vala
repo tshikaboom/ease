@@ -82,6 +82,17 @@ public class Ease.EditorWindow : Gtk.Window
 	public bool slides_shown { get; set; }
 	
 	/**
+	 * The color selection dialog for this window.
+	 */
+	private Gtk.ColorSelectionDialog color_dialog;
+	
+	/**
+	 * The color selection dialog's widget.
+	 */
+	private Gtk.ColorSelection color_selection;
+	 
+	
+	/**
 	 * The time the document was last saved.
 	 */
 	long last_saved = 0;
@@ -241,6 +252,9 @@ public class Ease.EditorWindow : Gtk.Window
 			document.export_to_html(this);
 		});
 		
+		// color selection
+		main_toolbar.colors.clicked.connect(show_color_dialog);
+		
 		main_toolbar.pdf.clicked.connect(() => {
 			PDFExporter.export(document, this);
 		});
@@ -339,6 +353,46 @@ public class Ease.EditorWindow : Gtk.Window
 			return false;
 		}
 		return true;
+	}
+	
+	private void show_color_dialog()
+	{
+		if (color_dialog != null)
+		{
+			color_dialog.present();
+			return;
+		}
+		
+		color_dialog = new Gtk.ColorSelectionDialog(_("Select Color"));
+		color_selection = color_dialog.color_selection as Gtk.ColorSelection;
+		
+		color_selection.color_changed.connect(color_dialog_changed);
+		
+		embed.notify["selected"].connect(color_dialog_selection);
+		
+		color_dialog.hide.connect(() => {
+			embed.notify["selected"].disconnect(color_dialog_selection);
+			color_selection.color_changed.disconnect(color_dialog_changed);
+			color_dialog.destroy();
+			color_dialog = null;
+		});
+		
+		color_dialog.show_all();
+	}
+	
+	private void color_dialog_changed(Gtk.ColorSelection sender)
+	{
+		embed.set_element_color(Transformations.gdk_color_to_clutter_color(
+		                        sender.current_color));
+	}
+	
+	private void color_dialog_selection(Object sender, ParamSpec spec)
+	{
+		var color = (sender as EditorEmbed).selected.element.get_color();
+		if (color == null) return;
+		
+		color_selection.current_color =
+			Transformations.clutter_color_to_gdk_color(color);
 	}
 	
 	// menu bar creation

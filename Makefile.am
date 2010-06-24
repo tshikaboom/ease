@@ -46,6 +46,7 @@ ease_SOURCES = \
 	src/ease-text-actor.vala \
 	src/ease-text-element.vala \
 	src/ease-theme.vala \
+	src/ease-transformations.vala \
 	src/ease-transition-pane.vala \
 	src/ease-transitions.vala \
 	src/ease-undo-actions.vala \

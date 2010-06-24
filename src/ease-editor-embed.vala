@@ -52,7 +52,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	/**
 	 * The currently selected {@link Actor}.
 	 */
-	private Actor selected;
+	public Actor selected { get; private set; }
 	
 	/**
 	 * If the selected {@link Actor} is being edited.
@@ -605,6 +605,18 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		position_selection();
 		
 		return true;
+	}
+	
+	/**
+	 * Sets the color of the currently selected element, if applicable.
+	 *
+	 * If no element is selected, or the selected element does not have a
+	 * "color" property, this property is ignored.
+	 */
+	public void set_element_color(Clutter.Color color)
+	{
+		if (selected == null) return;	
+		if (!selected.element.set_color(color)) return;
 	}
 }
 

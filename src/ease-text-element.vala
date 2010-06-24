@@ -46,6 +46,26 @@ public class Ease.TextElement : Element
 	{
 		return new TextActor(this, c);
 	}
+	
+	/**
+	 * This method sets the color of this TextElement, then returns "true".
+	 *
+	 * @param c The color to set the element to.
+	 */
+	public override bool set_color(Clutter.Color c)
+	{
+		color = c;
+		return true;
+	}
+	
+	/**
+	 * This method returns the color of the TextElement.
+	 */
+	public override Clutter.Color? get_color()
+	{
+		return color;
+	}
+
 
 	protected override void write_html(ref string html, HTMLExporter exporter)
 	{
@@ -140,10 +160,8 @@ public class Ease.TextElement : Element
 	 */
 	public string font_name
 	{
-		set
-		{
-			data.set("font_name", value);
-		}
+		owned get { return data.get("font_name"); }
+		set { data.set("font_name", value); }
 	}
 	
 	/**
