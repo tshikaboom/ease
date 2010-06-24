@@ -126,28 +126,7 @@ public class Ease.Document : SlideSet
 		}
 	
 		// intialize the html string
-		var html = """<!DOCTYPE html>
-<html>
-<head>
-	<title>Presentation</title>
-	%s
-	<style>
-		.slide {
-			width: %ipx;
-			height: %ipx;
-			display: none;
-			overflow: hidden;
-			position: relative;
-			margin: 20px auto 20px auto;
-		}
-		html {
-			padding: 0px;
-			margin: 0px;
-			background-color: black;
-		}
-	</style>
-</head>
-<body onload=load()>""".printf(exporter.js, width, height);
+		var html = exporter.HEADER.printf(width, height);
 	
 		// substitute in the values
 		

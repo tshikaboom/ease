@@ -142,48 +142,71 @@ public class Ease.HTMLExporter : GLib.Object
 	}
 	
 	/**
-	 * JavaScript needed to run HTML presentations
+	 * HTML header for presentations.
 	 */
-	public static const string js =
-"""<script type="text/javascript">
-var slide = -1;
-
-function load() {
-	advance();
-}
-
-function keydown(e) {
-	var code = e.keyCode;
-	if (code == 32 || code == 39 || code == 13 || code == 40 || code == 39) {
-		advance();
-	}
+	public static const string HEADER =
+"""<!DOCTYPE html>
+<html>
+<head>
+	<title>Presentation</title>
 	
-	else if (code == 8 || code == 46 || code == 37 || code == 38) {
-		retreat();
-	}
-}
+	<script type="text/javascript">
+		var slide = -1;
 
-function advance() {
-	if (document.getElementById("slide" + (slide + 1)) != null) {
-		if (slide >= 0) {
-			document.getElementById("slide" + slide).style.display = "none";
+		function load() {
+			advance();
 		}
-		slide++;
-		document.getElementById("slide" + slide).style.display = "block";
-	}
-}
 
-function retreat() {
-	if (slide > 0) {
-		document.getElementById("slide" + slide).style.display = "none";
-		slide--;
-		document.getElementById("slide" + slide).style.display = "block";
-	}
-}
+		function keydown(e) {
+			var code = e.keyCode;
+			if (code == 32 || code == 39 || code == 13 || code == 40 || code == 39) {
+				advance();
+			}
+	
+			else if (code == 8 || code == 46 || code == 37 || code == 38) {
+				retreat();
+			}
+		}
 
-document.onkeydown = keydown;
+		function advance() {
+			if (document.getElementById("slide" + (slide + 1)) != null) {
+				if (slide >= 0) {
+					document.getElementById("slide" + slide).style.display = "none";
+				}
+				slide++;
+				document.getElementById("slide" + slide).style.display = "block";
+			}
+		}
 
-</script>""";
+		function retreat() {
+			if (slide > 0) {
+				document.getElementById("slide" + slide).style.display = "none";
+				slide--;
+				document.getElementById("slide" + slide).style.display = "block";
+			}
+		}
+
+		document.onkeydown = keydown;
+	</script>
+	
+	<style>
+		.slide {
+			width: %ipx;
+			height: %ipx;
+			display: none;
+			overflow: hidden;
+			position: relative;
+			margin: 20px auto 20px auto;
+		}
+		html {
+			padding: 0px;
+			margin: 0px;
+			background-color: black;
+		}
+	</style>
+</head>
+<body onload=load()>
+""";
 
 }
 
