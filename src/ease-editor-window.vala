@@ -357,11 +357,14 @@ public class Ease.EditorWindow : Gtk.Window
 	
 	private void show_color_dialog()
 	{
+		if (embed.selected == null) return;
 		if (color_dialog != null)
 		{
 			color_dialog.present();
 			return;
 		}
+		
+		var original_color = embed.selected.element.get_color();
 		
 		color_dialog = new Gtk.ColorSelectionDialog(_("Select Color"));
 		color_selection = color_dialog.color_selection as Gtk.ColorSelection;
@@ -376,6 +379,18 @@ public class Ease.EditorWindow : Gtk.Window
 			color_dialog.destroy();
 			color_dialog = null;
 		});
+		
+		(color_dialog.ok_button as Gtk.Button).clicked.connect(() => {
+			color_dialog.hide();
+		});
+		
+		(color_dialog.cancel_button as Gtk.Button).clicked.connect(() => {
+			embed.selected.element.set_color(original_color);
+			color_dialog.hide();
+		});
+		
+		color_dialog.set_transient_for(this);
+		color_dialog.modal = true;
 		
 		color_dialog.show_all();
 	}
