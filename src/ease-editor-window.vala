@@ -398,22 +398,30 @@ public class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	public void show_color_dialog(Gtk.Widget sender)
 	{
+		// if nothing is selected, don't display the dialog
 		if (embed.selected == null) return;
+		
+		// if the dialog is already displayed, don't create another
 		if (color_dialog != null)
 		{
 			color_dialog.present();
 			return;
 		}
 		
+		// store the original color in case the user cancels	
 		var original_color = embed.selected.element.get_color();
 		
+		// create the dialog
 		color_dialog = new Gtk.ColorSelectionDialog(_("Select Color"));
 		color_selection = color_dialog.color_selection as Gtk.ColorSelection;
 		
+		// update the color of the element
 		color_selection.color_changed.connect(color_dialog_changed);
 		
+		// update the color dialog if the element changes
 		embed.notify["selected"].connect(color_dialog_selection);
 		
+		// clean up when the dialog is hidden
 		color_dialog.hide.connect(() => {
 			embed.notify["selected"].disconnect(color_dialog_selection);
 			color_selection.color_changed.disconnect(color_dialog_changed);
@@ -421,19 +429,28 @@ public class Ease.EditorWindow : Gtk.Window
 			color_dialog = null;
 		});
 		
+		// hide the dialog when the ok button is clicked
 		(color_dialog.ok_button as Gtk.Button).clicked.connect(() => {
 			color_dialog.hide();
 		});
 		
+		// reset the original color and hide the dialog when cancel is clicked
 		(color_dialog.cancel_button as Gtk.Button).clicked.connect(() => {
 			embed.selected.element.set_color(original_color);
 			color_dialog.hide();
 		});
 		
+		// cancel when the dialog is closed
+		color_dialog.close.connect(() => {
+			color_dialog.cancel_button.activate();
+		});
+		
+		// make the dialog modal for the window
 		color_dialog.set_transient_for(this);
 		color_dialog.modal = true;
 		
-		color_dialog.show_all();
+		// run the dialog
+		color_dialog.run();
 	}
 	
 	private void color_dialog_changed(Gtk.ColorSelection sender)
