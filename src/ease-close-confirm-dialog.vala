@@ -15,10 +15,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A "do you save before closing" dialog.
+ */
 public class Ease.CloseConfirmDialog : Gtk.Dialog
 {
+	/**
+	 * Format string for the upper, main label on the dialog.
+	 */
 	private const string TOP_FORMAT = "<b><big>%s</big></b>";
 	
+	/**
+	 * Creates a CloseConfirmDialog.
+	 *
+	 * @param filename The filename (with no extra path components) of the
+	 * document.
+	 * @param seconds The number of seconds since the document was last saved
+	 * (or was created, if it has not been saved).
+	 */
 	public CloseConfirmDialog(string filename, int seconds)
 	{
 		title = _("Save before closing?");
@@ -67,6 +81,12 @@ public class Ease.CloseConfirmDialog : Gtk.Dialog
 		set_default_response(Gtk.ResponseType.YES);
 	}
 	
+	/**
+	 * Returns text for the bottom label.
+	 *
+	 * @param seconds The number of seconds since the document was last saved
+	 * (or was created, if it has not been saved).
+	 */
 	private static string bottom_label_text(int seconds)
 	{
 		seconds = int.max(1, seconds);
@@ -101,6 +121,12 @@ public class Ease.CloseConfirmDialog : Gtk.Dialog
 		return ngettext("If you don't save, changes from the last %i hour will be permanently lost.", "If you don't save, changes from the last %i hours will be permanently lost.", hours).printf(hours);
 	}
 	
+	/**
+	 * Returns text for the top label
+	 *
+	 * @param filename The filename (with no extra path components) of the
+	 * document.
+	 */
 	private static string top_label_text(string filename)
 	{
 		return (_("Save changes to \"%s\" before closing?")).printf(
