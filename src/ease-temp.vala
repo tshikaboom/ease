@@ -32,7 +32,9 @@ public static class Ease.Temp : Object
 	private static Gee.LinkedList<string> folders;
 	
 	private const int ARCHIVE_BUFFER = 4096;
-	private const string TEMP_DIR = "ease";
+	public const string TEMP_DIR = "ease";
+	public const string THEME_DIR = "themes";
+	public const string IMG_DIR = "svg";
 	
 	/**
 	 * Requests a temporary directory.

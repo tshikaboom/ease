@@ -35,8 +35,6 @@ public class Ease.WelcomeWindow : Gtk.Window
 	// themes
 	private Gee.ArrayList<Theme> themes = new Gee.ArrayList<Theme>();
 	private Theme selected_theme;
-	private const string EASE_DIR = "ease";
-	private const string THEME_DIR = "themes";
 
 	// clutter view
 	private ScrollableEmbed embed;
@@ -157,7 +155,9 @@ public class Ease.WelcomeWindow : Gtk.Window
 			string[] data_dirs = Environment.get_system_data_dirs();
 			foreach (string dir in data_dirs)
 			{
-				var filename = Path.build_filename(dir, EASE_DIR, THEME_DIR);
+				var filename = Path.build_filename(dir,
+				                                   Temp.TEMP_DIR,
+				                                   Temp.THEME_DIR);
 				var file = File.new_for_path(filename);
 				
 				if (file.query_exists(null))
