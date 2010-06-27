@@ -1,6 +1,7 @@
 # Spanish translation for ease.
 # Copyright (C) 2010 ease's COPYRIGHT HOLDER
 # This file is distributed under the same license as the ease package.
+# Kramer Garay <kramergaray@hotmail.com>, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2010.
 #
 msgid ""
@@ -8,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-05-29 07:26+0000\n"
-"PO-Revision-Date: 2010-05-29 11:07+0200\n"
+"POT-Creation-Date: 2010-06-24 20:39+0000\n"
+"PO-Revision-Date: 2010-06-27 11:26+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,281 +18,428 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../data/ease.desktop.in.h:1
-msgid "Create nice and elegant presentations"
+#: ../src/ease-about-dialog.vala:37
+msgid "A presentation application for the GNOME Desktop"
 msgstr ""
 
-#: ../data/ease.desktop.in.h:2
-msgid "Ease presentation editor"
+#: ../src/ease-about-dialog.vala:47
+msgid "Mario Blättermann"
 msgstr ""
 
-#: ../src/Document.vala:61
+#: ../src/ease-close-confirm-dialog.vala:38
+msgid "Save before closing?"
+msgstr ""
+
+#. buttons
+#: ../src/ease-close-confirm-dialog.vala:77
+msgid "Close _without Saving"
+msgstr ""
+
+#: ../src/ease-close-confirm-dialog.vala:96
 #, c-format
-msgid "No Document"
+msgid ""
+"If you don't save, changes from the last second will be permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last %i seconds will be permanently lost."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/ease-close-confirm-dialog.vala:100
+msgid ""
+"If you don't save, changes from the last minute will be permanently lost."
 msgstr ""
 
-#: ../src/Document.vala:67
+#: ../src/ease-close-confirm-dialog.vala:104
 #, c-format
-msgid "No root node"
-msgstr ""
+msgid ""
+"If you don't save, changes from the last minute and %i second will be "
+"permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last minute and %i seconds will be "
+"permanently lost."
+msgstr[0] ""
+msgstr[1] ""
 
-#: ../src/Document.vala:121
+#: ../src/ease-close-confirm-dialog.vala:108
 #, c-format
-msgid "Error saving: %s"
+msgid ""
+"If you don't save, changes from the last %i minute will be permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last %i minutes will be permanently lost."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/ease-close-confirm-dialog.vala:115
+msgid "If you don't save, changes from the last hour will be permanently lost."
 msgstr ""
 
-#: ../src/Document.vala:122
-msgid "Error Saving"
-msgstr ""
-
-#: ../src/Document.vala:287
+#: ../src/ease-close-confirm-dialog.vala:117
 #, c-format
-msgid "Error exporting: %s"
+msgid ""
+"If you don't save, changes from the last hour and %i minute will be "
+"permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last hour and %i minutes will be "
+"permanently lost."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/ease-close-confirm-dialog.vala:121
+#, c-format
+msgid ""
+"If you don't save, changes from the last %i hour will be permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last %i hours will be permanently lost."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/ease-close-confirm-dialog.vala:132
+#, c-format
+msgid "Save changes to \"%s\" before closing?"
 msgstr ""
 
-#: ../src/Document.vala:289
-msgid "Error Exporting"
-msgstr ""
+#: ../src/ease-document.vala:152
+#, fuzzy
+#| msgid "Exporting as HTML"
+msgid "Error exporting as HTML"
+msgstr "Exportando como HTML"
 
-#: ../src/EditorWindow.vala:212 ../src/OpenDialog.vala:49
-msgid "Open File"
-msgstr "Abrir archivo"
+#: ../src/ease-editor-window.vala:162
+#, fuzzy
+#| msgid "No Document"
+msgid "Untitled Document"
+msgstr "Sin documento"
+
+#: ../src/ease-editor-window.vala:321
+#, fuzzy
+#| msgid "No Document"
+msgid "Save Document"
+msgstr "Sin documento"
+
+#: ../src/ease-editor-window.vala:352
+#, fuzzy
+#| msgid "Error Saving"
+msgid "Error Saving Document"
+msgstr "Error al guardar"
+
+#: ../src/ease-editor-window.vala:369
+msgid "Select Color"
+msgstr ""
 
 #. TODO : use mnemonics
-#: ../src/EditorWindow.vala:237
+#: ../src/ease-editor-window.vala:427
 msgid "File"
 msgstr "Archivo"
 
-#: ../src/EditorWindow.vala:240
+#: ../src/ease-editor-window.vala:430
 msgid "New"
 msgstr "Nueva"
 
-#: ../src/EditorWindow.vala:242
+#: ../src/ease-editor-window.vala:432
 msgid "Presentation"
 msgstr "Presentación"
 
-#: ../src/EditorWindow.vala:244
+#: ../src/ease-editor-window.vala:434
 msgid "Theme"
 msgstr "Tema"
 
-#: ../src/EditorWindow.vala:245
+#: ../src/ease-editor-window.vala:435
 msgid "Quit"
 msgstr "Salir"
 
-#: ../src/EditorWindow.vala:253
+#: ../src/ease-editor-window.vala:443
 msgid "Open"
 msgstr "Abrir"
 
-#: ../src/Element.vala:155
-msgid "Your browser does not support the video tag"
+#: ../src/ease-editor-window.vala:458
+msgid "Help"
 msgstr ""
 
-#: ../src/HTMLExporter.vala:51
+#: ../src/ease-editor-window.vala:461
+msgid "About Ease"
+msgstr ""
+
+#: ../src/ease-html-exporter.vala:57
 msgid "Export to HTML"
 msgstr "Exportar a HTML"
 
-#: ../src/HTMLExporter.vala:69
+#: ../src/ease-html-exporter.vala:75
 msgid "Exporting as HTML"
-msgstr ""
+msgstr "Exportando como HTML"
 
-#: ../src/HTMLExporter.vala:137
-#, c-format
-msgid "Error copying: %s"
-msgstr ""
-
-#: ../src/HTMLExporter.vala:139
+#: ../src/ease-html-exporter.vala:140
 msgid "Error Copying File"
-msgstr ""
+msgstr "Error al copiar el archivo"
 
-#: ../src/ImageActor.vala:47
-#, c-format
-msgid "Error loading ImageActor: %s"
-msgstr ""
+#: ../src/ease-image-actor.vala:47
+#, fuzzy, c-format
+#| msgid "Error loading ImageActor: %s"
+msgid "Error loading ImageActor: %s\n"
+msgstr "Error al cargar ImageActor: %s"
 
-#. parse command line options
-#: ../src/Main.vala:57
-msgid " - a presentation editor"
-msgstr ""
+#: ../src/ease-open-dialog.vala:49
+msgid "Open File"
+msgstr "Abrir archivo"
 
-#: ../src/Main.vala:75
-#, c-format
-msgid "error parsing options: %s\n"
-msgstr ""
+#: ../src/ease-pdf-exporter.vala:33
+#, fuzzy
+#| msgid "Export to HTML"
+msgid "Export to PDF"
+msgstr "Exportar a HTML"
 
-#: ../src/SlideActor.vala:135
+#: ../src/ease-pdf-exporter.vala:73
+#, fuzzy
+#| msgid "Error Exporting"
+msgid "Error Exporting to PDF"
+msgstr "Error al exportar"
+
+#: ../src/ease-slide-actor.vala:265
 #, c-format
 msgid "Error loading background: %s"
-msgstr ""
+msgstr "Error al cargar en segundo plano: %s"
 
-#: ../src/SlidePane.vala:41 ../src/TransitionPane.vala:54
+#: ../src/ease-slide-pane.vala:38 ../src/ease-transition-pane.vala:65
 msgid "Effect"
 msgstr "Efecto"
 
-#: ../src/SlidePane.vala:52 ../src/TransitionPane.vala:70
+#: ../src/ease-slide-pane.vala:49 ../src/ease-transition-pane.vala:81
 msgid "Duration"
 msgstr "Duración"
 
-#: ../src/TransitionPane.vala:88
+#: ../src/ease-temp.vala:208
+#, c-format
+msgid "Directory to remove doesn't exist: %s"
+msgstr ""
+
+#. *
+#. * The text shown for unedited Elements.
+#.
+#: ../src/ease-text-actor.vala:28
+msgid "Double Click to Edit"
+msgstr ""
+
+#: ../src/ease-transition-pane.vala:95
 msgid "Direction"
 msgstr "Dirección"
 
-#: ../src/TransitionPane.vala:101
+#: ../src/ease-transition-pane.vala:108
 msgid "Start Transition"
-msgstr ""
+msgstr "Iniciar la transición"
 
-#: ../src/TransitionPane.vala:104
+#: ../src/ease-transition-pane.vala:111
 msgid "Manually"
 msgstr "Manualmente"
 
-#: ../src/TransitionPane.vala:105
+#: ../src/ease-transition-pane.vala:112
 msgid "Automatically"
-msgstr ""
+msgstr "Automáticamente"
 
-#: ../src/TransitionPane.vala:115
+#: ../src/ease-transition-pane.vala:122
 msgid "Delay"
 msgstr "Retardo"
 
-#: ../src/Transitions.vala:38 ../src/Transitions.vala:56
-msgid "Up"
-msgstr "Arriba"
-
-#: ../src/Transitions.vala:38 ../src/Transitions.vala:56
-msgid "Down"
-msgstr "Abajo"
-
-#: ../src/Transitions.vala:38 ../src/Transitions.vala:53
-msgid "Left"
-msgstr "Izquierda"
-
-#: ../src/Transitions.vala:38 ../src/Transitions.vala:53
-msgid "Right"
-msgstr "Derecha"
-
-#: ../src/Transitions.vala:40
+#: ../src/ease-transitions.vala:104
 msgid "None"
 msgstr "Ninguna"
 
-#: ../src/Transitions.vala:41
+#: ../src/ease-transitions.vala:106
 msgid "Fade"
 msgstr "Desvanecer"
 
-#: ../src/Transitions.vala:42
+#: ../src/ease-transitions.vala:108
 msgid "Slide"
-msgstr "Diapositivas"
+msgstr "Diapositiva"
 
-#: ../src/Transitions.vala:43
+#: ../src/ease-transitions.vala:110
 msgid "Drop"
 msgstr "Soltar"
 
-#: ../src/Transitions.vala:44
+#: ../src/ease-transitions.vala:112
 msgid "Pivot"
 msgstr ""
 
-#: ../src/Transitions.vala:44 ../src/Transitions.vala:51
-msgid "Top Left"
-msgstr ""
-
-#: ../src/Transitions.vala:44 ../src/Transitions.vala:51
-msgid "Top Right"
-msgstr ""
-
-#: ../src/Transitions.vala:44 ../src/Transitions.vala:51
-msgid "Bottom Left"
-msgstr ""
-
-#: ../src/Transitions.vala:44 ../src/Transitions.vala:51
-msgid "Bottom Right"
-msgstr ""
-
-#: ../src/Transitions.vala:45
+#: ../src/ease-transitions.vala:114
 msgid "Flip"
 msgstr "Voltear"
 
-#: ../src/Transitions.vala:45
-msgid "Top to Bottom"
-msgstr ""
-
-#: ../src/Transitions.vala:45
-msgid "Bottom to Top"
-msgstr ""
-
-#: ../src/Transitions.vala:45
-msgid "Left to Right"
-msgstr ""
-
-#: ../src/Transitions.vala:45
-msgid "Right to Left"
-msgstr ""
-
-#: ../src/Transitions.vala:46
+#: ../src/ease-transitions.vala:116
 msgid "Revolving Door"
 msgstr ""
 
-#: ../src/Transitions.vala:47
+#: ../src/ease-transitions.vala:118
 msgid "Reveal"
 msgstr "Mostrar"
 
-#: ../src/Transitions.vala:48
+#: ../src/ease-transitions.vala:120
 msgid "Fall"
 msgstr "Caída"
 
-#: ../src/Transitions.vala:49
+#: ../src/ease-transitions.vala:122
 msgid "Slats"
 msgstr ""
 
-#: ../src/Transitions.vala:50
+#: ../src/ease-transitions.vala:124
 msgid "Open Door"
 msgstr ""
 
-#: ../src/Transitions.vala:51
+#: ../src/ease-transitions.vala:126
 msgid "Zoom"
 msgstr "Ampliación"
 
-#: ../src/Transitions.vala:51
-msgid "Center"
-msgstr "Centrar"
-
-#: ../src/Transitions.vala:52
+#: ../src/ease-transitions.vala:128
 msgid "Panel"
 msgstr "Panel"
 
-#: ../src/Transitions.vala:53
+#: ../src/ease-transitions.vala:130
 msgid "Spin Contents"
 msgstr ""
 
-#: ../src/Transitions.vala:54
-msgid "Swing Contents"
-msgstr ""
-
-#: ../src/Transitions.vala:55
-msgid "Slide Contents"
-msgstr ""
-
-#: ../src/Transitions.vala:56
+#: ../src/ease-transitions.vala:132
 msgid "Spring Contents"
 msgstr ""
 
-#: ../src/Transitions.vala:57
+#: ../src/ease-transitions.vala:134
+msgid "Swing Contents"
+msgstr ""
+
+#: ../src/ease-transitions.vala:136
+msgid "Slide Contents"
+msgstr "Contenido de las diapositivas"
+
+#: ../src/ease-transitions.vala:138
 msgid "Zoom Contents"
+msgstr "Ampliar contenido"
+
+#: ../src/ease-transitions.vala:140 ../src/ease-transitions.vala:188
+msgid "Undefined"
 msgstr ""
 
-#: ../src/Transitions.vala:57
+#: ../src/ease-transitions.vala:154
+msgid "Up"
+msgstr "Arriba"
+
+#: ../src/ease-transitions.vala:156
+msgid "Down"
+msgstr "Abajo"
+
+#: ../src/ease-transitions.vala:158
+msgid "Left"
+msgstr "Izquierda"
+
+#: ../src/ease-transitions.vala:160
+msgid "Right"
+msgstr "Derecha"
+
+#: ../src/ease-transitions.vala:162
+#| msgid "Bottom Left"
+msgid "Bottom"
+msgstr "Abajo"
+
+#: ../src/ease-transitions.vala:164
+msgid "Top"
+msgstr ""
+
+#: ../src/ease-transitions.vala:166
+msgid "Center"
+msgstr "Centrar"
+
+#: ../src/ease-transitions.vala:168
+msgid "Top Left"
+msgstr "Arriba a la izquierda"
+
+#: ../src/ease-transitions.vala:170
+msgid "Top Right"
+msgstr "Arriba a la derecha"
+
+#: ../src/ease-transitions.vala:172
+msgid "Bottom Left"
+msgstr "Abajo a la izquierda"
+
+#: ../src/ease-transitions.vala:174
+msgid "Bottom Right"
+msgstr "Abajo a la derecha"
+
+#: ../src/ease-transitions.vala:176
+msgid "Top to Bottom"
+msgstr "De arriba a abajo"
+
+#: ../src/ease-transitions.vala:178
+msgid "Bottom to Top"
+msgstr "De abajo a arriba"
+
+#: ../src/ease-transitions.vala:180
+msgid "Left to Right"
+msgstr "De izquierda a derecha"
+
+#: ../src/ease-transitions.vala:182
+msgid "Right to Left"
+msgstr "De derecha a izquierda"
+
+#: ../src/ease-transitions.vala:184
 msgid "In"
-msgstr ""
+msgstr "Dentro"
 
-#: ../src/Transitions.vala:57
+#: ../src/ease-transitions.vala:186
 msgid "Out"
-msgstr ""
+msgstr "Fuera"
 
-#: ../src/WelcomeWindow.vala:76 ../src/WelcomeWindow.vala:109
+#: ../src/ease-video-element.vala:70
+msgid "Your browser does not support the video tag"
+msgstr "Su navegador no soporta la etiqueta de video"
+
+#: ../src/ease-welcome-window.vala:89 ../src/ease-welcome-window.vala:123
 msgid "New Presentation"
 msgstr "Presentación nueva"
 
-#: ../src/WelcomeWindow.vala:82
+#: ../src/ease-welcome-window.vala:95
 msgid "Custom"
 msgstr "Personalizada"
 
-#: ../src/WelcomeWindow.vala:85
+#: ../src/ease-welcome-window.vala:98
 #, c-format
 msgid "%i by %i"
+msgstr "%i por %i"
+
+#: ../src/ease-welcome-window.vala:295
+msgid "Error creating new document"
 msgstr ""
+
+#. parse command line options
+#: ../src/main.vala:60
+msgid " - a presentation editor"
+msgstr ": Un editor de presentaciones"
+
+#: ../src/main.vala:78
+#, c-format
+msgid "error parsing options: %s\n"
+msgstr "error al analizar las opciones: %s\n"
+
+#: ../src/main.vala:122
+#, fuzzy
+#| msgid "No Document"
+msgid "Error Playing Document"
+msgstr "Sin documento"
+
+#: ../src/main.vala:167
+#, fuzzy
+#| msgid "No Document"
+msgid "Error Opening Document"
+msgstr "Sin documento"
+
+#~ msgid "Create nice and elegant presentations"
+#~ msgstr "Crear presentaciones elegantes y bonitas"
+
+#~ msgid "Ease presentation editor"
+#~ msgstr "Editor de presentaciones Ease"
+
+#~ msgid "No root node"
+#~ msgstr "No hay nodo raíz"
+
+#~ msgid "Error saving: %s"
+#~ msgstr "Error al guardar: %s"
+
+#~ msgid "Error exporting: %s"
+#~ msgstr "Error al exportar: %s"
+
+#~ msgid "Error copying: %s"
+#~ msgstr "Error al copiar: %s"
