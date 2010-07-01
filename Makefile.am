@@ -30,7 +30,6 @@ ease_SOURCES = \
 	src/ease-inspector.vala \
 	src/ease-inspector-window.vala \
 	src/ease-json-parser.vala \
-	src/ease-main-toolbar.vala \
 	src/ease-media-element.vala \
 	src/ease-open-dialog.vala \
 	src/ease-pdf-exporter.vala \
@@ -80,6 +79,7 @@ VALAFLAGS = --pkg glib-2.0 \
 		--pkg clutter-gst-1.0\
 		--pkg json-glib-1.0\
 		--pkg libarchive\
+		--pkg gmodule-2.0\
 		-g \
 		$(NULL)
 

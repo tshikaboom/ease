@@ -9,3 +9,5 @@ svg_DATA = $(wildcard $(top_srcdir)/data/svg/*.svg)
 
 EXTRA_DIST = $(svg_DATA) $(desktop_in_files)
 
+uidir = $(datadir)/ease/ui
+ui_DATA = $(wildcard $(top_srcdir)/data/ui/*.ui)

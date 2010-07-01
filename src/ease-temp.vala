@@ -35,6 +35,7 @@ public static class Ease.Temp : Object
 	public const string TEMP_DIR = "ease";
 	public const string THEME_DIR = "themes";
 	public const string IMG_DIR = "svg";
+	public const string UI_DIR = "ui";
 	
 	/**
 	 * Requests a temporary directory.

@@ -31,11 +31,6 @@ public class Ease.EditorWindow : Gtk.Window
 	public EditorEmbed embed;
 	
 	/**
-	 * The {@link MainToolbar} of this EditorWindow.
-	 */
-	public MainToolbar main_toolbar;
-	
-	/**
 	 * The {@link SlideButtonPanel} of this EditorWindow.
 	 */
 	public SlideButtonPanel slide_button_panel;
@@ -72,9 +67,14 @@ public class Ease.EditorWindow : Gtk.Window
 	private UndoController undo;
 	
 	/**
-	 * If the {@link Inspector} is visible.
+	 * The undo button.
 	 */
-	public bool inspector_shown { get; set; }
+	private Gtk.ToolButton undo_button;
+	
+	/**
+	 * The redo button.
+	 */
+	private Gtk.ToolButton redo_button;
 	
 	/**
 	 * If the {@link SlideButtonPanel} is visible.
@@ -90,7 +90,6 @@ public class Ease.EditorWindow : Gtk.Window
 	 * The color selection dialog's widget.
 	 */
 	private Gtk.ColorSelection color_selection;
-	 
 	
 	/**
 	 * The time the document was last saved.
@@ -102,6 +101,8 @@ public class Ease.EditorWindow : Gtk.Window
 	 */
 	private int[] ZOOM_LEVELS = {10, 25, 33, 50, 66, 75, 100, 125, 150,
 	                             200, 250, 300, 400};
+	
+	private const string UI_FILE_PATH = "editor-window.ui";
 
 	/**
 	 * Creates a new EditorWindow.
@@ -119,41 +120,45 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		document = doc;
 		
+		var builder = new Gtk.Builder();
+		try
+		{
+			builder.add_from_file(data_path(Path.build_filename(Temp.TEMP_DIR,
+				                                                Temp.UI_DIR,
+				                                                UI_FILE_PATH)));
+		}
+		catch (Error e) { error("Error loading UI: %s", e.message); }
+		
+		builder.connect_signals(this);
+		add(builder.get_object("Editor Widget") as Gtk.VBox);
+				
 		// slide display
 		slide_button_panel = new SlideButtonPanel(document, this);
+		(builder.get_object("Slides Align") as Gtk.Alignment).
+			add(slide_button_panel);
 		
 		// undo controller
 		undo = new UndoController();
+		undo_button = builder.get_object("Undo") as Gtk.ToolButton;
+		redo_button = builder.get_object("Redo") as Gtk.ToolButton;
 		
 		// the inspector
 		inspector = new Inspector();
+		(builder.get_object("Inspector Align") as Gtk.Alignment).add(inspector);
 		
 		// main editor
 		embed = new EditorEmbed(document, this);
+		(builder.get_object("Embed Align") as Gtk.Alignment).add(embed);
 		
-		// assemble middle contents			
-		var hbox = new Gtk.HBox(false, 0);
-		hbox.pack_start(slide_button_panel, false, false, 0);
-		hbox.pack_start(embed, true, true, 0);
-		hbox.pack_start(inspector, false, false, 0);
-		
-		// assemble window contents
-		var vbox = new Gtk.VBox(false, 0);
-		vbox.pack_start(create_menu_bar(), false, false, 0);
-		main_toolbar = new MainToolbar();
-		vbox.pack_start(main_toolbar, false, false, 0);
-		vbox.pack_start(hbox, true, true, 0);
-		vbox.pack_end(create_bottom_bar(), false, false, 0);
+		// zoom slider
+		(builder.get_object("Zoom Slider Item") as Gtk.ToolItem).
+			add(create_zoom_slider());
 		
 		// final window setup
-		add(vbox);
 		show_all();
 		embed.show();
 		inspector.hide();
-		inspector_shown = false;
 		slides_shown = true;
-		
-		// USER INTERFACE SIGNALS
 		
 		// close the window
 		delete_event.connect((sender, event) => {
@@ -171,97 +176,7 @@ public class Ease.EditorWindow : Gtk.Window
 			if (response == Gtk.ResponseType.NO) return false;
 			
 			// otherwise, save and quit
-			return !save_document();
-		});
-		
-		// toolbar
-		
-		// create new slides
-		main_toolbar.new_slide.clicked.connect(() => {
-			var master = document.theme.slide_by_title(slide.title);
-			
-			var slide = new Slide.from_master(master, document,
-			                                  document.width,
-			                                  document.height, true);
-			
-			var index = document.index_of(slide) + 1;
-			
-			document.add_slide(index, slide);
-			slide_button_panel.add_slide(index, slide);
-		});
-		
-		// show and hide inspector
-		main_toolbar.inspector.clicked.connect(() => {
-			if (inspector_shown)
-			{
-				inspector.hide();
-			}
-			else
-			{
-				inspector.show();
-			}
-			inspector_shown = !inspector_shown;
-		});
-		
-		// show and hide slides
-		main_toolbar.slides.clicked.connect(() => {
-			if (slides_shown)
-			{
-				slide_button_panel.hide();
-			}
-			else
-			{
-				slide_button_panel.show();
-			}
-			slides_shown = !slides_shown;
-		});
-
-		// make a new presentation
-		main_toolbar.new_presentation.clicked.connect(Main.show_welcome);
-
-		// open a file
-		main_toolbar.open.clicked.connect(() => OpenDialog.run());
-		
-		// save file
-		main_toolbar.save.clicked.connect(() => {
-			save_document();
-		});
-		
-		// play presentation
-		main_toolbar.play.clicked.connect(() => {
-			player = new Player(document);
-		});
-		
-		// undo and redo
-		main_toolbar.undo.clicked.connect(() => {
-			undo.undo();
-			update_undo();
-			embed.slide_actor.relayout();
-			embed.reposition_group();
-		});
-		
-		main_toolbar.redo.clicked.connect(() => {
-			undo.redo();
-			update_undo();
-			embed.slide_actor.relayout();
-			embed.reposition_group();
-		});
-		
-		// TODO: export HTML in a proper place
-		main_toolbar.fonts.clicked.connect(() => {
-			document.export_to_html(this);
-		});
-		
-		// color selection
-		main_toolbar.colors.clicked.connect(show_color_dialog);
-		
-		main_toolbar.pdf.clicked.connect(() => {
-			PDFExporter.export(document, this);
-		});
-		
-		// change the embed's zoom when the zoom slider is moved
-		zoom_slider.value_changed.connect(() => {
-			embed.zoom = (float)zoom_slider.get_value() / 100f;
+			return !save_document(null);
 		});
 
 		hide.connect(() => Main.remove_window(this));
@@ -308,12 +223,52 @@ public class Ease.EditorWindow : Gtk.Window
 	 */
 	private void update_undo()
 	{
-		main_toolbar.undo.sensitive = undo.can_undo();
-		main_toolbar.redo.sensitive = undo.can_redo();
+		undo_button.sensitive = undo.can_undo();
+		redo_button.sensitive = undo.can_redo();
 	}
 	
 	// signal handlers
-	private bool save_document()
+	[CCode (instance_pos = -1)]
+	public void new_slide_handler(Gtk.Widget? sender)
+	{
+		var master = document.theme.slide_by_title(slide.title);
+		
+		var slide = new Slide.from_master(master, document,
+		                                  document.width,
+		                                  document.height, true);
+		
+		var index = document.index_of(slide) + 1;
+		
+		document.add_slide(index, slide);
+		slide_button_panel.add_slide(index, slide);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void play_handler(Gtk.Widget sender)
+	{
+		player = new Player(document);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void undo_handler(Gtk.Widget sender)
+	{
+		undo.undo();
+		update_undo();
+		embed.slide_actor.relayout();
+		embed.reposition_group();
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void redo_handler(Gtk.Widget sender)
+	{
+		undo.redo();
+		update_undo();
+		embed.slide_actor.relayout();
+		embed.reposition_group();
+	}
+	
+	[CCode (instance_pos = -1)]
+	public bool save_document(Gtk.Widget? sender)
 	{
 		if (document.filename == null)
 		{
@@ -355,7 +310,33 @@ public class Ease.EditorWindow : Gtk.Window
 		return true;
 	}
 	
-	private void show_color_dialog()
+	[CCode (instance_pos = -1)]
+	public void export_to_pdf(Gtk.Widget sender)
+	{
+		PDFExporter.export(document, this);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void inspector_clicked_handler(Gtk.Widget? sender)
+	{	
+		if (inspector.visible)
+		{
+			inspector.hide();
+		}
+		else
+		{
+			inspector.show();
+		}
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void export_to_html(Gtk.Widget sender)
+	{
+		document.export_to_html(this);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void show_color_dialog(Gtk.Widget sender)
 	{
 		if (embed.selected == null) return;
 		if (color_dialog != null)
@@ -410,72 +391,8 @@ public class Ease.EditorWindow : Gtk.Window
 			Transformations.clutter_color_to_gdk_color(color);
 	}
 	
-	// menu bar creation
-	private Gtk.MenuBar create_menu_bar()
+	private ZoomSlider create_zoom_slider()
 	{
-		var menubar = new Gtk.MenuBar();
-		
-		menubar.append(create_file_menu());
-		menubar.append(create_help_menu());
-		
-		return menubar;
-	}
-	
-	private Gtk.MenuItem create_file_menu()
-	{
-		/* TODO : use mnemonics */
-		var menu_item = new Gtk.MenuItem.with_label(_("File"));
-		var menu = new Gtk.Menu();
-		
-		var new_item = new Gtk.MenuItem.with_label(_("New"));
-		var new_menu = new Gtk.Menu();
-		var new_pres = new Gtk.MenuItem.with_label(_("Presentation"));
-		new_pres.activate.connect(Main.show_welcome);
-		var new_theme = new Gtk.MenuItem.with_label(_("Theme"));
-		var quit = new Gtk.MenuItem.with_label(_("Quit"));
-		quit.activate.connect(Gtk.main_quit);
-
-		new_menu.append(new_pres);
-		new_menu.append(new_theme);
-		new_item.set_submenu(new_menu);
-		menu.append(new_item);
-		
-		var open_item = new Gtk.MenuItem.with_label(_("Open"));
-		open_item.activate.connect(() => OpenDialog.run());
-		open_item.set_accel_path("<-Document>/File/Open");
-		Gtk.AccelMap.add_entry("<-Document>/File/Open",
-		                       Gdk.keyval_from_name("o"),
-		                       Gdk.ModifierType.CONTROL_MASK);
-		menu.append(open_item);
-		menu.append(quit);
-		menu_item.set_submenu(menu);
-		
-		return menu_item;
-	}
-	
-	private Gtk.MenuItem create_help_menu()
-	{
-		var menu_item = new Gtk.MenuItem.with_label(_("Help"));
-		var menu = new Gtk.Menu();
-		
-		var about = new Gtk.MenuItem.with_label(_("About Ease"));
-		about.activate.connect(() => {
-			var dialog = new AboutDialog();
-			dialog.run();
-			dialog.destroy();
-		});
-
-		menu.append(about);
-		
-		menu_item.set_submenu(menu);
-		
-		return menu_item;
-	}
-	
-	private Gtk.Alignment create_bottom_bar()
-	{
-		var hbox = new Gtk.HBox(false, 5);
-		
 		// create zoom slider
 		zoom_slider = new ZoomSlider(new Gtk.Adjustment(100, 10, 400, 10,
 		                                                50, 50), ZOOM_LEVELS);
@@ -483,15 +400,11 @@ public class Ease.EditorWindow : Gtk.Window
 		zoom_slider.value_pos = Gtk.PositionType.RIGHT;
 		zoom_slider.digits = 0;
 		
-		// put it all together
-		hbox.pack_start(zoom_slider, false, false, 0);
+		zoom_slider.value_changed.connect(() => {
+			embed.zoom = (float)zoom_slider.get_value() / 100f;
+		});
 		
-		var vbox = new Gtk.VBox(false, 0);
-		vbox.pack_start(hbox, true, true, 2);
-		
-		var align = new Gtk.Alignment(1, 1, 1, 1);
-		align.add(vbox);
-		return align;
+		return zoom_slider;
 	}
 }
 
