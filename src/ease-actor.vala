@@ -42,6 +42,26 @@ public abstract class Ease.Actor : Clutter.Group
 	 * If the Actor is a slide background.
 	 */
 	public bool is_background;
+	
+	/**
+	 * The rectangle surrounding the actor in the editor.
+	 */
+	private Clutter.Rectangle editor_rect;
+	
+	/**
+	 * The color of the surrounding rectangle in the editor.
+	 */
+	private const Clutter.Color RECT_COLOR = {0, 0, 0, 0};
+	
+	/**
+	 * The border color of the surrounding rectangle in the editor.
+	 */
+	private const Clutter.Color RECT_BORDER = {100, 100, 100, 255};
+	
+	/**
+	 * The widget of the surrounding rectangle in the editor.
+	 */
+	private const uint RECT_WIDTH = 1;
 
 	/**
 	 * Instantiate a new Actor
@@ -57,6 +77,17 @@ public abstract class Ease.Actor : Clutter.Group
 		element = e;
 		context = c;
 		is_background = false;
+		
+		// in the editor, draw a gray rectangle around the actor
+		if (c == ActorContext.EDITOR)
+		{
+			editor_rect = new Clutter.Rectangle.with_color(RECT_COLOR);
+			editor_rect.border_color = RECT_BORDER;
+			editor_rect.border_width = RECT_WIDTH;
+			editor_rect.width = e.width;
+			editor_rect.height = e.height;
+			add_actor(editor_rect);
+		}
 	}
 	
 	/**
@@ -72,6 +103,12 @@ public abstract class Ease.Actor : Clutter.Group
 		height = element.height;
 		contents.width = width;
 		contents.height = height;
+		
+		if (editor_rect != null)
+		{
+			editor_rect.width = width;
+			editor_rect.height = height;
+		}
 	}
 	
 	/**
@@ -126,7 +163,13 @@ public abstract class Ease.Actor : Clutter.Group
 		}
 		
 		element.width = width;
-		element.height = height;	
+		element.height = height;
+		
+		if (editor_rect != null)
+		{
+			editor_rect.width = width;
+			editor_rect.height = height;
+		}	
 	}
 	
 	/**
