@@ -18,7 +18,7 @@
 /**
  * A window for editing an Ease {@link Document}
  *
- * An EditorWindow contains several widgets: a {@link MainToolbar}, an
+ * An EditorWindow contains several widgets: a toolbar, an
  * {@link EditorEmbed}, a {@link SlideButtonPanel}, and assorted other
  * controls. The window is linked to a {@link Document}, and all changes
  * are made directly to that object.
@@ -107,7 +107,7 @@ public class Ease.EditorWindow : Gtk.Window
 	/**
 	 * Creates a new EditorWindow.
 	 * 
-	 * An EditorWindow includes a {@link MainToolbar}, an
+	 * An EditorWindow includes a toolbar, an
 	 * {@link EditorEmbed}, a {@link SlidePane}, a menu bar, and other
 	 * interface elements.
 	 *
