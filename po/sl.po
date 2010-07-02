@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=ease&component=general\n"
-"POT-Creation-Date: 2010-05-23 22:46+0000\n"
-"PO-Revision-Date: 2010-06-22 19:43+0100\n"
-"Last-Translator: Peter Kragelj <peter.kragelj@gmail.com>\n"
+"POT-Creation-Date: 2010-06-27 09:28+0000\n"
+"PO-Revision-Date: 2010-07-02 14:07+0100\n"
+"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,16 +28,16 @@ msgstr "Program predstavitev za GNOME namizje"
 msgid "Mario Blättermann"
 msgstr "Mario Blättermann"
 
-#: ../src/ease-close-confirm-dialog.vala:24
+#: ../src/ease-close-confirm-dialog.vala:38
 msgid "Save before closing?"
 msgstr "Ali naj se shranijo spremembe pred zapiranjem?"
 
 #. buttons
-#: ../src/ease-close-confirm-dialog.vala:63
+#: ../src/ease-close-confirm-dialog.vala:77
 msgid "Close _without Saving"
 msgstr "Zapri _brez shranjevanja"
 
-#: ../src/ease-close-confirm-dialog.vala:76
+#: ../src/ease-close-confirm-dialog.vala:96
 #, c-format
 msgid "If you don't save, changes from the last second will be permanently lost."
 msgid_plural "If you don't save, changes from the last %i seconds will be permanently lost."
@@ -46,11 +46,11 @@ msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje %i sekunde trajno izgubl
 msgstr[2] "V kolikor ne shranite, bodo spremembe zadnjih %i sekund trajno izgubljene."
 msgstr[3] "V kolikor ne shranite, bodo spremembe zadnjih %i sekund trajno izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:80
+#: ../src/ease-close-confirm-dialog.vala:100
 msgid "If you don't save, changes from the last minute will be permanently lost."
 msgstr "V kolikor ne shranite, bodo spremembe zadnje minute trajno izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:84
+#: ../src/ease-close-confirm-dialog.vala:104
 #, c-format
 msgid "If you don't save, changes from the last minute and %i second will be permanently lost."
 msgid_plural "If you don't save, changes from the last minute and %i seconds will be permanently lost."
@@ -59,7 +59,7 @@ msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje minute in %i sekunde tra
 msgstr[2] "V kolikor ne shranite, bodo spremembe zadnje minute in %i sekund trajno izgubljene."
 msgstr[3] "V kolikor ne shranite, bodo spremembe zadnje minute in %i sekund trajno izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:88
+#: ../src/ease-close-confirm-dialog.vala:108
 #, c-format
 msgid "If you don't save, changes from the last %i minute will be permanently lost."
 msgid_plural "If you don't save, changes from the last %i minutes will be permanently lost."
@@ -68,11 +68,11 @@ msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje %i minute trajno izgublj
 msgstr[2] "V kolikor ne shranite, bodo spremembe zadnjih %i minut trajno izgubljene."
 msgstr[3] "V kolikor ne shranite, bodo spremembe zadnjih %i minut trajno izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:95
+#: ../src/ease-close-confirm-dialog.vala:115
 msgid "If you don't save, changes from the last hour will be permanently lost."
 msgstr "V kolikor ne shranite, bodo spremembe zadnje ure trajno izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:97
+#: ../src/ease-close-confirm-dialog.vala:117
 #, c-format
 msgid "If you don't save, changes from the last hour and %i minute will be permanently lost."
 msgid_plural "If you don't save, changes from the last hour and %i minutes will be permanently lost."
@@ -81,7 +81,7 @@ msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje ure in %i minute trajno 
 msgstr[2] "V kolikor ne shranite, bodo spremembe zadnje ure in %i minut trajno izgubljene."
 msgstr[3] "V kolikor ne shranite, bodo spremembe zadnje ure in %i minut trajno izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:101
+#: ../src/ease-close-confirm-dialog.vala:121
 #, c-format
 msgid "If you don't save, changes from the last %i hour will be permanently lost."
 msgid_plural "If you don't save, changes from the last %i hours will be permanently lost."
@@ -90,57 +90,61 @@ msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje %i minute trajno izgublj
 msgstr[2] "V kolikor ne shranite, bodo spremembe zadnjih %i minut trajno izgubljene."
 msgstr[3] "V kolikor ne shranite, bodo spremembe zadnjih %i minut trajno izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:106
+#: ../src/ease-close-confirm-dialog.vala:132
 #, c-format
 msgid "Save changes to \"%s\" before closing?"
 msgstr "Ali naj se shranijo spremembe \"%s\" pred zapiranjem?"
 
-#: ../src/ease-document.vala:173
+#: ../src/ease-document.vala:152
 msgid "Error exporting as HTML"
 msgstr "Napaka  med izvozom v HTML"
 
-#: ../src/ease-editor-window.vala:151
+#: ../src/ease-editor-window.vala:162
 msgid "Untitled Document"
 msgstr "Neimenovan dokument"
 
-#: ../src/ease-editor-window.vala:307
+#: ../src/ease-editor-window.vala:321
 msgid "Save Document"
 msgstr "Shrani dokument"
 
-#: ../src/ease-editor-window.vala:338
+#: ../src/ease-editor-window.vala:352
 msgid "Error Saving Document"
 msgstr "Napaka med shranjevanjem dokumenta"
 
+#: ../src/ease-editor-window.vala:369
+msgid "Select Color"
+msgstr "Izbor barve"
+
 #. TODO : use mnemonics
-#: ../src/ease-editor-window.vala:358
+#: ../src/ease-editor-window.vala:427
 msgid "File"
 msgstr "Datoteka"
 
-#: ../src/ease-editor-window.vala:361
+#: ../src/ease-editor-window.vala:430
 msgid "New"
 msgstr "Novo"
 
-#: ../src/ease-editor-window.vala:363
+#: ../src/ease-editor-window.vala:432
 msgid "Presentation"
 msgstr "Predstavitev"
 
-#: ../src/ease-editor-window.vala:365
+#: ../src/ease-editor-window.vala:434
 msgid "Theme"
 msgstr "Tema"
 
-#: ../src/ease-editor-window.vala:366
+#: ../src/ease-editor-window.vala:435
 msgid "Quit"
 msgstr "Zapri"
 
-#: ../src/ease-editor-window.vala:374
+#: ../src/ease-editor-window.vala:443
 msgid "Open"
 msgstr "Odpri"
 
-#: ../src/ease-editor-window.vala:389
+#: ../src/ease-editor-window.vala:458
 msgid "Help"
 msgstr "Pomoč"
 
-#: ../src/ease-editor-window.vala:392
+#: ../src/ease-editor-window.vala:461
 msgid "About Ease"
 msgstr "O Ease"
 
@@ -188,7 +192,7 @@ msgstr "Učinek"
 msgid "Duration"
 msgstr "Trajanje"
 
-#: ../src/ease-temp.vala:202
+#: ../src/ease-temp.vala:208
 #, c-format
 msgid "Directory to remove doesn't exist: %s"
 msgstr "Mapa z odstranjevanje ne obstaja: %s"
@@ -369,16 +373,16 @@ msgstr "Iz"
 msgid "Your browser does not support the video tag"
 msgstr "Brskalnik ne podpira video oznake"
 
-#: ../src/ease-welcome-window.vala:91
-#: ../src/ease-welcome-window.vala:125
+#: ../src/ease-welcome-window.vala:89
+#: ../src/ease-welcome-window.vala:123
 msgid "New Presentation"
 msgstr "Nova predstavitev"
 
-#: ../src/ease-welcome-window.vala:97
+#: ../src/ease-welcome-window.vala:95
 msgid "Custom"
 msgstr "Po meri"
 
-#: ../src/ease-welcome-window.vala:100
+#: ../src/ease-welcome-window.vala:98
 #, c-format
 msgid "%i by %i"
 msgstr "%i z %i"
