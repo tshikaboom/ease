@@ -286,6 +286,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 				h.button_press_event.disconnect(handle_clicked);
 				h.button_release_event.disconnect(handle_released);
 			}
+			handles = null;
 		}
 		
 		// create a new SlideActor

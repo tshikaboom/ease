@@ -53,7 +53,9 @@ public class Ease.Handle : Clutter.Texture
 		position = pos;
 
 		// load the handle texture
-		filename = data_path(W_PATH);
+		filename = data_path(Path.build_filename(Temp.TEMP_DIR,
+		                                         Temp.IMG_DIR,
+		                                         W_PATH));
 
 		// set the handle's anchor
 		set_anchor_point(width / 2, height / 2);
