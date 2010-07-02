@@ -268,6 +268,18 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
+	public void zoom_in(Gtk.Widget sender)
+	{
+		zoom_slider.zoom_in();
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void zoom_out(Gtk.Widget sender)
+	{
+		zoom_slider.zoom_out();
+	}
+	
+	[CCode (instance_pos = -1)]
 	public bool save_document(Gtk.Widget? sender)
 	{
 		if (document.filename == null)

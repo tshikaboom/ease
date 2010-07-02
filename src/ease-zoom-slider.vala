@@ -24,8 +24,8 @@
 public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 {
 	private Gtk.HScale zoom_slider;
-	private Gtk.Button zoom_in;
-	private Gtk.Button zoom_out;
+	private Gtk.Button zoom_in_button;
+	private Gtk.Button zoom_out_button;
 	private int[] values;
 	
 	private Clutter.Animation zoom_anim;
@@ -75,8 +75,8 @@ public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 			if (value == buttons_shown_priv) return;
 			
 			buttons_shown_priv = value;
-			zoom_in.visible = value;
-			zoom_out.visible = value;
+			zoom_in_button.visible = value;
+			zoom_out_button.visible = value;
 		}
 	}
 	
@@ -100,18 +100,20 @@ public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 		zoom_slider.digits = 0;
 		
 		// zoom in button
-		zoom_in = new Gtk.Button();
-		zoom_in.add(new Gtk.Image.from_stock("gtk-zoom-in", Gtk.IconSize.MENU));
-		zoom_in.relief = Gtk.ReliefStyle.NONE;
+		zoom_in_button = new Gtk.Button();
+		zoom_in_button.add(new Gtk.Image.from_stock("gtk-zoom-in",
+		                                            Gtk.IconSize.MENU));
+		zoom_in_button.relief = Gtk.ReliefStyle.NONE;
 		
 		// zoom out button
-		zoom_out = new Gtk.Button();
-		zoom_out.add(new Gtk.Image.from_stock("gtk-zoom-out", Gtk.IconSize.MENU));
-		zoom_out.relief = Gtk.ReliefStyle.NONE;
+		zoom_out_button = new Gtk.Button();
+		zoom_out_button.add(new Gtk.Image.from_stock("gtk-zoom-out",
+		                                             Gtk.IconSize.MENU));
+		zoom_out_button.relief = Gtk.ReliefStyle.NONE;
 		
 		// put it all together
 		var align = new Gtk.Alignment(0, 0.5f, 1, 0);
-		align.add(zoom_out);
+		align.add(zoom_out_button);
 		hbox.pack_start(align, false, false, 0);
 		
 		align = new Gtk.Alignment(0, 0.5f, 1, 0);
@@ -119,7 +121,7 @@ public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 		hbox.pack_start(align, false, false, 0);
 		
 		align = new Gtk.Alignment(0, 0.5f, 1, 0);
-		align.add(zoom_in);
+		align.add(zoom_in_button);
 		hbox.pack_start(align, false, false, 0);
 		
 		set(1, 1, 1, 1);
@@ -127,30 +129,12 @@ public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 		
 		zoom_slider.value_changed.connect(() => value_changed());
 		
-		zoom_in.clicked.connect(() => {
-			for (var i = 0; i < values.length; i++)
-			{
-				if (zoom_slider.get_value() < values[i])
-				{
-					animate_zoom(values[i]);
-					break;
-				}
-			}
-		});
+		zoom_in_button.clicked.connect(() => zoom_in());
 		
-		zoom_out.clicked.connect(() => {
-			for (var i = values.length - 1; i > -1; i--)
-			{
-				if (zoom_slider.get_value() > values[i])
-				{
-					animate_zoom(values[i]);
-					break;
-				}
-			}
-		});
+		zoom_out_button.clicked.connect(() => zoom_out());
 		
-		zoom_in.show.connect(buttons_show_handler);
-		zoom_out.show.connect(buttons_show_handler);
+		zoom_in_button.show.connect(buttons_show_handler);
+		zoom_out_button.show.connect(buttons_show_handler);
 		
 		zoom_slider.format_value.connect(val => {
 			return "%i%%".printf((int)val);
@@ -170,6 +154,29 @@ public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 		return zoom_slider.get_value();
 	}
 	
+	public void zoom_out()
+	{
+		for (var i = values.length - 1; i > -1; i--)
+		{
+			if (zoom_slider.get_value() > values[i])
+			{
+				animate_zoom(values[i]);
+				break;
+			}
+		}
+	}
+	
+	public void zoom_in()
+	{
+		for (var i = 0; i < values.length; i++)
+		{
+			if (zoom_slider.get_value() < values[i])
+			{
+				animate_zoom(values[i]);
+				break;
+			}
+		}
+	}
 	
 	private void animate_zoom(double value)
 	{
