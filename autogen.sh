@@ -7,7 +7,7 @@ test -z "$srcdir" && srcdir=.
 PKG_NAME="ease"
 REQUIRED_AUTOMAKE_VERSION=1.11
 
-(test -f $srcdir/src/main.vala) || {
+(test -f $srcdir/libease/ease-main.vala) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
     echo " top-level $PKG_NAME directory"
     exit 1
