@@ -57,14 +57,6 @@ ease_SOURCES = \
 	src/ease-welcome-window.vala \
 	src/ease-zoom-slider.vala \
 	src/main.vala \
-	src/source-base-group.vala \
-	src/source-base-view.vala \
-	src/source-expandable-group.vala \
-	src/source-group.vala \
-	src/source-item.vala \
-	src/source-list.vala \
-	src/source-pane-view.vala \
-	src/source-view.vala \
 	$(NULL)
 
 # ease_VALAFLAGS = $(EASE_PACKAGES)
