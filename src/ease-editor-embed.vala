@@ -362,6 +362,14 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	}
 	
 	/**
+	 * Recreates the current SlideActor.
+	 */
+	public void recreate_slide()
+	{
+		set_slide(slide_actor.slide);
+	}
+	
+	/**
 	 * Signal handler for clicking on {@link Actor}s.
 	 * 
 	 * This handler is attached to the button_press_event of all

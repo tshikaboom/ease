@@ -171,10 +171,11 @@
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">_Image</property>
                     <property name="use_underline">True</property>
+                    <signal name="activate" handler="ease_editor_window_insert_image"/>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkMenuItem" id="menuitem3">
+                  <object class="GtkMenuItem" id="Insert Video">
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">_Video</property>
                     <property name="use_underline">True</property>
@@ -189,6 +190,7 @@
             <property name="visible">True</property>
             <property name="label" translatable="yes">_View</property>
             <property name="use_underline">True</property>
+            <signal name="activate" handler="ease_editor_window_insert_video"/>
             <child type="submenu">
               <object class="GtkMenu" id="menu3">
                 <property name="visible">True</property>

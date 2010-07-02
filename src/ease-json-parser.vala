@@ -20,8 +20,8 @@
  */
 public static class Ease.JSONParser
 {
-	private const string VIDEO_TYPE = "EaseVideoElement";
-	private const string IMAGE_TYPE = "EaseImageElement";
+	public const string VIDEO_TYPE = "EaseVideoElement";
+	public const string IMAGE_TYPE = "EaseImageElement";
 
 	/**
 	 * Parses a document JSON file, creating a {@link Document}.

@@ -112,5 +112,24 @@ public abstract class Ease.SlideSet : Object
 		// TODO: non-system implementation of recursive copy
 		Posix.system("cp -r %s %s".printf(origin_path, target_path));
 	}
+	
+	/**
+	 * Copies a media file to the temporary directory.
+	 *
+	 * Returns the path to the new file, as it should be stored in the
+	 * document when saved.
+	 *
+	 * @param file The path to the file that will be copied.
+	 */
+	public string add_media_file(string file) throws GLib.Error
+	{
+		var orig = File.new_for_path(file);
+		var dest = File.new_for_path(Path.build_filename(path,
+		                                                 MEDIA_PATH,
+		                                                 orig.get_basename()));
+		orig.copy(dest, 0, null, null);
+		
+		return Path.build_filename(MEDIA_PATH, orig.get_basename());
+	}
 }
 

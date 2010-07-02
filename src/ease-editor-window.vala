@@ -268,6 +268,54 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
+	public void insert_image(Gtk.Widget sender)
+	{
+		var dialog = new Gtk.FileChooserDialog(_("Insert Image"),
+		                                       null,
+		                                       Gtk.FileChooserAction.OPEN,
+		                                       "gtk-cancel",
+		                                       Gtk.ResponseType.CANCEL,
+		                                       "gtk-open",
+		                                       Gtk.ResponseType.ACCEPT);
+
+		if (dialog.run() == Gtk.ResponseType.ACCEPT)
+		{
+			try
+			{
+				var img = new Clutter.Texture.from_file(dialog.get_filename());
+				var e = new ImageElement();
+				
+				// set the size and position of the element
+				int width = 0, height = 0;
+				img.get_base_size(out width, out height);
+				
+				e.width = width;
+				e.height = height;
+				e.x = document.width / 2 - width / 2;
+				e.y = document.height / 2 - width / 2;
+				
+				e.element_type = JSONParser.IMAGE_TYPE;
+				e.filename = document.add_media_file(dialog.get_filename());
+				
+				// add the element
+				slide.add_element(0, e);
+				embed.recreate_slide();
+			}
+			catch (Error e)
+			{
+				error_dialog(_("Error Inserting Image"), e.message);
+			}
+		}
+		dialog.destroy();
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void insert_video(Gtk.Widget sender)
+	{
+		
+	}
+	
+	[CCode (instance_pos = -1)]
 	public void zoom_in(Gtk.Widget sender)
 	{
 		zoom_slider.zoom_in();
