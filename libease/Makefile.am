@@ -78,33 +78,8 @@ libease_0_1_la_VALAFLAGS = \
 	-g \
 	$(NULL)
 
-libease_0_1_la_CFLAGS = `pkg-config --cflags \
-	glib-2.0 \
-	gtk+-2.0 \
-	clutter-1.0 \
-	gdk-2.0 \
-	gee-1.0 \
-	clutter-gtk-0.10 \
-	cogl-1.0 \
-	gio-2.0 \
-	clutter-gst-1.0 \
-	json-glib-1.0 \
-	libarchive \
-	gmodule-2.0 `
-	
-libease_0_1_la_LDFLAGS = `pkgconfig --libs \
-	glib-2.0 \
-	gtk+-2.0 \
-	clutter-1.0 \
-	gdk-2.0 \
-	gee-1.0 \
-	clutter-gtk-0.10 \
-	cogl-1.0 \
-	gio-2.0 \
-	clutter-gst-1.0 \
-	json-glib-1.0 \
-	libarchive \
-	gmodule-2.0 `
+libease_0_1_la_CFLAGS = $(EASE_CFLAGS)
+libease_0_1_la_LDFLAGS = $(EASE_LDFLAGS)
 
 # header installation
 libease_includedir=$(includedir)/ease-0.1/

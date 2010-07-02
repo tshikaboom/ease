@@ -11,30 +11,5 @@ ease_LDADD = \
 	$(EASE_LIBS) \
 	$(NULL)
 	
-ease_CFLAGS = `pkg-config --cflags \
-	glib-2.0 \
-	gtk+-2.0 \
-	clutter-1.0 \
-	gdk-2.0 \
-	gee-1.0 \
-	clutter-gtk-0.10 \
-	cogl-1.0 \
-	gio-2.0 \
-	clutter-gst-1.0 \
-	json-glib-1.0 \
-	libarchive \
-	gmodule-2.0 `
-	
-ease_LDFLAGS = `pkgconfig --libs \
-	glib-2.0 \
-	gtk+-2.0 \
-	clutter-1.0 \
-	gdk-2.0 \
-	gee-1.0 \
-	clutter-gtk-0.10 \
-	cogl-1.0 \
-	gio-2.0 \
-	clutter-gst-1.0 \
-	json-glib-1.0 \
-	libarchive \
-	gmodule-2.0 `
+ease_CFLAGS = $(EASE_CFLAGS)
+ease_LDFLAGS = $(EASE_LDFLAGS)
