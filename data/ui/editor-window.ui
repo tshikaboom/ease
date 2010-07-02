@@ -461,6 +461,7 @@
         <child>
           <object class="GtkAlignment" id="Inspector Align">
             <property name="visible">True</property>
+            <property name="left_padding">4</property>
             <child>
               <placeholder/>
             </child>
