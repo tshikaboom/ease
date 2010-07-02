@@ -332,29 +332,15 @@ public class Ease.EditorWindow : Gtk.Window
 	{
 		if (document.filename == null)
 		{
-			var dialog =
-				new Gtk.FileChooserDialog(_("Save Document"),
-	        	                          null,
-	        	                          Gtk.FileChooserAction.SAVE,
-	        	                          "gtk-cancel",
-	        	                          Gtk.ResponseType.CANCEL,
-	        	                          "gtk-save",
-	        	                          Gtk.ResponseType.ACCEPT, null);
-	        
-	        var filter = new Gtk.FileFilter();
-			filter.add_pattern("*.ease");
-			dialog.filter = filter;
-
-			if (dialog.run() == Gtk.ResponseType.ACCEPT)
+			var filename = save_document_dialog(_("Save Document"));
+			if (filename == null)
 			{
-				document.filename = dialog.get_filename();
+				return false;
 			}
 			else
 			{
-				dialog.destroy();
-				return false;
+				document.filename = filename;
 			}
-			dialog.destroy();
 		}
 	
 		try
@@ -368,6 +354,82 @@ public class Ease.EditorWindow : Gtk.Window
 			return false;
 		}
 		return true;
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void save_document_as(Gtk.Widget sender)
+	{
+		// save the old filename in case of error
+		var old = document.filename;
+		
+		// request a new filename
+		var filename = save_document_dialog(_("Save Document As"));
+		if (filename == null) return;
+		
+		// set the new filename
+		document.filename = filename;
+		
+		// save the document
+		try
+		{
+			JSONParser.document_write(document);
+			last_saved = 0;
+		}
+		catch (GLib.Error e)
+		{
+			filename = old;
+			error_dialog(_("Error Saving Document"), e.message);
+			return;
+		}
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void save_document_copy(Gtk.Widget sender)
+	{
+		var old = document.filename;
+		
+		// request a new filename
+		var filename = save_document_dialog(_("Save a Copy"));
+		if (filename == null) return;
+		
+		// save the document
+		try
+		{
+			JSONParser.document_write(document);
+			last_saved = 0;
+		}
+		catch (GLib.Error e)
+		{
+			error_dialog(_("Error Saving Copy"), e.message);
+		}
+		
+		// restore the old filename
+		document.filename = old;
+	}
+	
+	private string? save_document_dialog(string title)
+	{
+		var dialog = new Gtk.FileChooserDialog(title,
+	        	                               null,
+	        	                               Gtk.FileChooserAction.SAVE,
+	        	                               "gtk-cancel",
+		                                       Gtk.ResponseType.CANCEL,
+		                                       "gtk-save",
+		                                       Gtk.ResponseType.ACCEPT, null);
+	        
+        var filter = new Gtk.FileFilter();
+		filter.add_pattern("*.ease");
+		dialog.filter = filter;
+
+		if (dialog.run() == Gtk.ResponseType.ACCEPT)
+		{
+			var filename = dialog.get_filename();
+			dialog.destroy();
+			return filename;
+		}
+		
+		dialog.destroy();
+		return null;
 	}
 	
 	[CCode (instance_pos = -1)]
