@@ -5,7 +5,7 @@ using Gtk;
 
 /*
   TODO :
-  - escaping the description tags
+  - escaping the description tags (or show the markup maybe?)
   - wrapping the long fields (emo-descriptions)
   - asyncing
   - getting licence and author's realname based on the IDs we get right now
@@ -90,11 +90,34 @@ public class FlickrFetcher {
 		}
 
 		string answer = call.get_payload ();
-		assert (answer != null);
+		if (answer == null) {
+			var err = new Gtk.InfoBar ();
+			var label = new Gtk.Label ("Unable to retrieve pictures. Make sure you're connected to the Internet.");
+			err.add (label);
+			err.add_buttons ("gtk-quit", 0,
+							 "gtk-refresh", 1, null);
+			err.response.connect ( (dialog, response) => 
+				{
+					if (response != 0) {
+						debug ("Should launch Flickr again.");
+					} else {
+						this.dialog.destroy ();
+						return;
+					}
+				});
+			  
+			err.show_all ();
+			vbox.pack_start (err);
+			vbox.reorder_child (err, 1);
+		}
 		return answer;
 	}
 
 	private void parse_flickr_photos (string jsondata) {
+
+		if (jsondata == null) {
+			return;
+		}
 
 		try {
 			parser.load_from_data (jsondata);
@@ -197,10 +220,16 @@ public class FlickrFetcher {
 				   4, out author,
 				   5, out license, -1);
 
-		string informations = Markup.printf_escaped ("<b>Title : </b>%s\n" +
-													 "<b>Description : </b>%s\n" +
-													 "<b>Author : </b>: %s",
-													 title, description, author);
+		string informations = ("<b>Title : </b>%s\n" + title + "\n" +
+							   "<b>Description : </b>" + description + "\n" +
+							   "<b>Author : </b>" + author);
+		/* FIXME : We have to write the markup cause some authors put some useful
+		   links in their description (official webpage and such), and I don't 
+		   think there's any security issue with that. Still, we have a problem when
+		   Pango fails at parsing markup, like the "rel" attribute. We should either 
+		   handle that error and show without markup then, or find a way to parse the
+		   rel attribute, which is do-able only if we parse ourselves. And I'm way too
+		   lazy to do it. */
 		infos.set_markup (informations);
 	}
 
