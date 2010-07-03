@@ -247,7 +247,7 @@ public class Ease.Slide : GLib.Object
 			html += ">";
 			
 			// add the background image
-			html += "<img src=\"" + exporter.path + " " + background_image +
+			html += "<img src=\"" + exporter.basename + " " + background_image +
 			        "\" alt=\"Background\" width=\"" +
 			        parent.width.to_string() + "\" height=\"" +
 			        parent.height.to_string() + "\"/>";
