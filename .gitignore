@@ -13,6 +13,10 @@ ease
 *.h
 *.o
 src/*.c
+libease/*.c
+libease/*.vapi
+*.lo
+.libs
 
 *.ogv
 doc
@@ -52,3 +56,7 @@ intltool-*.in
 aclocal.m4
 # don't version it to get always latest in tarball
 INSTALL
+
+*.pc
+*.la
+*.stamp
