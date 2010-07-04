@@ -27,7 +27,7 @@ theme_DATA = $(wildcard $(top_srcdir)/themes/*.easetheme)
 
 doc: libease/*.vala
 	rm -rf doc
-	valadoc --internal --private --pkg "json-glib-1.0" --pkg "gee-1.0"  --pkg "clutter-gtk-0.10" --pkg "clutter-gst-1.0" --pkg "libarchive" --directory=./doc --basedir=src ./libease/*.vala
+	valadoc --internal --private $(EASE_PACKAGES) --directory=./doc --basedir=src ./libease/*.vala
 	gnome-open doc/doc/Ease.html
 
 archive: themes/* examples/*

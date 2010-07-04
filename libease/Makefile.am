@@ -60,18 +60,7 @@ libease_0_1_la_SOURCES = \
 
 # compiler flags
 libease_0_1_la_VALAFLAGS = \
-	--pkg glib-2.0 \
-	--pkg gtk+-2.0 \
-	--pkg clutter-1.0 \
-	--pkg gdk-2.0 \
-	--pkg gee-1.0 \
-	--pkg clutter-gtk-0.10 \
-	--pkg cogl-1.0 \
-	--pkg gio-2.0 \
-	--pkg clutter-gst-1.0 \
-	--pkg json-glib-1.0 \
-	--pkg libarchive \
-	--pkg gmodule-2.0 \
+	$(EASE_PACKAGES) \
 	--vapi=ease.vapi \
 	--header=libease.h \
 	--thread \
