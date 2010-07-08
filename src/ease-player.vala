@@ -53,6 +53,11 @@ public class Ease.Player : GLib.Object
 		stage.title = _("Ease Presentation");
 		stage.use_fog = false;
 		
+		stage.key_press_event.connect ( (ev) => 
+			{
+				on_key_press (ev);
+				return true;
+			});
 		stage.hide_cursor();
 		
 		stage.show_all();
@@ -73,6 +78,11 @@ public class Ease.Player : GLib.Object
 		advance();
 	}
 	
+	public void on_key_press (Clutter.KeyEvent event)
+	{
+		debug ("Got a key press, keyval = %u", event.keyval);
+	}
+		
 	public void advance()
 	{
 		// only advance when transitions are complete
@@ -135,13 +145,11 @@ public class Ease.Player : GLib.Object
 	
 	private void retreat()
 	{
-		if (slide_index == 0)
-		{
+		if (slide_index == 0) {
 			return;
 		}
 		
-		if (old_slide.animation_time != null)
-		{
+		if (old_slide.animation_time != null) {
 			old_slide.animation_time.stop();
 		}
 		
@@ -180,27 +188,5 @@ public class Ease.Player : GLib.Object
 			});
 			advance_alarm.start();
 		}
-	}
-	
-	private bool key_press(Gtk.Widget sender, Gdk.EventKey event)
-	{
-		switch (event.keyval)
-		{
-			case 65307: // escape
-				stage.hide();
-				break;
-			case 65293: // enter
-			case 65363: // right arrow
-			case 65364: // up arrow
-				advance();
-				break;
-			case 65288: // backspace
-			case 65362: // up arrow
-			case 65361: // left arrow
-				retreat();
-				break;
-		}
-		return false;
-	}
+	}	
 }
-
