@@ -156,6 +156,8 @@ public class Ease.Player : GLib.Object
 	
 	private void create_current_slide(Slide slide)
 	{
+		/* Would it be better to return a new SlideActor instead ? */
+		/* And then in the code : current_slide = create_current_slide (... */
 		current_slide = new SlideActor.from_slide(document, slide, true,
 		                                          ActorContext.PRESENTATION);
 	}
