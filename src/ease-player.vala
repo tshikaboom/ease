@@ -27,7 +27,6 @@ public class Ease.Player : GLib.Object
 	public int slide_index { get; set; }
 	public Clutter.Stage stage { get; set; }
 	private bool can_animate { get; set; }
-	private Gtk.Window window;
 	
 	// current and transitioning out slide
 	private SlideActor current_slide;
@@ -48,30 +47,10 @@ public class Ease.Player : GLib.Object
 		document = doc;
 		slide_index = -1;
 		
-		// get the screen
-		var screen = Gdk.Screen.get_default();
-		
-		// get the size of the primary monitor
-		var rect = Gdk.Rectangle();
-		screen.get_monitor_geometry(screen.get_primary_monitor(), out rect);
-		
-		// scale the presentation if needed
-		if (rect.width < document.width || rect.height < document.height)
-		{
-			var x = ((float)rect.width) / document.width;
-			var y = ((float)rect.height) / document.height;
-			
-			scale = x < y ? x : y;
-		}
-		
-		var embed = new GtkClutter.Embed();
-		embed.set_size_request((int)(document.width * scale),
-		                       (int)(document.height * scale));
-		
-		stage = (Clutter.Stage)embed.get_stage();
+		stage = new Clutter.Stage ();
 		stage.width = document.width * scale;
 		stage.height = document.height * scale;
-		stage.title = "Ease Presentation";
+		stage.title = _("Ease Presentation");
 		stage.use_fog = false;
 		
 		stage.hide_cursor();
@@ -86,31 +65,10 @@ public class Ease.Player : GLib.Object
 		container.scale_x = scale;
 		container.scale_y = scale;
 		
-		// make the window that everything will be displayed in
-		window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
-		Gdk.Color color2 = Gdk.Color();
-		color2.red = 0;
-		color2.green = 0;
-		color2.blue = 0;
-		window.modify_bg(Gtk.StateType.NORMAL, color2);
-		
-		// center the stage in the window
-		var align = new Gtk.Alignment(0.5f, 0.5f, 0, 0);
-		align.add(embed);
-
-		// show the window
-		if (!Main.presentation_windowed)
-		{
-			window.fullscreen();
-		}
-		window.add(align);
-		window.show_all();
-
-		// register key presses and react
-		align.get_parent_window().set_events(Gdk.EventMask.KEY_PRESS_MASK);
-		align.key_press_event.connect(key_press);
-
 		// start the presentation
+		stage.set_fullscreen (true);
+		stage.show_all ();
+
 		can_animate = true;
 		advance();
 	}
@@ -133,7 +91,7 @@ public class Ease.Player : GLib.Object
 		slide_index++;
 		if (slide_index == document.slides.size) // slideshow complete
 		{
-			window.hide_all();
+			stage.hide_all();
 			return;
 		}
 		
