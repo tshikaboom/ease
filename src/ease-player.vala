@@ -80,7 +80,29 @@ public class Ease.Player : GLib.Object
 	
 	public void on_key_press (Clutter.KeyEvent event)
 	{
+		/* Coded with /usr/include/clutter-1.0/clutter/clutter-keysyms.h */
+		/* Ask developers about the use of that file and the lack of doc */
 		debug ("Got a key press, keyval = %u", event.keyval);
+		switch (event.keyval) {
+		case 0xff1b:
+			// Escape
+			debug ("Quitting player.");
+			stage.hide ();
+			break;
+		case 0xff53:
+			// Right arrow
+			debug ("Advancing to next slide.");
+			advance ();
+			break;
+		case 0xff51:
+			// Left arrow
+			debug ("Retreating to previous slide");
+			retreat ();
+			break;
+		default:
+			debug ("Key not handled.");
+			break;
+		}
 	}
 		
 	public void advance()
