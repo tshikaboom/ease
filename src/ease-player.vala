@@ -42,6 +42,14 @@ public class Ease.Player : GLib.Object
 	// constants
 	private const uint FADE_IN_TIME = 1000;
 
+	// focus actors
+	private Clutter.Group shader;
+	private Clutter.Rectangle top_right;
+	private Clutter.Rectangle top_left;
+	private Clutter.Rectangle bottom_left;
+	private Clutter.Rectangle bottom_right;
+	private const uint FOCUS_SIZE = 50;
+	
 	public Player(Document doc)
 	{
 		document = doc;
@@ -52,15 +60,36 @@ public class Ease.Player : GLib.Object
 		stage.height = document.height * scale;
 		stage.title = _("Ease Presentation");
 		stage.use_fog = false;
-		
+		stage.set_fullscreen (true);
+		stage.show_all ();
+		stage.hide_all ();
+		// scale the presentation if needed
+		if (stage.width < document.width || stage.height < document.height)
+		{
+			var x = ((float)stage.width) / document.width;
+			var y = ((float)stage.height) / document.height;
+            
+			scale = x < y ? x : y;
+		}
+
+		// keyboard handling
 		stage.key_press_event.connect ( (ev) => 
 			{
 				on_key_press (ev);
 				return true;
 			});
-		stage.hide_cursor();
+
+		// mouse handling
+		stage.button_press_event.connect ( (ev) =>
+			{
+				on_button_press (ev);
+				return true;
+			});
+		// FIXME : do I really have to do lambda functions each time ?
 		
-		stage.show_all();
+		// TODO : auto hide/show of the cursor.
+		// stage.hide_cursor();
+		
 		stage.color = {0, 0, 0, 255};
 		Clutter.grab_keyboard(stage);
 
@@ -71,13 +100,18 @@ public class Ease.Player : GLib.Object
 		container.scale_y = scale;
 		
 		// start the presentation
-		stage.set_fullscreen (true);
 		stage.show_all ();
 
 		can_animate = true;
 		advance();
 	}
 	
+	public void on_button_press (Clutter.ButtonEvent event)
+	{
+		debug ("Got a mouse click");
+		
+	}
+
 	public void on_key_press (Clutter.KeyEvent event)
 	{
 		/* Coded with /usr/include/clutter-1.0/clutter/clutter-keysyms.h */
