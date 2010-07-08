@@ -6,7 +6,6 @@ using Gtk;
 /*
   TODO :
   - escaping the description tags (or show the markup maybe?)
-  - wrapping the long fields (emo-descriptions)
   - asyncing
   - getting licence and author's realname based on the IDs we get right now
   - make a nice combo-box for licenses
@@ -41,7 +40,7 @@ public class FlickrFetcher {
 
 	private Gtk.ListStore store;
 
-	private Gdk.Pixbuf? gdk_pixbug_from_uri (string uri) {
+	private Gdk.Pixbuf? gdk_pixbug_new_from_uri (string uri) {
 
 		var file = File.new_for_uri (uri);
 		FileInputStream filestream = null;
@@ -87,32 +86,31 @@ public class FlickrFetcher {
 			call.run (null);
 		} catch (Error e) {
 			print ("Couldn't make call: %s\n", e.message);
-		}
-
-		string answer = call.get_payload ();
-		if (answer == null) {
-			var err = new Gtk.InfoBar ();
-			var label = new Gtk.Label ("Unable to retrieve pictures. Make sure you're connected to the Internet.");
-			err.add (label);
-			err.add_buttons ("gtk-quit", 0,
-							 "gtk-refresh", 1, null);
+			var err = new Gtk.InfoBar.with_buttons ("gtk-quit", 0,
+													"gtk-refresh", 1, null);
+			var label = new Gtk.Label ("Unable to retrieve pictures." +
+									   "Make sure you're connected to the Internet.");
+			((Gtk.Box)err.get_content_area()).add (label);
+			err.set_message_type (Gtk.MessageType.WARNING);
 			err.response.connect ( (dialog, response) => 
 				{
 					if (response != 0) {
-						debug ("Should launch Flickr again.");
+						
 					} else {
 						this.dialog.destroy ();
 						return;
 					}
 				});
-			  
+			
 			err.show_all ();
-			vbox.pack_start (err);
+			vbox.pack_start (err, false, false, 10);
 			vbox.reorder_child (err, 1);
 		}
+
+		string answer = call.get_payload ();
 		return answer;
 	}
-
+	
 	private void parse_flickr_photos (string jsondata) {
 
 		if (jsondata == null) {
@@ -141,45 +139,53 @@ public class FlickrFetcher {
 
 		store.clear ();
 		// TODO : optimization
-		photo_array.foreach_element ( (array, index, element) =>
+		photo_array.foreach_element ( (array, index, element) => 
 			{
-				Gtk.TreeIter iter;
-				Json.Object photo = element.get_object ();
-				int64 farm_int = photo.get_int_member ("farm");
-
-				string farm = @"$farm_int";
-				string secret = photo.get_string_member ("secret");
-				string server = photo.get_string_member ("server");
-				string id = photo.get_string_member ("id");
-				string http = "http://farm";
-				string flickr = ".static.flickr.com/";
-
-				string uri = http + farm + flickr + server + "/" + id + "_" + secret + "_t.jpg";
-				// TODO : unittest to track Flickr's URIs changes.
-
-				var pixbuf = gdk_pixbug_from_uri (uri);
-
-				string title = photo.get_string_member ("title");
-				string description = photo.get_object_member ("description").get_string_member ("_content");
-				string author = photo.get_string_member ("owner");
-				// We did specified license in the extras, but it doesn't appear in the payload
-				// string licence = photo.get_string_member ("license");
-
-				/* Adding to the IconView */
-				store.append (out iter);
-				store.set (iter,
-						   0, id,
-						   1, title,
-						   2, pixbuf,
-						   3, description,
-						   4, author,
-//						   5, licence,
-						   -1);
-				// FIXME : window is not updated till the whole function finishes.
+			   iconview_add_thumbnail_from_json (array, index, element);
 			});
+
+
 	}
+	
+	public void iconview_add_thumbnail_from_json (Json.Array array, 
+														uint index,
+														Json.Node element)
+		{
+			Gtk.TreeIter iter;
+			Json.Object photo = element.get_object ();
+			int64 farm_int = photo.get_int_member ("farm");
+			
+			string farm = @"$farm_int";
+			string secret = photo.get_string_member ("secret");
+			string server = photo.get_string_member ("server");
+			string id = photo.get_string_member ("id");
+			string http = "http://farm";
+			string flickr = ".static.flickr.com/";
 
+			string uri = http + farm + flickr + server + "/" + id + "_" + secret + "_t.jpg";
+			// TODO : unittest to track Flickr API changes.
 
+			var pixbuf = gdk_pixbug_new_from_uri (uri);
+
+			string title = photo.get_string_member ("title");
+			string description = photo.get_object_member ("description").get_string_member ("_content");
+			string author = photo.get_string_member ("owner");
+			// We did specified license in the extras, but it doesn't appear in the payload
+			// string licence = photo.get_string_member ("license");
+
+			/* Adding to the IconView */
+			store.append (out iter);
+			store.set (iter,
+					   0, id,
+					   1, title,
+					   2, pixbuf,
+					   3, description,
+					   4, author,
+//						   5, licence,
+					   -1);
+		}
+
+			
 	[CCode (instance_pos = -1)]
 	public void on_item_activated (Gtk.IconView view, Gtk.TreePath path) {
 
