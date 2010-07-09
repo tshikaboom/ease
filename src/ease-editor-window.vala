@@ -185,11 +185,6 @@ public class Ease.EditorWindow : Gtk.Window
 		update_undo();
 	}
 	
-	[CCode (instance_pos = -1)]
-	public void on_quit ()
-	{
-		Gtk.main_quit ();
-	}
 	/**
 	 * Load a slide into the main {@link EditorEmbed}.
 	 *
@@ -234,6 +229,12 @@ public class Ease.EditorWindow : Gtk.Window
 	
 	// signal handlers
 	[CCode (instance_pos = -1)]
+	public void on_quit(Gtk.Widget sender)
+	{
+		Gtk.main_quit ();
+	}
+
+	[CCode (instance_pos = -1)]
 	public void new_slide_handler(Gtk.Widget? sender)
 	{
 		var master = document.theme.slide_by_title(slide.title);
@@ -246,7 +247,7 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		document.add_slide(index, slide);
 		slide_button_panel.add_slide(index, slide);
-	}
+		}
 	
 	[CCode (instance_pos = -1)]
 	public void play_handler(Gtk.Widget sender)
