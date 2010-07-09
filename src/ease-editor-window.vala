@@ -185,6 +185,11 @@ public class Ease.EditorWindow : Gtk.Window
 		update_undo();
 	}
 	
+	[CCode (instance_pos = -1)]
+	public void on_quit ()
+	{
+		Gtk.main_quit ();
+	}
 	/**
 	 * Load a slide into the main {@link EditorEmbed}.
 	 *

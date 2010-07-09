@@ -44,11 +44,11 @@ public class Ease.Player : GLib.Object
 
 	// focus actors
 	private Clutter.Group shader;
-	private Clutter.Rectangle top_right;
-	private Clutter.Rectangle top_left;
-	private Clutter.Rectangle bottom_left;
-	private Clutter.Rectangle bottom_right;
-	private const uint FOCUS_SIZE = 50;
+	private Clutter.Rectangle shader_top;
+	private Clutter.Rectangle shader_bottom;
+	private Clutter.Rectangle shader_left;
+	private Clutter.Rectangle shader_right;
+	private const uint FOCUS_RADIUS = 25;
 	
 	public Player(Document doc)
 	{
@@ -61,8 +61,7 @@ public class Ease.Player : GLib.Object
 		stage.title = _("Ease Presentation");
 		stage.use_fog = false;
 		stage.set_fullscreen (true);
-		stage.show_all ();
-		stage.hide_all ();
+		
 		// scale the presentation if needed
 		if (stage.width < document.width || stage.height < document.height)
 		{
@@ -93,6 +92,21 @@ public class Ease.Player : GLib.Object
 		stage.color = {0, 0, 0, 255};
 		Clutter.grab_keyboard(stage);
 
+		// focusing
+		shader_top = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
+		shader_right = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
+		shader_bottom = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
+		shader_left = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
+
+
+		shader = new Clutter.Group ();
+		
+//		shader.add (shader_top, shader_bottom);
+		shader.add_actor (shader_right);
+		shader.add_actor (shader_left);
+
+		shader.show_all ();
+		
 		// make the stacking container
 		container = new Clutter.Group();
 		stage.add_actor(container);
@@ -108,8 +122,9 @@ public class Ease.Player : GLib.Object
 	
 	public void on_button_press (Clutter.ButtonEvent event)
 	{
-		debug ("Got a mouse click");
-		
+		debug ("Got a mouse click.");
+		shader_top.set_size (100, 200);
+		shader_top.set_position (event.x, event.y);
 	}
 
 	public void on_key_press (Clutter.KeyEvent event)

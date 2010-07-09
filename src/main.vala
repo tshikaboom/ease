@@ -78,7 +78,7 @@ public static class Ease.Main : GLib.Object
 			stdout.printf(_("error parsing options: %s\n"), e.message);
 			return 1;
 		}
-	
+
 		ClutterGst.init(ref args);
 
 		// initalize static classes

@@ -66,7 +66,6 @@ public class Ease.ScrollableEmbed : Gtk.HBox
 	public ScrollableEmbed(bool horizontal, bool has_frame)
 	{
 		has_horizontal = horizontal;
-		
 		// create children
 		embed = new GtkClutter.Embed();
 		h_adjust = new Gtk.Adjustment(0, 0, 1, 0.1, 0.1, 0.1);
