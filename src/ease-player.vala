@@ -145,12 +145,12 @@ public class Ease.Player : GLib.Object
 		if (dragging) {
 			// FIXME : duplicate code
 			shader_top.set_size (stage.width, event.y - FOCUS_RADIUS);
-			shader_bottom.set_size (stage.width, (stage.height - event.y) + 2*FOCUS_RADIUS);
+			shader_bottom.set_size (stage.width, (stage.height - event.y) - FOCUS_RADIUS);
 			shader_left.set_size (event.x - FOCUS_RADIUS, FOCUS_RADIUS * 2);
-			shader_right.set_size (stage.width - event.x + 2 * FOCUS_RADIUS, 2 * FOCUS_RADIUS);
+			shader_right.set_size (stage.width - event.x - FOCUS_RADIUS, 2 * FOCUS_RADIUS);
 			
 			shader_left.set_position (0, event.y - FOCUS_RADIUS);
-			shader_right.set_position (event.x + 2 * FOCUS_RADIUS, event.y - FOCUS_RADIUS);
+			shader_right.set_position (event.x + FOCUS_RADIUS, event.y - FOCUS_RADIUS);
 			shader_bottom.set_position (0, event.y + FOCUS_RADIUS);
 			shader.show_all ();
 			stage.raise_child (shader, null);
@@ -172,17 +172,17 @@ public class Ease.Player : GLib.Object
 		dragging = true;
 		debug ("Got a mouse click at %f, %f", event.x, event.y);
 		shader_top.set_size (stage.width, event.y - FOCUS_RADIUS);
-		shader_bottom.set_size (stage.width, (stage.height - event.y) + 2*FOCUS_RADIUS);
+		shader_bottom.set_size (stage.width, (stage.height - event.y) - FOCUS_RADIUS);
 		shader_left.set_size (event.x - FOCUS_RADIUS, FOCUS_RADIUS * 2);
-		shader_right.set_size (stage.width - event.x + 2 * FOCUS_RADIUS, 2 * FOCUS_RADIUS);
+		shader_right.set_size (stage.width - event.x - FOCUS_RADIUS, 2 * FOCUS_RADIUS);
 
 		shader_left.set_position (0, event.y - FOCUS_RADIUS);
-		shader_right.set_position (event.x + 2 * FOCUS_RADIUS, event.y - FOCUS_RADIUS);
+		shader_right.set_position (event.x + FOCUS_RADIUS, event.y - FOCUS_RADIUS);
 		shader_bottom.set_position (0, event.y + FOCUS_RADIUS);
 		shader.show_all ();
+		stage.raise_child (shader, null);
 		shader.animate (Clutter.AnimationMode.LINEAR, 150,
 						"opacity", FOCUS_OPACITY);
-		stage.raise_child (shader, null);
 	}
 
 	public void on_key_press (Clutter.KeyEvent event)
