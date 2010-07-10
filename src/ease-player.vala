@@ -43,7 +43,8 @@ public class Ease.Player : GLib.Object
 	// constants
 	private const uint FADE_IN_TIME = 1000;
 	private const uint FOCUS_OPACITY = 100;
-	private const uint FOCUS_RADIUS = 25;
+	//FIXME : make it proportionnal
+	private const uint FOCUS_RADIUS = 40;
 
 	// focus actors
 	private Clutter.Group shader;
@@ -62,9 +63,7 @@ public class Ease.Player : GLib.Object
 		stage.height = document.height * scale;
 		stage.title = _("Ease Presentation");
 		stage.use_fog = false;
-		stage.set_fullscreen (true);
 
-		debug ("Screen size should be : %fx%f", stage.width, stage.height);
 		// scale the presentation if needed
 		if (stage.width < document.width || stage.height < document.height)
 		{
@@ -135,6 +134,7 @@ public class Ease.Player : GLib.Object
 		
 		// start the presentation
 		stage.show_all ();
+		stage.set_fullscreen (true);
 
 		can_animate = true;
 		advance();
