@@ -41,6 +41,8 @@ public class Ease.Player : GLib.Object
 	
 	// constants
 	private const uint FADE_IN_TIME = 1000;
+	private const uint FOCUS_OPACITY = 100;
+	private const uint FOCUS_RADIUS = 25;
 
 	// focus actors
 	private Clutter.Group shader;
@@ -48,7 +50,6 @@ public class Ease.Player : GLib.Object
 	private Clutter.Rectangle shader_bottom;
 	private Clutter.Rectangle shader_left;
 	private Clutter.Rectangle shader_right;
-	private const uint FOCUS_RADIUS = 25;
 	
 	public Player(Document doc)
 	{
@@ -61,7 +62,8 @@ public class Ease.Player : GLib.Object
 		stage.title = _("Ease Presentation");
 		stage.use_fog = false;
 		stage.set_fullscreen (true);
-		
+
+		debug ("Screen size should be : %fx%f", stage.width, stage.height);
 		// scale the presentation if needed
 		if (stage.width < document.width || stage.height < document.height)
 		{
@@ -98,15 +100,15 @@ public class Ease.Player : GLib.Object
 		shader_bottom = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
 		shader_left = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
 
-
 		shader = new Clutter.Group ();
-		
-//		shader.add (shader_top, shader_bottom);
-		shader.add_actor (shader_right);
-		shader.add_actor (shader_left);
+		shader.opacity = FOCUS_OPACITY;
+		shader.add (shader_top, 
+					shader_right,
+					shader_bottom,
+					shader_left);
 
-		shader.show_all ();
-		
+		stage.add (shader);
+
 		// make the stacking container
 		container = new Clutter.Group();
 		stage.add_actor(container);
@@ -122,9 +124,17 @@ public class Ease.Player : GLib.Object
 	
 	public void on_button_press (Clutter.ButtonEvent event)
 	{
-		debug ("Got a mouse click.");
-		shader_top.set_size (100, 200);
-		shader_top.set_position (event.x, event.y);
+		debug ("Got a mouse click at %f, %f", event.x, event.y);
+		shader_top.set_size (stage.width, event.y - FOCUS_RADIUS);
+		shader_bottom.set_size (stage.width, (stage.height - event.y) + 2*FOCUS_RADIUS);
+		shader_left.set_size (event.x - FOCUS_RADIUS, FOCUS_RADIUS * 2);
+		shader_right.set_size (stage.width - event.x + 2 * FOCUS_RADIUS, 2 * FOCUS_RADIUS);
+
+		shader_left.set_position (0, event.y - FOCUS_RADIUS);
+		shader_right.set_position (event.x + 2 * FOCUS_RADIUS, event.y - FOCUS_RADIUS);
+		shader_bottom.set_position (0, event.y + FOCUS_RADIUS);
+		shader.show_all ();
+		stage.raise_child (shader, null);
 	}
 
 	public void on_key_press (Clutter.KeyEvent event)
