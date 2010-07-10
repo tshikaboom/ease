@@ -27,7 +27,8 @@ public class Ease.Player : GLib.Object
 	public int slide_index { get; set; }
 	public Clutter.Stage stage { get; set; }
 	private bool can_animate { get; set; }
-	
+	private bool dragging = false;
+
 	// current and transitioning out slide
 	private SlideActor current_slide;
 	private SlideActor old_slide;
@@ -86,6 +87,18 @@ public class Ease.Player : GLib.Object
 				on_button_press (ev);
 				return true;
 			});
+
+		stage.motion_event.connect ( (ev) =>
+			{
+				on_motion (ev);
+				return true;
+			});
+
+		stage.button_release_event.connect ( (ev) =>
+			{
+				on_button_release (ev);
+				return true;
+			});
 		// FIXME : do I really have to do lambda functions each time ?
 		
 		// TODO : auto hide/show of the cursor.
@@ -101,7 +114,7 @@ public class Ease.Player : GLib.Object
 		shader_left = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
 
 		shader = new Clutter.Group ();
-		shader.opacity = FOCUS_OPACITY;
+		shader.opacity = 0;
 		shader.add (shader_top, 
 					shader_right,
 					shader_bottom,
@@ -121,9 +134,37 @@ public class Ease.Player : GLib.Object
 		can_animate = true;
 		advance();
 	}
-	
+
+	public void on_motion (Clutter.MotionEvent event)
+	{
+		if (dragging) {
+			// FIXME : duplicate code
+			shader_top.set_size (stage.width, event.y - FOCUS_RADIUS);
+			shader_bottom.set_size (stage.width, (stage.height - event.y) + 2*FOCUS_RADIUS);
+			shader_left.set_size (event.x - FOCUS_RADIUS, FOCUS_RADIUS * 2);
+			shader_right.set_size (stage.width - event.x + 2 * FOCUS_RADIUS, 2 * FOCUS_RADIUS);
+			
+			shader_left.set_position (0, event.y - FOCUS_RADIUS);
+			shader_right.set_position (event.x + 2 * FOCUS_RADIUS, event.y - FOCUS_RADIUS);
+			shader_bottom.set_position (0, event.y + FOCUS_RADIUS);
+			shader.show_all ();
+			stage.raise_child (shader, null);
+		} else {
+			// fade out
+		}
+	}
+
+	public void on_button_release (Clutter.ButtonEvent event)
+	{
+		dragging = false;
+		// FIXME : should the focus fade time be a constant ?
+		shader.animate (Clutter.AnimationMode.LINEAR, 150,
+						"opacity", 0);
+	}
+
 	public void on_button_press (Clutter.ButtonEvent event)
 	{
+		dragging = true;
 		debug ("Got a mouse click at %f, %f", event.x, event.y);
 		shader_top.set_size (stage.width, event.y - FOCUS_RADIUS);
 		shader_bottom.set_size (stage.width, (stage.height - event.y) + 2*FOCUS_RADIUS);
@@ -134,6 +175,8 @@ public class Ease.Player : GLib.Object
 		shader_right.set_position (event.x + 2 * FOCUS_RADIUS, event.y - FOCUS_RADIUS);
 		shader_bottom.set_position (0, event.y + FOCUS_RADIUS);
 		shader.show_all ();
+		shader.animate (Clutter.AnimationMode.LINEAR, 150,
+						"opacity", FOCUS_OPACITY);
 		stage.raise_child (shader, null);
 	}
 
@@ -269,5 +312,5 @@ public class Ease.Player : GLib.Object
 			});
 			advance_alarm.start();
 		}
-	}	
+	}
 }
