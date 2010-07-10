@@ -115,6 +115,11 @@ public class Ease.Player : GLib.Object
 
 		shader = new Clutter.Group ();
 		shader.opacity = 0;
+
+		/* The following function is broken at the moment in the Clutter
+		   bindings. Replace the
+		   public void add (...); by
+		   public void add (Clutter.Actor first_actor, ...); */
 		shader.add (shader_top, 
 					shader_right,
 					shader_bottom,
