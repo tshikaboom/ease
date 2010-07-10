@@ -22,6 +22,7 @@ src/ease-editor-window.c
 src/ease-html-exporter.c
 src/ease-image-actor.c
 src/ease-open-dialog.c
+src/ease-player.c
 src/ease-pdf-exporter.c
 src/ease-slide-actor.c
 src/ease-slide-pane.c
