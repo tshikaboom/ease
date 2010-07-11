@@ -1,5 +1,5 @@
-data/ease.desktop.in
 plugins/flickr.ui
+data/ease.desktop.in
 src/AboutDialog.c
 src/Document.c
 src/EditorWindow.c

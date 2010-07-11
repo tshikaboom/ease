@@ -81,7 +81,7 @@ ease_LDADD = \
 	$(EASE_LIBS) \
 	$(NULL)
 
-EXTRA_DIST = data/ease.desktop.in  \
+EXTRA_DIST = data/ease.desktop.in.in  \
 	$(NULL)
 
 DISTCLEANFILES = data/ease.desktop \
