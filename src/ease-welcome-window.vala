@@ -225,45 +225,45 @@ public class Ease.WelcomeWindow : Gtk.Window
 		embed.contents.add_actor (preview_container);
 		embed.contents.show_all ();
 		vbox.pack_start (embed, true, true, 0);
+		vbox.reorder_child (embed, 0);
 
 		builder.connect_signals (this);
 		this.add (vbox);
 		this.show_all ();
 
-/*
+
 		// reflow the stage
-		embed.size_allocate.connect(() => {
-			reflow_previews();
-		});
+		embed.size_allocate.connect ( () =>
+			{
+				reflow_previews ();
+			});
 		
 		// click on previews
-		foreach (var a in previews)
-		{
-			a.button_press_event.connect((act, event) =>
+		foreach (var a in previews)	{
+			a.button_press_event.connect ((act, event) =>
                 {
                     if (event.click_count == 2) {
-						new_document();
+						new_document ();
 					}
-					(act as WelcomeActor).clicked();
+					(act as WelcomeActor).clicked ();
 					selected_theme = (act as WelcomeActor).theme;
 					return false;
 				});
 		}
-		
-		// change the zoom of the previews when the zoom slider is moved
-		zoom_slider.value_changed.connect(() => {
-			preview_width = (int)zoom_slider.get_value();
-			reflow_previews();
-		});
 
-				resolution.set_active(DEFAULT_ACTIVE + 1);
-		
-		preview_width = (int)zoom_slider.get_value();
+		// change the zoom of the previews when the zoom slider is moved
+		zoom_slider.value_changed.connect( () =>
+			{
+				preview_width = (int)zoom_slider.get_value ();
+				reflow_previews();
+			});
+
+		combores.set_active (DEFAULT_ACTIVE + 1);
+		preview_width = (int)zoom_slider.get_value ();
 		
 		// reflow previews without animation
 		preview_row_count = -1;
-		reflow_previews();
-		}*/
+		reflow_previews ();
 	}
 
 	[CCode (instance_pos = -1)]
