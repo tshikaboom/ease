@@ -56,7 +56,7 @@
           <placeholder/>
         </child>
         <child>
-          <object class="GtkButton" id="presopen">
+          <object class="GtkButton" id="openpres">
             <property name="label">gtk-open</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>

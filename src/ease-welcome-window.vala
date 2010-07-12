@@ -26,8 +26,8 @@
 public class Ease.WelcomeWindow : Gtk.Window
 {
 	// main buttons
-	private Gtk.Button new_button;
-	private Gtk.Button open_button;
+	private Gtk.Button new_pres_button;
+	private Gtk.Button open_pres_button;
 	private Gtk.ComboBox resolution;
 	private Gtk.SpinButton x_res;
 	private Gtk.SpinButton y_res;
@@ -102,6 +102,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 		var combores = builder.get_object ("combo_resolution") as Gtk.ComboBox;
 		x_res = builder.get_object ("horiz_spin") as Gtk.SpinButton;
 		y_res = builder.get_object ("vert_spin") as Gtk.SpinButton;
+		new_pres_button = builder.get_object ("newpres") as Gtk.Button;
+		open_pres_button = builder.get_object ("openpres") as Gtk.Button;
 
 		// zoom slider
 		zoom_slider = new ZoomSlider(new Gtk.Adjustment(100, 100, 400, 10,
@@ -132,24 +134,17 @@ public class Ease.WelcomeWindow : Gtk.Window
 		y_res.set_range(RESOLUTIONS_Y[0],
 						RESOLUTIONS_Y[resolution_count-1]);
 
+		// buttons
+		new_pres_button.sensitive = false;
+		// FIXME : that image doesn't show up in my config...
+		new_pres_button.image = new Gtk.Image.from_stock("gtk-new",
+														 Gtk.IconSize.BUTTON);
+
+		builder.connect_signals (this);
+
 		this.add (vbox);
 		this.show_all ();
 /*		// build the bottom UI
-		new_button = new Gtk.Button.with_label(_("New Presentation"));
-		new_button.sensitive = false;
-		new_button.image = new Gtk.Image.from_stock("gtk-new",
-		                                            Gtk.IconSize.BUTTON);
-		align = new Gtk.Alignment(0, 0.5f, 0, 0);
-		align.add(new_button);
-		hbox.pack_start(align, false, false, 0);
-		
-		hbox.pack_start(zoom_slider, false, false, 0);
-		
-		open_button = new Gtk.Button.from_stock("gtk-open");
-		align = new Gtk.Alignment(0, 0.5f, 0, 0);
-		align.add(open_button);
-		hbox.pack_end(align, false, false, 0);
-		
 		// create the upper UI - the embed
 		embed = new ScrollableEmbed(false, false);
 		embed.get_stage().use_fog = false;
@@ -277,9 +272,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 			reflow_previews();
 		});
 
-		open_button.clicked.connect((sender) => OpenDialog.run());
-		
-		resolution.set_active(DEFAULT_ACTIVE + 1);
+				resolution.set_active(DEFAULT_ACTIVE + 1);
 		
 		preview_width = (int)zoom_slider.get_value();
 		
@@ -288,7 +281,13 @@ public class Ease.WelcomeWindow : Gtk.Window
 		reflow_previews();
 		}*/
 	}
-	
+
+	[CCode (instance_pos = -1)]
+	public void on_open_pres_button_clicked (Gtk.Widget sender)
+	{
+		OpenDialog.run();
+	}
+
 	private void new_document()
 	{
 		try
