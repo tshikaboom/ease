@@ -84,12 +84,24 @@ public class Ease.WelcomeWindow : Gtk.Window
 	
 	public WelcomeWindow()
 	{
-/*		assert(RESOLUTIONS_X.length == RESOLUTIONS_Y.length);
+		assert(RESOLUTIONS_X.length == RESOLUTIONS_Y.length);
 	
-		title = _("New Presentation");
-		set_default_size(640, 480);
+		this.title = _("Pick a theme and start editing");
+		this.set_default_size(640, 480);
 		
-		// build the bottom UI
+		var builder = new Gtk.Builder ();
+		try {
+			builder.add_from_file ("data/ui/welcome-window.ui");
+			//FIXME : compute path
+		} catch (Error e) {
+			error ("Unable to load UI : %s", e.message);
+		}
+
+		var vbox = builder.get_object ("vbox1") as Gtk.VBox;
+		this.add (vbox);
+
+		this.show_all ();
+/*		// build the bottom UI
 		var hbox = new Gtk.HBox(false, 5);
 		resolution = new Gtk.ComboBox.text();
 		resolution.append_text(_("Custom"));
