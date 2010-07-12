@@ -140,12 +140,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 		new_pres_button.image = new Gtk.Image.from_stock("gtk-new",
 														 Gtk.IconSize.BUTTON);
 
-		builder.connect_signals (this);
-
-		this.add (vbox);
-		this.show_all ();
-/*		// build the bottom UI
 		// create the upper UI - the embed
+		// FIXME (or don't) : the next line throws a vblank_mode warning for me
 		embed = new ScrollableEmbed(false, false);
 		embed.get_stage().use_fog = false;
 
@@ -153,67 +149,56 @@ public class Ease.WelcomeWindow : Gtk.Window
 		preview_container = new Clutter.Group();
 
 		// the background for the previews
-		preview_background = new Clutter.Rectangle();
-		preview_background.color = {0, 0, 0, 255};
+		preview_background = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
 		preview_container.add_actor(preview_background);
-		
-		// load themes
-		try
-		{
-			string[] data_dirs = Environment.get_system_data_dirs();
-			foreach (string dir in data_dirs)
-			{
-				var filename = Path.build_filename(dir,
+
+		try	{
+			// FIXME : incompatible assignment
+			string[] data_dirs = Environment.get_system_data_dirs ();
+			foreach (string dir in data_dirs) {
+				var filename = Path.build_filename (dir,
 				                                   Temp.TEMP_DIR,
 				                                   Temp.THEME_DIR);
-				var file = File.new_for_path(filename);
-				
-				if (file.query_exists(null))
-				{
-					var directory = GLib.Dir.open(filename, 0);
-					
-					string name = directory.read_name();
-					while (name != null)
-					{
-						var path = Path.build_filename(filename, name);
-						themes.add(JSONParser.theme(path));
-						name = directory.read_name();
+				var file = File.new_for_path (filename);
+
+				if (file.query_exists(null)) {
+					var directory = GLib.Dir.open (filename, 0);
+					string name = directory.read_name ();
+					while (name != null) {
+						var path = Path.build_filename (filename, name);
+						// FIXME : warning occurs here (g_param_spec)
+						themes.add (JSONParser.theme (path));
+						name = directory.read_name ();
 					}
 				}
 			}
-		}
-		catch (Error e) { error_dialog("Error Loading Themes", e.message); }
-		
+		} catch (Error e) {
+			error_dialog("Error loading themes : %s", e.message);
+			}
+
 		// create the previews
-		foreach (var theme in themes)
-		{
-			var master = theme.slide_by_title(PREVIEW_ID);
+		foreach (var theme in themes) {
+			var master = theme.slide_by_title (PREVIEW_ID);
 			if (master == null) continue;
 			
-			var act = new WelcomeActor(theme, previews, master);
-			previews.add(act);
-			preview_container.add_actor(act);
+			var act = new WelcomeActor (theme, previews, master);
+			previews.add (act);
+			preview_container.add_actor (act);
 			
-			act.selected.connect(() => {
-				new_button.sensitive = true;
-			});
+			act.selected.connect( () =>
+				{
+					new_pres_button.sensitive = true;
+				});
 		}
-		embed.contents.add_actor(preview_container);
-		embed.contents.show_all();
-		
-		// put it all together
-		var vbox = new Gtk.VBox(false, 0);
-		align = new Gtk.Alignment(0, 1, 1, 0);
-		align.add(hbox);
-		align.set_padding(5, 5, 5, 5);
-		vbox.pack_end(align, false, false, 0);
-		vbox.pack_end(new Gtk.HSeparator(), false, false, 0);
-		vbox.pack_start(embed, true, true, 0);
-		
-		add(vbox);
-		show_all();
-		
-		// ui signals
+
+		embed.contents.add_actor (preview_container);
+		embed.contents.show_all ();
+		vbox.pack_start (embed, true, true, 0);
+
+		builder.connect_signals (this);
+		this.add (vbox);
+		this.show_all ();
+/*		// ui signals
 		new_button.clicked.connect(new_document);
 		
 		// changing resolution values
