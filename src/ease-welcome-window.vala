@@ -84,7 +84,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 	
 	public WelcomeWindow()
 	{
-		assert(RESOLUTIONS_X.length == RESOLUTIONS_Y.length);
+/*		assert(RESOLUTIONS_X.length == RESOLUTIONS_Y.length);
 	
 		title = _("New Presentation");
 		set_default_size(640, 480);
@@ -273,6 +273,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 		// reflow previews without animation
 		preview_row_count = -1;
 		reflow_previews();
+		}*/
 	}
 	
 	private void new_document()
