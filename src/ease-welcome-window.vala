@@ -28,7 +28,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 	// main buttons
 	private Gtk.Button new_pres_button;
 	private Gtk.Button open_pres_button;
-	private Gtk.ComboBox resolution;
+	private Gtk.ComboBox combores;
 	private Gtk.SpinButton x_res;
 	private Gtk.SpinButton y_res;
 	
@@ -99,7 +99,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 
 		var vbox = builder.get_object ("vbox1") as Gtk.VBox;
 		var hbox = builder.get_object ("hbox1") as Gtk.HBox;
-		var combores = builder.get_object ("combo_resolution") as Gtk.ComboBox;
+		combores = builder.get_object ("combo_resolution") as Gtk.ComboBox;
 		x_res = builder.get_object ("horiz_spin") as Gtk.SpinButton;
 		y_res = builder.get_object ("vert_spin") as Gtk.SpinButton;
 		new_pres_button = builder.get_object ("newpres") as Gtk.Button;
@@ -133,6 +133,26 @@ public class Ease.WelcomeWindow : Gtk.Window
 
 		y_res.set_range(RESOLUTIONS_Y[0],
 						RESOLUTIONS_Y[resolution_count-1]);
+
+		x_res.value_changed.connect(() =>
+			{
+				set_resolution_box((int)(x_res.get_value()),
+								   (int)(y_res.get_value()));
+				foreach (var p in previews)	{
+					p.set_slide_size((int)x_res.get_value(),
+									 (int)y_res.get_value());
+				}
+			});
+
+		y_res.value_changed.connect(() =>
+			{
+				set_resolution_box((int)(x_res.get_value()),
+								   (int)(y_res.get_value()));
+				foreach (var p in previews)	{
+					p.set_slide_size((int)x_res.get_value(),
+									 (int)y_res.get_value());
+				}
+			});
 
 		// buttons
 		new_pres_button.sensitive = false;
@@ -200,25 +220,6 @@ public class Ease.WelcomeWindow : Gtk.Window
 		this.show_all ();
 /*		// ui signals
 		// changing resolution values
-		x_res.value_changed.connect(() => {
-			set_resolution_box((int)(x_res.get_value()),
-			                   (int)(y_res.get_value()));
-			foreach (var p in previews)
-			{
-				p.set_slide_size((int)x_res.get_value(),
-				                 (int)y_res.get_value());
-			}
-		});
-		
-		y_res.value_changed.connect(() => {
-			set_resolution_box((int)(x_res.get_value()),
-			                   (int)(y_res.get_value()));
-			foreach (var p in previews)
-			{
-				p.set_slide_size((int)x_res.get_value(),
-				                 (int)y_res.get_value());
-			}
-		});
 		
 		resolution.changed.connect(() => {
 			var val = resolution.get_active();
@@ -299,11 +300,11 @@ public class Ease.WelcomeWindow : Gtk.Window
 		{
 			if (width == RESOLUTIONS_X[i] && height == RESOLUTIONS_Y[i])
 			{
-				resolution.set_active(i + 1);
+				combores.set_active(i + 1);
 				return;
 			}
 		}
-		resolution.set_active(0);
+		combores.set_active(0);
 		reflow_previews();
 	}
 	
