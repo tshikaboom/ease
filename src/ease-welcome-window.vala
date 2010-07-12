@@ -99,11 +99,23 @@ public class Ease.WelcomeWindow : Gtk.Window
 
 		var vbox = builder.get_object ("vbox1") as Gtk.VBox;
 		var hbox = builder.get_object ("hbox1") as Gtk.HBox;
+		var combores = builder.get_object ("combo_resolution") as Gtk.ComboBox;
 
 		zoom_slider = new ZoomSlider(new Gtk.Adjustment(100, 100, 400, 10,
 		                                                50, 50), ZOOM_VALUES);
 		hbox.pack_start (zoom_slider, false, false);
 		hbox.reorder_child (zoom_slider, 4);
+
+		// FIXME : not re-create it, or do it from Glade.
+		hbox.remove (combores);
+		combores = new Gtk.ComboBox.text ();
+		combores.insert_text (0, _("Custom"));
+		for (var i = 0; i < RESOLUTIONS_X.length; i++) {
+			combores.append_text(_("%i by %i").printf(RESOLUTIONS_X[i],
+													  RESOLUTIONS_Y[i]));
+		}
+		hbox.pack_start (combores);
+		hbox.reorder_child (combores, 0);
 
 		this.add (vbox);
 
@@ -112,12 +124,6 @@ public class Ease.WelcomeWindow : Gtk.Window
 		var hbox = new Gtk.HBox(false, 5);
 		resolution = new Gtk.ComboBox.text();
 		resolution.append_text(_("Custom"));
-		for (var i = 0; i < RESOLUTIONS_X.length; i++)
-		{
-			resolution.append_text(_("%i by %i").printf(RESOLUTIONS_X[i],
-			                                            RESOLUTIONS_Y[i]));
-		}
-		
 		var align = new Gtk.Alignment(0, 0.5f, 0, 0);
 		align.add(resolution);
 		hbox.pack_start(align, false, false, 0);
