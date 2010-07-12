@@ -120,6 +120,17 @@ public class Ease.WelcomeWindow : Gtk.Window
 			combores.append_text(_("%i by %i").printf(RESOLUTIONS_X[i],
 													  RESOLUTIONS_Y[i]));
 		}
+
+				combores.changed.connect ( () =>
+			{
+				var val = combores.get_active ();
+				if (val > 0) {
+				x_res.set_value (RESOLUTIONS_X[val - 1]);
+				y_res.set_value (RESOLUTIONS_Y[val - 1]);
+				}
+				reflow_previews();
+			});
+
 		hbox.pack_start (combores);
 		hbox.reorder_child (combores, 0);
 
@@ -218,19 +229,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 		builder.connect_signals (this);
 		this.add (vbox);
 		this.show_all ();
-/*		// ui signals
-		// changing resolution values
-		
-		resolution.changed.connect(() => {
-			var val = resolution.get_active();
-			if (val > 0)
-			{
-				x_res.set_value(RESOLUTIONS_X[val - 1]);
-				y_res.set_value(RESOLUTIONS_Y[val - 1]);
-			}
-			reflow_previews();
-		});
-		
+
+/*
 		// reflow the stage
 		embed.size_allocate.connect(() => {
 			reflow_previews();
