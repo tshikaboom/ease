@@ -69,6 +69,8 @@ public class Ease.Document : SlideSet
 		height = h;
 		theme = doc_theme;
 		
+		assert (doc_theme != null);
+
 		// allocate a temp directory for the new document
 		path = Temp.request();
 		

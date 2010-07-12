@@ -91,8 +91,9 @@ public class Ease.WelcomeWindow : Gtk.Window
 		
 		var builder = new Gtk.Builder ();
 		try {
-			builder.add_from_file ("data/ui/welcome-window.ui");
-			//FIXME : compute path
+			builder.add_from_file (data_path(Path.build_filename(Temp.TEMP_DIR,
+																 Temp.UI_DIR,
+																 "welcome-window.ui")));
 		} catch (Error e) {
 			error ("Unable to load UI : %s", e.message);
 		}
@@ -185,7 +186,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 
 		try	{
 			// FIXME : incompatible assignment
-			string[] data_dirs = Environment.get_system_data_dirs ();
+			unowned string[] data_dirs = Environment.get_system_data_dirs ();
 			foreach (string dir in data_dirs) {
 				var filename = Path.build_filename (dir,
 				                                   Temp.TEMP_DIR,
@@ -275,13 +276,14 @@ public class Ease.WelcomeWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	public void new_document()
 	{
+		debug ("Creating a new document.");
 		try
 		{
 			// create a new Document
 			var document = new Document.from_theme(selected_theme,
 												   (int)x_res.get_value(),
 												   (int)y_res.get_value());
-
+			debug ("Creating an editor window");
 			// create an EditorWindow for the new Document
 			var editor = new EditorWindow(document);
 
