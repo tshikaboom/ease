@@ -98,6 +98,13 @@ public class Ease.WelcomeWindow : Gtk.Window
 		}
 
 		var vbox = builder.get_object ("vbox1") as Gtk.VBox;
+		var hbox = builder.get_object ("hbox1") as Gtk.HBox;
+
+		zoom_slider = new ZoomSlider(new Gtk.Adjustment(100, 100, 400, 10,
+		                                                50, 50), ZOOM_VALUES);
+		hbox.pack_start (zoom_slider, false, false);
+		hbox.reorder_child (zoom_slider, 4);
+
 		this.add (vbox);
 
 		this.show_all ();
@@ -140,8 +147,6 @@ public class Ease.WelcomeWindow : Gtk.Window
 		align.add(new_button);
 		hbox.pack_start(align, false, false, 0);
 		
-		zoom_slider = new ZoomSlider(new Gtk.Adjustment(100, 100, 400, 10,
-		                                                50, 50), ZOOM_VALUES);
 		hbox.pack_start(zoom_slider, false, false, 0);
 		
 		open_button = new Gtk.Button.from_stock("gtk-open");
