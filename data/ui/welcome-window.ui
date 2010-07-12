@@ -47,6 +47,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="use_underline">True</property>
+            <signal name="clicked" handler="ease_welcome_window_new_document"/>
           </object>
           <packing>
             <property name="position">3</property>

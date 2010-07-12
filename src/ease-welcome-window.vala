@@ -199,8 +199,6 @@ public class Ease.WelcomeWindow : Gtk.Window
 		this.add (vbox);
 		this.show_all ();
 /*		// ui signals
-		new_button.clicked.connect(new_document);
-		
 		// changing resolution values
 		x_res.value_changed.connect(() => {
 			set_resolution_box((int)(x_res.get_value()),
@@ -273,7 +271,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 		OpenDialog.run();
 	}
 
-	private void new_document()
+	[CCode (instance_pos = -1)]
+	public void new_document()
 	{
 		try
 		{
