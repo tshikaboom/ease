@@ -100,12 +100,16 @@ public class Ease.WelcomeWindow : Gtk.Window
 		var vbox = builder.get_object ("vbox1") as Gtk.VBox;
 		var hbox = builder.get_object ("hbox1") as Gtk.HBox;
 		var combores = builder.get_object ("combo_resolution") as Gtk.ComboBox;
+		x_res = builder.get_object ("horiz_spin") as Gtk.SpinButton;
+		y_res = builder.get_object ("vert_spin") as Gtk.SpinButton;
 
+		// zoom slider
 		zoom_slider = new ZoomSlider(new Gtk.Adjustment(100, 100, 400, 10,
 		                                                50, 50), ZOOM_VALUES);
 		hbox.pack_start (zoom_slider, false, false);
 		hbox.reorder_child (zoom_slider, 4);
 
+		// Resolutions combo box
 		// FIXME : not re-create it, or do it from Glade.
 		hbox.remove (combores);
 		combores = new Gtk.ComboBox.text ();
@@ -117,34 +121,20 @@ public class Ease.WelcomeWindow : Gtk.Window
 		hbox.pack_start (combores);
 		hbox.reorder_child (combores, 0);
 
-		this.add (vbox);
+		// resolutions spin buttons
+		// FIXME : new SpinButton.with_range () avoid the need
+		// of a Gtk.Adjustments, but here I had to create them with
+		// Glade. Find a way to use the older, simpler way.
+		var resolution_count = RESOLUTIONS_X.length;
+		x_res.set_range(RESOLUTIONS_X[0],
+						RESOLUTIONS_X[resolution_count-1]);
 
+		y_res.set_range(RESOLUTIONS_Y[0],
+						RESOLUTIONS_Y[resolution_count-1]);
+
+		this.add (vbox);
 		this.show_all ();
 /*		// build the bottom UI
-		var hbox = new Gtk.HBox(false, 5);
-		resolution = new Gtk.ComboBox.text();
-		resolution.append_text(_("Custom"));
-		var align = new Gtk.Alignment(0, 0.5f, 0, 0);
-		align.add(resolution);
-		hbox.pack_start(align, false, false, 0);
-		
-		var resolution_count = RESOLUTIONS_X.length;
-		x_res = new Gtk.SpinButton.with_range(RESOLUTIONS_X[0],
-											  RESOLUTIONS_X[resolution_count-1],
-											  1);
-											  
-		align = new Gtk.Alignment(0, 0.5f, 0, 0);
-		align.add(x_res);
-		hbox.pack_start(align, false, false, 0);
-		
-		y_res = new Gtk.SpinButton.with_range(RESOLUTIONS_Y[0],
-											  RESOLUTIONS_Y[resolution_count-1],
-											  1);
-		
-		align = new Gtk.Alignment(0, 0.5f, 0, 0);
-		align.add(y_res);
-		hbox.pack_start(align, false, false, 0);
-		
 		new_button = new Gtk.Button.with_label(_("New Presentation"));
 		new_button.sensitive = false;
 		new_button.image = new Gtk.Image.from_stock("gtk-new",
