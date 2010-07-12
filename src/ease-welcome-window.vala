@@ -185,7 +185,6 @@ public class Ease.WelcomeWindow : Gtk.Window
 		preview_container.add_actor(preview_background);
 
 		try	{
-			// FIXME : incompatible assignment
 			unowned string[] data_dirs = Environment.get_system_data_dirs ();
 			foreach (string dir in data_dirs) {
 				var filename = Path.build_filename (dir,
@@ -280,6 +279,9 @@ public class Ease.WelcomeWindow : Gtk.Window
 		try
 		{
 			// create a new Document
+			// FIXME : this call crashes. We don't reach the next line,
+			// nor do we reach the constructor from_theme(). It must have
+			// something to do with the closure (gdb talks about it).
 			var document = new Document.from_theme(selected_theme,
 												   (int)x_res.get_value(),
 												   (int)y_res.get_value());
