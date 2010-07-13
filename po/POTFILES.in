@@ -1,7 +1,6 @@
 # List of source files which contain translatable strings.
 [encoding: UTF-8]
 data/ease.desktop.in.in
-data/ui/editor-window.ui
 src/ease-about-dialog.vala
 src/ease-actor.vala
 src/ease-close-confirm-dialog.vala
