@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ease 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-21 12:53+0200\n"
+"POT-Creation-Date: 2010-07-13 20:19-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
 "Language-Team: French <LL@li.org>\n"
@@ -16,24 +16,33 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/ease-about-dialog.vala:37
+#: ../data/ease.desktop.in.in.h:1
+msgid "Create nice and elegant presentations"
+msgstr "Créez des présentations élégantes"
+
+#: ../data/ease.desktop.in.in.h:2
+#, fuzzy
+msgid "Ease presentation editor"
+msgstr "Éditeur de présentation Ease"
+
+#: ../src/ease-about-dialog.vala:48
 msgid "A presentation application for the GNOME Desktop"
 msgstr ""
 
-#: ../src/ease-about-dialog.vala:47
+#: ../src/ease-about-dialog.vala:58
 msgid "Mario Blättermann"
 msgstr ""
 
-#: ../src/ease-close-confirm-dialog.vala:24
+#: ../src/ease-close-confirm-dialog.vala:38
 msgid "Save before closing?"
 msgstr ""
 
 #. buttons
-#: ../src/ease-close-confirm-dialog.vala:63
+#: ../src/ease-close-confirm-dialog.vala:77
 msgid "Close _without Saving"
 msgstr ""
 
-#: ../src/ease-close-confirm-dialog.vala:76
+#: ../src/ease-close-confirm-dialog.vala:96
 #, c-format
 msgid ""
 "If you don't save, changes from the last second will be permanently lost."
@@ -42,12 +51,12 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/ease-close-confirm-dialog.vala:80
+#: ../src/ease-close-confirm-dialog.vala:100
 msgid ""
 "If you don't save, changes from the last minute will be permanently lost."
 msgstr ""
 
-#: ../src/ease-close-confirm-dialog.vala:84
+#: ../src/ease-close-confirm-dialog.vala:104
 #, c-format
 msgid ""
 "If you don't save, changes from the last minute and %i second will be "
@@ -58,7 +67,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/ease-close-confirm-dialog.vala:88
+#: ../src/ease-close-confirm-dialog.vala:108
 #, c-format
 msgid ""
 "If you don't save, changes from the last %i minute will be permanently lost."
@@ -67,11 +76,11 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/ease-close-confirm-dialog.vala:95
+#: ../src/ease-close-confirm-dialog.vala:115
 msgid "If you don't save, changes from the last hour will be permanently lost."
 msgstr ""
 
-#: ../src/ease-close-confirm-dialog.vala:97
+#: ../src/ease-close-confirm-dialog.vala:117
 #, c-format
 msgid ""
 "If you don't save, changes from the last hour and %i minute will be "
@@ -82,7 +91,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/ease-close-confirm-dialog.vala:101
+#: ../src/ease-close-confirm-dialog.vala:121
 #, c-format
 msgid ""
 "If you don't save, changes from the last %i hour will be permanently lost."
@@ -91,70 +100,49 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/ease-close-confirm-dialog.vala:106
+#: ../src/ease-close-confirm-dialog.vala:132
 #, c-format
 msgid "Save changes to \"%s\" before closing?"
 msgstr ""
 
-#: ../src/ease-document.vala:173
+#: ../src/ease-document.vala:152
 msgid "Error exporting as HTML"
 msgstr ""
 
-#: ../src/ease-editor-window.vala:151
+#: ../src/ease-editor-window.vala:167
 msgid "Untitled Document"
 msgstr ""
 
-#: ../src/ease-editor-window.vala:307
+#: ../src/ease-editor-window.vala:279
+msgid "Insert Image"
+msgstr ""
+
+#: ../src/ease-editor-window.vala:312
+msgid "Error Inserting Image"
+msgstr ""
+
+#: ../src/ease-editor-window.vala:342
 msgid "Save Document"
 msgstr ""
 
-#: ../src/ease-editor-window.vala:338
+#: ../src/ease-editor-window.vala:373
 msgid "Error Saving Document"
 msgstr ""
 
-#. TODO : use mnemonics
-#: ../src/ease-editor-window.vala:358
-msgid "File"
+#. create the dialog
+#: ../src/ease-editor-window.vala:421
+msgid "Select Color"
 msgstr ""
 
-#: ../src/ease-editor-window.vala:361
-msgid "New"
-msgstr ""
-
-#: ../src/ease-editor-window.vala:363
-#, fuzzy
-msgid "Presentation"
-msgstr "Nouvelle présentation"
-
-#: ../src/ease-editor-window.vala:365
-msgid "Theme"
-msgstr ""
-
-#: ../src/ease-editor-window.vala:366
-msgid "Quit"
-msgstr ""
-
-#: ../src/ease-editor-window.vala:374
-msgid "Open"
-msgstr ""
-
-#: ../src/ease-editor-window.vala:389
-msgid "Help"
-msgstr ""
-
-#: ../src/ease-editor-window.vala:392
-msgid "About Ease"
-msgstr ""
-
-#: ../src/ease-html-exporter.vala:57
+#: ../src/ease-html-exporter.vala:69
 msgid "Export to HTML"
 msgstr ""
 
-#: ../src/ease-html-exporter.vala:75
+#: ../src/ease-html-exporter.vala:87
 msgid "Exporting as HTML"
 msgstr ""
 
-#: ../src/ease-html-exporter.vala:140
+#: ../src/ease-html-exporter.vala:152
 msgid "Error Copying File"
 msgstr ""
 
@@ -175,6 +163,11 @@ msgstr ""
 msgid "Error Exporting to PDF"
 msgstr ""
 
+#: ../src/ease-player.vala:64
+#, fuzzy
+msgid "Ease Presentation"
+msgstr "Nouvelle présentation"
+
 #: ../src/ease-slide-actor.vala:265
 #, c-format
 msgid "Error loading background: %s"
@@ -188,7 +181,7 @@ msgstr ""
 msgid "Duration"
 msgstr ""
 
-#: ../src/ease-temp.vala:202
+#: ../src/ease-temp.vala:209
 #, c-format
 msgid "Directory to remove doesn't exist: %s"
 msgstr ""
@@ -364,19 +357,15 @@ msgstr ""
 msgid "Out"
 msgstr ""
 
-#: ../src/ease-video-element.vala:70
-msgid "Your browser does not support the video tag"
-msgstr ""
-
-#: ../src/ease-welcome-window.vala:91 ../src/ease-welcome-window.vala:125
+#: ../src/ease-welcome-window.vala:89 ../src/ease-welcome-window.vala:123
 msgid "New Presentation"
 msgstr "Nouvelle présentation"
 
-#: ../src/ease-welcome-window.vala:97
+#: ../src/ease-welcome-window.vala:95
 msgid "Custom"
 msgstr "Personnalisée"
 
-#: ../src/ease-welcome-window.vala:100
+#: ../src/ease-welcome-window.vala:98
 #, c-format
 msgid "%i by %i"
 msgstr "%i par %i"
@@ -404,5 +393,6 @@ msgstr ""
 msgid "Error Opening Document"
 msgstr ""
 
-#~ msgid "Create nice and elegant presentations"
-#~ msgstr "Créez des présentations élégantes"
+#, fuzzy
+#~ msgid "Presentation"
+#~ msgstr "Nouvelle présentation"
