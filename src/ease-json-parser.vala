@@ -155,13 +155,15 @@ public static class Ease.JSONParser
 		var type = obj.get_string_member("element_type");
 		
 		// create the element
-		if (type == VIDEO_TYPE)
-			element = new VideoElement();
-		else if (type == IMAGE_TYPE)
+		/*if (type == VIDEO_TYPE) {
+			// element = new VideoElement();
+			// dropped at the moment.
+		} else */ 
+	        if (type == IMAGE_TYPE) {
 			element = new ImageElement();
-		else
+		} else {
 			element = new TextElement();
-		
+		}
 		// set the Element's properties
 		for (unowned List<string>* itr = obj.get_members();
 		     itr != null; itr = itr->next)

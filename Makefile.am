@@ -51,8 +51,6 @@ ease_SOURCES = \
 	src/ease-undo-actions.vala \
 	src/ease-undo-controller.vala \
 	src/ease-utilities.vala \
-	src/ease-video-actor.vala \
-	src/ease-video-element.vala \
 	src/ease-welcome-actor.vala \
 	src/ease-welcome-window.vala \
 	src/ease-zoom-slider.vala \
@@ -68,7 +66,6 @@ VALAFLAGS = --pkg glib-2.0 \
 		--pkg clutter-gtk-0.10 \
 		--pkg cogl-1.0 \
 		--pkg gio-2.0 \
-		--pkg clutter-gst-1.0\
 		--pkg json-glib-1.0\
 		--pkg libarchive\
 		--pkg gmodule-2.0\
@@ -94,7 +91,7 @@ theme_DATA = $(wildcard $(top_srcdir)/themes/*.easetheme)
 
 doc: src/*.vala
 	rm -rf doc
-	valadoc --internal --private --pkg "json-glib-1.0" --pkg "gee-1.0"  --pkg "clutter-gtk-0.10" --pkg "clutter-gst-1.0" --pkg "libarchive" --directory=./doc --basedir=src ./src/*.vala
+	valadoc --internal --private --pkg "json-glib-1.0" --pkg "gee-1.0"  --pkg "clutter-gtk-0.10" --pkg "libarchive" --directory=./doc --basedir=src ./src/*.vala
 	gnome-open doc/doc/Ease.html
 
 archive: themes/* examples/*

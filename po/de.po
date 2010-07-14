@@ -7,9 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=ease&component=general\n"
-"POT-Creation-Date: 2010-07-10 06:15+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-07-13 20:19-0500\n"
 "PO-Revision-Date: 2010-07-11 18:19+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
@@ -19,6 +18,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
+
+#: ../data/ease.desktop.in.in.h:1
+msgid "Create nice and elegant presentations"
+msgstr "Erstellen ansprechender und eleganter Präsentationen"
+
+#: ../data/ease.desktop.in.in.h:2
+msgid "Ease presentation editor"
+msgstr "Ease Präsentationsprogramm"
 
 #: ../src/ease-about-dialog.vala:48
 msgid "A presentation application for the GNOME Desktop"
@@ -375,10 +382,6 @@ msgstr "Ein"
 msgid "Out"
 msgstr "Aus"
 
-#: ../src/ease-video-element.vala:70
-msgid "Your browser does not support the video tag"
-msgstr "Ihr Browser unterstützt die Video-Markierung nicht"
-
 #: ../src/ease-welcome-window.vala:89 ../src/ease-welcome-window.vala:123
 msgid "New Presentation"
 msgstr "Neue Präsentation"
@@ -414,6 +417,9 @@ msgstr "Fehler beim Abspielen des Dokuments"
 msgid "Error Opening Document"
 msgstr "Fehler beim Öffnen des Dokuments"
 
+#~ msgid "Your browser does not support the video tag"
+#~ msgstr "Ihr Browser unterstützt die Video-Markierung nicht"
+
 #~ msgid "File"
 #~ msgstr "Datei"
 
@@ -437,12 +443,6 @@ msgstr "Fehler beim Öffnen des Dokuments"
 
 #~ msgid "About Ease"
 #~ msgstr "Info zu Ease"
-
-#~ msgid "Create nice and elegant presentations"
-#~ msgstr "Erstellen ansprechender und eleganter Präsentationen"
-
-#~ msgid "Ease presentation editor"
-#~ msgstr "Ease Präsentationsprogramm"
 
 #~ msgid "Error saving: %s"
 #~ msgstr "Fehler beim Speichern: %s"

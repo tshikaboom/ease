@@ -79,8 +79,6 @@ public static class Ease.Main : GLib.Object
 			return 1;
 		}
 
-		ClutterGst.init(ref args);
-
 		// initalize static classes
 		Transitions.init();
 		OpenDialog.init();
