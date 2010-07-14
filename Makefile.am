@@ -51,8 +51,6 @@ ease_SOURCES = \
 	src/ease-undo-actions.vala \
 	src/ease-undo-controller.vala \
 	src/ease-utilities.vala \
-	src/ease-video-actor.vala \
-	src/ease-video-element.vala \
 	src/ease-welcome-actor.vala \
 	src/ease-welcome-window.vala \
 	src/ease-zoom-slider.vala \
