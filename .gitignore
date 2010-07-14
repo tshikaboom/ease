@@ -60,3 +60,7 @@ INSTALL
 *.pc
 *.la
 *.stamp
+
+# l18n
+*.gmo
+POTFILES
