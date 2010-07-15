@@ -116,10 +116,7 @@ public class Ease.WelcomeActor : Clutter.Group
 			// unfade the others
 			foreach (var a in others)
 			{
-				if (a != this)
-				{
-					a.fade();
-				}
+				a.fade();
 			}
 			unfade();
 			selected();
