@@ -58,11 +58,10 @@ public class Ease.WelcomeActor : Clutter.Group
 		rect.color = {0, 0, 0, 255};
 		add_actor(rect);
 		
-		text = new Clutter.Text();
-		text.color = {255, 255, 255, 255};
+		text = new Clutter.Text.full (FONT_NAME,
+									  theme.title,
+									  {255, 255, 255, 255});
 		text.height = TEXT_HEIGHT;
-		text.text = theme.title;
-		text.font_name = FONT_NAME;
 		text.line_alignment = Pango.Alignment.RIGHT;
 		add_actor(text);
 		
