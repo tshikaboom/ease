@@ -123,8 +123,7 @@ public class Ease.EditorWindow : Gtk.Window
 		var builder = new Gtk.Builder();
 		try
 		{
-			builder.add_from_file(data_path(Path.build_filename(Temp.TEMP_DIR,
-				                                                Temp.UI_DIR,
+			builder.add_from_file(data_path(Path.build_filename(Temp.UI_DIR,
 				                                                UI_FILE_PATH)));
 		}
 		catch (Error e) { error("Error loading UI: %s", e.message); }

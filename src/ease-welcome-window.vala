@@ -91,13 +91,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 		
 		var builder = new Gtk.Builder ();
 		try {
-			// FIXME : it's ugly.
-			string ui_path = data_path(Path.build_filename(Temp.TEMP_DIR,
-														   Temp.UI_DIR,
+			string ui_path = data_path(Path.build_filename(Temp.UI_DIR,
 														   "welcome-window.ui"));
-			if (ui_path == null)
-				ui_path = "data/ui/welcome-window.ui";
-
 			builder.add_from_file (ui_path);
 		} catch (Error e) {
 			error ("Unable to load UI : %s", e.message);

@@ -18,6 +18,16 @@
 namespace Ease
 {
 	/**
+	 * The local data path.
+	 */
+	private const string LOCAL_DATA = "data";
+	
+	/**
+	 * The installed data path.
+	 */
+	private const string SYS_DATA = "ease";
+	
+	/**
 	 * Display a simple error message.
 	 *
 	 * @param title The title of the dialog.
@@ -43,18 +53,37 @@ namespace Ease
 	 */
 	public string? data_path(string path)
 	{
-		string[] data_dirs = Environment.get_system_data_dirs();
+		string file;
+		file = query_file(LOCAL_DATA, path);
+		if (file != null) return file;
+		
+		var data_dirs = Environment.get_system_data_dirs();
 		foreach (string dir in data_dirs)
 		{
-			var filename = Path.build_filename(dir, path);
-			var file = File.new_for_path(filename);
-			
-			if (file.query_exists(null))
-			{
-				return filename;
-			}
+			var sys_file = query_file(Path.build_filename(SYS_DATA, dir), path);
+			if (sys_file != null) return sys_file;
 		}
 		
+		return null;
+	}
+	
+	/**
+	 * Queries the given folder for the file, returning it if it is found.
+	 *
+	 * Otherwise, the function returns null.
+	 *
+	 * @param dir The base directory.
+	 * @param path The path to search for.
+	 */
+	private string? query_file(string dir, string path)
+	{
+		var filename = Path.build_filename(dir, path);
+		var file = File.new_for_path(filename);
+		
+		if (file.query_exists(null))
+		{
+			return filename;
+		}
 		return null;
 	}
 

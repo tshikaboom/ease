@@ -53,9 +53,7 @@ public class Ease.Handle : Clutter.Texture
 		position = pos;
 
 		// load the handle texture
-		filename = data_path(Path.build_filename(Temp.TEMP_DIR,
-		                                         Temp.IMG_DIR,
-		                                         W_PATH));
+		filename = data_path(Path.build_filename(Temp.IMG_DIR, W_PATH));
 
 		// set the handle's anchor
 		set_anchor_point(width / 2, height / 2);
@@ -231,15 +229,11 @@ public class Ease.Handle : Clutter.Texture
 	{
 		if (flipped)
 		{
-			filename = data_path(Path.build_filename(Temp.TEMP_DIR,
-	                                                 Temp.IMG_DIR,
-	                                                 W_PATH));
+			filename = data_path(Path.build_filename(Temp.IMG_DIR, W_PATH));
 		}
 		else
 		{
-			filename = data_path(Path.build_filename(Temp.TEMP_DIR,
-	                                                 Temp.IMG_DIR,
-	                                                 B_PATH));
+			filename = data_path(Path.build_filename(Temp.IMG_DIR, B_PATH));
 		}
 		
 		flipped = !flipped;
