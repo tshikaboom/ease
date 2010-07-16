@@ -132,11 +132,62 @@ public static class Ease.Temp : Object
 	 * @param filename The filename of the archive to save to.
 	 */
 	public static void archive(string temp_path, string filename) throws Error
-	{	
-		// TODO: implementation with libarchive
-		var file = GLib.File.new_for_path(filename);
-		string last_path = file.get_basename();
-		Posix.system("cd \"%s\"; tar -cf \"%s\" `ls`; mv \"%s\" \"%s\"".printf(temp_path, last_path, last_path, filename));
+	{
+		// create a writable archive
+		var archive = new Archive.Write();
+		var buffer = new char[ARCHIVE_BUFFER];
+		
+		// set archive format
+		archive.set_format_pax_restricted();
+		archive.set_compression_none();
+		
+		// open file
+		if (archive.open_filename(/*filename*/"/Users/Nate/Desktop/asdf.tar") == Archive.Result.FAILED)
+		{
+			throw new Error(0, 0, "Error opening %s", filename);
+		}
+		
+		// open the temporary directory
+		var dir = GLib.Dir.open(temp_path, 0);
+		
+		// error if the temporary directory has disappeared
+		if (dir == null)
+		{
+			throw new FileError.NOENT(
+				_("Temporary directory doesn't exist: %s"), temp_path);
+		}
+		
+		// add files
+		string child_path;
+		while ((child_path = dir.read_name()) != null)
+		{
+			var child_full_path = Path.build_filename(temp_path, child_path);
+			if (!FileUtils.test(child_full_path, FileTest.IS_DIR))
+			{
+				// set up the entry
+				var entry = new Archive.Entry();
+				entry.set_pathname(child_path);
+				Posix.Stat st;
+				Posix.stat(child_full_path, out st);
+				entry.set_size(st.st_size);
+				entry.set_filetype(0100000);
+				entry.set_perm(0644);
+				
+				// write the file
+				archive.write_header(entry);
+				var fd = Posix.open(child_full_path, Posix.O_RDONLY);
+				var len = Posix.read(fd, buffer, sizeof(char) * ARCHIVE_BUFFER);
+				while(len > 0)
+				{
+					archive.write_data(buffer, len);
+					len = Posix.read(fd, buffer, sizeof(char) * ARCHIVE_BUFFER);
+				}
+				Posix.close(fd);
+			}
+		}
+		
+		// close the archive
+		archive.close();
 	}
 	
 	/**
