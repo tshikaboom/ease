@@ -123,10 +123,7 @@ public static class Ease.Temp : Object
 	/**
 	 * Creates an archive from a temporary directory.
 	 *
-	 * archive() will use libarchive to archive a temporary directory (or,
-	 * technically, any directory) to a single file. Currently, it runs "tar"
-	 * with Posix.system(), a solution that should be replaced with a more
-	 * portable alternative.
+	 * archive() uses libarchive to create a tarball of the temporary directory.
 	 *
 	 * @param temp_path The path of the temporary directory.
 	 * @param filename The filename of the archive to save to.
@@ -142,7 +139,7 @@ public static class Ease.Temp : Object
 		archive.set_compression_none();
 		
 		// open file
-		if (archive.open_filename(/*filename*/"/Users/Nate/Desktop/asdf.tar") == Archive.Result.FAILED)
+		if (archive.open_filename(filename) == Archive.Result.FAILED)
 		{
 			throw new Error(0, 0, "Error opening %s", filename);
 		}
