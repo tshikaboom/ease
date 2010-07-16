@@ -7,9 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-13 20:19-0500\n"
-"PO-Revision-Date: 2010-07-11 18:19+0100\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=ease&component=general\n"
+"POT-Creation-Date: 2010-07-16 05:11+0000\n"
+"PO-Revision-Date: 2010-07-16 21:47+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -206,7 +207,11 @@ msgstr "Effekt"
 msgid "Duration"
 msgstr "Dauer"
 
-#: ../src/ease-temp.vala:209
+#: ../src/ease-temp.vala:157
+msgid "Temporary directory doesn't exist: %s"
+msgstr "Temporärer Ordner existiert nicht: %s"
+
+#: ../src/ease-temp.vala:260
 #, c-format
 msgid "Directory to remove doesn't exist: %s"
 msgstr "Zu entfernender Ordner existiert nicht: %s"
@@ -409,11 +414,11 @@ msgstr " - ein Präsentationsprogramm"
 msgid "error parsing options: %s\n"
 msgstr "Fehler beim Verarbeiten der Optionen: %s\n"
 
-#: ../src/main.vala:122
+#: ../src/main.vala:120
 msgid "Error Playing Document"
 msgstr "Fehler beim Abspielen des Dokuments"
 
-#: ../src/main.vala:167
+#: ../src/main.vala:165
 msgid "Error Opening Document"
 msgstr "Fehler beim Öffnen des Dokuments"
 
