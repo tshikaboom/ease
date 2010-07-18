@@ -243,7 +243,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 			a.button_press_event.connect ((act, event) =>
                 {
                     if (event.click_count == 2) {
-						new_document ();
+						create_new_document (null);
 					}
 					(act as WelcomeActor).clicked ();
 					selected_theme = (act as WelcomeActor).theme;
@@ -273,9 +273,8 @@ public class Ease.WelcomeWindow : Gtk.Window
 	}
 
 	[CCode (instance_pos = -1)]
-	public void new_document()
+	public void create_new_document (Gtk.Widget? sender)
 	{
-		debug ("Creating a new document.");
 		try
 		{
 			// create a new Document
@@ -285,7 +284,6 @@ public class Ease.WelcomeWindow : Gtk.Window
 			var document = new Document.from_theme(selected_theme,
 												   (int)x_res.get_value(),
 												   (int)y_res.get_value());
-			debug ("Creating an editor window");
 			// create an EditorWindow for the new Document
 			var editor = new EditorWindow(document);
 

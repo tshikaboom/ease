@@ -65,20 +65,16 @@ public class Ease.Document : SlideSet
 	 */
 	public Document.from_theme(Theme doc_theme, int w, int h) throws GLib.Error
 	{
-		debug ("Creating a new document with a theme.");
 		width = w;
 		height = h;
 		theme = doc_theme;
 		
 		assert (doc_theme != null);
-		debug ("Allocating temp dir");
 		// allocate a temp directory for the new document
 		path = Temp.request();
 		
-		debug ("Copying media");
 		// copy media to the new path
 		doc_theme.copy_media(path);
-		debug ("Getting master");
 		// get the master
 		var master = theme.slide_by_title(DEFAULT_SLIDE);
 		
