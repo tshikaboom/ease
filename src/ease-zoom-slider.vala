@@ -21,16 +21,12 @@
  * ZoomSlider uses ClutterAnimation to smoothly adjust the slider when th
  * zoom in or zoom out button is clicked.
  */
-public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
+public class Ease.ZoomSlider : Gtk.Alignment
 {
 	private Gtk.HScale zoom_slider;
 	private Gtk.Button zoom_in_button;
 	private Gtk.Button zoom_out_button;
 	private int[] values;
-	
-	private Clutter.Animation zoom_anim;
-	private const int ZOOM_TIME = 100;
-	private const int ZOOM_MODE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
 	
 	/** 
 	 * The position of the zoom slider's value.
@@ -160,7 +156,7 @@ public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 		{
 			if (zoom_slider.get_value() > values[i])
 			{
-				animate_zoom(values[i]);
+				change_zoom(values[i]);
 				break;
 			}
 		}
@@ -172,34 +168,15 @@ public class Ease.ZoomSlider : Gtk.Alignment, Clutter.Animatable
 		{
 			if (zoom_slider.get_value() < values[i])
 			{
-				animate_zoom(values[i]);
+				change_zoom(values[i]);
 				break;
 			}
 		}
 	}
 	
-	private void animate_zoom(double value)
+	protected virtual void change_zoom(double value)
 	{
-		zoom_anim = new Clutter.Animation();
-		zoom_anim.object = this;
-		zoom_anim.bind("sliderpos", value);
-		zoom_anim.duration = ZOOM_TIME;
-		zoom_anim.mode = ZOOM_MODE;
-		zoom_anim.timeline.start();
-	}
-	
-	private bool animate_property(Clutter.Animation animation,
-	                                      string property_name,
-	                                      GLib.Value initial_value,
-	                                      GLib.Value final_value,
-	                                      double progress,
-	                                      GLib.Value value)
-	{
-		if (property_name != "sliderpos") { return false; }
-		
-		value.set_double(initial_value.get_double() * (1 - progress) + 
-		                 final_value.get_double() * progress);
-		return true;
+		sliderpos = value;
 	}
 	
 	/** 

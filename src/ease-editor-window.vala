@@ -477,8 +477,8 @@ public class Ease.EditorWindow : Gtk.Window
 	private ZoomSlider create_zoom_slider()
 	{
 		// create zoom slider
-		zoom_slider = new ZoomSlider(new Gtk.Adjustment(100, 10, 400, 10,
-		                                                50, 50), ZOOM_LEVELS);
+		zoom_slider = new AnimatedZoomSlider(new Gtk.Adjustment(100, 10, 400, 10,
+		                                                        50, 50), ZOOM_LEVELS);
 		zoom_slider.width_request = 200;
 		zoom_slider.value_pos = Gtk.PositionType.RIGHT;
 		zoom_slider.digits = 0;

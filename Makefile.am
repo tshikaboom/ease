@@ -54,6 +54,7 @@ ease_SOURCES = \
 	src/ease-welcome-actor.vala \
 	src/ease-welcome-window.vala \
 	src/ease-zoom-slider.vala \
+	src/ease-animated-zoom-slider.vala \
 	src/main.vala \
 	$(NULL)
 
