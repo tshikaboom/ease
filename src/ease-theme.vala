@@ -40,6 +40,9 @@ public class Ease.Theme : GLib.Object
 	public const string MEDIA = "media";
 	public const string MEDIA_HEADER = "media-header";
 	
+	// master slide properties
+	public const string BACKGROUND_COLOR = "background-color";
+	
 	// text content types
 	private const string TITLE_TEXT = "title-text";
 	private const string AUTHOR_TEXT = "author-text";
@@ -240,6 +243,11 @@ public class Ease.Theme : GLib.Object
 	{
 		Slide slide = new Slide();
 		
+		// set the slide background property
+		Clutter.Color color = {255, 255, 255, 255};	
+		color.from_string(master_get(master, BACKGROUND_COLOR));
+		slide.background_color = color;
+		
 		switch (master)
 		{
 			case TITLE:
@@ -394,11 +402,15 @@ public class Ease.Theme : GLib.Object
 	private string master_get(string master, string prop)
 	{
 		// try local specifics
-		var str = masters.get(master).get(prop);
-		if (str != null) return str;
+		var map = masters.get(master);
+		if (map != null)
+		{
+			var str = map.get(prop);
+			if (str != null) return str;
+		}
 		
 		// try local generics
-		str = master_defaults.get(prop);
+		var str = master_defaults.get(prop);
 		if (str != null) return str;
 		
 		// use default settings
