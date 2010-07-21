@@ -14,6 +14,7 @@ AM_CPPFLAGS = \
 ease_SOURCES = \
 	src/ease-about-dialog.vala \
 	src/ease-actor.vala \
+	src/ease-animated-zoom-slider.vala \
 	src/ease-close-confirm-dialog.vala \
 	src/ease-document.vala \
 	src/ease-editor-embed.vala \
@@ -54,7 +55,6 @@ ease_SOURCES = \
 	src/ease-welcome-actor.vala \
 	src/ease-welcome-window.vala \
 	src/ease-zoom-slider.vala \
-	src/ease-animated-zoom-slider.vala \
 	src/main.vala \
 	$(NULL)
 
