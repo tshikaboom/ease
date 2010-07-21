@@ -310,14 +310,15 @@ mk	 * The path to the theme's extracted files.
 				
 				// create the slide's content
 				left = element_get(CONTENT_TEXT, PAD_LEFT).to_int();
-				top += element_get(HEADER_TEXT, HEIGHT).to_int() + 
+				top += element_get(HEADER_TEXT, HEIGHT).to_int() +
+				       element_get(HEADER_TEXT, PAD_BOTTOM).to_int() +
 				       element_get(CONTENT_TEXT, PAD_TOP).to_int();
 				slide.add(create_text(
 					CONTENT_TEXT,
 					left,
 					top,
 					width - left - element_get(CONTENT_TEXT, PAD_RIGHT).to_int(),
-					height - top - element_get(HEADER_TEXT, PAD_BOTTOM).to_int()
+					height - top - element_get(CONTENT_TEXT, PAD_BOTTOM).to_int()
 				));
 				break;
 			
@@ -365,10 +366,11 @@ mk	 * The path to the theme's extracted files.
 		text.y = y;
 		text.width = w;
 		text.height = h;
-		text.identifier = type;
 		
-		// TODO: some manner of default text
-		text.text = "Hello world!";
+		// set base properties
+		text.identifier = type;
+		text.has_been_edited = false;
+		text.text = "";
 		
 		return text;
 	}
