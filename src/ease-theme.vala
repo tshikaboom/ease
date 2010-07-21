@@ -73,8 +73,7 @@ public class Ease.Theme : GLib.Object
 		TEXT_STYLE,
 		TEXT_VARIANT,
 		TEXT_WEIGHT,
-		TEXT_ALIGN,
-		E_IDENTIFIER
+		TEXT_ALIGN
 	};
 	
 	// media content types
@@ -366,6 +365,7 @@ mk	 * The path to the theme's extracted files.
 		text.y = y;
 		text.width = w;
 		text.height = h;
+		text.identifier = type;
 		
 		// TODO: some manner of default text
 		text.text = "Hello world!";
