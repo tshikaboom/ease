@@ -7,31 +7,30 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-13 20:19-0500\n"
-"PO-Revision-Date: 2010-07-02 14:07+0100\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=ease&component=general\n"
+"POT-Creation-Date: 2010-07-21 03:36+0000\n"
+"PO-Revision-Date: 2010-07-21 14:56+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: ../data/ease.desktop.in.in.h:1
 msgid "Create nice and elegant presentations"
-msgstr "Ustvarite lepo in elegantno predstavitev"
+msgstr "Ustvarite lepe in elegantne predstavitve"
 
 #: ../data/ease.desktop.in.in.h:2
 msgid "Ease presentation editor"
-msgstr "Napaka urejevalnika predstavitev Ease"
+msgstr "Urejevalnik predstavitev Ease"
 
 #: ../src/ease-about-dialog.vala:48
 msgid "A presentation application for the GNOME Desktop"
-msgstr "Program predstavitev za GNOME namizje"
+msgstr "Program za ustvarjanje predstavitev za namizje GNOME"
 
 #: ../src/ease-about-dialog.vala:58
 msgid "Mario Blättermann"
@@ -39,7 +38,7 @@ msgstr "Mario Blättermann"
 
 #: ../src/ease-close-confirm-dialog.vala:38
 msgid "Save before closing?"
-msgstr "Ali naj se shranijo spremembe pred zapiranjem?"
+msgstr "Ali želite shraniti pred zapiranjem?"
 
 #. buttons
 #: ../src/ease-close-confirm-dialog.vala:77
@@ -48,104 +47,61 @@ msgstr "Zapri _brez shranjevanja"
 
 #: ../src/ease-close-confirm-dialog.vala:96
 #, c-format
-msgid ""
-"If you don't save, changes from the last second will be permanently lost."
-msgid_plural ""
-"If you don't save, changes from the last %i seconds will be permanently lost."
-msgstr[0] ""
-"V kolikor ne shranite, bodo spremembe zadnjih %i sekund trajno izgubljene."
-msgstr[1] ""
-"V kolikor ne shranite, bodo spremembe zadnje %i sekunde trajno izgubljene."
-msgstr[2] ""
-"V kolikor ne shranite, bodo spremembe zadnjih %i sekund trajno izgubljene."
-msgstr[3] ""
-"V kolikor ne shranite, bodo spremembe zadnjih %i sekund trajno izgubljene."
+msgid "If you don't save, changes from the last second will be permanently lost."
+msgid_plural "If you don't save, changes from the last %i seconds will be permanently lost."
+msgstr[0] "V kolikor ne shranite, bodo spremembe zadnjih %i sekund izgubljene."
+msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje sekunde izgubljene."
+msgstr[2] "V kolikor ne shranite, bodo spremembe zadnjih %i sekund izgubljene."
+msgstr[3] "V kolikor ne shranite, bodo spremembe zadnjih %i sekund izgubljene."
 
 #: ../src/ease-close-confirm-dialog.vala:100
-msgid ""
-"If you don't save, changes from the last minute will be permanently lost."
-msgstr "V kolikor ne shranite, bodo spremembe zadnje minute trajno izgubljene."
+msgid "If you don't save, changes from the last minute will be permanently lost."
+msgstr "V kolikor ne shranite, bodo spremembe zadnje minute izgubljene."
 
 #: ../src/ease-close-confirm-dialog.vala:104
 #, c-format
-msgid ""
-"If you don't save, changes from the last minute and %i second will be "
-"permanently lost."
-msgid_plural ""
-"If you don't save, changes from the last minute and %i seconds will be "
-"permanently lost."
-msgstr[0] ""
-"V kolikor ne shranite, bodo spremembe zadnje minute in %i sekund trajno "
-"izgubljene."
-msgstr[1] ""
-"V kolikor ne shranite, bodo spremembe zadnje minute in %i sekunde trajno "
-"izgubljene."
-msgstr[2] ""
-"V kolikor ne shranite, bodo spremembe zadnje minute in %i sekund trajno "
-"izgubljene."
-msgstr[3] ""
-"V kolikor ne shranite, bodo spremembe zadnje minute in %i sekund trajno "
-"izgubljene."
+msgid "If you don't save, changes from the last minute and %i second will be permanently lost."
+msgid_plural "If you don't save, changes from the last minute and %i seconds will be permanently lost."
+msgstr[0] "V kolikor ne shranite, bodo spremembe zadnje minute in %i sekund izgubljene."
+msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje minute in %i sekunde izgubljene."
+msgstr[2] "V kolikor ne shranite, bodo spremembe zadnje minute in %i sekund izgubljene."
+msgstr[3] "V kolikor ne shranite, bodo spremembe zadnje minute in %i sekund izgubljene."
 
 #: ../src/ease-close-confirm-dialog.vala:108
 #, c-format
-msgid ""
-"If you don't save, changes from the last %i minute will be permanently lost."
-msgid_plural ""
-"If you don't save, changes from the last %i minutes will be permanently lost."
-msgstr[0] ""
-"V kolikor ne shranite, bodo spremembe zadnjih %i minut trajno izgubljene."
-msgstr[1] ""
-"V kolikor ne shranite, bodo spremembe zadnje %i minute trajno izgubljene."
-msgstr[2] ""
-"V kolikor ne shranite, bodo spremembe zadnjih %i minut trajno izgubljene."
-msgstr[3] ""
-"V kolikor ne shranite, bodo spremembe zadnjih %i minut trajno izgubljene."
+msgid "If you don't save, changes from the last %i minute will be permanently lost."
+msgid_plural "If you don't save, changes from the last %i minutes will be permanently lost."
+msgstr[0] "V kolikor ne shranite, bodo spremembe zadnjih %i minut izgubljene."
+msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje %i minute izgubljene."
+msgstr[2] "V kolikor ne shranite, bodo spremembe zadnjih %i minut izgubljene."
+msgstr[3] "V kolikor ne shranite, bodo spremembe zadnjih %i minut izgubljene."
 
 #: ../src/ease-close-confirm-dialog.vala:115
 msgid "If you don't save, changes from the last hour will be permanently lost."
-msgstr "V kolikor ne shranite, bodo spremembe zadnje ure trajno izgubljene."
+msgstr "V kolikor ne shranite, bodo spremembe zadnje ure izgubljene."
 
 #: ../src/ease-close-confirm-dialog.vala:117
 #, c-format
-msgid ""
-"If you don't save, changes from the last hour and %i minute will be "
-"permanently lost."
-msgid_plural ""
-"If you don't save, changes from the last hour and %i minutes will be "
-"permanently lost."
-msgstr[0] ""
-"V kolikor ne shranite, bodo spremembe zadnje ure in %i minut trajno "
-"izgubljene."
-msgstr[1] ""
-"V kolikor ne shranite, bodo spremembe zadnje ure in %i minute trajno "
-"izgubljene."
-msgstr[2] ""
-"V kolikor ne shranite, bodo spremembe zadnje ure in %i minut trajno "
-"izgubljene."
-msgstr[3] ""
-"V kolikor ne shranite, bodo spremembe zadnje ure in %i minut trajno "
-"izgubljene."
+msgid "If you don't save, changes from the last hour and %i minute will be permanently lost."
+msgid_plural "If you don't save, changes from the last hour and %i minutes will be permanently lost."
+msgstr[0] "V kolikor ne shranite, bodo spremembe zadnje ure in %i minut izgubljene."
+msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje ure in %i minute izgubljene."
+msgstr[2] "V kolikor ne shranite, bodo spremembe zadnje ure in %i minut izgubljene."
+msgstr[3] "V kolikor ne shranite, bodo spremembe zadnje ure in %i minut izgubljene."
 
 #: ../src/ease-close-confirm-dialog.vala:121
 #, c-format
-msgid ""
-"If you don't save, changes from the last %i hour will be permanently lost."
-msgid_plural ""
-"If you don't save, changes from the last %i hours will be permanently lost."
-msgstr[0] ""
-"V kolikor ne shranite, bodo spremembe zadnjih %i minut trajno izgubljene."
-msgstr[1] ""
-"V kolikor ne shranite, bodo spremembe zadnje %i minute trajno izgubljene."
-msgstr[2] ""
-"V kolikor ne shranite, bodo spremembe zadnjih %i minut trajno izgubljene."
-msgstr[3] ""
-"V kolikor ne shranite, bodo spremembe zadnjih %i minut trajno izgubljene."
+msgid "If you don't save, changes from the last %i hour will be permanently lost."
+msgid_plural "If you don't save, changes from the last %i hours will be permanently lost."
+msgstr[0] "V kolikor ne shranite, bodo spremembe zadnjih %i minut izgubljene."
+msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje %i minute izgubljene."
+msgstr[2] "V kolikor ne shranite, bodo spremembe zadnjih %i minut izgubljene."
+msgstr[3] "V kolikor ne shranite, bodo spremembe zadnjih %i minut izgubljene."
 
 #: ../src/ease-close-confirm-dialog.vala:132
 #, c-format
 msgid "Save changes to \"%s\" before closing?"
-msgstr "Ali naj se shranijo spremembe \"%s\" pred zapiranjem?"
+msgstr "Ali želite shraniti spremembe \"%s\" pred zapiranjem?"
 
 #: ../src/ease-document.vala:152
 msgid "Error exporting as HTML"
@@ -157,12 +113,11 @@ msgstr "Neimenovan dokument"
 
 #: ../src/ease-editor-window.vala:279
 msgid "Insert Image"
-msgstr ""
+msgstr "Vstavi sliko"
 
 #: ../src/ease-editor-window.vala:312
-#, fuzzy
 msgid "Error Inserting Image"
-msgstr "Napaka  med izvozom v HTML"
+msgstr "Napaka med vstavljanjem slike"
 
 #: ../src/ease-editor-window.vala:342
 msgid "Save Document"
@@ -207,34 +162,40 @@ msgid "Error Exporting to PDF"
 msgstr "Napaka med izvažanjem v PDF"
 
 #: ../src/ease-player.vala:64
-#, fuzzy
 msgid "Ease Presentation"
-msgstr "Nova predstavitev"
+msgstr "Predstavitev Ease"
 
 #: ../src/ease-slide-actor.vala:265
 #, c-format
 msgid "Error loading background: %s"
 msgstr "Napaka med nalaganjem ozadja: %s"
 
-#: ../src/ease-slide-pane.vala:38 ../src/ease-transition-pane.vala:65
+#: ../src/ease-slide-pane.vala:38
+#: ../src/ease-transition-pane.vala:65
 msgid "Effect"
 msgstr "Učinek"
 
-#: ../src/ease-slide-pane.vala:49 ../src/ease-transition-pane.vala:81
+#: ../src/ease-slide-pane.vala:49
+#: ../src/ease-transition-pane.vala:81
 msgid "Duration"
 msgstr "Trajanje"
 
-#: ../src/ease-temp.vala:209
+#: ../src/ease-temp.vala:154
+#, c-format
+msgid "Temporary directory doesn't exist: %s"
+msgstr "Začasna mapa ne obstaja: %s"
+
+#: ../src/ease-temp.vala:257
 #, c-format
 msgid "Directory to remove doesn't exist: %s"
-msgstr "Mapa z odstranjevanje ne obstaja: %s"
+msgstr "Mapa za izbris ne obstaja: %s"
 
 #. *
 #. * The text shown for unedited Elements.
 #.
 #: ../src/ease-text-actor.vala:28
 msgid "Double Click to Edit"
-msgstr "Naredite dvojni klik za urejanje izbrane palete"
+msgstr "Naredite dvojni klik za urejanje"
 
 #: ../src/ease-transition-pane.vala:95
 msgid "Direction"
@@ -242,7 +203,7 @@ msgstr "Smer"
 
 #: ../src/ease-transition-pane.vala:108
 msgid "Start Transition"
-msgstr "Začni prehajanje"
+msgstr "Začni prehod"
 
 #: ../src/ease-transition-pane.vala:111
 msgid "Manually"
@@ -328,7 +289,8 @@ msgstr "Pridrsi vsebino"
 msgid "Zoom Contents"
 msgstr "Približaj vsebino"
 
-#: ../src/ease-transitions.vala:140 ../src/ease-transitions.vala:188
+#: ../src/ease-transitions.vala:140
+#: ../src/ease-transitions.vala:188
 msgid "Undefined"
 msgstr "Nedoločeno"
 
@@ -400,7 +362,8 @@ msgstr "V"
 msgid "Out"
 msgstr "Iz"
 
-#: ../src/ease-welcome-window.vala:89 ../src/ease-welcome-window.vala:123
+#: ../src/ease-welcome-window.vala:89
+#: ../src/ease-welcome-window.vala:123
 msgid "New Presentation"
 msgstr "Nova predstavitev"
 
@@ -427,37 +390,11 @@ msgstr "- urejevalnik predstavitev"
 msgid "error parsing options: %s\n"
 msgstr "napaka med razčlenjevanjem možnosti: %s\n"
 
-#: ../src/main.vala:122
+#: ../src/main.vala:120
 msgid "Error Playing Document"
 msgstr "Napaka med predvajanjem dokumenta"
 
-#: ../src/main.vala:167
+#: ../src/main.vala:165
 msgid "Error Opening Document"
 msgstr "Napaka med odpiranjem dokumenta"
 
-#~ msgid "File"
-#~ msgstr "Datoteka"
-
-#~ msgid "New"
-#~ msgstr "Novo"
-
-#~ msgid "Presentation"
-#~ msgstr "Predstavitev"
-
-#~ msgid "Theme"
-#~ msgstr "Tema"
-
-#~ msgid "Quit"
-#~ msgstr "Zapri"
-
-#~ msgid "Open"
-#~ msgstr "Odpri"
-
-#~ msgid "Help"
-#~ msgstr "Pomoč"
-
-#~ msgid "About Ease"
-#~ msgstr "O Ease"
-
-#~ msgid "Your browser does not support the video tag"
-#~ msgstr "Brskalnik ne podpira video oznake"
