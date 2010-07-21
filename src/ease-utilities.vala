@@ -60,7 +60,7 @@ namespace Ease
 		var data_dirs = Environment.get_system_data_dirs();
 		foreach (string dir in data_dirs)
 		{
-			var sys_file = query_file(Path.build_filename(SYS_DATA, dir), path);
+			var sys_file = query_file(Path.build_filename(dir, SYS_DATA), path);
 			if (sys_file != null) return sys_file;
 		}
 		
