@@ -52,7 +52,7 @@ public class Ease.Handle : Clutter.CairoTexture
 		
 		// set the handle's position
 		position = pos;
-
+		
 		// set the handle's anchor
 		set_anchor_point(SIZE / 2, SIZE / 2);
 		

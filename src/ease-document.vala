@@ -69,12 +69,12 @@ public class Ease.Document : SlideSet
 		height = h;
 		theme = doc_theme;
 		
+		assert (doc_theme != null);
 		// allocate a temp directory for the new document
 		path = Temp.request();
 		
 		// copy media to the new path
 		doc_theme.copy_media(path);
-		
 		// get the master
 		var master = theme.slide_by_title(DEFAULT_SLIDE);
 		
