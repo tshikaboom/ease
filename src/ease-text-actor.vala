@@ -114,6 +114,16 @@ public class Ease.TextActor : Actor
 		text.activatable = false;
 		text.text_changed.disconnect(text_changed);
 		text.activate.disconnect(text_activate);
+		
+		// if the text has not been edited, restore default text
+		if (text.text == "" && !element.has_been_edited)
+		{
+			text.text = DEFAULT_TEXT;
+		}
+		else // otherwise, the element has been edited
+		{
+			element.has_been_edited = true;
+		}
 	}
 	
 	/**
