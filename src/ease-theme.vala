@@ -30,6 +30,8 @@ public class Ease.Theme : GLib.Object
 	private const string ELEMENTS = "elements";
 	private const string MASTER_DEF = "master-defaults";
 	private const string ELEMENT_DEF = "element-defaults";
+	private const string THEME_TITLE = "title";
+	private const string THEME_AUTHOR = "author";
 	
 	// master slides
 	public const string TITLE = "title";
@@ -42,6 +44,7 @@ public class Ease.Theme : GLib.Object
 	
 	// master slide properties
 	public const string BACKGROUND_COLOR = "background-color";
+	public const string S_IDENTIFIER = "slide-identifier";
 	
 	// text content types
 	private const string TITLE_TEXT = "title-text";
@@ -58,6 +61,9 @@ public class Ease.Theme : GLib.Object
 	public const string TEXT_ALIGN = "text-align";
 	public const string TEXT_COLOR = "text-color";
 	
+	// generic element properties
+	public const string E_IDENTIFIER = "element-identifier";
+	
 	/**
 	 * The text properties, excluding color, which must be set in a custom way.
 	 */
@@ -67,7 +73,8 @@ public class Ease.Theme : GLib.Object
 		TEXT_STYLE,
 		TEXT_VARIANT,
 		TEXT_WEIGHT,
-		TEXT_ALIGN
+		TEXT_ALIGN,
+		E_IDENTIFIER
 	};
 	
 	// media content types
@@ -87,7 +94,7 @@ public class Ease.Theme : GLib.Object
 	public string title;
 	
 	/**
-	 * The path to the theme's extracted files.
+mk	 * The path to the theme's extracted files.
 	 */
 	public string path { get; set; }
 	
@@ -157,9 +164,6 @@ public class Ease.Theme : GLib.Object
 		}
 		
 		load_from_json(Path.build_filename(path, JSON_PATH));
-		
-		// TODO: load theme title
-		title = "Hello Themes!";
 	}
 	
 	/**
@@ -193,6 +197,7 @@ public class Ease.Theme : GLib.Object
 		{
 			error(_("Error loading theme: %s"), e.message);
 		}
+		
 		// create collections
 		masters = new Gee.HashMap<string, Gee.Map<string, string>>();
 		elements = new Gee.HashMap<string, Gee.Map<string, string>>();
@@ -205,6 +210,10 @@ public class Ease.Theme : GLib.Object
 		var root = node.get_object();
 		if (root == null) return;
 		
+		// load theme information, if applicable
+		if (root.has_member(THEME_TITLE))
+			title = root.get_member(THEME_TITLE).get_string();
+		
 		// find all masters and element overrides
 		fill_map(root, MASTERS, masters);
 		fill_map(root, ELEMENTS, elements);
@@ -216,6 +225,7 @@ public class Ease.Theme : GLib.Object
 			fill_single_map(root.get_object_member(ELEMENT_DEF),
 			                element_defaults);
 	}
+	
 	/**
 	 * Copies all files under Media/ to a new directory.
 	 *
