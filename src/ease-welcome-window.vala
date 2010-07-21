@@ -107,9 +107,9 @@ public class Ease.WelcomeWindow : Gtk.Window
 		open_pres_button = builder.get_object ("openpres") as Gtk.Button;
 
 		// zoom slider
-		zoom_slider = new ZoomSlider(new Gtk.Adjustment(100, 100, 400, 10,
-		                                                50, 50), ZOOM_VALUES);
-		hbox.pack_start (zoom_slider, false, false);
+		zoom_slider = new AnimatedZoomSlider(new Gtk.Adjustment(100, 100, 400,
+		                                     10, 50, 50), ZOOM_VALUES);
+		hbox.pack_start (zoom_slider, true, false, 0);
 		hbox.reorder_child (zoom_slider, 4);
 
 		// Resolutions combo box
