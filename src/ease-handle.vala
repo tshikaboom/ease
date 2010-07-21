@@ -18,7 +18,7 @@
 /**
  * Interface element for manipulating the size of {@link Actor}s.
  */
-public class Ease.Handle : Clutter.Texture
+public class Ease.Handle : Clutter.CairoTexture
 {	
 	/**
 	 * The position of this handle relative to the selection rectangle.
@@ -31,14 +31,9 @@ public class Ease.Handle : Clutter.Texture
 	private bool flipped = false;
 	
 	/**
-	 * The path to the white circle with a black border.
+	 * The size of the handle.
 	 */
-	public const string W_PATH = "handle-white.svg";
-	
-	/**
-	 * The path to the black circle with a white border.
-	 */
-	public const string B_PATH = "handle-black.svg";
+	private const int SIZE = 35;
 	
 	/**
 	 * Creates a Handle. Does automatically set the Handle's position - call
@@ -49,16 +44,17 @@ public class Ease.Handle : Clutter.Texture
 	 */
 	public Handle(HandlePosition pos)
 	{
+		// set the handle's size
+		width = height = surface_width = surface_height = SIZE;
+		
+		// draw the default handle appearance
+		redraw();
+		
 		// set the handle's position
 		position = pos;
 
-		// load the handle texture
-		filename = data_path(Path.build_filename(Temp.TEMP_DIR,
-		                                         Temp.IMG_DIR,
-		                                         W_PATH));
-
 		// set the handle's anchor
-		set_anchor_point(width / 2, height / 2);
+		set_anchor_point(SIZE / 2, SIZE / 2);
 		
 		// react to clicks
 		reactive = true;
@@ -229,20 +225,27 @@ public class Ease.Handle : Clutter.Texture
 	 */
 	public void flip()
 	{
-		if (flipped)
-		{
-			filename = data_path(Path.build_filename(Temp.TEMP_DIR,
-	                                                 Temp.IMG_DIR,
-	                                                 W_PATH));
-		}
-		else
-		{
-			filename = data_path(Path.build_filename(Temp.TEMP_DIR,
-	                                                 Temp.IMG_DIR,
-	                                                 B_PATH));
-		}
-		
 		flipped = !flipped;
+		redraw();
+	}
+	
+	private void redraw()
+	{
+		// get a Cairo context
+		var cr = create();
+		
+		// draw a circle
+		cr.arc(SIZE / 2, SIZE / 2, SIZE / 4, 0, 2 * 3.1415);
+		
+		// fill the circle
+		if (flipped) cr.set_source_rgba(1, 1, 1, 1);
+		else cr.set_source_rgba(0, 0, 0, 1);
+		cr.fill_preserve();
+		
+		// stroke the circle
+		if (flipped) cr.set_source_rgba(0, 0, 0, 1);
+		else cr.set_source_rgba(1, 1, 1, 1);
+		cr.stroke();
 	}
 }
 
