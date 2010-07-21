@@ -80,7 +80,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 	
 	private int[] ZOOM_VALUES = {100, 150, 200, 250, 400};
 	
-	private const string PREVIEW_ID = "Standard";
+	private const string PREVIEW_ID = Theme.TITLE;
 	
 	public WelcomeWindow()
 	{
@@ -197,19 +197,18 @@ public class Ease.WelcomeWindow : Gtk.Window
 					string name = directory.read_name ();
 					while (name != null) {
 						var path = Path.build_filename (filename, name);
-						// FIXME : warning occurs here (g_param_spec)
-						themes.add (JSONParser.theme (path));
+						themes.add (new Theme(path));
 						name = directory.read_name ();
 					}
 				}
 			}
 		} catch (Error e) {
 			error_dialog("Error loading themes : %s", e.message);
-			}
+		}
 
 		// create the previews
 		foreach (var theme in themes) {
-			var master = theme.slide_by_title (PREVIEW_ID);
+			var master = theme.create_slide(PREVIEW_ID, 1024, 768);
 			if (master == null) continue;
 			
 			var act = new WelcomeActor (theme, previews, master);

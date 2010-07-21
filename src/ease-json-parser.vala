@@ -60,40 +60,6 @@ public static class Ease.JSONParser
 		return document;
 	}
 	
-	/**
-	 * Parses a theme JSON file, creating a {@link Theme}.
-	 *
-	 * @param path The path to the {@link Theme}
-	 */
-	public static Theme theme(string path) throws GLib.Error
-	{
-		string filename = absolute_path(path);
-		var theme = new Theme();
-		theme.path = Temp.extract(filename);
-	
-		var parser = new Json.Parser();
-		
-		// attempt to load the file
-		parser.load_from_file(Path.build_filename(theme.path, "Theme.json"));
-		
-		// grab the root object
-		var root = parser.get_root().get_object();
-		
-		// set theme properties
-		theme.title = root.get_string_member("title");
-		
-		// add all slides
-		var slides = root.get_array_member("slides");
-		
-		for (var i = 0; i < slides.get_length(); i++)
-		{
-			var node = slides.get_object_element(i);
-			theme.add_slide(theme.length, parse_slide(node));
-		}
-		
-		return theme;
-	}
-	
 	private static Slide parse_slide(Json.Object obj)
 	{
 		var slide = new Slide();

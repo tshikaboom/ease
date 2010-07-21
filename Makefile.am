@@ -9,6 +9,7 @@ bin_PROGRAMS = ease
 AM_CPPFLAGS = \
 	$(EASE_CFLAGS) \
 	-include $(CONFIG_HEADER) \
+	-O0 \
 	$(NULL)
 
 ease_SOURCES = \

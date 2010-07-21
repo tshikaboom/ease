@@ -18,7 +18,7 @@
 /**
  * The internal representation of Ease documents. Contains {@link Slide}s.
  *
- * The Ease Document class is generated from XML and writes back to XML
+ * The Ease Document class is generated from JSON and writes back to JSON
  * when saved.
  */
 public class Ease.Document : SlideSet
@@ -26,7 +26,12 @@ public class Ease.Document : SlideSet
 	/**
 	 * The default master title for newly created {@link Slide}s.
 	 */
-	private const string DEFAULT_SLIDE = "Standard";
+	public const string DEFAULT_SLIDE = Theme.CONTENT_HEADER;
+	
+	/**
+	 * The default master slide for the first slide.
+	 */
+	private const string DEFAULT_FIRST = Theme.TITLE;
 
 	/**
 	 * The {@link Theme} linked to this Document.
@@ -65,21 +70,22 @@ public class Ease.Document : SlideSet
 	 */
 	public Document.from_theme(Theme doc_theme, int w, int h) throws GLib.Error
 	{
+		assert(doc_theme != null);
+		
 		width = w;
 		height = h;
 		theme = doc_theme;
 		
-		assert (doc_theme != null);
 		// allocate a temp directory for the new document
 		path = Temp.request();
 		
 		// copy media to the new path
-		doc_theme.copy_media(path);
-		// get the master
-		var master = theme.slide_by_title(DEFAULT_SLIDE);
+		theme.copy_media(path);
 		
-		// add the first slide
-		append_slide(new Slide.from_master(master, this, width, height, true));
+		// get the master for the first slide
+		var slide = theme.create_slide(DEFAULT_FIRST, width, height);
+		slide.parent = this;
+		append_slide(slide);
 	}
 	
 	/**

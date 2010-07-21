@@ -217,6 +217,17 @@ public class Ease.Slide : GLib.Object
 	}
 	
 	/**
+	 * Adds an {@link Element} to this slide at the end index.
+	 * 
+	 * @param e The element to add;.
+	 */
+	public void add(Element e)
+	{
+		e.parent = this;
+		elements.insert(count, e);
+	}
+	
+	/**
 	 * Creates HTML markup for this Slide.
 	 * 
 	 * The <div> tag for this Slide is appended to the "HTML" parameter.

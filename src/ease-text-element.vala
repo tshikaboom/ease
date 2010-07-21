@@ -160,8 +160,8 @@ public class Ease.TextElement : Element
 	 */
 	public string font_name
 	{
-		owned get { return data.get("font_name"); }
-		set { data.set("font_name", value); }
+		owned get { return data.get(Theme.TEXT_FONT); }
+		set { data.set(Theme.TEXT_FONT, value); }
 	}
 	
 	/**
@@ -171,7 +171,7 @@ public class Ease.TextElement : Element
 	{
 		get
 		{
-			switch (data.get("font_style"))
+			switch (data.get(Theme.TEXT_STYLE))
 			{
 				case "Oblique":
 					return Pango.Style.OBLIQUE;
@@ -186,13 +186,13 @@ public class Ease.TextElement : Element
 			switch (value)
 			{
 				case Pango.Style.OBLIQUE:
-					data.set("font_style", "Oblique");
+					data.set(Theme.TEXT_STYLE, "Oblique");
 					break;
 				case Pango.Style.ITALIC:
-					data.set("font_style", "Italic");
+					data.set(Theme.TEXT_STYLE, "Italic");
 					break;
 				case Pango.Style.NORMAL:
-					data.set("font_style", "Normal");
+					data.set(Theme.TEXT_STYLE, "Normal");
 					break;
 			}
 		}
@@ -205,15 +205,15 @@ public class Ease.TextElement : Element
 	{
 		get
 		{
-			return data.get("font_variant") == "Normal"
+			return data.get(Theme.TEXT_VARIANT) == "Normal"
 			     ? Pango.Variant.NORMAL
 			     : Pango.Variant.SMALL_CAPS;
 		}
 		set
 		{
-			data.set("font_name",
-			             value == Pango.Variant.NORMAL ?
-			                      "Normal" : "Small Caps");
+			data.set(Theme.TEXT_VARIANT,
+			          value == Pango.Variant.NORMAL ?
+			          "Normal" : "Small Caps");
 		}
 	}
 	
@@ -224,12 +224,11 @@ public class Ease.TextElement : Element
 	{
 		get
 		{
-			var str = "font_name";
-			return (Pango.Weight)(data.get(str).to_int());
+			return (Pango.Weight)(data.get(Theme.TEXT_WEIGHT).to_int());
 		}
 		set
 		{
-			data.set("font_weight", ((int)value).to_string());
+			data.set(Theme.TEXT_WEIGHT, ((int)value).to_string());
 		}
 	}
 	
@@ -244,7 +243,7 @@ public class Ease.TextElement : Element
 		owned get
 		{
 			var desc = new Pango.FontDescription();
-			desc.set_family(data.get("font_name"));
+			desc.set_family(data.get(Theme.TEXT_FONT));
 			desc.set_style(font_style);
 			desc.set_weight(font_weight);
 			desc.set_variant(font_variant);
@@ -254,7 +253,7 @@ public class Ease.TextElement : Element
 		}
 		set
 		{
-			data.set("font_name", value.get_family());
+			data.set(Theme.TEXT_FONT, value.get_family());
 			font_style = value.get_style();
 			font_weight = value.get_weight();
 			font_variant = value.get_variant();
@@ -269,7 +268,7 @@ public class Ease.TextElement : Element
 	{
 		get
 		{
-			switch (data.get("align"))
+			switch (data.get(Theme.TEXT_ALIGN))
 			{
 				case "right":
 					return Pango.Alignment.RIGHT;
@@ -284,13 +283,16 @@ public class Ease.TextElement : Element
 			switch (value)
 			{
 				case Pango.Alignment.RIGHT:
-					data.set("font_style", "right");
+					data.set(Theme.TEXT_ALIGN, "right");
 					break;
 				case Pango.Alignment.CENTER:
-					data.set("font_style", "center");
+					data.set(Theme.TEXT_ALIGN, "center");
 					break;
 				case Pango.Alignment.LEFT:
-					data.set("font_style", "left");
+					data.set(Theme.TEXT_ALIGN, "left");
+					break;
+				default:
+					error("Illegal alignment value: %s", value.to_string());
 					break;
 			}
 		}
@@ -306,11 +308,11 @@ public class Ease.TextElement : Element
 	{
 		get
 		{
-			return data.get("font_size").to_int();
+			return data.get(Theme.TEXT_SIZE).to_int();
 		}
 		set
 		{
-			data.set("font_size", @"$value");
+			data.set(Theme.TEXT_SIZE, value.to_string());
 		}
 	}
 }
