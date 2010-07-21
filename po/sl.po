@@ -50,7 +50,7 @@ msgstr "Zapri _brez shranjevanja"
 msgid "If you don't save, changes from the last second will be permanently lost."
 msgid_plural "If you don't save, changes from the last %i seconds will be permanently lost."
 msgstr[0] "V kolikor ne shranite, bodo spremembe zadnjih %i sekund izgubljene."
-msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje sekunde izgubljene."
+msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje %i sekunde izgubljene."
 msgstr[2] "V kolikor ne shranite, bodo spremembe zadnjih %i sekund izgubljene."
 msgstr[3] "V kolikor ne shranite, bodo spremembe zadnjih %i sekund izgubljene."
 
