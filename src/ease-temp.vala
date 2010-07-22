@@ -22,14 +22,37 @@
  * where [PID] is the process ID and [INDEX] increments with each new directory.
  * Ease automatically cleans up temporary directories when exiting, and will
  * remove /tmp/ease if no other folders are being used in it.
+ *
+ * Code that is internal to Ease can also use the request_str() function, which
+ * allows a named directory. This is for debugging and cleanliness purposes
+ * only - other than the directory name, functionality is identical to
+ * request().
  */
 public static class Ease.Temp : Object
 {
 	private static int index = 0;
-	private static int pid;
-	private static string temp;
 	
-	private static Gee.LinkedList<string> folders;
+	private static string m_temp;
+	private static string temp
+	{
+		get
+		{
+			if (m_temp != null) return m_temp;
+			m_temp = Path.build_filename(Environment.get_tmp_dir(), TEMP_DIR,
+			                             ((int)Posix.getpid()).to_string());
+			return m_temp;
+		}
+	}
+	
+	private static Gee.LinkedList<string> m_dirs;
+	private static Gee.LinkedList<string> dirs
+	{
+		get
+		{
+			if (m_dirs != null) return m_dirs;
+			return m_dirs = new Gee.LinkedList<string>();
+		}
+	}
 	
 	private const int ARCHIVE_BUFFER = 4096;
 	public const string TEMP_DIR = "ease";
@@ -45,16 +68,7 @@ public static class Ease.Temp : Object
 	 * directory.
 	 */
 	public static string request() throws GLib.Error
-	{
-		if (folders == null)
-		{
-			folders = new Gee.LinkedList<string>();
-			pid = Posix.getpid();
-			
-			temp = Path.build_filename(Environment.get_tmp_dir(), TEMP_DIR,
-			                           pid.to_string());
-		}
-		
+	{	
 		// find a safe directory to extract to
 		while (exists(index, temp))
 		{
@@ -65,7 +79,33 @@ public static class Ease.Temp : Object
 		string tmp = Path.build_filename(temp, index.to_string());
 		
 		// track the directories used by this instance of the program
-		folders.offer_head(tmp);
+		dirs.offer_head(tmp);
+		
+		// make the directory
+		var file = GLib.File.new_for_path(tmp);
+		file.make_directory_with_parents(null);
+		
+		return tmp;
+	}
+	
+	/**
+	 * Requests a temporary directory with a specific name.
+	 *
+	 * This function is useful for debugging and cleanliness purposes.
+	 * However, be sure to use unique names. Do not use "integer" strings,
+	 * as those could overlap with directories created through request().
+	 * For this reason, this function is not available to code outside
+	 * Ease.
+	 *
+	 * @param str The directory name to request.
+	 */
+	internal static string request_str(string str) throws GLib.Error
+	{
+		// build the path
+		string tmp = Path.build_filename(temp, str);
+		
+		// track the directories used by this instance of the program
+		dirs.offer_head(tmp);
 		
 		// make the directory
 		var file = GLib.File.new_for_path(tmp);
@@ -193,12 +233,12 @@ public static class Ease.Temp : Object
 	 */
 	public static void clean()
 	{
-		if (folders == null) {
+		if (dirs == null) {
 			return;
 		}
 
 		string dir;
-		while ((dir = folders.poll_head()) != null)
+		while ((dir = dirs.poll_head()) != null)
 		{
 			try { recursive_delete(dir); }
 			catch (FileError e)

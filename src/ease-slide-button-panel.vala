@@ -38,7 +38,7 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 		get
 		{
 			if (m_temp_dir != null) return m_temp_dir;
-			try { return m_temp_dir = Temp.request(); }
+			try { return m_temp_dir = Temp.request_str("thumbnails"); }
 			catch (GLib.Error e)
 			{
 				critical("Could not create temporary directory for thumbnails");
