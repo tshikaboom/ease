@@ -111,6 +111,7 @@ public class Ease.TextElement : Element
 		layout.set_width((int)(width * Pango.SCALE));
 		layout.set_height((int)(height * Pango.SCALE));
 		layout.set_font_description(font_description);
+		layout.set_alignment(text_align); // font_description should get this...
 		
 		// render
 		context.save();
@@ -274,8 +275,11 @@ public class Ease.TextElement : Element
 					return Pango.Alignment.RIGHT;
 				case "center":
 					return Pango.Alignment.CENTER;
-				default:
+				case "left":
 					return Pango.Alignment.LEFT;
+				default:
+					error("Illegal alignment: %s", data.get(Theme.TEXT_ALIGN));
+					break;
 			}
 		}
 		set
@@ -292,7 +296,7 @@ public class Ease.TextElement : Element
 					data.set(Theme.TEXT_ALIGN, "left");
 					break;
 				default:
-					error("Illegal alignment value: %s", value.to_string());
+					error("Illegal alignment: %s", value.to_string());
 					break;
 			}
 		}
