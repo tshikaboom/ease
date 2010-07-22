@@ -158,11 +158,11 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 		}
 		
 		// render a black rectangle around the slide
-		/*context.rectangle(0, 0, width, height);
-		context.set_source_rgb(0, 0, 0);
-		context.stroke();*/
-		
 		context.restore();
+		
+		context.rectangle(0, 0, width, height);
+		context.set_source_rgb(0, 0, 0);
+		context.stroke();
 		
 		// HACK: write it to a PNG, load it and return
 		path = Path.build_filename(temp_dir,

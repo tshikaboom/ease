@@ -50,6 +50,7 @@ public class Ease.WelcomeActor : Clutter.Group
 	private const string FONT_NAME = "Sans 8";
 	private const float TEXT_OFFSET = 5;
 	private const float TEXT_HEIGHT = 12;
+	private const Clutter.Color TEXT_COLOR = {255, 255, 255, 255};
 	private Clutter.Text text;
 	
 	// fade constants
@@ -57,6 +58,11 @@ public class Ease.WelcomeActor : Clutter.Group
 	private const int FADE_INIT_TIME = 1000;
 	private const int FADE_EASE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
 	private const int FADE_OPACITY = 150;
+	
+	// rectangle appearance
+	private const Clutter.Color RECT_BG = {0, 0, 0, 255};
+	private const Clutter.Color RECT_B_C = {150, 150, 150, 255};
+	private const int RECT_B_W = 1;
 	
 	/**
 	 * The slide identifier to display as a preview.
@@ -85,13 +91,15 @@ public class Ease.WelcomeActor : Clutter.Group
 		
 		// create the background rectangle actor
 		rect = new Clutter.Rectangle();
-		rect.color = {0, 0, 0, 255};
+		rect.color = RECT_BG;
+		rect.border_color = RECT_B_C;
+		rect.border_width = RECT_B_W;
+		rect.x = -RECT_B_W;
+		rect.y = -RECT_B_W;
 		add_actor(rect);
 		
 		// create the theme title actor
-		text = new Clutter.Text.full (FONT_NAME,
-									  theme.title,
-									  {255, 255, 255, 255});
+		text = new Clutter.Text.full(FONT_NAME, theme.title, TEXT_COLOR);
 		text.height = TEXT_HEIGHT;
 		text.line_alignment = Pango.Alignment.RIGHT;
 		add_actor(text);
@@ -148,16 +156,16 @@ public class Ease.WelcomeActor : Clutter.Group
 	 */
 	public void set_actor_size(float w, float h)
 	{
-		rect.width = w;
-		rect.height = h;
+		rect.width = roundd(w) + RECT_B_W * 2;
+		rect.height = roundd(h) + RECT_B_W * 2;
 		
-		text.x = roundd(rect.width / 2 - text.width / 2);
+		text.x = roundd(w / 2 - text.width / 2);
 		text.y = roundd(h + TEXT_OFFSET);
 		
 		if (slide_actor != null)
 		{
-			slide_actor.width = rect.width;
-			slide_actor.height = rect.height;
+			slide_actor.width = roundd(w);
+			slide_actor.height = roundd(h);
 		}
 	}
 	
@@ -167,7 +175,7 @@ public class Ease.WelcomeActor : Clutter.Group
 	public void fade()
 	{
 		is_selected = false;
-		animate(FADE_EASE, FADE_TIME, "opacity", FADE_OPACITY);
+		slide_actor.animate(FADE_EASE, FADE_TIME, "opacity", FADE_OPACITY);
 	}
 	
 	/**
@@ -176,7 +184,7 @@ public class Ease.WelcomeActor : Clutter.Group
 	public void unfade()
 	{
 		is_selected = true;
-		animate(FADE_EASE, FADE_TIME, "opacity", 255);
+		slide_actor.animate(FADE_EASE, FADE_TIME, "opacity", 255);
 	}
 	
 	/**
