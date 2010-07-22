@@ -39,7 +39,6 @@ ease_SOURCES = \
 	src/ease-scrollable-embed.vala \
 	src/ease-slide-actor.vala \
 	src/ease-slide-button-panel.vala \
-	src/ease-slide-button.vala \
 	src/ease-slide-pane.vala \
 	src/ease-slide-set.vala \
 	src/ease-slide.vala \

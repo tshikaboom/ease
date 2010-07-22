@@ -59,7 +59,7 @@ public abstract class Ease.SlideSet : Object
 	 *
 	 * @param s The {@link Slide} to append.
 	 */
-	public void append_slide(Slide s)
+	public virtual void append_slide(Slide s)
 	{
 		slides.insert(length, s);
 	}

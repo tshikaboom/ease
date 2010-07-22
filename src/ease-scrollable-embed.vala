@@ -114,8 +114,8 @@ public class Ease.ScrollableEmbed : Gtk.HBox
 			hscroll_box.pack_start(h_padder, false, false, 0);
 			vbox.pack_start(hscroll_box, false, false, 0);
 			
-			// so that the vertical scrollbar doesn't extend to the bottom
-			// of the horizontal scrollbar, a padding widget is added
+			/* so that the vertical scrollbar doesn't extend to the bottom
+			   of the horizontal scrollbar, a padding widget is added */
 			v_padder = new Gtk.Alignment(0, 0, 0, 0);
 			
 			var vscroll_box = new Gtk.VBox(false, 0);

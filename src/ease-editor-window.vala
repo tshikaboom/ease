@@ -248,7 +248,6 @@ public class Ease.EditorWindow : Gtk.Window
 		var index = document.index_of(slide) + 1;
 		
 		document.add_slide(index, slide);
-		slide_button_panel.add_slide(index, slide);
 	}
 	
 	[CCode (instance_pos = -1)]

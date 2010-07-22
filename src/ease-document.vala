@@ -52,6 +52,16 @@ public class Ease.Document : SlideSet
 	 * The aspect ratio of the Document.
 	 */
 	public float aspect { get { return (float)width / (float)height; } }
+	
+	/**
+	 * Emitted when a {@link Slide} is deleted from the Document.
+	 */
+	public signal void slide_deleted(Slide slide, int index);
+	
+	/**
+	 * Emitted when a {@link Slide} is added to the Document.
+	 */
+	public signal void slide_added(Slide slide, int index);
 
 	/**
 	 * Default constructor, creates an empty Document.
@@ -98,6 +108,16 @@ public class Ease.Document : SlideSet
 	{
 		s.parent = this;
 		base.add_slide(index, s);
+		slide_added(s, index);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public override void append_slide(Slide s)
+	{
+		base.append_slide(s);
+		slide_added(s, slides.size - 1);
 	}
 	
 	/**
