@@ -150,7 +150,7 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 		
 		try
 		{
-			slide.cairo_render_sized(context, width, height);
+			slide.cairo_render(context);
 		}
 		catch (GLib.Error e)
 		{

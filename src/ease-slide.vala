@@ -248,7 +248,7 @@ public class Ease.Slide : GLib.Object
 	 * @param h The height to render at.
 	 */
 	public void cairo_render_sized(Cairo.Context context,
-	                                int w, int h) throws GLib.Error
+	                               int w, int h) throws GLib.Error
 	{
 		// write the background color if there is no image
 		if (background_image == null)
