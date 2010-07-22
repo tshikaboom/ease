@@ -260,7 +260,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		if (slide_actor != null)
 		{
 			contents.remove_actor(slide_actor);
-			for (unowned List<Clutter.Actor>* itr = slide_actor.contents.get_children();
+			for (unowned List<Clutter.Actor>* itr =
+			     slide_actor.contents.get_children();
 			     itr != null;
 			     itr = itr->next)
 			{
@@ -525,7 +526,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 */
 	private bool handle_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{	
-		(sender as Handle).flip();
+		(sender as Handle).flip(true);
 		is_dragging = true;
 		is_drag_initialized = false;
 		sender.motion_event.connect(handle_motion);
@@ -548,7 +549,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	{
 		if (is_dragging)
 		{
-			(sender as Handle).flip();
+			(sender as Handle).flip(false);
 			is_dragging = false;
 			sender.motion_event.disconnect(handle_motion);
 			
