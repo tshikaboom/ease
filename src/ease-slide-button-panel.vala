@@ -73,15 +73,13 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 		shadow_type = Gtk.ShadowType.IN;
 		
 		// create the list store and add all current slides
-		list_store = new Gtk.ListStore(3, typeof(Gdk.Pixbuf), typeof(Slide),
-		                                  typeof(string));
+		list_store = new Gtk.ListStore(2, typeof(Gdk.Pixbuf), typeof(Slide));
 		Gtk.TreeIter iter;
 		foreach (var slide in document.slides)
 		{
 			list_store.append(out iter);
-			string path = "";
-			var pb = pixbuf(slide, PREV_WIDTH, out path);
-			list_store.set(iter, 0, pb, 1, slide, 2, path);
+			var pb = pixbuf(slide, PREV_WIDTH);
+			list_store.set(iter, 0, pb, 1, slide);
 			slide.changed.connect(slide_redraw);
 		}
 		
@@ -113,9 +111,8 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 		document.slide_added.connect((slide, index) => {
 			Gtk.TreeIter itr;
 			list_store.insert(out itr, index);
-			string path = "";
-			var pb = pixbuf(slide, PREV_WIDTH, out path);
-			list_store.set(itr, 0, pb, 1, slide, 2, path);
+			var pb = pixbuf(slide, PREV_WIDTH);
+			list_store.set(itr, 0, pb, 1, slide);
 			slide.changed.connect(slide_redraw);
 		});
 		
@@ -181,15 +178,14 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 	{
 		Gtk.TreeIter itr;
 		Slide s = new Slide();
-		string path = "";
 		if (!list_store.get_iter_first(out itr)) return;
 		do
 		{
-			list_store.get(itr, 1, ref s, 2, ref path);
+			list_store.get(itr, 1, ref s);
 			if (s == slide)
 			{
-				var pb = pixbuf(slide, PREV_WIDTH, out path);
-				list_store.set(itr, 0, pb, 2, path);
+				var pb = pixbuf(slide, PREV_WIDTH);
+				list_store.set(itr, 0, pb);
 			}
 		} while (list_store.iter_next(ref itr));
 	}
@@ -199,7 +195,7 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 	 *
 	 * @param slide The slide to create a pixbuf of.
 	 */
-	private Gdk.Pixbuf? pixbuf(Slide slide, int width, out string path)
+	private Gdk.Pixbuf? pixbuf(Slide slide, int width)
 	{
 		var height = (int)((float)width * slide.parent.height /
 		                                  slide.parent.width);
@@ -227,16 +223,16 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 		context.stroke();
 		
 		// HACK: write it to a PNG, load it and return
-		path = Path.build_filename(temp_dir,
-		                           (temp_count++).to_string() + ".png");
+		var path = Path.build_filename(temp_dir,
+		                               (temp_count++).to_string() + ".png");
 		surface.write_to_png(path);
 		
-		/*return new Gdk.Pixbuf.from_data(surface.get_data(), Gdk.Colorspace.RGB,
-		                                true, 8,
-		                                surface.get_width(),
-		                                surface.get_height(),
-		                                surface.get_stride(), null);*/
-		try { return new Gdk.Pixbuf.from_file(path); }
+		try
+		{
+			var pb = new Gdk.Pixbuf.from_file(path);
+			FileUtils.remove(path);
+			return pb;
+		}
 		catch (GLib.Error e) { error(e.message); return null; }
 	}
 }
