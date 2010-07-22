@@ -253,9 +253,8 @@ mk	 * The path to the theme's extracted files.
 		Slide slide = new Slide();
 		
 		// set the slide background property
-		Clutter.Color color = {255, 255, 255, 255};	
-		color.from_string(master_get(master, BACKGROUND_COLOR));
-		slide.background_color = color;
+		slide.background_color = Clutter.Color.from_string(master_get(master,
+		                                                   BACKGROUND_COLOR));
 		
 		switch (master)
 		{
@@ -357,9 +356,7 @@ mk	 * The path to the theme's extracted files.
 		}
 		
 		// set the color property
-		Clutter.Color color = {0, 0, 0, 255};	
-		color.from_string(element_get(type, TEXT_COLOR));
-		text.color = color;
+		text.color = Clutter.Color.from_string(element_get(type, TEXT_COLOR));
 		
 		// set size properties
 		text.x = x;
@@ -429,7 +426,7 @@ mk	 * The path to the theme's extracted files.
 		if (defaults == this)
 		{
 			error(_("Could not find property %s on master type %s."),
-			      master, prop);
+			      prop, master);
 		}
 		
 		return defaults.master_get(master, prop);
