@@ -279,7 +279,7 @@ public class Ease.TextElement : Element
 					return Pango.Alignment.LEFT;
 				default:
 					error("Illegal alignment: %s", data.get(Theme.TEXT_ALIGN));
-					break;
+					return Pango.Alignment.LEFT;
 			}
 		}
 		set
