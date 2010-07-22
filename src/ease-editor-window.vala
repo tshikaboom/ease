@@ -67,6 +67,11 @@ public class Ease.EditorWindow : Gtk.Window
 	private UndoController undo;
 	
 	/**
+	 * Space to temporarily cache an {@link UndoAction}.
+	 */
+	private UndoAction undo_action;
+	
+	/**
 	 * The undo button.
 	 */
 	private Gtk.ToolButton undo_button;
@@ -414,6 +419,9 @@ public class Ease.EditorWindow : Gtk.Window
 		// store the original color in case the user cancels	
 		var original_color = embed.selected.element.get_color();
 		
+		// create an UndoAction for potential use
+		undo_action = new UndoAction(embed.selected.element, "color");
+		
 		// create the dialog
 		color_dialog = new Gtk.ColorSelectionDialog(_("Select Color"));
 		color_selection = color_dialog.color_selection as Gtk.ColorSelection;
@@ -435,6 +443,12 @@ public class Ease.EditorWindow : Gtk.Window
 		// hide the dialog when the ok button is clicked
 		(color_dialog.ok_button as Gtk.Button).clicked.connect(() => {
 			color_dialog.hide();
+			
+			// if the color was changed, add the UndoAction
+			if (original_color != embed.selected.element.get_color())
+			{
+				add_undo_action(undo_action);
+			}
 		});
 		
 		// reset the original color and hide the dialog when cancel is clicked

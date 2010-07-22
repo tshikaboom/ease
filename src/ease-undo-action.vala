@@ -73,10 +73,15 @@ public class Ease.UndoAction : Object
 		
 		public UndoPair(GLib.Object obj, string prop)
 		{
+			// basic properties
 			object = obj;
 			property = prop;
+			
+			// find the type and create a value
 			type = obj.get_class().find_property(prop).value_type;
 			val = GLib.Value(type);
+			
+			// fill in the GValue
 			obj.get_property(prop, ref val);
 		}
 		

@@ -50,7 +50,7 @@ ease_SOURCES = \
 	src/ease-transformations.vala \
 	src/ease-transition-pane.vala \
 	src/ease-transitions.vala \
-	src/ease-undo-actions.vala \
+	src/ease-undo-action.vala \
 	src/ease-undo-controller.vala \
 	src/ease-utilities.vala \
 	src/ease-welcome-actor.vala \
