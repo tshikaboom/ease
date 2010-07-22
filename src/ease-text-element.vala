@@ -111,7 +111,7 @@ public class Ease.TextElement : Element
 		layout.set_width((int)(width * Pango.SCALE));
 		layout.set_height((int)(height * Pango.SCALE));
 		layout.set_font_description(font_description);
-		layout.set_alignment(text_align); // font_description should get this...
+		layout.set_alignment(text_align);
 		
 		// render
 		context.save();
