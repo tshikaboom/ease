@@ -133,6 +133,7 @@ public class Ease.TextActor : Actor
 	private void text_changed(Clutter.Text sender)
 	{
 		element.set("text", sender.text);
+		element.parent.changed(element.parent);
 	}
 	
 	/**

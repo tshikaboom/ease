@@ -519,6 +519,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			mouse_y = event.y;
 			
 			position_selection();
+			
+			selected.element.parent.changed(selected.element.parent);
 		}
 		return true;
 	}
@@ -625,6 +627,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		mouse_y = event.y;
 		
 		position_selection();
+		
+		selected.element.parent.changed(selected.element.parent);
 		
 		return true;
 	}

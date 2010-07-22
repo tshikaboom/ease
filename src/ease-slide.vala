@@ -142,6 +142,11 @@ public class Ease.Slide : GLib.Object
 	}
 	
 	/**
+	 * Emitted when an {@link Element} or property of this Slide is changed.
+	 */
+	public signal void changed(Slide self);
+	
+	/**
 	 * Create a new Slide.
 	 */
 	public Slide() {}

@@ -273,6 +273,7 @@ public class Ease.EditorWindow : Gtk.Window
 		update_undo();
 		embed.slide_actor.relayout();
 		embed.reposition_group();
+		slide.changed(slide);
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -282,6 +283,7 @@ public class Ease.EditorWindow : Gtk.Window
 		update_undo();
 		embed.slide_actor.relayout();
 		embed.reposition_group();
+		slide.changed(slide);
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -483,6 +485,7 @@ public class Ease.EditorWindow : Gtk.Window
 	{
 		embed.set_element_color(Transformations.gdk_color_to_clutter_color(
 		                        sender.current_color));
+		slide.changed(slide);
 	}
 	
 	private void color_dialog_selection(Object sender, ParamSpec spec)
@@ -497,8 +500,9 @@ public class Ease.EditorWindow : Gtk.Window
 	private ZoomSlider create_zoom_slider()
 	{
 		// create zoom slider
-		zoom_slider = new AnimatedZoomSlider(new Gtk.Adjustment(100, 10, 400, 10,
-		                                                        50, 50), ZOOM_LEVELS);
+		zoom_slider = new AnimatedZoomSlider(new Gtk.Adjustment(100, 10, 400,
+		                                                        10, 50, 50),
+		                                                        ZOOM_LEVELS);
 		zoom_slider.width_request = 200;
 		zoom_slider.value_pos = Gtk.PositionType.RIGHT;
 		zoom_slider.digits = 0;

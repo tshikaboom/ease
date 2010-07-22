@@ -82,6 +82,7 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 			string path = "";
 			var pb = pixbuf(slide, PREV_WIDTH, out path);
 			list_store.set(iter, 0, pb, 1, slide, 2, path);
+			slide.changed.connect(slide_redraw);
 		}
 		
 		// create the tree view
@@ -115,12 +116,14 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 			string path = "";
 			var pb = pixbuf(slide, PREV_WIDTH, out path);
 			list_store.set(itr, 0, pb, 1, slide, 2, path);
+			slide.changed.connect(slide_redraw);
 		});
 		
 		// handle the removal of slides
 		document.slide_deleted.connect((slide, index) => {
 			Gtk.TreeIter itr;
 			Slide s = new Slide();
+			slide.changed.connect(slide_redraw);
 			if (!list_store.get_iter_first(out itr)) return;
 			do
 			{
@@ -165,6 +168,28 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 			{
 				slides.get_selection().select_iter(itr);
 				break;
+			}
+		} while (list_store.iter_next(ref itr));
+	}
+	
+	/**
+	 * Redraws a {@link Slide} when it is changed.
+	 *
+	 * @param slide The slide to redraw.
+	 */
+	private void slide_redraw(Slide slide)
+	{
+		Gtk.TreeIter itr;
+		Slide s = new Slide();
+		string path = "";
+		if (!list_store.get_iter_first(out itr)) return;
+		do
+		{
+			list_store.get(itr, 1, ref s, 2, ref path);
+			if (s == slide)
+			{
+				var pb = pixbuf(slide, PREV_WIDTH, out path);
+				list_store.set(itr, 0, pb, 2, path);
 			}
 		} while (list_store.iter_next(ref itr));
 	}
