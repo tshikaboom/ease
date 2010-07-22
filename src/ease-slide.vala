@@ -227,6 +227,59 @@ public class Ease.Slide : GLib.Object
 		elements.insert(count, e);
 	}
 	
+	/** 
+	 * Draws the {@link Slide} to a Cairo.Context.
+	 *
+	 * @param context The Cairo.Context to draw to.
+	 */
+	public void cairo_render(Cairo.Context context) throws GLib.Error
+	{
+		if (parent == null)
+			throw new GLib.Error(0, 0, "Slide must have a parent document");
+		
+		cairo_render_sized(context, parent.width, parent.height);
+	}
+	
+	/** 
+	 * Draws the {@link Slide} to a Cairo.Context at a specified size.
+	 *
+	 * @param context The Cairo.Context to draw to.
+	 * @param w The width to render at.
+	 * @param h The height to render at.
+	 */
+	public void cairo_render_sized(Cairo.Context context,
+	                                int w, int h) throws GLib.Error
+	{
+		// write the background color if there is no image
+		if (background_image == null)
+		{
+			context.rectangle(0, 0, w, h);
+			context.set_source_rgb(background_color.red / 255f,
+			                       background_color.green / 255f,
+			                       background_color.blue / 255f);
+			context.fill();
+		}
+		
+		// otherwise, write the image
+		else
+		{
+			var pixbuf = new Gdk.Pixbuf.from_file_at_scale(background_abs,
+			                                                h,
+			                                                w,
+			                                                false);
+		
+			Gdk.cairo_set_source_pixbuf(context, pixbuf, 0, 0);
+		
+			context.rectangle(0, 0, w, h);
+			context.fill();
+		}
+		
+		foreach (var e in elements)
+		{
+			e.cairo_render(context);
+		}
+	}
+	
 	/**
 	 * Creates HTML markup for this Slide.
 	 * 

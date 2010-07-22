@@ -29,13 +29,13 @@
 		"author-text" : {
 			"padding-top" : "0",
 			"height" : "100",
-			"text-size" : "18",
+			"text-size" : "32",
 			"text-align" : "center"
 		},
 		
 		"title-text" : {
-			"height" : "50",
-			"text-size" : "28",
+			"height" : "75",
+			"text-size" : "48",
 			"text-align" : "center",
 			"text-weight" : "600"
 		},

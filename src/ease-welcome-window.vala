@@ -146,25 +146,25 @@ public class Ease.WelcomeWindow : Gtk.Window
 		y_res.set_range(RESOLUTIONS_Y[0],
 						RESOLUTIONS_Y[resolution_count-1]);
 
-		x_res.value_changed.connect(() =>
+		x_res.value_changed.connect(() => {
+			set_resolution_box((int)(x_res.get_value()),
+			                   (int)(y_res.get_value()));
+			foreach (var p in previews)
 			{
-				set_resolution_box((int)(x_res.get_value()),
-								   (int)(y_res.get_value()));
-				foreach (var p in previews)	{
-					p.set_slide_size((int)x_res.get_value(),
-									 (int)y_res.get_value());
-				}
-			});
+				p.set_slide_size((int)x_res.get_value(),
+				                 (int)y_res.get_value());
+			}
+		});
 
-		y_res.value_changed.connect(() =>
+		y_res.value_changed.connect(() => {
+			set_resolution_box((int)(x_res.get_value()),
+			                   (int)(y_res.get_value()));
+			foreach (var p in previews)
 			{
-				set_resolution_box((int)(x_res.get_value()),
-								   (int)(y_res.get_value()));
-				foreach (var p in previews)	{
-					p.set_slide_size((int)x_res.get_value(),
-									 (int)y_res.get_value());
-				}
-			});
+				p.set_slide_size((int)x_res.get_value(),
+			                     (int)y_res.get_value());
+			}
+		});
 
 		// buttons
 		new_pres_button.sensitive = false;
@@ -207,18 +207,30 @@ public class Ease.WelcomeWindow : Gtk.Window
 		}
 
 		// create the previews
-		foreach (var theme in themes) {
-			var master = theme.create_slide(PREVIEW_ID, 1024, 768);
-			if (master == null) continue;
-			
-			var act = new WelcomeActor (theme, previews, master);
+		foreach (var theme in themes)
+		{
+			// create a new actor
+			var act = new WelcomeActor(theme);
 			previews.add (act);
 			preview_container.add_actor (act);
 			
-			act.selected.connect( () =>
+			// handle the single click (selection) signal
+			act.selected.connect((sender) => {
+				new_pres_button.sensitive = true;
+				selected_theme = (sender as WelcomeActor).theme;
+				
+				foreach (var t in previews)
 				{
-					new_pres_button.sensitive = true;
-				});
+					if (t != sender) t.fade();
+				}
+				sender.unfade();
+			});
+			
+			// handle the double click signal
+			act.double_click.connect((sender) => {
+				selected_theme = (sender as WelcomeActor).theme;
+				create_new_document(null);
+			});
 		}
 
 		embed.contents.add_actor (preview_container);
@@ -236,19 +248,6 @@ public class Ease.WelcomeWindow : Gtk.Window
 			{
 				reflow_previews ();
 			});
-		
-		// click on previews
-		foreach (var a in previews)	{
-			a.button_press_event.connect ((act, event) =>
-                {
-                    if (event.click_count == 2) {
-						create_new_document (null);
-					}
-					(act as WelcomeActor).clicked ();
-					selected_theme = (act as WelcomeActor).theme;
-					return false;
-				});
-		}
 
 		// change the zoom of the previews when the zoom slider is moved
 		zoom_slider.value_changed.connect( () =>
@@ -272,7 +271,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 	}
 
 	[CCode (instance_pos = -1)]
-	public void create_new_document (Gtk.Widget? sender)
+	public void create_new_document(Gtk.Widget? sender)
 	{
 		try
 		{
@@ -404,7 +403,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 			}
 
 			// set the size of the preview
-			a.set_dims(preview_width, preview_width * preview_aspect);
+			a.set_actor_size(preview_width, preview_width * preview_aspect);
 
 			// go to the next line
 			if (++x_position >= per_line)
