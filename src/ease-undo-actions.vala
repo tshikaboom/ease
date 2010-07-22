@@ -21,62 +21,83 @@
  * Subclasses should override apply() and add a constructor, as well as any
  * needed data fields.
  */
-public abstract class Ease.UndoAction : Object
+public class Ease.UndoAction : Object
 {
-	/**
-	 * Applies the {@link UndoAction}.
-	 *
-	 * This method should be overriden by subclasses to undo the appropriate
-	 * action. It should return an UndoAction that will redo the UndoAction.
-	 */
-	public abstract UndoAction apply();
-}
-
-/**
- * {@link UndoAction} for moving or resizing an {@link Actor}.
- */
-public class Ease.MoveUndoAction : UndoAction
-{
-	private Element element;
-	private float x_pos;
-	private float y_pos;
-	private float width;
-	private float height;
+	private Gee.LinkedList<UndoPair> pairs = new Gee.LinkedList<UndoPair>();
 	
 	/**
-	 * Creates a new MoveUndoAction.
+	 * Creates an UndoAction.
 	 *
-	 * @param element The {@link Element} this applies to.
-	 * @param x The original X position of the {@link Element}.
-	 * @param y The original Y position of the {@link Element}.
-	 * @param w The original width of the {@link Element}
-	 * @param h The original height position of the {@link Element}
+	 * This should be followed up with calls to add() if the action has
+	 * multiple properties (or someone could figure out varargs in Vala).
+	 *
+	 * @param obj The first object.
+	 * @param val The first property.
 	 */
-	public MoveUndoAction(Element e, float x, float y, float w, float h)
+	public UndoAction(GLib.Object obj, string prop)
 	{
-		element = e;
-		x_pos = x;
-		y_pos = y;
-		width = w;
-		height = h;
+		pairs.add(new UndoPair(obj, prop));
 	}
 	
 	/**
-	 * Moves the {@link Element} back to its original position.
+	 * Adds an additional object/property pair.
 	 *
-	 * {@inheritDoc}
+	 * @param obj The first object.
+	 * @param val The first property.
 	 */
-	public override UndoAction apply()
+	public void add(GLib.Object obj, string prop)
 	{
-		var ret = new MoveUndoAction(element, element.x, element.y,
-		                             element.width, element.height);
+		pairs.add(new UndoPair(obj, prop));
+	}
+	
+	/**
+	 * Applies the {@link UndoAction}, restoring previous settings.
+	 *
+	 * Returns an UndoAction that will redo the undo action.
+	 */
+	public UndoAction apply()
+	{
+		foreach (var pair in pairs) pair.apply();
+		return this;
+	}
+	
+	/**
+	 * Embedded class for storing object/property pairs in undo actions.
+	 */
+	private class UndoPair
+	{
+		private string property;
+		private GLib.Object object;
+		private GLib.Value val;
+		private GLib.Type type;
 		
-		element.x = x_pos;
-		element.y = y_pos;
-		element.width = width;
-		element.height = height;
+		public UndoPair(GLib.Object obj, string prop)
+		{
+			object = obj;
+			property = prop;
+			type = obj.get_class().find_property(prop).value_type;
+			val = GLib.Value(type);
+			obj.get_property(prop, ref val);
+		}
 		
-		return ret;
+		/**
+		 * Applies this UndoPair, restoring the property to its original value.
+		 *
+		 * The current (before restoration) value is then placed into this
+		 * UndoPair, converting it into a "RedoPair" of sorts.
+		 */
+		public void apply()
+		{
+			// remember the current value so that it can be restored (redo)
+			GLib.Value temp = GLib.Value(type);
+			object.get_property(property, ref temp);
+			
+			// restore the old value
+			object.set_property(property, val);
+			
+			// give the pair the old value so it can be used to revert
+			val = temp;
+		}
 	}
 }
 

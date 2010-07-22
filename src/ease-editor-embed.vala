@@ -70,6 +70,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	private bool is_drag_initialized;
 	
 	/**
+	 * An UndoAction to be added on drag/resize completion.
+	 */
+	private UndoAction move_undo;
+	
+	/**
 	 * The X position of the mouse in the prior drag event.
 	 */
 	private float mouse_x;
@@ -396,6 +401,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			is_drag_initialized = false;
 			Clutter.grab_pointer(sender);
 			sender.motion_event.connect(actor_motion);
+			
+			// create an UndoAction for this drag
+			move_undo = new UndoAction(selected.element, "x");
+			move_undo.add(selected.element, "y");
+			
 			return true;
 		}
 		
@@ -465,9 +475,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			is_dragging = false;
 			Clutter.ungrab_pointer();
 			sender.motion_event.disconnect(actor_motion);
-			win.add_undo_action(new MoveUndoAction(selected.element,
-			                                       orig_x, orig_y,
-			                                       orig_w, orig_h));
+			win.add_undo_action(move_undo);
 		}
 		return true;
 	}
@@ -525,12 +533,19 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param event The corresponding Clutter.Event
 	 */
 	private bool handle_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
-	{	
+	{
 		(sender as Handle).flip(true);
 		is_dragging = true;
 		is_drag_initialized = false;
 		sender.motion_event.connect(handle_motion);
 		Clutter.grab_pointer(sender);
+		
+		// create an UndoAction for this resize
+		move_undo = new UndoAction(selected.element, "x");
+		move_undo.add(selected.element, "y");
+		move_undo.add(selected.element, "width");
+		move_undo.add(selected.element, "height");
+		
 		return true;
 	}
 	
@@ -552,10 +567,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			(sender as Handle).flip(false);
 			is_dragging = false;
 			sender.motion_event.disconnect(handle_motion);
-			
-			win.add_undo_action(new MoveUndoAction(selected.element,
-			                                       orig_x, orig_y,
-			                                       orig_w, orig_h));
+			win.add_undo_action(move_undo);
 		}
 		
 		Clutter.ungrab_pointer();
