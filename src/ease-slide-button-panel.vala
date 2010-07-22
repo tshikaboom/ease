@@ -18,8 +18,8 @@
 /**
  * Panel on the left side of an {@link EditorWindow}
  * 
- * A SlideButtonPanel contains a {@link SlideButton} for each
- * {@link Slide} in the current {@link Document}.
+ * SlideButtonPanel contains a Gtk.TreeView with displays slides as pixbufs,
+ * rendered with Cairo.
  */
 public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 {
