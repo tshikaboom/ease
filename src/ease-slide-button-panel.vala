@@ -104,7 +104,7 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 			slides.get_selection().selected_foreach((m, p, itr) => {
 				Slide s = new Slide();
 				m.get(itr, 1, ref s);
-				owner.load_slide(document.slides.index_of(s));
+				owner.set_slide(document.slides.index_of(s));
 			});
 		});
 		
@@ -115,6 +115,22 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 			string path = "";
 			var pb = pixbuf(slide, PREV_WIDTH, out path);
 			list_store.set(itr, 0, pb, 1, slide, 2, path);
+		});
+		
+		// handle the removal of slides
+		document.slide_deleted.connect((slide, index) => {
+			Gtk.TreeIter itr;
+			Slide s = new Slide();
+			if (!list_store.get_iter_first(out itr)) return;
+			do
+			{
+				list_store.get(itr, 1, ref s);
+				if (s == slide)
+				{
+					list_store.remove(itr);
+					break;
+				}
+			} while (list_store.iter_next(ref itr));
 		});
 		
 		// redraw all slides when the size allocation changes
@@ -130,6 +146,27 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 				list_store.set(itr, 0, pixbuf(s, width));
 			}
 		});*/
+	}
+	
+	/**
+	 * Selects a specified {@link Slide}.
+	 *
+	 * @param s The slide to select.
+	 */
+	public void select_slide(Slide slide)
+	{
+		Gtk.TreeIter itr;
+		Slide s = new Slide();
+		if (!list_store.get_iter_first(out itr)) return;
+		do
+		{
+			list_store.get(itr, 1, ref s);
+			if (s == slide)
+			{
+				slides.get_selection().select_iter(itr);
+				break;
+			}
+		} while (list_store.iter_next(ref itr));
 	}
 	
 	/**

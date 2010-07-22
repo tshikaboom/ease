@@ -185,7 +185,7 @@ public class Ease.EditorWindow : Gtk.Window
 
 		hide.connect(() => Main.remove_window(this));
 		
-		load_slide(0);
+		set_slide(0);
 		update_undo();
 	}
 	
@@ -194,7 +194,7 @@ public class Ease.EditorWindow : Gtk.Window
 	 *
 	 * @param filename The index of the slide.
 	 */
-	public void load_slide(int index)
+	public void set_slide(int index)
 	{
 		slide = document.slides.get(index);
 		
@@ -248,6 +248,16 @@ public class Ease.EditorWindow : Gtk.Window
 		var index = document.index_of(slide) + 1;
 		
 		document.add_slide(index, slide);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void remove_slide(Gtk.Widget? sender)
+	{
+		// don't remove the last slide in a document
+		if (document.length < 2) return;
+		
+		// set the slide to something safe
+		slide_button_panel.select_slide(document.rm_slide(slide));
 	}
 	
 	[CCode (instance_pos = -1)]

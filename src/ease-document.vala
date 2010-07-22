@@ -121,6 +121,23 @@ public class Ease.Document : SlideSet
 	}
 	
 	/**
+	 * Removes the specified {@link Slide}, returning an Slide that the editor
+	 * can safely jump to.
+	 *
+	 * @param s The slide to remove.
+	 */
+	public Slide rm_slide(Slide s)
+	{
+		int ind = index_of(s);
+		
+		slides.remove(s);
+		slide_deleted(s, ind);
+		
+		if (ind == 0) return slides.get(0);
+		return slides.get(ind - 1);
+	}
+	
+	/**
 	 * Returns whether or not the Document has a {@link Slide} after the
 	 * passed in {@link Slide}.
 	 */
