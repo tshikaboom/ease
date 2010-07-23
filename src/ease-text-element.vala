@@ -145,16 +145,11 @@ public class Ease.TextElement : Element
 	{
 		get
 		{
-			return { (uchar)data.get("red").to_int(),
-			         (uchar)data.get("green").to_int(),
-			         (uchar)data.get("blue").to_int(),
-			         255};
+			return Clutter.Color.from_string(data.get(Theme.TEXT_COLOR));
 		}		
 		set
 		{
-			data.set("red", ((int)value.red).to_string());
-			data.set("green", ((int)value.green).to_string());
-			data.set("blue", ((int)value.blue).to_string());
+			data.set(Theme.TEXT_COLOR, value.to_string());
 		}
 	}
 	

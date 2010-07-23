@@ -89,16 +89,9 @@ public static class Ease.JSONParser
 		}
 		else
 		{
-			slide.background_color.red =
-				(uchar)(obj.get_string_member("red").to_int());
-			
-			slide.background_color.green =
-				(uchar)(obj.get_string_member("green").to_int());
-			
-			slide.background_color.blue =
-				(uchar)(obj.get_string_member("blue").to_int());
-			
-			slide.background_color.alpha = 255;
+			slide.background_color =
+				Clutter.Color.from_string(
+					obj.get_string_member(Theme.BACKGROUND_COLOR));
 		}
 		
 		// parse the elements
@@ -201,12 +194,8 @@ public static class Ease.JSONParser
 		}
 		else
 		{
-			obj.set_string_member("red",
-			                      slide.background_color.red.to_string());
-			obj.set_string_member("green",
-			                      slide.background_color.green.to_string());
-			obj.set_string_member("blue",
-			                      slide.background_color.blue.to_string());
+			obj.set_string_member(Theme.BACKGROUND_COLOR,
+			                      slide.background_color.to_string());
 		}
 		
 		// add the slide's elements
