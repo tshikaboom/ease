@@ -4,6 +4,7 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkVBox" id="Editor Widget">
     <property name="visible">True</property>
+    <property name="orientation">vertical</property>
     <child>
       <object class="GtkMenuBar" id="Menu Bar">
         <property name="visible">True</property>
@@ -267,6 +268,7 @@
             <property name="label" translatable="yes">Remove Slide</property>
             <property name="use_underline">True</property>
             <property name="stock_id">gtk-remove</property>
+            <signal name="clicked" handler="ease_editor_window_remove_slide"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -402,6 +404,7 @@
             <property name="label" translatable="yes">Fonts</property>
             <property name="use_underline">True</property>
             <property name="stock_id">gtk-select-font</property>
+            <signal name="clicked" handler="ease_editor_window_select_font"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -441,6 +444,7 @@
         <child>
           <object class="GtkAlignment" id="Slides Align">
             <property name="visible">True</property>
+            <property name="right_padding">4</property>
             <child>
               <placeholder/>
             </child>

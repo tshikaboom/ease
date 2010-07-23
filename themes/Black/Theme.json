@@ -1,0 +1,12 @@
+{
+	"title" : "Black",
+	"author" : "Nate Stedman <natesm@gmail.com>",
+	
+	"master-defaults" : {
+		"background-color" : "#000000FF"
+	},
+	
+	"element-defaults" : {
+		"text-color" : "#FFFFFFFF"
+	}
+}

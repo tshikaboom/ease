@@ -70,6 +70,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	private bool is_drag_initialized;
 	
 	/**
+	 * An UndoAction to be added on drag/resize completion.
+	 */
+	private UndoAction move_undo;
+	
+	/**
 	 * The X position of the mouse in the prior drag event.
 	 */
 	private float mouse_x;
@@ -251,16 +256,20 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 */
 	public void set_slide(Slide slide)
 	{
-		if (slide == null)
+		if (slide == null) return;
+		
+		if (is_editing)
 		{
-			return;
+			selected.end_edit(this);
+			is_editing = false;
 		}
 		
 		// clean up the previous slide
 		if (slide_actor != null)
 		{
 			contents.remove_actor(slide_actor);
-			for (unowned List<Clutter.Actor>* itr = slide_actor.contents.get_children();
+			for (unowned List<Clutter.Actor>* itr =
+			     slide_actor.contents.get_children();
 			     itr != null;
 			     itr = itr->next)
 			{
@@ -395,6 +404,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			is_drag_initialized = false;
 			Clutter.grab_pointer(sender);
 			sender.motion_event.connect(actor_motion);
+			
+			// create an UndoAction for this drag
+			move_undo = new UndoAction(selected.element, "x");
+			move_undo.add(selected.element, "y");
+			
 			return true;
 		}
 		
@@ -464,9 +478,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			is_dragging = false;
 			Clutter.ungrab_pointer();
 			sender.motion_event.disconnect(actor_motion);
-			win.add_undo_action(new MoveUndoAction(selected.element,
-			                                       orig_x, orig_y,
-			                                       orig_w, orig_h));
+			win.add_undo_action(move_undo);
 		}
 		return true;
 	}
@@ -510,6 +522,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			mouse_y = event.y;
 			
 			position_selection();
+			
+			selected.element.parent.changed(selected.element.parent);
 		}
 		return true;
 	}
@@ -524,12 +538,19 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * @param event The corresponding Clutter.Event
 	 */
 	private bool handle_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
-	{	
-		(sender as Handle).flip();
+	{
+		(sender as Handle).flip(true);
 		is_dragging = true;
 		is_drag_initialized = false;
 		sender.motion_event.connect(handle_motion);
 		Clutter.grab_pointer(sender);
+		
+		// create an UndoAction for this resize
+		move_undo = new UndoAction(selected.element, "x");
+		move_undo.add(selected.element, "y");
+		move_undo.add(selected.element, "width");
+		move_undo.add(selected.element, "height");
+		
 		return true;
 	}
 	
@@ -548,13 +569,10 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	{
 		if (is_dragging)
 		{
-			(sender as Handle).flip();
+			(sender as Handle).flip(false);
 			is_dragging = false;
 			sender.motion_event.disconnect(handle_motion);
-			
-			win.add_undo_action(new MoveUndoAction(selected.element,
-			                                       orig_x, orig_y,
-			                                       orig_w, orig_h));
+			win.add_undo_action(move_undo);
 		}
 		
 		Clutter.ungrab_pointer();
@@ -612,6 +630,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		mouse_y = event.y;
 		
 		position_selection();
+		
+		selected.element.parent.changed(selected.element.parent);
 		
 		return true;
 	}

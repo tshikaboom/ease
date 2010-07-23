@@ -57,41 +57,17 @@ public static class Ease.JSONParser
 			document.add_slide(document.length, parse_slide(node));
 		}
 		
-		return document;
-	}
-	
-	/**
-	 * Parses a theme JSON file, creating a {@link Theme}.
-	 *
-	 * @param path The path to the {@link Theme}
-	 */
-	public static Theme theme(string path) throws GLib.Error
-	{
-		string filename = absolute_path(path);
-		var theme = new Theme();
-		theme.path = Temp.extract(filename);
-	
-		var parser = new Json.Parser();
+		// get the document's theme
+		var theme_path = Path.build_filename(Document.THEME_PATH,
+		                                     Theme.JSON_PATH);
+		var theme_full_path = Path.build_filename(document.path, theme_path);
 		
-		// attempt to load the file
-		parser.load_from_file(Path.build_filename(theme.path, "Theme.json"));
-		
-		// grab the root object
-		var root = parser.get_root().get_object();
-		
-		// set theme properties
-		theme.title = root.get_string_member("title");
-		
-		// add all slides
-		var slides = root.get_array_member("slides");
-		
-		for (var i = 0; i < slides.get_length(); i++)
+		if (File.new_for_path(theme_full_path).query_exists(null))
 		{
-			var node = slides.get_object_element(i);
-			theme.add_slide(theme.length, parse_slide(node));
+			document.theme = new Theme.json(theme_full_path);
+			document.theme.path = theme_full_path;
 		}
-		
-		return theme;
+		return document;
 	}
 	
 	private static Slide parse_slide(Json.Object obj)
@@ -123,16 +99,9 @@ public static class Ease.JSONParser
 		}
 		else
 		{
-			slide.background_color.red =
-				(uchar)(obj.get_string_member("red").to_int());
-			
-			slide.background_color.green =
-				(uchar)(obj.get_string_member("green").to_int());
-			
-			slide.background_color.blue =
-				(uchar)(obj.get_string_member("blue").to_int());
-			
-			slide.background_color.alpha = 255;
+			slide.background_color =
+				Clutter.Color.from_string(
+					obj.get_string_member(Theme.BACKGROUND_COLOR));
 		}
 		
 		// parse the elements
@@ -235,12 +204,8 @@ public static class Ease.JSONParser
 		}
 		else
 		{
-			obj.set_string_member("red",
-			                      slide.background_color.red.to_string());
-			obj.set_string_member("green",
-			                      slide.background_color.green.to_string());
-			obj.set_string_member("blue",
-			                      slide.background_color.blue.to_string());
+			obj.set_string_member(Theme.BACKGROUND_COLOR,
+			                      slide.background_color.to_string());
 		}
 		
 		// add the slide's elements

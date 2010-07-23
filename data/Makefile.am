@@ -10,5 +10,11 @@ svg_DATA = $(wildcard $(top_srcdir)/data/svg/*.svg)
 uidir = $(datadir)/ease/ui
 ui_DATA = $(wildcard $(top_srcdir)/data/ui/*.ui)
 
-EXTRA_DIST = $(ui_DATA) $(svg_DATA) $(desktop_in_files)
+jsondir = $(datadir)/ease
+json_DATA = theme-defaults.json
 
+EXTRA_DIST = \
+    $(ui_DATA) \
+    $(svg_DATA) \
+    $(desktop_in_files) \
+    $(json_DATA)

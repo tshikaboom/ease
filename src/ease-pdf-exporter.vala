@@ -16,7 +16,7 @@
 */
 
 /**
- * Renders {@link Slide}s with Cairo.
+ * Exports {@link Slide}s to PDF files with Cairo.
  */
 public static class Ease.PDFExporter : Object
 {
@@ -61,7 +61,7 @@ public static class Ease.PDFExporter : Object
 		
 			foreach (var s in document.slides)
 			{
-				write_slide(s, context);
+				s.cairo_render(context);
 				context.show_page();
 			}
 		
@@ -73,42 +73,5 @@ public static class Ease.PDFExporter : Object
 			error_dialog(_("Error Exporting to PDF"), e.message);
 		}
 	}
-	
-	/** 
-	 * Draws a {@link Slide} to a Cairo.Context.
-	 *
-	 * @param s The {@link Slide} to draw.
-	 * @param context The Cairo.Context to draw to.
-	 */
-	public static void write_slide(Slide s, Cairo.Context context) throws Error
-	{
-		// write the background color if there is no image
-		if (s.background_image == null)
-		{
-			context.rectangle(0, 0, s.parent.width, s.parent.height);
-			context.set_source_rgb(s.background_color.red / 255f,
-			                       s.background_color.green / 255f,
-			                       s.background_color.blue / 255f);
-			context.fill();
-		}
-		
-		// otherwise, write the image
-		else
-		{
-			var pixbuf = new Gdk.Pixbuf.from_file_at_scale(s.background_abs,
-			                                               s.parent.width,
-			                                               s.parent.height,
-			                                               false);
-		
-			Gdk.cairo_set_source_pixbuf(context, pixbuf, 0, 0);
-		
-			context.rectangle(0, 0, s.parent.width, s.parent.height);
-			context.fill();
-		}
-		
-		foreach (var e in s.elements)
-		{
-			e.cairo_render(context);
-		}
-	}
 }
+

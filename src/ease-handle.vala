@@ -52,7 +52,7 @@ public class Ease.Handle : Clutter.CairoTexture
 		
 		// set the handle's position
 		position = pos;
-
+		
 		// set the handle's anchor
 		set_anchor_point(SIZE / 2, SIZE / 2);
 		
@@ -223,9 +223,9 @@ public class Ease.Handle : Clutter.CairoTexture
 	/**
 	 * Flips the colors of the handle.
 	 */
-	public void flip()
+	public void flip(bool f)
 	{
-		flipped = !flipped;
+		flipped = f;
 		redraw();
 	}
 	
@@ -238,12 +238,12 @@ public class Ease.Handle : Clutter.CairoTexture
 		cr.arc(SIZE / 2, SIZE / 2, SIZE / 4, 0, 2 * 3.1415);
 		
 		// fill the circle
-		if (flipped) cr.set_source_rgba(1, 1, 1, 1);
+		if (!flipped) cr.set_source_rgba(1, 1, 1, 1);
 		else cr.set_source_rgba(0, 0, 0, 1);
 		cr.fill_preserve();
 		
 		// stroke the circle
-		if (flipped) cr.set_source_rgba(0, 0, 0, 1);
+		if (!flipped) cr.set_source_rgba(0, 0, 0, 1);
 		else cr.set_source_rgba(1, 1, 1, 1);
 		cr.stroke();
 	}

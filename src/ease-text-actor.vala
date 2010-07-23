@@ -45,17 +45,16 @@ public class Ease.TextActor : Actor
 		base(e, c);
 		
 		var text = new Clutter.Text();
+		contents = text;
 
 		// set actor properties
 		text.use_markup = true;
 		text.line_wrap = true;
 		text.line_wrap_mode = Pango.WrapMode.WORD_CHAR;
 		text.color = e.color;
-		text.set_markup(e.has_been_edited ? e.get("text") : DEFAULT_TEXT);
-		text.font_name = e.font_description.to_string();
 		text.line_alignment = e.text_align;
-		
-		contents = text;
+		format(e);
+		text.set_markup(e.has_been_edited ? e.get("text") : DEFAULT_TEXT);
 		
 		add_actor(contents);
 		contents.width = e.width;
@@ -67,6 +66,15 @@ public class Ease.TextActor : Actor
 		e.notify["color"].connect((sender, spec) => {
 			text.color = (sender as TextElement).color;
 		});
+		
+		e.notify["font-description"].connect((sender, spec) => {
+			format(element as TextElement);
+		});
+	}
+	
+	private void format(TextElement e)
+	{
+		(contents as Clutter.Text).font_name = e.font_description.to_string();
 	}
 	
 	/**
@@ -114,6 +122,16 @@ public class Ease.TextActor : Actor
 		text.activatable = false;
 		text.text_changed.disconnect(text_changed);
 		text.activate.disconnect(text_activate);
+		
+		// if the text has not been edited, restore default text
+		if (text.text == "" && !element.has_been_edited)
+		{
+			text.text = DEFAULT_TEXT;
+		}
+		else // otherwise, the element has been edited
+		{
+			element.has_been_edited = true;
+		}
 	}
 	
 	/**
@@ -123,6 +141,7 @@ public class Ease.TextActor : Actor
 	private void text_changed(Clutter.Text sender)
 	{
 		element.set("text", sender.text);
+		element.parent.changed(element.parent);
 	}
 	
 	/**

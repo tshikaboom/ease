@@ -1,0 +1,49 @@
+{
+	"master-defaults" : {
+		"background-color" : "#FFFFFFFF"
+	},
+	
+	"element-defaults" : {
+		"text-font" : "Bitstream Vera Sans",
+		"text-size" : "18",
+		"text-style" : "Normal",
+		"text-variant" : "Normal",
+		"text-weight" : "500",
+		"text-align" : "left",
+		"text-color" : "#000000FF",
+		
+		"padding-top" : "30",
+		"padding-left" : "30",
+		"padding-right" : "30",
+		"padding-bottom" : "30"
+	},
+	
+	"elements" : {
+		"header-text" : {
+			"height" : "40",
+			"text-size" : "24",
+			"text-weight" : "600",
+			"padding-bottom" : "0"
+		},
+		
+		"author-text" : {
+			"padding-top" : "0",
+			"height" : "100",
+			"text-size" : "32",
+			"text-align" : "center"
+		},
+		
+		"title-text" : {
+			"height" : "75",
+			"text-size" : "48",
+			"text-align" : "center",
+			"text-weight" : "600"
+		},
+		
+		"content-text" : {
+			"padding-top" : "20"
+		}
+	},
+	
+	"masters" : {}
+}

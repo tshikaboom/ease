@@ -67,6 +67,11 @@ public class Ease.EditorWindow : Gtk.Window
 	private UndoController undo;
 	
 	/**
+	 * Space to temporarily cache an {@link UndoAction}.
+	 */
+	private UndoAction undo_action;
+	
+	/**
 	 * The undo button.
 	 */
 	private Gtk.ToolButton undo_button;
@@ -103,6 +108,9 @@ public class Ease.EditorWindow : Gtk.Window
 	                             200, 250, 300, 400};
 	
 	private const string UI_FILE_PATH = "editor-window.ui";
+	
+	private const string FONT_TEXT =
+		_("The quick brown fox jumps over the lazy dog");
 
 	/**
 	 * Creates a new EditorWindow.
@@ -123,8 +131,7 @@ public class Ease.EditorWindow : Gtk.Window
 		var builder = new Gtk.Builder();
 		try
 		{
-			builder.add_from_file(data_path(Path.build_filename(Temp.TEMP_DIR,
-				                                                Temp.UI_DIR,
+			builder.add_from_file(data_path(Path.build_filename(Temp.UI_DIR,
 				                                                UI_FILE_PATH)));
 		}
 		catch (Error e) { error("Error loading UI: %s", e.message); }
@@ -181,7 +188,7 @@ public class Ease.EditorWindow : Gtk.Window
 
 		hide.connect(() => Main.remove_window(this));
 		
-		load_slide(0);
+		set_slide(0);
 		update_undo();
 	}
 	
@@ -190,7 +197,7 @@ public class Ease.EditorWindow : Gtk.Window
 	 *
 	 * @param filename The index of the slide.
 	 */
-	public void load_slide(int index)
+	public void set_slide(int index)
 	{
 		slide = document.slides.get(index);
 		
@@ -237,17 +244,24 @@ public class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	public void new_slide_handler(Gtk.Widget? sender)
 	{
-		var master = document.theme.slide_by_title(slide.title);
-		
-		var slide = new Slide.from_master(master, document,
-		                                  document.width,
-		                                  document.height, true);
+		var slide = document.theme.create_slide(document.DEFAULT_SLIDE,
+		                                        document.width,
+		                                        document.height);
 		
 		var index = document.index_of(slide) + 1;
 		
 		document.add_slide(index, slide);
-		slide_button_panel.add_slide(index, slide);
-		}
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void remove_slide(Gtk.Widget? sender)
+	{
+		// don't remove the last slide in a document
+		if (document.length < 2) return;
+		
+		// set the slide to something safe
+		slide_button_panel.select_slide(document.rm_slide(slide));
+	}
 	
 	[CCode (instance_pos = -1)]
 	public void play_handler(Gtk.Widget sender)
@@ -262,6 +276,7 @@ public class Ease.EditorWindow : Gtk.Window
 		update_undo();
 		embed.slide_actor.relayout();
 		embed.reposition_group();
+		slide.changed(slide);
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -271,6 +286,7 @@ public class Ease.EditorWindow : Gtk.Window
 		update_undo();
 		embed.slide_actor.relayout();
 		embed.reposition_group();
+		slide.changed(slide);
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -417,6 +433,9 @@ public class Ease.EditorWindow : Gtk.Window
 		// store the original color in case the user cancels	
 		var original_color = embed.selected.element.get_color();
 		
+		// create an UndoAction for potential use
+		undo_action = new UndoAction(embed.selected.element, "color");
+		
 		// create the dialog
 		color_dialog = new Gtk.ColorSelectionDialog(_("Select Color"));
 		color_selection = color_dialog.color_selection as Gtk.ColorSelection;
@@ -438,6 +457,12 @@ public class Ease.EditorWindow : Gtk.Window
 		// hide the dialog when the ok button is clicked
 		(color_dialog.ok_button as Gtk.Button).clicked.connect(() => {
 			color_dialog.hide();
+			
+			// if the color was changed, add the UndoAction
+			if (original_color != embed.selected.element.get_color())
+			{
+				add_undo_action(undo_action);
+			}
 		});
 		
 		// reset the original color and hide the dialog when cancel is clicked
@@ -463,6 +488,7 @@ public class Ease.EditorWindow : Gtk.Window
 	{
 		embed.set_element_color(Transformations.gdk_color_to_clutter_color(
 		                        sender.current_color));
+		slide.changed(slide);
 	}
 	
 	private void color_dialog_selection(Object sender, ParamSpec spec)
@@ -474,11 +500,49 @@ public class Ease.EditorWindow : Gtk.Window
 			Transformations.clutter_color_to_gdk_color(color);
 	}
 	
+	[CCode (instance_pos = -1)]
+	public void select_font(Gtk.Widget? sender)
+	{
+		// create a font selection dialog
+		var font_selection = new Gtk.FontSelectionDialog(_("Select Font"));
+		
+		// grab the selected element, classes as TextElement
+		var text = embed.selected.element as TextElement;
+		
+		// set the preview text to the element's text, if none, use preview text
+		font_selection.set_preview_text(text.text != "" ?
+		                                text.text : FONT_TEXT);
+		
+		// set the dialog's font to the current font
+		font_selection.set_font_name(text.font_description.to_string());
+		
+		// run the dialog
+		switch (font_selection.run())
+		{
+			case Gtk.ResponseType.OK:
+				// allow the user to undo the font change
+				add_undo_action(
+					new UndoAction(embed.selected.element, "font-description"));
+				
+				// set the font description to the new font
+				text.font_description = 
+					Pango.FontDescription.from_string(
+						font_selection.get_font_name());
+						
+				// emit the "changed" signal on the element's slide
+				text.parent.changed(text.parent);
+				break;
+		}
+		
+		font_selection.destroy();
+	}
+	
 	private ZoomSlider create_zoom_slider()
 	{
 		// create zoom slider
-		zoom_slider = new AnimatedZoomSlider(new Gtk.Adjustment(100, 10, 400, 10,
-		                                                        50, 50), ZOOM_LEVELS);
+		zoom_slider = new AnimatedZoomSlider(new Gtk.Adjustment(100, 10, 400,
+		                                                        10, 50, 50),
+		                                                        ZOOM_LEVELS);
 		zoom_slider.width_request = 200;
 		zoom_slider.value_pos = Gtk.PositionType.RIGHT;
 		zoom_slider.digits = 0;

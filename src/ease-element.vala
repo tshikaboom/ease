@@ -270,12 +270,15 @@ public abstract class Ease.Element : GLib.Object
 	}
 	
 	/**
-	 * A unique identifier for this Element.
+	 * The Element's identifier on its master {@link Slide}.
+	 *
+	 * This property allows Ease to simply change the theme of a {@link Slide}.
+	 * Elements can be quickly matched up and updated appropriately.
 	 */
-	public string ease_name
+	public string identifier
 	{
-		owned get { return data.get("ease_name"); }
-		set	{ data.set("ease_name", value);	}
+		owned get { return data.get(Theme.E_IDENTIFIER); }
+		set	{ data.set(Theme.E_IDENTIFIER, value); }
 	}
 	
 	/**
@@ -285,15 +288,6 @@ public abstract class Ease.Element : GLib.Object
 	{
 		owned get { return data.get("element_type"); }
 		set	{ data.set("element_type", value); }
-	}
-	
-	/**
-	 * The Element's identifier on its master {@link Slide}
-	 */
-	public string identifier
-	{
-		owned get { return data.get("identifier"); }
-		set	{ data.set("identifier", value); }
 	}
 	
 	/**

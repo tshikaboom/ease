@@ -9,6 +9,7 @@ bin_PROGRAMS = ease
 AM_CPPFLAGS = \
 	$(EASE_CFLAGS) \
 	-include $(CONFIG_HEADER) \
+	-O0 \
 	$(NULL)
 
 ease_SOURCES = \
@@ -38,7 +39,6 @@ ease_SOURCES = \
 	src/ease-scrollable-embed.vala \
 	src/ease-slide-actor.vala \
 	src/ease-slide-button-panel.vala \
-	src/ease-slide-button.vala \
 	src/ease-slide-pane.vala \
 	src/ease-slide-set.vala \
 	src/ease-slide.vala \
@@ -49,7 +49,7 @@ ease_SOURCES = \
 	src/ease-transformations.vala \
 	src/ease-transition-pane.vala \
 	src/ease-transitions.vala \
-	src/ease-undo-actions.vala \
+	src/ease-undo-action.vala \
 	src/ease-undo-controller.vala \
 	src/ease-utilities.vala \
 	src/ease-welcome-actor.vala \
