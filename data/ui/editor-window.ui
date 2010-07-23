@@ -404,6 +404,7 @@
             <property name="label" translatable="yes">Fonts</property>
             <property name="use_underline">True</property>
             <property name="stock_id">gtk-select-font</property>
+            <signal name="clicked" handler="ease_editor_window_select_font"/>
           </object>
           <packing>
             <property name="expand">False</property>

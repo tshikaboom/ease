@@ -108,6 +108,9 @@ public class Ease.EditorWindow : Gtk.Window
 	                             200, 250, 300, 400};
 	
 	private const string UI_FILE_PATH = "editor-window.ui";
+	
+	private const string FONT_TEXT =
+		_("The quick brown fox jumps over the lazy dog");
 
 	/**
 	 * Creates a new EditorWindow.
@@ -495,6 +498,31 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		color_selection.current_color =
 			Transformations.clutter_color_to_gdk_color(color);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void select_font(Gtk.Widget? sender)
+	{
+		var font_selection = new Gtk.FontSelectionDialog(_("Select Font"));
+		
+		var text = embed.selected.element as TextElement;
+		
+		font_selection.set_preview_text(text.text != "" ?
+		                                text.text : FONT_TEXT);
+		
+		font_selection.set_font_name(text.font_description.to_string());
+		
+		switch (font_selection.run())
+		{
+			case Gtk.ResponseType.OK:
+				text.font_description = 
+					Pango.FontDescription.from_string(
+						font_selection.get_font_name());
+				text.parent.changed(text.parent);
+				break;
+		}
+		
+		font_selection.destroy();
 	}
 	
 	private ZoomSlider create_zoom_slider()

@@ -20,6 +20,8 @@
  */
 public class Ease.TextElement : Element
 {
+	private bool freeze = false;
+	
 	/**
 	 * Create a new element, with an empty {@link ElementMap}.
 	 */
@@ -162,7 +164,11 @@ public class Ease.TextElement : Element
 	public string font_name
 	{
 		owned get { return data.get(Theme.TEXT_FONT); }
-		set { data.set(Theme.TEXT_FONT, value); }
+		set
+		{
+			data.set(Theme.TEXT_FONT, value);
+			if (!freeze) notify_property("font-description");
+		}
 	}
 	
 	/**
@@ -196,6 +202,7 @@ public class Ease.TextElement : Element
 					data.set(Theme.TEXT_STYLE, "Normal");
 					break;
 			}
+			if (!freeze) notify_property("font-description");
 		}
 	}
 	
@@ -215,6 +222,7 @@ public class Ease.TextElement : Element
 			data.set(Theme.TEXT_VARIANT,
 			          value == Pango.Variant.NORMAL ?
 			          "Normal" : "Small Caps");
+			if (!freeze) notify_property("font-description");
 		}
 	}
 	
@@ -230,6 +238,7 @@ public class Ease.TextElement : Element
 		set
 		{
 			data.set(Theme.TEXT_WEIGHT, ((int)value).to_string());
+			if (!freeze) notify_property("font-description");
 		}
 	}
 	
@@ -254,11 +263,13 @@ public class Ease.TextElement : Element
 		}
 		set
 		{
+			freeze = true;
 			data.set(Theme.TEXT_FONT, value.get_family());
 			font_style = value.get_style();
 			font_weight = value.get_weight();
 			font_variant = value.get_variant();
 			font_size = value.get_size() / Pango.SCALE;
+			freeze = false;
 		}
 	}
 	
@@ -317,6 +328,7 @@ public class Ease.TextElement : Element
 		set
 		{
 			data.set(Theme.TEXT_SIZE, value.to_string());
+			if (!freeze) notify_property("font-description");
 		}
 	}
 }

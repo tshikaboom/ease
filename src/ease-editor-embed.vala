@@ -256,9 +256,12 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 */
 	public void set_slide(Slide slide)
 	{
-		if (slide == null)
+		if (slide == null) return;
+		
+		if (is_editing)
 		{
-			return;
+			selected.end_edit(this);
+			is_editing = false;
 		}
 		
 		// clean up the previous slide
