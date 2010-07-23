@@ -36,7 +36,7 @@ public class Ease.Document : SlideSet
 	/**
 	 * Path of the Document's {@link Theme} data files.
 	 */
-	private const string THEME_PATH = "theme";
+	public const string THEME_PATH = "Theme";
 
 	/**
 	 * The {@link Theme} linked to this Document.

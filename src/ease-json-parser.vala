@@ -57,6 +57,16 @@ public static class Ease.JSONParser
 			document.add_slide(document.length, parse_slide(node));
 		}
 		
+		// get the document's theme
+		var theme_path = Path.build_filename(Document.THEME_PATH,
+		                                     Theme.JSON_PATH);
+		var theme_full_path = Path.build_filename(document.path, theme_path);
+		
+		if (File.new_for_path(theme_full_path).query_exists(null))
+		{
+			document.theme = new Theme.json(theme_full_path);
+			document.theme.path = theme_full_path;
+		}
 		return document;
 	}
 	

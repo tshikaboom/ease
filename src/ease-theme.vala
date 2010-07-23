@@ -22,7 +22,7 @@ public class Ease.Theme : GLib.Object
 {
 	// file paths
 	private const string DEFAULTS_PATH = "theme-defaults.json";
-	private const string JSON_PATH = "Theme.json";
+	public const string JSON_PATH = "Theme.json";
 	private const string MEDIA_PATH = "Media";
 	
 	// json root elements
@@ -181,11 +181,12 @@ public class Ease.Theme : GLib.Object
 	/**
 	 * Loads a Theme from pure JSON, (no archive).
 	 *
-	 * This constructor is used to load the defaults.
+	 * This constructor is used to load the defaults. It is also used when
+	 * loading a previously saved {@link Document}.
 	 *
 	 * @param json_path The path to the JSON file.
 	 */
-	private Theme.json(string json_path)
+	public Theme.json(string json_path)
 	{
 		load_from_json(json_path);
 	}

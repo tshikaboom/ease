@@ -144,12 +144,19 @@ public static class Ease.Temp : Object
 		{
 			var fpath = Path.build_filename(path, entry.pathname());
 			var file = GLib.File.new_for_path(fpath);
+			
 			if (Posix.S_ISDIR(entry.mode()))
 			{
 				file.make_directory_with_parents(null);
 			}
 			else
 			{
+				var parent = file.get_parent();
+				if (!parent.query_exists(null))
+				{
+					parent.make_directory_with_parents(null);
+				}
+				
 				file.create(FileCreateFlags.REPLACE_DESTINATION, null);
 				int fd = Posix.open(fpath, Posix.O_WRONLY, 0644);
 				archive.read_data_into_fd(fd);
@@ -195,55 +202,30 @@ public static class Ease.Temp : Object
 		}
 		
 		// add files
-		archive_recursive_write(archive, dir, buffer, "", temp_path);
-		
-		// close the archive
-		arc_fail(archive.close(), archive);
-	}
-	
-	private static void archive_recursive_write(Archive.Write archive,
-	                                            Dir dir,
-	                                            char[] buffer,
-	                                            string path_so_far,
-	                                            string temp_path) throws Error
-	{
-		string child_path;
-		while ((child_path = dir.read_name()) != null)
-		{
-			debug(child_path);
-			var child_full_path = Path.build_filename(temp_path, child_path);
-			
+		recursive_directory(temp_path, null, (path, full_path) => {
+			// create an archive entry for the file
 			var entry = new Archive.Entry();
-			entry.set_pathname(Path.build_path(path_so_far, child_path));
+			entry.set_pathname(path);
 			entry.set_perm(0644);
 			Posix.Stat st;
-			Posix.stat(child_full_path, out st);
+			Posix.stat(full_path, out st);
 			entry.copy_stat(st);
 			arc_fail(archive.write_header(entry), archive);
 			
-			if (FileUtils.test(child_full_path, FileTest.IS_DIR))
+			// write the file
+			var fd = Posix.open(full_path, Posix.O_RDONLY);
+			var len = Posix.read(fd, buffer, sizeof(char) * ARCHIVE_BUFFER);
+			while(len > 0)
 			{
-				arc_fail(archive.finish_entry(), archive);
-				var child_dir = GLib.Dir.open(child_full_path, 0);
-				archive_recursive_write(archive, child_dir, buffer,
-				                        Path.build_path(path_so_far,
-				                                        child_path),
-				                        temp_path);
+				archive.write_data(buffer, len);
+				len = Posix.read(fd, buffer, sizeof(char) * ARCHIVE_BUFFER);
 			}
-			else
-			{
-				// write the file
-				var fd = Posix.open(child_full_path, Posix.O_RDONLY);
-				var len = Posix.read(fd, buffer, sizeof(char) * ARCHIVE_BUFFER);
-				while(len > 0)
-				{
-					archive.write_data(buffer, len);
-					len = Posix.read(fd, buffer, sizeof(char) * ARCHIVE_BUFFER);
-				}
-				Posix.close(fd);
-				arc_fail(archive.finish_entry(), archive);
-			}
-		}
+			Posix.close(fd);
+			arc_fail(archive.finish_entry(), archive);
+		});
+		
+		// close the archive
+		arc_fail(archive.close(), archive);
 	}
 	
 	/**
@@ -260,9 +242,7 @@ public static class Ease.Temp : Object
 	 */
 	public static void clean()
 	{
-		if (dirs == null) {
-			return;
-		}
+		if (dirs == null) return;
 
 		string dir;
 		while ((dir = dirs.poll_head()) != null)

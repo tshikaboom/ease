@@ -86,6 +86,68 @@ namespace Ease
 		}
 		return null;
 	}
+	
+	/**
+	 * Performs a recursive iteration on a directory, with callbacks.
+	 *
+	 * The caller can provide two {@link RecursiveDirAction}s: one for files,
+	 * and another for directories. These callbacks can both be null
+	 * (although if they both were, the call would do nothing). The directory
+	 * callback is executed before the recursion continues.
+	 *
+	 * The directory callback is not performed on the toplevel directory.
+	 *
+	 * @param directory The directory to iterate.
+	 * @param directory_action A {@link RecursiveDirAction} to perform on all
+	 * directories.
+	 * @param file_action A {@link RecursiveDirAction} to perform on all files.
+	 */
+	public void recursive_directory(string directory,
+	                                RecursiveDirAction? directory_action,
+	                                RecursiveDirAction? file_action)
+	                                throws Error
+	{
+		do_recursive_directory(directory, directory_action, file_action, "");
+	}
+	
+	/**
+	 * Used for execution of recursive_directory(). Should never be called, 
+	 * except by that function.
+	 */
+	private void do_recursive_directory(string directory,
+	                                    RecursiveDirAction? directory_action,
+	                                    RecursiveDirAction? file_action,
+	                                    string rel_path)
+	                                    throws Error
+	{
+		var dir = GLib.Dir.open(directory, 0);
+		string child_path;
+		
+		while ((child_path = dir.read_name()) != null)
+		{
+			var child_full_path = Path.build_filename(directory, child_path);
+			var child_rel_path = Path.build_filename(rel_path, child_path);
+			if (FileUtils.test(child_full_path, FileTest.IS_DIR))
+			{
+				if (directory_action != null)
+				{
+					directory_action(child_rel_path, child_full_path);
+				}
+				do_recursive_directory(child_full_path,
+				                       directory_action, file_action,
+				                       child_rel_path);
+			}
+			else // the path is a file
+			{
+				if (file_action != null)
+				{
+					file_action(child_rel_path, child_full_path);
+				}
+			}
+		}
+	}
+	
+	public delegate void RecursiveDirAction(string path, string full_path);
 
 	public double dmax(double a, double b)
 	{
