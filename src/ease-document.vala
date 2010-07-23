@@ -32,6 +32,11 @@ public class Ease.Document : SlideSet
 	 * The default master slide for the first slide.
 	 */
 	private const string DEFAULT_FIRST = Theme.TITLE;
+	
+	/**
+	 * Path of the Document's {@link Theme} data files.
+	 */
+	private const string THEME_PATH = "theme";
 
 	/**
 	 * The {@link Theme} linked to this Document.
@@ -83,12 +88,15 @@ public class Ease.Document : SlideSet
 	{
 		assert(doc_theme != null);
 		
+		// set the document's dimensions
 		width = w;
 		height = h;
-		theme = doc_theme;
 		
 		// allocate a temp directory for the new document
 		path = Temp.request();
+		
+		// copy the theme to a path within the document
+		theme = doc_theme.copy_to_path(Path.build_filename(path, THEME_PATH));
 		
 		// copy media to the new path
 		theme.copy_media(path);

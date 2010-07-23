@@ -42,6 +42,19 @@ public class Ease.Theme : GLib.Object
 	public const string MEDIA = "media";
 	public const string MEDIA_HEADER = "media-header";
 	
+	/**
+	 * String identifiers for all master slides available in Ease.
+	 */
+	public const string[] MASTER_SLIDES = {
+		TITLE,
+		CONTENT,
+		CONTENT_HEADER,
+		CONTENT_DUAL,
+		CONTENT_DUAL_HEADER,
+		MEDIA,
+		MEDIA_HEADER
+	};
+	
 	// master slide properties
 	public const string BACKGROUND_COLOR = "background-color";
 	public const string S_IDENTIFIER = "slide-identifier";
@@ -175,6 +188,47 @@ public class Ease.Theme : GLib.Object
 	private Theme.json(string json_path)
 	{
 		load_from_json(json_path);
+	}
+	
+	/**
+	 * Creates a "shallow" copy of a Theme.
+	 *
+	 * This constructor does not copy any data from the provided Theme. It
+	 * instead creates a new set of references to the same data.
+	 *
+	 * @param copy_from The Theme to copy from.
+	 */
+	private Theme.copy(Theme copy_from)
+	{
+		// note that this doesn't duplicate the maps
+		masters = copy_from.masters;
+		elements = copy_from.elements;
+		master_defaults = copy_from.master_defaults;
+		element_defaults = copy_from.element_defaults;
+		title = copy_from.title;
+		path = copy_from.path;
+	}
+	
+	/**
+	 * Copies a Theme's data files to a specified path, returning a Theme
+	 * pointing to those files.
+	 *
+	 * This method uses the private Theme.copy() constructor. This constructor
+	 * performs a shallow copy - thus, the Gee.Maps holding the Theme's data
+	 * are the same for both themes. This is OK, because Themes should never be
+	 * modified after they are first loaded.
+	 *
+	 * @param copy_to The path to copy the Theme to.
+	 */
+	public Theme copy_to_path(string copy_to)
+	{
+		// copy data files
+		Posix.system("cp -r %s %s".printf(path, copy_to));
+		
+		// create a copy of this theme and change its path
+		var theme = new Theme.copy(this);
+		theme.path = copy_to;
+		return theme;
 	}
 	
 	/**

@@ -195,23 +195,44 @@ public static class Ease.Temp : Object
 		}
 		
 		// add files
+		archive_recursive_write(archive, dir, buffer, "", temp_path);
+		
+		// close the archive
+		arc_fail(archive.close(), archive);
+	}
+	
+	private static void archive_recursive_write(Archive.Write archive,
+	                                            Dir dir,
+	                                            char[] buffer,
+	                                            string path_so_far,
+	                                            string temp_path) throws Error
+	{
 		string child_path;
 		while ((child_path = dir.read_name()) != null)
 		{
+			debug(child_path);
 			var child_full_path = Path.build_filename(temp_path, child_path);
-			if (!FileUtils.test(child_full_path, FileTest.IS_DIR))
+			
+			var entry = new Archive.Entry();
+			entry.set_pathname(Path.build_path(path_so_far, child_path));
+			entry.set_perm(0644);
+			Posix.Stat st;
+			Posix.stat(child_full_path, out st);
+			entry.copy_stat(st);
+			arc_fail(archive.write_header(entry), archive);
+			
+			if (FileUtils.test(child_full_path, FileTest.IS_DIR))
 			{
-				// set up the entry
-				var entry = new Archive.Entry();
-				entry.set_pathname(child_path);
-				Posix.Stat st;
-				Posix.stat(child_full_path, out st);
-				entry.set_size(st.st_size);
-				entry.set_filetype(0100000);
-				entry.set_perm(0644);
-				
+				arc_fail(archive.finish_entry(), archive);
+				var child_dir = GLib.Dir.open(child_full_path, 0);
+				archive_recursive_write(archive, child_dir, buffer,
+				                        Path.build_path(path_so_far,
+				                                        child_path),
+				                        temp_path);
+			}
+			else
+			{
 				// write the file
-				archive.write_header(entry);
 				var fd = Posix.open(child_full_path, Posix.O_RDONLY);
 				var len = Posix.read(fd, buffer, sizeof(char) * ARCHIVE_BUFFER);
 				while(len > 0)
@@ -220,11 +241,17 @@ public static class Ease.Temp : Object
 					len = Posix.read(fd, buffer, sizeof(char) * ARCHIVE_BUFFER);
 				}
 				Posix.close(fd);
+				arc_fail(archive.finish_entry(), archive);
 			}
 		}
-		
-		// close the archive
-		archive.close();
+	}
+	
+	/**
+	 * Produces an error if a libarchive error occurs.
+	 */
+	private static void arc_fail(Archive.Result result, Archive.Archive archive)
+	{
+		if (result != Archive.Result.OK) error(archive.error_string());
 	}
 	
 	/**
