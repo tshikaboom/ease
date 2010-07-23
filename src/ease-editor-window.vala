@@ -515,6 +515,9 @@ public class Ease.EditorWindow : Gtk.Window
 		switch (font_selection.run())
 		{
 			case Gtk.ResponseType.OK:
+				add_undo_action(
+					new UndoAction(embed.selected.element, "font-description"));
+				
 				text.font_description = 
 					Pango.FontDescription.from_string(
 						font_selection.get_font_name());
