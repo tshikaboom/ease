@@ -503,24 +503,33 @@ public class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	public void select_font(Gtk.Widget? sender)
 	{
+		// create a font selection dialog
 		var font_selection = new Gtk.FontSelectionDialog(_("Select Font"));
 		
+		// grab the selected element, classes as TextElement
 		var text = embed.selected.element as TextElement;
 		
+		// set the preview text to the element's text, if none, use preview text
 		font_selection.set_preview_text(text.text != "" ?
 		                                text.text : FONT_TEXT);
 		
+		// set the dialog's font to the current font
 		font_selection.set_font_name(text.font_description.to_string());
 		
+		// run the dialog
 		switch (font_selection.run())
 		{
 			case Gtk.ResponseType.OK:
+				// allow the user to undo the font change
 				add_undo_action(
 					new UndoAction(embed.selected.element, "font-description"));
 				
+				// set the font description to the new font
 				text.font_description = 
 					Pango.FontDescription.from_string(
 						font_selection.get_font_name());
+						
+				// emit the "changed" signal on the element's slide
 				text.parent.changed(text.parent);
 				break;
 		}

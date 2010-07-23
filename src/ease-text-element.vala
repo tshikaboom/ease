@@ -86,16 +86,16 @@ public class Ease.TextElement : Element
 		html += " color:" + 
 		        @"rgb($(color.red),$(color.green),$(color.blue));";
 		        
-		html += " font-family:'" + data.get("font_name") +
+		html += " font-family:'" + data.get(Theme.TEXT_FONT) +
 		        "', sans-serif;";
 		        
-		html += " font-size:" + data.get("font_size") + "pt;";
+		html += " font-size:" + data.get(Theme.TEXT_SIZE) + "pt;";
 		
-		html += " font-weight:" + data.get("font_weight") + ";";
-		html += " font-style:" + data.get("font_style").down() +
+		html += " font-weight:" + data.get(Theme.TEXT_WEIGHT) + ";";
+		html += " font-style:" + data.get(Theme.TEXT_STYLE).down() +
 		        ";";
 		        
-		html += " text-align:" + data.get("align") + ";\"";
+		html += " text-align:" + data.get(Theme.TEXT_ALIGN) + ";\"";
 		
 		// write the actual content
 		html += ">" + data.get("text").replace("\n", "<br />") +
@@ -161,7 +161,7 @@ public class Ease.TextElement : Element
 	/**
 	 * The name of the text's font family.
 	 */
-	public string font_name
+	public string text_font
 	{
 		owned get { return data.get(Theme.TEXT_FONT); }
 		set
@@ -174,7 +174,7 @@ public class Ease.TextElement : Element
 	/**
 	 * The PangoStyle for this Element.
 	 */
-	public Pango.Style font_style
+	public Pango.Style text_style
 	{
 		get
 		{
@@ -209,7 +209,7 @@ public class Ease.TextElement : Element
 	/**
 	 * The PangoVariant for this Element.
 	 */
-	public Pango.Variant font_variant
+	public Pango.Variant text_variant
 	{
 		get
 		{
@@ -229,7 +229,7 @@ public class Ease.TextElement : Element
 	/**
 	 * The font's weight.
 	 */
-	public Pango.Weight font_weight
+	public Pango.Weight text_weight
 	{
 		get
 		{
@@ -246,7 +246,7 @@ public class Ease.TextElement : Element
 	 * A full PangoFontDescription for this Element.
 	 *
 	 * This property creates a new FontDescription when retrieved, and
-	 * sets all appropriate properties (font_weight, etc.) when set.
+	 * sets all appropriate properties (text_weight, etc.) when set.
 	 */
 	public Pango.FontDescription font_description
 	{
@@ -254,10 +254,10 @@ public class Ease.TextElement : Element
 		{
 			var desc = new Pango.FontDescription();
 			desc.set_family(data.get(Theme.TEXT_FONT));
-			desc.set_style(font_style);
-			desc.set_weight(font_weight);
-			desc.set_variant(font_variant);
-			desc.set_size(font_size * Pango.SCALE);
+			desc.set_style(text_style);
+			desc.set_weight(text_weight);
+			desc.set_variant(text_variant);
+			desc.set_size(text_size * Pango.SCALE);
 			
 			return desc;
 		}
@@ -265,10 +265,10 @@ public class Ease.TextElement : Element
 		{
 			freeze = true;
 			data.set(Theme.TEXT_FONT, value.get_family());
-			font_style = value.get_style();
-			font_weight = value.get_weight();
-			font_variant = value.get_variant();
-			font_size = value.get_size() / Pango.SCALE;
+			text_style = value.get_style();
+			text_weight = value.get_weight();
+			text_variant = value.get_variant();
+			text_size = value.get_size() / Pango.SCALE;
 			freeze = false;
 		}
 	}
@@ -319,7 +319,7 @@ public class Ease.TextElement : Element
 	 * This value should be multiplied by Pango.SCALE for rendering, otherwise
 	 * the text will be far too small to be visible.
 	 */
-	public int font_size
+	public int text_size
 	{
 		get
 		{

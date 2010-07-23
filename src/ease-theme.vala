@@ -93,7 +93,7 @@ public class Ease.Theme : GLib.Object
 	public string title;
 	
 	/**
-mk	 * The path to the theme's extracted files.
+	 * The path to the theme's extracted files.
 	 */
 	public string path { get; set; }
 	

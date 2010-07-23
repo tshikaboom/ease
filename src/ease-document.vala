@@ -78,7 +78,8 @@ public class Ease.Document : SlideSet
 	 * @param w The width of the new Document.
 	 * @param h The height of the new Document.
 	 */
-	public Document.from_theme(Theme doc_theme, int w, int h) throws GLib.Error
+	public Document.from_theme(Theme doc_theme,
+	                           int w, int h) throws GLib.Error
 	{
 		assert(doc_theme != null);
 		
