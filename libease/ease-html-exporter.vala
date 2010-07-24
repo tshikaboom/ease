@@ -36,6 +36,18 @@ public class Ease.HTMLExporter : GLib.Object
 	public string path { get; private set; }
 	
 	/**
+	 * The final path component of the export path.
+	 */
+	public string basename
+	{
+		owned get
+		{
+			var file = File.new_for_path(path);
+			return file.get_basename();
+		}
+	}
+	
+	/**
 	 * Creates a new HTMLExporter.
 	 */
 	public HTMLExporter()

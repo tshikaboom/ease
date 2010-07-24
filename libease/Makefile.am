@@ -13,7 +13,9 @@ AM_CPPFLAGS = \
 libease_0_1_la_SOURCES = \
 	ease-about-dialog.vala \
 	ease-actor.vala \
+	ease-animated-zoom-slider.vala \
 	ease-close-confirm-dialog.vala \
+	ease-color.vala \
 	ease-document.vala \
 	ease-editor-embed.vala \
 	ease-editor-window.vala \
@@ -21,6 +23,7 @@ libease_0_1_la_SOURCES = \
 	ease-element-map-value.vala \
 	ease-element.vala \
 	ease-enums.vala \
+	ease-gradient.vala \
 	ease-handle.vala \
 	ease-html-exporter.vala \
 	ease-image-actor.vala \
@@ -29,6 +32,7 @@ libease_0_1_la_SOURCES = \
 	ease-inspector.vala \
 	ease-inspector-window.vala \
 	ease-json-parser.vala \
+	ease-main.vala \
 	ease-media-element.vala \
 	ease-open-dialog.vala \
 	ease-pdf-exporter.vala \
@@ -36,7 +40,6 @@ libease_0_1_la_SOURCES = \
 	ease-scrollable-embed.vala \
 	ease-slide-actor.vala \
 	ease-slide-button-panel.vala \
-	ease-slide-button.vala \
 	ease-slide-pane.vala \
 	ease-slide-set.vala \
 	ease-slide.vala \
@@ -47,15 +50,12 @@ libease_0_1_la_SOURCES = \
 	ease-transformations.vala \
 	ease-transition-pane.vala \
 	ease-transitions.vala \
-	ease-undo-actions.vala \
+	ease-undo-action.vala \
 	ease-undo-controller.vala \
 	ease-utilities.vala \
-	ease-video-actor.vala \
-	ease-video-element.vala \
 	ease-welcome-actor.vala \
 	ease-welcome-window.vala \
 	ease-zoom-slider.vala \
-	ease-main.vala \
 	$(NULL)
 
 # compiler flags

@@ -7,17 +7,18 @@ INCLUDES = \
 AM_CPPFLAGS = \
 	$(EASE_CFLAGS) \
 	-include $(CONFIG_HEADER) \
+	-O0 \
 	$(NULL)
 
-SUBDIRS = po data libease src
-
-EXTRA_DIST = data/ease.desktop.in  \
+EXTRA_DIST = data/ease.desktop.in.in  \
 	$(NULL)
 
 DISTCLEANFILES = data/ease.desktop \
 	$(NULL)
 
 ACLOCAL_AMFLAGS = -I m4
+
+SUBDIRS = po data libease src
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = ease-0.1.pc
@@ -27,7 +28,12 @@ theme_DATA = $(wildcard $(top_srcdir)/themes/*.easetheme)
 
 doc: libease/*.vala
 	rm -rf doc
-	valadoc --internal --private $(EASE_PACKAGES) --directory=./doc --basedir=src ./libease/*.vala
+	
+	valadoc \
+		--internal \
+		$(EASE_PACKAGES) \
+		--directory=./doc --basedir=src ./libease/*.vala
+	
 	gnome-open doc/doc/Ease.html
 
 archive: themes/* examples/*

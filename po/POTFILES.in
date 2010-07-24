@@ -1,6 +1,6 @@
 # List of source files which contain translatable strings.
 [encoding: UTF-8]
-# data/ease.desktop.in
+data/ease.desktop.in.in
 src/ease-about-dialog.vala
 src/ease-actor.vala
 src/ease-close-confirm-dialog.vala
@@ -19,7 +19,6 @@ src/ease-inspector-pane.vala
 src/ease-inspector.vala
 src/ease-inspector-window.vala
 src/ease-json-parser.vala
-src/ease-main-toolbar.vala
 src/ease-media-element.vala
 src/ease-open-dialog.vala
 src/ease-pdf-exporter.vala
@@ -40,17 +39,7 @@ src/ease-transitions.vala
 src/ease-undo-actions.vala
 src/ease-undo-controller.vala
 src/ease-utilities.vala
-src/ease-video-actor.vala
-src/ease-video-element.vala
 src/ease-welcome-actor.vala
 src/ease-welcome-window.vala
 src/ease-zoom-slider.vala
 src/main.vala
-src/source-base-group.vala
-src/source-base-view.vala
-src/source-expandable-group.vala
-src/source-group.vala
-src/source-item.vala
-src/source-list.vala
-src/source-pane-view.vala
-src/source-view.vala

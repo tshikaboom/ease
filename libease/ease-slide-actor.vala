@@ -257,8 +257,9 @@ public class Ease.SlideActor : Clutter.Group
 		{
 			try
 			{
-				background =
-					new Clutter.Texture.from_file(slide.background_abs);
+				background = new Clutter.Texture();
+				(background as Clutter.Texture).set_from_file(
+					slide.background_abs);
 			}
 			catch (GLib.Error e)
 			{
@@ -267,8 +268,9 @@ public class Ease.SlideActor : Clutter.Group
 		}
 		else // the background is a solid color
 		{
-			background = new Clutter.Rectangle();
-			((Clutter.Rectangle)background).color = slide.background_color;
+			var rect = new Clutter.Rectangle();
+			rect.color = slide.background_color.clutter;
+			background = rect;
 		}
 		background.width = width_px;
 		background.height = height_px;

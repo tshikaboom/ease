@@ -26,9 +26,9 @@
 public class Ease.WelcomeWindow : Gtk.Window
 {
 	// main buttons
-	private Gtk.Button new_button;
-	private Gtk.Button open_button;
-	private Gtk.ComboBox resolution;
+	private Gtk.Button new_pres_button;
+	private Gtk.Button open_pres_button;
+	private Gtk.ComboBox combores;
 	private Gtk.SpinButton x_res;
 	private Gtk.SpinButton y_res;
 	
@@ -80,135 +80,72 @@ public class Ease.WelcomeWindow : Gtk.Window
 	
 	private int[] ZOOM_VALUES = {100, 150, 200, 250, 400};
 	
-	private const string PREVIEW_ID = "Standard";
+	private const string PREVIEW_ID = Theme.TITLE;
 	
 	public WelcomeWindow()
 	{
 		assert(RESOLUTIONS_X.length == RESOLUTIONS_Y.length);
 	
-		title = _("New Presentation");
-		set_default_size(640, 480);
+		this.title = _("Pick a theme and start editing");
+		this.set_default_size(640, 480);
 		
-		// build the bottom UI
-		var hbox = new Gtk.HBox(false, 5);
-		resolution = new Gtk.ComboBox.text();
-		resolution.append_text(_("Custom"));
-		for (var i = 0; i < RESOLUTIONS_X.length; i++)
-		{
-			resolution.append_text(_("%i by %i").printf(RESOLUTIONS_X[i],
-			                                            RESOLUTIONS_Y[i]));
+		var builder = new Gtk.Builder ();
+		try {
+			string ui_path = data_path(Path.build_filename(Temp.UI_DIR,
+														   "welcome-window.ui"));
+			builder.add_from_file (ui_path);
+		} catch (Error e) {
+			error ("Unable to load UI : %s", e.message);
 		}
-		
-		var align = new Gtk.Alignment(0, 0.5f, 0, 0);
-		align.add(resolution);
-		hbox.pack_start(align, false, false, 0);
-		
-		var resolution_count = RESOLUTIONS_X.length;
-		x_res = new Gtk.SpinButton.with_range(RESOLUTIONS_X[0],
-											  RESOLUTIONS_X[resolution_count-1],
-											  1);
-											  
-		align = new Gtk.Alignment(0, 0.5f, 0, 0);
-		align.add(x_res);
-		hbox.pack_start(align, false, false, 0);
-		
-		y_res = new Gtk.SpinButton.with_range(RESOLUTIONS_Y[0],
-											  RESOLUTIONS_Y[resolution_count-1],
-											  1);
-		
-		align = new Gtk.Alignment(0, 0.5f, 0, 0);
-		align.add(y_res);
-		hbox.pack_start(align, false, false, 0);
-		
-		new_button = new Gtk.Button.with_label(_("New Presentation"));
-		new_button.sensitive = false;
-		new_button.image = new Gtk.Image.from_stock("gtk-new",
-		                                            Gtk.IconSize.BUTTON);
-		align = new Gtk.Alignment(0, 0.5f, 0, 0);
-		align.add(new_button);
-		hbox.pack_start(align, false, false, 0);
-		
-		zoom_slider = new ZoomSlider(new Gtk.Adjustment(100, 100, 400, 10,
-		                                                50, 50), ZOOM_VALUES);
-		hbox.pack_start(zoom_slider, false, false, 0);
-		
-		open_button = new Gtk.Button.from_stock("gtk-open");
-		align = new Gtk.Alignment(0, 0.5f, 0, 0);
-		align.add(open_button);
-		hbox.pack_end(align, false, false, 0);
-		
-		// create the upper UI - the embed
-		embed = new ScrollableEmbed(false, false);
-		embed.get_stage().use_fog = false;
 
-		// create the preview container
-		preview_container = new Clutter.Group();
+		var vbox = builder.get_object ("vbox1") as Gtk.VBox;
+		var hbox = builder.get_object ("hbox1") as Gtk.HBox;
+		combores = builder.get_object ("combo_resolution") as Gtk.ComboBox;
+		x_res = builder.get_object ("horiz_spin") as Gtk.SpinButton;
+		y_res = builder.get_object ("vert_spin") as Gtk.SpinButton;
+		new_pres_button = builder.get_object ("newpres") as Gtk.Button;
+		open_pres_button = builder.get_object ("openpres") as Gtk.Button;
 
-		// the background for the previews
-		preview_background = new Clutter.Rectangle();
-		preview_background.color = {0, 0, 0, 255};
-		preview_container.add_actor(preview_background);
-		
-		// load themes
-		try
-		{
-			string[] data_dirs = Environment.get_system_data_dirs();
-			foreach (string dir in data_dirs)
+		// zoom slider
+		zoom_slider = new AnimatedZoomSlider(new Gtk.Adjustment(100, 100, 400,
+		                                     10, 50, 50), ZOOM_VALUES);
+		hbox.pack_start (zoom_slider, true, false, 0);
+		hbox.reorder_child (zoom_slider, 4);
+
+		// Resolutions combo box
+		// FIXME : not re-create it, or do it from Glade.
+		hbox.remove (combores);
+		combores = new Gtk.ComboBox.text ();
+		combores.insert_text (0, _("Custom"));
+		for (var i = 0; i < RESOLUTIONS_X.length; i++) {
+			combores.append_text(_("%i by %i").printf(RESOLUTIONS_X[i],
+													  RESOLUTIONS_Y[i]));
+		}
+
+				combores.changed.connect ( () =>
 			{
-				var filename = Path.build_filename(dir,
-				                                   Temp.TEMP_DIR,
-				                                   Temp.THEME_DIR);
-				var file = File.new_for_path(filename);
-				
-				if (file.query_exists(null))
-				{
-					var directory = GLib.Dir.open(filename, 0);
-					
-					string name = directory.read_name();
-					while (name != null)
-					{
-						var path = Path.build_filename(filename, name);
-						themes.add(JSONParser.theme(path));
-						name = directory.read_name();
-					}
+				var val = combores.get_active ();
+				if (val > 0) {
+				x_res.set_value (RESOLUTIONS_X[val - 1]);
+				y_res.set_value (RESOLUTIONS_Y[val - 1]);
 				}
-			}
-		}
-		catch (Error e) { error_dialog("Error Loading Themes", e.message); }
-		
-		// create the previews
-		foreach (var theme in themes)
-		{
-			var master = theme.slide_by_title(PREVIEW_ID);
-			if (master == null) continue;
-			
-			var act = new WelcomeActor(theme, previews, master);
-			previews.add(act);
-			preview_container.add_actor(act);
-			
-			act.selected.connect(() => {
-				new_button.sensitive = true;
+				reflow_previews();
 			});
-		}
-		embed.contents.add_actor(preview_container);
-		embed.contents.show_all();
-		
-		// put it all together
-		var vbox = new Gtk.VBox(false, 0);
-		align = new Gtk.Alignment(0, 1, 1, 0);
-		align.add(hbox);
-		align.set_padding(5, 5, 5, 5);
-		vbox.pack_end(align, false, false, 0);
-		vbox.pack_end(new Gtk.HSeparator(), false, false, 0);
-		vbox.pack_start(embed, true, true, 0);
-		
-		add(vbox);
-		show_all();
-		
-		// ui signals
-		new_button.clicked.connect(new_document);
-		
-		// changing resolution values
+
+		hbox.pack_start (combores);
+		hbox.reorder_child (combores, 0);
+
+		// resolutions spin buttons
+		// FIXME : new SpinButton.with_range () avoid the need
+		// of a Gtk.Adjustments, but here I had to create them with
+		// Glade. Find a way to use the older, simpler way.
+		var resolution_count = RESOLUTIONS_X.length;
+		x_res.set_range(RESOLUTIONS_X[0],
+						RESOLUTIONS_X[resolution_count-1]);
+
+		y_res.set_range(RESOLUTIONS_Y[0],
+						RESOLUTIONS_Y[resolution_count-1]);
+
 		x_res.value_changed.connect(() => {
 			set_resolution_box((int)(x_res.get_value()),
 			                   (int)(y_res.get_value()));
@@ -218,72 +155,133 @@ public class Ease.WelcomeWindow : Gtk.Window
 				                 (int)y_res.get_value());
 			}
 		});
-		
+
 		y_res.value_changed.connect(() => {
 			set_resolution_box((int)(x_res.get_value()),
 			                   (int)(y_res.get_value()));
 			foreach (var p in previews)
 			{
 				p.set_slide_size((int)x_res.get_value(),
-				                 (int)y_res.get_value());
+			                     (int)y_res.get_value());
 			}
-		});
-		
-		resolution.changed.connect(() => {
-			var val = resolution.get_active();
-			if (val > 0)
-			{
-				x_res.set_value(RESOLUTIONS_X[val - 1]);
-				y_res.set_value(RESOLUTIONS_Y[val - 1]);
-			}
-			reflow_previews();
-		});
-		
-		// reflow the stage
-		embed.size_allocate.connect(() => {
-			reflow_previews();
-		});
-		
-		// click on previews
-		foreach (var a in previews)
-		{
-			a.button_press_event.connect((act, event) =>
-                {
-                    if (event.click_count == 2) {
-						new_document();
-					}
-					(act as WelcomeActor).clicked();
-					selected_theme = (act as WelcomeActor).theme;
-					return false;
-				});
-		}
-		
-		// change the zoom of the previews when the zoom slider is moved
-		zoom_slider.value_changed.connect(() => {
-			preview_width = (int)zoom_slider.get_value();
-			reflow_previews();
 		});
 
-		open_button.clicked.connect((sender) => OpenDialog.run());
+		// buttons
+		new_pres_button.sensitive = false;
+		// FIXME : that image doesn't show up in my config...
+		new_pres_button.image = new Gtk.Image.from_stock("gtk-new",
+														 Gtk.IconSize.BUTTON);
 		
-		resolution.set_active(DEFAULT_ACTIVE + 1);
-		
-		preview_width = (int)zoom_slider.get_value();
+		// create the upper UI - the embed
+		// FIXME (or don't) : the next line throws a vblank_mode warning for me
+		embed = new ScrollableEmbed(false, false);
+		embed.get_stage().use_fog = false;
+
+		// create the preview container
+		preview_container = new Clutter.Group();
+
+		// the background for the previews
+		preview_background = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
+		preview_container.add_actor(preview_background);
+
+		try	{
+			unowned string[] data_dirs = Environment.get_system_data_dirs ();
+			foreach (string dir in data_dirs) {
+				var filename = Path.build_filename (dir,
+				                                   Temp.TEMP_DIR,
+				                                   Temp.THEME_DIR);
+				var file = File.new_for_path (filename);
+
+				if (file.query_exists(null)) {
+					var directory = GLib.Dir.open (filename, 0);
+					string name = directory.read_name ();
+					while (name != null) {
+						var path = Path.build_filename (filename, name);
+						themes.add (new Theme(path));
+						name = directory.read_name ();
+					}
+				}
+			}
+		} catch (Error e) {
+			error_dialog("Error loading themes : %s", e.message);
+		}
+
+		// create the previews
+		foreach (var theme in themes)
+		{
+			// create a new actor
+			var act = new WelcomeActor(theme);
+			previews.add (act);
+			preview_container.add_actor (act);
+			
+			// handle the single click (selection) signal
+			act.selected.connect((sender) => {
+				new_pres_button.sensitive = true;
+				selected_theme = (sender as WelcomeActor).theme;
+				
+				foreach (var t in previews)
+				{
+					if (t != sender) t.fade();
+				}
+				sender.unfade();
+			});
+			
+			// handle the double click signal
+			act.double_click.connect((sender) => {
+				selected_theme = (sender as WelcomeActor).theme;
+				create_new_document(null);
+			});
+		}
+
+		embed.contents.add_actor (preview_container);
+		embed.contents.show_all ();
+		vbox.pack_start (embed, true, true, 0);
+		vbox.reorder_child (embed, 0);
+
+		builder.connect_signals (this);
+		this.add (vbox);
+		this.show_all ();
+
+
+		// reflow the stage
+		embed.size_allocate.connect ( () =>
+			{
+				reflow_previews ();
+			});
+
+		// change the zoom of the previews when the zoom slider is moved
+		zoom_slider.value_changed.connect( () =>
+			{
+				preview_width = (int)zoom_slider.get_value ();
+				reflow_previews();
+			});
+
+		combores.set_active (DEFAULT_ACTIVE + 1);
+		preview_width = (int)zoom_slider.get_value ();
 		
 		// reflow previews without animation
 		preview_row_count = -1;
-		reflow_previews();
+		reflow_previews ();
 	}
-	
-	private void new_document()
+
+	[CCode (instance_pos = -1)]
+	public void on_open_pres_button_clicked (Gtk.Widget sender)
+	{
+		OpenDialog.run();
+	}
+
+	[CCode (instance_pos = -1)]
+	public void create_new_document(Gtk.Widget? sender)
 	{
 		try
 		{
 			// create a new Document
+			// FIXME : this call crashes. We don't reach the next line,
+			// nor do we reach the constructor from_theme(). It must have
+			// something to do with the closure (gdb talks about it).
 			var document = new Document.from_theme(selected_theme,
 												   (int)x_res.get_value(),
 												   (int)y_res.get_value());
-
 			// create an EditorWindow for the new Document
 			var editor = new EditorWindow(document);
 
@@ -302,11 +300,11 @@ public class Ease.WelcomeWindow : Gtk.Window
 		{
 			if (width == RESOLUTIONS_X[i] && height == RESOLUTIONS_Y[i])
 			{
-				resolution.set_active(i + 1);
+				combores.set_active(i + 1);
 				return;
 			}
 		}
-		resolution.set_active(0);
+		combores.set_active(0);
 		reflow_previews();
 	}
 	
@@ -405,7 +403,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 			}
 
 			// set the size of the preview
-			a.set_dims(preview_width, preview_width * preview_aspect);
+			a.set_actor_size(preview_width, preview_width * preview_aspect);
 
 			// go to the next line
 			if (++x_position >= per_line)

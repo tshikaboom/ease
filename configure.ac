@@ -32,56 +32,30 @@ dnl LT_PREREQ([2.2.6])
 GNOME_COMPILE_WARNINGS([maximum])
 GNOME_MAINTAINER_MODE_DEFINES
 
-dnl FIXME
+dnl packages
 pkg_modules=" \
+	gee-1.0 \
 	clutter-gtk-0.10 >= 0.10 \
-	gee-1.0 >= 0.5.0 \
-	clutter-gst-1.0 >= 1.0.0 \
-	json-glib-1.0 >= 0.7.6 \
 	libarchive \
-	gmodule-2.0"
+	json-glib-1.0 >= 0.7.6"
 
 EASE_PACKAGES=" \
-	--pkg glib-2.0 \ 
-	--pkg gtk+-2.0 \
-	--pkg clutter-1.0 \
-	--pkg gdk-2.0 \
-	--pkg libxml-2.0 \
 	--pkg gee-1.0 \
 	--pkg clutter-gtk-0.10 \
-	--pkg cogl-1.0 \
-	--pkg gio-2.0 \
-	--pkg clutter-gst-1.0 \
 	--pkg libarchive \
-	--pkg gmodule-2.0"
+	--pkg json-glib-1.0"
 
 EASE_CFLAGS="\`pkg-config --cflags \
-	glib-2.0 \
-	gtk+-2.0 \
-	clutter-1.0 \
-	gdk-2.0 \
 	gee-1.0 \
 	clutter-gtk-0.10 \
-	cogl-1.0 \
-	gio-2.0 \
-	clutter-gst-1.0 \
 	json-glib-1.0 \
-	libarchive \
-	gmodule-2.0 \`"
+	libarchive \`"
 
 EASE_LDFLAGS="\`pkg-config --libs \
-	glib-2.0 \
-	gtk+-2.0 \
-	clutter-1.0 \
-	gdk-2.0 \
 	gee-1.0 \
 	clutter-gtk-0.10 \
-	cogl-1.0 \
-	gio-2.0 \
-	clutter-gst-1.0 \
 	json-glib-1.0 \
-	libarchive \
-	gmodule-2.0 \`"
+	libarchive \`"
 
 PKG_CHECK_MODULES(EASE, [$pkg_modules])
 

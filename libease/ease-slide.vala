@@ -66,7 +66,7 @@ public class Ease.Slide : GLib.Object
 	/**
 	 * The background color, if there is no background image
 	 */
-	public Clutter.Color background_color;
+	public Color background_color;
 	
 	/**
 	 * The background image, if one is set
@@ -140,6 +140,11 @@ public class Ease.Slide : GLib.Object
 			return null;
 		}
 	}
+	
+	/**
+	 * Emitted when an {@link Element} or property of this Slide is changed.
+	 */
+	public signal void changed(Slide self);
 	
 	/**
 	 * Create a new Slide.
@@ -217,6 +222,68 @@ public class Ease.Slide : GLib.Object
 	}
 	
 	/**
+	 * Adds an {@link Element} to this slide at the end index.
+	 * 
+	 * @param e The element to add;.
+	 */
+	public void add(Element e)
+	{
+		e.parent = this;
+		elements.insert(count, e);
+	}
+	
+	/** 
+	 * Draws the {@link Slide} to a Cairo.Context.
+	 *
+	 * @param context The Cairo.Context to draw to.
+	 */
+	public void cairo_render(Cairo.Context context) throws GLib.Error
+	{
+		if (parent == null)
+			throw new GLib.Error(0, 0, "Slide must have a parent document");
+		
+		cairo_render_sized(context, parent.width, parent.height);
+	}
+	
+	/** 
+	 * Draws the {@link Slide} to a Cairo.Context at a specified size.
+	 *
+	 * @param context The Cairo.Context to draw to.
+	 * @param w The width to render at.
+	 * @param h The height to render at.
+	 */
+	public void cairo_render_sized(Cairo.Context context,
+	                               int w, int h) throws GLib.Error
+	{
+		// write the background color if there is no image
+		if (background_image == null)
+		{
+			context.rectangle(0, 0, w, h);
+			background_color.set_cairo(context);
+			context.fill();
+		}
+		
+		// otherwise, write the image
+		else
+		{
+			var pixbuf = new Gdk.Pixbuf.from_file_at_scale(background_abs,
+			                                                h,
+			                                                w,
+			                                                false);
+		
+			Gdk.cairo_set_source_pixbuf(context, pixbuf, 0, 0);
+		
+			context.rectangle(0, 0, w, h);
+			context.fill();
+		}
+		
+		foreach (var e in elements)
+		{
+			e.cairo_render(context);
+		}
+	}
+	
+	/**
 	 * Creates HTML markup for this Slide.
 	 * 
 	 * The <div> tag for this Slide is appended to the "HTML" parameter.
@@ -239,7 +306,8 @@ public class Ease.Slide : GLib.Object
 		{
 			// give the slide a background color
 			html += "style=\"background-color: " +
-			        background_color.to_string().substring(0, 7) + "\">";
+			        background_color.clutter.to_string().
+			        substring(0, 7) + "\">";
 		}
 		else
 		{
@@ -247,7 +315,7 @@ public class Ease.Slide : GLib.Object
 			html += ">";
 			
 			// add the background image
-			html += "<img src=\"" + exporter.path + " " + background_image +
+			html += "<img src=\"" + exporter.basename + " " + background_image +
 			        "\" alt=\"Background\" width=\"" +
 			        parent.width.to_string() + "\" height=\"" +
 			        parent.height.to_string() + "\"/>";

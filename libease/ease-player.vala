@@ -27,8 +27,8 @@ public class Ease.Player : GLib.Object
 	public int slide_index { get; set; }
 	public Clutter.Stage stage { get; set; }
 	private bool can_animate { get; set; }
-	private Gtk.Window window;
-	
+	private bool dragging = false;
+
 	// current and transitioning out slide
 	private SlideActor current_slide;
 	private SlideActor old_slide;
@@ -42,43 +42,89 @@ public class Ease.Player : GLib.Object
 	
 	// constants
 	private const uint FADE_IN_TIME = 1000;
+	private const uint FOCUS_OPACITY = 100;
+	//FIXME : make it proportionnal
+	private const uint FOCUS_RADIUS = 40;
 
+	// focus actors
+	private Clutter.Group shader;
+	private Clutter.Rectangle shader_top;
+	private Clutter.Rectangle shader_bottom;
+	private Clutter.Rectangle shader_left;
+	private Clutter.Rectangle shader_right;
+	
 	public Player(Document doc)
 	{
 		document = doc;
 		slide_index = -1;
 		
-		// get the screen
-		var screen = Gdk.Screen.get_default();
-		
-		// get the size of the primary monitor
-		var rect = Gdk.Rectangle();
-		screen.get_monitor_geometry(screen.get_primary_monitor(), out rect);
-		
-		// scale the presentation if needed
-		if (rect.width < document.width || rect.height < document.height)
-		{
-			var x = ((float)rect.width) / document.width;
-			var y = ((float)rect.height) / document.height;
-			
-			scale = x < y ? x : y;
-		}
-		
-		var embed = new GtkClutter.Embed();
-		embed.set_size_request((int)(document.width * scale),
-		                       (int)(document.height * scale));
-		
-		stage = (Clutter.Stage)embed.get_stage();
+		stage = new Clutter.Stage ();
 		stage.width = document.width * scale;
 		stage.height = document.height * scale;
-		stage.title = "Ease Presentation";
+		stage.title = _("Ease Presentation");
 		stage.use_fog = false;
+
+		// scale the presentation if needed
+		if (stage.width < document.width || stage.height < document.height)
+		{
+			var x = ((float)stage.width) / document.width;
+			var y = ((float)stage.height) / document.height;
+            
+			scale = x < y ? x : y;
+		}
+
+		// keyboard handling
+		stage.key_press_event.connect ( (ev) => 
+			{
+				on_key_press (ev);
+				return true;
+			});
+
+		// mouse handling
+		stage.button_press_event.connect ( (ev) =>
+			{
+				on_button_press (ev);
+				return true;
+			});
+
+		stage.motion_event.connect ( (ev) =>
+			{
+				on_motion (ev);
+				return true;
+			});
+
+		stage.button_release_event.connect ( (ev) =>
+			{
+				on_button_release (ev);
+				return true;
+			});
+		// FIXME : do I really have to do lambda functions each time ?
 		
-		stage.hide_cursor();
+		// TODO : auto hide/show of the cursor.
+		// stage.hide_cursor();
 		
-		stage.show_all();
 		stage.color = {0, 0, 0, 255};
 		Clutter.grab_keyboard(stage);
+
+		// focusing
+		shader_top = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
+		shader_right = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
+		shader_bottom = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
+		shader_left = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
+
+		shader = new Clutter.Group ();
+		shader.opacity = 0;
+
+		/* The following function is broken at the moment in the Clutter
+		   bindings. Replace the
+		   public void add (...); by
+		   public void add (Clutter.Actor first_actor, ...); */
+		shader.add (shader_top, 
+					shader_right,
+					shader_bottom,
+					shader_left);
+
+		stage.add (shader);
 
 		// make the stacking container
 		container = new Clutter.Group();
@@ -86,35 +132,86 @@ public class Ease.Player : GLib.Object
 		container.scale_x = scale;
 		container.scale_y = scale;
 		
-		// make the window that everything will be displayed in
-		window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
-		Gdk.Color color2 = Gdk.Color();
-		color2.red = 0;
-		color2.green = 0;
-		color2.blue = 0;
-		window.modify_bg(Gtk.StateType.NORMAL, color2);
-		
-		// center the stage in the window
-		var align = new Gtk.Alignment(0.5f, 0.5f, 0, 0);
-		align.add(embed);
-
-		// show the window
-		if (!Main.presentation_windowed)
-		{
-			window.fullscreen();
-		}
-		window.add(align);
-		window.show_all();
-
-		// register key presses and react
-		align.get_parent_window().set_events(Gdk.EventMask.KEY_PRESS_MASK);
-		align.key_press_event.connect(key_press);
-
 		// start the presentation
+		stage.show_all ();
+		stage.set_fullscreen (true);
+
 		can_animate = true;
 		advance();
 	}
-	
+
+	public void on_motion (Clutter.MotionEvent event)
+	{
+		if (dragging) {
+			// FIXME : duplicate code
+			shader_top.set_size (stage.width, event.y - FOCUS_RADIUS);
+			shader_bottom.set_size (stage.width, (stage.height - event.y) - FOCUS_RADIUS);
+			shader_left.set_size (event.x - FOCUS_RADIUS, FOCUS_RADIUS * 2);
+			shader_right.set_size (stage.width - event.x - FOCUS_RADIUS, 2 * FOCUS_RADIUS);
+			
+			shader_left.set_position (0, event.y - FOCUS_RADIUS);
+			shader_right.set_position (event.x + FOCUS_RADIUS, event.y - FOCUS_RADIUS);
+			shader_bottom.set_position (0, event.y + FOCUS_RADIUS);
+			shader.show_all ();
+			stage.raise_child (shader, null);
+		} else {
+			// fade out
+		}
+	}
+
+	public void on_button_release (Clutter.ButtonEvent event)
+	{
+		dragging = false;
+		// FIXME : should the focus fade time be a constant ?
+		shader.animate (Clutter.AnimationMode.LINEAR, 150,
+						"opacity", 0);
+	}
+
+	public void on_button_press (Clutter.ButtonEvent event)
+	{
+		dragging = true;
+		debug ("Got a mouse click at %f, %f", event.x, event.y);
+		shader_top.set_size (stage.width, event.y - FOCUS_RADIUS);
+		shader_bottom.set_size (stage.width, (stage.height - event.y) - FOCUS_RADIUS);
+		shader_left.set_size (event.x - FOCUS_RADIUS, FOCUS_RADIUS * 2);
+		shader_right.set_size (stage.width - event.x - FOCUS_RADIUS, 2 * FOCUS_RADIUS);
+
+		shader_left.set_position (0, event.y - FOCUS_RADIUS);
+		shader_right.set_position (event.x + FOCUS_RADIUS, event.y - FOCUS_RADIUS);
+		shader_bottom.set_position (0, event.y + FOCUS_RADIUS);
+		shader.show_all ();
+		stage.raise_child (shader, null);
+		shader.animate (Clutter.AnimationMode.LINEAR, 150,
+						"opacity", FOCUS_OPACITY);
+	}
+
+	public void on_key_press (Clutter.KeyEvent event)
+	{
+		/* Coded with /usr/include/clutter-1.0/clutter/clutter-keysyms.h */
+		/* Ask developers about the use of that file and the lack of doc */
+		debug ("Got a key press, keyval = %u", event.keyval);
+		switch (event.keyval) {
+		case 0xff1b:
+			// Escape
+			debug ("Quitting player.");
+			stage.hide ();
+			break;
+		case 0xff53:
+			// Right arrow
+			debug ("Advancing to next slide.");
+			advance ();
+			break;
+		case 0xff51:
+			// Left arrow
+			debug ("Retreating to previous slide");
+			retreat ();
+			break;
+		default:
+			debug ("Key not handled.");
+			break;
+		}
+	}
+		
 	public void advance()
 	{
 		// only advance when transitions are complete
@@ -133,7 +230,7 @@ public class Ease.Player : GLib.Object
 		slide_index++;
 		if (slide_index == document.slides.size) // slideshow complete
 		{
-			window.hide_all();
+			stage.hide_all();
 			return;
 		}
 		
@@ -177,13 +274,11 @@ public class Ease.Player : GLib.Object
 	
 	private void retreat()
 	{
-		if (slide_index == 0)
-		{
+		if (slide_index == 0) {
 			return;
 		}
 		
-		if (old_slide.animation_time != null)
-		{
+		if (old_slide.animation_time != null) {
 			old_slide.animation_time.stop();
 		}
 		
@@ -198,6 +293,8 @@ public class Ease.Player : GLib.Object
 	
 	private void create_current_slide(Slide slide)
 	{
+		/* Would it be better to return a new SlideActor instead ? */
+		/* And then in the code : current_slide = create_current_slide (... */
 		current_slide = new SlideActor.from_slide(document, slide, true,
 		                                          ActorContext.PRESENTATION);
 	}
@@ -221,26 +318,4 @@ public class Ease.Player : GLib.Object
 			advance_alarm.start();
 		}
 	}
-	
-	private bool key_press(Gtk.Widget sender, Gdk.EventKey event)
-	{
-		switch (event.keyval)
-		{
-			case 65307: // escape
-				stage.hide();
-				break;
-			case 65293: // enter
-			case 65363: // right arrow
-			case 65364: // up arrow
-				advance();
-				break;
-			case 65288: // backspace
-			case 65362: // up arrow
-			case 65361: // left arrow
-				retreat();
-				break;
-		}
-		return false;
-	}
 }
-

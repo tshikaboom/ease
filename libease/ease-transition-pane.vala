@@ -217,6 +217,12 @@ public class Ease.TransitionPane : InspectorPane
 	
 	private void animate_preview_start()
 	{
+		if (slide.transition_msecs == 0)
+		{
+			animate_preview();
+			return;
+		}
+		
 		new_slide.opacity = 255;
 		
 		current_slide.transition(new_slide, preview_group);

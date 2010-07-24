@@ -7,7 +7,14 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 svgdir = $(datadir)/ease/svg
 svg_DATA = $(wildcard $(top_srcdir)/data/svg/*.svg)
 
-EXTRA_DIST = $(svg_DATA) $(desktop_in_files)
-
 uidir = $(datadir)/ease/ui
 ui_DATA = $(wildcard $(top_srcdir)/data/ui/*.ui)
+
+jsondir = $(datadir)/ease
+json_DATA = theme-defaults.json
+
+EXTRA_DIST = \
+    $(ui_DATA) \
+    $(svg_DATA) \
+    $(desktop_in_files) \
+    $(json_DATA)

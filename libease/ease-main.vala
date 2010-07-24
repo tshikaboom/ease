@@ -15,17 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/**
- * Handles core actions in Ease
- *
- * When Ease starts, the  simple C main function calls a function in this
- * class. Main then initializes GTK, Clutter, and anything else.
- * 
- * Main keeps track of {@link EditorWindow}s, as well as the status of the
- * single {@link WelcomeWindow}. Main will end Ease if none of these are
- * shown on the screen.
- */
-public static class Ease.Main : GLib.Object
+public class Ease.Main : GLib.Object
 {
 	private static Gee.ArrayList<EditorWindow> windows;
 	private static WelcomeWindow welcome;
@@ -78,8 +68,6 @@ public static class Ease.Main : GLib.Object
 			stdout.printf(_("error parsing options: %s\n"), e.message);
 			return 1;
 		}
-	
-		ClutterGst.init(ref args);
 
 		// initalize static classes
 		Transitions.init();

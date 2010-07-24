@@ -18,7 +18,7 @@
 /**
  * The internal representation of Ease documents. Contains {@link Slide}s.
  *
- * The Ease Document class is generated from XML and writes back to XML
+ * The Ease Document class is generated from JSON and writes back to JSON
  * when saved.
  */
 public class Ease.Document : SlideSet
@@ -26,7 +26,17 @@ public class Ease.Document : SlideSet
 	/**
 	 * The default master title for newly created {@link Slide}s.
 	 */
-	private const string DEFAULT_SLIDE = "Standard";
+	public const string DEFAULT_SLIDE = Theme.CONTENT_HEADER;
+	
+	/**
+	 * The default master slide for the first slide.
+	 */
+	private const string DEFAULT_FIRST = Theme.TITLE;
+	
+	/**
+	 * Path of the Document's {@link Theme} data files.
+	 */
+	public const string THEME_PATH = "Theme";
 
 	/**
 	 * The {@link Theme} linked to this Document.
@@ -47,6 +57,16 @@ public class Ease.Document : SlideSet
 	 * The aspect ratio of the Document.
 	 */
 	public float aspect { get { return (float)width / (float)height; } }
+	
+	/**
+	 * Emitted when a {@link Slide} is deleted from the Document.
+	 */
+	public signal void slide_deleted(Slide slide, int index);
+	
+	/**
+	 * Emitted when a {@link Slide} is added to the Document.
+	 */
+	public signal void slide_added(Slide slide, int index);
 
 	/**
 	 * Default constructor, creates an empty Document.
@@ -63,23 +83,28 @@ public class Ease.Document : SlideSet
 	 * @param w The width of the new Document.
 	 * @param h The height of the new Document.
 	 */
-	public Document.from_theme(Theme doc_theme, int w, int h) throws GLib.Error
+	public Document.from_theme(Theme doc_theme,
+	                           int w, int h) throws GLib.Error
 	{
+		assert(doc_theme != null);
+		
+		// set the document's dimensions
 		width = w;
 		height = h;
-		theme = doc_theme;
 		
 		// allocate a temp directory for the new document
 		path = Temp.request();
 		
+		// copy the theme to a path within the document
+		theme = doc_theme.copy_to_path(Path.build_filename(path, THEME_PATH));
+		
 		// copy media to the new path
-		doc_theme.copy_media(path);
+		theme.copy_media(path);
 		
-		// get the master
-		var master = theme.slide_by_title(DEFAULT_SLIDE);
-		
-		// add the first slide
-		append_slide(new Slide.from_master(master, this, width, height, true));
+		// get the master for the first slide
+		var slide = theme.create_slide(DEFAULT_FIRST, width, height);
+		slide.parent = this;
+		append_slide(slide);
 	}
 	
 	/**
@@ -92,6 +117,33 @@ public class Ease.Document : SlideSet
 	{
 		s.parent = this;
 		base.add_slide(index, s);
+		slide_added(s, index);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public override void append_slide(Slide s)
+	{
+		base.append_slide(s);
+		slide_added(s, slides.size - 1);
+	}
+	
+	/**
+	 * Removes the specified {@link Slide}, returning an Slide that the editor
+	 * can safely jump to.
+	 *
+	 * @param s The slide to remove.
+	 */
+	public Slide rm_slide(Slide s)
+	{
+		int ind = index_of(s);
+		
+		slides.remove(s);
+		slide_deleted(s, ind);
+		
+		if (ind == 0) return slides.get(0);
+		return slides.get(ind - 1);
 	}
 	
 	/**

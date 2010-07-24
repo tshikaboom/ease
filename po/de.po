@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-06-24 17:33+0000\n"
-"PO-Revision-Date: 2010-06-25 20:48+0100\n"
+"POT-Creation-Date: 2010-07-16 05:11+0000\n"
+"PO-Revision-Date: 2010-07-16 21:47+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,19 @@ msgstr ""
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
 
-#: ../src/ease-about-dialog.vala:37
+#: ../data/ease.desktop.in.in.h:1
+msgid "Create nice and elegant presentations"
+msgstr "Erstellen ansprechender und eleganter Präsentationen"
+
+#: ../data/ease.desktop.in.in.h:2
+msgid "Ease presentation editor"
+msgstr "Ease Präsentationsprogramm"
+
+#: ../src/ease-about-dialog.vala:48
 msgid "A presentation application for the GNOME Desktop"
 msgstr "Eine Präsentationsanwendung für die GNOME-Arbeitsumgebung"
 
-#: ../src/ease-about-dialog.vala:47
+#: ../src/ease-about-dialog.vala:58
 msgid "Mario Blättermann"
 msgstr "Mario Blättermann"
 
@@ -128,64 +136,40 @@ msgstr "Änderungen an »%s« vor dem Schließen speichern?"
 msgid "Error exporting as HTML"
 msgstr "Fehler beim Exportieren als HTML"
 
-#: ../src/ease-editor-window.vala:162
+#: ../src/ease-editor-window.vala:167
 msgid "Untitled Document"
 msgstr "Unbenanntes Dokument"
 
-#: ../src/ease-editor-window.vala:321
+#: ../src/ease-editor-window.vala:279
+msgid "Insert Image"
+msgstr "Bild einfügen"
+
+#: ../src/ease-editor-window.vala:312
+msgid "Error Inserting Image"
+msgstr "Fehler beim Einfügen des Bildes"
+
+#: ../src/ease-editor-window.vala:342
 msgid "Save Document"
 msgstr "Dokument speichern"
 
-#: ../src/ease-editor-window.vala:352
+#: ../src/ease-editor-window.vala:373
 msgid "Error Saving Document"
 msgstr "Fehler beim Speichern des Dokuments"
 
-#: ../src/ease-editor-window.vala:366
+#. create the dialog
+#: ../src/ease-editor-window.vala:421
 msgid "Select Color"
 msgstr "Farbe auswählen"
 
-#. TODO : use mnemonics
-#: ../src/ease-editor-window.vala:412
-msgid "File"
-msgstr "Datei"
-
-#: ../src/ease-editor-window.vala:415
-msgid "New"
-msgstr "Neu"
-
-#: ../src/ease-editor-window.vala:417
-msgid "Presentation"
-msgstr "Präsentation"
-
-#: ../src/ease-editor-window.vala:419
-msgid "Theme"
-msgstr "Thema"
-
-#: ../src/ease-editor-window.vala:420
-msgid "Quit"
-msgstr "Beenden"
-
-#: ../src/ease-editor-window.vala:428
-msgid "Open"
-msgstr "Öffnen"
-
-#: ../src/ease-editor-window.vala:443
-msgid "Help"
-msgstr "Hilfe"
-
-#: ../src/ease-editor-window.vala:446
-msgid "About Ease"
-msgstr "Info zu Ease"
-
-#: ../src/ease-html-exporter.vala:57
+#: ../src/ease-html-exporter.vala:69
 msgid "Export to HTML"
 msgstr "Nach HTML exportieren"
 
-#: ../src/ease-html-exporter.vala:75
+#: ../src/ease-html-exporter.vala:87
 msgid "Exporting as HTML"
 msgstr "Als HTML exportieren"
 
-#: ../src/ease-html-exporter.vala:140
+#: ../src/ease-html-exporter.vala:152
 msgid "Error Copying File"
 msgstr "Fehler beim Kopieren der Datei"
 
@@ -206,6 +190,10 @@ msgstr "Nach PDF exportieren"
 msgid "Error Exporting to PDF"
 msgstr "Fehler beim Exportieren nach PDF"
 
+#: ../src/ease-player.vala:64
+msgid "Ease Presentation"
+msgstr "Ease Präsentation"
+
 #: ../src/ease-slide-actor.vala:265
 #, c-format
 msgid "Error loading background: %s"
@@ -219,7 +207,11 @@ msgstr "Effekt"
 msgid "Duration"
 msgstr "Dauer"
 
-#: ../src/ease-temp.vala:204
+#: ../src/ease-temp.vala:157
+msgid "Temporary directory doesn't exist: %s"
+msgstr "Temporärer Ordner existiert nicht: %s"
+
+#: ../src/ease-temp.vala:260
 #, c-format
 msgid "Directory to remove doesn't exist: %s"
 msgstr "Zu entfernender Ordner existiert nicht: %s"
@@ -395,10 +387,6 @@ msgstr "Ein"
 msgid "Out"
 msgstr "Aus"
 
-#: ../src/ease-video-element.vala:70
-msgid "Your browser does not support the video tag"
-msgstr "Ihr Browser unterstützt die Video-Markierung nicht"
-
 #: ../src/ease-welcome-window.vala:89 ../src/ease-welcome-window.vala:123
 msgid "New Presentation"
 msgstr "Neue Präsentation"
@@ -426,22 +414,40 @@ msgstr " - ein Präsentationsprogramm"
 msgid "error parsing options: %s\n"
 msgstr "Fehler beim Verarbeiten der Optionen: %s\n"
 
-#: ../src/main.vala:122
+#: ../src/main.vala:120
 msgid "Error Playing Document"
 msgstr "Fehler beim Abspielen des Dokuments"
 
-#: ../src/main.vala:167
+#: ../src/main.vala:165
 msgid "Error Opening Document"
 msgstr "Fehler beim Öffnen des Dokuments"
 
-#~ msgid "Create nice and elegant presentations"
-#~ msgstr "Erstellen ansprechender und eleganter Präsentationen"
+#~ msgid "Your browser does not support the video tag"
+#~ msgstr "Ihr Browser unterstützt die Video-Markierung nicht"
 
-#~ msgid "Ease presentation editor"
-#~ msgstr "Ease Präsentationsprogramm"
+#~ msgid "File"
+#~ msgstr "Datei"
 
-#~ msgid "Error exporting: %s"
-#~ msgstr "Fehler beim Exportieren: %s"
+#~ msgid "New"
+#~ msgstr "Neu"
+
+#~ msgid "Presentation"
+#~ msgstr "Präsentation"
+
+#~ msgid "Theme"
+#~ msgstr "Thema"
+
+#~ msgid "Quit"
+#~ msgstr "Beenden"
+
+#~ msgid "Open"
+#~ msgstr "Öffnen"
+
+#~ msgid "Help"
+#~ msgstr "Hilfe"
+
+#~ msgid "About Ease"
+#~ msgstr "Info zu Ease"
 
 #~ msgid "Error saving: %s"
 #~ msgstr "Fehler beim Speichern: %s"

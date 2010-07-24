@@ -7,9 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=ease&component=general\n"
-"POT-Creation-Date: 2010-06-24 20:39+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-07-13 20:19-0500\n"
 "PO-Revision-Date: 2010-06-27 11:26+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -18,11 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/ease-about-dialog.vala:37
+#: ../data/ease.desktop.in.in.h:1
+msgid "Create nice and elegant presentations"
+msgstr "Crear presentaciones elegantes y bonitas"
+
+#: ../data/ease.desktop.in.in.h:2
+msgid "Ease presentation editor"
+msgstr "Editor de presentaciones Ease"
+
+#: ../src/ease-about-dialog.vala:48
 msgid "A presentation application for the GNOME Desktop"
 msgstr ""
 
-#: ../src/ease-about-dialog.vala:47
+#: ../src/ease-about-dialog.vala:58
 msgid "Mario Blättermann"
 msgstr ""
 
@@ -100,80 +107,52 @@ msgstr ""
 
 #: ../src/ease-document.vala:152
 #, fuzzy
-#| msgid "Exporting as HTML"
 msgid "Error exporting as HTML"
 msgstr "Exportando como HTML"
 
-#: ../src/ease-editor-window.vala:162
+#: ../src/ease-editor-window.vala:167
 #, fuzzy
-#| msgid "No Document"
 msgid "Untitled Document"
 msgstr "Sin documento"
 
-#: ../src/ease-editor-window.vala:321
+#: ../src/ease-editor-window.vala:279
+msgid "Insert Image"
+msgstr ""
+
+#: ../src/ease-editor-window.vala:312
 #, fuzzy
-#| msgid "No Document"
+msgid "Error Inserting Image"
+msgstr "Error al exportar: %s"
+
+#: ../src/ease-editor-window.vala:342
+#, fuzzy
 msgid "Save Document"
 msgstr "Sin documento"
 
-#: ../src/ease-editor-window.vala:352
+#: ../src/ease-editor-window.vala:373
 #, fuzzy
-#| msgid "Error Saving"
 msgid "Error Saving Document"
 msgstr "Error al guardar"
 
-#: ../src/ease-editor-window.vala:369
+#. create the dialog
+#: ../src/ease-editor-window.vala:421
 msgid "Select Color"
 msgstr ""
 
-#. TODO : use mnemonics
-#: ../src/ease-editor-window.vala:427
-msgid "File"
-msgstr "Archivo"
-
-#: ../src/ease-editor-window.vala:430
-msgid "New"
-msgstr "Nueva"
-
-#: ../src/ease-editor-window.vala:432
-msgid "Presentation"
-msgstr "Presentación"
-
-#: ../src/ease-editor-window.vala:434
-msgid "Theme"
-msgstr "Tema"
-
-#: ../src/ease-editor-window.vala:435
-msgid "Quit"
-msgstr "Salir"
-
-#: ../src/ease-editor-window.vala:443
-msgid "Open"
-msgstr "Abrir"
-
-#: ../src/ease-editor-window.vala:458
-msgid "Help"
-msgstr ""
-
-#: ../src/ease-editor-window.vala:461
-msgid "About Ease"
-msgstr ""
-
-#: ../src/ease-html-exporter.vala:57
+#: ../src/ease-html-exporter.vala:69
 msgid "Export to HTML"
 msgstr "Exportar a HTML"
 
-#: ../src/ease-html-exporter.vala:75
+#: ../src/ease-html-exporter.vala:87
 msgid "Exporting as HTML"
 msgstr "Exportando como HTML"
 
-#: ../src/ease-html-exporter.vala:140
+#: ../src/ease-html-exporter.vala:152
 msgid "Error Copying File"
 msgstr "Error al copiar el archivo"
 
 #: ../src/ease-image-actor.vala:47
 #, fuzzy, c-format
-#| msgid "Error loading ImageActor: %s"
 msgid "Error loading ImageActor: %s\n"
 msgstr "Error al cargar ImageActor: %s"
 
@@ -183,15 +162,18 @@ msgstr "Abrir archivo"
 
 #: ../src/ease-pdf-exporter.vala:33
 #, fuzzy
-#| msgid "Export to HTML"
 msgid "Export to PDF"
 msgstr "Exportar a HTML"
 
 #: ../src/ease-pdf-exporter.vala:73
 #, fuzzy
-#| msgid "Error Exporting"
 msgid "Error Exporting to PDF"
 msgstr "Error al exportar"
+
+#: ../src/ease-player.vala:64
+#, fuzzy
+msgid "Ease Presentation"
+msgstr "Presentación nueva"
 
 #: ../src/ease-slide-actor.vala:265
 #, c-format
@@ -206,7 +188,7 @@ msgstr "Efecto"
 msgid "Duration"
 msgstr "Duración"
 
-#: ../src/ease-temp.vala:208
+#: ../src/ease-temp.vala:209
 #, c-format
 msgid "Directory to remove doesn't exist: %s"
 msgstr ""
@@ -331,7 +313,6 @@ msgid "Right"
 msgstr "Derecha"
 
 #: ../src/ease-transitions.vala:162
-#| msgid "Bottom Left"
 msgid "Bottom"
 msgstr "Abajo"
 
@@ -383,10 +364,6 @@ msgstr "Dentro"
 msgid "Out"
 msgstr "Fuera"
 
-#: ../src/ease-video-element.vala:70
-msgid "Your browser does not support the video tag"
-msgstr "Su navegador no soporta la etiqueta de video"
-
 #: ../src/ease-welcome-window.vala:89 ../src/ease-welcome-window.vala:123
 msgid "New Presentation"
 msgstr "Presentación nueva"
@@ -416,30 +393,40 @@ msgstr "error al analizar las opciones: %s\n"
 
 #: ../src/main.vala:122
 #, fuzzy
-#| msgid "No Document"
 msgid "Error Playing Document"
 msgstr "Sin documento"
 
 #: ../src/main.vala:167
 #, fuzzy
-#| msgid "No Document"
 msgid "Error Opening Document"
 msgstr "Sin documento"
 
-#~ msgid "Create nice and elegant presentations"
-#~ msgstr "Crear presentaciones elegantes y bonitas"
+#~ msgid "File"
+#~ msgstr "Archivo"
 
-#~ msgid "Ease presentation editor"
-#~ msgstr "Editor de presentaciones Ease"
+#~ msgid "New"
+#~ msgstr "Nueva"
+
+#~ msgid "Presentation"
+#~ msgstr "Presentación"
+
+#~ msgid "Theme"
+#~ msgstr "Tema"
+
+#~ msgid "Quit"
+#~ msgstr "Salir"
+
+#~ msgid "Open"
+#~ msgstr "Abrir"
+
+#~ msgid "Your browser does not support the video tag"
+#~ msgstr "Su navegador no soporta la etiqueta de video"
 
 #~ msgid "No root node"
 #~ msgstr "No hay nodo raíz"
 
 #~ msgid "Error saving: %s"
 #~ msgstr "Error al guardar: %s"
-
-#~ msgid "Error exporting: %s"
-#~ msgstr "Error al exportar: %s"
 
 #~ msgid "Error copying: %s"
 #~ msgstr "Error al copiar: %s"

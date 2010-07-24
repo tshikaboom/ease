@@ -59,7 +59,7 @@ public abstract class Ease.SlideSet : Object
 	 *
 	 * @param s The {@link Slide} to append.
 	 */
-	public void append_slide(Slide s)
+	public virtual void append_slide(Slide s)
 	{
 		slides.insert(length, s);
 	}
@@ -99,21 +99,6 @@ public abstract class Ease.SlideSet : Object
 	}
 	
 	/**
-	 * Copies all files under Media/ to a new directory.
-	 *
-	 * @param target The path to copy media files to.
-	 */
-	public void copy_media(string target) throws GLib.Error
-	{
-		var origin_path = Path.build_filename(path, MEDIA_PATH);
-		
-		var target_path = Path.build_filename(target, MEDIA_PATH);
-		
-		// TODO: non-system implementation of recursive copy
-		Posix.system("cp -r %s %s".printf(origin_path, target_path));
-	}
-	
-	/**
 	 * Copies a media file to the temporary directory.
 	 *
 	 * Returns the path to the new file, as it should be stored in the
@@ -123,13 +108,26 @@ public abstract class Ease.SlideSet : Object
 	 */
 	public string add_media_file(string file) throws GLib.Error
 	{
-		var orig = File.new_for_path(file);
-		var dest = File.new_for_path(Path.build_filename(path,
-		                                                 MEDIA_PATH,
-		                                                 orig.get_basename()));
-		orig.copy(dest, 0, null, null);
+		// create the media directory if necessary
+		var media = File.new_for_path(Path.build_filename(path, MEDIA_PATH));
+		if (!media.query_exists(null)) media.make_directory_with_parents(null);
 		
-		return Path.build_filename(MEDIA_PATH, orig.get_basename());
+		// create file paths
+		var orig = File.new_for_path(file);
+		var rel_path = Path.build_filename(MEDIA_PATH, orig.get_basename());
+		var dest = File.new_for_path(Path.build_filename(path, rel_path));
+		
+		// if the file exists, we need a new filename
+		for (int i = 0; dest.query_exists(null); i++)
+		{
+			rel_path = Path.build_filename(MEDIA_PATH, i.to_string() + "-" +
+			                               orig.get_basename());
+			dest = File.new_for_path(Path.build_filename(path, rel_path));
+		}
+		
+		// copy the file and return its path
+		orig.copy(dest, 0, null, null);
+		return rel_path;
 	}
 }
 
