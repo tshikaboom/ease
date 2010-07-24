@@ -66,7 +66,7 @@ public class Ease.Slide : GLib.Object
 	/**
 	 * The background color, if there is no background image
 	 */
-	public Clutter.Color background_color;
+	public Color background_color;
 	
 	/**
 	 * The background image, if one is set
@@ -259,9 +259,7 @@ public class Ease.Slide : GLib.Object
 		if (background_image == null)
 		{
 			context.rectangle(0, 0, w, h);
-			context.set_source_rgb(background_color.red / 255f,
-			                       background_color.green / 255f,
-			                       background_color.blue / 255f);
+			background_color.set_cairo(context);
 			context.fill();
 		}
 		
@@ -308,7 +306,8 @@ public class Ease.Slide : GLib.Object
 		{
 			// give the slide a background color
 			html += "style=\"background-color: " +
-			        background_color.to_string().substring(0, 7) + "\">";
+			        background_color.clutter.to_string().
+			        substring(0, 7) + "\">";
 		}
 		else
 		{

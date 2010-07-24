@@ -268,8 +268,9 @@ public class Ease.SlideActor : Clutter.Group
 		}
 		else // the background is a solid color
 		{
-			background = new Clutter.Rectangle();
-			((Clutter.Rectangle)background).color = slide.background_color;
+			var rect = new Clutter.Rectangle();
+			rect.color = slide.background_color.clutter;
+			background = rect;
 		}
 		background.width = width_px;
 		background.height = height_px;

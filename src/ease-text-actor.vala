@@ -51,7 +51,7 @@ public class Ease.TextActor : Actor
 		text.use_markup = true;
 		text.line_wrap = true;
 		text.line_wrap_mode = Pango.WrapMode.WORD_CHAR;
-		text.color = e.color;
+		text.color = e.color.clutter;
 		text.line_alignment = e.text_align;
 		format(e);
 		text.set_markup(e.has_been_edited ? e.get("text") : DEFAULT_TEXT);
@@ -64,7 +64,7 @@ public class Ease.TextActor : Actor
 		
 		// add notify event handlers to update when changes to the element occur
 		e.notify["color"].connect((sender, spec) => {
-			text.color = (sender as TextElement).color;
+			text.color = (sender as TextElement).color.clutter;
 		});
 		
 		e.notify["font-description"].connect((sender, spec) => {

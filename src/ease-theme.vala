@@ -314,8 +314,8 @@ public class Ease.Theme : GLib.Object
 		Slide slide = new Slide();
 		
 		// set the slide background property
-		slide.background_color = Clutter.Color.from_string(master_get(master,
-		                                                   BACKGROUND_COLOR));
+		slide.background_color = new Color.
+			from_string(master_get(master, BACKGROUND_COLOR));
 		
 		switch (master)
 		{
@@ -417,7 +417,7 @@ public class Ease.Theme : GLib.Object
 		}
 		
 		// set the color property
-		text.color = Clutter.Color.from_string(element_get(type, TEXT_COLOR));
+		text.color = new Color.from_string(element_get(type, TEXT_COLOR));
 		
 		// set size properties
 		text.x = x;

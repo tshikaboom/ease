@@ -3,10 +3,10 @@
 	"author" : "Nate Stedman <natesm@gmail.com>",
 	
 	"master-defaults" : {
-		"background-color" : "#000000FF"
+		"background-color" : "0, 0, 0"
 	},
 	
 	"element-defaults" : {
-		"text-color" : "#FFFFFFFF"
+		"text-color" : "1, 1, 1"
 	}
 }

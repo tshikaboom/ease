@@ -1,6 +1,6 @@
 {
 	"master-defaults" : {
-		"background-color" : "#FFFFFFFF"
+		"background-color" : "1, 1, 1"
 	},
 	
 	"element-defaults" : {
@@ -10,7 +10,7 @@
 		"text-variant" : "Normal",
 		"text-weight" : "500",
 		"text-align" : "left",
-		"text-color" : "#000000FF",
+		"text-color" : "0, 0, 0",
 		
 		"padding-top" : "30",
 		"padding-left" : "30",

@@ -56,7 +56,7 @@ public class Ease.TextElement : Element
 	 */
 	public override bool set_color(Clutter.Color c)
 	{
-		color = c;
+		color = new Color.from_clutter(c);
 		return true;
 	}
 	
@@ -65,7 +65,7 @@ public class Ease.TextElement : Element
 	 */
 	public override Clutter.Color? get_color()
 	{
-		return color;
+		return color.clutter;
 	}
 
 
@@ -118,9 +118,7 @@ public class Ease.TextElement : Element
 		// render
 		context.save();
 		
-		context.set_source_rgb(color.red / 255f,
-		                       color.green / 255f,
-		                       color.blue / 255f);
+		color.set_cairo(context);
 		
 		Pango.cairo_update_layout(context, layout);
 		context.move_to((int)x, (int)y);
@@ -141,11 +139,11 @@ public class Ease.TextElement : Element
 	/**
 	 * The color of the text.
 	 */
-	public Clutter.Color color
+	public Color color
 	{
-		get
+		owned get
 		{
-			return Clutter.Color.from_string(data.get(Theme.TEXT_COLOR));
+			return new Color.from_string(data.get(Theme.TEXT_COLOR));
 		}		
 		set
 		{

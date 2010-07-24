@@ -23,12 +23,12 @@ public class Ease.Color : GLib.Object
 	/**
 	 * The format string for converting Colors to strings.
 	 */
-	private const string STR = "%f%s%f%s%f%s%f";
+	private const string STR = "%f%s %f%s %f%s %f";
 	
 	/**
 	 * The string placed between each channel in a string representation.
 	 */
-	private const string SPLIT = ", ";
+	private const string SPLIT = ",";
 
 	/**
 	 * The red value of this color.
@@ -219,11 +219,14 @@ public class Ease.Color : GLib.Object
 	 */
 	public Color.from_string(string str)
 	{
-		var split = str.split(SPLIT);
+		var split = str.replace(" ", "").split(SPLIT);
 		red = split[0].to_double();
 		green = split[1].to_double();
 		blue = split[2].to_double();
-		alpha = split[3].to_double();
+		
+		// it's ok to omit the alpha value - assumes full alpha
+		if (split.length > 3) alpha = split[3].to_double();
+		else alpha = 1;
 	}
 	
 	/**
@@ -231,7 +234,7 @@ public class Ease.Color : GLib.Object
 	 */
 	public string to_string()
 	{
-		return STR.printf(red, SPLIT, blue, SPLIT, green, SPLIT, alpha, SPLIT);
+		return STR.printf(red, SPLIT, blue, SPLIT, green, SPLIT, alpha);
 	}
 	
 	/**
@@ -239,7 +242,7 @@ public class Ease.Color : GLib.Object
 	 *
 	 * @param cr The Cairo Context to set the color for.
 	 */
-	public void cairo_set(Cairo.Context cr)
+	public void set_cairo(Cairo.Context cr)
 	{
 		cr.set_source_rgba(red, green, blue, alpha);
 	}

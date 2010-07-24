@@ -100,7 +100,7 @@ public static class Ease.JSONParser
 		else
 		{
 			slide.background_color =
-				Clutter.Color.from_string(
+				new Color.from_string(
 					obj.get_string_member(Theme.BACKGROUND_COLOR));
 		}
 		
