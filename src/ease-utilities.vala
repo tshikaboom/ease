@@ -94,6 +94,7 @@ namespace Ease
 	 * and another for directories. These callbacks can both be null
 	 * (although if they both were, the call would do nothing). The directory
 	 * callback is executed before the recursion continues.
+	 * recursive_directory_after does the opposite.
 	 *
 	 * The directory callback is not performed on the toplevel directory.
 	 *
@@ -107,7 +108,39 @@ namespace Ease
 	                                RecursiveDirAction? file_action)
 	                                throws Error
 	{
-		do_recursive_directory(directory, directory_action, file_action, "");
+		do_recursive_directory(directory,
+		                       directory_action,
+		                       file_action,
+		                       "",
+		                       true);
+	}
+	
+	/**
+	 * Performs a recursive iteration on a directory, with callbacks.
+	 *
+	 * The caller can provide two {@link RecursiveDirAction}s: one for files,
+	 * and another for directories. These callbacks can both be null
+	 * (although if they both were, the call would do nothing). The directory
+	 * callback is executed after the recursion continues. recursive_directory
+	 * does the opposite.
+	 *
+	 * The directory callback is not performed on the toplevel directory.
+	 *
+	 * @param directory The directory to iterate.
+	 * @param directory_action A {@link RecursiveDirAction} to perform on all
+	 * directories.
+	 * @param file_action A {@link RecursiveDirAction} to perform on all files.
+	 */
+	public void recursive_directory_after(string directory,
+	                                      RecursiveDirAction? directory_action,
+	                                      RecursiveDirAction? file_action)
+	                                      throws Error
+	{
+		do_recursive_directory(directory,
+		                       directory_action,
+		                       file_action,
+		                       "",
+		                       false);
 	}
 	
 	/**
@@ -117,7 +150,8 @@ namespace Ease
 	private void do_recursive_directory(string directory,
 	                                    RecursiveDirAction? directory_action,
 	                                    RecursiveDirAction? file_action,
-	                                    string rel_path)
+	                                    string rel_path,
+	                                    bool dir_first)
 	                                    throws Error
 	{
 		var dir = GLib.Dir.open(directory, 0);
@@ -129,13 +163,21 @@ namespace Ease
 			var child_rel_path = Path.build_filename(rel_path, child_path);
 			if (FileUtils.test(child_full_path, FileTest.IS_DIR))
 			{
-				if (directory_action != null)
+				if (directory_action != null && dir_first)
 				{
 					directory_action(child_rel_path, child_full_path);
 				}
+				
+				// recurse
 				do_recursive_directory(child_full_path,
 				                       directory_action, file_action,
-				                       child_rel_path);
+				                       child_rel_path,
+				                       dir_first);
+				
+				if (directory_action != null && !dir_first)
+				{
+					directory_action(child_rel_path, child_full_path);
+				}
 			}
 			else // the path is a file
 			{
@@ -148,6 +190,32 @@ namespace Ease
 	}
 	
 	public delegate void RecursiveDirAction(string path, string full_path);
+	
+	/**
+	 * Recursively removes a directory.
+	 *
+	 * @param path The directory to be recursively deleted.
+	 */
+	public static void recursive_delete(string path) throws GLib.Error
+	{
+		var dir = GLib.Dir.open(path, 0);
+		
+		if (dir == null)
+		{
+			throw new FileError.NOENT(
+				_("Directory to remove doesn't exist: %s"), path);
+		}
+		
+		recursive_directory_after(path,
+			(p, full_path) => {
+				DirUtils.remove(full_path);
+			},
+			(p, full_path) => {
+				FileUtils.unlink(full_path);
+			});
+		
+		DirUtils.remove(path);	
+	}
 
 	public double dmax(double a, double b)
 	{

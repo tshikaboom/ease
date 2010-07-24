@@ -248,7 +248,7 @@ public static class Ease.Temp : Object
 		while ((dir = dirs.poll_head()) != null)
 		{
 			try { recursive_delete(dir); }
-			catch (FileError e)
+			catch (GLib.Error e)
 			{
 				debug(e.message);
 			}
@@ -284,39 +284,5 @@ public static class Ease.Temp : Object
 		var file = GLib.File.new_for_path(dir_tmp);
 		
 		return file.query_exists(null);
-	}
-	
-	/**
-	 * Recursively removes a directory.
-	 *
-	 * Ported from Will Thompson's code located [[http://git.collabora.co.uk/?p=telepathy-haze.git;a=blob;f=src/util.c;h=5cbb4fb30b181a6c0f32c08bdadffae43b6e6ec3;hb=HEAD|here]].
-	 *
-	 * @param path The directory to be recursively deleted.
-	 */
-	public static void recursive_delete(string path) throws FileError
-	{
-		string child_path;
-		var dir = GLib.Dir.open(path, 0);
-		
-		if (dir == null)
-		{
-			throw new FileError.NOENT(
-				_("Directory to remove doesn't exist: %s"), path);
-		}
-		
-		while ((child_path = dir.read_name()) != null)
-		{
-			var child_full_path = Path.build_filename(path, child_path);
-			if (FileUtils.test(child_full_path, FileTest.IS_DIR))
-			{
-				recursive_delete(child_full_path);
-			}
-			else // the path is a file
-			{
-				FileUtils.unlink(child_full_path);
-			}
-		}
-		
-		DirUtils.remove(path);
 	}
 }
