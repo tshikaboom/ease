@@ -74,6 +74,11 @@ public class Ease.Theme : GLib.Object
 	public const string TEXT_ALIGN = "text-align";
 	public const string TEXT_COLOR = "text-color";
 	
+	// gradient types
+	public const string GRAD_LINEAR = "linear";
+	public const string GRAD_LINEAR_MIRRORED = "linear-mirrored";
+	public const string GRAD_RADIAL = "radial";
+	
 	// generic element properties
 	public const string E_IDENTIFIER = "element-identifier";
 	

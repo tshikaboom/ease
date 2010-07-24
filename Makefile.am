@@ -17,6 +17,7 @@ ease_SOURCES = \
 	src/ease-actor.vala \
 	src/ease-animated-zoom-slider.vala \
 	src/ease-close-confirm-dialog.vala \
+	src/ease-color.vala \
 	src/ease-document.vala \
 	src/ease-editor-embed.vala \
 	src/ease-editor-window.vala \
@@ -24,6 +25,7 @@ ease_SOURCES = \
 	src/ease-element-map-value.vala \
 	src/ease-element.vala \
 	src/ease-enums.vala \
+	src/ease-gradient.vala \
 	src/ease-handle.vala \
 	src/ease-html-exporter.vala \
 	src/ease-image-actor.vala \
