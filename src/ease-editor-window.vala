@@ -434,7 +434,7 @@ public class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	public void export_to_pdf(Gtk.Widget sender)
 	{
-		PDFExporter.export(document, this);
+		document.export_to_pdf(this);
 	}
 	
 	[CCode (instance_pos = -1)]

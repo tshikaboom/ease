@@ -163,6 +163,57 @@ public class Ease.Document : SlideSet
 	}
 	
 	/**
+	 * Exports this as a PDF file.
+	 *
+	 * @param win The window that dialogs should be modal for.
+	 */
+	public void export_to_pdf(Gtk.Window win)
+	{
+		string path;
+		
+		var dialog = new Gtk.FileChooserDialog(_("Export to PDF"),
+		                                       win,
+		                                       Gtk.FileChooserAction.SAVE,
+		                                       "gtk-save",
+		                                       Gtk.ResponseType.ACCEPT,
+		                                       "gtk-cancel",
+		                                       Gtk.ResponseType.CANCEL,
+		                                       null);
+		
+		if (dialog.run() == Gtk.ResponseType.ACCEPT)
+		{
+			// clean up the file dialog
+			path = dialog.get_filename();
+			dialog.destroy();
+		}
+		else
+		{
+			dialog.destroy();
+			return;
+		}
+		
+		try
+		{
+			// create a PDF surface
+			var surface = new Cairo.PdfSurface(path, width, height);
+			var context = new Cairo.Context(surface);
+		
+			foreach (var s in slides)
+			{
+				s.cairo_render(context);
+				context.show_page();
+			}
+		
+			surface.flush();
+			surface.finish();
+		}
+		catch (Error e)
+		{
+			error_dialog(_("Error Exporting to PDF"), e.message);
+		}
+	}
+	
+	/**
 	 * Exports this Document to an HTML file.
 	 *
 	 * @param window The window that the progress dialog should be modal for.

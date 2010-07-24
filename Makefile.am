@@ -36,7 +36,6 @@ ease_SOURCES = \
 	src/ease-json-parser.vala \
 	src/ease-media-element.vala \
 	src/ease-open-dialog.vala \
-	src/ease-pdf-exporter.vala \
 	src/ease-player.vala \
 	src/ease-scrollable-embed.vala \
 	src/ease-selection-rectangle.vala \
