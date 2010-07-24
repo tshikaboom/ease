@@ -37,7 +37,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	/**
 	 * The rectangle displayed around selected {@link Actor}s.
 	 */
-	private Clutter.Rectangle selection_rectangle;
+	private SelectionRectangle selection_rectangle;
 	
 	/**
 	 * The {@link Handle}s attached to the selection rectangle.
@@ -428,10 +428,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		selected = sender as Actor;
 		
 		// make a new selection rectangle
-		selection_rectangle = new Clutter.Rectangle();
-		selection_rectangle.border_color = {0, 0, 0, 255};
-		selection_rectangle.color = {0, 0, 0, 0};
-		selection_rectangle.border_width = 2;
+		selection_rectangle = new SelectionRectangle();
 		position_selection();
 		contents.add_actor(selection_rectangle);
 		

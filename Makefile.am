@@ -39,6 +39,7 @@ ease_SOURCES = \
 	src/ease-pdf-exporter.vala \
 	src/ease-player.vala \
 	src/ease-scrollable-embed.vala \
+	src/ease-selection-rectangle.vala \
 	src/ease-slide-actor.vala \
 	src/ease-slide-button-panel.vala \
 	src/ease-slide-pane.vala \
