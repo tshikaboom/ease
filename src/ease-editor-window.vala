@@ -161,6 +161,19 @@ public class Ease.EditorWindow : Gtk.Window
 		(builder.get_object("Zoom Slider Item") as Gtk.ToolItem).
 			add(create_zoom_slider());
 		
+		// add slide menu
+		var menu = builder.get_object("add-slide-menu") as Gtk.MenuShell;
+		
+		foreach (var master in Theme.MASTER_SLIDES)
+		{
+			var item = new Gtk.MenuItem.with_mnemonic(
+				Theme.master_mnemonic_description(master));
+			menu.append(item);
+			
+			item.activate.connect(on_new_slide_menu);
+		}
+		menu.show_all();
+		
 		// final window setup
 		show_all();
 		embed.show();
@@ -247,6 +260,18 @@ public class Ease.EditorWindow : Gtk.Window
 		var slide = document.theme.create_slide(document.DEFAULT_SLIDE,
 		                                        document.width,
 		                                        document.height);
+		
+		var index = document.index_of(slide) + 1;
+		
+		document.add_slide(index, slide);
+	}
+	
+	public void on_new_slide_menu(Gtk.Widget? sender)
+	{
+		var item = sender as Gtk.MenuItem;
+		var slide = document.theme.create_slide(
+			Theme.master_from_description(item.get_label()),
+			document.width, document.height);
 		
 		var index = document.index_of(slide) + 1;
 		

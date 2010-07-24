@@ -250,16 +250,16 @@
       <object class="GtkToolbar" id="Main Toolbar">
         <property name="visible">True</property>
         <child>
-          <object class="GtkToolButton" id="Add Slide">
+          <object class="GtkMenuToolButton" id="Add Slide">
             <property name="visible">True</property>
             <property name="label" translatable="yes">Add Slide</property>
             <property name="use_underline">True</property>
             <property name="stock_id">gtk-add</property>
+            <property name="menu">add-slide-menu</property>
             <signal name="clicked" handler="ease_editor_window_new_slide_handler"/>
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="homogeneous">True</property>
           </packing>
         </child>
         <child>
@@ -366,7 +366,7 @@
         <child>
           <object class="GtkToolButton" id="Show Inspector">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">Inspector</property>
+            <property name="label" translatable="yes">Show Inspector</property>
             <property name="use_underline">True</property>
             <property name="stock_id">gtk-info</property>
             <signal name="clicked" handler="ease_editor_window_inspector_clicked_handler"/>
@@ -492,4 +492,7 @@
     <property name="stock">gtk-copy</property>
   </object>
   <object class="GtkAccelGroup" id="Menu Accelerators"/>
+  <object class="GtkMenu" id="add-slide-menu">
+    <property name="visible">True</property>
+  </object>
 </interface>

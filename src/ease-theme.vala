@@ -47,12 +47,12 @@ public class Ease.Theme : GLib.Object
 	 */
 	public const string[] MASTER_SLIDES = {
 		TITLE,
-		CONTENT,
 		CONTENT_HEADER,
-		CONTENT_DUAL,
+		CONTENT,
 		CONTENT_DUAL_HEADER,
-		MEDIA,
-		MEDIA_HEADER
+		CONTENT_DUAL,
+		MEDIA_HEADER,
+		MEDIA
 	};
 	
 	// master slide properties
@@ -486,6 +486,67 @@ public class Ease.Theme : GLib.Object
 		}
 		
 		return defaults.master_get(master, prop);
+	}
+	
+	/**
+	 * Returns a string description for a specified master identifier.
+	 *
+	 * @param master The identifier. This should be a constant of this class.
+	 */
+	public static string master_description(string master)
+	{
+		return master_mnemonic_description(master).replace("_", "");
+	}
+	
+	/**
+	 * Returns a string description, with mnemonic, for a specified master
+	 * identifier.
+	 *
+	 * @param master The identifier. This should be a constant of this class.
+	 */
+	public static string master_mnemonic_description(string master)
+	{
+		switch (master)
+		{
+			case TITLE:
+				return _("_Title slide");
+			case CONTENT:
+				return _("Content slide _without header");
+			case CONTENT_HEADER:
+				return _("_Content slide");
+			case CONTENT_DUAL:
+				return _("Two column slide without _header");
+			case CONTENT_DUAL_HEADER:
+				return _("T_wo column slide with header");
+			case MEDIA:
+				return _("M_edia slide without header");
+			case MEDIA_HEADER:
+				return _("_Media slide");
+		}
+		
+		critical(_("%s is not a valid identifier"), master);
+		return master;
+	}
+	
+	/**
+	 * Finds the master identifier associated with the provided description.
+	 *
+	 * The description may be a mnemonic.
+	 *
+	 * @param desc The description, provided by master_description or
+	 * master_mnemonic_description.
+	 */
+	public static string master_from_description(string desc)
+	{
+		var replaced = desc.replace("_", "");
+		
+		foreach (var master in MASTER_SLIDES)
+		{
+			if (master_description(master) == replaced) return master;
+		}
+		
+		critical("Not a valid master description: %s", desc);
+		return desc;
 	}
 	
 	/**
