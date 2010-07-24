@@ -42,6 +42,11 @@ public class Ease.WelcomeActor : Clutter.Group
 	private Clutter.Rectangle rect;
 	
 	/**
+	 * A highlight rectangle placed around the actor when it is selected.
+	 */
+	private Clutter.Rectangle hilight_rect;
+	
+	/**
 	 * The theme previewed by this WelcomeActor.
 	 */
 	public Theme theme;
@@ -63,6 +68,8 @@ public class Ease.WelcomeActor : Clutter.Group
 	private const Clutter.Color RECT_BG = {0, 0, 0, 255};
 	private const Clutter.Color RECT_B_C = {150, 150, 150, 255};
 	private const int RECT_B_W = 1;
+	private const Clutter.Color HLRECT_C = {255, 255, 0, 255};
+	private const int HLRECT_W = 2;
 	
 	/**
 	 * The slide identifier to display as a preview.
@@ -97,6 +104,16 @@ public class Ease.WelcomeActor : Clutter.Group
 		rect.x = -RECT_B_W;
 		rect.y = -RECT_B_W;
 		add_actor(rect);
+		
+		// create the highlight rectangle
+		hilight_rect = new Clutter.Rectangle();
+		hilight_rect.color = {0, 0, 0, 255};
+		hilight_rect.opacity = 0;
+		hilight_rect.border_color = HLRECT_C;
+		hilight_rect.border_width = HLRECT_W;
+		hilight_rect.x = -HLRECT_W;
+		hilight_rect.y = -HLRECT_W;
+		add_actor(hilight_rect);
 		
 		// create the theme title actor
 		text = new Clutter.Text.full(FONT_NAME, theme.title, TEXT_COLOR);
@@ -159,6 +176,9 @@ public class Ease.WelcomeActor : Clutter.Group
 		rect.width = roundd(w) + RECT_B_W * 2;
 		rect.height = roundd(h) + RECT_B_W * 2;
 		
+		hilight_rect.width = roundd(w) + HLRECT_W * 2;
+		hilight_rect.height = roundd(h) + HLRECT_W * 2;
+		
 		text.x = roundd(w / 2 - text.width / 2);
 		text.y = roundd(h + TEXT_OFFSET);
 		
@@ -176,6 +196,7 @@ public class Ease.WelcomeActor : Clutter.Group
 	{
 		is_selected = false;
 		slide_actor.animate(FADE_EASE, FADE_TIME, "opacity", FADE_OPACITY);
+		hilight_rect.animate(FADE_EASE, FADE_TIME, "opacity", 0);
 	}
 	
 	/**
@@ -185,6 +206,7 @@ public class Ease.WelcomeActor : Clutter.Group
 	{
 		is_selected = true;
 		slide_actor.animate(FADE_EASE, FADE_TIME, "opacity", 255);
+		hilight_rect.animate(FADE_EASE, FADE_TIME, "opacity", 255);
 	}
 	
 	/**

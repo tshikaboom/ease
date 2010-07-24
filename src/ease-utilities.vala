@@ -243,6 +243,45 @@ namespace Ease
 				from.copy(to, FileCopyFlags.OVERWRITE, null, null);
 			});
 	}
+	
+	/**
+	 * Locates a color in the current GTK theme.
+	 *
+	 * @param color The color to find.
+	 */
+	public Gdk.Color? theme_color(string color)
+	{
+		// find the appropriate color
+		var settings = Gtk.Settings.get_default();
+		var colors = settings.gtk_color_scheme.split_set("\n;");
+		for (int i = 0; i < colors.length; i++)
+		{
+			colors[i] = colors[i].strip();
+			
+			if (colors[i].has_prefix(color))
+			{
+				for (; !colors[i].has_prefix("#") && colors[i].length > 3;
+			         colors[i] = colors[i].substring(1, colors[i].length - 1));
+				
+				Gdk.Color gdk_color;
+				Gdk.Color.parse(colors[i], out gdk_color);
+				return gdk_color;
+			}
+		}
+		
+		warning("Could not find color: %s", color);
+		return null;
+	}
+	
+	/**
+	 * Locates a color in the current GTK theme, as a Clutter.Color.
+	 *
+	 * @param color The color to find.
+	 */
+	public Clutter.Color theme_clutter_color(string color)
+	{
+		return Transformations.gdk_color_to_clutter_color(theme_color(color));
+	}
 
 	public double dmax(double a, double b)
 	{
