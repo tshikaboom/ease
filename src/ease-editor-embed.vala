@@ -181,7 +181,17 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		
 		// set the background to a faded version of the normal gtk background
 		Clutter.Color out_color;
-		theme_clutter_color(BG_COLOR).shade(SHADE_FACTOR, out out_color);
+		var color = theme_color(BG_COLOR);
+		if (color == null)
+		{
+			out_color = { 150, 150, 150, 255 };
+			out_color.shade(SHADE_FACTOR, out out_color);
+		}
+		else
+		{
+			out_color = Transformations.gdk_color_to_clutter_color(color);
+		}
+		
 		get_stage().color = out_color;
 		
 		document = d;
