@@ -189,14 +189,15 @@ namespace Ease
 		}
 	}
 	
-	public delegate void RecursiveDirAction(string path, string full_path);
+	public delegate void RecursiveDirAction(string path, string full_path)
+	                                       throws GLib.Error;
 	
 	/**
 	 * Recursively removes a directory.
 	 *
 	 * @param path The directory to be recursively deleted.
 	 */
-	public static void recursive_delete(string path) throws GLib.Error
+	public void recursive_delete(string path) throws GLib.Error
 	{
 		var dir = GLib.Dir.open(path, 0);
 		
@@ -215,6 +216,32 @@ namespace Ease
 			});
 		
 		DirUtils.remove(path);	
+	}
+	
+	/**
+	 * Recursive copies a directory.
+	 *
+	 * @param from_dir The directory to copy from.
+	 * @param to_dir The directory to copy to.
+	 */
+	public void recursive_copy(string from_dir, string to_dir) throws GLib.Error
+	{
+		var top = File.new_for_path(to_dir);
+		if (!top.query_exists(null))
+		{
+			top.make_directory_with_parents(null);
+		}
+		
+		recursive_directory(from_dir,
+			(path, full_path) => {
+				var dir = File.new_for_path(Path.build_filename(to_dir, path));
+				if (!dir.query_exists(null)) dir.make_directory(null);
+			},
+			(path, full_path) => {
+				var from = File.new_for_path(full_path);
+				var to = File.new_for_path(Path.build_filename(to_dir, path));
+				from.copy(to, FileCopyFlags.OVERWRITE, null, null);
+			});
 	}
 
 	public double dmax(double a, double b)

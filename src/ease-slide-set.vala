@@ -99,21 +99,6 @@ public abstract class Ease.SlideSet : Object
 	}
 	
 	/**
-	 * Copies all files under Media/ to a new directory.
-	 *
-	 * @param target The path to copy media files to.
-	 */
-	public void copy_media(string target) throws GLib.Error
-	{
-		var origin_path = Path.build_filename(path, MEDIA_PATH);
-		
-		var target_path = Path.build_filename(target, MEDIA_PATH);
-		
-		// TODO: non-system implementation of recursive copy
-		Posix.system("cp -r %s %s".printf(origin_path, target_path));
-	}
-	
-	/**
 	 * Copies a media file to the temporary directory.
 	 *
 	 * Returns the path to the new file, as it should be stored in the

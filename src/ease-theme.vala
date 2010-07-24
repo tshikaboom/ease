@@ -221,10 +221,10 @@ public class Ease.Theme : GLib.Object
 	 *
 	 * @param copy_to The path to copy the Theme to.
 	 */
-	public Theme copy_to_path(string copy_to)
+	public Theme copy_to_path(string copy_to) throws Error
 	{
 		// copy data files
-		Posix.system("cp -r %s %s".printf(path, copy_to));
+		recursive_copy(path, copy_to);
 		
 		// create a copy of this theme and change its path
 		var theme = new Theme.copy(this);
@@ -289,10 +289,11 @@ public class Ease.Theme : GLib.Object
 	{
 		var origin_path = Path.build_filename(path, MEDIA_PATH);
 		
+		if (!File.new_for_path(origin_path).query_exists(null)) return;
+		
 		var target_path = Path.build_filename(target, MEDIA_PATH);
 		
-		// TODO: non-system implementation of recursive copy
-		Posix.system("cp -r %s %s".printf(origin_path, target_path));
+		recursive_copy(origin_path, target_path);
 	}
 	
 	/**
