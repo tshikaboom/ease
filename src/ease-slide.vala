@@ -63,58 +63,39 @@ public class Ease.Slide : GLib.Object
 	 */
 	public double advance_delay { get; set; }
 	
+	/**
+	 * The background type of this slide.
+	 */
 	public BackgroundType background_type { get; set; }
 	
 	/**
 	 * The background color, if this slide uses a solid color for a background.
 	 *
-	 * Setting this property sets {@link background_type} to
+	 * To use this property, {@link background_type} must also be set to
 	 * {@link BackgroundType.COLOR}.
 	 */
-	public Color background_color
-	{
-		get { return background_color_priv; }
-		set
-		{
-			background_color_priv = value;
-			background_type = BackgroundType.COLOR;
-		}
-	}
-	private Color background_color_priv;
+	public Color? background_color { get; set; }
 	
 	/**
 	 * The background gradient, if this slide uses a gradient for a background.
 	 *
-	 * Setting this property sets {@link background_type} to
+	 * To use this property, {@link background_type} must also be set to
 	 * {@link BackgroundType.GRADIENT}.
 	 */
-	public Gradient background_gradient
-	{
-		get { return background_gradient_priv; }
-		set
-		{
-			background_gradient_priv = value;
-			background_type = BackgroundType.GRADIENT;
-		}
-	}
-	private Gradient background_gradient_priv;
+	public Gradient? background_gradient { get; set; }
 	
 	/**
 	 * The background image, if this slide uses an image for a background.
 	 *
-	 * Setting this property sets {@link background_type} to
+	 * To use this property, {@link background_type} must also be set to
 	 * {@link BackgroundType.IMAGE}.
 	 */
-	public string background_image
-	{
-		get { return background_image_priv; }
-		set
-		{
-			background_image_priv = value;
-			background_type = BackgroundType.IMAGE;
-		}
-	}
-	private string background_image_priv;
+	public string background_image { get; set; }
+	
+	/**
+	 * The original path to the background image. This path is used in the UI.
+	 */
+	public string background_image_source { get; set; }
 	
 	/**
 	 * The absolute path of the background image, if one is set.
@@ -394,6 +375,8 @@ public enum Ease.BackgroundType
 	GRADIENT,
 	IMAGE;
 	
+	public const BackgroundType[] TYPES = { COLOR, GRADIENT, IMAGE};
+	
 	/**
 	 * Returns a string representation of this BackgroundType.
 	 */
@@ -422,6 +405,20 @@ public enum Ease.BackgroundType
 		
 		warning("%s is not a gradient type", str);
 		return COLOR;
+	}
+	
+	/**
+	 * Returns a description of the BackgroundType.
+	 */
+	public string description()
+	{
+		switch (this)
+		{
+			case COLOR: return _("Solid Color");
+			case GRADIENT: return _("Gradient");
+			case IMAGE: return _("Image");
+		}
+		return "undefined";
 	}
 }
 

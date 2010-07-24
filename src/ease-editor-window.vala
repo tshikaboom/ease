@@ -152,6 +152,7 @@ public class Ease.EditorWindow : Gtk.Window
 		// the inspector
 		inspector = new Inspector();
 		(builder.get_object("Inspector Align") as Gtk.Alignment).add(inspector);
+		inspector.undo.connect((action) => add_undo_action(action));
 		
 		// main editor
 		embed = new EditorEmbed(document, this);
@@ -175,8 +176,9 @@ public class Ease.EditorWindow : Gtk.Window
 		menu.show_all();
 		
 		// final window setup
-		show_all();
-		embed.show();
+		slide_button_panel.show_all();
+		embed.show_all();
+		show();
 		inspector.hide();
 		slides_shown = true;
 		

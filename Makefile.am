@@ -53,6 +53,7 @@ ease_SOURCES = \
 	src/ease-transitions.vala \
 	src/ease-undo-action.vala \
 	src/ease-undo-controller.vala \
+	src/ease-undo-source.vala \
 	src/ease-utilities.vala \
 	src/ease-welcome-actor.vala \
 	src/ease-welcome-window.vala \
@@ -95,7 +96,7 @@ doc: src/*.vala
 	valadoc --internal --private --pkg "json-glib-1.0" --pkg "gee-1.0"  --pkg "clutter-gtk-0.10" --pkg "libarchive" --directory=./doc --basedir=src ./src/*.vala
 	gnome-open doc/doc/Ease.html
 
-archive: themes/* examples/*
+archive: data/themes/* examples/*
 	sh data/themes/build.sh
 	sh examples/build.sh
 

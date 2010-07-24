@@ -162,6 +162,7 @@ public class Ease.SlideActor : Clutter.Group
 
 		// set the background
 		set_background();
+		add_actor(background);
 
 		contents = new Clutter.Group();
 
@@ -171,6 +172,9 @@ public class Ease.SlideActor : Clutter.Group
 		}
 
 		add_actor(contents);
+		
+		// TODO: this completely _destroys_ performance.
+		slide.changed.connect((s) => set_background());
 	}
 	
 	/**
@@ -263,9 +267,6 @@ public class Ease.SlideActor : Clutter.Group
 		
 		background.width = width_px;
 		background.height = height_px;
-
-		add_actor(background);
-		lower_child(background, null);
 	}
 
 	/**

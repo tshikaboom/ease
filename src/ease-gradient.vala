@@ -51,6 +51,14 @@ public class Ease.Gradient : GLib.Object
 	public double angle { get; set; }
 	
 	/**
+	 * Returns a copy of the default background gradient.
+	 */
+	public static Gradient default_background
+	{	
+		owned get { return new Gradient(Color.black, Color.white); }
+	}
+	
+	/**
 	 * Creates a new linear gradient, with the specified colors.
 	 */
 	public Gradient(Color start_color, Color end_color)
@@ -58,6 +66,7 @@ public class Ease.Gradient : GLib.Object
 		start = start_color;
 		end = end_color;
 		mode = GradientMode.LINEAR;
+		angle = 0;
 	}
 	
 	/**
@@ -67,6 +76,7 @@ public class Ease.Gradient : GLib.Object
 	{
 		this(start_color, end_color);
 		mode = GradientMode.LINEAR_MIRRORED;
+		angle = 0;
 	}
 	
 	/**
@@ -76,6 +86,7 @@ public class Ease.Gradient : GLib.Object
 	{
 		this(start_color, end_color);
 		mode = GradientMode.RADIAL;
+		angle = 0;
 	}
 	
 	/**
@@ -99,6 +110,17 @@ public class Ease.Gradient : GLib.Object
 		                  end.to_string(), SPLIT,
 		                  mode.to_string(), SPLIT,
 		                  angle.to_string());
+	}
+	
+	/**
+	 * Returns a copy of this Gradient.
+	 */
+	public Gradient copy()
+	{
+		var grad = new Gradient(start.copy(), end.copy());
+		grad.mode = mode;
+		grad.angle = angle;
+		return grad;
 	}
 	
 	/**
@@ -210,5 +232,38 @@ public enum Ease.GradientMode
 		
 		warning("%s is not a gradient type", str);
 		return LINEAR;
+	}
+	
+	/**
+	 * Returns a string description of the GradientMode
+	 */
+	public string description()
+	{
+		switch (this)
+		{
+			case LINEAR: return _("Linear");
+			case LINEAR_MIRRORED: return _("Mirrored Linear");
+			case RADIAL: return _("Radial");
+		}
+		return "undefined";
+	}
+	
+	/**
+	 * Creates a ListStore with the first column set as the description
+	 * and the second column set as the GradientMode.
+	 */
+	public static Gtk.ListStore list_store()
+	{
+		var store = new Gtk.ListStore(2, typeof(string), typeof(GradientMode));
+		Gtk.TreeIter itr;
+		
+		store.append(out itr);
+		store.set(itr, 0, LINEAR.description(), 1, LINEAR);
+		store.append(out itr);
+		store.set(itr, 0, LINEAR_MIRRORED.description(), 1, LINEAR_MIRRORED);
+		store.append(out itr);
+		store.set(itr, 0, RADIAL.description(), 1, RADIAL);
+		
+		return store;
 	}
 }

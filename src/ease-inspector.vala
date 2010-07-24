@@ -18,7 +18,7 @@
 /**
  * Inspector widget for editing slide properties
  */
-public class Ease.Inspector : Gtk.Notebook
+public class Ease.Inspector : Gtk.Notebook, UndoSource
 {
 	private TransitionPane transition_pane;
 	private SlidePane slide_pane;
@@ -50,12 +50,17 @@ public class Ease.Inspector : Gtk.Notebook
 		slide_pane = new SlidePane();
 		
 		// add pages
-		append_page(slide_pane,
-		            new Gtk.Image.from_stock("gtk-page-setup",
-		                                     Gtk.IconSize.SMALL_TOOLBAR));
-		append_page(transition_pane,
-		            new Gtk.Image.from_stock("gtk-media-forward",
-		                                     Gtk.IconSize.SMALL_TOOLBAR));
+		append(slide_pane, "gtk-page-setup");
+		append(transition_pane, "gtk-media-forward");
+		slide_pane.show();
+		transition_pane.show_all();
+	}
+	
+	private void append(InspectorPane i, string stock_id)
+	{
+		append_page(i, new Gtk.Image.from_stock(stock_id,
+		                                        Gtk.IconSize.SMALL_TOOLBAR));
+		i.undo.connect((action) => undo(action));
 	}
 }
 

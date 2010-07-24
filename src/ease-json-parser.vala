@@ -97,18 +97,20 @@ public static class Ease.JSONParser
 		{
 			slide.background_image =
 				obj.get_string_member(Theme.BACKGROUND_IMAGE);
+			slide.background_image_source =
+				obj.get_string_member("background-image-source");
 		}
 		if (obj.has_member(Theme.BACKGROUND_COLOR))
 		{
 			slide.background_color =
 				new Color.from_string(
-					obj.get_string_member(Theme.BACKGROUND_COLOR));
+				obj.get_string_member(Theme.BACKGROUND_COLOR));
 		}
 		if (obj.has_member(Theme.BACKGROUND_GRADIENT))
 		{
 			slide.background_gradient =
 				new Gradient.from_string(
-					obj.get_string_member(Theme.BACKGROUND_GRADIENT));
+				obj.get_string_member(Theme.BACKGROUND_GRADIENT));
 		}
 		slide.background_type = BackgroundType.from_string(
 			obj.get_string_member(Theme.BACKGROUND_TYPE));
@@ -211,6 +213,8 @@ public static class Ease.JSONParser
 		{
 			obj.set_string_member(Theme.BACKGROUND_IMAGE,
 			                      slide.background_image);
+			obj.set_string_member("background-image-source",
+			                      slide.background_image_source);
 		}
 		if (slide.background_color != null)
 		{

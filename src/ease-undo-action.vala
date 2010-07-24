@@ -26,6 +26,11 @@ public class Ease.UndoAction : Object
 	private Gee.LinkedList<UndoPair> pairs = new Gee.LinkedList<UndoPair>();
 	
 	/**
+	 * Emitted after the action is applied.
+	 */
+	public signal void applied(UndoAction sender);
+	
+	/**
 	 * Creates an UndoAction.
 	 *
 	 * This should be followed up with calls to add() if the action has
@@ -51,6 +56,16 @@ public class Ease.UndoAction : Object
 	}
 	
 	/**
+	 * Adds all properties of the given UndoAction to this action.
+	 *
+	 * @param action An UndoAction to add properties from.
+	 */
+	public void combine(UndoAction action)
+	{
+		foreach (var p in action.pairs) pairs.add(p);
+	}
+	
+	/**
 	 * Applies the {@link UndoAction}, restoring previous settings.
 	 *
 	 * Returns an UndoAction that will redo the undo action.
@@ -58,6 +73,7 @@ public class Ease.UndoAction : Object
 	public UndoAction apply()
 	{
 		foreach (var pair in pairs) pair.apply();
+		applied(this);
 		return this;
 	}
 	

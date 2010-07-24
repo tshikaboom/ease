@@ -16,23 +16,14 @@
 */
 
 /**
- * Base class for inspector panes
+ * Provides a signal to notify a controller of UndoActions.
  */
-public abstract class Ease.InspectorPane : Gtk.VBox, UndoSource
+public interface Ease.UndoSource : GLib.Object
 {
-	public Slide slide { get; set; }
-
-	public InspectorPane()
-	{
-		homogeneous = false;
-		spacing = 0;
-		
-		notify["slide"].connect((a, b) => slide_updated());
-	}
-	
 	/**
-	 * Override this method to update interface elements when the displayed
-	 * slide changes.
+	 * Classes that implement the UndoSource interface should use this signal
+	 * to notify a parent controller (typically {@link EditorWindow}) of a new
+	 * UndoAction.
 	 */
-	protected virtual void slide_updated() {}
+	public signal void undo(UndoAction action);
 }

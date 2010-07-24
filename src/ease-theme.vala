@@ -327,13 +327,16 @@ public class Ease.Theme : GLib.Object
 			case BACKGROUND_TYPE_COLOR:
 				slide.background_color = new Color.
 					from_string(master_get(master, BACKGROUND_COLOR));
+				slide.background_type = BackgroundType.COLOR;
 				break;
 			case BACKGROUND_TYPE_GRADIENT:
 				slide.background_gradient = new Gradient.
 					from_string(master_get(master, BACKGROUND_GRADIENT));
+				slide.background_type = BackgroundType.GRADIENT;
 				break;
 			case BACKGROUND_TYPE_IMAGE:
 				slide.background_image = master_get(master, BACKGROUND_IMAGE);
+				slide.background_type = BackgroundType.IMAGE;
 				break;
 				
 		}

@@ -29,6 +29,22 @@ public class Ease.Color : GLib.Object
 	 * The string placed between each channel in a string representation.
 	 */
 	private const string SPLIT = ",";
+	
+	/**
+	 * A color with the values (1, 1, 1, 1).
+	 */
+	public static Color white
+	{
+		owned get { return new Color.rgb(1, 1, 1); }
+	}
+	
+	/**
+	 * A color with the values (0, 0, 0, 1).
+	 */
+	public static Color black
+	{
+		owned get { return new Color.rgb(0, 0, 0); }
+	}
 
 	/**
 	 * The red value of this color.
@@ -155,7 +171,7 @@ public class Ease.Color : GLib.Object
 		get
 		{
 			return { 0,
-			         (uint16)(255 * red),
+			         (uint16)(65535 * red),
 			         (uint16)(65535 * green),
 			         (uint16)(65535 * blue) };
 		}
@@ -234,7 +250,15 @@ public class Ease.Color : GLib.Object
 	 */
 	public string to_string()
 	{
-		return STR.printf(red, SPLIT, blue, SPLIT, green, SPLIT, alpha);
+		return STR.printf(red, SPLIT, green, SPLIT, blue, SPLIT, alpha);
+	}
+	
+	/**
+	 * Returns a copy of this Color
+	 */
+	public Color copy()
+	{
+		return new Color.rgba(red, green, blue, alpha);
 	}
 	
 	/**
@@ -245,5 +269,19 @@ public class Ease.Color : GLib.Object
 	public void set_cairo(Cairo.Context cr)
 	{
 		cr.set_source_rgba(red, green, blue, alpha);
+	}
+	
+	/**
+	 * Returns an {@link UndoAction} that will restore this Color to its current
+	 * state.
+	 */
+	public UndoAction undo_action()
+	{
+		var action = new UndoAction(this, "red");
+		action.add(this, "green");
+		action.add(this, "blue");
+		action.add(this, "alpha");
+		
+		return action;
 	}
 }
