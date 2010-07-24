@@ -317,6 +317,17 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
+	public void insert_text(Gtk.Widget sender)
+	{
+		var text = document.theme.create_custom_text();
+		text.x = document.width / 2 - text.width / 2;
+		text.y = document.height / 2 - text.height / 2;
+		slide.add_element(0, text);
+		embed.recreate_slide();
+		embed.select_element(text);
+	}
+	
+	[CCode (instance_pos = -1)]
 	public void insert_image(Gtk.Widget sender)
 	{
 		var dialog = new Gtk.FileChooserDialog(_("Insert Image"),
@@ -349,6 +360,7 @@ public class Ease.EditorWindow : Gtk.Window
 				// add the element
 				slide.add_element(0, e);
 				embed.recreate_slide();
+				embed.select_element(e);
 			}
 			catch (Error e)
 			{

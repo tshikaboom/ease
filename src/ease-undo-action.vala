@@ -60,7 +60,7 @@ public class Ease.UndoAction : Object
 	 *
 	 * @param action An UndoAction to add properties from.
 	 */
-	public void combine(UndoAction action)
+	public virtual void combine(UndoAction action)
 	{
 		foreach (var p in action.pairs) pairs.add(p);
 	}
@@ -70,7 +70,7 @@ public class Ease.UndoAction : Object
 	 *
 	 * Returns an UndoAction that will redo the undo action.
 	 */
-	public UndoAction apply()
+	public virtual UndoAction apply()
 	{
 		foreach (var pair in pairs) pair.apply();
 		applied(this);

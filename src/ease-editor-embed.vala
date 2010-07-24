@@ -270,7 +270,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		                                        ActorContext.EDITOR);
 		                                        
 		// make the elements clickable
-		for (unowned List<Clutter.Actor>* itr = slide_actor.contents.get_children();
+		for (unowned List<Clutter.Actor>* itr =
+		     slide_actor.contents.get_children();
 		     itr != null;
 		     itr = itr->next)
 		{
@@ -344,6 +345,25 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	}
 	
 	/**
+	 * Selects an {@link Actor} by {@link Element}.
+	 *
+	 * @param e The element to search for.
+	 */
+	public void select_element(Element e)
+	{
+		for (unowned List<Clutter.Actor>* itr =
+		     slide_actor.contents.get_children();
+		     itr != null;
+		     itr = itr->next)
+		{
+			if (((Actor*)(itr->data))->element == e)
+			{
+				select_actor(itr->data as Actor);
+			}
+		}
+	}
+	
+	/**
 	 * Signal handler for clicking on {@link Actor}s.
 	 * 
 	 * This handler is attached to the button_press_event of all
@@ -377,6 +397,18 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			return true;
 		}
 		
+		select_actor(sender as Actor);
+		
+		return true;
+	}
+	
+	/**
+	 * Selects an {@link Actor}.
+	 *
+	 * @param sender The Actor to select.
+	 */
+	private void select_actor(Actor sender)
+	{
 		// if editing another Actor, finish that edit
 		if (selected != null && is_editing)
 		{
@@ -421,8 +453,6 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			handles[i].reposition(selection_rectangle);
 			contents.raise_child(handles[i], selection_rectangle);
 		}
-		
-		return true;
 	}
 	
 	/**

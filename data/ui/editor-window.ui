@@ -183,6 +183,19 @@
                     <property name="use_underline">True</property>
                   </object>
                 </child>
+                <child>
+                  <object class="GtkSeparatorMenuItem" id="menuitem3">
+                    <property name="visible">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuItem" id="Insert Text">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">_Text</property>
+                    <property name="use_underline">True</property>
+                    <signal name="activate" handler="ease_editor_window_insert_text"/>
+                  </object>
+                </child>
               </object>
             </child>
           </object>

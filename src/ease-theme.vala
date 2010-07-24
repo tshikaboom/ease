@@ -72,6 +72,7 @@ public class Ease.Theme : GLib.Object
 	private const string AUTHOR_TEXT = "author-text";
 	private const string CONTENT_TEXT = "content-text";
 	private const string HEADER_TEXT = "header-text";
+	private const string CUSTOM_TEXT = "custom-text";
 	
 	// text properties
 	public const string TEXT_FONT = "text-font";
@@ -420,13 +421,24 @@ public class Ease.Theme : GLib.Object
 	}
 	
 	/**
+	 * Returns a custom {@link TextElement} with its x and y positions set to 0.
+	 */
+	public TextElement create_custom_text()
+	{
+		return create_text(CUSTOM_TEXT, 0, 0,
+		                   element_get(CUSTOM_TEXT, WIDTH).to_int(),
+		                   element_get(CUSTOM_TEXT, HEIGHT).to_int());
+	}
+	
+	/**
 	 * Creates a text element, given an element type and dimensions.
 	 */
 	private TextElement create_text(string type, int x, int y, int w, int h)
 	{
 		// error if an improper element type is used
 		if (!(type == TITLE_TEXT || type == AUTHOR_TEXT ||
-		      type == CONTENT_TEXT || type == HEADER_TEXT))
+		      type == CUSTOM_TEXT || type == CONTENT_TEXT ||
+		      type == HEADER_TEXT))
 		{
 			error(_("Not a valid text element type: %s"), type);
 		}

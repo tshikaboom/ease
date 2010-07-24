@@ -43,6 +43,11 @@
 		
 		"content-text" : {
 			"padding-top" : "20"
+		},
+		
+		"custom-text" : {
+			"width" : "400",
+			"height" : "75"
 		}
 	},
 	
