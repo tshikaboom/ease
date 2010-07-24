@@ -41,9 +41,9 @@ public class Ease.Gradient : GLib.Object
 	public Color end { get; set; }
 	
 	/**
-	 * The {@link GradientMode} of the gradient.
+	 * The {@link GradientType} of the gradient.
 	 */
-	public GradientMode mode { get; set; }
+	public GradientType mode { get; set; }
 	
 	/**
 	 * The angle, in radians, of the gradient, if it is linear.
@@ -65,7 +65,7 @@ public class Ease.Gradient : GLib.Object
 	{
 		start = start_color;
 		end = end_color;
-		mode = GradientMode.LINEAR;
+		mode = GradientType.LINEAR;
 		angle = 0;
 	}
 	
@@ -75,7 +75,7 @@ public class Ease.Gradient : GLib.Object
 	public Gradient.mirrored(Color start_color, Color end_color)
 	{
 		this(start_color, end_color);
-		mode = GradientMode.LINEAR_MIRRORED;
+		mode = GradientType.LINEAR_MIRRORED;
 		angle = 0;
 	}
 	
@@ -85,7 +85,7 @@ public class Ease.Gradient : GLib.Object
 	public Gradient.radial(Color start_color, Color end_color)
 	{
 		this(start_color, end_color);
-		mode = GradientMode.RADIAL;
+		mode = GradientType.RADIAL;
 		angle = 0;
 	}
 	
@@ -97,7 +97,7 @@ public class Ease.Gradient : GLib.Object
 		var split = str.replace(" ", "").split(SPLIT);
 		start = new Color.from_string(split[0]);
 		end = new Color.from_string(split[1]);
-		mode = GradientMode.from_string(split[2]);
+		mode = GradientType.from_string(split[2]);
 		angle = split[3].to_double();
 	}
 	
@@ -148,14 +148,14 @@ public class Ease.Gradient : GLib.Object
 		Cairo.Pattern pattern;
 		switch (mode)
 		{
-			case GradientMode.LINEAR:				
+			case GradientType.LINEAR:				
 				pattern = new Cairo.Pattern.linear(0, 0, 0, height);
 				pattern.add_color_stop_rgba(0, start.red, start.green,
 						                    start.blue, start.alpha);
 				pattern.add_color_stop_rgba(1, end.red, end.green,
 						                    end.blue, end.alpha);
 				break;
-			case GradientMode.LINEAR_MIRRORED:
+			case GradientType.LINEAR_MIRRORED:
 				pattern = new Cairo.Pattern.linear(0, 0, 0, height);
 				pattern.add_color_stop_rgba(0, start.red, start.green,
 						                    start.blue, start.alpha);
@@ -185,7 +185,7 @@ public class Ease.Gradient : GLib.Object
 /**
  * The {@link Gradient} types provided by Ease.
  */
-public enum Ease.GradientMode
+public enum Ease.GradientType
 {
 	/**
 	 * A linear gradient, from top to bottom.
@@ -205,7 +205,7 @@ public enum Ease.GradientMode
 	RADIAL;
 	
 	/**
-	 * Returns a string representation of this GradientMode.
+	 * Returns a string representation of this GradientType.
 	 */
 	public string to_string()
 	{
@@ -219,9 +219,9 @@ public enum Ease.GradientMode
 	}
 	
 	/**
-	 * Creates a GradientMode from a string representation.
+	 * Creates a GradientType from a string representation.
 	 */
-	public static GradientMode from_string(string str)
+	public static GradientType from_string(string str)
 	{
 		switch (str)
 		{
@@ -235,7 +235,7 @@ public enum Ease.GradientMode
 	}
 	
 	/**
-	 * Returns a string description of the GradientMode
+	 * Returns a string description of the GradientType
 	 */
 	public string description()
 	{
@@ -250,11 +250,11 @@ public enum Ease.GradientMode
 	
 	/**
 	 * Creates a ListStore with the first column set as the description
-	 * and the second column set as the GradientMode.
+	 * and the second column set as the GradientType.
 	 */
 	public static Gtk.ListStore list_store()
 	{
-		var store = new Gtk.ListStore(2, typeof(string), typeof(GradientMode));
+		var store = new Gtk.ListStore(2, typeof(string), typeof(GradientType));
 		Gtk.TreeIter itr;
 		
 		store.append(out itr);

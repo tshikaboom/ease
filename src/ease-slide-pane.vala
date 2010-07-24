@@ -26,7 +26,7 @@ public class Ease.SlidePane : InspectorPane
 	private Gtk.ComboBox background;
 	private Gtk.ListStore store;
 	private Gtk.ComboBox gradient_type;
-	private Gtk.ListStore grad_store = GradientMode.list_store();
+	private Gtk.ListStore grad_store = GradientType.list_store();
 	private Gtk.VBox box_color;
 	private Gtk.VBox box_gradient;
 	private Gtk.VBox box_image;
@@ -184,7 +184,7 @@ public class Ease.SlidePane : InspectorPane
 	public void on_gradient_type_changed(Gtk.ComboBox? sender)
 	{
 		emit_undo(new UndoAction(slide.background_gradient, "mode"));
-		slide.background_gradient.mode = (GradientMode)sender.get_active();
+		slide.background_gradient.mode = (GradientType)sender.get_active();
 		slide.changed(slide);
 	}
 	
