@@ -13,6 +13,16 @@ ui_DATA = $(wildcard $(top_srcdir)/data/ui/*.ui)
 jsondir = $(datadir)/ease
 json_DATA = theme-defaults.json
 
+themedir = $(datadir)/ease/themes
+theme_DATA = \
+	themes/White.easetheme \
+	themes/Black.easetheme \
+	themes/Blue.easetheme \
+	themes/Red.easetheme \
+	themes/Green.easetheme \
+	themes/Goddard.easetheme \
+	$(NULL)
+
 EXTRA_DIST = \
     $(ui_DATA) \
     $(svg_DATA) \

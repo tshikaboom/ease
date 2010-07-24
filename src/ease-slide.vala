@@ -63,15 +63,58 @@ public class Ease.Slide : GLib.Object
 	 */
 	public double advance_delay { get; set; }
 	
-	/**
-	 * The background color, if there is no background image
-	 */
-	public Color background_color;
+	public BackgroundType background_type { get; set; }
 	
 	/**
-	 * The background image, if one is set
+	 * The background color, if this slide uses a solid color for a background.
+	 *
+	 * Setting this property sets {@link background_type} to
+	 * {@link BackgroundType.COLOR}.
 	 */
-	public string background_image { get; set; }
+	public Color background_color
+	{
+		get { return background_color_priv; }
+		set
+		{
+			background_color_priv = value;
+			background_type = BackgroundType.COLOR;
+		}
+	}
+	private Color background_color_priv;
+	
+	/**
+	 * The background gradient, if this slide uses a gradient for a background.
+	 *
+	 * Setting this property sets {@link background_type} to
+	 * {@link BackgroundType.GRADIENT}.
+	 */
+	public Gradient background_gradient
+	{
+		get { return background_gradient_priv; }
+		set
+		{
+			background_gradient_priv = value;
+			background_type = BackgroundType.GRADIENT;
+		}
+	}
+	private Gradient background_gradient_priv;
+	
+	/**
+	 * The background image, if this slide uses an image for a background.
+	 *
+	 * Setting this property sets {@link background_type} to
+	 * {@link BackgroundType.IMAGE}.
+	 */
+	public string background_image
+	{
+		get { return background_image_priv; }
+		set
+		{
+			background_image_priv = value;
+			background_type = BackgroundType.IMAGE;
+		}
+	}
+	private string background_image_priv;
 	
 	/**
 	 * The absolute path of the background image, if one is set.
@@ -255,31 +298,42 @@ public class Ease.Slide : GLib.Object
 	public void cairo_render_sized(Cairo.Context context,
 	                               int w, int h) throws GLib.Error
 	{
-		// write the background color if there is no image
-		if (background_image == null)
-		{
-			context.rectangle(0, 0, w, h);
-			background_color.set_cairo(context);
-			context.fill();
-		}
-		
-		// otherwise, write the image
-		else
-		{
-			var pixbuf = new Gdk.Pixbuf.from_file_at_scale(background_abs,
-			                                                h,
-			                                                w,
-			                                                false);
-		
-			Gdk.cairo_set_source_pixbuf(context, pixbuf, 0, 0);
-		
-			context.rectangle(0, 0, w, h);
-			context.fill();
-		}
+		cairo_render_background(context, w, h);
 		
 		foreach (var e in elements)
 		{
 			e.cairo_render(context);
+		}
+	}
+	
+	/** 
+	 * Draws the slide's background to a Cairo.Context at a specified size.
+	 *
+	 * @param cr The Cairo.Context to draw to.
+	 * @param w The width to render at.
+	 * @param h The height to render at.
+	 */
+	public void cairo_render_background(Cairo.Context cr,
+	                                    int w, int h) throws GLib.Error
+	{
+		switch (background_type)
+		{
+			case BackgroundType.COLOR:
+				cr.rectangle(0, 0, w, h);
+				background_color.set_cairo(cr);
+				cr.fill();
+				break;
+			case BackgroundType.GRADIENT:
+				background_gradient.cairo_render_rect(cr, w, h);
+				break;
+			case BackgroundType.IMAGE:
+				var pixbuf = new Gdk.Pixbuf.from_file_at_scale(background_abs,
+			                                                   w, h,
+			                                                   false);
+				Gdk.cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
+				cr.rectangle(0, 0, w, h);
+				cr.fill();
+				break;
 		}
 	}
 	
@@ -333,3 +387,41 @@ public class Ease.Slide : GLib.Object
 		html += "</div>\n";
 	}
 }
+
+public enum Ease.BackgroundType
+{
+	COLOR,
+	GRADIENT,
+	IMAGE;
+	
+	/**
+	 * Returns a string representation of this BackgroundType.
+	 */
+	public string to_string()
+	{
+		switch (this)
+		{
+			case COLOR: return Theme.BACKGROUND_TYPE_COLOR;
+			case GRADIENT: return Theme.BACKGROUND_TYPE_GRADIENT;
+			case IMAGE: return Theme.BACKGROUND_TYPE_IMAGE;
+		}
+		return "undefined";
+	}
+	
+	/**
+	 * Creates a BackgroundType from a string representation.
+	 */
+	public static BackgroundType from_string(string str)
+	{
+		switch (str)
+		{
+			case Theme.BACKGROUND_TYPE_COLOR: return COLOR;
+			case Theme.BACKGROUND_TYPE_GRADIENT: return GRADIENT;
+			case Theme.BACKGROUND_TYPE_IMAGE: return IMAGE;
+		}
+		
+		warning("%s is not a gradient type", str);
+		return COLOR;
+	}
+}
+

@@ -57,7 +57,15 @@ public class Ease.Theme : GLib.Object
 	
 	// master slide properties
 	public const string BACKGROUND_COLOR = "background-color";
+	public const string BACKGROUND_GRADIENT = "background-gradient";
+	public const string BACKGROUND_IMAGE = "background-image";
 	public const string S_IDENTIFIER = "slide-identifier";
+	
+	// background types
+	private const string BACKGROUND_TYPE = "background-type";
+	private const string BACKGROUND_TYPE_COLOR = "background-type-color";
+	private const string BACKGROUND_TYPE_GRADIENT = "background-type-gradient";
+	private const string BACKGROUND_TYPE_IMAGE = "background-type-image";
 	
 	// text content types
 	private const string TITLE_TEXT = "title-text";
@@ -314,8 +322,21 @@ public class Ease.Theme : GLib.Object
 		Slide slide = new Slide();
 		
 		// set the slide background property
-		slide.background_color = new Color.
-			from_string(master_get(master, BACKGROUND_COLOR));
+		switch (master_get(master, BACKGROUND_TYPE))
+		{
+			case BACKGROUND_TYPE_COLOR:
+				slide.background_color = new Color.
+					from_string(master_get(master, BACKGROUND_COLOR));
+				break;
+			case BACKGROUND_TYPE_GRADIENT:
+				slide.background_gradient = new Gradient.
+					from_string(master_get(master, BACKGROUND_GRADIENT));
+				break;
+			case BACKGROUND_TYPE_IMAGE:
+				slide.background_image = master_get(master, BACKGROUND_IMAGE);
+				break;
+				
+		}
 		
 		switch (master)
 		{

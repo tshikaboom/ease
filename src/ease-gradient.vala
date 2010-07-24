@@ -83,7 +83,7 @@ public class Ease.Gradient : GLib.Object
 	 */
 	public Gradient.from_string(string str)
 	{
-		var split = str.split(SPLIT);
+		var split = str.replace(" ", "").split(SPLIT);
 		start = new Color.from_string(split[0]);
 		end = new Color.from_string(split[1]);
 		mode = GradientMode.from_string(split[2]);
@@ -109,6 +109,54 @@ public class Ease.Gradient : GLib.Object
 		var temp = end;
 		end = start;
 		start = temp;
+	}
+	
+	/**
+	 * Renders the gradient to the given Cairo context at the specified size.
+	 *
+	 * @param cr The Cairo context to render to.
+	 * @param width The width of the rendered rectangle.
+	 * @param height The height of the rendered rectangle.
+	 */
+	public void cairo_render_rect(Cairo.Context cr, int width, int height)
+	{
+		cr.save();
+		cr.rectangle(0, 0, width, height);
+		
+		Cairo.Pattern pattern;
+		switch (mode)
+		{
+			case GradientMode.LINEAR:				
+				pattern = new Cairo.Pattern.linear(0, 0, 0, height);
+				pattern.add_color_stop_rgba(0, start.red, start.green,
+						                    start.blue, start.alpha);
+				pattern.add_color_stop_rgba(1, end.red, end.green,
+						                    end.blue, end.alpha);
+				break;
+			case GradientMode.LINEAR_MIRRORED:
+				pattern = new Cairo.Pattern.linear(0, 0, 0, height);
+				pattern.add_color_stop_rgba(0, start.red, start.green,
+						                    start.blue, start.alpha);
+				pattern.add_color_stop_rgba(0.5, end.red, end.green,
+						                    end.blue, end.alpha);
+				pattern.add_color_stop_rgba(1, start.red, start.green,
+						                    start.blue, start.alpha);
+				break;
+			default: // radial
+				pattern = new Cairo.Pattern.radial(width / 2, height / 2, 0,
+				                                       width / 2, height / 2,
+				                                       width / 2);
+				pattern.add_color_stop_rgba(0, start.red, start.green,
+						                    start.blue, start.alpha);
+				pattern.add_color_stop_rgba(1, end.red, end.green,
+						                    end.blue, end.alpha);
+				break;
+		}
+		
+		cr.set_source(pattern);
+		cr.fill();
+		
+		cr.restore();
 	}
 }
 

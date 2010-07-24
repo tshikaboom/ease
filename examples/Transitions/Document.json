@@ -3,7 +3,8 @@
   "slides" : [
     {
       "transition" : "1",
-      "background-color" : "0.13, 0.13, 0.13, 0.13",
+      "background-color" : "0.13, 0.13, 0.13",
+      "background-type" : "background-type-color",
       "variant" : "0",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -48,7 +49,8 @@
     },
     {
       "transition" : "2",
-      "background-color" : "1.0, 1.0, 1.0, 1.0",
+      "background-color" : "1, 1, 1, 1",
+      "background-type" : "background-type-color",
       "variant" : "2",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -66,7 +68,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "900",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "36"
         },
@@ -83,7 +85,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "500",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "16"
         }
@@ -93,7 +95,9 @@
     },
     {
       "transition" : "3",
-      "background-color" : "0.13, 0.13, 0.13, 0.13",
+      "background-color" : "0.13, 0.13, 0.13",
+      "background-type" : "background-type-color",
+      "background-type" : "background-type-color",
       "variant" : "0",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -138,7 +142,8 @@
     },
     {
       "transition" : "4",
-      "background-color" : "1.0, 1.0, 1.0, 1.0",
+      "background-color" : "1, 1, 1, 1",
+      "background-type" : "background-type-color",
       "variant" : "7",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -156,7 +161,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "900",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "36"
         },
@@ -173,7 +178,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "500",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "16"
         }
@@ -183,7 +188,9 @@
     },
     {
       "transition" : "5",
-      "background-color" : "0.13, 0.13, 0.13, 0.13",
+      "background-color" : "0.13, 0.13, 0.13",
+      "background-type" : "background-type-color",
+      "background-type" : "background-type-color",
       "variant" : "13",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -228,7 +235,8 @@
     },
     {
       "transition" : "6",
-      "background-color" : "1.0, 1.0, 1.0, 1.0",
+      "background-color" : "1, 1, 1, 1",
+      "background-type" : "background-type-color",
       "variant" : "2",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -246,7 +254,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "900",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "36"
         },
@@ -263,7 +271,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "500",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "16"
         }
@@ -273,7 +281,9 @@
     },
     {
       "transition" : "7",
-      "background-color" : "0.13, 0.13, 0.13, 0.13",
+      "background-color" : "0.13, 0.13, 0.13",
+      "background-type" : "background-type-color",
+      "background-type" : "background-type-color",
       "variant" : "0",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -318,7 +328,8 @@
     },
     {
       "transition" : "8",
-      "background-color" : "1.0, 1.0, 1.0, 1.0",
+      "background-color" : "1, 1, 1, 1",
+      "background-type" : "background-type-color",
       "variant" : "0",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -336,7 +347,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "900",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "36"
         },
@@ -353,7 +364,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "500",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "16"
         }
@@ -363,7 +374,9 @@
     },
     {
       "transition" : "10",
-      "background-color" : "0.13, 0.13, 0.13, 0.13",
+      "background-color" : "0.13, 0.13, 0.13",
+      "background-type" : "background-type-color",
+      "background-type" : "background-type-color",
       "variant" : "0",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -408,7 +421,8 @@
     },
     {
       "transition" : "11",
-      "background-color" : "1.0, 1.0, 1.0, 1.0",
+      "background-color" : "1, 1, 1, 1",
+      "background-type" : "background-type-color",
       "variant" : "6",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -426,7 +440,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "900",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "36"
         },
@@ -443,7 +457,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "500",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "16"
         }
@@ -453,7 +467,9 @@
     },
     {
       "transition" : "12",
-      "background-color" : "0.13, 0.13, 0.13, 0.13",
+      "background-color" : "0.13, 0.13, 0.13",
+      "background-type" : "background-type-color",
+      "background-type" : "background-type-color",
       "variant" : "0",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -498,7 +514,8 @@
     },
     {
       "transition" : "13",
-      "background-color" : "1.0, 1.0, 1.0, 1.0",
+      "background-color" : "1, 1, 1, 1",
+      "background-type" : "background-type-color",
       "variant" : "2",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -516,7 +533,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "900",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "36"
         },
@@ -533,7 +550,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "500",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "16"
         }
@@ -543,7 +560,9 @@
     },
     {
       "transition" : "15",
-      "background-color" : "0.13, 0.13, 0.13, 0.13",
+      "background-color" : "0.13, 0.13, 0.13",
+      "background-type" : "background-type-color",
+      "background-type" : "background-type-color",
       "variant" : "0",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -588,7 +607,8 @@
     },
     {
       "transition" : "16",
-      "background-color" : "1.0, 1.0, 1.0, 1.0",
+      "background-color" : "1, 1, 1, 1",
+      "background-type" : "background-type-color",
       "variant" : "0",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -606,7 +626,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "900",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "36"
         },
@@ -623,7 +643,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "500",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "16"
         }
@@ -633,7 +653,9 @@
     },
     {
       "transition" : "14",
-      "background-color" : "0.13, 0.13, 0.13, 0.13",
+      "background-color" : "0.13, 0.13, 0.13",
+      "background-type" : "background-type-color",
+      "background-type" : "background-type-color",
       "variant" : "0",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -678,7 +700,8 @@
     },
     {
       "transition" : "17",
-      "background-color" : "1.0, 1.0, 1.0, 1.0",
+      "background-color" : "1, 1, 1, 1",
+      "background-type" : "background-type-color",
       "variant" : "15",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -696,7 +719,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "900",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "36"
         },
@@ -713,7 +736,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "500",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "16"
         }
@@ -723,7 +746,9 @@
     },
     {
       "transition" : "9",
-      "background-color" : "0.13, 0.13, 0.13, 0.13",
+      "background-color" : "0.13, 0.13, 0.13",
+      "background-type" : "background-type-color",
+      "background-type" : "background-type-color",
       "variant" : "0",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -768,7 +793,8 @@
     },
     {
       "transition" : "0",
-      "background-color" : "1.0, 1.0, 1.0, 1.0",
+      "background-color" : "1, 1, 1, 1",
+      "background-type" : "background-type-color",
       "variant" : "0",
       "automatically_advance" : "true",
       "advance_delay" : "0.5",
@@ -786,7 +812,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "900",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "36"
         },
@@ -803,7 +829,7 @@
           "text-align" : "left",
           "width" : "964",
           "text-weight" : "500",
-          "text-color" : "0.13, 0.13, 0.13, 0.13",
+          "text-color" : "0.13, 0.13, 0.13",
           "text-font" : "Sans",
           "text-size" : "16"
         }

@@ -61,19 +61,20 @@ ease_SOURCES = \
 	$(NULL)
 
 # ease_VALAFLAGS = $(EASE_PACKAGES)
-VALAFLAGS = --pkg glib-2.0 \
-		--pkg gtk+-2.0 \
-		--pkg clutter-1.0 \
-		--pkg gdk-2.0 \
-		--pkg gee-1.0 \
-		--pkg clutter-gtk-0.10 \
-		--pkg cogl-1.0 \
-		--pkg gio-2.0 \
-		--pkg json-glib-1.0\
-		--pkg libarchive\
-		--pkg gmodule-2.0\
-		-g \
-		$(NULL)
+VALAFLAGS = \
+	--pkg glib-2.0 \
+	--pkg gtk+-2.0 \
+	--pkg clutter-1.0 \
+	--pkg gdk-2.0 \
+	--pkg gee-1.0 \
+	--pkg clutter-gtk-0.10 \
+	--pkg cogl-1.0 \
+	--pkg gio-2.0 \
+	--pkg json-glib-1.0\
+	--pkg libarchive\
+	--pkg gmodule-2.0\
+	-g \
+	$(NULL)
 
 SUBDIRS = po data
 
@@ -89,15 +90,12 @@ DISTCLEANFILES = data/ease.desktop \
 
 ACLOCAL_AMFLAGS = -I m4
 
-themedir = $(datadir)/ease/themes
-theme_DATA = $(wildcard $(top_srcdir)/themes/*.easetheme)
-
 doc: src/*.vala
 	rm -rf doc
 	valadoc --internal --private --pkg "json-glib-1.0" --pkg "gee-1.0"  --pkg "clutter-gtk-0.10" --pkg "libarchive" --directory=./doc --basedir=src ./src/*.vala
 	gnome-open doc/doc/Ease.html
 
 archive: themes/* examples/*
-	sh themes/build.sh
+	sh data/themes/build.sh
 	sh examples/build.sh
 

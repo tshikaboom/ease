@@ -44,7 +44,7 @@ AC_SUBST(GETTEXT_PACKAGE)
 AM_GLIB_GNU_GETTEXT
 
 dnl Package Themes
-AC_CONFIG_COMMANDS([build-themes], [sh themes/build.sh])
+AC_CONFIG_COMMANDS([build-themes], [sh data/themes/build.sh])
 
 dnl Package Example .ease files
 AC_CONFIG_COMMANDS([build-examples], [sh examples/build.sh])

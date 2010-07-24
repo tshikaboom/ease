@@ -1,6 +1,7 @@
 {
 	"master-defaults" : {
-		"background-color" : "1, 1, 1"
+		"background-color" : "1, 1, 1",
+		"background-type" : "background-type-color"
 	},
 	
 	"element-defaults" : {

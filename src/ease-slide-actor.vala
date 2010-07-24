@@ -32,7 +32,7 @@ public class Ease.SlideActor : Clutter.Group
 	/**
 	 * The actor for the slide's background.
 	 */
-	public Clutter.Actor background;
+	public Clutter.CairoTexture background;
 
 	/**
 	 * The group for the slide's contents.
@@ -184,8 +184,7 @@ public class Ease.SlideActor : Clutter.Group
 	public SlideActor.blank(Document document, Clutter.Color color)
 	{
 		// create the background
-		background = new Clutter.Rectangle();
-		((Clutter.Rectangle)background).color = color;
+		background = new Clutter.CairoTexture(document.width, document.height);
 		
 		// create a blank contents actor
 		contents = new Clutter.Group();
@@ -245,33 +244,23 @@ public class Ease.SlideActor : Clutter.Group
 	 */
 	private void set_background()
 	{
-		if (background != null)
+		if (background == null)
 		{
-			if (background.get_parent() == this)
-			{
-				remove_actor(background);
-			}
+			background = new Clutter.CairoTexture((uint)width_px,
+			                                      (uint)height_px);
 		}
-
-		if (slide.background_image != null)
+		
+		// render the background
+		try
 		{
-			try
-			{
-				background = new Clutter.Texture();
-				(background as Clutter.Texture).set_from_file(
-					slide.background_abs);
-			}
-			catch (GLib.Error e)
-			{
-				stdout.printf(_("Error loading background: %s"), e.message);
-			}
+			var cr = background.create();
+			slide.cairo_render_background(cr, (int)width_px, (int)height_px);
 		}
-		else // the background is a solid color
+		catch (GLib.Error e)
 		{
-			var rect = new Clutter.Rectangle();
-			rect.color = slide.background_color.clutter;
-			background = rect;
+			critical("Error rendering slide actor background: %s", e.message);
 		}
+		
 		background.width = width_px;
 		background.height = height_px;
 

@@ -93,16 +93,25 @@ public static class Ease.JSONParser
 		slide.title = obj.get_string_member("title");
 		
 		// read the slide's background properties
-		if (obj.has_member("background_image"))
+		if (obj.has_member(Theme.BACKGROUND_IMAGE))
 		{
-			slide.background_image = obj.get_string_member("background_image");
+			slide.background_image =
+				obj.get_string_member(Theme.BACKGROUND_IMAGE);
 		}
-		else
+		if (obj.has_member(Theme.BACKGROUND_COLOR))
 		{
 			slide.background_color =
 				new Color.from_string(
 					obj.get_string_member(Theme.BACKGROUND_COLOR));
 		}
+		if (obj.has_member(Theme.BACKGROUND_GRADIENT))
+		{
+			slide.background_gradient =
+				new Gradient.from_string(
+					obj.get_string_member(Theme.BACKGROUND_GRADIENT));
+		}
+		slide.background_type = BackgroundType.from_string(
+			obj.get_string_member(Theme.BACKGROUND_TYPE));
 		
 		// parse the elements
 		var elements = obj.get_array_member("elements");
@@ -200,13 +209,21 @@ public static class Ease.JSONParser
 		// write the slide's background properties
 		if (slide.background_image != null)
 		{
-			obj.set_string_member("background_image", slide.background_image);
+			obj.set_string_member(Theme.BACKGROUND_IMAGE,
+			                      slide.background_image);
 		}
-		else
+		if (slide.background_color != null)
 		{
 			obj.set_string_member(Theme.BACKGROUND_COLOR,
 			                      slide.background_color.to_string());
 		}
+		if (slide.background_gradient != null)
+		{
+			obj.set_string_member(Theme.BACKGROUND_GRADIENT,
+			                      slide.background_gradient.to_string());
+		}
+		obj.set_string_member(Theme.BACKGROUND_TYPE,
+		                      slide.background_type.to_string());
 		
 		// add the slide's elements
 		var elements = new Json.Array();
