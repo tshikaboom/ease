@@ -17,6 +17,7 @@ ease_SOURCES = \
 	src/ease-actor.vala \
 	src/ease-animated-zoom-slider.vala \
 	src/ease-close-confirm-dialog.vala \
+	src/ease-clutter-iterables.vala \
 	src/ease-color.vala \
 	src/ease-document.vala \
 	src/ease-editor-embed.vala \

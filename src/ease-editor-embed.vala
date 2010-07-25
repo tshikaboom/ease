@@ -243,14 +243,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		if (slide_actor != null)
 		{
 			contents.remove_actor(slide_actor);
-			for (unowned List<Clutter.Actor>* itr =
-			     slide_actor.contents.get_children();
-			     itr != null;
-			     itr = itr->next)
+			foreach (var a in slide_actor.contents)
 			{
-				((Actor*)(itr->data))->button_press_event.disconnect(actor_clicked);
-				((Actor*)(itr->data))->button_release_event.disconnect(actor_released);
-				((Actor*)(itr->data))->reactive = false;
+				a.button_press_event.disconnect(actor_clicked);
+				a.button_release_event.disconnect(actor_released);
+				a.reactive = false;
 			}
 		}
 		
@@ -280,15 +277,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		                                        ActorContext.EDITOR);
 		                                        
 		// make the elements clickable
-		for (unowned List<Clutter.Actor>* itr =
-		     slide_actor.contents.get_children();
-		     itr != null;
-		     itr = itr->next)
+		foreach (var a in slide_actor.contents)
 		{
-			
-			((Actor*)(itr->data))->button_press_event.connect(actor_clicked);
-			((Actor*)(itr->data))->button_release_event.connect(actor_released);
-			((Actor*)(itr->data))->reactive = true;
+			a.button_press_event.connect(actor_clicked);
+			a.button_release_event.connect(actor_released);
+			a.reactive = true;
 		}
 		
 		contents.add_actor(slide_actor);
@@ -361,14 +354,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 */
 	public void select_element(Element e)
 	{
-		for (unowned List<Clutter.Actor>* itr =
-		     slide_actor.contents.get_children();
-		     itr != null;
-		     itr = itr->next)
+		foreach (var a in slide_actor.contents)
 		{
-			if (((Actor*)(itr->data))->element == e)
+			if ((a as Actor).element == e)
 			{
-				select_actor(itr->data as Actor);
+				select_actor(a as Actor);
 			}
 		}
 	}
