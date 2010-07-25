@@ -24,6 +24,11 @@
 public class Ease.Document : SlideSet
 {
 	/**
+	 * The JSON filename in a document archive.
+	 */
+	private const string JSON_FILE = "Document.json";
+	
+	/**
 	 * The default master title for newly created {@link Slide}s.
 	 */
 	public const string DEFAULT_SLIDE = Theme.CONTENT_HEADER;
@@ -71,10 +76,48 @@ public class Ease.Document : SlideSet
 	/**
 	 * Default constructor, creates an empty Document.
 	 * 
-	 * Creates a new, empty document with no slides. Used for creating new
-	 * documents (which can then add a default slide).
+	 * Creates a new, empty document with no slides. Sets up base properties
 	 */
 	public Document() { }
+	
+	public Document.from_saved(string file_path) throws GLib.Error
+	{
+		this();
+		
+		filename = absolute_path(file_path);
+		path = Temp.extract(filename);
+	
+		var parser = new Json.Parser();
+		
+		// attempt to load the file
+		parser.load_from_file(Path.build_filename(path, JSON_FILE));
+		
+		// grab the root object
+		var root = parser.get_root().get_object();
+		
+		// set document properties
+		width = (int)root.get_string_member("width").to_int();
+		height = (int)root.get_string_member("height").to_int();
+		
+		// add all slides
+		var slides = root.get_array_member("slides");
+		
+		for (var i = 0; i < slides.get_length(); i++)
+		{
+			var node = slides.get_object_element(i);
+			add_slide(length, new Slide.from_json(node));
+		}
+		
+		// get the document's theme
+		var theme_path = Path.build_filename(THEME_PATH, Theme.JSON_PATH);
+		var theme_full_path = Path.build_filename(path, theme_path);
+		
+		if (File.new_for_path(theme_full_path).query_exists(null))
+		{
+			theme = new Theme.json(theme_full_path);
+			theme.path = theme_full_path;
+		}
+	}
 	
 	/**
 	 * Theme constructor, used for new documents.
@@ -105,6 +148,36 @@ public class Ease.Document : SlideSet
 		var slide = theme.create_slide(DEFAULT_FIRST, width, height);
 		slide.parent = this;
 		append_slide(slide);
+	}
+	
+	public void to_json() throws GLib.Error
+	{
+		var root = new Json.Node(Json.NodeType.OBJECT);
+		var obj = new Json.Object();
+		
+		// set basic document properties
+		obj.set_string_member("width", width.to_string());
+		obj.set_string_member("height", height.to_string());
+		
+		// add the document's slides
+		var slides_json = new Json.Array();
+		foreach (var s in slides)
+		{
+			slides_json.add_element(s.to_json());
+		}
+		obj.set_array_member("slides", slides_json);
+		
+		// set the root object
+		root.set_object(obj);
+		
+		// write to JSON file
+		var generator = new Json.Generator();
+		generator.set_root(root);
+		generator.pretty = true;
+		generator.to_file(Path.build_filename(path, JSON_FILE));
+		
+		// archive
+		Temp.archive(path, filename);
 	}
 	
 	/**

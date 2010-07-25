@@ -82,6 +82,10 @@ public class Ease.Theme : GLib.Object
 	public const string TEXT_WEIGHT = "text-weight";
 	public const string TEXT_ALIGN = "text-align";
 	public const string TEXT_COLOR = "text-color";
+	public const string TEXT_TEXT = "text";
+	
+	// media properties
+	public const string MEDIA_FILENAME = "media-filename";
 	
 	// gradient types
 	public const string GRAD_LINEAR = "linear";
@@ -90,6 +94,7 @@ public class Ease.Theme : GLib.Object
 	
 	// generic element properties
 	public const string E_IDENTIFIER = "element-identifier";
+	public const string ELEMENT_TYPE = "element-type";
 	
 	/**
 	 * The text properties, excluding color, which must be set in a custom way.
@@ -113,6 +118,9 @@ public class Ease.Theme : GLib.Object
 	public const string PAD_BOTTOM = "padding-bottom";
 	public const string WIDTH = "width";
 	public const string HEIGHT = "height";
+	public const string X = "x";
+	public const string Y = "y";
+	public const string HAS_BEEN_EDITED = "has-been-edited";
 	
 	/**
 	 * The title of the Theme.
@@ -447,10 +455,12 @@ public class Ease.Theme : GLib.Object
 		var text = new TextElement();
 		
 		// set text properties
-		foreach (var prop in TEXT_PROPS)
-		{
-			text.set(prop, element_get(type, prop));
-		}
+		text.text_font = element_get(type, TEXT_FONT);
+		text.text_size_from_string(element_get(type, TEXT_SIZE));
+		text.text_style_from_string(element_get(type, TEXT_STYLE));
+		text.text_variant_from_string(element_get(type, TEXT_VARIANT));
+		text.text_weight_from_string(element_get(type, TEXT_WEIGHT));
+		text.text_align_from_string(element_get(type, TEXT_ALIGN));
 		
 		// set the color property
 		text.color = new Color.from_string(element_get(type, TEXT_COLOR));

@@ -21,24 +21,36 @@
 public abstract class Ease.MediaElement : Element
 {
 	/**
-	 * The path to a media file. Applies to "image" and "video" Elements.
+	 * Creates a MediaElement from a JsonObject
 	 */
-	public string filename
+	public MediaElement.from_json(Json.Object obj)
 	{
-		owned get { return data.get("filename"); }
-		set	{ data.set("filename", value); }
+		base.from_json(obj);
+		filename = obj.get_string_member(Theme.MEDIA_FILENAME);
+	}
+	
+	public override Json.Object to_json()
+	{
+		var obj = base.to_json();
+		
+		obj.set_string_member(Theme.MEDIA_FILENAME, filename);
+		
+		return obj;
 	}
 	
 	/**
-	 * The full path to a media file. Applies to "image" and "video"
-	 * Elements. Cannot be set.
+	 * The path to a media file.
+	 */
+	public string filename { get; set; }
+	
+	/**
+	 * The full path to a media file.
 	 */
 	public string full_filename
 	{
 		owned get
 		{
-			var str = Path.build_filename(parent.parent.path, filename);
-			return str;
+			return Path.build_filename(parent.parent.path, filename);
 		}
 	}
 }

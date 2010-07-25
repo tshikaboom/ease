@@ -6,7 +6,7 @@
 	
 	"element-defaults" : {
 		"text-font" : "Bitstream Vera Sans",
-		"text-size" : "18",
+		"text-size" : "28",
 		"text-style" : "Normal",
 		"text-variant" : "Normal",
 		"text-weight" : "500",
@@ -21,8 +21,8 @@
 	
 	"elements" : {
 		"header-text" : {
-			"height" : "40",
-			"text-size" : "24",
+			"height" : "75",
+			"text-size" : "44",
 			"text-weight" : "600",
 			"padding-bottom" : "0"
 		},

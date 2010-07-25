@@ -354,7 +354,7 @@ public class Ease.EditorWindow : Gtk.Window
 				e.x = document.width / 2 - width / 2;
 				e.y = document.height / 2 - width / 2;
 				
-				e.element_type = JSONParser.IMAGE_TYPE;
+				e.element_type = Slide.IMAGE_TYPE;
 				e.filename = document.add_media_file(dialog.get_filename());
 				
 				// add the element
@@ -420,7 +420,7 @@ public class Ease.EditorWindow : Gtk.Window
 	
 		try
 		{
-			JSONParser.document_write(document);
+			document.to_json();
 			last_saved = 0;
 		}
 		catch (GLib.Error e)

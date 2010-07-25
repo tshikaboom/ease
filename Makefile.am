@@ -21,8 +21,6 @@ ease_SOURCES = \
 	src/ease-document.vala \
 	src/ease-editor-embed.vala \
 	src/ease-editor-window.vala \
-	src/ease-element-map.vala \
-	src/ease-element-map-value.vala \
 	src/ease-element.vala \
 	src/ease-enums.vala \
 	src/ease-gradient.vala \
@@ -33,7 +31,6 @@ ease_SOURCES = \
 	src/ease-inspector-pane.vala \
 	src/ease-inspector.vala \
 	src/ease-inspector-window.vala \
-	src/ease-json-parser.vala \
 	src/ease-media-element.vala \
 	src/ease-open-dialog.vala \
 	src/ease-player.vala \

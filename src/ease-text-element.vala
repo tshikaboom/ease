@@ -23,25 +23,41 @@ public class Ease.TextElement : Element
 	private bool freeze = false;
 	
 	/**
-	 * Create a new element, with an empty {@link ElementMap}.
+	 * Creates a new TextElement.
 	 */
-	public TextElement()
-	{
-		data = new ElementMap();
-	}
+	public TextElement() { }
 	
 	/**
-	 * Creates a completely empty TextElement, without an {@link ElementMap}.
+	 * Create a TextElement from a JsonObject
 	 */
-	public TextElement.empty() {}	
-
-	public override Element copy()
+	public TextElement.from_json(Json.Object obj)
 	{
-		var element = new TextElement.empty();
-		element.parent = parent;
-		element.data = data.copy();
+		base.from_json(obj);
 		
-		return element;
+		text = obj.get_string_member(Theme.TEXT_TEXT);
+		color = new Color.from_string(obj.get_string_member(Theme.TEXT_COLOR));
+		text_font = obj.get_string_member(Theme.TEXT_FONT);
+		text_style_from_string(obj.get_string_member(Theme.TEXT_STYLE));
+		text_variant_from_string(obj.get_string_member(Theme.TEXT_VARIANT));
+		text_weight_from_string(obj.get_string_member(Theme.TEXT_WEIGHT));
+		text_align_from_string(obj.get_string_member(Theme.TEXT_ALIGN));
+		text_size_from_string(obj.get_string_member(Theme.TEXT_SIZE));
+	}
+	
+	public override Json.Object to_json()
+	{
+		var obj = base.to_json();
+		
+		obj.set_string_member(Theme.TEXT_COLOR, color.to_string());
+		obj.set_string_member(Theme.TEXT_TEXT, text);
+		obj.set_string_member(Theme.TEXT_FONT, text_font);
+		obj.set_string_member(Theme.TEXT_STYLE, text_style_to_string());
+		obj.set_string_member(Theme.TEXT_VARIANT, text_variant_to_string());
+		obj.set_string_member(Theme.TEXT_WEIGHT, text_weight_to_string());
+		obj.set_string_member(Theme.TEXT_ALIGN, text_align_to_string());
+		obj.set_string_member(Theme.TEXT_SIZE, text_size_to_string());
+		
+		return obj;
 	}
 	
 	public override Actor actor(ActorContext c)
@@ -76,29 +92,28 @@ public class Ease.TextElement : Element
 		
 		// set the size and position of the element
 		html += "style=\"";
-		html += "left:" + data.get("x") + "px;";
-		html += " top:" + data.get("y") + "px;";
-		html += " width:" + data.get("width") + "px;";
-		html += " height:" + data.get("height") + "px;";
+		html += "left:" + x.to_string() + "px;";
+		html += " top:" + y.to_string() + "px;";
+		html += " width:" + width.to_string() + "px;";
+		html += " height:" + width.to_string() + "px;";
 		html += " position: absolute;";
 		
 		// set the text-specific properties of the element
 		html += " color:" + 
 		        @"rgb($(color.red),$(color.green),$(color.blue));";
 		        
-		html += " font-family:'" + data.get(Theme.TEXT_FONT) +
-		        "', sans-serif;";
+		html += " font-family:'" + text_font + "', sans-serif;";
 		        
-		html += " font-size:" + data.get(Theme.TEXT_SIZE) + "pt;";
+		html += " font-size:" + text_size_to_string() + "pt;";
 		
-		html += " font-weight:" + data.get(Theme.TEXT_WEIGHT) + ";";
-		html += " font-style:" + data.get(Theme.TEXT_STYLE).down() +
+		html += " font-weight:" + text_weight_to_string() + ";";
+		html += " font-style:" + text_style_to_string().down() +
 		        ";";
 		        
-		html += " text-align:" + data.get(Theme.TEXT_ALIGN) + ";\"";
+		html += " text-align:" + text_align_to_string() + ";\"";
 		
 		// write the actual content
-		html += ">" + data.get("text").replace("\n", "<br />") +
+		html += ">" + text.replace("\n", "<br />") +
 		        "</div>";
 	}
 
@@ -109,7 +124,7 @@ public class Ease.TextElement : Element
 	{	
 		// create the layout
 		var layout = Pango.cairo_create_layout(context);
-		layout.set_text(data.get("text"), (int)data.get("text").length);
+		layout.set_text(text, (int)text.length);
 		layout.set_width((int)(width * Pango.SCALE));
 		layout.set_height((int)(height * Pango.SCALE));
 		layout.set_font_description(font_description);
@@ -130,72 +145,70 @@ public class Ease.TextElement : Element
 	/**
 	 * The text value of this Element.
 	 */
-	public string text
-	{
-		owned get { return data.get("text"); }
-		set	{ data.set("text", value); }
-	}
+	public string text { get; set; }
 	
 	/**
 	 * The color of the text.
 	 */
-	public Color color
-	{
-		owned get
-		{
-			return new Color.from_string(data.get(Theme.TEXT_COLOR));
-		}		
-		set
-		{
-			data.set(Theme.TEXT_COLOR, value.to_string());
-		}
-	}
+	public Color color { get; set; }
 	
 	/**
 	 * The name of the text's font family.
 	 */
 	public string text_font
 	{
-		owned get { return data.get(Theme.TEXT_FONT); }
+		get { return text_font_priv; }
 		set
 		{
-			data.set(Theme.TEXT_FONT, value);
+			text_font_priv = value;
 			if (!freeze) notify_property("font-description");
 		}
 	}
+	private string text_font_priv;
 	
 	/**
 	 * The PangoStyle for this Element.
 	 */
 	public Pango.Style text_style
 	{
-		get
-		{
-			switch (data.get(Theme.TEXT_STYLE))
-			{
-				case "Oblique":
-					return Pango.Style.OBLIQUE;
-				case "Italic":
-					return Pango.Style.ITALIC;
-				default:
-					return Pango.Style.NORMAL;
-			}
-		}
+		get { return text_style_priv; }
 		set
 		{
-			switch (value)
-			{
-				case Pango.Style.OBLIQUE:
-					data.set(Theme.TEXT_STYLE, "Oblique");
-					break;
-				case Pango.Style.ITALIC:
-					data.set(Theme.TEXT_STYLE, "Italic");
-					break;
-				case Pango.Style.NORMAL:
-					data.set(Theme.TEXT_STYLE, "Normal");
-					break;
-			}
+			text_style_priv = value;
 			if (!freeze) notify_property("font-description");
+		}
+	}
+	private Pango.Style text_style_priv;
+	
+	public string text_style_to_string()
+	{
+		switch (text_style)
+		{
+			case Pango.Style.OBLIQUE:
+				return "oblique";
+			case Pango.Style.ITALIC:
+				return "italic";
+			case Pango.Style.NORMAL:
+				return "normal";
+			default:
+				critical("Invalid text style");
+				return "normal";
+		}
+	}
+	
+	public void text_style_from_string(string str)
+	{
+		switch (str)
+		{
+			case "oblique":
+				text_style = Pango.Style.OBLIQUE;
+				break;
+			case "italic":
+				text_style = Pango.Style.ITALIC;
+				break;
+			default:
+				text_style = Pango.Style.NORMAL;
+				break;
 		}
 	}
 	
@@ -204,35 +217,49 @@ public class Ease.TextElement : Element
 	 */
 	public Pango.Variant text_variant
 	{
-		get
-		{
-			return data.get(Theme.TEXT_VARIANT) == "Normal"
-			     ? Pango.Variant.NORMAL
-			     : Pango.Variant.SMALL_CAPS;
-		}
+		get { return text_variant_priv; }
 		set
 		{
-			data.set(Theme.TEXT_VARIANT,
-			          value == Pango.Variant.NORMAL ?
-			          "Normal" : "Small Caps");
+			text_variant_priv = value;
 			if (!freeze) notify_property("font-description");
 		}
+	}
+	private Pango.Variant text_variant_priv;
+	
+	public void text_variant_from_string(string str)
+	{
+		text_variant = str == "normal" ?
+		                      Pango.Variant.NORMAL : Pango.Variant.SMALL_CAPS;
+	}
+	
+	public string text_variant_to_string()
+	{
+		return text_variant == Pango.Variant.NORMAL ? "Normal" : "Small Caps";
 	}
 	
 	/**
 	 * The font's weight.
 	 */
-	public Pango.Weight text_weight
+	public int text_weight
 	{
-		get
-		{
-			return (Pango.Weight)(data.get(Theme.TEXT_WEIGHT).to_int());
-		}
+		get { return text_weight_priv; }
 		set
 		{
-			data.set(Theme.TEXT_WEIGHT, ((int)value).to_string());
+			text_weight_priv = value;
 			if (!freeze) notify_property("font-description");
 		}
+	}
+	private int text_weight_priv;
+	
+	
+	public void text_weight_from_string(string str)
+	{
+		text_weight = (Pango.Weight)(str.to_int());
+	}
+	
+	public string text_weight_to_string()
+	{
+		return ((int)text_weight).to_string();
 	}
 	
 	/**
@@ -246,9 +273,9 @@ public class Ease.TextElement : Element
 		owned get
 		{
 			var desc = new Pango.FontDescription();
-			desc.set_family(data.get(Theme.TEXT_FONT));
+			desc.set_family(text_font);
 			desc.set_style(text_style);
-			desc.set_weight(text_weight);
+			desc.set_weight((Pango.Weight)text_weight);
 			desc.set_variant(text_variant);
 			desc.set_size(text_size * Pango.SCALE);
 			
@@ -257,9 +284,9 @@ public class Ease.TextElement : Element
 		set
 		{
 			freeze = true;
-			data.set(Theme.TEXT_FONT, value.get_family());
+			text_font = value.get_family();
 			text_style = value.get_style();
-			text_weight = value.get_weight();
+			text_weight = (int)value.get_weight();
 			text_variant = value.get_variant();
 			text_size = value.get_size() / Pango.SCALE;
 			freeze = false;
@@ -269,40 +296,38 @@ public class Ease.TextElement : Element
 	/**
 	 * The alignment of the text.
 	 */
-	public Pango.Alignment text_align
+	public Pango.Alignment text_align { get; set; }
+	
+	public void text_align_from_string(string str)
 	{
-		get
+		switch (str)
 		{
-			switch (data.get(Theme.TEXT_ALIGN))
-			{
-				case "right":
-					return Pango.Alignment.RIGHT;
-				case "center":
-					return Pango.Alignment.CENTER;
-				case "left":
-					return Pango.Alignment.LEFT;
-				default:
-					error("Illegal alignment: %s", data.get(Theme.TEXT_ALIGN));
-					return Pango.Alignment.LEFT;
-			}
+			case "right":
+				text_align = Pango.Alignment.RIGHT;
+				break;
+			case "center":
+				text_align = Pango.Alignment.CENTER;
+				break;
+			case "left":
+				text_align = Pango.Alignment.LEFT;
+				break;
+			default:
+				critical("Illegal alignment: %s", str);
+				text_align = Pango.Alignment.LEFT;
+				break;
 		}
-		set
+	}
+	
+	public string text_align_to_string()
+	{
+		switch (text_align)
 		{
-			switch (value)
-			{
-				case Pango.Alignment.RIGHT:
-					data.set(Theme.TEXT_ALIGN, "right");
-					break;
-				case Pango.Alignment.CENTER:
-					data.set(Theme.TEXT_ALIGN, "center");
-					break;
-				case Pango.Alignment.LEFT:
-					data.set(Theme.TEXT_ALIGN, "left");
-					break;
-				default:
-					error("Illegal alignment: %s", value.to_string());
-					break;
-			}
+			case Pango.Alignment.RIGHT:
+				return "right";
+			case Pango.Alignment.CENTER:
+				return "center";
+			default:
+				return "left";
 		}
 	}
 	
@@ -314,14 +339,22 @@ public class Ease.TextElement : Element
 	 */
 	public int text_size
 	{
-		get
-		{
-			return data.get(Theme.TEXT_SIZE).to_int();
-		}
+		get { return text_size_priv; }
 		set
 		{
-			data.set(Theme.TEXT_SIZE, value.to_string());
+			text_size_priv = value;
 			if (!freeze) notify_property("font-description");
 		}
+	}
+	private int text_size_priv;
+
+	public void text_size_from_string(string str)
+	{
+		text_size = str.to_int();
+	}
+	
+	public string text_size_to_string()
+	{
+		return text_size.to_string();
 	}
 }

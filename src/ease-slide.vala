@@ -24,6 +24,8 @@
  */
 public class Ease.Slide : GLib.Object
 {
+	public const string IMAGE_TYPE = "EaseImageElement";
+
 	/**
 	 * The {@link Element}s contained by this Slide
 	 */
@@ -223,56 +225,127 @@ public class Ease.Slide : GLib.Object
 	 */
 	public Slide.with_owner(Document owner)
 	{
-		base();
+		this();
 		parent = owner;
 	}
 	
 	/**
-	 * Create a Slide from a master Slide.
-	 *
-	 * Used for creating new Slides in a {@link Document} linked to a
-	 * {@link Theme}.
-	 *
-	 * @param master The master slide.
-	 * @param document The {@link Document} this slide is being inserted into.
-	 * @param width The width, in pixels, of the Slide.
-	 * @param height The height, in pixels, of the Slide.
-	 * @param is_new If this Slide is part of a new {@link Document}. Sets
-	 * the has_been_edited property of {@link Element}s to false.
+	 * Constructs a Slide from a JsonObject.
 	 */
-	public Slide.from_master(Slide master, Document? document,
-	                         int width, int height, bool is_new)
+	internal Slide.from_json(Json.Object obj)
 	{
-		base();
+		var slide = new Slide();
 		
-		// set basic properties
-		transition = master.transition;
-		transition_time = master.transition_time;
-		variant = master.variant;
-		automatically_advance = master.automatically_advance;
-		advance_delay = master.advance_delay;
-		parent = document;
+		// read the slide's transition properties
+		transition =
+			(TransitionType)obj.get_string_member("transition").to_int();
+			
+		variant =
+			(TransitionVariant)obj.get_string_member("variant").to_int();
+			
+		transition_time = obj.get_string_member("transition_time").to_double();
+			
+		automatically_advance = 
+			obj.get_string_member("automatically_advance").to_bool();
+			
+		advance_delay =
+			obj.get_string_member("advance_delay").to_double();
 		
-		// set the background
-		if (master.background_image != null)
-		{
-			background_image = master.background_image.dup();
-		}
-		else
-		{
-			background_color = master.background_color;
-		}
+		title = obj.get_string_member("title");
 		
-		if (master.title != null)
+		// read the slide's background properties
+		if (obj.has_member(Theme.BACKGROUND_IMAGE))
 		{
-			title = master.title.dup();
+			background_image = obj.get_string_member(Theme.BACKGROUND_IMAGE);
+			background_image_source =
+				obj.get_string_member("background-image-source");
 		}
+		if (obj.has_member(Theme.BACKGROUND_COLOR))
+		{
+			background_color =
+				new Color.from_string(
+				obj.get_string_member(Theme.BACKGROUND_COLOR));
+		}
+		if (obj.has_member(Theme.BACKGROUND_GRADIENT))
+		{
+			background_gradient =
+				new Gradient.from_string(
+				obj.get_string_member(Theme.BACKGROUND_GRADIENT));
+		}
+		background_type = BackgroundType.from_string(
+			obj.get_string_member(Theme.BACKGROUND_TYPE));
 		
-		// add all of the master Slide's elements
-		foreach (var e in master.elements)
+		// parse the elements
+		var elements = obj.get_array_member("elements");
+		
+		for (var i = 0; i < elements.get_length(); i++)
 		{
-			elements.add(e.sized_element(width, height, is_new));
+			var node = elements.get_object_element(i);
+			
+			// find the proper type
+			var type = node.get_string_member(Theme.ELEMENT_TYPE);
+			Element e;
+			
+			if (type == IMAGE_TYPE)
+			{
+				e = new ImageElement.from_json(node);
+			}
+			else
+			{
+				e = new TextElement.from_json(node);
+			}
+			e.element_type = type;
+			add_element(slide.count, e);
 		}
+	}
+	
+	internal Json.Node to_json()
+	{
+		var node = new Json.Node(Json.NodeType.OBJECT);
+		var obj = new Json.Object();
+		
+		// write the slide's transition properties
+		obj.set_string_member("transition", ((int)transition).to_string());
+		obj.set_string_member("variant", ((int)variant).to_string());
+		obj.set_string_member("transition_time", transition_time.to_string());
+		obj.set_string_member("automatically_advance",
+		                      automatically_advance.to_string());
+		obj.set_string_member("advance_delay", advance_delay.to_string());
+		obj.set_string_member("title", title);
+		
+		// write the slide's background properties
+		if (background_image != null)
+		{
+			obj.set_string_member(Theme.BACKGROUND_IMAGE, background_image);
+			obj.set_string_member("background-image-source",
+			                      background_image_source);
+		}
+		if (background_color != null)
+		{
+			obj.set_string_member(Theme.BACKGROUND_COLOR,
+			                      background_color.to_string());
+		}
+		if (background_gradient != null)
+		{
+			obj.set_string_member(Theme.BACKGROUND_GRADIENT,
+			                      background_gradient.to_string());
+		}
+		obj.set_string_member(Theme.BACKGROUND_TYPE,
+		                      background_type.to_string());
+		
+		// add the slide's elements
+		var json_elements = new Json.Array();
+		foreach (var e in elements)
+		{
+			Json.Node e_node = new Json.Node(Json.NodeType.OBJECT);
+			e_node.set_object(e.to_json());
+			json_elements.add_element(e_node.copy());
+		}
+
+		obj.set_array_member("elements", json_elements);
+		
+		node.set_object(obj);
+		return node;
 	}
 	
 	/**
