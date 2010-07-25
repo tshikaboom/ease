@@ -203,7 +203,8 @@ public class Ease.TransitionPane : InspectorPane
 		});
 		
 		start_transition.changed.connect(() => {
-			if (!silence_undo) undo(new UndoAction(slide, "start-transition"));
+			if (!silence_undo) undo(new UndoAction(slide,
+			                                       "automatically-advance"));
 			if (start_transition.active == 0)
 			{
 				delay.sensitive = false;
