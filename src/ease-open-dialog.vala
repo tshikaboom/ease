@@ -16,35 +16,16 @@
 */
 
 /**
- * Manages "open file" windows
- * 
- * OpenDialog is a singleton. Before it can be used, init() must be
- * called. After that, a dialog can be opened by calling the static 
- * method run().
+ * Creates "open file" windows.
  */
 public class Ease.OpenDialog : GLib.Object
 {
-	private static OpenDialog instance;
-	
-	/**
-	 * Initializes OpenDialog. Called when Ease starts.
-	 */
-	public static void init()
-	{
-		instance = new OpenDialog();
-	}
-	
 	/**
 	 * Displays an "Open" dialog.
 	 * 
 	 * Used for loading previously saved files. This is a static method.
 	 */
 	public static void run()
-	{
-		instance.instance_run();
-	}
-
-	private void instance_run()
 	{
 		var dialog = new Gtk.FileChooserDialog(_("Open File"),
 		                                       null,

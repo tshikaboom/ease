@@ -81,7 +81,6 @@ public static class Ease.Main : GLib.Object
 
 		// initalize static classes
 		Transitions.init();
-		OpenDialog.init();
 		windows = new Gee.ArrayList<EditorWindow>();
 		
 		// Clutter settings
