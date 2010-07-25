@@ -173,8 +173,7 @@ public class Ease.SlideActor : Clutter.Group
 
 		add_actor(contents);
 		
-		// TODO: this completely _destroys_ performance.
-		slide.changed.connect((s) => set_background());
+		slide.background_changed.connect((s) => set_background());
 	}
 	
 	/**

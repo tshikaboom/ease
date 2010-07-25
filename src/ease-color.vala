@@ -65,6 +65,7 @@ public class Ease.Color : GLib.Object
 				red_priv = 1;
 			}
 			else red_priv = value;
+			if (!silence_changed) changed(this);
 		}
 	}
 	private double red_priv;
@@ -88,6 +89,7 @@ public class Ease.Color : GLib.Object
 				green_priv = 1;
 			}
 			else green_priv = value;
+			if (!silence_changed) changed(this);
 		}
 	}
 	private double green_priv;
@@ -111,6 +113,7 @@ public class Ease.Color : GLib.Object
 				blue_priv = 1;
 			}
 			else blue_priv = value;
+			if (!silence_changed) changed(this);
 		}
 	}
 	private double blue_priv;
@@ -134,6 +137,7 @@ public class Ease.Color : GLib.Object
 				alpha_priv = 1;
 			}
 			else alpha_priv = value;
+			if (!silence_changed) changed(this);
 		}
 	}
 	private double alpha_priv;
@@ -153,10 +157,13 @@ public class Ease.Color : GLib.Object
 		}
 		set
 		{
+			silence_changed = true;
 			red = value.red / 255f;
 			green = value.green / 255f;
 			blue = value.blue / 255f;
 			alpha = value.alpha / 255f;
+			silence_changed = false;
+			changed(this);
 		}
 	}
 	
@@ -177,12 +184,21 @@ public class Ease.Color : GLib.Object
 		}
 		set
 		{
+			silence_changed = true;
 			red = value.red / 65535f;
 			green = value.green / 65535f;
 			blue = value.blue / 65535f;
 			alpha = 1;
+			silence_changed = false;
+			changed(this);
 		}
 	}
+	
+	/**
+	 * Emitted when any of the color's properties is changed.
+	 */
+	public signal void changed(Color self);
+	private bool silence_changed;
 	
 	/**
 	 * Creates an opaque color.

@@ -33,12 +33,42 @@ public class Ease.Gradient : GLib.Object
 	/**
 	 * The starting {@link Color} of the gradient.
 	 */
-	public Color start { get; set; }
+	public Color start
+	{
+		get { return start_priv; }
+		set
+		{
+			if (start_priv != null)
+			{
+				start_priv.changed.disconnect(color_changed);
+			}
+			
+			start_priv = value;
+			start_priv.changed.connect(color_changed);
+			changed(this);
+		}
+	}
+	private Color start_priv;
 	
 	/**
 	 * The ending {@link Color} of the gradient.
 	 */
-	public Color end { get; set; }
+	public Color end
+	{
+		get { return end_priv; }
+		set
+		{
+			if (end_priv != null)
+			{
+				end_priv.changed.disconnect(color_changed);
+			}
+			
+			end_priv = value;
+			end_priv.changed.connect(color_changed);
+			changed(this);
+		}
+	}
+	private Color end_priv;
 	
 	/**
 	 * The {@link GradientType} of the gradient.
@@ -49,6 +79,11 @@ public class Ease.Gradient : GLib.Object
 	 * The angle, in radians, of the gradient, if it is linear.
 	 */
 	public double angle { get; set; }
+	
+	/**
+	 * Emitted when the gradient's appearance is changed in any way.
+	 */
+	public signal void changed(Gradient self);
 	
 	/**
 	 * Returns a copy of the default background gradient.
@@ -67,6 +102,9 @@ public class Ease.Gradient : GLib.Object
 		end = end_color;
 		mode = GradientType.LINEAR;
 		angle = 0;
+		
+		notify["mode"].connect((a, b) => changed(this));
+		notify["angle"].connect((a, b) => changed(this));
 	}
 	
 	/**
@@ -77,6 +115,9 @@ public class Ease.Gradient : GLib.Object
 		this(start_color, end_color);
 		mode = GradientType.LINEAR_MIRRORED;
 		angle = 0;
+		
+		notify["mode"].connect((a, b) => changed(this));
+		notify["angle"].connect((a, b) => changed(this));
 	}
 	
 	/**
@@ -87,6 +128,9 @@ public class Ease.Gradient : GLib.Object
 		this(start_color, end_color);
 		mode = GradientType.RADIAL;
 		angle = 0;
+		
+		notify["mode"].connect((a, b) => changed(this));
+		notify["angle"].connect((a, b) => changed(this));
 	}
 	
 	/**
@@ -179,6 +223,14 @@ public class Ease.Gradient : GLib.Object
 		cr.fill();
 		
 		cr.restore();
+	}
+	
+	/**
+	 * Signal handler for {@link Color.changed} signals.
+	 */
+	private void color_changed(Color change)
+	{
+		changed(this);
 	}
 }
 

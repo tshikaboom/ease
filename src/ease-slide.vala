@@ -74,7 +74,22 @@ public class Ease.Slide : GLib.Object
 	 * To use this property, {@link background_type} must also be set to
 	 * {@link BackgroundType.COLOR}.
 	 */
-	public Color? background_color { get; set; }
+	public Color background_color
+	{
+		get { return background_color_priv; }
+		set
+		{
+			if (background_color_priv != null)
+			{
+				background_color_priv.changed.disconnect(bg_changed);
+			}
+			
+			background_color_priv = value;
+			background_color_priv.changed.connect(bg_changed);
+			changed(this);
+		}
+	}
+	private Color background_color_priv;
 	
 	/**
 	 * The background gradient, if this slide uses a gradient for a background.
@@ -82,7 +97,22 @@ public class Ease.Slide : GLib.Object
 	 * To use this property, {@link background_type} must also be set to
 	 * {@link BackgroundType.GRADIENT}.
 	 */
-	public Gradient? background_gradient { get; set; }
+	public Gradient background_gradient
+	{
+		get { return background_gradient_priv; }
+		set
+		{
+			if (background_gradient_priv != null)
+			{
+				background_gradient_priv.changed.disconnect(bg_changed);
+			}
+			
+			background_gradient_priv = value;
+			background_gradient_priv.changed.connect(bg_changed);
+			changed(this);
+		}
+	}
+	private Gradient background_gradient_priv;
 	
 	/**
 	 * The background image, if this slide uses an image for a background.
@@ -171,9 +201,18 @@ public class Ease.Slide : GLib.Object
 	public signal void changed(Slide self);
 	
 	/**
+	 * Emitted when the background of this Slide is altered in any way.
+	 */
+	public signal void background_changed(Slide self);
+	
+	/**
 	 * Create a new Slide.
 	 */
-	public Slide() {}
+	public Slide()
+	{
+		notify["background-type"].connect((a, b) => background_changed(this));
+		notify["background-image"].connect((a, b) => background_changed(this));
+	}
 	
 	/**
 	 * Create a new Slide assigned to a {@link Document}.
@@ -184,6 +223,7 @@ public class Ease.Slide : GLib.Object
 	 */
 	public Slide.with_owner(Document owner)
 	{
+		base();
 		parent = owner;
 	}
 	
@@ -203,6 +243,8 @@ public class Ease.Slide : GLib.Object
 	public Slide.from_master(Slide master, Document? document,
 	                         int width, int height, bool is_new)
 	{
+		base();
+		
 		// set basic properties
 		transition = master.transition;
 		transition_time = master.transition_time;
@@ -366,6 +408,11 @@ public class Ease.Slide : GLib.Object
 		}
 		
 		html += "</div>\n";
+	}
+	
+	private void bg_changed(GLib.Object sender)
+	{
+		background_changed(this);
 	}
 }
 
