@@ -22,7 +22,7 @@
 public class Ease.ImageElement : MediaElement
 {
 	/**
-	 * Create a new element, with an empty {@link ElementMap}.
+	 * Create a new element.
 	 */
 	public ImageElement()
 	{
@@ -32,11 +32,6 @@ public class Ease.ImageElement : MediaElement
 	{
 		base.from_json(obj);
 	}
-	
-	/**
-	 * Creates a completely empty ImageElement, without an {@link ElementMap}.
-	 */
-	public ImageElement.empty() {}	
 	
 	public override Actor actor(ActorContext c)
 	{
