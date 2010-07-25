@@ -373,6 +373,7 @@ public class Ease.EditorWindow : Gtk.Window
 				e.y = document.height / 2 - width / 2;
 				
 				e.element_type = Slide.IMAGE_TYPE;
+				e.identifier = Theme.CUSTOM_MEDIA;
 				e.filename = document.add_media_file(dialog.get_filename());
 				
 				// add the element

@@ -84,6 +84,10 @@ public class Ease.Theme : GLib.Object
 	public const string TEXT_COLOR = "text-color";
 	public const string TEXT_TEXT = "text";
 	
+	// media content types
+	public const string CONTENT_MEDIA = "content-media";
+	public const string CUSTOM_MEDIA = "custom-media";
+	
 	// media properties
 	public const string MEDIA_FILENAME = "media-filename";
 	
@@ -107,9 +111,6 @@ public class Ease.Theme : GLib.Object
 		TEXT_WEIGHT,
 		TEXT_ALIGN
 	};
-	
-	// media content types
-	public const string CONTENT_MEDIA = "content-media";
 	
 	// generic element properties
 	public const string PAD_LEFT = "padding-left";
