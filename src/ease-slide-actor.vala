@@ -423,7 +423,7 @@ public class Ease.SlideActor : Clutter.Group
 	 * Starts a transition to a new SlideActor.
 	 *
 	 * This method calls the appropriate method for the current {@link Slide}'s
-	 * {@link TransitionType}.
+	 * {@link Transition}.
 	 *
 	 * @param new_slide The new SlideActor.
 	 * @param container The container that holds the displayed SlideActors.
@@ -437,67 +437,67 @@ public class Ease.SlideActor : Clutter.Group
 
 		switch (slide.transition)
 		{
-			case TransitionType.SLIDE:
+			case Transition.SLIDE:
 				slide_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.DROP:
+			case Transition.DROP:
 				drop_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.PIVOT:
+			case Transition.PIVOT:
 				pivot_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.OPEN_DOOR:
+			case Transition.OPEN_DOOR:
 				open_door_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.REVEAL:
+			case Transition.REVEAL:
 				reveal_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.SLATS:
+			case Transition.SLATS:
 				slats_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.FLIP:
+			case Transition.FLIP:
 				flip_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.REVOLVING_DOOR:
+			case Transition.REVOLVING_DOOR:
 				revolving_door_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.FALL:
+			case Transition.FALL:
 				fall_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.SPIN_CONTENTS:
+			case Transition.SPIN_CONTENTS:
 				spin_contents_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.SWING_CONTENTS:
+			case Transition.SWING_CONTENTS:
 				swing_contents_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.ZOOM:
+			case Transition.ZOOM:
 				zoom_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.SLIDE_CONTENTS:
+			case Transition.SLIDE_CONTENTS:
 				slide_contents_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.SPRING_CONTENTS:
+			case Transition.SPRING_CONTENTS:
 				spring_contents_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.ZOOM_CONTENTS:
+			case Transition.ZOOM_CONTENTS:
 				zoom_contents_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.PANEL:
+			case Transition.PANEL:
 				panel_transition(new_slide, container, length);
 				break;
 				

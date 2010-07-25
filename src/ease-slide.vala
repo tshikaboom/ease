@@ -34,7 +34,7 @@ public class Ease.Slide : GLib.Object
 	/**
 	 * The Slide's transition
 	 */
-	public TransitionType transition { get; set; }
+	public Transition transition { get; set; }
 	
 	/**
 	 * The variant (if any) of the Slide's transition
@@ -247,11 +247,11 @@ public class Ease.Slide : GLib.Object
 		var slide = new Slide();
 		
 		// read the slide's transition properties
-		transition =
-			(TransitionType)obj.get_string_member("transition").to_int();
+		transition = Transition.from_string(
+			obj.get_string_member("transition"));
 			
-		variant =
-			(TransitionVariant)obj.get_string_member("variant").to_int();
+		variant = TransitionVariant.from_string(
+			obj.get_string_member("variant"));
 			
 		transition_time = obj.get_string_member("transition_time").to_double();
 			
@@ -315,8 +315,8 @@ public class Ease.Slide : GLib.Object
 		var obj = new Json.Object();
 		
 		// write the slide's transition properties
-		obj.set_string_member("transition", ((int)transition).to_string());
-		obj.set_string_member("variant", ((int)variant).to_string());
+		obj.set_string_member("transition", transition.to_string());
+		obj.set_string_member("variant", variant.to_string());
 		obj.set_string_member("transition_time", transition_time.to_string());
 		obj.set_string_member("automatically_advance",
 		                      automatically_advance.to_string());
