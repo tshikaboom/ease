@@ -21,8 +21,10 @@
  * The Ease Document class is generated from JSON and writes back to JSON
  * when saved.
  */
-public class Ease.Document : SlideSet
+public class Ease.Document : GLib.Object
 {
+	private const string MEDIA_PATH = "Media";
+	
 	/**
 	 * The JSON filename in a document archive.
 	 */
@@ -62,6 +64,27 @@ public class Ease.Document : SlideSet
 	 * The aspect ratio of the Document.
 	 */
 	public float aspect { get { return (float)width / (float)height; } }
+	
+	/**
+	 * The filename of the of the Document when archived. Typically, this is a
+	 * .ease or .easetheme file.
+	 */
+	public string filename { get; set; }
+	
+	/**
+	 * The file path of the Document (extracted).
+	 */
+	public string path { get; set; }
+
+	/**
+	 * All {@link Slide}s in this Document.
+	 */
+	public Gee.ArrayList<Slide> slides = new Gee.ArrayList<Slide>();
+	
+	/**
+	 * The number of {@link Slide}s in the Document.
+	 */
+	public int length { get { return slides.size; } }
 	
 	/**
 	 * Emitted when a {@link Slide} is deleted from the Document.
@@ -186,19 +209,19 @@ public class Ease.Document : SlideSet
 	 * @param s The {@link Slide} to insert.
 	 * @param index The position of the new {@link Slide} in the Document.
 	 */
-	public override void add_slide(int index, Slide s)
+	public void add_slide(int index, Slide s)
 	{
 		s.parent = this;
-		base.add_slide(index, s);
+		slides.insert(index, s);
 		slide_added(s, index);
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public override void append_slide(Slide s)
+	public void append_slide(Slide s)
 	{
-		base.append_slide(s);
+		slides.insert(length, s);
 		slide_added(s, slides.size - 1);
 	}
 	
@@ -233,6 +256,40 @@ public class Ease.Document : SlideSet
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Finds the index of the given slide, or returns -1 if it is not found.
+	 *
+	 * @param s The {@link Slide} to find the index of.
+	 */
+	public int index_of(Slide s)
+	{
+		for (int i = 0; i < slides.size; i++)
+		{
+			if (slides.get(i) == s)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	/**
+	 * Finds a {@link Slide} by its "title" property.
+	 *
+	 * @param id The title to search for.
+	 */
+	public Slide? slide_by_title(string title)
+	{
+		foreach (Slide s in slides)
+		{
+			if (s.title == title)
+			{
+				return s;
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -329,6 +386,38 @@ public class Ease.Document : SlideSet
 		}
 		
 		exporter.finish();
+	}
+	
+	/**
+	 * Copies a media file to the temporary directory.
+	 *
+	 * Returns the path to the new file, as it should be stored in the
+	 * document when saved.
+	 *
+	 * @param file The path to the file that will be copied.
+	 */
+	public string add_media_file(string file) throws GLib.Error
+	{
+		// create the media directory if necessary
+		var media = File.new_for_path(Path.build_filename(path, MEDIA_PATH));
+		if (!media.query_exists(null)) media.make_directory_with_parents(null);
+		
+		// create file paths
+		var orig = File.new_for_path(file);
+		var rel_path = Path.build_filename(MEDIA_PATH, orig.get_basename());
+		var dest = File.new_for_path(Path.build_filename(path, rel_path));
+		
+		// if the file exists, we need a new filename
+		for (int i = 0; dest.query_exists(null); i++)
+		{
+			rel_path = Path.build_filename(MEDIA_PATH, i.to_string() + "-" +
+			                               orig.get_basename());
+			dest = File.new_for_path(Path.build_filename(path, rel_path));
+		}
+		
+		// copy the file and return its path
+		orig.copy(dest, 0, null, null);
+		return rel_path;
 	}
 }
 

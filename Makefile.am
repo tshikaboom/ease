@@ -40,7 +40,6 @@ ease_SOURCES = \
 	src/ease-slide-actor.vala \
 	src/ease-slide-button-panel.vala \
 	src/ease-slide-pane.vala \
-	src/ease-slide-set.vala \
 	src/ease-slide.vala \
 	src/ease-temp.vala \
 	src/ease-text-actor.vala \
