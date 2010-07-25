@@ -198,10 +198,10 @@ public class Ease.EditorWindow : Gtk.Window
 			if (response == Gtk.ResponseType.NO) return false;
 			
 			// otherwise, save and quit
-			return !save_document(null);
+			var result = !save_document(null);
+			if (!result) Main.remove_window(this);
+			return result;
 		});
-
-		hide.connect(() => Main.remove_window(this));
 		
 		set_slide(0);
 		update_undo();
@@ -293,7 +293,15 @@ public class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	public void play_handler(Gtk.Widget sender)
 	{
+		hide();
+		
 		player = new Player(document);
+		
+		player.complete.connect(() => {
+			player = null;
+			show();
+			present();
+		});
 	}
 	
 	[CCode (instance_pos = -1)]

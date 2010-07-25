@@ -53,6 +53,8 @@ public class Ease.Player : GLib.Object
 	private Clutter.Rectangle shader_left;
 	private Clutter.Rectangle shader_right;
 	
+	public signal void complete();
+	
 	public Player(Document doc)
 	{
 		document = doc;
@@ -231,6 +233,7 @@ public class Ease.Player : GLib.Object
 		if (slide_index == document.slides.size) // slideshow complete
 		{
 			stage.hide_all();
+			complete();
 			return;
 		}
 		
