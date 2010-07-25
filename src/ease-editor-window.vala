@@ -182,6 +182,9 @@ public class Ease.EditorWindow : Gtk.Window
 		inspector.hide();
 		slides_shown = true;
 		
+		// register the accelerator group
+		add_accel_group(builder.get_object("accel-group") as Gtk.AccelGroup);
+		
 		// close the window
 		delete_event.connect((sender, event) => {
 			if (last_saved == 0) return false;

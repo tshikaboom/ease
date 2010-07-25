@@ -22,6 +22,7 @@
                     <property name="visible">True</property>
                     <property name="use_underline">True</property>
                     <property name="use_stock">True</property>
+                    <property name="accel_group">accel-group</property>
                     <signal name="activate" handler="ease_main_show_welcome"/>
                   </object>
                 </child>
@@ -31,6 +32,7 @@
                     <property name="visible">True</property>
                     <property name="use_underline">True</property>
                     <property name="use_stock">True</property>
+                    <property name="accel_group">accel-group</property>
                     <signal name="activate" handler="ease_open_dialog_run"/>
                   </object>
                 </child>
@@ -45,6 +47,7 @@
                     <property name="visible">True</property>
                     <property name="use_underline">True</property>
                     <property name="use_stock">True</property>
+                    <property name="accel_group">accel-group</property>
                     <signal name="activate" handler="ease_editor_window_save_document"/>
                   </object>
                 </child>
@@ -54,6 +57,7 @@
                     <property name="visible">True</property>
                     <property name="use_underline">True</property>
                     <property name="use_stock">True</property>
+                    <property name="accel_group">accel-group</property>
                   </object>
                 </child>
                 <child>
@@ -109,6 +113,7 @@
                     <property name="visible">True</property>
                     <property name="use_underline">True</property>
                     <property name="use_stock">True</property>
+                    <property name="accel_group">accel-group</property>
                     <signal name="activate" handler="ease_editor_window_on_quit"/>
                   </object>
                 </child>
@@ -130,6 +135,7 @@
                     <property name="visible">True</property>
                     <property name="use_underline">True</property>
                     <property name="use_stock">True</property>
+                    <property name="accel_group">accel-group</property>
                   </object>
                 </child>
                 <child>
@@ -138,6 +144,7 @@
                     <property name="visible">True</property>
                     <property name="use_underline">True</property>
                     <property name="use_stock">True</property>
+                    <property name="accel_group">accel-group</property>
                   </object>
                 </child>
                 <child>
@@ -146,6 +153,7 @@
                     <property name="visible">True</property>
                     <property name="use_underline">True</property>
                     <property name="use_stock">True</property>
+                    <property name="accel_group">accel-group</property>
                   </object>
                 </child>
                 <child>
@@ -154,6 +162,7 @@
                     <property name="visible">True</property>
                     <property name="use_underline">True</property>
                     <property name="use_stock">True</property>
+                    <property name="accel_group">accel-group</property>
                     <signal name="activate" handler="ease_editor_window_on_delete"/>
                   </object>
                 </child>
@@ -216,7 +225,7 @@
                     <property name="visible">True</property>
                     <property name="use_underline">True</property>
                     <property name="use_stock">True</property>
-                    <property name="accel_group">Menu Accelerators</property>
+                    <property name="accel_group">accel-group</property>
                     <signal name="activate" handler="ease_editor_window_zoom_in"/>
                   </object>
                 </child>
@@ -226,6 +235,7 @@
                     <property name="visible">True</property>
                     <property name="use_underline">True</property>
                     <property name="use_stock">True</property>
+                    <property name="accel_group">accel-group</property>
                     <signal name="activate" handler="ease_editor_window_zoom_out"/>
                   </object>
                 </child>
@@ -505,7 +515,7 @@
     <property name="yalign">0.49000000953674316</property>
     <property name="stock">gtk-copy</property>
   </object>
-  <object class="GtkAccelGroup" id="Menu Accelerators"/>
+  <object class="GtkAccelGroup" id="accel-group"/>
   <object class="GtkMenu" id="add-slide-menu">
     <property name="visible">True</property>
   </object>
