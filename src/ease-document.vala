@@ -79,7 +79,7 @@ public class Ease.Document : GLib.Object
 	/**
 	 * All {@link Slide}s in this Document.
 	 */
-	public Gee.ArrayList<Slide> slides = new Gee.ArrayList<Slide>();
+	public Gee.LinkedList<Slide> slides = new Gee.LinkedList<Slide>();
 	
 	/**
 	 * The number of {@link Slide}s in the Document.
@@ -221,7 +221,8 @@ public class Ease.Document : GLib.Object
 	 */
 	public void append_slide(Slide s)
 	{
-		slides.insert(length, s);
+		s.parent = this;
+		slides.offer_head(s);
 		slide_added(s, slides.size - 1);
 	}
 	

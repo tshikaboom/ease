@@ -269,25 +269,25 @@ public class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	public void new_slide_handler(Gtk.Widget? sender)
 	{
-		var slide = document.theme.create_slide(document.DEFAULT_SLIDE,
-		                                        document.width,
-		                                        document.height);
+		var s = document.theme.create_slide(document.DEFAULT_SLIDE,
+		                                    document.width,
+		                                    document.height);
 		
 		var index = document.index_of(slide) + 1;
 		
-		document.add_slide(index, slide);
+		document.add_slide(index, s);
 	}
 	
 	public void on_new_slide_menu(Gtk.Widget? sender)
 	{
 		var item = sender as Gtk.MenuItem;
-		var slide = document.theme.create_slide(
+		var s = document.theme.create_slide(
 			Theme.master_from_description(item.get_label()),
 			document.width, document.height);
 		
 		var index = document.index_of(slide) + 1;
 		
-		document.add_slide(index, slide);
+		document.add_slide(index, s);
 	}
 	
 	[CCode (instance_pos = -1)]
