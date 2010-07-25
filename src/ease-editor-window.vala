@@ -224,9 +224,9 @@ public class Ease.EditorWindow : Gtk.Window
 	/**
 	 * Add the most recent action to the {@link UndoController}.
 	 *
-	 * @param action The new {@link UndoAction}.
+	 * @param action The new {@link UndoItem}.
 	 */
-	public void add_undo_action(UndoAction action)
+	public void add_undo_action(UndoItem action)
 	{
 		undo.add_action(action);
 		undo.clear_redo();

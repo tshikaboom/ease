@@ -16,14 +16,22 @@
 */
 
 /**
- * Provides a signal to notify a controller of {@link UndoItem}s.
+ * Abstract base class for undo actions.
+ *
+ * Subclasses should override apply() and add a constructor, as well as any
+ * needed data fields.
  */
-public interface Ease.UndoSource : GLib.Object
+public abstract class Ease.UndoItem : GLib.Object
 {
 	/**
-	 * Classes that implement the UndoSource interface should use this signal
-	 * to notify a parent controller (typically {@link EditorWindow}) of a new
-	 * UndoAction.
+	 * Emitted after the item is applied.
 	 */
-	public signal void undo(UndoItem action);
+	public signal void applied(UndoAction sender);
+	
+	/**
+	 * Applies the {@link Item}, restoring previous state.
+	 *
+	 * Returns an UndoItem that will redo the undo action.
+	 */
+	public abstract UndoItem apply();
 }
