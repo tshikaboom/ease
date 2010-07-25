@@ -208,6 +208,16 @@ public class Ease.Slide : GLib.Object
 	public signal void background_changed(Slide self);
 	
 	/**
+	 * Emitted when an {@link Element} is added to this Slide.
+	 */
+	public signal void element_added(Slide self, Element element, int index);
+	
+	/**
+	 * Emitted when an {@link Element} is added to this Slide.
+	 */
+	public signal void element_removed(Slide self, Element element, int index);
+	
+	/**
 	 * Create a new Slide.
 	 */
 	public Slide()
@@ -358,6 +368,7 @@ public class Ease.Slide : GLib.Object
 	{
 		e.parent = this;
 		elements.insert(index, e);
+		element_added(this, e, index);
 	}
 	
 	/**
@@ -367,8 +378,43 @@ public class Ease.Slide : GLib.Object
 	 */
 	public void add(Element e)
 	{
-		e.parent = this;
-		elements.insert(count, e);
+		add_element(count, e);
+	}
+	
+	/**
+	 * Removes an {@link Element} from this slide.
+	 */
+	public void remove_element(Element e)
+	{
+		var index = index_of(e);
+		elements.remove(e);
+		element_removed(this, e, index); 
+	}
+	
+	/**
+	 * Removed an {@link Element} from this slide, by index.
+	 */
+	public void remove_at(int index)
+	{
+		var e = elements.get(index);
+		elements.remove_at(index);
+		element_removed(this, e, index);
+	}
+	
+	/**
+	 * Returns the index of the specified {@link Element}
+	 */
+	public int index_of(Element e)
+	{
+		return elements.index_of(e);
+	}
+	
+	/**
+	 * Returns the {@link Element} at the specified index.
+	 */
+	public Element element_at(int i)
+	{
+		return elements.get(i);
 	}
 	
 	/** 

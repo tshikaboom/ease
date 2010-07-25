@@ -120,6 +120,16 @@ public class Ease.SlideActor : Clutter.Group
 	private const int REFLECTION_OPACITY = 70;
 	
 	/**
+	 * Emitted when a subactor of this SlideActor is removed.
+	 */
+	public signal void ease_actor_removed(Actor actor);
+	
+	/**
+	 * Emitted when a subactor is added to this SlideActor.
+	 */
+	public signal void ease_actor_added(Actor actor);
+	
+	/**
 	 * Creates a SlideActor from a {@link Slide} and a {@link Document}.
 	 * This calls the with_dimensions() constructor with the Document's
 	 * dimensions.
@@ -174,6 +184,9 @@ public class Ease.SlideActor : Clutter.Group
 		add_actor(contents);
 		
 		slide.background_changed.connect((s) => set_background());
+		
+		slide.element_added.connect(on_element_added);
+		slide.element_removed.connect(on_element_removed);
 	}
 	
 	/**
@@ -195,6 +208,43 @@ public class Ease.SlideActor : Clutter.Group
 		// set the background size
 		background.width = width_px;
 		background.height = height_px;
+	}
+	
+	/**
+	 * Handles {@link Slide.element_added}.
+	 */
+	public void on_element_added(Slide slide, Element element, int index)
+	{
+		var actor = element.actor(context);
+		contents.add_actor(actor);
+		contents.lower_child(actor, null);
+		
+		// raise the actor to its proper position
+		int i = 0;
+		Clutter.Actor raise;
+		foreach (var a in contents)
+		{
+			if (i >= index) break;
+			raise = a;
+		}
+		
+		ease_actor_added(actor as Actor);
+	}
+	
+	/**
+	 * Handles {@link Slide.element_removed}.
+	 */
+	public void on_element_removed(Slide slide, Element element, int index)
+	{
+		foreach (var a in contents)
+		{
+			if ((a as Actor).element == element)
+			{
+				contents.remove_actor(a);
+				ease_actor_removed(a as Actor);
+				break;
+			}
+		}
 	}
 	
 	/**

@@ -29,7 +29,7 @@ public abstract class Ease.UndoItem : GLib.Object
 	public signal void applied(UndoAction sender);
 	
 	/**
-	 * Applies the {@link Item}, restoring previous state.
+	 * Applies the {@link UndoItem}, restoring previous state.
 	 *
 	 * Returns an UndoItem that will redo the undo action.
 	 */

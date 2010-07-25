@@ -249,9 +249,40 @@ public class Ease.EditorEmbed : ScrollableEmbed
 				a.button_release_event.disconnect(actor_released);
 				a.reactive = false;
 			}
+			
+			slide_actor.ease_actor_added.disconnect(on_ease_actor_added);
+			slide_actor.ease_actor_removed.disconnect(on_ease_actor_removed);
 		}
 		
 		// remove the selection rectangle
+		remove_selection_rect();
+		
+		// create a new SlideActor
+		slide_actor = new SlideActor.from_slide(document,
+		                                        slide,
+		                                        false,
+		                                        ActorContext.EDITOR);
+		                                        
+		// make the elements clickable
+		foreach (var a in slide_actor.contents)
+		{
+			a.button_press_event.connect(actor_clicked);
+			a.button_release_event.connect(actor_released);
+			a.reactive = true;
+		}
+		
+		slide_actor.ease_actor_added.connect(on_ease_actor_added);
+		slide_actor.ease_actor_removed.connect(on_ease_actor_removed);
+		
+		contents.add_actor(slide_actor);
+		reposition_group();
+	}
+	
+	/**
+	 * Removes the selection rectangle and handles.
+	 */
+	private void remove_selection_rect()
+	{
 		if (selection_rectangle != null)
 		{
 			if (selection_rectangle.get_parent() == contents)
@@ -269,23 +300,6 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			}
 			handles = null;
 		}
-		
-		// create a new SlideActor
-		slide_actor = new SlideActor.from_slide(document,
-		                                        slide,
-		                                        false,
-		                                        ActorContext.EDITOR);
-		                                        
-		// make the elements clickable
-		foreach (var a in slide_actor.contents)
-		{
-			a.button_press_event.connect(actor_clicked);
-			a.button_release_event.connect(actor_released);
-			a.reactive = true;
-		}
-		
-		contents.add_actor(slide_actor);
-		reposition_group();
 	}
 
 	/**
@@ -314,7 +328,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		                            ? height / 2 - h / 2
 		                            : 0);
 		              
-		if (selection_rectangle != null)
+		if (selection_rectangle != null && selected != null)
 		{
 			position_selection();
 		}
@@ -409,21 +423,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 */
 	private void select_actor(Actor sender)
 	{
-		// if editing another Actor, finish that edit
-		if (selected != null && is_editing)
-		{
-			selected.end_edit(this);
-			is_editing = false;
-		}
-		
-		// remove the selection rectangle and handles
-		if (selection_rectangle != null)
-		{
-			if (selection_rectangle.get_parent() == contents)
-			{
-				contents.remove_actor(selection_rectangle);
-			}
-		}
+		// deselect anything that is currently selected
+		deselect_actor();
 		
 		selected = sender as Actor;
 		
@@ -450,6 +451,27 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			handles[i].reposition(selection_rectangle);
 			contents.raise_child(handles[i], selection_rectangle);
 		}
+	}
+	
+	/**
+	 * Deselects the currently selected {@link Actor}.
+	 *
+	 * This method is safe to call if nothing is selected.
+	 */
+	private void deselect_actor()
+	{
+		// if editing another Actor, finish that edit
+		if (selected != null && is_editing)
+		{
+			selected.end_edit(this);
+			is_editing = false;
+		}
+		
+		// deselect
+		selected = null;
+		
+		// remove the selection rectangle and handles
+		remove_selection_rect();
 	}
 	
 	/**
@@ -638,6 +660,28 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	{
 		if (selected == null) return;	
 		if (!selected.element.set_color(color)) return;
+	}
+	
+	/**
+	 * Handles {@link SlideActor.on_ease_actor_removed}. Deselects the current
+	 * {@link Actor} if necessary, and disconnects handlers.
+	 */
+	public void on_ease_actor_removed(Actor actor)
+	{
+		if (selected == actor) deselect_actor();
+		actor.button_press_event.disconnect(actor_clicked);
+		actor.button_release_event.disconnect(actor_released);
+		actor.reactive = false;
+	}
+	
+	/**
+	 * Handles {@link SlideActor.on_ease_actor_added}. Connects handlers.
+	 */
+	public void on_ease_actor_added(Actor actor)
+	{
+		actor.button_press_event.connect(actor_clicked);
+		actor.button_release_event.connect(actor_released);
+		actor.reactive = true;
 	}
 }
 

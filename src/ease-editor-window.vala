@@ -255,6 +255,16 @@ public class Ease.EditorWindow : Gtk.Window
 	{
 		Gtk.main_quit ();
 	}
+	
+	[CCode (instance_pos = -1)]
+	public void on_delete(Gtk.Widget sender)
+	{
+		if (embed.selected == null) return;
+		
+		var i = slide.index_of(embed.selected.element);
+		add_undo_action(new ElementRemoveUndoAction(slide.element_at(i)));
+		slide.remove_at(i);
+	}
 
 	[CCode (instance_pos = -1)]
 	public void new_slide_handler(Gtk.Widget? sender)
@@ -330,8 +340,8 @@ public class Ease.EditorWindow : Gtk.Window
 		var text = document.theme.create_custom_text();
 		text.x = document.width / 2 - text.width / 2;
 		text.y = document.height / 2 - text.height / 2;
-		slide.add_element(0, text);
-		embed.recreate_slide();
+		slide.add(text);
+		add_undo_action(new ElementAddUndoAction(text));
 		embed.select_element(text);
 	}
 	
@@ -366,8 +376,8 @@ public class Ease.EditorWindow : Gtk.Window
 				e.filename = document.add_media_file(dialog.get_filename());
 				
 				// add the element
-				slide.add_element(0, e);
-				embed.recreate_slide();
+				slide.add(e);
+				add_undo_action(new ElementAddUndoAction(e));
 				embed.select_element(e);
 			}
 			catch (Error e)
