@@ -79,6 +79,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 	private const int ANIM_EASE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
 	
 	private int[] ZOOM_VALUES = {100, 150, 200, 250, 400};
+	private const int SLIDER_START = 190;
 	
 	private const string PREVIEW_ID = Theme.TITLE;
 	
@@ -111,6 +112,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 		                                     10, 50, 50), ZOOM_VALUES);
 		hbox.pack_start (zoom_slider, true, false, 0);
 		hbox.reorder_child (zoom_slider, 4);
+		zoom_slider.sliderpos = SLIDER_START;
 
 		// Resolutions combo box
 		// FIXME : not re-create it, or do it from Glade.
