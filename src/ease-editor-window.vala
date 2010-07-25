@@ -618,6 +618,8 @@ public class Ease.EditorWindow : Gtk.Window
 			embed.zoom = (float)zoom_slider.get_value() / 100f;
 		});
 		
+		zoom_slider.show_all();
+		
 		return zoom_slider;
 	}
 }
