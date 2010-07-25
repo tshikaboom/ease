@@ -232,7 +232,7 @@ public class Ease.Document : GLib.Object
 	 *
 	 * @param s The slide to remove.
 	 */
-	public Slide rm_slide(Slide s)
+	public Slide remove_slide(Slide s)
 	{
 		int ind = index_of(s);
 		

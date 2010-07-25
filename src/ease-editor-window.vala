@@ -275,6 +275,9 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		var index = document.index_of(slide) + 1;
 		
+		// add an undo action
+		add_undo_action(new SlideAddUndoAction(s));
+		
 		document.add_slide(index, s);
 	}
 	
@@ -287,6 +290,9 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		var index = document.index_of(slide) + 1;
 		
+		// add an undo action
+		add_undo_action(new SlideAddUndoAction(s));
+		
 		document.add_slide(index, s);
 	}
 	
@@ -296,8 +302,11 @@ public class Ease.EditorWindow : Gtk.Window
 		// don't remove the last slide in a document
 		if (document.length < 2) return;
 		
+		// add an undo action
+		add_undo_action(new SlideRemoveUndoAction(slide));
+		
 		// set the slide to something safe
-		slide_button_panel.select_slide(document.rm_slide(slide));
+		slide_button_panel.select_slide(document.remove_slide(slide));
 	}
 	
 	[CCode (instance_pos = -1)]
