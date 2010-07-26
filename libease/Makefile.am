@@ -1,7 +1,6 @@
 lib_LTLIBRARIES = libease-0.1.la
 
 INCLUDES = \
-	-include config.h \
 	$(EASE_CFLAGS)
 
 AM_CPPFLAGS = \
@@ -63,15 +62,32 @@ libease_0_1_la_SOURCES = \
 # compiler flags
 libease_0_1_la_VALAFLAGS = \
 	$(EASE_PACKAGES) \
-	--vapi=ease.vapi \
+	--vapi=ease-0.1.vapi \
 	--header=libease.h \
 	--thread \
+	--library Ease-0.1 \
+	--gir=Ease-0.1.gir \
 	-g \
 	$(NULL)
 
 libease_0_1_la_CFLAGS = $(EASE_CFLAGS)
 libease_0_1_la_LDFLAGS = $(EASE_LDFLAGS)
 
+# build typelib
+
 # header installation
 libease_includedir=$(includedir)/ease-0.1/
 libease_include_HEADERS = libease.h
+
+# vapi installation
+vapidir = $(datadir)/vala/vapi
+vapi_DATA = ease-0.1.vapi
+
+# gir installation
+girdir = $(datadir)/gir-1.0
+gir_DATA = Ease-0.1.gir
+EXTRA_DIST = Ease-0.1.gir
+
+# remove generated c files on `make clean`
+CLEANFILES = $(subst .vala,.c,$(libease_0_1_la_SOURCES))
+

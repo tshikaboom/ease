@@ -11,6 +11,10 @@
 *.AppleDouble/
 *DS_Store
 
+# introspection noise
+libease/tmp-introspect*
+*.gir
+
 # build files
 ease
 *.h
@@ -46,7 +50,7 @@ config.*
 depcomp
 install-sh
 ltmain.sh
-m4
+*.m4
 !m4/introspection.m4
 missing
 mkinstalldirs

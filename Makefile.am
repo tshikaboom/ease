@@ -34,6 +34,9 @@ doc: libease/*.vala
 	gnome-open doc/doc/Ease.html
 
 archive: data/themes/* examples/*
-	sh data/themes/build.sh
 	sh examples/build.sh
+	sh data/themes/build.sh
 
+.PHONY: archive
+
+noinst_PROGRAMS = archive

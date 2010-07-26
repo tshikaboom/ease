@@ -123,7 +123,7 @@ public static class Ease.Temp : Object
 	 *
 	 * @param filename The path of the archive to extract.
 	 */
-	public static string extract(string filename) throws GLib.Error
+	internal static string extract(string filename) throws GLib.Error
 	{
 		// initialize the archive
 		var archive = new Archive.Read();
@@ -175,7 +175,7 @@ public static class Ease.Temp : Object
 	 * @param temp_path The path of the temporary directory.
 	 * @param filename The filename of the archive to save to.
 	 */
-	public static void archive(string temp_path, string filename) throws Error
+	internal static void archive(string temp_path, string filename) throws Error
 	{
 		// create a writable archive
 		var archive = new Archive.Write();
