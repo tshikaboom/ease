@@ -6,6 +6,8 @@ INCLUDES =
 
 bin_PROGRAMS = ease
 
+EASE_CFLAGS += -w
+
 AM_CPPFLAGS = \
 	$(EASE_CFLAGS) \
 	-include $(CONFIG_HEADER) \
