@@ -31,6 +31,16 @@ public class Ease.TextActor : Actor
 	 * The opacity of the selection highlight.
 	 */
 	private const uchar SELECTION_ALPHA = 200;
+	
+	/**
+	 * {@link UndoAction} for an edit.
+	 */
+	private UndoAction undo_action;
+	
+	/**
+	 * Text at the start of an edit.
+	 */
+	private string original_text;
 
 	/**
 	 * Instantiates a new TextActor from an Element.
@@ -53,7 +63,7 @@ public class Ease.TextActor : Actor
 		text.line_wrap_mode = Pango.WrapMode.WORD_CHAR;
 		text.color = e.color.clutter;
 		text.line_alignment = e.text_align;
-		format(e);
+		text.font_name = e.font_description.to_string();
 		text.set_markup(e.has_been_edited ? e.text : DEFAULT_TEXT);
 		
 		add_actor(contents);
@@ -68,7 +78,7 @@ public class Ease.TextActor : Actor
 		});
 		
 		e.notify["font-description"].connect((sender, spec) => {
-			format(element as TextElement);
+			text.font_name = e.font_description.to_string();
 		});
 		
 		e.notify["text-align"].connect((sender, spec) => {
@@ -78,11 +88,13 @@ public class Ease.TextActor : Actor
 		e.notify["color"].connect((sender, spec) => {
 			text.color = e.color.clutter;
 		});
-	}
-	
-	private void format(TextElement e)
-	{
-		(contents as Clutter.Text).font_name = e.font_description.to_string();
+		
+		e.notify["text"].connect((sender, spec) => {
+			if (!text.editable)
+			{
+				text.set_markup(e.has_been_edited ? e.text : DEFAULT_TEXT);
+			}
+		});
 	}
 	
 	/**
@@ -113,6 +125,18 @@ public class Ease.TextActor : Actor
 		{
 			text.text = "";
 		}
+		
+		// create an UndoAction for the element
+		undo_action = new UndoAction(element, "has-been-edited");
+		
+		// order is IMPORTANT here because of notify lambda
+		undo_action.add(element, "text");
+		original_text = (element as TextElement).text;
+		
+		// if the text is being edited when the action is applied, stop editing
+		undo_action.pre_apply.connect((action) => {
+			if (text.editable) end_edit(sender);
+		});
 	}
 	
 	/**
@@ -139,6 +163,12 @@ public class Ease.TextActor : Actor
 		else // otherwise, the element has been edited
 		{
 			element.has_been_edited = true;
+		}
+		
+		// if changes were made to the text, report an UndoAction
+		if (original_text != (element as TextElement).text)
+		{
+			element.undo(undo_action);
 		}
 	}
 	
