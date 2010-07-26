@@ -20,7 +20,9 @@
  */
 public class Ease.TextElement : Element
 {
+	private const string UI_FILE_PATH = "inspector-element-text.ui";
 	private bool freeze = false;
+	private Gtk.Widget inspector_pane;
 	
 	/**
 	 * Creates a new TextElement.
@@ -83,7 +85,116 @@ public class Ease.TextElement : Element
 	{
 		return color.clutter;
 	}
-
+	
+	public override Gtk.Widget inspector_widget()
+	{
+		if (inspector_pane != null) return inspector_pane;
+		
+		var builder = new Gtk.Builder();
+		try
+		{
+			builder.add_from_file(data_path(Path.build_filename(Temp.UI_DIR,
+				                                                UI_FILE_PATH)));
+		}
+		catch (Error e) { error("Error loading UI: %s", e.message); }
+		
+		// connect signals
+		builder.connect_signals(this);
+		
+		// get the alignment buttons
+		var left = builder.get_object("left-button") as Gtk.Button;
+		var center = builder.get_object("center-button") as Gtk.Button;
+		var right = builder.get_object("right-button") as Gtk.Button;
+		
+		// highlight the current alignment
+		switch (text_align)
+		{
+			case Pango.Alignment.LEFT:
+				left.relief = Gtk.ReliefStyle.NORMAL;
+				break;
+			case Pango.Alignment.CENTER:
+				center.relief = Gtk.ReliefStyle.NORMAL;
+				break;
+			case Pango.Alignment.RIGHT:
+				right.relief = Gtk.ReliefStyle.NORMAL;
+				break;
+		}
+		
+		// when the alignment is changed, select the correct button
+		notify["text-align"].connect((obj, spec) => {
+			switch (text_align)
+			{
+				case Pango.Alignment.LEFT:
+					left.relief = Gtk.ReliefStyle.NORMAL;
+					center.relief = Gtk.ReliefStyle.NONE;
+					right.relief = Gtk.ReliefStyle.NONE;
+					break;
+				case Pango.Alignment.CENTER:
+					left.relief = Gtk.ReliefStyle.NONE;
+					center.relief = Gtk.ReliefStyle.NORMAL;
+					right.relief = Gtk.ReliefStyle.NONE;
+					break;
+				case Pango.Alignment.RIGHT:
+					left.relief = Gtk.ReliefStyle.NONE;
+					center.relief = Gtk.ReliefStyle.NONE;
+					right.relief = Gtk.ReliefStyle.NORMAL;
+					break;
+			}
+		});
+		
+		// set up the font button
+		var font = builder.get_object("font-button") as Gtk.FontButton;
+		font.set_font_name(font_description.to_string());
+		
+		font.font_set.connect((button) => {
+			var action = new UndoAction(this, "font-description");
+			(widget_window(button) as EditorWindow).add_undo_action(action);
+			font_description =
+				Pango.FontDescription.from_string(font.font_name);
+		});
+		
+		notify["font-description"].connect((obj, spec) => {
+			font.set_font_name(font_description.to_string());
+		});
+		
+		// set up the color button
+		var color_b = builder.get_object("color-button") as Gtk.ColorButton;
+		color_b.set_color(color.gdk);
+		
+		color_b.color_set.connect((button) => {
+			var action = new UndoAction(this, "color");
+			(widget_window(button) as EditorWindow).add_undo_action(action);
+			color = new Color.from_gdk(color_b.color);
+		});
+		
+		notify["color"].connect((obj, spec) => {
+			color_b.color = color.gdk;
+		});
+		
+		// return the root
+		return inspector_pane = builder.get_object("root") as Gtk.Widget;
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void on_inspector_alignment(Gtk.Widget sender)
+	{
+		(sender.get_parent() as Gtk.Container).foreach((widget) => {
+			(widget as Gtk.Button).relief = Gtk.ReliefStyle.NONE;
+		});
+		
+		(sender as Gtk.Button).relief = Gtk.ReliefStyle.NORMAL;
+		
+		var action = new UndoAction(this, "text-align");
+		var old = text_align;
+		
+		text_align_from_string(
+			(((sender as Gtk.Bin).get_child() as Gtk.Image).stock));
+		
+		if (text_align != old)
+		{
+			(widget_window(sender) as EditorWindow).add_undo_action(action);
+		}
+	}
 
 	protected override void write_html(ref string html, HTMLExporter exporter)
 	{
@@ -303,12 +414,15 @@ public class Ease.TextElement : Element
 		switch (str)
 		{
 			case "right":
+			case "gtk-justify-right":
 				text_align = Pango.Alignment.RIGHT;
 				break;
 			case "center":
+			case "gtk-justify-center":
 				text_align = Pango.Alignment.CENTER;
 				break;
 			case "left":
+			case "gtk-justify-left":
 				text_align = Pango.Alignment.LEFT;
 				break;
 			default:

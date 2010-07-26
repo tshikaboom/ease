@@ -18,7 +18,7 @@
 /**
  * The inspector pane concerning slides
  */
-public class Ease.SlidePane : InspectorPane
+public class Ease.InspectorSlidePane : InspectorPane
 {
 	private const string UI_FILE_PATH = "inspector-slide.ui";
 	private const string BG_DIALOG_TITLE = _("Select Background Image");
@@ -38,7 +38,7 @@ public class Ease.SlidePane : InspectorPane
 	
 	private bool silence_undo;
 
-	public SlidePane()
+	public InspectorSlidePane()
 	{	
 		base();
 		

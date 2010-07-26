@@ -30,9 +30,12 @@ ease_SOURCES = \
 	src/ease-html-exporter.vala \
 	src/ease-image-actor.vala \
 	src/ease-image-element.vala \
+	src/ease-inspector-element-pane.vala \
 	src/ease-inspector-pane.vala \
-	src/ease-inspector.vala \
+	src/ease-inspector-slide-pane.vala \
+	src/ease-inspector-transition-pane.vala \
 	src/ease-inspector-window.vala \
+	src/ease-inspector.vala \
 	src/ease-iterables.vala \
 	src/ease-media-element.vala \
 	src/ease-player.vala \
@@ -40,14 +43,12 @@ ease_SOURCES = \
 	src/ease-selection-rectangle.vala \
 	src/ease-slide-actor.vala \
 	src/ease-slide-button-panel.vala \
-	src/ease-slide-pane.vala \
 	src/ease-slide.vala \
 	src/ease-temp.vala \
 	src/ease-text-actor.vala \
 	src/ease-text-element.vala \
 	src/ease-theme.vala \
 	src/ease-transformations.vala \
-	src/ease-transition-pane.vala \
 	src/ease-transitions.vala \
 	src/ease-undo-action.vala \
 	src/ease-undo-actions-element.vala \

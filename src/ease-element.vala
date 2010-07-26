@@ -40,6 +40,11 @@ public abstract class Ease.Element : GLib.Object
 	public Slide parent { get; set; }
 	
 	/**
+	 * The {@link Document} that this Element is part of. get-only.
+	 */
+	public Document document { get { return parent.parent; } }
+	
+	/**
 	 * Creates an Element from a JsonObject
 	 */
 	public Element.from_json(Json.Object obj)
@@ -61,7 +66,7 @@ public abstract class Ease.Element : GLib.Object
 		var obj = new Json.Object();
 		
 		obj.set_string_member(Theme.E_IDENTIFIER, identifier);
-		obj.set_string_member(Theme.ELEMENT_TYPE, element_type);
+		obj.set_string_member(Theme.ELEMENT_TYPE, get_type().name());
 		obj.set_string_member(Theme.X, x.to_string());
 		obj.set_string_member(Theme.Y, y.to_string());
 		obj.set_string_member(Theme.WIDTH, width.to_string());
@@ -124,6 +129,20 @@ public abstract class Ease.Element : GLib.Object
 	 * @param c The context of the actor.
 	 */
 	public abstract Actor actor(ActorContext c);
+	
+	/**
+	 * Returns an {@link Inspector} widget for editing this Element.
+	 */
+	public abstract Gtk.Widget inspector_widget();
+	
+	/**
+	 * Returns a GList of ToolItems to add to the main toolbar when this
+	 * Element is selected.
+	 */
+	public virtual GLib.List<Gtk.ToolItem>? tool_items()
+	{
+		return null;
+	}
 	
 	/**
 	 * If applicable, this method sets the color of an Element and returns true.

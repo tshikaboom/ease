@@ -20,8 +20,9 @@
  */
 public class Ease.Inspector : Gtk.Notebook, UndoSource
 {
-	private TransitionPane transition_pane;
-	private SlidePane slide_pane;
+	private InspectorTransitionPane transition_pane;
+	private InspectorSlidePane slide_pane;
+	internal InspectorElementPane element_pane;
 	
 	// constants
 	private const int REQUEST_WIDTH = 200;
@@ -46,13 +47,16 @@ public class Ease.Inspector : Gtk.Notebook, UndoSource
 	{
 		set_size_request(REQUEST_WIDTH, REQUEST_HEIGHT);
 	
-		transition_pane = new TransitionPane();
-		slide_pane = new SlidePane();
+		transition_pane = new InspectorTransitionPane();
+		element_pane = new InspectorElementPane();
+		slide_pane = new InspectorSlidePane();
 		
 		// add pages
 		append(slide_pane, "gtk-page-setup");
+		append(element_pane, "gtk-index");
 		append(transition_pane, "gtk-media-forward");
 		slide_pane.show();
+		element_pane.show_all();
 		transition_pane.show_all();
 	}
 	

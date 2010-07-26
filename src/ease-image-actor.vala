@@ -53,6 +53,10 @@ public class Ease.ImageActor : Actor
 			contents.height = e.height;
 			x = e.x;
 			y = e.y;
+			
+			e.notify["filename"].connect((obj, spec) => {
+				(contents as Clutter.Texture).filename = e.full_filename;
+			});
 		}
 	}
 }

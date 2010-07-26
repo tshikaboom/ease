@@ -70,6 +70,14 @@ public class Ease.TextActor : Actor
 		e.notify["font-description"].connect((sender, spec) => {
 			format(element as TextElement);
 		});
+		
+		e.notify["text-align"].connect((sender, spec) => {
+			text.line_alignment = e.text_align;
+		});
+		
+		e.notify["color"].connect((sender, spec) => {
+			text.color = e.color.clutter;
+		});
 	}
 	
 	private void format(TextElement e)

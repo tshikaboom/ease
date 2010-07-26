@@ -140,6 +140,9 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	 */
 	private Document document;
 	
+	public signal void element_selected(Element selected);
+	public signal void element_deselected(Element? deselected);
+	
 	/**
 	 * The zoom level of the slide displayed by this EditorEmbed.
 	 * 
@@ -257,6 +260,8 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		}
 		
 		connect_keys();
+		deselect_actor();
+		element_deselected(null);
 		
 		// clean up the previous slide
 		if (slide_actor != null)
@@ -271,6 +276,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 			
 			slide_actor.ease_actor_added.disconnect(on_ease_actor_added);
 			slide_actor.ease_actor_removed.disconnect(on_ease_actor_removed);
+			slide_actor.slide.element_removed.disconnect(on_element_removed);
 		}
 		
 		// remove the selection rectangle
@@ -292,6 +298,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		
 		slide_actor.ease_actor_added.connect(on_ease_actor_added);
 		slide_actor.ease_actor_removed.connect(on_ease_actor_removed);
+		slide_actor.slide.element_removed.connect(on_element_removed);
 		
 		contents.add_actor(slide_actor);
 		reposition_group();
@@ -449,6 +456,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		connect_keys();
 		
 		selected = sender as Actor;
+		element_selected(selected.element);
 		
 		// make a new selection rectangle
 		selection_rectangle = new SelectionRectangle();
@@ -491,6 +499,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		{
 			selected.end_edit(this);
 			is_editing = false;
+			element_deselected(selected.element);
 		}
 		connect_keys();
 		
@@ -774,11 +783,21 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 				var i = slide.index_of(selected.element);
 				undo(new ElementRemoveUndoAction(slide.element_at(i)));
 				slide.remove_at(i);
+				element_deselected(null);
 				
 				return true;
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Handles {@link Slide.element_removed}.
+	 */
+	public void on_element_removed(Slide slide, Element element, int index)
+	{
+		if (slide != slide_actor.slide) return;
+		if (selected == null) element_deselected(element);
 	}
 	
 	/**

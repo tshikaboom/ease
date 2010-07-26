@@ -90,6 +90,7 @@ public class Ease.Theme : GLib.Object
 	
 	// media properties
 	public const string MEDIA_FILENAME = "media-filename";
+	public const string MEDIA_SOURCE_FILENAME = "media-source-filename";
 	
 	// gradient types
 	public const string GRAD_LINEAR = "linear";

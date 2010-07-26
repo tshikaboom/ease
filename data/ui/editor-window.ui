@@ -409,41 +409,6 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSeparatorToolItem" id="toolbutton5">
-            <property name="visible">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="homogeneous">True</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkToolButton" id="Show Colors">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">Colors</property>
-            <property name="use_underline">True</property>
-            <property name="stock_id">gtk-select-color</property>
-            <signal name="clicked" handler="ease_editor_window_show_color_dialog"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="homogeneous">True</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkToolButton" id="Show Fonts">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">Fonts</property>
-            <property name="use_underline">True</property>
-            <property name="stock_id">gtk-select-font</property>
-            <signal name="clicked" handler="ease_editor_window_select_font"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="homogeneous">True</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkSeparatorToolItem" id="Expand Separator">
             <property name="visible">True</property>
           </object>
