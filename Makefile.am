@@ -19,6 +19,7 @@ ease_SOURCES = \
 	src/ease-close-confirm-dialog.vala \
 	src/ease-clutter-iterables.vala \
 	src/ease-color.vala \
+	src/ease-dialogs.vala \
 	src/ease-document.vala \
 	src/ease-editor-embed.vala \
 	src/ease-editor-window.vala \
@@ -34,7 +35,6 @@ ease_SOURCES = \
 	src/ease-inspector-window.vala \
 	src/ease-iterables.vala \
 	src/ease-media-element.vala \
-	src/ease-open-dialog.vala \
 	src/ease-player.vala \
 	src/ease-scrollable-embed.vala \
 	src/ease-selection-rectangle.vala \

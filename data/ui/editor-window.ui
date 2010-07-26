@@ -87,7 +87,15 @@
                             <property name="visible">True</property>
                             <property name="label" translatable="yes">_PDF</property>
                             <property name="use_underline">True</property>
-                            <signal name="activate" handler="ease_editor_window_export_to_pdf"/>
+                            <signal name="activate" handler="ease_editor_window_export_as_pdf"/>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuItem" id="PostScript">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">Post_Script</property>
+                            <property name="use_underline">True</property>
+                            <signal name="activate" handler="ease_editor_window_export_as_postscript"/>
                           </object>
                         </child>
                         <child>
@@ -95,7 +103,7 @@
                             <property name="visible">True</property>
                             <property name="label" translatable="yes">_HTML</property>
                             <property name="use_underline">True</property>
-                            <signal name="activate" handler="ease_editor_window_export_to_html"/>
+                            <signal name="activate" handler="ease_editor_window_export_as_html"/>
                           </object>
                         </child>
                       </object>

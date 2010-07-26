@@ -462,10 +462,23 @@ public class Ease.EditorWindow : Gtk.Window
 		return true;
 	}
 	
+	// export menu
 	[CCode (instance_pos = -1)]
-	public void export_to_pdf(Gtk.Widget sender)
+	public void export_as_pdf(Gtk.Widget sender)
 	{
-		document.export_to_pdf(this);
+		document.export_as_pdf(this);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void export_as_postscript(Gtk.Widget sender)
+	{
+		document.export_as_postscript(this);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void export_as_html(Gtk.Widget sender)
+	{
+		document.export_as_html(this);
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -479,12 +492,6 @@ public class Ease.EditorWindow : Gtk.Window
 		{
 			inspector.show();
 		}
-	}
-	
-	[CCode (instance_pos = -1)]
-	public void export_to_html(Gtk.Widget sender)
-	{
-		document.export_to_html(this);
 	}
 	
 	[CCode (instance_pos = -1)]

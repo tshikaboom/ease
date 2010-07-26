@@ -356,51 +356,41 @@ public class Ease.Document : GLib.Object
 	}
 	
 	/**
-	 * Exports this as a PDF file.
+	 * Renders this Document to a CairoSurface. Obviously, this only really
+	 * works with multi-page surfaces.
+	 *
+	 * @param surface The surface to render to.
+	 */
+	public void cairo_render(Cairo.Surface surface) throws GLib.Error
+	{
+		var context = new Cairo.Context(surface);
+		
+		Slide s;
+		foreach (var itr in slides)
+		{
+			slides.get(itr, COL_SLIDE, out s);
+			s.cairo_render(context);
+			context.show_page();
+		}
+	
+		surface.flush();
+		surface.finish();
+	}
+	
+	/**
+	 * Exports this Document as a PDF file.
 	 *
 	 * @param win The window that dialogs should be modal for.
 	 */
-	public void export_to_pdf(Gtk.Window win)
+	public void export_as_pdf(Gtk.Window win)
 	{
-		string path;
-		
-		var dialog = new Gtk.FileChooserDialog(_("Export to PDF"),
-		                                       win,
-		                                       Gtk.FileChooserAction.SAVE,
-		                                       "gtk-save",
-		                                       Gtk.ResponseType.ACCEPT,
-		                                       "gtk-cancel",
-		                                       Gtk.ResponseType.CANCEL,
-		                                       null);
-		
-		if (dialog.run() == Gtk.ResponseType.ACCEPT)
-		{
-			// clean up the file dialog
-			path = dialog.get_filename();
-			dialog.destroy();
-		}
-		else
-		{
-			dialog.destroy();
-			return;
-		}
+		string path = save_dialog(_("Export as PDF"), win);
+		if (path == null) return;	
 		
 		try
 		{
-			// create a PDF surface
-			var surface = new Cairo.PdfSurface(path, width, height);
-			var context = new Cairo.Context(surface);
-		
-			Slide s;
-			foreach (var itr in slides)
-			{
-				slides.get(itr, COL_SLIDE, out s);
-				s.cairo_render(context);
-				context.show_page();
-			}
-		
-			surface.flush();
-			surface.finish();
+			// create a PDF surface and render
+			cairo_render(new Cairo.PdfSurface(path, width, height));
 		}
 		catch (Error e)
 		{
@@ -409,11 +399,32 @@ public class Ease.Document : GLib.Object
 	}
 	
 	/**
+	 * Exports this Document as a PostScript file.
+	 *
+	 * @param win The window that dialogs should be modal for.
+	 */
+	public void export_as_postscript(Gtk.Window win)
+	{
+		string path = save_dialog(_("Export as PostScript"), win);
+		if (path == null) return;	
+		
+		try
+		{
+			// create a postscript surface and render
+			cairo_render(new Cairo.PsSurface(path, width, height));
+		}
+		catch (Error e)
+		{
+			error_dialog(_("Error Exporting to PostScript"), e.message);
+		}
+	}
+	
+	/**
 	 * Exports this Document to an HTML file.
 	 *
 	 * @param window The window that the progress dialog should be modal for.
 	 */
-	public void export_to_html(Gtk.Window window)
+	public void export_as_html(Gtk.Window window)
 	{
 		// make an HTMLExporter
 		var exporter = new HTMLExporter();
