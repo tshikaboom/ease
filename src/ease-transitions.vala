@@ -32,6 +32,7 @@ public enum Ease.Transition
 	SLATS,
 	OPEN_DOOR,
 	EXPLODE,
+	ASSEMBLE,
 	ZOOM,
 	PANEL,
 	SPIN_CONTENTS,
@@ -53,6 +54,7 @@ public enum Ease.Transition
 		                                       SLATS,
 		                                       OPEN_DOOR,
 		                                       EXPLODE,
+		                                       ASSEMBLE,
 		                                       ZOOM,
 		                                       PANEL,
 		                                       SPIN_CONTENTS,
@@ -116,6 +118,8 @@ public enum Ease.Transition
 				return OPEN_DOOR;
 			case "EASE_TRANSITION_EXPLODE":
 				return EXPLODE;
+			case "EASE_TRANSITION_ASSEMBLE":
+				return ASSEMBLE;
 			case "EASE_TRANSITION_ZOOM":
 				return ZOOM;
 			case "EASE_TRANSITION_PANEL":
@@ -147,6 +151,7 @@ public enum Ease.Transition
 			case SLATS:
 			case OPEN_DOOR:
 			case EXPLODE:
+			case ASSEMBLE:
 			case SWING_CONTENTS:
 				return {};
 			
@@ -226,6 +231,8 @@ public enum Ease.Transition
 				return _("Open Door");
 			case EXPLODE:
 				return _("Explode");
+			case ASSEMBLE:
+				return _("Assemble");
 			case ZOOM:
 				return _("Zoom");
 			case PANEL:

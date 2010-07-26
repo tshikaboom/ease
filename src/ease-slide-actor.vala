@@ -125,6 +125,11 @@ public class Ease.SlideActor : Clutter.Group
 	private const int EXPLODE_PARTICLES = 10;
 	
 	/**
+	 *
+	 */
+	private const int ASSEMBLE_TILES = 12;
+	
+	/**
 	 * Emitted when a subactor of this SlideActor is removed.
 	 */
 	public signal void ease_actor_removed(Actor actor);
@@ -508,6 +513,10 @@ public class Ease.SlideActor : Clutter.Group
 			
 			case Transition.EXPLODE:
 				explode_transition(new_slide, container, length);
+				break;
+				
+			case Transition.ASSEMBLE:
+				assemble_transition(new_slide, container, length);
 				break;
 				
 			default: // FADE, or something undefined
@@ -1434,20 +1443,95 @@ public class Ease.SlideActor : Clutter.Group
 				particles[i].show();
 			}
 		}
-
-		// make an alpha for easing
-		animation_alpha = new Clutter.Alpha.full(animation_time,
-		                        Clutter.AnimationMode.EASE_IN_OUT_BACK);
-
-		// animate
-		animation_time.new_frame.connect((m) => {
-		});
-
+		
+		// cleanup
 		animation_time.completed.connect(() => {
 			for (int j = 0; j < count; j++)
 			{
 				container.remove_actor(particles[j]);
 			}
+		});
+	}
+	
+	/**
+	 * Starts an "Assemble" transition
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
+	private void assemble_transition(SlideActor new_slide,
+	                                Clutter.Group container,
+	                                uint length)
+	{
+		// hide the real new SlideActor
+		new_slide.reparent(container);
+		new_slide.x = slide.parent.width;
+
+		// make an array for the particles
+		var v_count = (int)Math.ceil(1 / slide.parent.aspect * ASSEMBLE_TILES);
+		var count = ASSEMBLE_TILES * v_count;
+		var particles = new Clutter.Clone[count];
+		
+		// calculate the size of each particle
+		var size = (float)slide.parent.width / ASSEMBLE_TILES;
+
+		// create the particles
+		int i;
+		for (int vpos = 0; vpos < v_count; vpos++)
+		{
+			for (int hpos = 0; hpos < ASSEMBLE_TILES; hpos++)
+			{
+				// make a new particle
+				i = vpos * ASSEMBLE_TILES + hpos;
+				particles[i] = new Clutter.Clone(new_slide);
+				
+				// clip the particle
+				particles[i].set_clip(hpos * size, vpos * size,
+				                      size + 1, size + 1);
+				
+				// randomly move the particle off of the screen
+				var anim_x = false;
+				switch (Random.int_range(0, 4))
+				{
+					case 0:
+						particles[i].x = -(hpos + 1) * size;
+						anim_x = true;
+						break;
+					case 1:
+						particles[i].y = -(vpos + 1) * size;
+						break;
+					case 2:
+						particles[i].x = (ASSEMBLE_TILES - hpos + 1) * size;
+						anim_x = true;
+						break;
+					case 3:
+						particles[i].y = (v_count - vpos + 1) * size;
+						break;
+				}
+				
+				/*var time = (uint)(50 + Random.next_double() * (length - 50));
+				var timer = new Clutter.Timeline(time);
+				timer.completed.connect(() => {*/
+					particles[i].animate(Clutter.AnimationMode.EASE_OUT_SINE,
+					                     length, anim_x ? "x" : "y", 0);
+				//});
+				//timer.start();
+				container.add_actor(particles[i]);
+				particles[i].show();
+			}
+		}
+
+		// cleanup
+		animation_time.completed.connect(() => {
+			new_slide.x = 0;
+			for (int j = 0; j < count; j++)
+			{
+				if (particles[j].get_parent() == container)
+				{
+					container.remove_actor(particles[j]);
+				}
+			}		
 		});
 	}
 	
