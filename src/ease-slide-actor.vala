@@ -120,6 +120,11 @@ public class Ease.SlideActor : Clutter.Group
 	private const int REFLECTION_OPACITY = 70;
 	
 	/**
+	 * The number of particles across the slide in the explode transition.
+	 */
+	private const int EXPLODE_PARTICLES = 10;
+	
+	/**
 	 * Emitted when a subactor of this SlideActor is removed.
 	 */
 	public signal void ease_actor_removed(Actor actor);
@@ -499,6 +504,10 @@ public class Ease.SlideActor : Clutter.Group
 
 			case Transition.PANEL:
 				panel_transition(new_slide, container, length);
+				break;
+			
+			case Transition.EXPLODE:
+				explode_transition(new_slide, container, length);
 				break;
 				
 			default: // FADE, or something undefined
@@ -1369,6 +1378,92 @@ public class Ease.SlideActor : Clutter.Group
 				});
 				break;
 		}
+	}
+	
+	/**
+	 * Starts an "Explode" transition
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
+	private void explode_transition(SlideActor new_slide,
+	                                Clutter.Group container,
+	                                uint length)
+	{
+		// hide the real SlideActor
+		reparent(container);
+		new_slide.reparent(container);
+		x = slide.parent.width;
+
+		// make an array for the particles
+		var v_count = (int)Math.ceil(1 / slide.parent.aspect * EXPLODE_PARTICLES);
+		var count = EXPLODE_PARTICLES * v_count;
+		var particles = new Clutter.Clone[count];
+		
+		// calculate the size of each particle
+		var size = (float)slide.parent.width / EXPLODE_PARTICLES;
+		float center_x = slide.parent.width / 2;
+		float center_y = slide.parent.height / 2;
+
+		// create the particles
+		int i;
+		for (int vpos = 0; vpos < v_count; vpos++)
+		{
+			for (int hpos = 0; hpos < EXPLODE_PARTICLES; hpos++)
+			{
+				// make a new particle
+				i = vpos * EXPLODE_PARTICLES + hpos;
+				particles[i] = new Clutter.Clone(this);
+				
+				// clip the particle
+				particles[i].set_clip(hpos * size, vpos * size, size, size);
+				
+				var atan = Math.atan2f(center_y - vpos * size,
+				                       center_x - hpos * size);
+				
+				// move to the target position
+				particles[i].animate(Clutter.AnimationMode.EASE_IN_SINE,
+				                     explode_time(length),
+				                     "x", -Math.cosf(atan) * explode_dist(),
+				                     "y", -Math.sinf(atan) * explode_dist(),
+				                     "depth", explode_depth(),
+				                     "opacity", 0);
+				
+				container.add_actor(particles[i]);
+				particles[i].show();
+			}
+		}
+
+		// make an alpha for easing
+		animation_alpha = new Clutter.Alpha.full(animation_time,
+		                        Clutter.AnimationMode.EASE_IN_OUT_BACK);
+
+		// animate
+		animation_time.new_frame.connect((m) => {
+		});
+
+		animation_time.completed.connect(() => {
+			for (int j = 0; j < count; j++)
+			{
+				container.remove_actor(particles[j]);
+			}
+		});
+	}
+	
+	private float explode_dist()
+	{
+		return Random.int_range(10, 200);
+	}
+	
+	private float explode_depth()
+	{
+		return Random.int_range(-5, 50);
+	}
+	
+	private uint explode_time(uint time)
+	{
+		return (uint)(0.25 * time + Random.next_double() * 0.75 * time);
 	}
 
 	/**

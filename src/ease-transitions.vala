@@ -31,6 +31,7 @@ public enum Ease.Transition
 	FALL,
 	SLATS,
 	OPEN_DOOR,
+	EXPLODE,
 	ZOOM,
 	PANEL,
 	SPIN_CONTENTS,
@@ -51,6 +52,7 @@ public enum Ease.Transition
 		                                       FALL,
 		                                       SLATS,
 		                                       OPEN_DOOR,
+		                                       EXPLODE,
 		                                       ZOOM,
 		                                       PANEL,
 		                                       SPIN_CONTENTS,
@@ -112,6 +114,8 @@ public enum Ease.Transition
 				return SLATS;
 			case "EASE_TRANSITION_OPEN_DOOR":
 				return OPEN_DOOR;
+			case "EASE_TRANSITION_EXPLODE":
+				return EXPLODE;
 			case "EASE_TRANSITION_ZOOM":
 				return ZOOM;
 			case "EASE_TRANSITION_PANEL":
@@ -136,54 +140,55 @@ public enum Ease.Transition
 	{
 		switch (this)
 		{
-			case Transition.NONE:
-			case Transition.FADE:
-			case Transition.DROP:
-			case Transition.FALL:
-			case Transition.SLATS:
-			case Transition.OPEN_DOOR:
-			case Transition.SWING_CONTENTS:
+			case NONE:
+			case FADE:
+			case DROP:
+			case FALL:
+			case SLATS:
+			case OPEN_DOOR:
+			case EXPLODE:
+			case SWING_CONTENTS:
 				return {};
 			
-			case Transition.REVOLVING_DOOR:
-			case Transition.REVEAL:
-			case Transition.SLIDE:
-			case Transition.PANEL:
-			case Transition.SLIDE_CONTENTS:
+			case REVOLVING_DOOR:
+			case REVEAL:
+			case SLIDE:
+			case PANEL:
+			case SLIDE_CONTENTS:
 				return { TransitionVariant.LEFT,
 				         TransitionVariant.RIGHT,
 				         TransitionVariant.UP,
 				         TransitionVariant.DOWN };
 			
 			
-			case Transition.PIVOT:
+			case PIVOT:
 				return { TransitionVariant.TOP_LEFT,
 				         TransitionVariant.TOP_RIGHT,
 				         TransitionVariant.BOTTOM_LEFT,
 				         TransitionVariant.BOTTOM_RIGHT };
 				         
-			case Transition.FLIP:
+			case FLIP:
 				return { TransitionVariant.LEFT_TO_RIGHT,
 				         TransitionVariant.RIGHT_TO_LEFT,
 				         TransitionVariant.TOP_TO_BOTTOM,
 				         TransitionVariant.BOTTOM_TO_TOP };
 			
-			case Transition.ZOOM:
+			case ZOOM:
 				return { TransitionVariant.CENTER,
 				         TransitionVariant.TOP_LEFT,
 				         TransitionVariant.TOP_RIGHT,
 				         TransitionVariant.BOTTOM_LEFT,
 				         TransitionVariant.BOTTOM_RIGHT };
 
-			case Transition.SPIN_CONTENTS:
+			case SPIN_CONTENTS:
 				return { TransitionVariant.LEFT,
 				         TransitionVariant.RIGHT };
 			
-			case Transition.SPRING_CONTENTS:
+			case SPRING_CONTENTS:
 				return { TransitionVariant.UP,
 				         TransitionVariant.DOWN };
 				         
-			case Transition.ZOOM_CONTENTS:
+			case ZOOM_CONTENTS:
 				return { TransitionVariant.IN,
 				         TransitionVariant.OUT };
 			
@@ -197,41 +202,43 @@ public enum Ease.Transition
 	{
 		switch (this)
 		{
-			case Transition.NONE:
+			case NONE:
 				return _("None");
-			case Transition.FADE:
+			case FADE:
 				return _("Fade");
-			case Transition.SLIDE:
+			case SLIDE:
 				return _("Slide");
-			case Transition.DROP:
+			case DROP:
 				return _("Drop");
-			case Transition.PIVOT:
+			case PIVOT:
 				return _("Pivot");
-			case Transition.FLIP:
+			case FLIP:
 				return _("Flip");
-			case Transition.REVOLVING_DOOR:
+			case REVOLVING_DOOR:
 				return _("Revolving Door");
-			case Transition.REVEAL:
+			case REVEAL:
 				return _("Reveal");
-			case Transition.FALL:
+			case FALL:
 				return _("Fall");
-			case Transition.SLATS:
+			case SLATS:
 				return _("Slats");
-			case Transition.OPEN_DOOR:
+			case OPEN_DOOR:
 				return _("Open Door");
-			case Transition.ZOOM:
+			case EXPLODE:
+				return _("Explode");
+			case ZOOM:
 				return _("Zoom");
-			case Transition.PANEL:
+			case PANEL:
 				return _("Panel");
-			case Transition.SPIN_CONTENTS:
+			case SPIN_CONTENTS:
 				return _("Spin Contents");
-			case Transition.SPRING_CONTENTS:
+			case SPRING_CONTENTS:
 				return _("Spring Contents");
-			case Transition.SWING_CONTENTS:
+			case SWING_CONTENTS:
 				return _("Swing Contents");
-			case Transition.SLIDE_CONTENTS:
+			case SLIDE_CONTENTS:
 				return _("Slide Contents");
-			case Transition.ZOOM_CONTENTS:
+			case ZOOM_CONTENTS:
 				return _("Zoom Contents");
 			default:
 				critical("Undefined transition %i", this);
@@ -245,10 +252,10 @@ public enum Ease.Transition
  */
 public enum Ease.TransitionVariant
 {
-	UP,
-	DOWN,
 	LEFT,
 	RIGHT,
+	UP,
+	DOWN,	
 	BOTTOM,
 	TOP,
 	CENTER,

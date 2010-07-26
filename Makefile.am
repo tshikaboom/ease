@@ -82,6 +82,7 @@ SUBDIRS = po data
 
 ease_LDADD = \
 	$(EASE_LIBS) \
+	-lm \
 	$(NULL)
 
 EXTRA_DIST = data/ease.desktop.in.in  \
