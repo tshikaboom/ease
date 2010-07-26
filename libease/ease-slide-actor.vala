@@ -32,12 +32,12 @@ public class Ease.SlideActor : Clutter.Group
 	/**
 	 * The actor for the slide's background.
 	 */
-	public Clutter.Actor background;
+	public Clutter.CairoTexture background;
 
 	/**
 	 * The group for the slide's contents.
 	 */
-	public Clutter.Group contents;
+	public ClutterIterableGroup contents;
 
 	/**
 	 * The context of the actor (presentation, etc.)
@@ -120,6 +120,26 @@ public class Ease.SlideActor : Clutter.Group
 	private const int REFLECTION_OPACITY = 70;
 	
 	/**
+	 * The number of particles across the slide in the explode transition.
+	 */
+	private const int EXPLODE_PARTICLES = 10;
+	
+	/**
+	 *
+	 */
+	private const int ASSEMBLE_TILES = 12;
+	
+	/**
+	 * Emitted when a subactor of this SlideActor is removed.
+	 */
+	public signal void ease_actor_removed(Actor actor);
+	
+	/**
+	 * Emitted when a subactor is added to this SlideActor.
+	 */
+	public signal void ease_actor_added(Actor actor);
+	
+	/**
 	 * Creates a SlideActor from a {@link Slide} and a {@link Document}.
 	 * This calls the with_dimensions() constructor with the Document's
 	 * dimensions.
@@ -162,8 +182,9 @@ public class Ease.SlideActor : Clutter.Group
 
 		// set the background
 		set_background();
+		add_actor(background);
 
-		contents = new Clutter.Group();
+		contents = new ClutterIterableGroup();
 
 		foreach (var e in slide.elements)
 		{
@@ -171,6 +192,11 @@ public class Ease.SlideActor : Clutter.Group
 		}
 
 		add_actor(contents);
+		
+		slide.background_changed.connect((s) => set_background());
+		
+		slide.element_added.connect(on_element_added);
+		slide.element_removed.connect(on_element_removed);
 	}
 	
 	/**
@@ -184,15 +210,51 @@ public class Ease.SlideActor : Clutter.Group
 	public SlideActor.blank(Document document, Clutter.Color color)
 	{
 		// create the background
-		background = new Clutter.Rectangle();
-		((Clutter.Rectangle)background).color = color;
+		background = new Clutter.CairoTexture(document.width, document.height);
 		
 		// create a blank contents actor
-		contents = new Clutter.Group();
+		contents = new ClutterIterableGroup();
 		
 		// set the background size
 		background.width = width_px;
 		background.height = height_px;
+	}
+	
+	/**
+	 * Handles {@link Slide.element_added}.
+	 */
+	public void on_element_added(Slide slide, Element element, int index)
+	{
+		var actor = element.actor(context);
+		contents.add_actor(actor);
+		contents.lower_child(actor, null);
+		
+		// raise the actor to its proper position
+		int i = 0;
+		Clutter.Actor raise;
+		foreach (var a in contents)
+		{
+			if (i >= index) break;
+			raise = a;
+		}
+		
+		ease_actor_added(actor as Actor);
+	}
+	
+	/**
+	 * Handles {@link Slide.element_removed}.
+	 */
+	public void on_element_removed(Slide slide, Element element, int index)
+	{
+		foreach (var a in contents)
+		{
+			if ((a as Actor).element == element)
+			{
+				contents.remove_actor(a);
+				ease_actor_removed(a as Actor);
+				break;
+			}
+		}
 	}
 	
 	/**
@@ -245,38 +307,25 @@ public class Ease.SlideActor : Clutter.Group
 	 */
 	private void set_background()
 	{
-		if (background != null)
+		if (background == null)
 		{
-			if (background.get_parent() == this)
-			{
-				remove_actor(background);
-			}
+			background = new Clutter.CairoTexture((uint)width_px,
+			                                      (uint)height_px);
 		}
-
-		if (slide.background_image != null)
+		
+		// render the background
+		try
 		{
-			try
-			{
-				background = new Clutter.Texture();
-				(background as Clutter.Texture).set_from_file(
-					slide.background_abs);
-			}
-			catch (GLib.Error e)
-			{
-				stdout.printf(_("Error loading background: %s"), e.message);
-			}
+			var cr = background.create();
+			slide.cairo_render_background(cr, (int)width_px, (int)height_px);
 		}
-		else // the background is a solid color
+		catch (GLib.Error e)
 		{
-			var rect = new Clutter.Rectangle();
-			rect.color = slide.background_color.clutter;
-			background = rect;
+			critical("Error rendering slide actor background: %s", e.message);
 		}
+		
 		background.width = width_px;
 		background.height = height_px;
-
-		add_actor(background);
-		lower_child(background, null);
 	}
 
 	/**
@@ -384,7 +433,7 @@ public class Ease.SlideActor : Clutter.Group
 	 * Starts a transition to a new SlideActor.
 	 *
 	 * This method calls the appropriate method for the current {@link Slide}'s
-	 * {@link TransitionType}.
+	 * {@link Transition}.
 	 *
 	 * @param new_slide The new SlideActor.
 	 * @param container The container that holds the displayed SlideActors.
@@ -398,68 +447,76 @@ public class Ease.SlideActor : Clutter.Group
 
 		switch (slide.transition)
 		{
-			case TransitionType.SLIDE:
+			case Transition.SLIDE:
 				slide_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.DROP:
+			case Transition.DROP:
 				drop_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.PIVOT:
+			case Transition.PIVOT:
 				pivot_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.OPEN_DOOR:
+			case Transition.OPEN_DOOR:
 				open_door_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.REVEAL:
+			case Transition.REVEAL:
 				reveal_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.SLATS:
+			case Transition.SLATS:
 				slats_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.FLIP:
+			case Transition.FLIP:
 				flip_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.REVOLVING_DOOR:
+			case Transition.REVOLVING_DOOR:
 				revolving_door_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.FALL:
+			case Transition.FALL:
 				fall_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.SPIN_CONTENTS:
+			case Transition.SPIN_CONTENTS:
 				spin_contents_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.SWING_CONTENTS:
+			case Transition.SWING_CONTENTS:
 				swing_contents_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.ZOOM:
+			case Transition.ZOOM:
 				zoom_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.SLIDE_CONTENTS:
+			case Transition.SLIDE_CONTENTS:
 				slide_contents_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.SPRING_CONTENTS:
+			case Transition.SPRING_CONTENTS:
 				spring_contents_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.ZOOM_CONTENTS:
+			case Transition.ZOOM_CONTENTS:
 				zoom_contents_transition(new_slide, container, length);
 				break;
 
-			case TransitionType.PANEL:
+			case Transition.PANEL:
 				panel_transition(new_slide, container, length);
+				break;
+			
+			case Transition.EXPLODE:
+				explode_transition(new_slide, container, length);
+				break;
+				
+			case Transition.ASSEMBLE:
+				assemble_transition(new_slide, container, length);
 				break;
 				
 			default: // FADE, or something undefined
@@ -1330,6 +1387,167 @@ public class Ease.SlideActor : Clutter.Group
 				});
 				break;
 		}
+	}
+	
+	/**
+	 * Starts an "Explode" transition
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
+	private void explode_transition(SlideActor new_slide,
+	                                Clutter.Group container,
+	                                uint length)
+	{
+		// hide the real SlideActor
+		reparent(container);
+		new_slide.reparent(container);
+		x = slide.parent.width;
+
+		// make an array for the particles
+		var v_count = (int)Math.ceil(1 / slide.parent.aspect * EXPLODE_PARTICLES);
+		var count = EXPLODE_PARTICLES * v_count;
+		var particles = new Clutter.Clone[count];
+		
+		// calculate the size of each particle
+		var size = (float)slide.parent.width / EXPLODE_PARTICLES;
+		float center_x = slide.parent.width / 2;
+		float center_y = slide.parent.height / 2;
+
+		// create the particles
+		int i;
+		for (int vpos = 0; vpos < v_count; vpos++)
+		{
+			for (int hpos = 0; hpos < EXPLODE_PARTICLES; hpos++)
+			{
+				// make a new particle
+				i = vpos * EXPLODE_PARTICLES + hpos;
+				particles[i] = new Clutter.Clone(this);
+				
+				// clip the particle
+				particles[i].set_clip(hpos * size, vpos * size, size, size);
+				
+				var atan = Math.atan2f(center_y - vpos * size,
+				                       center_x - hpos * size);
+				
+				// move to the target position
+				particles[i].animate(Clutter.AnimationMode.EASE_IN_SINE,
+				                     explode_time(length),
+				                     "x", -Math.cosf(atan) * explode_dist(),
+				                     "y", -Math.sinf(atan) * explode_dist(),
+				                     "depth", explode_depth(),
+				                     "opacity", 0);
+				
+				container.add_actor(particles[i]);
+				particles[i].show();
+			}
+		}
+		
+		// cleanup
+		animation_time.completed.connect(() => {
+			for (int j = 0; j < count; j++)
+			{
+				container.remove_actor(particles[j]);
+			}
+		});
+	}
+	
+	/**
+	 * Starts an "Assemble" transition
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
+	private void assemble_transition(SlideActor new_slide,
+	                                Clutter.Group container,
+	                                uint length)
+	{
+		// hide the real new SlideActor
+		new_slide.reparent(container);
+		new_slide.x = slide.parent.width;
+
+		// make an array for the particles
+		var v_count = (int)Math.ceil(1 / slide.parent.aspect * ASSEMBLE_TILES);
+		var count = ASSEMBLE_TILES * v_count;
+		var particles = new Clutter.Clone[count];
+		
+		// calculate the size of each particle
+		var size = (float)slide.parent.width / ASSEMBLE_TILES;
+
+		// create the particles
+		int i;
+		for (int vpos = 0; vpos < v_count; vpos++)
+		{
+			for (int hpos = 0; hpos < ASSEMBLE_TILES; hpos++)
+			{
+				// make a new particle
+				i = vpos * ASSEMBLE_TILES + hpos;
+				particles[i] = new Clutter.Clone(new_slide);
+				
+				// clip the particle
+				particles[i].set_clip(hpos * size, vpos * size,
+				                      size + 1, size + 1);
+				
+				// randomly move the particle off of the screen
+				var anim_x = false;
+				switch (Random.int_range(0, 4))
+				{
+					case 0:
+						particles[i].x = -(hpos + 1) * size;
+						anim_x = true;
+						break;
+					case 1:
+						particles[i].y = -(vpos + 1) * size;
+						break;
+					case 2:
+						particles[i].x = (ASSEMBLE_TILES - hpos + 1) * size;
+						anim_x = true;
+						break;
+					case 3:
+						particles[i].y = (v_count - vpos + 1) * size;
+						break;
+				}
+				
+				/*var time = (uint)(50 + Random.next_double() * (length - 50));
+				var timer = new Clutter.Timeline(time);
+				timer.completed.connect(() => {*/
+					particles[i].animate(Clutter.AnimationMode.EASE_OUT_SINE,
+					                     length, anim_x ? "x" : "y", 0);
+				//});
+				//timer.start();
+				container.add_actor(particles[i]);
+				particles[i].show();
+			}
+		}
+
+		// cleanup
+		animation_time.completed.connect(() => {
+			new_slide.x = 0;
+			for (int j = 0; j < count; j++)
+			{
+				if (particles[j].get_parent() == container)
+				{
+					container.remove_actor(particles[j]);
+				}
+			}		
+		});
+	}
+	
+	private float explode_dist()
+	{
+		return Random.int_range(10, 200);
+	}
+	
+	private float explode_depth()
+	{
+		return Random.int_range(-5, 50);
+	}
+	
+	private uint explode_time(uint time)
+	{
+		return (uint)(0.25 * time + Random.next_double() * 0.75 * time);
 	}
 
 	/**

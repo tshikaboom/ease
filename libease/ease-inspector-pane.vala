@@ -18,23 +18,16 @@
 /**
  * Base class for inspector panes
  */
-public abstract class Ease.InspectorPane : Gtk.VBox
+public abstract class Ease.InspectorPane : Gtk.VBox, UndoSource
 {
-	private Slide slide_priv;
-
-	public Slide slide
-	{
-		get { return slide_priv; }
-		set {
-			slide_priv = value;
-			slide_updated();
-		}
-	}
+	public Slide slide { get; set; }
 
 	public InspectorPane()
 	{
 		homogeneous = false;
 		spacing = 0;
+		
+		notify["slide"].connect((a, b) => slide_updated());
 	}
 	
 	/**

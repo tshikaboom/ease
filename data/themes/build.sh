@@ -2,7 +2,7 @@
 
 echo "  Archiving themes..."
 
-cd themes
+cd data/themes
 
 for THEME in `find ./* -maxdepth 0 -type d | sed "s/.\///g"`
 	do

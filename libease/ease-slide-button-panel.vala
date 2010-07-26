@@ -28,7 +28,6 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 	
 	// tree view
 	private Gtk.TreeView slides;
-	private Gtk.ListStore list_store;
 	private Gtk.CellRendererPixbuf renderer;
 	
 	// thumbnails on disk
@@ -72,25 +71,16 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 		hscrollbar_policy = Gtk.PolicyType.NEVER;
 		shadow_type = Gtk.ShadowType.IN;
 		
-		// create the list store and add all current slides
-		list_store = new Gtk.ListStore(2, typeof(Gdk.Pixbuf), typeof(Slide));
-		Gtk.TreeIter iter;
-		foreach (var slide in document.slides)
-		{
-			list_store.append(out iter);
-			var pb = pixbuf(slide, PREV_WIDTH);
-			list_store.set(iter, 0, pb, 1, slide);
-			slide.changed.connect(slide_redraw);
-		}
-		
 		// create the tree view
 		slides = new Gtk.TreeView();
+		slides.reorderable = true;
 		slides.headers_visible = false;
 		renderer = new Gtk.CellRendererPixbuf();
 		renderer.set_padding(PADDING, PADDING);
 		slides.insert_column_with_attributes(-1, "Slides", renderer,
-		                                     "pixbuf", 0);
-		slides.set_model(list_store);
+		                                     "pixbuf", Document.COL_PIXBUF);
+		slides.set_model(document.slides);
+		
 		
 		// add the tree view with a viewport
 		var viewport = new Gtk.Viewport(null, null);
@@ -98,39 +88,33 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 		viewport.add(slides);
 		add(viewport);
 		
+		// render pixbufs for all current slides
+		foreach (var itr in document.slides)
+		{
+			slide_redraw(itr);
+		}
+		
 		// switch slides when the selection changes
 		slides.get_selection().changed.connect((sender) => {
 			slides.get_selection().selected_foreach((m, p, itr) => {
 				Slide s = new Slide();
-				m.get(itr, 1, ref s);
-				owner.set_slide(document.slides.index_of(s));
+				m.get(itr, Document.COL_SLIDE, ref s);
+				owner.set_slide(document.index_of(s));
 			});
 		});
 		
-		// handle the document's slide_added signal
 		document.slide_added.connect((slide, index) => {
-			Gtk.TreeIter itr;
-			list_store.insert(out itr, index);
-			var pb = pixbuf(slide, PREV_WIDTH);
-			list_store.set(itr, 0, pb, 1, slide);
-			slide.changed.connect(slide_redraw);
-		});
-		
-		// handle the removal of slides
-		document.slide_deleted.connect((slide, index) => {
-			Gtk.TreeIter itr;
-			Slide s = new Slide();
-			slide.changed.connect(slide_redraw);
-			if (!list_store.get_iter_first(out itr)) return;
-			do
+			Slide s;
+			foreach (var itr in document.slides)
 			{
-				list_store.get(itr, 1, ref s);
+				document.slides.get(itr, Document.COL_SLIDE, out s);
 				if (s == slide)
 				{
-					list_store.remove(itr);
-					break;
+					slide_redraw(itr);
+					return;
 				}
-			} while (list_store.iter_next(ref itr));
+			}
+			debug("new slide");
 		});
 		
 		// redraw all slides when the size allocation changes
@@ -138,12 +122,12 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 			var width = alloc.width - 2 * PADDING;
 			
 			Gtk.TreeIter itr;
-			if (!list_store.get_iter_first(out itr)) return;
-			for (; list_store.iter_next(ref itr);)
+			if (!document.slides.get_iter_first(out itr)) return;
+			for (; document.slides.iter_next(ref itr);)
 			{
 				Slide s = new Slide();
-				list_store.get(itr, 1, ref s);
-				list_store.set(itr, 0, pixbuf(s, width));
+				document.slides.get(itr, 1, ref s);
+				document.slides.set(itr, 0, pixbuf(s, width));
 			}
 		});*/
 	}
@@ -157,37 +141,32 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 	{
 		Gtk.TreeIter itr;
 		Slide s = new Slide();
-		if (!list_store.get_iter_first(out itr)) return;
+		if (!document.slides.get_iter_first(out itr)) return;
 		do
 		{
-			list_store.get(itr, 1, ref s);
+			document.slides.get(itr, Document.COL_SLIDE, ref s);
 			if (s == slide)
 			{
 				slides.get_selection().select_iter(itr);
 				break;
 			}
-		} while (list_store.iter_next(ref itr));
+		} while (document.slides.iter_next(ref itr));
 	}
 	
 	/**
 	 * Redraws a {@link Slide} when it is changed.
 	 *
-	 * @param slide The slide to redraw.
+	 * @param itr An iterator pointing to the slide's row.
 	 */
-	private void slide_redraw(Slide slide)
+	private void slide_redraw(Gtk.TreeIter itr)
 	{
-		Gtk.TreeIter itr;
-		Slide s = new Slide();
-		if (!list_store.get_iter_first(out itr)) return;
-		do
-		{
-			list_store.get(itr, 1, ref s);
-			if (s == slide)
-			{
-				var pb = pixbuf(slide, PREV_WIDTH);
-				list_store.set(itr, 0, pb);
-			}
-		} while (list_store.iter_next(ref itr));
+		// grab the Slide
+		Slide slide;
+		document.slides.get(itr, Document.COL_SLIDE, out slide);
+		
+		// render the pixbuf
+		var pb = pixbuf(slide, PREV_WIDTH);
+		document.slides.set(itr, Document.COL_PIXBUF, pb);
 	}
 	
 	/**

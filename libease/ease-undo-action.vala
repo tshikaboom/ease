@@ -16,12 +16,9 @@
 */
 
 /**
- * Abstract base class for undo actions.
- *
- * Subclasses should override apply() and add a constructor, as well as any
- * needed data fields.
+ * Generic undo item, using object/property pairs.
  */
-public class Ease.UndoAction : Object
+public class Ease.UndoAction : UndoItem
 {
 	private Gee.LinkedList<UndoPair> pairs = new Gee.LinkedList<UndoPair>();
 	
@@ -51,13 +48,24 @@ public class Ease.UndoAction : Object
 	}
 	
 	/**
+	 * Adds all properties of the given UndoAction to this action.
+	 *
+	 * @param action An UndoAction to add properties from.
+	 */
+	public void combine(UndoAction action)
+	{
+		foreach (var p in action.pairs) pairs.add(p);
+	}
+	
+	/**
 	 * Applies the {@link UndoAction}, restoring previous settings.
 	 *
 	 * Returns an UndoAction that will redo the undo action.
 	 */
-	public UndoAction apply()
+	public override UndoItem apply()
 	{
 		foreach (var pair in pairs) pair.apply();
+		applied(this);
 		return this;
 	}
 	

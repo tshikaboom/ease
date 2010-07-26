@@ -1,5 +1,7 @@
 NULL =
 
+SUBDIRS = po data libease src
+
 INCLUDES = \
 	-include config.h \
 	$(EASE_CFLAGS)
@@ -18,13 +20,8 @@ DISTCLEANFILES = data/ease.desktop \
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = po data libease src
-
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = ease-0.1.pc
-
-themedir = $(datadir)/ease/themes
-theme_DATA = $(wildcard $(top_srcdir)/themes/*.easetheme)
 
 doc: libease/*.vala
 	rm -rf doc
@@ -36,7 +33,7 @@ doc: libease/*.vala
 	
 	gnome-open doc/doc/Ease.html
 
-archive: themes/* examples/*
-	sh themes/build.sh
+archive: data/themes/* examples/*
+	sh data/themes/build.sh
 	sh examples/build.sh
 

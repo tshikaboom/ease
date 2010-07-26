@@ -25,12 +25,12 @@ public class Ease.UndoController : Object
 	/**
 	 * The undo queue.
 	 */
-	private Gee.LinkedList<UndoAction> undos = new Gee.LinkedList<UndoAction>();
+	private Gee.LinkedList<UndoItem> undos = new Gee.LinkedList<UndoItem>();
 	
 	/**
 	 * The redo queue.
 	 */
-	private Gee.LinkedList<UndoAction> redos = new Gee.LinkedList<UndoAction>();
+	private Gee.LinkedList<UndoItem> redos = new Gee.LinkedList<UndoItem>();
 	
 	/**
 	 * Creates an UndoController. Used by EditorWindow.
@@ -54,7 +54,7 @@ public class Ease.UndoController : Object
 	}
 	
 	/**
-	 * Undoes the first available {@link UndoAction} in the undo queue.
+	 * Undoes the first available {@link UndoItem} in the undo queue.
 	 */
 	public void undo()
 	{
@@ -62,7 +62,7 @@ public class Ease.UndoController : Object
 	}
 	
 	/**
-	 * Redoes the first available {@link UndoAction} in the redo queue.
+	 * Redoes the first available {@link UndoItem} in the redo queue.
 	 */
 	public void redo()
 	{
@@ -78,21 +78,21 @@ public class Ease.UndoController : Object
 	}
 	
 	/**
-	 * Adds a new {@link UndoAction} as the first action.
+	 * Adds a new {@link UndoItem} as the first action.
 	 *
-	 * @param action The new {@link UndoAction}.
+	 * @param action The new {@link UndoItem}.
 	 */
-	public void add_action(UndoAction action)
+	public void add_action(UndoItem action)
 	{
 		undos.offer_head(action);
 	}
 	
 	/**
-	 * Adds a new {@link UndoAction} as the first action.
+	 * Adds a new {@link UndoItem} as the first action.
 	 *
-	 * @param action The new {@link UndoAction}.
+	 * @param action The new {@link UndoItem}.
 	 */
-	private void add_redo_action(UndoAction action)
+	private void add_redo_action(UndoItem action)
 	{
 		redos.offer_head(action);
 	}

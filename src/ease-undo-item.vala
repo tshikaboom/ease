@@ -16,10 +16,22 @@
 */
 
 /**
- * Stores data in an {@link ElementMap}
+ * Abstract base class for undo actions.
+ *
+ * Subclasses should override apply() and add a constructor, as well as any
+ * needed data fields.
  */
-public class Ease.ElementMapValue
+public abstract class Ease.UndoItem : GLib.Object
 {
-	public string str_val { get; set; }
+	/**
+	 * Emitted after the item is applied.
+	 */
+	public signal void applied(UndoAction sender);
+	
+	/**
+	 * Applies the {@link UndoItem}, restoring previous state.
+	 *
+	 * Returns an UndoItem that will redo the undo action.
+	 */
+	public abstract UndoItem apply();
 }
-

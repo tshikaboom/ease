@@ -49,7 +49,7 @@ public class Ease.WelcomeActor : Clutter.Group
 	/**
 	 * The theme previewed by this WelcomeActor.
 	 */
-	public Theme theme;
+	public Theme theme { get; set; }
 	
 	// display the name of the theme
 	private const string FONT_NAME = "Sans 8";
@@ -155,7 +155,9 @@ public class Ease.WelcomeActor : Clutter.Group
 		// render
 		try
 		{
-			create_slide(w, h).cairo_render_sized(slide_actor.create(), w, h);
+			var slide = create_slide(w, h);
+			slide.theme = theme;
+			slide.cairo_render_sized(slide_actor.create(), w, h);
 		}
 		catch (GLib.Error e)
 		{

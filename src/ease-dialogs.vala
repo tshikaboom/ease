@@ -16,35 +16,16 @@
 */
 
 /**
- * Manages "open file" windows
- * 
- * OpenDialog is a singleton. Before it can be used, init() must be
- * called. After that, a dialog can be opened by calling the static 
- * method run().
+ * Creates "open file" windows.
  */
 public class Ease.OpenDialog : GLib.Object
 {
-	private static OpenDialog instance;
-	
-	/**
-	 * Initializes OpenDialog. Called when Ease starts.
-	 */
-	public static void init()
-	{
-		instance = new OpenDialog();
-	}
-	
 	/**
 	 * Displays an "Open" dialog.
 	 * 
 	 * Used for loading previously saved files. This is a static method.
 	 */
 	public static void run()
-	{
-		instance.instance_run();
-	}
-
-	private void instance_run()
 	{
 		var dialog = new Gtk.FileChooserDialog(_("Open File"),
 		                                       null,
@@ -64,5 +45,37 @@ public class Ease.OpenDialog : GLib.Object
 			Main.open_file(dialog.get_filename() + "/");
 		}
 		dialog.destroy();
+	}
+}
+
+/**
+ * Creates and runs a "save" dialog with the given title. Returns null if
+ * cancelled, otherwise returns the selected path
+ *
+ * @param title The dialog's title.
+ * @param modal The window that the dialog should be modal for.
+ */
+public string? save_dialog(string title, Gtk.Window? modal)
+{
+	var dialog = new Gtk.FileChooserDialog(title,
+	                                       modal,
+	                                       Gtk.FileChooserAction.SAVE,
+	                                       "gtk-save",
+	                                       Gtk.ResponseType.ACCEPT,
+	                                       "gtk-cancel",
+	                                       Gtk.ResponseType.CANCEL,
+	                                       null);
+		
+	if (dialog.run() == Gtk.ResponseType.ACCEPT)
+	{
+		// clean up the file dialog
+		string path = dialog.get_filename();
+		dialog.destroy();
+		return path;
+	}
+	else
+	{
+		dialog.destroy();
+		return null;
 	}
 }

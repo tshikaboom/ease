@@ -152,10 +152,12 @@ public class Ease.EditorWindow : Gtk.Window
 		// the inspector
 		inspector = new Inspector();
 		(builder.get_object("Inspector Align") as Gtk.Alignment).add(inspector);
+		inspector.undo.connect((action) => add_undo_action(action));
 		
 		// main editor
 		embed = new EditorEmbed(document, this);
 		(builder.get_object("Embed Align") as Gtk.Alignment).add(embed);
+		embed.undo.connect((action) => add_undo_action(action));
 		
 		// zoom slider
 		(builder.get_object("Zoom Slider Item") as Gtk.ToolItem).
@@ -175,10 +177,14 @@ public class Ease.EditorWindow : Gtk.Window
 		menu.show_all();
 		
 		// final window setup
-		show_all();
-		embed.show();
+		slide_button_panel.show_all();
+		embed.show_all();
+		show();
 		inspector.hide();
 		slides_shown = true;
+		
+		// register the accelerator group
+		add_accel_group(builder.get_object("accel-group") as Gtk.AccelGroup);
 		
 		// close the window
 		delete_event.connect((sender, event) => {
@@ -196,10 +202,10 @@ public class Ease.EditorWindow : Gtk.Window
 			if (response == Gtk.ResponseType.NO) return false;
 			
 			// otherwise, save and quit
-			return !save_document(null);
+			var result = !save_document(null);
+			if (!result) Main.remove_window(this);
+			return result;
 		});
-
-		hide.connect(() => Main.remove_window(this));
 		
 		set_slide(0);
 		update_undo();
@@ -212,7 +218,7 @@ public class Ease.EditorWindow : Gtk.Window
 	 */
 	public void set_slide(int index)
 	{
-		slide = document.slides.get(index);
+		slide = document.get_slide(index);
 		
 		// update ui elements for this new slide
 		inspector.slide = slide;
@@ -222,9 +228,9 @@ public class Ease.EditorWindow : Gtk.Window
 	/**
 	 * Add the most recent action to the {@link UndoController}.
 	 *
-	 * @param action The new {@link UndoAction}.
+	 * @param action The new {@link UndoItem}.
 	 */
-	public void add_undo_action(UndoAction action)
+	private void add_undo_action(UndoItem action)
 	{
 		undo.add_action(action);
 		undo.clear_redo();
@@ -253,29 +259,45 @@ public class Ease.EditorWindow : Gtk.Window
 	{
 		Gtk.main_quit ();
 	}
+	
+	[CCode (instance_pos = -1)]
+	public void on_delete(Gtk.Widget sender)
+	{
+		if (embed.selected == null) return;
+		
+		var i = slide.index_of(embed.selected.element);
+		add_undo_action(new ElementRemoveUndoAction(slide.element_at(i)));
+		slide.remove_at(i);
+	}
 
 	[CCode (instance_pos = -1)]
 	public void new_slide_handler(Gtk.Widget? sender)
 	{
-		var slide = document.theme.create_slide(document.DEFAULT_SLIDE,
-		                                        document.width,
-		                                        document.height);
+		var s = document.theme.create_slide(document.DEFAULT_SLIDE,
+		                                    document.width,
+		                                    document.height);
 		
 		var index = document.index_of(slide) + 1;
 		
-		document.add_slide(index, slide);
+		// add an undo action
+		add_undo_action(new SlideAddUndoAction(s));
+		
+		document.add_slide(index, s);
 	}
 	
 	public void on_new_slide_menu(Gtk.Widget? sender)
 	{
 		var item = sender as Gtk.MenuItem;
-		var slide = document.theme.create_slide(
+		var s = document.theme.create_slide(
 			Theme.master_from_description(item.get_label()),
 			document.width, document.height);
 		
 		var index = document.index_of(slide) + 1;
 		
-		document.add_slide(index, slide);
+		// add an undo action
+		add_undo_action(new SlideAddUndoAction(s));
+		
+		document.add_slide(index, s);
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -284,14 +306,25 @@ public class Ease.EditorWindow : Gtk.Window
 		// don't remove the last slide in a document
 		if (document.length < 2) return;
 		
+		// add an undo action
+		add_undo_action(new SlideRemoveUndoAction(slide));
+		
 		// set the slide to something safe
-		slide_button_panel.select_slide(document.rm_slide(slide));
+		slide_button_panel.select_slide(document.remove_slide(slide));
 	}
 	
 	[CCode (instance_pos = -1)]
 	public void play_handler(Gtk.Widget sender)
 	{
+		hide();
+		
 		player = new Player(document);
+		
+		player.complete.connect(() => {
+			player = null;
+			show();
+			present();
+		});
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -312,6 +345,17 @@ public class Ease.EditorWindow : Gtk.Window
 		embed.slide_actor.relayout();
 		embed.reposition_group();
 		slide.changed(slide);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void insert_text(Gtk.Widget sender)
+	{
+		var text = document.theme.create_custom_text();
+		text.x = document.width / 2 - text.width / 2;
+		text.y = document.height / 2 - text.height / 2;
+		slide.add(text);
+		add_undo_action(new ElementAddUndoAction(text));
+		embed.select_element(text);
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -341,12 +385,14 @@ public class Ease.EditorWindow : Gtk.Window
 				e.x = document.width / 2 - width / 2;
 				e.y = document.height / 2 - width / 2;
 				
-				e.element_type = JSONParser.IMAGE_TYPE;
+				e.element_type = Slide.IMAGE_TYPE;
+				e.identifier = Theme.CUSTOM_MEDIA;
 				e.filename = document.add_media_file(dialog.get_filename());
 				
 				// add the element
-				slide.add_element(0, e);
-				embed.recreate_slide();
+				slide.add(e);
+				add_undo_action(new ElementAddUndoAction(e));
+				embed.select_element(e);
 			}
 			catch (Error e)
 			{
@@ -406,7 +452,7 @@ public class Ease.EditorWindow : Gtk.Window
 	
 		try
 		{
-			JSONParser.document_write(document);
+			document.to_json();
 			last_saved = 0;
 		}
 		catch (GLib.Error e)
@@ -417,10 +463,23 @@ public class Ease.EditorWindow : Gtk.Window
 		return true;
 	}
 	
+	// export menu
 	[CCode (instance_pos = -1)]
-	public void export_to_pdf(Gtk.Widget sender)
+	public void export_as_pdf(Gtk.Widget sender)
 	{
-		PDFExporter.export(document, this);
+		document.export_as_pdf(this);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void export_as_postscript(Gtk.Widget sender)
+	{
+		document.export_as_postscript(this);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void export_as_html(Gtk.Widget sender)
+	{
+		document.export_as_html(this);
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -434,12 +493,6 @@ public class Ease.EditorWindow : Gtk.Window
 		{
 			inspector.show();
 		}
-	}
-	
-	[CCode (instance_pos = -1)]
-	public void export_to_html(Gtk.Widget sender)
-	{
-		document.export_to_html(this);
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -575,6 +628,8 @@ public class Ease.EditorWindow : Gtk.Window
 		zoom_slider.value_changed.connect(() => {
 			embed.zoom = (float)zoom_slider.get_value() / 100f;
 		});
+		
+		zoom_slider.show_all();
 		
 		return zoom_slider;
 	}

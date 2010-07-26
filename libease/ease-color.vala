@@ -29,6 +29,22 @@ public class Ease.Color : GLib.Object
 	 * The string placed between each channel in a string representation.
 	 */
 	private const string SPLIT = ",";
+	
+	/**
+	 * A color with the values (1, 1, 1, 1).
+	 */
+	public static Color white
+	{
+		owned get { return new Color.rgb(1, 1, 1); }
+	}
+	
+	/**
+	 * A color with the values (0, 0, 0, 1).
+	 */
+	public static Color black
+	{
+		owned get { return new Color.rgb(0, 0, 0); }
+	}
 
 	/**
 	 * The red value of this color.
@@ -49,6 +65,7 @@ public class Ease.Color : GLib.Object
 				red_priv = 1;
 			}
 			else red_priv = value;
+			if (!silence_changed) changed(this);
 		}
 	}
 	private double red_priv;
@@ -72,6 +89,7 @@ public class Ease.Color : GLib.Object
 				green_priv = 1;
 			}
 			else green_priv = value;
+			if (!silence_changed) changed(this);
 		}
 	}
 	private double green_priv;
@@ -95,6 +113,7 @@ public class Ease.Color : GLib.Object
 				blue_priv = 1;
 			}
 			else blue_priv = value;
+			if (!silence_changed) changed(this);
 		}
 	}
 	private double blue_priv;
@@ -118,6 +137,7 @@ public class Ease.Color : GLib.Object
 				alpha_priv = 1;
 			}
 			else alpha_priv = value;
+			if (!silence_changed) changed(this);
 		}
 	}
 	private double alpha_priv;
@@ -137,10 +157,13 @@ public class Ease.Color : GLib.Object
 		}
 		set
 		{
+			silence_changed = true;
 			red = value.red / 255f;
 			green = value.green / 255f;
 			blue = value.blue / 255f;
 			alpha = value.alpha / 255f;
+			silence_changed = false;
+			changed(this);
 		}
 	}
 	
@@ -155,18 +178,27 @@ public class Ease.Color : GLib.Object
 		get
 		{
 			return { 0,
-			         (uint16)(255 * red),
+			         (uint16)(65535 * red),
 			         (uint16)(65535 * green),
 			         (uint16)(65535 * blue) };
 		}
 		set
 		{
+			silence_changed = true;
 			red = value.red / 65535f;
 			green = value.green / 65535f;
 			blue = value.blue / 65535f;
 			alpha = 1;
+			silence_changed = false;
+			changed(this);
 		}
 	}
+	
+	/**
+	 * Emitted when any of the color's properties is changed.
+	 */
+	public signal void changed(Color self);
+	private bool silence_changed;
 	
 	/**
 	 * Creates an opaque color.
@@ -234,7 +266,15 @@ public class Ease.Color : GLib.Object
 	 */
 	public string to_string()
 	{
-		return STR.printf(red, SPLIT, blue, SPLIT, green, SPLIT, alpha);
+		return STR.printf(red, SPLIT, green, SPLIT, blue, SPLIT, alpha);
+	}
+	
+	/**
+	 * Returns a copy of this Color
+	 */
+	public Color copy()
+	{
+		return new Color.rgba(red, green, blue, alpha);
 	}
 	
 	/**
@@ -245,5 +285,19 @@ public class Ease.Color : GLib.Object
 	public void set_cairo(Cairo.Context cr)
 	{
 		cr.set_source_rgba(red, green, blue, alpha);
+	}
+	
+	/**
+	 * Returns an {@link UndoAction} that will restore this Color to its current
+	 * state.
+	 */
+	public UndoAction undo_action()
+	{
+		var action = new UndoAction(this, "red");
+		action.add(this, "green");
+		action.add(this, "blue");
+		action.add(this, "alpha");
+		
+		return action;
 	}
 }

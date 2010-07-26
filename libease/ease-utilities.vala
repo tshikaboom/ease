@@ -282,6 +282,24 @@ namespace Ease
 	{
 		return Transformations.gdk_color_to_clutter_color(theme_color(color));
 	}
+	
+	/**
+	 * Returns the parent window of the specified widget.
+	 */
+	public Gtk.Window widget_window(Gtk.Widget widg)
+	{
+		while (widg.get_parent() != null) widg = widg.get_parent();
+		return widg as Gtk.Window;
+	}
+	
+	/**
+	 * Returns an absolute path for the given path.
+	 */
+	private static string absolute_path(string path)
+	{
+		var file = GLib.File.new_for_path(path);
+		return file.resolve_relative_path(".").get_path();
+	}
 
 	public double dmax(double a, double b)
 	{

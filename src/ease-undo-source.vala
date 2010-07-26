@@ -15,43 +15,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Ease
+/**
+ * Provides a signal to notify a controller of {@link UndoItem}s.
+ */
+public interface Ease.UndoSource : GLib.Object
 {
 	/**
-	 * The position of editing handles.
+	 * Classes that implement the UndoSource interface should use this signal
+	 * to notify a parent controller (typically {@link EditorWindow}) of a new
+	 * UndoAction.
 	 */
-	public enum HandlePosition
-	{
-		TOP_LEFT = 0,
-		TOP_RIGHT = 1,
-		TOP = 2,
-		LEFT = 3,
-		RIGHT = 4,
-		BOTTOM_LEFT = 5,
-		BOTTOM_RIGHT = 6,
-		BOTTOM = 7
-	}
-	
-	/**
-	 * The context of an {@link Actor}: presentation, editor, etc.
-	 */
-	public enum ActorContext
-	{
-		PRESENTATION,
-		EDITOR,
-		INSPECTOR
-	}
-	
-	/**
-	 * Key values.
-	 */
-	public enum Key
-	{
-		UP = 65362,
-		DOWN = 65364,
-		LEFT = 65361,
-		RIGHT = 65363,
-		BACKSPACE = 65288,
-		DELETE = 65535
-	}
+	public signal void undo(UndoItem action);
 }

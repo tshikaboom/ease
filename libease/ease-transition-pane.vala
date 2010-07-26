@@ -36,9 +36,15 @@ public class Ease.TransitionPane : InspectorPane
 	private SlideActor new_slide;
 	private Clutter.Timeline preview_alarm;
 	
+	// the old slide, to disconnect handlers
+	private Slide old_slide;
+	
 	// constants
 	private const int PREVIEW_HEIGHT = 150;
 	private const uint PREVIEW_DELAY = 500;
+	
+	// silence undo if needed
+	private bool silence_undo;
 	
 	public TransitionPane()
 	{
@@ -64,12 +70,10 @@ public class Ease.TransitionPane : InspectorPane
 		var align = new Gtk.Alignment(0, 0, 0, 0);
 		align.add(new Gtk.Label(_("Effect")));
 		vbox.pack_start(align, false, false, 0);
-		effect = new Gtk.ComboBox.text();
-		for (var i = 0; i < Transitions.size; i++)
-		{
-			effect.append_text(Transitions.get_name(i));
-		}
-		effect.set_active(0);
+		effect = new Gtk.ComboBox.with_model(Transition.model());
+		var render = new Gtk.CellRendererText();
+		effect.pack_start(render, true);
+		effect.set_attributes(render, "text", 0);
 		align = new Gtk.Alignment(0, 0, 1, 1);
 		align.add(effect);
 		vbox.pack_start(align, false, false, 0);
@@ -94,7 +98,10 @@ public class Ease.TransitionPane : InspectorPane
 		align = new Gtk.Alignment(0, 0, 0, 0);
 		align.add(new Gtk.Label(_("Direction")));
 		vbox.pack_start(align, false, false, 0);
-		variant = new Gtk.ComboBox.text();
+		variant = new Gtk.ComboBox();
+		render = new Gtk.CellRendererText();
+		variant.pack_start(render, true);
+		variant.set_attributes(render, "text", 0);
 		variant_align = new Gtk.Alignment(0, 0, 1, 1);
 		variant_align.add(variant);
 		vbox.pack_start(variant_align, false, false, 0);
@@ -130,43 +137,75 @@ public class Ease.TransitionPane : InspectorPane
 		pack_start(hbox, false, false, 5);
 		
 		// signal handlers
-		effect.changed.connect(() => {			
-			// create a new ComboBox
-			variant_align.remove(variant);
-			variant = new Gtk.ComboBox.text();
-			variant_align.add(variant);
-			variant.show();
+		effect.changed.connect((sender) => {
+			// allow the user to undo the change
+			var action = new UndoAction(slide, "transition");
+			action.add(slide, "variant");
+			if (!silence_undo) undo(action);
 			
-			// get the variants for the new transition
-			var variants = Transitions.variants_for_index(effect.active);
-			
-			// add the transition's variants
-			for (var i = 0; i < variants.length; i++)
-			{
-				variant.append_text(Transitions.get_variant_name(variants[i]));
-			}
-			
-			// if the slide has variants, make the appropriate one active
-			for (int i = 0; i < variants.length; i++)
-			{
-				if (variants[i] == slide.variant)
-				{
-					variant.set_active(i);
-					break;
-				}
-			}
+			var already_silenced = silence_undo;
+			silence_undo = true;
 			
 			// set the transition
-			slide.transition = Transitions.transition_for_index(effect.active);
+			Gtk.TreeIter itr;
+			if (sender.get_active_iter(out itr))
+			{
+				Transition transition;
+				sender.model.get(itr, 1, out transition);
+				slide.transition = transition;
+			}
+			else
+			{
+				critical("Transition not found in model");
+			}
 			
-			// allow the user to change the variant
-			variant.changed.connect(() => {
-				var v = Transitions.variants_for_transition(slide.transition);
-				slide.variant = v[variant.active];
-			});
+			// get the variants for the new transition
+			variant.model = slide.transition.variant_model();
+			
+			// if the slide has variants, make the appropriate one active
+			if (variant.model.get_iter_first(out itr))
+			{
+				TransitionVariant v;
+				do
+				{
+					variant.model.get(itr, 1, out v);
+					if (v == slide.variant)
+					{
+						variant.set_active_iter(itr);
+						silence_undo = already_silenced;
+						return;
+					}
+				}
+				while (variant.model.iter_next(ref itr));
+				
+				// if none was set, set the variant to the first item
+				variant.model.get_iter_first(out itr);
+				variant.set_active_iter(itr);
+			}
+			
+			silence_undo = already_silenced;
+		});
+		
+		// allow the user to change the variant
+		variant.changed.connect((sender) => {
+			if (!silence_undo) undo(new UndoAction(slide, "variant"));
+			
+			Gtk.TreeIter itr;
+			if (sender.get_active_iter(out itr))
+			{
+				TransitionVariant variant;
+				sender.model.get(itr, 1, out variant);
+				slide.variant = variant;
+			}
+			else
+			{
+				critical("Variant not found in model");
+			}
 		});
 		
 		start_transition.changed.connect(() => {
+			if (!silence_undo) undo(new UndoAction(slide,
+			                                       "automatically-advance"));
 			if (start_transition.active == 0)
 			{
 				delay.sensitive = false;
@@ -180,10 +219,12 @@ public class Ease.TransitionPane : InspectorPane
 		});
 		
 		transition_time.value_changed.connect(() => {
+			if (!silence_undo) undo(new UndoAction(slide, "transition-time"));
 			slide.transition_time = transition_time.get_value();
 		});
 		
 		delay.value_changed.connect(() => {
+			if (!silence_undo) undo(new UndoAction(slide, "advance-delay"));
 			slide.advance_delay = delay.get_value();
 		});
 		
@@ -243,14 +284,125 @@ public class Ease.TransitionPane : InspectorPane
 		preview_alarm.start();
 	}
 	
+	private void on_slide_notify(GLib.Object obj, GLib.ParamSpec spec)
+	{
+		var already_silenced = silence_undo;
+		silence_undo = true;
+		Gtk.TreeIter itr;
+		switch (spec.name)
+		{
+			case "transition":
+				if (effect.model.get_iter_first(out itr))
+				{
+					bool set = false;
+					Transition t;
+					do
+					{
+						effect.model.get(itr, 1, out t);
+						if (t == slide.transition)
+						{
+							effect.set_active_iter(itr);
+							set = true;
+							break;
+						}
+					}
+					while (effect.model.iter_next(ref itr));
+			
+					// if none was set, set the variant to the first item
+					if (!set)
+					{
+						effect.model.get_iter_first(out itr);
+						effect.set_active_iter(itr);
+					}
+				}
+				break;
+			case "variant":
+				if (variant.model.get_iter_first(out itr))
+				{
+					TransitionVariant v;
+					do
+					{
+						variant.model.get(itr, 1, out v);
+						if (v == slide.variant)
+						{
+							variant.set_active_iter(itr);
+							silence_undo = already_silenced;
+							return;
+						}
+					}
+					while (variant.model.iter_next(ref itr));
+				
+					// if none was set, set the variant to the first item
+					variant.model.get_iter_first(out itr);
+					variant.set_active_iter(itr);
+				}
+				break;
+			case "transition-time":
+				transition_time.set_value(slide.transition_time);
+				break;
+			case "advance-delay":
+				delay.set_value(slide.advance_delay);
+				break;
+			case "start-transition":
+				start_transition.set_active(slide.automatically_advance ?
+				                            1 : 0);
+				delay.set_value(slide.advance_delay);
+				delay.sensitive = slide.automatically_advance;
+				break;
+		}
+		silence_undo = already_silenced;
+	}
+	
 	protected override void slide_updated()
 	{
+		silence_undo = true;
+		
+		// disconnect old signal handlers
+		if (old_slide != null)
+		{
+			old_slide.notify["transition-time"].disconnect(on_slide_notify);
+			old_slide.notify["variant"].disconnect(on_slide_notify);
+			old_slide.notify["transition"].disconnect(on_slide_notify);
+			old_slide.notify["advance-delay"].disconnect(on_slide_notify);
+			old_slide.notify["start-transition"].disconnect(on_slide_notify);
+		}
+		old_slide = slide;
+		
+		// connect new signal handlers
+		slide.notify["transition-time"].connect(on_slide_notify);
+		slide.notify["variant"].connect(on_slide_notify);
+		slide.notify["transition"].connect(on_slide_notify);
+		slide.notify["advance-delay"].connect(on_slide_notify);
+		slide.notify["start-transition"].connect(on_slide_notify);
+		
 		// set transition time box
 		transition_time.set_value(slide.transition_time);
 		
 		// set effect and variant combo boxes
-		var index = Transitions.get_index(slide.transition);
-		effect.set_active(index);
+		Gtk.TreeIter itr;
+		if (effect.model.get_iter_first(out itr))
+		{
+			bool set = false;
+			Transition t;
+			do
+			{
+				effect.model.get(itr, 1, out t);
+				if (t == slide.transition)
+				{
+					effect.set_active_iter(itr);
+					set = true;
+					break;
+				}
+			}
+			while (effect.model.iter_next(ref itr));
+			
+			// if none was set, set the variant to the first item
+			if (!set)
+			{
+				effect.model.get_iter_first(out itr);
+				effect.set_active_iter(itr);
+			}
+		}
 		
 		// set the automatic advance boxes
 		start_transition.set_active(slide.automatically_advance ? 1 : 0);
@@ -283,6 +435,8 @@ public class Ease.TransitionPane : InspectorPane
 			preview_alarm.stop();
 		}
 		animate_preview();
+		
+		silence_undo = false;
 	}
 }
 

@@ -27,7 +27,7 @@
  * EditorEmbed is a subclass of {@link ScrollableEmbed}, and has both
  * horizontal and vertical scrollbars.
  */
-public class Ease.EditorEmbed : ScrollableEmbed
+public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 {
 	/**
 	 * The {@link EditorWindow} that owns this EditorEmbed.
@@ -37,7 +37,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	/**
 	 * The rectangle displayed around selected {@link Actor}s.
 	 */
-	private Clutter.Rectangle selection_rectangle;
+	private SelectionRectangle selection_rectangle;
 	
 	/**
 	 * The {@link Handle}s attached to the selection rectangle.
@@ -105,6 +105,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	private float orig_h;
 	
 	/**
+	 * If the embed is currently receiving key events.
+	 */
+	private bool keys_connected = false;
+	
+	/**
 	 * The gtk background color identifier.
 	 */
 	private const string BG_COLOR = "bg_color:";
@@ -119,6 +124,16 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * The size of the handles[] array.
 	 */
 	private const int HANDLE_COUNT = 8;
+	
+	/**
+	 * The number of pixels an actor moves when nudged.
+	 */
+	private const int NUDGE_PIXELS = 10;
+	
+	/**
+	 * The number of pixels an actor moves when nudged with shift held down.
+	 */
+	private const int NUDGE_SHIFT_PIXELS = 50;
 	
 	/**
 	 * The {@link Document} linked with this EditorEmbed.
@@ -181,7 +196,17 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		
 		// set the background to a faded version of the normal gtk background
 		Clutter.Color out_color;
-		theme_clutter_color(BG_COLOR).shade(SHADE_FACTOR, out out_color);
+		var color = theme_color(BG_COLOR);
+		if (color == null)
+		{
+			out_color = { 150, 150, 150, 255 };
+			out_color.shade(SHADE_FACTOR, out out_color);
+		}
+		else
+		{
+			out_color = Transformations.gdk_color_to_clutter_color(color);
+		}
+		
 		get_stage().color = out_color;
 		
 		document = d;
@@ -204,6 +229,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 				reposition_group();
 			}
 		});
+		
+		connect_keys();
 	}
 
 	/**
@@ -229,22 +256,52 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			is_editing = false;
 		}
 		
+		connect_keys();
+		
 		// clean up the previous slide
 		if (slide_actor != null)
 		{
 			contents.remove_actor(slide_actor);
-			for (unowned List<Clutter.Actor>* itr =
-			     slide_actor.contents.get_children();
-			     itr != null;
-			     itr = itr->next)
+			foreach (var a in slide_actor.contents)
 			{
-				((Actor*)(itr->data))->button_press_event.disconnect(actor_clicked);
-				((Actor*)(itr->data))->button_release_event.disconnect(actor_released);
-				((Actor*)(itr->data))->reactive = false;
+				a.button_press_event.disconnect(actor_clicked);
+				a.button_release_event.disconnect(actor_released);
+				a.reactive = false;
 			}
+			
+			slide_actor.ease_actor_added.disconnect(on_ease_actor_added);
+			slide_actor.ease_actor_removed.disconnect(on_ease_actor_removed);
 		}
 		
 		// remove the selection rectangle
+		remove_selection_rect();
+		
+		// create a new SlideActor
+		slide_actor = new SlideActor.from_slide(document,
+		                                        slide,
+		                                        false,
+		                                        ActorContext.EDITOR);
+		                                        
+		// make the elements clickable
+		foreach (var a in slide_actor.contents)
+		{
+			a.button_press_event.connect(actor_clicked);
+			a.button_release_event.connect(actor_released);
+			a.reactive = true;
+		}
+		
+		slide_actor.ease_actor_added.connect(on_ease_actor_added);
+		slide_actor.ease_actor_removed.connect(on_ease_actor_removed);
+		
+		contents.add_actor(slide_actor);
+		reposition_group();
+	}
+	
+	/**
+	 * Removes the selection rectangle and handles.
+	 */
+	private void remove_selection_rect()
+	{
 		if (selection_rectangle != null)
 		{
 			if (selection_rectangle.get_parent() == contents)
@@ -262,26 +319,6 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			}
 			handles = null;
 		}
-		
-		// create a new SlideActor
-		slide_actor = new SlideActor.from_slide(document,
-		                                        slide,
-		                                        false,
-		                                        ActorContext.EDITOR);
-		                                        
-		// make the elements clickable
-		for (unowned List<Clutter.Actor>* itr = slide_actor.contents.get_children();
-		     itr != null;
-		     itr = itr->next)
-		{
-			
-			((Actor*)(itr->data))->button_press_event.connect(actor_clicked);
-			((Actor*)(itr->data))->button_release_event.connect(actor_released);
-			((Actor*)(itr->data))->reactive = true;
-		}
-		
-		contents.add_actor(slide_actor);
-		reposition_group();
 	}
 
 	/**
@@ -310,7 +347,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		                            ? height / 2 - h / 2
 		                            : 0);
 		              
-		if (selection_rectangle != null)
+		if (selection_rectangle != null && selected != null)
 		{
 			position_selection();
 		}
@@ -344,6 +381,22 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	}
 	
 	/**
+	 * Selects an {@link Actor} by {@link Element}.
+	 *
+	 * @param e The element to search for.
+	 */
+	public void select_element(Element e)
+	{
+		foreach (var a in slide_actor.contents)
+		{
+			if ((a as Actor).element == e)
+			{
+				select_actor(a as Actor);
+			}
+		}
+	}
+	
+	/**
 	 * Signal handler for clicking on {@link Actor}s.
 	 * 
 	 * This handler is attached to the button_press_event of all
@@ -357,6 +410,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		// if this is a double click, edit the actor
 		if (event.click_count == 2)
 		{
+			disconnect_keys();
 			(sender as Actor).edit(this);
 			is_editing = true;
 			return true;
@@ -377,29 +431,27 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			return true;
 		}
 		
-		// if editing another Actor, finish that edit
-		if (selected != null && is_editing)
-		{
-			selected.end_edit(this);
-			is_editing = false;
-		}
+		select_actor(sender as Actor);
 		
-		// remove the selection rectangle and handles
-		if (selection_rectangle != null)
-		{
-			if (selection_rectangle.get_parent() == contents)
-			{
-				contents.remove_actor(selection_rectangle);
-			}
-		}
+		return true;
+	}
+	
+	/**
+	 * Selects an {@link Actor}.
+	 *
+	 * @param sender The Actor to select.
+	 */
+	private void select_actor(Actor sender)
+	{
+		// deselect anything that is currently selected
+		deselect_actor();
+		
+		connect_keys();
 		
 		selected = sender as Actor;
 		
 		// make a new selection rectangle
-		selection_rectangle = new Clutter.Rectangle();
-		selection_rectangle.border_color = {0, 0, 0, 255};
-		selection_rectangle.color = {0, 0, 0, 0};
-		selection_rectangle.border_width = 2;
+		selection_rectangle = new SelectionRectangle();
 		position_selection();
 		contents.add_actor(selection_rectangle);
 		
@@ -422,7 +474,31 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			contents.raise_child(handles[i], selection_rectangle);
 		}
 		
-		return true;
+		// when something is selected, the embed grabs key focus
+		set_can_focus(true);
+		grab_focus();
+	}
+	
+	/**
+	 * Deselects the currently selected {@link Actor}.
+	 *
+	 * This method is safe to call if nothing is selected.
+	 */
+	private void deselect_actor()
+	{
+		// if editing another Actor, finish that edit
+		if (selected != null && is_editing)
+		{
+			selected.end_edit(this);
+			is_editing = false;
+		}
+		connect_keys();
+		
+		// deselect
+		selected = null;
+		
+		// remove the selection rectangle and handles
+		remove_selection_rect();
 	}
 	
 	/**
@@ -443,7 +519,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			is_dragging = false;
 			Clutter.ungrab_pointer();
 			sender.motion_event.disconnect(actor_motion);
-			win.add_undo_action(move_undo);
+			undo(move_undo);
 		}
 		return true;
 	}
@@ -537,7 +613,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			(sender as Handle).flip(false);
 			is_dragging = false;
 			sender.motion_event.disconnect(handle_motion);
-			win.add_undo_action(move_undo);
+			undo(move_undo);
 		}
 		
 		Clutter.ungrab_pointer();
@@ -611,6 +687,118 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	{
 		if (selected == null) return;	
 		if (!selected.element.set_color(color)) return;
+	}
+	
+	/**
+	 * Handles actor removal events. Deselects the current
+	 * {@link Actor} if necessary, and disconnects handlers.
+	 */
+	public void on_ease_actor_removed(Actor actor)
+	{
+		if (selected == actor) deselect_actor();
+		actor.button_press_event.disconnect(actor_clicked);
+		actor.button_release_event.disconnect(actor_released);
+		actor.reactive = false;
+	}
+	
+	/**
+	 * Handles new actor events. Connects handlers.
+	 */
+	public void on_ease_actor_added(Actor actor)
+	{
+		actor.button_press_event.connect(actor_clicked);
+		actor.button_release_event.connect(actor_released);
+		actor.reactive = true;
+	}
+	
+	/**
+	 * Handles keypresses within the embed.
+	 */
+	public bool on_key_press_event(Gtk.Widget self, Gdk.EventKey event)
+	{
+		if (event.type == Gdk.EventType.KEY_RELEASE) return false;
+		
+		bool shift = (event.state & Gdk.ModifierType.SHIFT_MASK) != 0;
+		
+		switch (event.keyval)
+		{
+			case Key.UP:
+				if (selected == null) break;
+				if (is_editing) return true;
+				
+				undo(new UndoAction(selected.element, "y"));
+				selected.translate(0, shift ?
+				                      -NUDGE_SHIFT_PIXELS : -NUDGE_PIXELS);
+				position_selection();			
+				selected.element.parent.changed(selected.element.parent);
+				return true;
+			
+			case Key.DOWN:
+				if (selected == null) break;
+				if (is_editing) return true;
+				
+				undo(new UndoAction(selected.element, "y"));
+				selected.translate(0, shift ?
+				                      NUDGE_SHIFT_PIXELS : NUDGE_PIXELS);
+				position_selection();			
+				selected.element.parent.changed(selected.element.parent);
+				return true;
+				
+			case Key.LEFT:
+				if (selected == null) break;
+				if (is_editing) return true;
+				
+				undo(new UndoAction(selected.element, "x"));
+				selected.translate(shift ?
+				                   -NUDGE_SHIFT_PIXELS : -NUDGE_PIXELS, 0);
+				position_selection();			
+				selected.element.parent.changed(selected.element.parent);
+				return true;
+			
+			case Key.RIGHT:
+				if (selected == null) break;
+				if (is_editing) return true;
+				
+				undo(new UndoAction(selected.element, "x"));
+				selected.translate(shift ?
+				                   NUDGE_SHIFT_PIXELS : NUDGE_PIXELS, 0);
+				position_selection();			
+				selected.element.parent.changed(selected.element.parent);
+				return true;
+			
+			case Key.BACKSPACE:
+			case Key.DELETE:
+				if (selected == null) break;
+				
+				var slide = slide_actor.slide;
+				var i = slide.index_of(selected.element);
+				undo(new ElementRemoveUndoAction(slide.element_at(i)));
+				slide.remove_at(i);
+				
+				return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Connects the key event handlers.
+	 */
+	public void connect_keys()
+	{
+		if (keys_connected) return;
+		keys_connected = true;
+		key_press_event.connect(on_key_press_event);
+	}
+	
+	/**
+	 * Disconnects the key event handlers.
+	 */
+	public void disconnect_keys()
+	{
+		if (!keys_connected) return;
+		keys_connected = false;
+		key_press_event.disconnect(on_key_press_event);
 	}
 }
 

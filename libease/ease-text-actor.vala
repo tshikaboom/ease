@@ -54,7 +54,7 @@ public class Ease.TextActor : Actor
 		text.color = e.color.clutter;
 		text.line_alignment = e.text_align;
 		format(e);
-		text.set_markup(e.has_been_edited ? e.get("text") : DEFAULT_TEXT);
+		text.set_markup(e.has_been_edited ? e.text : DEFAULT_TEXT);
 		
 		add_actor(contents);
 		contents.width = e.width;
@@ -140,7 +140,7 @@ public class Ease.TextActor : Actor
 	 */
 	private void text_changed(Clutter.Text sender)
 	{
-		element.set("text", sender.text);
+		(element as TextElement).text = sender.text;
 		element.parent.changed(element.parent);
 	}
 	

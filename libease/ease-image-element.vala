@@ -22,25 +22,15 @@
 public class Ease.ImageElement : MediaElement
 {
 	/**
-	 * Create a new element, with an empty {@link ElementMap}.
+	 * Create a new element.
 	 */
 	public ImageElement()
 	{
-		data = new ElementMap();
 	}
 	
-	/**
-	 * Creates a completely empty ImageElement, without an {@link ElementMap}.
-	 */
-	public ImageElement.empty() {}	
-	
-	public override Element copy()
+	public ImageElement.from_json(Json.Object obj)
 	{
-		var element = new ImageElement.empty();
-		element.parent = parent;
-		element.data = data.copy();
-		
-		return element;
+		base.from_json(obj);
 	}
 	
 	public override Actor actor(ActorContext c)
@@ -55,19 +45,18 @@ public class Ease.ImageElement : MediaElement
 		
 		// set the image's style
 		html += "style=\"";
-		html += "left:" + data.get("x") + "px;";
-		html += " top:" + data.get("y") + "px;";
-		html += " width:" + data.get("width") + "px;";
-		html += " height:" + data.get("height") + "px;";
+		html += "left:" + x.to_string() + "px;";
+		html += " top:" + y.to_string() + "px;";
+		html += " width:" + width.to_string() + "px;";
+		html += " height:" + height.to_string() + "px;";
 		html += " position: absolute;\" ";
 		
 		// add the image
-		html += "src=\"" + exporter.basename + " " + 
-		        data.get("filename") + "\" alt=\"Image\" />";
+		html += "src=\"" + exporter.basename + " " + filename +
+		        "\" alt=\"Image\" />";
 		
 		// copy the image file
-		exporter.copy_file(data.get("filename"),
-		                   parent.parent.path);
+		exporter.copy_file(filename, parent.parent.path);
 	}
 
 	/**
@@ -75,9 +64,7 @@ public class Ease.ImageElement : MediaElement
 	 */
 	public override void cairo_render(Cairo.Context context) throws Error
 	{
-		var filename = Path.build_path("/",
-		                               parent.parent.path,
-		                               data.get("filename"));
+		var filename = Path.build_path("/", parent.parent.path, filename);
 		
 		// load the image
 		var pixbuf = new Gdk.Pixbuf.from_file_at_scale(filename,

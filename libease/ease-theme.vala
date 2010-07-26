@@ -57,13 +57,22 @@ public class Ease.Theme : GLib.Object
 	
 	// master slide properties
 	public const string BACKGROUND_COLOR = "background-color";
+	public const string BACKGROUND_GRADIENT = "background-gradient";
+	public const string BACKGROUND_IMAGE = "background-image";
 	public const string S_IDENTIFIER = "slide-identifier";
+	
+	// background types
+	private const string BACKGROUND_TYPE = "background-type";
+	private const string BACKGROUND_TYPE_COLOR = "background-type-color";
+	private const string BACKGROUND_TYPE_GRADIENT = "background-type-gradient";
+	private const string BACKGROUND_TYPE_IMAGE = "background-type-image";
 	
 	// text content types
 	private const string TITLE_TEXT = "title-text";
 	private const string AUTHOR_TEXT = "author-text";
 	private const string CONTENT_TEXT = "content-text";
 	private const string HEADER_TEXT = "header-text";
+	private const string CUSTOM_TEXT = "custom-text";
 	
 	// text properties
 	public const string TEXT_FONT = "text-font";
@@ -73,6 +82,14 @@ public class Ease.Theme : GLib.Object
 	public const string TEXT_WEIGHT = "text-weight";
 	public const string TEXT_ALIGN = "text-align";
 	public const string TEXT_COLOR = "text-color";
+	public const string TEXT_TEXT = "text";
+	
+	// media content types
+	public const string CONTENT_MEDIA = "content-media";
+	public const string CUSTOM_MEDIA = "custom-media";
+	
+	// media properties
+	public const string MEDIA_FILENAME = "media-filename";
 	
 	// gradient types
 	public const string GRAD_LINEAR = "linear";
@@ -81,6 +98,7 @@ public class Ease.Theme : GLib.Object
 	
 	// generic element properties
 	public const string E_IDENTIFIER = "element-identifier";
+	public const string ELEMENT_TYPE = "element-type";
 	
 	/**
 	 * The text properties, excluding color, which must be set in a custom way.
@@ -94,9 +112,6 @@ public class Ease.Theme : GLib.Object
 		TEXT_ALIGN
 	};
 	
-	// media content types
-	public const string CONTENT_MEDIA = "content-media";
-	
 	// generic element properties
 	public const string PAD_LEFT = "padding-left";
 	public const string PAD_RIGHT = "padding-right";
@@ -104,6 +119,9 @@ public class Ease.Theme : GLib.Object
 	public const string PAD_BOTTOM = "padding-bottom";
 	public const string WIDTH = "width";
 	public const string HEIGHT = "height";
+	public const string X = "x";
+	public const string Y = "y";
+	public const string HAS_BEEN_EDITED = "has-been-edited";
 	
 	/**
 	 * The title of the Theme.
@@ -314,8 +332,24 @@ public class Ease.Theme : GLib.Object
 		Slide slide = new Slide();
 		
 		// set the slide background property
-		slide.background_color = new Color.
-			from_string(master_get(master, BACKGROUND_COLOR));
+		switch (master_get(master, BACKGROUND_TYPE))
+		{
+			case BACKGROUND_TYPE_COLOR:
+				slide.background_color = new Color.
+					from_string(master_get(master, BACKGROUND_COLOR));
+				slide.background_type = BackgroundType.COLOR;
+				break;
+			case BACKGROUND_TYPE_GRADIENT:
+				slide.background_gradient = new Gradient.
+					from_string(master_get(master, BACKGROUND_GRADIENT));
+				slide.background_type = BackgroundType.GRADIENT;
+				break;
+			case BACKGROUND_TYPE_IMAGE:
+				slide.background_image = master_get(master, BACKGROUND_IMAGE);
+				slide.background_type = BackgroundType.IMAGE;
+				break;
+				
+		}
 		
 		switch (master)
 		{
@@ -396,13 +430,24 @@ public class Ease.Theme : GLib.Object
 	}
 	
 	/**
+	 * Returns a custom {@link TextElement} with its x and y positions set to 0.
+	 */
+	public TextElement create_custom_text()
+	{
+		return create_text(CUSTOM_TEXT, 0, 0,
+		                   element_get(CUSTOM_TEXT, WIDTH).to_int(),
+		                   element_get(CUSTOM_TEXT, HEIGHT).to_int());
+	}
+	
+	/**
 	 * Creates a text element, given an element type and dimensions.
 	 */
 	private TextElement create_text(string type, int x, int y, int w, int h)
 	{
 		// error if an improper element type is used
 		if (!(type == TITLE_TEXT || type == AUTHOR_TEXT ||
-		      type == CONTENT_TEXT || type == HEADER_TEXT))
+		      type == CUSTOM_TEXT || type == CONTENT_TEXT ||
+		      type == HEADER_TEXT))
 		{
 			error(_("Not a valid text element type: %s"), type);
 		}
@@ -411,10 +456,12 @@ public class Ease.Theme : GLib.Object
 		var text = new TextElement();
 		
 		// set text properties
-		foreach (var prop in TEXT_PROPS)
-		{
-			text.set(prop, element_get(type, prop));
-		}
+		text.text_font = element_get(type, TEXT_FONT);
+		text.text_size_from_string(element_get(type, TEXT_SIZE));
+		text.text_style_from_string(element_get(type, TEXT_STYLE));
+		text.text_variant_from_string(element_get(type, TEXT_VARIANT));
+		text.text_weight_from_string(element_get(type, TEXT_WEIGHT));
+		text.text_align_from_string(element_get(type, TEXT_ALIGN));
 		
 		// set the color property
 		text.color = new Color.from_string(element_get(type, TEXT_COLOR));

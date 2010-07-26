@@ -53,6 +53,8 @@ public class Ease.Player : GLib.Object
 	private Clutter.Rectangle shader_left;
 	private Clutter.Rectangle shader_right;
 	
+	public signal void complete();
+	
 	public Player(Document doc)
 	{
 		document = doc;
@@ -231,10 +233,11 @@ public class Ease.Player : GLib.Object
 		if (slide_index == document.slides.size) // slideshow complete
 		{
 			stage.hide_all();
+			complete();
 			return;
 		}
 		
-		var slide = document.slides.get(slide_index);
+		var slide = document.get_slide(slide_index);
 		
 		// the first slide simply fades in
 		if (slide_index == 0)
@@ -286,7 +289,7 @@ public class Ease.Player : GLib.Object
 		can_animate = true;
 		
 		container.remove_all();
-		create_current_slide(document.slides.get(slide_index));
+		create_current_slide(document.get_slide(slide_index));
 		current_slide.stack(container);
 		container.add_actor(current_slide);
 	}

@@ -70,8 +70,6 @@ public class Ease.Main : GLib.Object
 		}
 
 		// initalize static classes
-		Transitions.init();
-		OpenDialog.init();
 		windows = new Gee.ArrayList<EditorWindow>();
 		
 		// Clutter settings
@@ -94,7 +92,7 @@ public class Ease.Main : GLib.Object
 		{
 			try
 			{
-				var doc = JSONParser.document(play_filename);
+				var doc = new Document.from_saved(play_filename);
 				player = new Player(doc);
 			
 				// if no editor windows are specified, quit when done
@@ -147,7 +145,7 @@ public class Ease.Main : GLib.Object
 		
 		try
 		{
-			var doc = JSONParser.document(path);
+			var doc = new Document.from_saved(path);
 			add_window(new EditorWindow(doc));
 		}
 		catch (Error e)

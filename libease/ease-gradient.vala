@@ -33,22 +33,65 @@ public class Ease.Gradient : GLib.Object
 	/**
 	 * The starting {@link Color} of the gradient.
 	 */
-	public Color start { get; set; }
+	public Color start
+	{
+		get { return start_priv; }
+		set
+		{
+			if (start_priv != null)
+			{
+				start_priv.changed.disconnect(color_changed);
+			}
+			
+			start_priv = value;
+			start_priv.changed.connect(color_changed);
+			changed(this);
+		}
+	}
+	private Color start_priv;
 	
 	/**
 	 * The ending {@link Color} of the gradient.
 	 */
-	public Color end { get; set; }
+	public Color end
+	{
+		get { return end_priv; }
+		set
+		{
+			if (end_priv != null)
+			{
+				end_priv.changed.disconnect(color_changed);
+			}
+			
+			end_priv = value;
+			end_priv.changed.connect(color_changed);
+			changed(this);
+		}
+	}
+	private Color end_priv;
 	
 	/**
-	 * The {@link GradientMode} of the gradient.
+	 * The {@link GradientType} of the gradient.
 	 */
-	public GradientMode mode { get; set; }
+	public GradientType mode { get; set; }
 	
 	/**
 	 * The angle, in radians, of the gradient, if it is linear.
 	 */
 	public double angle { get; set; }
+	
+	/**
+	 * Emitted when the gradient's appearance is changed in any way.
+	 */
+	public signal void changed(Gradient self);
+	
+	/**
+	 * Returns a copy of the default background gradient.
+	 */
+	public static Gradient default_background
+	{	
+		owned get { return new Gradient(Color.black, Color.white); }
+	}
 	
 	/**
 	 * Creates a new linear gradient, with the specified colors.
@@ -57,7 +100,11 @@ public class Ease.Gradient : GLib.Object
 	{
 		start = start_color;
 		end = end_color;
-		mode = GradientMode.LINEAR;
+		mode = GradientType.LINEAR;
+		angle = 0;
+		
+		notify["mode"].connect((a, b) => changed(this));
+		notify["angle"].connect((a, b) => changed(this));
 	}
 	
 	/**
@@ -66,7 +113,11 @@ public class Ease.Gradient : GLib.Object
 	public Gradient.mirrored(Color start_color, Color end_color)
 	{
 		this(start_color, end_color);
-		mode = GradientMode.LINEAR_MIRRORED;
+		mode = GradientType.LINEAR_MIRRORED;
+		angle = 0;
+		
+		notify["mode"].connect((a, b) => changed(this));
+		notify["angle"].connect((a, b) => changed(this));
 	}
 	
 	/**
@@ -75,7 +126,11 @@ public class Ease.Gradient : GLib.Object
 	public Gradient.radial(Color start_color, Color end_color)
 	{
 		this(start_color, end_color);
-		mode = GradientMode.RADIAL;
+		mode = GradientType.RADIAL;
+		angle = 0;
+		
+		notify["mode"].connect((a, b) => changed(this));
+		notify["angle"].connect((a, b) => changed(this));
 	}
 	
 	/**
@@ -83,10 +138,10 @@ public class Ease.Gradient : GLib.Object
 	 */
 	public Gradient.from_string(string str)
 	{
-		var split = str.split(SPLIT);
+		var split = str.replace(" ", "").split(SPLIT);
 		start = new Color.from_string(split[0]);
 		end = new Color.from_string(split[1]);
-		mode = GradientMode.from_string(split[2]);
+		mode = GradientType.from_string(split[2]);
 		angle = split[3].to_double();
 	}
 	
@@ -102,6 +157,17 @@ public class Ease.Gradient : GLib.Object
 	}
 	
 	/**
+	 * Returns a copy of this Gradient.
+	 */
+	public Gradient copy()
+	{
+		var grad = new Gradient(start.copy(), end.copy());
+		grad.mode = mode;
+		grad.angle = angle;
+		return grad;
+	}
+	
+	/**
 	 * Reverses the Gradient.
 	 */
 	public void flip()
@@ -110,12 +176,68 @@ public class Ease.Gradient : GLib.Object
 		end = start;
 		start = temp;
 	}
+	
+	/**
+	 * Renders the gradient to the given Cairo context at the specified size.
+	 *
+	 * @param cr The Cairo context to render to.
+	 * @param width The width of the rendered rectangle.
+	 * @param height The height of the rendered rectangle.
+	 */
+	public void cairo_render_rect(Cairo.Context cr, int width, int height)
+	{
+		cr.save();
+		cr.rectangle(0, 0, width, height);
+		
+		Cairo.Pattern pattern;
+		switch (mode)
+		{
+			case GradientType.LINEAR:				
+				pattern = new Cairo.Pattern.linear(0, 0, 0, height);
+				pattern.add_color_stop_rgba(0, start.red, start.green,
+						                    start.blue, start.alpha);
+				pattern.add_color_stop_rgba(1, end.red, end.green,
+						                    end.blue, end.alpha);
+				break;
+			case GradientType.LINEAR_MIRRORED:
+				pattern = new Cairo.Pattern.linear(0, 0, 0, height);
+				pattern.add_color_stop_rgba(0, start.red, start.green,
+						                    start.blue, start.alpha);
+				pattern.add_color_stop_rgba(0.5, end.red, end.green,
+						                    end.blue, end.alpha);
+				pattern.add_color_stop_rgba(1, start.red, start.green,
+						                    start.blue, start.alpha);
+				break;
+			default: // radial
+				pattern = new Cairo.Pattern.radial(width / 2, height / 2, 0,
+				                                       width / 2, height / 2,
+				                                       width / 2);
+				pattern.add_color_stop_rgba(0, start.red, start.green,
+						                    start.blue, start.alpha);
+				pattern.add_color_stop_rgba(1, end.red, end.green,
+						                    end.blue, end.alpha);
+				break;
+		}
+		
+		cr.set_source(pattern);
+		cr.fill();
+		
+		cr.restore();
+	}
+	
+	/**
+	 * Signal handler for {@link Color.changed} signals.
+	 */
+	private void color_changed(Color change)
+	{
+		changed(this);
+	}
 }
 
 /**
  * The {@link Gradient} types provided by Ease.
  */
-public enum Ease.GradientMode
+public enum Ease.GradientType
 {
 	/**
 	 * A linear gradient, from top to bottom.
@@ -135,7 +257,7 @@ public enum Ease.GradientMode
 	RADIAL;
 	
 	/**
-	 * Returns a string representation of this GradientMode.
+	 * Returns a string representation of this GradientType.
 	 */
 	public string to_string()
 	{
@@ -149,9 +271,9 @@ public enum Ease.GradientMode
 	}
 	
 	/**
-	 * Creates a GradientMode from a string representation.
+	 * Creates a GradientType from a string representation.
 	 */
-	public static GradientMode from_string(string str)
+	public static GradientType from_string(string str)
 	{
 		switch (str)
 		{
@@ -162,5 +284,38 @@ public enum Ease.GradientMode
 		
 		warning("%s is not a gradient type", str);
 		return LINEAR;
+	}
+	
+	/**
+	 * Returns a string description of the GradientType
+	 */
+	public string description()
+	{
+		switch (this)
+		{
+			case LINEAR: return _("Linear");
+			case LINEAR_MIRRORED: return _("Mirrored Linear");
+			case RADIAL: return _("Radial");
+		}
+		return "undefined";
+	}
+	
+	/**
+	 * Creates a ListStore with the first column set as the description
+	 * and the second column set as the GradientType.
+	 */
+	public static Gtk.ListStore list_store()
+	{
+		var store = new Gtk.ListStore(2, typeof(string), typeof(GradientType));
+		Gtk.TreeIter itr;
+		
+		store.append(out itr);
+		store.set(itr, 0, LINEAR.description(), 1, LINEAR);
+		store.append(out itr);
+		store.set(itr, 0, LINEAR_MIRRORED.description(), 1, LINEAR_MIRRORED);
+		store.append(out itr);
+		store.set(itr, 0, RADIAL.description(), 1, RADIAL);
+		
+		return store;
 	}
 }
