@@ -21,7 +21,7 @@
  * The Ease Document class is generated from JSON and writes back to JSON
  * when saved.
  */
-public class Ease.Document : GLib.Object
+public class Ease.Document : GLib.Object, UndoSource
 {
 	private const string MEDIA_PATH = "Media";
 	

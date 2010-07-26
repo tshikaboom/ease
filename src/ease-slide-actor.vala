@@ -125,7 +125,7 @@ public class Ease.SlideActor : Clutter.Group
 	private const int EXPLODE_PARTICLES = 10;
 	
 	/**
-	 *
+	 * The number of tiles across the side in the assemble transition.
 	 */
 	private const int ASSEMBLE_TILES = 12;
 	
@@ -1495,28 +1495,25 @@ public class Ease.SlideActor : Clutter.Group
 				switch (Random.int_range(0, 4))
 				{
 					case 0:
-						particles[i].x = -(hpos + 1) * size;
+						particles[i].x = -(hpos + 1) * size - assemble_extra();
 						anim_x = true;
 						break;
 					case 1:
-						particles[i].y = -(vpos + 1) * size;
+						particles[i].y = -(vpos + 1) * size - assemble_extra();
 						break;
 					case 2:
-						particles[i].x = (ASSEMBLE_TILES - hpos + 1) * size;
+						particles[i].x = (ASSEMBLE_TILES - hpos + 1) * size +
+						                 assemble_extra();
 						anim_x = true;
 						break;
 					case 3:
-						particles[i].y = (v_count - vpos + 1) * size;
+						particles[i].y = (v_count - vpos + 1) * size +
+						                 assemble_extra();
 						break;
 				}
 				
-				/*var time = (uint)(50 + Random.next_double() * (length - 50));
-				var timer = new Clutter.Timeline(time);
-				timer.completed.connect(() => {*/
-					particles[i].animate(Clutter.AnimationMode.EASE_OUT_SINE,
-					                     length, anim_x ? "x" : "y", 0);
-				//});
-				//timer.start();
+				particles[i].animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
+					                 length, anim_x ? "x" : "y", 0);
 				container.add_actor(particles[i]);
 				particles[i].show();
 			}
@@ -1533,6 +1530,11 @@ public class Ease.SlideActor : Clutter.Group
 				}
 			}		
 		});
+	}
+	
+	private float assemble_extra()
+	{
+		return Random.int_range(0, 1000);
 	}
 	
 	private float explode_dist()
