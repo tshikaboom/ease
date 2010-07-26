@@ -204,7 +204,11 @@ public class Ease.EditorWindow : Gtk.Window
 			dialog.destroy();
 			
 			if (response == Gtk.ResponseType.CANCEL) return true;
-			if (response == Gtk.ResponseType.NO) return false;
+			if (response == Gtk.ResponseType.NO)
+			{
+				Main.remove_window(this);
+				return false;
+			}
 			
 			// otherwise, save and quit
 			var result = !save_document(null);
