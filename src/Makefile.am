@@ -14,5 +14,5 @@ ease_LDADD = \
 	$(EASE_LIBS) \
 	$(NULL)
 	
-ease_CFLAGS = $(EASE_CFLAGS) -I../libease/libease.h
+ease_CFLAGS = $(EASE_CFLAGS) -I../libease/
 ease_LDFLAGS = $(EASE_LDFLAGS)

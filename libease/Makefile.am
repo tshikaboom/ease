@@ -15,12 +15,12 @@ libease_0_1_la_SOURCES = \
 	ease-actor.vala \
 	ease-animated-zoom-slider.vala \
 	ease-close-confirm-dialog.vala \
+	ease-clutter-iterables.vala \
 	ease-color.vala \
+	ease-dialogs.vala \
 	ease-document.vala \
 	ease-editor-embed.vala \
 	ease-editor-window.vala \
-	ease-element-map.vala \
-	ease-element-map-value.vala \
 	ease-element.vala \
 	ease-enums.vala \
 	ease-gradient.vala \
@@ -31,17 +31,15 @@ libease_0_1_la_SOURCES = \
 	ease-inspector-pane.vala \
 	ease-inspector.vala \
 	ease-inspector-window.vala \
-	ease-json-parser.vala \
+	ease-iterables.vala \
 	ease-main.vala \
 	ease-media-element.vala \
-	ease-open-dialog.vala \
-	ease-pdf-exporter.vala \
 	ease-player.vala \
 	ease-scrollable-embed.vala \
+	ease-selection-rectangle.vala \
 	ease-slide-actor.vala \
 	ease-slide-button-panel.vala \
 	ease-slide-pane.vala \
-	ease-slide-set.vala \
 	ease-slide.vala \
 	ease-temp.vala \
 	ease-text-actor.vala \
@@ -51,6 +49,10 @@ libease_0_1_la_SOURCES = \
 	ease-transition-pane.vala \
 	ease-transitions.vala \
 	ease-undo-action.vala \
+	ease-undo-actions-element.vala \
+	ease-undo-actions-slide.vala \
+	ease-undo-item.vala \
+	ease-undo-source.vala \
 	ease-undo-controller.vala \
 	ease-utilities.vala \
 	ease-welcome-actor.vala \
