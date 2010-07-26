@@ -170,9 +170,9 @@ public class Ease.Slide : GLib.Object
 		{
 			for (int i = 0; i < parent.slides.size - 1; i++)
 			{
-				if (parent.slides.get(i) == this)
+				if (parent.get_slide(i) == this)
 				{
-					return parent.slides.get(i + 1);
+					return parent.get_slide(i + 1);
 				}
 			}
 			return null;
@@ -188,9 +188,9 @@ public class Ease.Slide : GLib.Object
 		{
 			for (int i = 1; i < parent.slides.size; i++)
 			{
-				if (parent.slides.get(i) == this)
+				if (parent.get_slide(i) == this)
 				{
-					return parent.slides.get(i - 1);
+					return parent.get_slide(i - 1);
 				}
 			}
 			return null;
@@ -244,6 +244,8 @@ public class Ease.Slide : GLib.Object
 	 */
 	internal Slide.from_json(Json.Object obj)
 	{
+		this();
+		
 		var slide = new Slide();
 		
 		// read the slide's transition properties

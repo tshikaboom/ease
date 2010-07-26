@@ -217,7 +217,7 @@ public class Ease.EditorWindow : Gtk.Window
 	 */
 	public void set_slide(int index)
 	{
-		slide = document.slides.get(index);
+		slide = document.get_slide(index);
 		
 		// update ui elements for this new slide
 		inspector.slide = slide;

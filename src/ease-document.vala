@@ -44,6 +44,21 @@ public class Ease.Document : GLib.Object
 	 * Path of the Document's {@link Theme} data files.
 	 */
 	public const string THEME_PATH = "Theme";
+	
+	/**
+	 * Model column count.
+	 */
+	private const int MODEL_COLS = 2;
+	
+	/**
+	 * Model Slide column.
+	 */
+	public const int COL_SLIDE = 0;
+	
+	/**
+	 * Model pixbuf column.
+	 */
+	public const int COL_PIXBUF = 1;
 
 	/**
 	 * The {@link Theme} linked to this Document.
@@ -79,7 +94,9 @@ public class Ease.Document : GLib.Object
 	/**
 	 * All {@link Slide}s in this Document.
 	 */
-	public Gee.LinkedList<Slide> slides = new Gee.LinkedList<Slide>();
+	public Iterable.ListStore slides = new Iterable.ListStore(
+		{ typeof(Slide),
+		  typeof(Gdk.Pixbuf) });
 	
 	/**
 	 * The number of {@link Slide}s in the Document.
@@ -123,12 +140,12 @@ public class Ease.Document : GLib.Object
 		height = (int)root.get_string_member("height").to_int();
 		
 		// add all slides
-		var slides = root.get_array_member("slides");
+		var json_slides = root.get_array_member("slides");
 		
-		for (var i = 0; i < slides.get_length(); i++)
+		for (var i = 0; i < json_slides.get_length(); i++)
 		{
-			var node = slides.get_object_element(i);
-			add_slide(length, new Slide.from_json(node));
+			var node = json_slides.get_object_element(i);
+			append_slide(new Slide.from_json(node));
 		}
 		
 		// get the document's theme
@@ -184,8 +201,10 @@ public class Ease.Document : GLib.Object
 		
 		// add the document's slides
 		var slides_json = new Json.Array();
-		foreach (var s in slides)
+		Slide s;
+		foreach (var itr in slides)
 		{
+			slides.get(itr, COL_SLIDE, out s);
 			slides_json.add_element(s.to_json());
 		}
 		obj.set_array_member("slides", slides_json);
@@ -212,7 +231,9 @@ public class Ease.Document : GLib.Object
 	public void add_slide(int index, Slide s)
 	{
 		s.parent = this;
-		slides.insert(index, s);
+		Gtk.TreeIter itr;
+		slides.insert(out itr, index);
+		slides.set(itr, COL_SLIDE, s);
 		slide_added(s, index);
 	}
 	
@@ -221,26 +242,41 @@ public class Ease.Document : GLib.Object
 	 */
 	public void append_slide(Slide s)
 	{
-		s.parent = this;
-		slides.offer_head(s);
-		slide_added(s, slides.size - 1);
+		add_slide(length, s);
 	}
 	
 	/**
 	 * Removes the specified {@link Slide}, returning an Slide that the editor
 	 * can safely jump to.
 	 *
-	 * @param s The slide to remove.
+	 * @param slide The slide to remove.
 	 */
-	public Slide remove_slide(Slide s)
+	public Slide remove_slide(Slide slide)
 	{
-		int ind = index_of(s);
+		Slide s;
+		var index = 0;
+		foreach (var itr in slides)
+		{
+			slides.get(itr, COL_SLIDE, out s);
+			if (slide == s)
+			{
+				slides.remove(itr);
+				slide_deleted(s, index);
+				break;
+			}
+			index++;
+		}
 		
-		slides.remove(s);
-		slide_deleted(s, ind);
+		Slide ret;
+		Gtk.TreeIter itr;
+		slides.get_iter_first(out itr);
 		
-		if (ind == 0) return slides.get(0);
-		return slides.get(ind - 1);
+		// iterate to the slide. the first two are slide zero.
+		for (int i = 1; i < index; i++) slides.iter_next(ref itr);
+		
+		// retrieve and return the slide
+		slides.get(itr, COL_SLIDE, out ret);
+		return ret;
 	}
 	
 	/**
@@ -249,31 +285,55 @@ public class Ease.Document : GLib.Object
 	 */
 	public bool has_next_slide(Slide slide)
 	{
-		for (int i = 0; i < slides.size - 1; i++)
+		Slide s;
+		Gtk.TreeIter itr;
+		if (!slides.get_iter_first(out itr)) return false;
+		
+		do
 		{
-			if (slides.get(i) == slide)
-			{
-				return true;
-			}
-		}
+			slides.get(itr, COL_SLIDE, out s);
+			if (s == slide) return slides.iter_next(ref itr);
+		} while (slides.iter_next(ref itr));
+		
 		return false;
 	}
 	
 	/**
 	 * Finds the index of the given slide, or returns -1 if it is not found.
 	 *
-	 * @param s The {@link Slide} to find the index of.
+	 * @param slide The {@link Slide} to find the index of.
 	 */
-	public int index_of(Slide s)
+	public int index_of(Slide slide)
 	{
-		for (int i = 0; i < slides.size; i++)
+		Slide s;
+		var i = 0;
+		foreach (var itr in slides)
 		{
-			if (slides.get(i) == s)
+			slides.get(itr, COL_SLIDE, out s);
+			if (s == slide)
 			{
 				return i;
 			}
+			i++;
 		}
 		return -1;
+	}
+	
+	/**
+	 * Returns the Slide at the specified index.
+	 */
+	public Slide get_slide(int index)
+	{
+		Slide ret;
+		Gtk.TreeIter itr;
+		slides.get_iter_first(out itr);
+		
+		// iterate to the slide
+		for (int i = 0; i < index; i++) slides.iter_next(ref itr);
+		
+		// retrieve and return the slide
+		slides.get(itr, COL_SLIDE, out ret);
+		return ret;
 	}
 	
 	/**
@@ -283,8 +343,10 @@ public class Ease.Document : GLib.Object
 	 */
 	public Slide? slide_by_title(string title)
 	{
-		foreach (Slide s in slides)
+		Slide s;
+		foreach (var itr in slides)
 		{
+			slides.get(itr, COL_SLIDE, out s);
 			if (s.title == title)
 			{
 				return s;
@@ -329,8 +391,10 @@ public class Ease.Document : GLib.Object
 			var surface = new Cairo.PdfSurface(path, width, height);
 			var context = new Cairo.Context(surface);
 		
-			foreach (var s in slides)
+			Slide s;
+			foreach (var itr in slides)
 			{
+				slides.get(itr, COL_SLIDE, out s);
 				s.cairo_render(context);
 				context.show_page();
 			}
@@ -365,9 +429,13 @@ public class Ease.Document : GLib.Object
 		// substitute in the values
 		
 		// add each slide
-		for (var i = 0; i < slides.size; i++)
+		Slide slide;
+		int index = 0;
+		foreach (var itr in slides)
 		{
-			slides.get(i).to_html(ref html, exporter, 1.0 / slides.size, i);
+			slides.get(itr, COL_SLIDE, out slide);
+			slide.to_html(ref html, exporter, 1.0 / slides.size, index);
+			index++;
 		}
 		
 		// finish the document

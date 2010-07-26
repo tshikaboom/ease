@@ -32,6 +32,7 @@ ease_SOURCES = \
 	src/ease-inspector-pane.vala \
 	src/ease-inspector.vala \
 	src/ease-inspector-window.vala \
+	src/ease-iterables.vala \
 	src/ease-media-element.vala \
 	src/ease-open-dialog.vala \
 	src/ease-player.vala \
