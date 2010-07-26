@@ -68,7 +68,7 @@ public class Ease.ImageElement : MediaElement
 			{
 				filename = parent.parent.add_media_file(file_b.get_filename());
 				source_filename = file_b.get_filename();
-				(widget_window(button) as EditorWindow).add_undo_action(action);
+				undo(action);
 			}
 			catch (Error e)
 			{

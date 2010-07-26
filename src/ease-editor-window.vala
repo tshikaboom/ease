@@ -127,6 +127,7 @@ public class Ease.EditorWindow : Gtk.Window
 		set_default_size(1024, 768);
 		
 		document = doc;
+		document.undo.connect(add_undo_action);
 		
 		var builder = new Gtk.Builder();
 		try
@@ -152,17 +153,16 @@ public class Ease.EditorWindow : Gtk.Window
 		// main editor
 		embed = new EditorEmbed(document, this);
 		(builder.get_object("Embed Align") as Gtk.Alignment).add(embed);
-		embed.undo.connect((action) => add_undo_action(action));
+		embed.undo.connect(add_undo_action);
 		
 		// the inspector
 		inspector = new Inspector();
 		(builder.get_object("Inspector Align") as Gtk.Alignment).add(inspector);
-		inspector.undo.connect((action) => add_undo_action(action));
+		inspector.undo.connect(add_undo_action);
 		embed.element_selected.connect(
 			inspector.element_pane.on_element_selected);
 		embed.element_deselected.connect(
 			inspector.element_pane.on_element_deselected);
-		
 		
 		// zoom slider
 		(builder.get_object("Zoom Slider Item") as Gtk.ToolItem).

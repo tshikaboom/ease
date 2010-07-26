@@ -148,7 +148,7 @@ public class Ease.TextElement : Element
 		
 		font.font_set.connect((button) => {
 			var action = new UndoAction(this, "font-description");
-			(widget_window(button) as EditorWindow).add_undo_action(action);
+			undo(action);
 			font_description =
 				Pango.FontDescription.from_string(font.font_name);
 		});
@@ -163,7 +163,7 @@ public class Ease.TextElement : Element
 		
 		color_b.color_set.connect((button) => {
 			var action = new UndoAction(this, "color");
-			(widget_window(button) as EditorWindow).add_undo_action(action);
+			undo(action);
 			color = new Color.from_gdk(color_b.color);
 		});
 		
@@ -192,7 +192,7 @@ public class Ease.TextElement : Element
 		
 		if (text_align != old)
 		{
-			(widget_window(sender) as EditorWindow).add_undo_action(action);
+			undo(action);
 		}
 	}
 

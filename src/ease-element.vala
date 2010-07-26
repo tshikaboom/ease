@@ -22,7 +22,7 @@
  * abstract, so each type of element is represented by a subclass. The Element
  * base class contains properties common to all types of element.
  */
-public abstract class Ease.Element : GLib.Object
+public abstract class Ease.Element : GLib.Object, UndoSource
 {
 	/**
 	 * The default width of {@link Theme} master slides.

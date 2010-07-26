@@ -64,7 +64,7 @@ public class Ease.Inspector : Gtk.Notebook, UndoSource
 	{
 		append_page(i, new Gtk.Image.from_stock(stock_id,
 		                                        Gtk.IconSize.SMALL_TOOLBAR));
-		i.undo.connect((action) => undo(action));
+		listen(i);
 	}
 }
 

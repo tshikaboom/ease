@@ -235,6 +235,7 @@ public class Ease.Document : GLib.Object, UndoSource
 		slides.insert(out itr, index);
 		slides.set(itr, COL_SLIDE, s);
 		slide_added(s, index);
+		listen(s);
 	}
 	
 	/**
@@ -262,10 +263,11 @@ public class Ease.Document : GLib.Object, UndoSource
 			{
 				slides.remove(itr);
 				slide_deleted(s, index);
+				silence(s);
 				break;
 			}
 			index++;
-		}
+		}		
 		
 		Slide ret;
 		Gtk.TreeIter itr;
