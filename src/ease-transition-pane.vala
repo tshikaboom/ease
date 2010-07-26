@@ -143,6 +143,7 @@ public class Ease.TransitionPane : InspectorPane
 			action.add(slide, "variant");
 			if (!silence_undo) undo(action);
 			
+			var already_silenced = silence_undo;
 			silence_undo = true;
 			
 			// set the transition
@@ -157,7 +158,7 @@ public class Ease.TransitionPane : InspectorPane
 			{
 				critical("Transition not found in model");
 			}
-				
+			
 			// get the variants for the new transition
 			variant.model = slide.transition.variant_model();
 			
@@ -171,7 +172,7 @@ public class Ease.TransitionPane : InspectorPane
 					if (v == slide.variant)
 					{
 						variant.set_active_iter(itr);
-						silence_undo = false;
+						silence_undo = already_silenced;
 						return;
 					}
 				}
@@ -182,7 +183,7 @@ public class Ease.TransitionPane : InspectorPane
 				variant.set_active_iter(itr);
 			}
 			
-			silence_undo = false;
+			silence_undo = already_silenced;
 		});
 		
 		// allow the user to change the variant
@@ -285,6 +286,7 @@ public class Ease.TransitionPane : InspectorPane
 	
 	private void on_slide_notify(GLib.Object obj, GLib.ParamSpec spec)
 	{
+		var already_silenced = silence_undo;
 		silence_undo = true;
 		Gtk.TreeIter itr;
 		switch (spec.name)
@@ -324,6 +326,7 @@ public class Ease.TransitionPane : InspectorPane
 						if (v == slide.variant)
 						{
 							variant.set_active_iter(itr);
+							silence_undo = already_silenced;
 							return;
 						}
 					}
@@ -347,7 +350,7 @@ public class Ease.TransitionPane : InspectorPane
 				delay.sensitive = slide.automatically_advance;
 				break;
 		}
-		silence_undo = false;
+		silence_undo = already_silenced;
 	}
 	
 	protected override void slide_updated()
