@@ -27,7 +27,7 @@
  * EditorEmbed is a subclass of {@link ScrollableEmbed}, and has both
  * horizontal and vertical scrollbars.
  */
-public class Ease.EditorEmbed : ScrollableEmbed
+public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 {
 	/**
 	 * The {@link EditorWindow} that owns this EditorEmbed.
@@ -105,6 +105,11 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	private float orig_h;
 	
 	/**
+	 * If the embed is currently receiving key events.
+	 */
+	private bool keys_connected = false;
+	
+	/**
 	 * The gtk background color identifier.
 	 */
 	private const string BG_COLOR = "bg_color:";
@@ -119,6 +124,16 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	 * The size of the handles[] array.
 	 */
 	private const int HANDLE_COUNT = 8;
+	
+	/**
+	 * The number of pixels an actor moves when nudged.
+	 */
+	private const int NUDGE_PIXELS = 10;
+	
+	/**
+	 * The number of pixels an actor moves when nudged with shift held down.
+	 */
+	private const int NUDGE_SHIFT_PIXELS = 50;
 	
 	/**
 	 * The {@link Document} linked with this EditorEmbed.
@@ -214,6 +229,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 				reposition_group();
 			}
 		});
+		
+		connect_keys();
 	}
 
 	/**
@@ -238,6 +255,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			selected.end_edit(this);
 			is_editing = false;
 		}
+		
+		connect_keys();
 		
 		// clean up the previous slide
 		if (slide_actor != null)
@@ -391,6 +410,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		// if this is a double click, edit the actor
 		if (event.click_count == 2)
 		{
+			disconnect_keys();
 			(sender as Actor).edit(this);
 			is_editing = true;
 			return true;
@@ -426,6 +446,8 @@ public class Ease.EditorEmbed : ScrollableEmbed
 		// deselect anything that is currently selected
 		deselect_actor();
 		
+		connect_keys();
+		
 		selected = sender as Actor;
 		
 		// make a new selection rectangle
@@ -451,6 +473,10 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			handles[i].reposition(selection_rectangle);
 			contents.raise_child(handles[i], selection_rectangle);
 		}
+		
+		// when something is selected, the embed grabs key focus
+		set_can_focus(true);
+		grab_focus();
 	}
 	
 	/**
@@ -466,6 +492,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			selected.end_edit(this);
 			is_editing = false;
 		}
+		connect_keys();
 		
 		// deselect
 		selected = null;
@@ -492,7 +519,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			is_dragging = false;
 			Clutter.ungrab_pointer();
 			sender.motion_event.disconnect(actor_motion);
-			win.add_undo_action(move_undo);
+			undo(move_undo);
 		}
 		return true;
 	}
@@ -586,7 +613,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 			(sender as Handle).flip(false);
 			is_dragging = false;
 			sender.motion_event.disconnect(handle_motion);
-			win.add_undo_action(move_undo);
+			undo(move_undo);
 		}
 		
 		Clutter.ungrab_pointer();
@@ -663,7 +690,7 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	}
 	
 	/**
-	 * Handles {@link SlideActor.on_ease_actor_removed}. Deselects the current
+	 * Handles actor removal events. Deselects the current
 	 * {@link Actor} if necessary, and disconnects handlers.
 	 */
 	public void on_ease_actor_removed(Actor actor)
@@ -675,13 +702,103 @@ public class Ease.EditorEmbed : ScrollableEmbed
 	}
 	
 	/**
-	 * Handles {@link SlideActor.on_ease_actor_added}. Connects handlers.
+	 * Handles new actor events. Connects handlers.
 	 */
 	public void on_ease_actor_added(Actor actor)
 	{
 		actor.button_press_event.connect(actor_clicked);
 		actor.button_release_event.connect(actor_released);
 		actor.reactive = true;
+	}
+	
+	/**
+	 * Handles keypresses within the embed.
+	 */
+	public bool on_key_press_event(Gtk.Widget self, Gdk.EventKey event)
+	{
+		if (event.type == Gdk.EventType.KEY_RELEASE) return false;
+		
+		bool shift = (event.state & Gdk.ModifierType.SHIFT_MASK) != 0;
+		
+		switch (event.keyval)
+		{
+			case Key.UP:
+				if (selected == null) break;
+				if (is_editing) return true;
+				
+				undo(new UndoAction(selected.element, "y"));
+				selected.translate(0, shift ?
+				                      -NUDGE_SHIFT_PIXELS : -NUDGE_PIXELS);
+				position_selection();			
+				selected.element.parent.changed(selected.element.parent);
+				return true;
+			
+			case Key.DOWN:
+				if (selected == null) break;
+				if (is_editing) return true;
+				
+				undo(new UndoAction(selected.element, "y"));
+				selected.translate(0, shift ?
+				                      NUDGE_SHIFT_PIXELS : NUDGE_PIXELS);
+				position_selection();			
+				selected.element.parent.changed(selected.element.parent);
+				return true;
+				
+			case Key.LEFT:
+				if (selected == null) break;
+				if (is_editing) return true;
+				
+				undo(new UndoAction(selected.element, "x"));
+				selected.translate(shift ?
+				                   -NUDGE_SHIFT_PIXELS : -NUDGE_PIXELS, 0);
+				position_selection();			
+				selected.element.parent.changed(selected.element.parent);
+				return true;
+			
+			case Key.RIGHT:
+				if (selected == null) break;
+				if (is_editing) return true;
+				
+				undo(new UndoAction(selected.element, "x"));
+				selected.translate(shift ?
+				                   NUDGE_SHIFT_PIXELS : NUDGE_PIXELS, 0);
+				position_selection();			
+				selected.element.parent.changed(selected.element.parent);
+				return true;
+			
+			case Key.BACKSPACE:
+			case Key.DELETE:
+				if (selected == null) break;
+				
+				var slide = slide_actor.slide;
+				var i = slide.index_of(selected.element);
+				undo(new ElementRemoveUndoAction(slide.element_at(i)));
+				slide.remove_at(i);
+				
+				return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Connects the key event handlers.
+	 */
+	public void connect_keys()
+	{
+		if (keys_connected) return;
+		keys_connected = true;
+		key_press_event.connect(on_key_press_event);
+	}
+	
+	/**
+	 * Disconnects the key event handlers.
+	 */
+	public void disconnect_keys()
+	{
+		if (!keys_connected) return;
+		keys_connected = false;
+		key_press_event.disconnect(on_key_press_event);
 	}
 }
 

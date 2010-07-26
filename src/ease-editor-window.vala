@@ -157,6 +157,7 @@ public class Ease.EditorWindow : Gtk.Window
 		// main editor
 		embed = new EditorEmbed(document, this);
 		(builder.get_object("Embed Align") as Gtk.Alignment).add(embed);
+		embed.undo.connect((action) => add_undo_action(action));
 		
 		// zoom slider
 		(builder.get_object("Zoom Slider Item") as Gtk.ToolItem).
@@ -229,7 +230,7 @@ public class Ease.EditorWindow : Gtk.Window
 	 *
 	 * @param action The new {@link UndoItem}.
 	 */
-	public void add_undo_action(UndoItem action)
+	private void add_undo_action(UndoItem action)
 	{
 		undo.add_action(action);
 		undo.clear_redo();

@@ -55,3 +55,9 @@ public class Ease.ClutterIterableGroup : Clutter.Group, ClutterIterableContainer
 {
 }
 
+/**
+ * ClutterStage with {@link ClutterIterableContainer} mixin.
+ */
+public class Ease.ClutterIterableStage : Clutter.Stage, ClutterIterableContainer
+{
+}

@@ -41,4 +41,17 @@ namespace Ease
 		EDITOR,
 		INSPECTOR
 	}
+	
+	/**
+	 * Key values.
+	 */
+	public enum Key
+	{
+		UP = 65362,
+		DOWN = 65364,
+		LEFT = 65361,
+		RIGHT = 65363,
+		BACKSPACE = 65288,
+		DELETE = 65535
+	}
 }
