@@ -618,7 +618,7 @@ public class Ease.EditorWindow : Gtk.Window
 						font_selection.get_font_name());
 						
 				// emit the "changed" signal on the element's slide
-				text.parent.changed(text.parent);
+				text.changed();
 				break;
 		}
 		

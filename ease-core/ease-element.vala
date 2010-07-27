@@ -37,12 +37,12 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	/**
 	 * The {@link Slide} that this Element is a part of.
 	 */
-	public Slide parent { get; set; }
+	internal Slide parent { get; set; }
 	
 	/**
 	 * The {@link Document} that this Element is part of. get-only.
 	 */
-	public Document document { get { return parent.parent; } }
+	internal Document document { get { return parent.parent; } }
 	
 	/**
 	 * Creates an Element from a JsonObject
@@ -203,5 +203,13 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	 * If the Element has been edited by the user in the past.
 	 */
 	public bool has_been_edited { get; set; }
+	
+	/**
+	 * Notifies of changes to the Element.
+	 */
+	public void changed()
+	{
+		if (parent != null) parent.changed(parent);
+	}
 }
 

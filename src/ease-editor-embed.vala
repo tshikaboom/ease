@@ -573,7 +573,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 			
 			position_selection();
 			
-			selected.element.parent.changed(selected.element.parent);
+			selected.element.changed();
 		}
 		return true;
 	}
@@ -681,7 +681,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		
 		position_selection();
 		
-		selected.element.parent.changed(selected.element.parent);
+		selected.element.changed();
 		
 		return true;
 	}
@@ -739,7 +739,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 				selected.translate(0, shift ?
 				                      -NUDGE_SHIFT_PIXELS : -NUDGE_PIXELS);
 				position_selection();			
-				selected.element.parent.changed(selected.element.parent);
+				selected.element.changed();
 				return true;
 			
 			case Key.DOWN:
@@ -750,7 +750,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 				selected.translate(0, shift ?
 				                      NUDGE_SHIFT_PIXELS : NUDGE_PIXELS);
 				position_selection();			
-				selected.element.parent.changed(selected.element.parent);
+				selected.element.changed();
 				return true;
 				
 			case Key.LEFT:
@@ -761,7 +761,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 				selected.translate(shift ?
 				                   -NUDGE_SHIFT_PIXELS : -NUDGE_PIXELS, 0);
 				position_selection();			
-				selected.element.parent.changed(selected.element.parent);
+				selected.element.changed();
 				return true;
 			
 			case Key.RIGHT:
@@ -772,7 +772,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 				selected.translate(shift ?
 				                   NUDGE_SHIFT_PIXELS : NUDGE_PIXELS, 0);
 				position_selection();			
-				selected.element.parent.changed(selected.element.parent);
+				selected.element.changed();
 				return true;
 			
 			case Key.BACKSPACE:
