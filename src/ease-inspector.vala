@@ -43,13 +43,13 @@ public class Ease.Inspector : Gtk.Notebook, UndoSource
 		}
 	}
 	
-	public Inspector()
+	public Inspector(Document document)
 	{
 		set_size_request(REQUEST_WIDTH, REQUEST_HEIGHT);
 	
-		transition_pane = new InspectorTransitionPane();
-		element_pane = new InspectorElementPane();
-		slide_pane = new InspectorSlidePane();
+		transition_pane = new InspectorTransitionPane(document);
+		element_pane = new InspectorElementPane(document);
+		slide_pane = new InspectorSlidePane(document);
 		
 		// add pages
 		append(slide_pane, "gtk-page-setup");

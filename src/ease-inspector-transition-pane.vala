@@ -46,9 +46,9 @@ public class Ease.InspectorTransitionPane : InspectorPane
 	// silence undo if needed
 	private bool silence_undo;
 	
-	public InspectorTransitionPane()
+	public InspectorTransitionPane(Document d)
 	{
-		base();
+		base(d);
 		
 		// preview
 		preview = new GtkClutter.Embed();
@@ -230,8 +230,8 @@ public class Ease.InspectorTransitionPane : InspectorPane
 		
 		// automatically scale the preview to fit in the embed
 		preview.get_stage().allocation_changed.connect((box, flags) => {
-			preview_group.scale_x = (box.x2 - box.x1) / slide.parent.width;
-			preview_group.scale_y = (box.y2 - box.y1) / slide.parent.height;
+			preview_group.scale_x = (box.x2 - box.x1) / slide.width;
+			preview_group.scale_y = (box.y2 - box.y1) / slide.height;
 		});
 		
 		// automatically set the correct aspect ratio for the preview
@@ -239,7 +239,7 @@ public class Ease.InspectorTransitionPane : InspectorPane
 			if (slide == null) return;
 			
 			preview_align.height_request =
-				(int)(allocation.width / slide.parent.aspect);
+				(int)(allocation.width / document.aspect);
 		});
 	}
 	
@@ -412,19 +412,19 @@ public class Ease.InspectorTransitionPane : InspectorPane
 		// size the preview box
 		Gtk.Allocation alloc = Gtk.Allocation();
 		preview_align.get_allocation(out alloc);
-		preview_align.height_request = (int)(alloc.width / slide.parent.aspect);
+		preview_align.height_request = (int)(alloc.width / document.aspect);
 		
 		// remove the old preview slide actors
 		preview_group.remove_all();
 		
 		// add new slide previews
-		current_slide = new SlideActor.from_slide(slide.parent, slide, true,
+		current_slide = new SlideActor.from_slide(document, slide, true,
 		                                          ActorContext.PRESENTATION);
 		
-		new_slide = slide.parent.has_next_slide(slide) ?
-		            new SlideActor.from_slide(slide.parent, slide.next, true,
+		new_slide = document.has_next_slide(slide) ?
+		            new SlideActor.from_slide(document, slide.next, true,
 		                                      ActorContext.PRESENTATION) :
-		            new SlideActor.blank(slide.parent, { 0, 0, 0, 255 });
+		            new SlideActor.blank(document, { 0, 0, 0, 255 });
 		
 		preview_group.add_actor(current_slide);
 		preview_group.add_actor(new_slide);

@@ -39,9 +39,9 @@ public class Ease.InspectorSlidePane : InspectorPane
 	
 	private bool silence_undo;
 
-	public InspectorSlidePane()
+	public InspectorSlidePane(Document d)
 	{	
-		base();
+		base(d);
 		
 		// load the GtkBuilder file
 		var builder = new Gtk.Builder();
@@ -134,7 +134,7 @@ public class Ease.InspectorSlidePane : InspectorPane
 					{
 						var fname = dialog.get_filename();
 						slide.background_image_source = fname;
-						var i = slide.parent.add_media_file(fname);
+						var i = document.add_media_file(fname);
 						slide.background_image = i;
 					}
 					catch (GLib.Error e)
@@ -238,7 +238,7 @@ public class Ease.InspectorSlidePane : InspectorPane
 		try
 		{
 			slide.background_image_source = sender.get_filename();
-			var i = slide.parent.add_media_file(sender.get_filename());
+			var i = document.add_media_file(sender.get_filename());
 			slide.background_image = i;
 		}
 		catch (GLib.Error e)

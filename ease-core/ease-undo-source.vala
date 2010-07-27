@@ -22,7 +22,7 @@ public interface Ease.UndoSource : GLib.Object
 {
 	/**
 	 * Classes that implement the UndoSource interface should use this signal
-	 * to notify a parent controller (typically {@link EditorWindow}) of a new
+	 * to notify a parent controller (typically an EditorWindow) of a new
 	 * UndoAction.
 	 */
 	public signal void undo(UndoItem action);

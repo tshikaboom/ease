@@ -20,7 +20,7 @@
  *
  * A Slide is owned by a {@link Document} and has {@link Element}
  * children. The currently selected Slide is often acted upon by an
- * {@link EditorWindow}.
+ * EditorWindow (from main Ease, not core).
  */
 public class Ease.Slide : GLib.Object, UndoSource
 {
@@ -29,7 +29,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 	/**
 	 * The {@link Element}s contained by this Slide
 	 */
-	public Gee.ArrayList<Element> elements = new Gee.ArrayList<Element>();
+	internal Gee.ArrayList<Element> elements = new Gee.ArrayList<Element>();
 	
 	/**
 	 * The Slide's transition
@@ -149,12 +149,27 @@ public class Ease.Slide : GLib.Object, UndoSource
 	/**
 	 * The {@link Document} that this Slide is part of
 	 */
-	public Document parent { get; set; }
+	internal Document parent { get; set; }
+	
+	/**
+	 * The width of the Slide's parent {@link Document}.
+	 */
+	public int width { get { return parent.width; } }
+	
+	/**
+	 * The height of the Slide's parent {@link Document}.
+	 */
+	public int height { get { return parent.height; } }
+	
+	/**
+	 * The aspect ratio of the Slide's parent {@link Document}.
+	 */
+	public float aspect { get { return parent.aspect; } }
 	
 	/**
 	 * The {@link Theme} that this Slide is based on.
 	 */
-	public Theme theme { get; set; }
+	internal Theme theme { get; set; }
 	
 	/**
 	 * The number of {@link Element}s on this Slide
@@ -537,6 +552,41 @@ public class Ease.Slide : GLib.Object, UndoSource
 	private void bg_changed(GLib.Object sender)
 	{
 		background_changed(this);
+	}
+	
+	// foreach iteration
+	
+	/**
+	 * Returns an iterator that can be used with foreach.
+	 */
+	public Iterator iterator()
+	{
+		return new Iterator(this);
+	}
+	
+	/**
+	 * Iterates over this Slide's elements.
+	 */
+	public class Iterator
+	{
+		private int i = 0;
+		private Slide self;
+		
+		public Iterator(Slide slide)
+		{
+			self = slide;
+		}
+		
+		public bool next()
+		{
+			return i < self.elements.size;
+		}
+		
+		public Element get()
+		{
+			i++;
+			return self.elements.get(i - 1);
+		}
 	}
 }
 

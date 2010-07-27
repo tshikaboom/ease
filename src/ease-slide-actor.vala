@@ -186,7 +186,7 @@ public class Ease.SlideActor : Clutter.Group
 
 		contents = new Flutter.Group();
 
-		foreach (var e in slide.elements)
+		foreach (var e in slide)
 		{
 			contents.add_actor(e.actor(context));
 		}
@@ -556,25 +556,25 @@ public class Ease.SlideActor : Clutter.Group
 		switch (slide.variant)
 		{
 			case TransitionVariant.UP:
-				new_slide.y = slide.parent.height;
+				new_slide.y = slide.height;
 				new_slide.animate(EASE_SLIDE, length, "y", 0);
 				animate(EASE_SLIDE, length, "y", -new_slide.y);
 				break;
 			
 			case TransitionVariant.DOWN:
-				new_slide.y = -slide.parent.height;
+				new_slide.y = -slide.height;
 				new_slide.animate(EASE_SLIDE, length, "y", 0);
 				animate(EASE_SLIDE, length, "y", -new_slide.y);
 				break;
 			
 			case TransitionVariant.LEFT:
-				new_slide.x = slide.parent.width;
+				new_slide.x = slide.width;
 				new_slide.animate(EASE_SLIDE, length, "x", 0);
 				animate(EASE_SLIDE, length, "x", -new_slide.x);
 				break;
 			
 			case TransitionVariant.RIGHT:
-				new_slide.x = -slide.parent.width;
+				new_slide.x = -slide.width;
 				new_slide.animate(EASE_SLIDE, length, "x", 0);
 				animate(EASE_SLIDE, length, "x", -new_slide.x);
 				break;
@@ -591,7 +591,7 @@ public class Ease.SlideActor : Clutter.Group
 	private void drop_transition(SlideActor new_slide,
 	                             Clutter.Group container, uint length)
 	{
-		new_slide.y = -slide.parent.height;
+		new_slide.y = -slide.height;
 		new_slide.animate(EASE_DROP, length, "y", 0);
 	}
 
@@ -609,16 +609,16 @@ public class Ease.SlideActor : Clutter.Group
 		switch (slide.variant)
 		{
 			case TransitionVariant.TOP_RIGHT:
-				xpos = slide.parent.width;
+				xpos = slide.width;
 				angle = -90;
 				break;
 			case TransitionVariant.BOTTOM_LEFT:
-				ypos = slide.parent.height;
+				ypos = slide.height;
 				angle = -90;
 				break;
 			case TransitionVariant.BOTTOM_RIGHT:
-				xpos = slide.parent.width;
-				ypos = slide.parent.height;
+				xpos = slide.width;
+				ypos = slide.height;
 				break;
 		}
 		
@@ -671,7 +671,7 @@ public class Ease.SlideActor : Clutter.Group
 			case TransitionVariant.BOTTOM_TO_TOP:
 				axis = Clutter.RotateAxis.X_AXIS;
 				positive = 1;
-				y_point = slide.parent.height / 2;
+				y_point = slide.height / 2;
 				break;
 
 			case TransitionVariant.TOP_TO_BOTTOM:
@@ -682,13 +682,13 @@ public class Ease.SlideActor : Clutter.Group
 			case TransitionVariant.LEFT_TO_RIGHT:
 				axis = Clutter.RotateAxis.Y_AXIS;
 				positive = 1;
-				x_point = slide.parent.width / 2;
+				x_point = slide.width / 2;
 				break;
 
 			default: // RIGHT_TO_LEFT
 				axis = Clutter.RotateAxis.Y_AXIS;
 				positive = -1;
-				x_point = slide.parent.width / 2;
+				x_point = slide.width / 2;
 				break;
 		}
 		
@@ -765,7 +765,7 @@ public class Ease.SlideActor : Clutter.Group
 			case TransitionVariant.RIGHT:
 				axis = Clutter.RotateAxis.Y_AXIS;
 				positive = -1;
-				x_point = slide.parent.width;
+				x_point = slide.width;
 				break;
 			
 			case TransitionVariant.TOP:
@@ -776,7 +776,7 @@ public class Ease.SlideActor : Clutter.Group
 			default: // BOTTOM
 				axis = Clutter.RotateAxis.X_AXIS;
 				positive = 1;
-				y_point = slide.parent.height;
+				y_point = slide.height;
 				break;
 		}
 		
@@ -812,22 +812,22 @@ public class Ease.SlideActor : Clutter.Group
 		switch (slide.variant)
 		{
 			case TransitionVariant.TOP:
-				new_slide.y = slide.parent.height;
+				new_slide.y = slide.height;
 				animate(EASE_SLIDE, length, "y", -new_slide.y);
 				new_slide.y = 0;
 				break;
 			case TransitionVariant.BOTTOM:
-				new_slide.y = -slide.parent.height;
+				new_slide.y = -slide.height;
 				animate(EASE_SLIDE, length, "y", -new_slide.y);
 				new_slide.y = 0;
 				break;
 			case TransitionVariant.LEFT:
-				new_slide.x = slide.parent.width;
+				new_slide.x = slide.width;
 				this.animate(EASE_SLIDE, length, "x", -new_slide.x);
 				new_slide.x = 0;
 				break;
 			case TransitionVariant.RIGHT:
-				new_slide.x = -slide.parent.width;
+				new_slide.x = -slide.width;
 				animate(EASE_SLIDE, length, "x", -new_slide.x);
 				new_slide.x = 0;
 				break;
@@ -851,7 +851,7 @@ public class Ease.SlideActor : Clutter.Group
 		animation_time.new_frame.connect((m) => {
 			set_rotation(Clutter.RotateAxis.X_AXIS,
 			             -90 * animation_alpha.alpha,
-			             0, slide.parent.height, 0);
+			             0, slide.height, 0);
 		});
 	}
 
@@ -871,8 +871,8 @@ public class Ease.SlideActor : Clutter.Group
 		// hide the real SlideActors
 		reparent(container);
 		new_slide.reparent(container);
-		x = slide.parent.width;
-		new_slide.x = slide.parent.width;
+		x = slide.width;
+		new_slide.x = slide.width;
 
 		// make arrays for the slats
 		var this_slats = new Clutter.Clone[SLAT_COUNT];
@@ -880,7 +880,7 @@ public class Ease.SlideActor : Clutter.Group
 		var groups = new Clutter.Group[SLAT_COUNT];
 
 		// calculate the width of each slat
-		float width = (float)slide.parent.width / SLAT_COUNT;
+		float width = (float)slide.width / SLAT_COUNT;
 
 		// make the slats
 		for (int i = 0; i < SLAT_COUNT; i++)
@@ -897,9 +897,9 @@ public class Ease.SlideActor : Clutter.Group
 
 			// clip clones
 			this_slats[i].set_clip(width * i, 0,
-			                       width, slide.parent.height);
+			                       width, slide.height);
 			new_slats[i].set_clip(width * i, 0,
-			                      width, slide.parent.height);
+			                      width, slide.height);
 
 			// flip the back slats
 			new_slats[i].set_rotation(Clutter.RotateAxis.Y_AXIS,
@@ -954,7 +954,7 @@ public class Ease.SlideActor : Clutter.Group
 		var reflection = new Clutter.Clone(new_slide);
 		reflection.rotation_angle_z = 180;
 		reflection.rotation_angle_y = 180;
-		reflection.y = 2 * slide.parent.height;
+		reflection.y = 2 * slide.height;
 		reflection.opacity = REFLECTION_OPACITY;
 		
 		// zoom the new slide in
@@ -969,15 +969,15 @@ public class Ease.SlideActor : Clutter.Group
 
 		animate(Clutter.AnimationMode.LINEAR, length, "opacity", 0);
 		reparent(container);
-		x = slide.parent.width;
+		x = slide.width;
 
 		// create left and right half clone actors
-		float width = slide.parent.width / 2f;
+		float width = slide.width / 2f;
 		Clutter.Clone left = new Clutter.Clone(this),
 		              right = new Clutter.Clone(this);
 
-		left.set_clip(0, 0, width, slide.parent.height);
-		right.set_clip(width, 0, width, slide.parent.height);
+		left.set_clip(0, 0, width, slide.height);
+		right.set_clip(width, 0, width, slide.height);
 		
 		// create left and right half reflections
 		Clutter.Clone left_ref = new Clutter.Clone(left),
@@ -985,12 +985,12 @@ public class Ease.SlideActor : Clutter.Group
 		
 		left_ref.rotation_angle_z = 180;
 		left_ref.rotation_angle_y = 180;
-		left_ref.y = 2 * slide.parent.height;
+		left_ref.y = 2 * slide.height;
 		left_ref.opacity = REFLECTION_OPACITY;
 		
 		right_ref.rotation_angle_z = 180;
 		right_ref.rotation_angle_y = 180;
-		right_ref.y = 2 * slide.parent.height;
+		right_ref.y = 2 * slide.height;
 		right_ref.opacity = REFLECTION_OPACITY;
 		
 		// create left and right groups
@@ -1054,22 +1054,22 @@ public class Ease.SlideActor : Clutter.Group
 		{
 			case TransitionVariant.CENTER:
 				new_slide.set_scale_full(0, 0,
-				                         slide.parent.width / 2,
-				                         slide.parent.height / 2);
+				                         slide.width / 2,
+				                         slide.height / 2);
 				break;
 			case TransitionVariant.TOP_LEFT:
 				new_slide.set_scale_full(0, 0, 0, 0);
 				break;
 			case TransitionVariant.TOP_RIGHT:
-				new_slide.set_scale_full(0, 0, slide.parent.width, 0);
+				new_slide.set_scale_full(0, 0, slide.width, 0);
 				break;
 			case TransitionVariant.BOTTOM_LEFT:
-				new_slide.set_scale_full(0, 0, 0, slide.parent.height);
+				new_slide.set_scale_full(0, 0, 0, slide.height);
 				break;
 			case TransitionVariant.BOTTOM_RIGHT:
 				new_slide.set_scale_full(0, 0,
-				                         slide.parent.width,
-				                         slide.parent.height);
+				                         slide.width,
+				                         slide.height);
 				break;
 		}
 		animation_alpha = new Clutter.Alpha.full(animation_time,
@@ -1096,19 +1096,19 @@ public class Ease.SlideActor : Clutter.Group
 		switch (slide.variant)
 		{
 			case TransitionVariant.UP:
-				pos = slide.parent.height;
+				pos = slide.height;
 				property = "y";
 				break;
 			case TransitionVariant.DOWN:
-				pos = -slide.parent.height;
+				pos = -slide.height;
 				property = "y";
 				break;
 			case TransitionVariant.LEFT:
-				pos = slide.parent.width;
+				pos = slide.width;
 				property = "x";
 				break;
 			default:
-				pos = -slide.parent.width;
+				pos = -slide.width;
 				property = "x";
 				break;
 		}
@@ -1116,8 +1116,8 @@ public class Ease.SlideActor : Clutter.Group
 		time1 = new Clutter.Timeline(length / 4);
 		time2 = new Clutter.Timeline(3 * length / 4);
 		new_slide.set_scale_full(PANEL_SCALE, PANEL_SCALE,
-		                         slide.parent.width / 2,
-		                         slide.parent.height / 2);
+		                         slide.width / 2,
+		                         slide.height / 2);
 
 		new_slide.set_property(property, pos);
 		alpha1 = new Clutter.Alpha.full(time1,
@@ -1128,7 +1128,7 @@ public class Ease.SlideActor : Clutter.Group
 			                                (1 - alpha1.alpha),
 			               PANEL_SCALE + (1 - PANEL_SCALE) *
 			                                (1 - alpha1.alpha),
-				           slide.parent.width / 2, slide.parent.height / 2);
+				           slide.width / 2, slide.height / 2);
 		});
 		time1.completed.connect(() => {
 			animate(Clutter.AnimationMode.EASE_IN_OUT_SINE, length / 2,
@@ -1143,8 +1143,8 @@ public class Ease.SlideActor : Clutter.Group
 				                          (1 - PANEL_SCALE) * alpha1.alpha,
 				                         PANEL_SCALE +
 				                          (1 - PANEL_SCALE) * alpha1.alpha,
-					                     slide.parent.width / 2,
-					                     slide.parent.height / 2);
+					                     slide.width / 2,
+					                     slide.height / 2);
 			});
 			time1.start();
 		});
@@ -1185,13 +1185,13 @@ public class Ease.SlideActor : Clutter.Group
 		time1.new_frame.connect((m) => {
 			contents.set_rotation(Clutter.RotateAxis.Y_AXIS,
 			                      angle * alpha1.alpha,
-			                      slide.parent.width / 2, 0, 0);
+			                      slide.width / 2, 0, 0);
 		});
 		time2.new_frame.connect((m) => {
 			new_slide.contents.opacity = 255;
 			new_slide.contents.set_rotation(Clutter.RotateAxis.Y_AXIS,
 			                                -angle * (1 - alpha2.alpha),
-			                                 slide.parent.width / 2, 0, 0);
+			                                 slide.width / 2, 0, 0);
 		});
 		time1.start();
 	}
@@ -1262,28 +1262,28 @@ public class Ease.SlideActor : Clutter.Group
 		switch (slide.variant)
 		{
 			case TransitionVariant.RIGHT:
-				new_slide.contents.x = -slide.parent.width;
+				new_slide.contents.x = -slide.width;
 				new_slide.contents.animate(EASE_SLIDE, length, "x", 0);
 
 				contents.animate(EASE_SLIDE,
 				                 length, "x", -new_slide.contents.x);
 				break;
 			case TransitionVariant.LEFT:
-				new_slide.contents.x = slide.parent.width;
+				new_slide.contents.x = slide.width;
 				new_slide.contents.animate(EASE_SLIDE, length, "x", 0);
 
 				contents.animate(EASE_SLIDE,
 				                 length, "x", -new_slide.contents.x);
 				break;
 			case TransitionVariant.UP:
-				new_slide.contents.y = slide.parent.height;
+				new_slide.contents.y = slide.height;
 				new_slide.contents.animate(EASE_SLIDE, length, "y", 0);
 
 				contents.animate(EASE_SLIDE,
 				                 length, "y", -new_slide.contents.y);
 				break;
 			case TransitionVariant.DOWN:
-				new_slide.contents.y = -slide.parent.height;
+				new_slide.contents.y = -slide.height;
 				new_slide.contents.animate(EASE_SLIDE, length, "y", 0);
 
 				contents.animate(EASE_SLIDE,
@@ -1312,18 +1312,18 @@ public class Ease.SlideActor : Clutter.Group
 		switch (slide.variant)
 		{
 			case TransitionVariant.UP:
-				new_slide.contents.y = slide.parent.height * 1.2f;
+				new_slide.contents.y = slide.height * 1.2f;
 				new_slide.contents.animate(Clutter.AnimationMode.EASE_IN_OUT_ELASTIC,
 				                           length, "y", 0);
 				contents.animate(Clutter.AnimationMode.EASE_IN_OUT_ELASTIC,
-				                 length, "y", -slide.parent.height * 1.2);
+				                 length, "y", -slide.height * 1.2);
 				break;
 			case TransitionVariant.DOWN:
-				new_slide.contents.y = -slide.parent.height * 1.2f;
+				new_slide.contents.y = -slide.height * 1.2f;
 				new_slide.contents.animate(Clutter.AnimationMode.EASE_IN_OUT_ELASTIC,
 				                           length, "y", 0);
 				contents.animate(Clutter.AnimationMode.EASE_IN_OUT_ELASTIC,
-				                 length, "y", slide.parent.height * 1.2);
+				                 length, "y", slide.height * 1.2);
 				break;
 		}
 	}
@@ -1351,12 +1351,12 @@ public class Ease.SlideActor : Clutter.Group
 		{
 			case TransitionVariant.IN:
 				new_slide.contents.set_scale_full(0, 0,
-				                                  slide.parent.width / 2,
-				                                  slide.parent.height / 2);
+				                                  slide.width / 2,
+				                                  slide.height / 2);
 
 				contents.set_scale_full(1, 1,
-				                        slide.parent.width / 2,
-				                        slide.parent.height / 2);
+				                        slide.width / 2,
+				                        slide.height / 2);
 
 				contents.animate(Clutter.AnimationMode.LINEAR, length / 2, "opacity", 0);
 				animation_time.new_frame.connect((m) => {
@@ -1369,12 +1369,12 @@ public class Ease.SlideActor : Clutter.Group
 				break;
 			case TransitionVariant.OUT:
 				new_slide.contents.set_scale_full(0, 0,
-				                                  slide.parent.width / 2,
-				                                  slide.parent.height / 2);
+				                                  slide.width / 2,
+				                                  slide.height / 2);
 
 				contents.set_scale_full(1, 1,
-				                        slide.parent.width / 2,
-				                        slide.parent.height / 2);
+				                        slide.width / 2,
+				                        slide.height / 2);
 
 				new_slide.contents.opacity = 0;
 				new_slide.contents.animate(Clutter.AnimationMode.EASE_IN_SINE,
@@ -1403,17 +1403,17 @@ public class Ease.SlideActor : Clutter.Group
 		// hide the real SlideActor
 		reparent(container);
 		new_slide.reparent(container);
-		x = slide.parent.width;
+		x = slide.width;
 
 		// make an array for the particles
-		var v_count = (int)Math.ceil(1 / slide.parent.aspect * EXPLODE_PARTICLES);
+		var v_count = (int)Math.ceil(1 / slide.aspect * EXPLODE_PARTICLES);
 		var count = EXPLODE_PARTICLES * v_count;
 		var particles = new Clutter.Clone[count];
 		
 		// calculate the size of each particle
-		var size = (float)slide.parent.width / EXPLODE_PARTICLES;
-		float center_x = slide.parent.width / 2;
-		float center_y = slide.parent.height / 2;
+		var size = (float)slide.width / EXPLODE_PARTICLES;
+		float center_x = slide.width / 2;
+		float center_y = slide.height / 2;
 
 		// create the particles
 		int i;
@@ -1466,15 +1466,15 @@ public class Ease.SlideActor : Clutter.Group
 	{
 		// hide the real new SlideActor
 		new_slide.reparent(container);
-		new_slide.x = slide.parent.width;
+		new_slide.x = slide.width;
 
 		// make an array for the particles
-		var v_count = (int)Math.ceil(1 / slide.parent.aspect * ASSEMBLE_TILES);
+		var v_count = (int)Math.ceil(1 / slide.aspect * ASSEMBLE_TILES);
 		var count = ASSEMBLE_TILES * v_count;
 		var particles = new Clutter.Clone[count];
 		
 		// calculate the size of each particle
-		var size = (float)slide.parent.width / ASSEMBLE_TILES;
+		var size = (float)slide.width / ASSEMBLE_TILES;
 
 		// create the particles
 		int i;

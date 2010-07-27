@@ -156,7 +156,7 @@ public class Ease.EditorWindow : Gtk.Window
 		embed.undo.connect(add_undo_action);
 		
 		// the inspector
-		inspector = new Inspector();
+		inspector = new Inspector(document);
 		(builder.get_object("Inspector Align") as Gtk.Alignment).add(inspector);
 		inspector.undo.connect(add_undo_action);
 		embed.element_selected.connect(
@@ -283,8 +283,8 @@ public class Ease.EditorWindow : Gtk.Window
 	public void new_slide_handler(Gtk.Widget? sender)
 	{
 		var s = document.theme.create_slide(document.DEFAULT_SLIDE,
-		                                    document.width,
-		                                    document.height);
+		                                    slide.width,
+		                                    slide.height);
 		
 		var index = document.index_of(slide) + 1;
 		
@@ -299,7 +299,7 @@ public class Ease.EditorWindow : Gtk.Window
 		var item = sender as Gtk.MenuItem;
 		var s = document.theme.create_slide(
 			Theme.master_from_description(item.get_label()),
-			document.width, document.height);
+			slide.width, slide.height);
 		
 		var index = document.index_of(slide) + 1;
 		
@@ -360,8 +360,8 @@ public class Ease.EditorWindow : Gtk.Window
 	public void insert_text(Gtk.Widget sender)
 	{
 		var text = document.theme.create_custom_text();
-		text.x = document.width / 2 - text.width / 2;
-		text.y = document.height / 2 - text.height / 2;
+		text.x = slide.width / 2 - text.width / 2;
+		text.y = slide.height / 2 - text.height / 2;
 		slide.add(text);
 		add_undo_action(new ElementAddUndoAction(text));
 		embed.select_element(text);
@@ -391,8 +391,8 @@ public class Ease.EditorWindow : Gtk.Window
 				
 				e.width = width;
 				e.height = height;
-				e.x = document.width / 2 - width / 2;
-				e.y = document.height / 2 - width / 2;
+				e.x = slide.width / 2 - width / 2;
+				e.y = slide.height / 2 - width / 2;
 				
 				e.element_type = Slide.IMAGE_TYPE;
 				e.identifier = Theme.CUSTOM_MEDIA;

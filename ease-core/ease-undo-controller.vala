@@ -18,7 +18,7 @@
 /**
  * Controls undo and redo actions.
  *
- * Each {@link EditorWindow} has an UndoController that manages undo actions.
+ * Each EditorWindow has an UndoController that manages undo actions.
  */
 public class Ease.UndoController : Object
 {

@@ -156,7 +156,6 @@ public class Ease.WelcomeActor : Clutter.Group
 		try
 		{
 			var slide = create_slide(w, h);
-			slide.theme = theme;
 			slide.cairo_render_sized(slide_actor.create(), w, h);
 		}
 		catch (GLib.Error e)
@@ -226,7 +225,7 @@ public class Ease.WelcomeActor : Clutter.Group
 	{
 		var slide = theme.create_slide(PREVIEW_SLIDE, w, h);
 		
-		foreach (var element in slide.elements)
+		foreach (var element in slide)
 		{
 			switch (element.identifier)
 			{

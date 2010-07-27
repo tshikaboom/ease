@@ -21,7 +21,7 @@
  *
  * The Actor class should never be instantiated - instead,
  * subclasses such as {@link TextActor} and {@link ImageActor}
- * are placed on a {@link SlideActor} to form Ease presentations.
+ * are placed on a SlideActor to form Ease presentations.
  */
 public abstract class Ease.Actor : Clutter.Group
 {
@@ -175,7 +175,7 @@ public abstract class Ease.Actor : Clutter.Group
 	/**
 	 * Called when the actor should be edited. Subclasses should override this.
 	 *
-	 * @param sender The {@link EditorEmbed} this Actor is on.
+	 * @param sender The widget this Actor is on.
 	 */
 	public virtual void edit(Gtk.Widget sender) {}
 	
@@ -183,7 +183,7 @@ public abstract class Ease.Actor : Clutter.Group
 	 * Called when the actor end editing. Subclasses with editing that is not
 	 * instant (popping up a dialog box) should override this.
 	 *
-	 * @param sender The {@link EditorEmbed} this Actor is on.
+	 * @param sender The widget this Actor is on.
 	 */
 	public virtual void end_edit(Gtk.Widget sender) {}
 }

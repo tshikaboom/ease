@@ -16,7 +16,6 @@ ease_SOURCES = \
 	src/ease-inspector-slide-pane.vala \
 	src/ease-inspector-transition-pane.vala \
 	src/ease-inspector.vala \
-	src/ease-inspector-window.vala \
 	src/ease-main.vala \
 	src/ease-player.vala \
 	src/ease-scrollable-embed.vala \
@@ -31,7 +30,9 @@ ease_VALAFLAGS = \
 	--pkg ease-core-0.3 \
 	--pkg flutter-0.3 \
 	$(EASE_PACKAGES) \
-	--vapidir vapi
+	--vapidir vapi \
+	--thread \
+	-g
 
 ease_LDADD = \
 	./ease-core/libease-core-0.3.la \
@@ -52,7 +53,7 @@ AM_CPPFLAGS = \
 	-O0 \
 	$(NULL)
 
-CLEANFILES = src/main.c
+CLEANFILES = $(subst .vala,.c,$(ease_SOURCES))
 
 # distribution
 EXTRA_DIST = data/ease.desktop.in.in  \
@@ -67,6 +68,15 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = ease-core-0.3.pc
 
 doc: ease-core/*.vala
+	rm -rf doc
+	
+	valadoc \
+		$(EASE_PACKAGES) \
+		--directory=./doc --basedir=src ./ease-core/*.vala
+	
+	gnome-open doc/doc/Ease.html
+
+doc-internal:
 	rm -rf doc
 	
 	valadoc \

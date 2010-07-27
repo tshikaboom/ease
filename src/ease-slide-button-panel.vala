@@ -174,14 +174,14 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 	 */
 	private static Gdk.Pixbuf? pixbuf(Slide slide, int width)
 	{
-		var height = (int)((float)width * slide.parent.height /
-		                                  slide.parent.width);
+		var height = (int)((float)width * slide.height /
+		                                  slide.width);
 		var surface = new Cairo.ImageSurface(Cairo.Format.RGB24, width, height);
 		
 		var context = new Cairo.Context(surface);
 		context.save();
-		context.scale((float)width / slide.parent.width,
-		              (float)height / slide.parent.height);
+		context.scale((float)width / slide.width,
+		              (float)height / slide.height);
 		
 		try
 		{

@@ -131,7 +131,7 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	public abstract Actor actor(ActorContext c);
 	
 	/**
-	 * Returns an {@link Inspector} widget for editing this Element.
+	 * Returns an Inspector widget for editing this Element.
 	 */
 	public abstract Gtk.Widget inspector_widget();
 	

@@ -21,8 +21,10 @@ internal class Ease.InspectorElementPane : InspectorPane
 	private Gtk.Widget current;
 	private const string UI_FILE_PATH = "inspector-element-none.ui";
 	
-	internal InspectorElementPane()
+	internal InspectorElementPane(Document d)
 	{
+		base(d);
+		
 		// build the "nothing selected" widget
 		var builder = new Gtk.Builder();
 		try

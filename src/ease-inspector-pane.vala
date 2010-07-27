@@ -21,9 +21,11 @@
 public abstract class Ease.InspectorPane : Gtk.VBox, UndoSource
 {
 	public Slide slide { get; set; }
+	public Document document { get; set; }
 
-	public InspectorPane()
+	public InspectorPane(Document d)
 	{
+		document = d;
 		homogeneous = false;
 		spacing = 0;
 		
