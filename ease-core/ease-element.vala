@@ -37,7 +37,16 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	/**
 	 * The {@link Slide} that this Element is a part of.
 	 */
-	internal Slide parent { get; set; }
+	internal Slide parent
+	{
+		get { return parent_priv; }
+		set
+		{
+			parent_priv = value;
+			changed.connect(() => parent.changed(parent));
+		}
+	}
+	private Slide parent_priv;
 	
 	/**
 	 * The {@link Document} that this Element is part of. get-only.
@@ -45,10 +54,23 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	internal Document document { get { return parent.parent; } }
 	
 	/**
+	 * Notifies of a position change for this Element. Note that the "x" and "y"
+	 * properties do not emit the "changed" signal - only this signal.
+	 */
+	public signal void position_changed();
+	
+	/**
+	 * Notifies of a general change in the Element. Subclasses that play nice
+	 * should add handlers to trigger this signal.
+	 */
+	public signal void changed();
+	
+	/**
 	 * Creates an Element from a JsonObject
 	 */
-	internal Element.from_json(Json.Object obj)
+	public Element.from_json(Json.Object obj)
 	{
+		signals();
 		identifier = obj.get_string_member(Theme.E_IDENTIFIER);
 		x = (float)obj.get_string_member(Theme.X).to_double();
 		y = (float)obj.get_string_member(Theme.Y).to_double();
@@ -59,9 +81,20 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	}
 	
 	/**
+	 * Connects base Element signals.
+	 */
+	public virtual void signals()
+	{
+		notify["width"].connect((o, p) => changed());
+		notify["height"].connect((o, p) => changed());
+		notify["x"].connect((o, p) => position_changed());
+		notify["y"].connect((o, p) => position_changed());
+	}
+	
+	/**
 	 * Writes an Element to a JsonObject
 	 */
-	internal virtual Json.Object to_json()
+	public virtual Json.Object to_json()
 	{
 		var obj = new Json.Object();
 		
@@ -97,12 +130,12 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	 * @param exporter The {@link HTMLExporter}, for the path and progress.
 	 * @param amount The amount progress should increase by when done.
 	 */
-	public virtual void to_html(ref string html,
-	                            HTMLExporter exporter,
-	                            double amount)
+	internal virtual void to_html(ref string html,
+	                              HTMLExporter exporter,
+	                              double amount)
 	{
 		// write the markup
-		write_html(ref html, exporter);
+		html += html_render(exporter);
 		
 		// advance the progress bar
 		exporter.add_progress(amount);
@@ -114,7 +147,7 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	 * @param html The HTML string in its current state.
 	 * @param exporter The {@link HTMLExporter}, for its path.
 	 */
-	protected abstract void write_html(ref string html, HTMLExporter exporter);
+	protected abstract string html_render(HTMLExporter exporter);
 	
 	/**
 	 * Renders this Element to a CairoContext.
@@ -131,9 +164,21 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	public abstract Actor actor(ActorContext c);
 	
 	/**
-	 * Returns an Inspector widget for editing this Element.
+	 * Returns an Inspector widget for editing this Element. This is
+	 * a new widget - use {@link get_inspector_widget} to retrieve the cached
+	 * widget (or automatically create a new one if needed.
 	 */
 	public abstract Gtk.Widget inspector_widget();
+	
+	/**
+	 * Returns the Element's inspector widget.
+	 */
+	public Gtk.Widget get_inspector_widget()
+	{
+		if (inspector_widg != null) return inspector_widg;
+		return inspector_widg = inspector_widget();
+	}
+	private Gtk.Widget inspector_widg;
 	
 	/**
 	 * Returns a GList of ToolItems to add to the main toolbar when this
@@ -203,13 +248,5 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	 * If the Element has been edited by the user in the past.
 	 */
 	public bool has_been_edited { get; set; }
-	
-	/**
-	 * Notifies of changes to the Element.
-	 */
-	public void changed()
-	{
-		if (parent != null) parent.changed(parent);
-	}
 }
 

@@ -141,7 +141,7 @@ public class Ease.InspectorTransitionPane : InspectorPane
 			// allow the user to undo the change
 			var action = new UndoAction(slide, "transition");
 			action.add(slide, "variant");
-			if (!silence_undo) undo(action);
+			if (!silence_undo) slide.undo(action);
 			
 			var already_silenced = silence_undo;
 			silence_undo = true;
@@ -188,7 +188,7 @@ public class Ease.InspectorTransitionPane : InspectorPane
 		
 		// allow the user to change the variant
 		variant.changed.connect((sender) => {
-			if (!silence_undo) undo(new UndoAction(slide, "variant"));
+			if (!silence_undo) slide.undo(new UndoAction(slide, "variant"));
 			
 			Gtk.TreeIter itr;
 			if (sender.get_active_iter(out itr))
@@ -204,7 +204,7 @@ public class Ease.InspectorTransitionPane : InspectorPane
 		});
 		
 		start_transition.changed.connect(() => {
-			if (!silence_undo) undo(new UndoAction(slide,
+			if (!silence_undo) slide.undo(new UndoAction(slide,
 			                                       "automatically-advance"));
 			if (start_transition.active == 0)
 			{
@@ -219,12 +219,14 @@ public class Ease.InspectorTransitionPane : InspectorPane
 		});
 		
 		transition_time.value_changed.connect(() => {
-			if (!silence_undo) undo(new UndoAction(slide, "transition-time"));
+			if (!silence_undo)
+				slide.undo(new UndoAction(slide, "transition-time"));
 			slide.transition_time = transition_time.get_value();
 		});
 		
 		delay.value_changed.connect(() => {
-			if (!silence_undo) undo(new UndoAction(slide, "advance-delay"));
+			if (!silence_undo)
+				slide.undo(new UndoAction(slide, "advance-delay"));
 			slide.advance_delay = delay.get_value();
 		});
 		

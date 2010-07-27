@@ -16,25 +16,13 @@
 */
 
 /**
- * Base class for inspector panes
+ * An element that uses its {@link Element.cairo_render} method to draw its
+ * {@link Actor}s.
  */
-public abstract class Ease.InspectorPane : Gtk.VBox
+public abstract class Ease.CairoElement : Element
 {
-	public Slide slide { get; set; }
-	public Document document { get; set; }
-
-	public InspectorPane(Document d)
+	public override Actor actor(ActorContext ctx)
 	{
-		document = d;
-		homogeneous = false;
-		spacing = 0;
-		
-		notify["slide"].connect((a, b) => slide_updated());
+		return new CairoActor(this, ctx);
 	}
-	
-	/**
-	 * Override this method to update interface elements when the displayed
-	 * slide changes.
-	 */
-	protected virtual void slide_updated() {}
 }

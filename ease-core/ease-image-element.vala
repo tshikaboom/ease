@@ -22,13 +22,13 @@
 public class Ease.ImageElement : MediaElement
 {
 	private const string UI_FILE_PATH = "inspector-element-image.ui";
-	private Gtk.Widget inspector_pane;
 	
 	/**
 	 * Create a new element.
 	 */
 	public ImageElement()
 	{
+		signals();
 	}
 	
 	internal ImageElement.from_json(Json.Object obj)
@@ -43,8 +43,6 @@ public class Ease.ImageElement : MediaElement
 	
 	public override Gtk.Widget inspector_widget()
 	{
-		if (inspector_pane != null) return inspector_pane;
-		
 		var builder = new Gtk.Builder();
 		try
 		{
@@ -81,13 +79,13 @@ public class Ease.ImageElement : MediaElement
 		});
 		
 		// return the root
-		return inspector_pane = builder.get_object("root") as Gtk.Widget;
+		return builder.get_object("root") as Gtk.Widget;
 	}
 	
-	public override void write_html(ref string html, HTMLExporter exporter)
+	public override string html_render(HTMLExporter exporter)
 	{
 		// open the img tag
-		html += "<img class=\"image element\" ";
+		string html = "<img class=\"image element\" ";
 		
 		// set the image's style
 		html += "style=\"";
@@ -103,6 +101,8 @@ public class Ease.ImageElement : MediaElement
 		
 		// copy the image file
 		exporter.copy_file(filename, parent.parent.path);
+		
+		return html;
 	}
 
 	/**
@@ -118,9 +118,9 @@ public class Ease.ImageElement : MediaElement
 		                                               (int)height,
 		                                               false);
 		
-		Gdk.cairo_set_source_pixbuf(context, pixbuf, x, y);
+		Gdk.cairo_set_source_pixbuf(context, pixbuf, 0, 0);
 		
-		context.rectangle(x, y, width, height);
+		context.rectangle(0, 0, width, height);
 		context.fill();
 	}
 }

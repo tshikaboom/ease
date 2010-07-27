@@ -40,6 +40,12 @@ public abstract class Ease.MediaElement : Element
 		return obj;
 	}
 	
+	public override void signals()
+	{
+		base.signals();
+		notify["filename"].connect((o, p) => changed());
+	}
+	
 	/**
 	 * The path to a media file.
 	 */

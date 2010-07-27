@@ -71,14 +71,27 @@ public class Ease.UndoAction : UndoItem
 	}
 	
 	/**
+	 * Returns true if this action contains a property on the specified object.
+	 */
+	public override bool contains(GLib.Object? obj)
+	{
+		if (obj == null) return false;
+		foreach (var pair in pairs)
+		{
+			if (pair.object == obj) return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Embedded class for storing object/property pairs in undo actions.
 	 */
 	private class UndoPair
 	{
-		private string property;
-		private GLib.Object object;
-		private GLib.Value val;
-		private GLib.Type type;
+		public string property;
+		public GLib.Object object;
+		public GLib.Value val;
+		public GLib.Type type;
 		
 		public UndoPair(GLib.Object obj, string prop)
 		{

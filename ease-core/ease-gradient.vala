@@ -33,57 +33,22 @@ public class Ease.Gradient : GLib.Object
 	/**
 	 * The starting {@link Color} of the gradient.
 	 */
-	public Color start
-	{
-		get { return start_priv; }
-		set
-		{
-			if (start_priv != null)
-			{
-				start_priv.changed.disconnect(color_changed);
-			}
-			
-			start_priv = value;
-			start_priv.changed.connect(color_changed);
-			changed(this);
-		}
-	}
-	private Color start_priv;
+	public Color start { get; set; default = Color.white; }
 	
 	/**
 	 * The ending {@link Color} of the gradient.
 	 */
-	public Color end
-	{
-		get { return end_priv; }
-		set
-		{
-			if (end_priv != null)
-			{
-				end_priv.changed.disconnect(color_changed);
-			}
-			
-			end_priv = value;
-			end_priv.changed.connect(color_changed);
-			changed(this);
-		}
-	}
-	private Color end_priv;
+	public Color end { get; set; default = Color.black; }
 	
 	/**
 	 * The {@link GradientType} of the gradient.
 	 */
-	public GradientType mode { get; set; }
+	public GradientType mode { get; set; default = GradientType.LINEAR; }
 	
 	/**
 	 * The angle, in radians, of the gradient, if it is linear.
 	 */
-	public double angle { get; set; }
-	
-	/**
-	 * Emitted when the gradient's appearance is changed in any way.
-	 */
-	public signal void changed(Gradient self);
+	public double angle { get; set; default = 0; }
 	
 	/**
 	 * Returns a copy of the default background gradient.
@@ -102,9 +67,6 @@ public class Ease.Gradient : GLib.Object
 		end = end_color;
 		mode = GradientType.LINEAR;
 		angle = 0;
-		
-		notify["mode"].connect((a, b) => changed(this));
-		notify["angle"].connect((a, b) => changed(this));
 	}
 	
 	/**
@@ -115,9 +77,6 @@ public class Ease.Gradient : GLib.Object
 		this(start_color, end_color);
 		mode = GradientType.LINEAR_MIRRORED;
 		angle = 0;
-		
-		notify["mode"].connect((a, b) => changed(this));
-		notify["angle"].connect((a, b) => changed(this));
 	}
 	
 	/**
@@ -128,9 +87,6 @@ public class Ease.Gradient : GLib.Object
 		this(start_color, end_color);
 		mode = GradientType.RADIAL;
 		angle = 0;
-		
-		notify["mode"].connect((a, b) => changed(this));
-		notify["angle"].connect((a, b) => changed(this));
 	}
 	
 	/**
@@ -143,9 +99,6 @@ public class Ease.Gradient : GLib.Object
 		end = new Color.from_string(split[1]);
 		mode = GradientType.from_string(split[2]);
 		angle = split[3].to_double();
-		
-		notify["mode"].connect((a, b) => changed(this));
-		notify["angle"].connect((a, b) => changed(this));
 	}
 	
 	/**
@@ -189,7 +142,16 @@ public class Ease.Gradient : GLib.Object
 	{
 		cr.save();
 		cr.rectangle(0, 0, width, height);
-		
+		set_cairo(cr, width, height);
+		cr.fill();
+		cr.restore();
+	}
+	
+	/**
+	 * Sets a CairoContext's source to this gradient.
+	 */
+	public void set_cairo(Cairo.Context cr, int width, int height)
+	{
 		var x_orig = width / 2;
 		var y_orig = height / 2;
 		var dist_x = (int)(Math.cos(angle + Math.PI / 2) * y_orig);
@@ -198,7 +160,7 @@ public class Ease.Gradient : GLib.Object
 		Cairo.Pattern pattern;
 		switch (mode)
 		{
-			case GradientType.LINEAR:				
+			case GradientType.LINEAR:
 				pattern = new Cairo.Pattern.linear(x_orig - dist_x,
 				                                   y_orig - dist_y,
 				                                   x_orig + dist_x,
@@ -222,8 +184,8 @@ public class Ease.Gradient : GLib.Object
 				break;
 			default: // radial
 				pattern = new Cairo.Pattern.radial(width / 2, height / 2, 0,
-				                                       width / 2, height / 2,
-				                                       width / 2);
+				                                   width / 2, height / 2,
+				                                   width / 2);
 				pattern.add_color_stop_rgba(0, start.red, start.green,
 						                    start.blue, start.alpha);
 				pattern.add_color_stop_rgba(1, end.red, end.green,
@@ -232,17 +194,6 @@ public class Ease.Gradient : GLib.Object
 		}
 		
 		cr.set_source(pattern);
-		cr.fill();
-		
-		cr.restore();
-	}
-	
-	/**
-	 * Signal handler for {@link Color.changed} signals.
-	 */
-	private void color_changed(Color change)
-	{
-		changed(this);
 	}
 }
 

@@ -46,7 +46,7 @@ internal class Ease.InspectorElementPane : InspectorPane
 		 	if (current.get_parent() == this) remove(current);
 		}
 		else if (none.get_parent() == this) remove(none);
-		current = selected.inspector_widget();
+		current = selected.get_inspector_widget();
 		pack_start(current, false, false, 0);
 	}
 	

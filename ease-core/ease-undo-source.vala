@@ -28,12 +28,18 @@ public interface Ease.UndoSource : GLib.Object
 	public signal void undo(UndoItem action);
 	
 	/**
+	 * Emitted when an UndoItem is forwarded.
+	 */
+	protected signal void forwarded(UndoItem action);
+	
+	/**
 	 * Forwards an {@link UndoItem} downwards, to any object listening to this
 	 * UndoSource's "undo" signal".
 	 */
 	protected void forward(UndoItem action)
 	{
 		undo(action);
+		forwarded(action);
 	}
 	
 	/**

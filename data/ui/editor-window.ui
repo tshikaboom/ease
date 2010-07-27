@@ -214,6 +214,27 @@
                     <signal name="activate" handler="ease_editor_window_insert_text"/>
                   </object>
                 </child>
+                <child>
+                  <object class="GtkSeparatorMenuItem" id="menuitem4">
+                    <property name="visible">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuItem" id="Insert Rectangle">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">_Rectangle</property>
+                    <property name="use_underline">True</property>
+                    <signal name="activate" handler="ease_editor_window_on_insert_rectangle"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuItem" id="Insert Oval">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">_Oval</property>
+                    <property name="use_underline">True</property>
+                    <signal name="activate" handler="ease_editor_window_on_insert_oval"/>
+                  </object>
+                </child>
               </object>
             </child>
           </object>

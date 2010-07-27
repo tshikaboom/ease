@@ -16,25 +16,41 @@
 */
 
 /**
- * Base class for inspector panes
+ * An actor that automatically uses its {@link Element}'s Cairo rendering.
  */
-public abstract class Ease.InspectorPane : Gtk.VBox
+public class Ease.CairoActor : Actor
 {
-	public Slide slide { get; set; }
-	public Document document { get; set; }
-
-	public InspectorPane(Document d)
+	private Clutter.CairoTexture tex;
+	
+	public CairoActor(Element e, ActorContext ctx)
 	{
-		document = d;
-		homogeneous = false;
-		spacing = 0;
+		base(e, ctx);
 		
-		notify["slide"].connect((a, b) => slide_updated());
+		tex = new Clutter.CairoTexture((uint)e.width, (uint)e.height);
+		add_actor(tex);
+		contents = tex;
+		contents.width = e.width;
+		contents.height = e.height;
+		x = e.x;
+		y = e.y;
+		e.changed.connect(draw);
+		
+		draw();
 	}
 	
-	/**
-	 * Override this method to update interface elements when the displayed
-	 * slide changes.
-	 */
-	protected virtual void slide_updated() {}
+	internal void draw()
+	{
+		//debug("drawing");
+		tex.set_surface_size((uint)element.width, (uint)element.height);
+		tex.clear();
+		var cr = tex.create();
+		try
+		{
+			element.cairo_render(cr);
+		}
+		catch (Error e)
+		{
+			critical("Error rendering CairoActor: %s", e.message);
+		}
+	}
 }

@@ -22,12 +22,14 @@ public class Ease.TextElement : Element
 {
 	private const string UI_FILE_PATH = "inspector-element-text.ui";
 	private bool freeze = false;
-	private Gtk.Widget inspector_pane;
 	
 	/**
 	 * Creates a new TextElement.
 	 */
-	public TextElement() { }
+	public TextElement()
+	{
+		signals();
+	}
 	
 	/**
 	 * Create a TextElement from a JsonObject
@@ -88,8 +90,6 @@ public class Ease.TextElement : Element
 	
 	public override Gtk.Widget inspector_widget()
 	{
-		if (inspector_pane != null) return inspector_pane;
-		
 		var builder = new Gtk.Builder();
 		try
 		{
@@ -172,7 +172,7 @@ public class Ease.TextElement : Element
 		});
 		
 		// return the root
-		return inspector_pane = builder.get_object("root") as Gtk.Widget;
+		return builder.get_object("root") as Gtk.Widget;
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -196,10 +196,10 @@ public class Ease.TextElement : Element
 		}
 	}
 
-	protected override void write_html(ref string html, HTMLExporter exporter)
+	protected override string html_render(HTMLExporter exporter)
 	{
 		// open the tag
-		html += "<div class=\"text element\" ";
+		string html = "<div class=\"text element\" ";
 		
 		// set the size and position of the element
 		html += "style=\"";
@@ -226,6 +226,8 @@ public class Ease.TextElement : Element
 		// write the actual content
 		html += ">" + text.replace("\n", "<br />") +
 		        "</div>";
+		
+		return html;
 	}
 
 	/**
@@ -242,15 +244,10 @@ public class Ease.TextElement : Element
 		layout.set_alignment(text_align);
 		
 		// render
-		context.save();
-		
 		color.set_cairo(context);
-		
 		Pango.cairo_update_layout(context, layout);
-		context.move_to((int)x, (int)y);
-		
+//		context.move_to((int)x, (int)y);
 		Pango.cairo_show_layout(context, layout);
-		context.restore();
 	}
 	
 	/**

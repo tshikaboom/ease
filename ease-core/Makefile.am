@@ -14,6 +14,10 @@ AM_CPPFLAGS = \
 libease_core_0_3_la_SOURCES = \
 	ease-actor.vala \
 	ease-animated-zoom-slider.vala \
+	ease-background.vala \
+	ease-background-widget.vala \
+	ease-cairo-actor.vala \
+	ease-cairo-element.vala \
 	ease-color.vala \
 	ease-dialogs.vala \
 	ease-document.vala \
@@ -23,8 +27,9 @@ libease_core_0_3_la_SOURCES = \
 	ease-html-exporter.vala \
 	ease-image-actor.vala \
 	ease-image-element.vala \
-	ease-iterables.vala \
+	ease-iterable-models.vala \
 	ease-media-element.vala \
+	ease-shape-element.vala \
 	ease-slide.vala \
 	ease-temp.vala \
 	ease-text-actor.vala \
@@ -49,7 +54,6 @@ libease_core_0_3_la_VALAFLAGS = \
 	--header=libease-core.h \
 	--thread \
 	--library EaseCore-0.3 \
-	--gir=EaseCore-0.3.gir \
 	--vapidir=../vapi \
 	--pkg flutter-0.3 \
 	-g \

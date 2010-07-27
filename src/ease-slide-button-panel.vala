@@ -95,6 +95,7 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 			slide_redraw(itr);
 			document.slides.get(itr, Document.COL_SLIDE, out s);
 			s.changed.connect(on_slide_changed);
+			s.background_changed.connect(on_slide_changed);
 		}
 		
 		// switch slides when the selection changes
@@ -109,10 +110,12 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 		document.slide_added.connect((slide, index) => {
 			on_slide_changed(slide);
 			slide.changed.connect(on_slide_changed);
+			slide.background_changed.connect(on_slide_changed);
 		});
 		
 		document.slide_deleted.connect((slide, index) => {
 			slide.changed.disconnect(on_slide_changed);
+			slide.background_changed.disconnect(on_slide_changed);
 		});
 		
 		// redraw all slides when the size allocation changes

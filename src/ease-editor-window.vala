@@ -158,7 +158,6 @@ public class Ease.EditorWindow : Gtk.Window
 		// the inspector
 		inspector = new Inspector(document);
 		(builder.get_object("Inspector Align") as Gtk.Alignment).add(inspector);
-		inspector.undo.connect(add_undo_action);
 		embed.element_selected.connect(
 			inspector.element_pane.on_element_selected);
 		embed.element_deselected.connect(
@@ -343,7 +342,6 @@ public class Ease.EditorWindow : Gtk.Window
 		update_undo();
 		embed.slide_actor.relayout();
 		embed.reposition_group();
-		slide.changed(slide);
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -353,7 +351,6 @@ public class Ease.EditorWindow : Gtk.Window
 		update_undo();
 		embed.slide_actor.relayout();
 		embed.reposition_group();
-		slide.changed(slide);
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -410,6 +407,32 @@ public class Ease.EditorWindow : Gtk.Window
 			}
 		}
 		dialog.destroy();
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void on_insert_rectangle(Gtk.Widget sender)
+	{
+		var rect = new ShapeElement(ShapeType.RECTANGLE);
+		rect.width = 400;
+		rect.height = 300;
+		rect.x = document.width / 2 - rect.width / 2;
+		rect.y = document.height / 2 - rect.height / 2;
+		slide.add(rect);
+		add_undo_action(new ElementAddUndoAction(rect));
+		embed.select_element(rect);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void on_insert_oval(Gtk.Widget sender)
+	{
+		var oval = new ShapeElement(ShapeType.OVAL);
+		oval.width = 300;
+		oval.height = 300;
+		oval.x = document.width / 2 - oval.width / 2;
+		oval.y = document.height / 2 - oval.height / 2;
+		slide.add(oval);
+		add_undo_action(new ElementAddUndoAction(oval));
+		embed.select_element(oval);
 	}
 	
 	[CCode (instance_pos = -1)]

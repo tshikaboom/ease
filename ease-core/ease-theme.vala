@@ -59,6 +59,7 @@ public class Ease.Theme : GLib.Object
 	public const string BACKGROUND_COLOR = "background-color";
 	public const string BACKGROUND_GRADIENT = "background-gradient";
 	public const string BACKGROUND_IMAGE = "background-image";
+	public const string BACKGROUND_IMAGE_SOURCE = "background-image-source";
 	public const string S_IDENTIFIER = "slide-identifier";
 	
 	// background types
@@ -91,6 +92,9 @@ public class Ease.Theme : GLib.Object
 	// media properties
 	public const string MEDIA_FILENAME = "media-filename";
 	public const string MEDIA_SOURCE_FILENAME = "media-source-filename";
+	
+	// shape properties
+	public const string SHAPE_TYPE = "shape-type";
 	
 	// gradient types
 	public const string GRAD_LINEAR = "linear";
@@ -325,18 +329,18 @@ public class Ease.Theme : GLib.Object
 		switch (master_get(master, BACKGROUND_TYPE))
 		{
 			case BACKGROUND_TYPE_COLOR:
-				slide.background_color = new Color.
+				slide.background.color = new Color.
 					from_string(master_get(master, BACKGROUND_COLOR));
-				slide.background_type = BackgroundType.COLOR;
+				slide.background.background_type = BackgroundType.COLOR;
 				break;
 			case BACKGROUND_TYPE_GRADIENT:
-				slide.background_gradient = new Gradient.
+				slide.background.gradient = new Gradient.
 					from_string(master_get(master, BACKGROUND_GRADIENT));
-				slide.background_type = BackgroundType.GRADIENT;
+				slide.background.background_type = BackgroundType.GRADIENT;
 				break;
 			case BACKGROUND_TYPE_IMAGE:
-				slide.background_image = master_get(master, BACKGROUND_IMAGE);
-				slide.background_type = BackgroundType.IMAGE;
+				slide.background.image = master_get(master, BACKGROUND_IMAGE);
+				slide.background.background_type = BackgroundType.IMAGE;
 				break;
 				
 		}

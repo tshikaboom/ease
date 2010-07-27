@@ -15,38 +15,42 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/**
- * Abstract base class for undo actions.
- *
- * Subclasses should override apply() and add a constructor, as well as any
- * needed data fields.
- */
-public abstract class Ease.UndoItem : GLib.Object
+public interface ChangeSource : GLib.Object
 {
 	/**
-	 * Emitted after the item is applied.
+	 * Classes that implement the ChangeSource interface should use this signal
+	 * to notify a parent of a new change.
 	 */
-	public signal void applied(UndoAction sender);
+	public signal void changed();
 	
 	/**
-	 * Emitted befor the item is applied.
+	 * Emitted when a change is forwarded.
 	 */
-	public signal void pre_apply(UndoAction sender);
+	protected signal void change_forwarded();
 	
 	/**
-	 * Applies the {@link UndoItem}, restoring previous state.
-	 *
-	 * Returns an UndoItem that will redo the undo action.
+	 * Forwards a change notification onwards.
 	 */
-	public abstract UndoItem apply();
-	
-	/**
-	 * If the UndoItem contains the specified object. {@link UndoAction}
-	 * overrides this in a useful way. In its base implementation, always
-	 * returns false.
-	 */
-	public virtual bool contains(GLib.Object? obj)
+	public void forward_changes()
 	{
-		return false;
+		changed();
+		change_forwarded();
+	}
+	
+	/**
+	 * Listens for incoming changes from the specified ChangeSource, and
+	 * forwards them onwards.
+	 */
+	protected void listen_changes(ChangeSource source)
+	{
+		source.changed.connect(forward_changes);
+	}
+	
+	/**
+	 * Stops listening to an ChangeSource.
+	 */
+	protected void silence_changes(ChangeSource source)
+	{
+		source.changed.disconnect(forward_changes);
 	}
 }

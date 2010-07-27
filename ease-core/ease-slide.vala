@@ -66,68 +66,9 @@ public class Ease.Slide : GLib.Object, UndoSource
 	public double advance_delay { get; set; }
 	
 	/**
-	 * The background type of this slide.
+	 * The background of this Slide.
 	 */
-	public BackgroundType background_type { get; set; }
-	
-	/**
-	 * The background color, if this slide uses a solid color for a background.
-	 *
-	 * To use this property, {@link background_type} must also be set to
-	 * {@link BackgroundType.COLOR}.
-	 */
-	public Color background_color
-	{
-		get { return background_color_priv; }
-		set
-		{
-			if (background_color_priv != null)
-			{
-				background_color_priv.changed.disconnect(bg_changed);
-			}
-			
-			background_color_priv = value;
-			background_color_priv.changed.connect(bg_changed);
-			changed(this);
-		}
-	}
-	private Color background_color_priv;
-	
-	/**
-	 * The background gradient, if this slide uses a gradient for a background.
-	 *
-	 * To use this property, {@link background_type} must also be set to
-	 * {@link BackgroundType.GRADIENT}.
-	 */
-	public Gradient background_gradient
-	{
-		get { return background_gradient_priv; }
-		set
-		{
-			if (background_gradient_priv != null)
-			{
-				background_gradient_priv.changed.disconnect(bg_changed);
-			}
-			
-			background_gradient_priv = value;
-			background_gradient_priv.changed.connect(bg_changed);
-			changed(this);
-		}
-	}
-	private Gradient background_gradient_priv;
-	
-	/**
-	 * The background image, if this slide uses an image for a background.
-	 *
-	 * To use this property, {@link background_type} must also be set to
-	 * {@link BackgroundType.IMAGE}.
-	 */
-	public string background_image { get; set; }
-	
-	/**
-	 * The original path to the background image. This path is used in the UI.
-	 */
-	public string background_image_source { get; set; }
+	public Background background { get; set; }
 	
 	/**
 	 * The absolute path of the background image, if one is set.
@@ -137,7 +78,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 		owned get
 		{
 			string p = parent == null ? theme.path : parent.path;
-			return Path.build_filename(p, background_image);
+			return Path.build_filename(p, background.image);
 		}
 	}
 	
@@ -237,8 +178,12 @@ public class Ease.Slide : GLib.Object, UndoSource
 	 */
 	public Slide()
 	{
-		notify["background-type"].connect((a, b) => background_changed(this));
-		notify["background-image"].connect((a, b) => background_changed(this));
+		background = new Background();
+		
+		// inspect undo actions passed through the slide, check for bg changes
+		undo.connect((item) => {
+			if (background.owns_undoitem(item)) background_changed(this);
+		});
 	}
 	
 	/**
@@ -283,23 +228,23 @@ public class Ease.Slide : GLib.Object, UndoSource
 		// read the slide's background properties
 		if (obj.has_member(Theme.BACKGROUND_IMAGE))
 		{
-			background_image = obj.get_string_member(Theme.BACKGROUND_IMAGE);
-			background_image_source =
+			background.image = obj.get_string_member(Theme.BACKGROUND_IMAGE);
+			background.image_source =
 				obj.get_string_member("background-image-source");
 		}
 		if (obj.has_member(Theme.BACKGROUND_COLOR))
 		{
-			background_color =
+			background.color =
 				new Color.from_string(
 				obj.get_string_member(Theme.BACKGROUND_COLOR));
 		}
 		if (obj.has_member(Theme.BACKGROUND_GRADIENT))
 		{
-			background_gradient =
+			background.gradient =
 				new Gradient.from_string(
 				obj.get_string_member(Theme.BACKGROUND_GRADIENT));
 		}
-		background_type = BackgroundType.from_string(
+		background.background_type = BackgroundType.from_string(
 			obj.get_string_member(Theme.BACKGROUND_TYPE));
 		
 		// parse the elements
@@ -316,6 +261,10 @@ public class Ease.Slide : GLib.Object, UndoSource
 			if (type == IMAGE_TYPE)
 			{
 				e = new ImageElement.from_json(node);
+			}
+			else if (type == "EaseShapeElement")
+			{
+				e = new ShapeElement.from_json(node);
 			}
 			else
 			{
@@ -341,24 +290,24 @@ public class Ease.Slide : GLib.Object, UndoSource
 		obj.set_string_member("title", title);
 		
 		// write the slide's background properties
-		if (background_image != null)
+		if (background.image != null)
 		{
-			obj.set_string_member(Theme.BACKGROUND_IMAGE, background_image);
+			obj.set_string_member(Theme.BACKGROUND_IMAGE, background.image);
 			obj.set_string_member("background-image-source",
-			                      background_image_source);
+			                      background.image_source);
 		}
-		if (background_color != null)
+		if (background.color != null)
 		{
 			obj.set_string_member(Theme.BACKGROUND_COLOR,
-			                      background_color.to_string());
+			                      background.color.to_string());
 		}
-		if (background_gradient != null)
+		if (background.gradient != null)
 		{
 			obj.set_string_member(Theme.BACKGROUND_GRADIENT,
-			                      background_gradient.to_string());
+			                      background.gradient.to_string());
 		}
 		obj.set_string_member(Theme.BACKGROUND_TYPE,
-		                      background_type.to_string());
+		                      background.background_type.to_string());
 		
 		// add the slide's elements
 		var json_elements = new Json.Array();
@@ -460,11 +409,16 @@ public class Ease.Slide : GLib.Object, UndoSource
 	public void cairo_render_sized(Cairo.Context context,
 	                               int w, int h) throws GLib.Error
 	{
+		context.save();
 		cairo_render_background(context, w, h);
+		context.restore();
 		
 		foreach (var e in elements)
 		{
+			context.save();
+			context.translate(e.x, e.y);
 			e.cairo_render(context);
+			context.restore();
 		}
 	}
 	
@@ -478,15 +432,15 @@ public class Ease.Slide : GLib.Object, UndoSource
 	public void cairo_render_background(Cairo.Context cr,
 	                                    int w, int h) throws GLib.Error
 	{
-		switch (background_type)
+		switch (background.background_type)
 		{
 			case BackgroundType.COLOR:
 				cr.rectangle(0, 0, w, h);
-				background_color.set_cairo(cr);
+				background.color.set_cairo(cr);
 				cr.fill();
 				break;
 			case BackgroundType.GRADIENT:
-				background_gradient.cairo_render_rect(cr, w, h);
+				background.gradient.cairo_render_rect(cr, w, h);
 				break;
 			case BackgroundType.IMAGE:
 				var pixbuf = new Gdk.Pixbuf.from_file_at_scale(background_abs,
@@ -518,11 +472,11 @@ public class Ease.Slide : GLib.Object, UndoSource
 		html += "<div class=\"slide\" id=\"slide" +
 		        index.to_string() + "\" ";
 		
-		if (background_image == null)
+		if (background.image == null)
 		{
 			// give the slide a background color
 			html += "style=\"background-color: " +
-			        background_color.clutter.to_string().
+			        background.color.clutter.to_string().
 			        substring(0, 7) + "\">";
 		}
 		else
@@ -531,13 +485,13 @@ public class Ease.Slide : GLib.Object, UndoSource
 			html += ">";
 			
 			// add the background image
-			html += "<img src=\"" + exporter.basename + " " + background_image +
+			html += "<img src=\"" + exporter.basename + " " + background.image +
 			        "\" alt=\"Background\" width=\"" +
 			        parent.width.to_string() + "\" height=\"" +
 			        parent.height.to_string() + "\"/>";
 
 			// copy the image file
-			exporter.copy_file(background_image, parent.path);
+			exporter.copy_file(background.image, parent.path);
 		}
 		
 		// add tags for each Element
@@ -548,12 +502,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 		
 		html += "</div>\n";
 	}
-	
-	private void bg_changed(GLib.Object sender)
-	{
-		background_changed(this);
-	}
-	
+
 	// foreach iteration
 	
 	/**
@@ -587,59 +536,6 @@ public class Ease.Slide : GLib.Object, UndoSource
 			i++;
 			return self.elements.get(i - 1);
 		}
-	}
-}
-
-public enum Ease.BackgroundType
-{
-	COLOR,
-	GRADIENT,
-	IMAGE;
-	
-	public const BackgroundType[] TYPES = { COLOR, GRADIENT, IMAGE};
-	
-	/**
-	 * Returns a string representation of this BackgroundType.
-	 */
-	public string to_string()
-	{
-		switch (this)
-		{
-			case COLOR: return Theme.BACKGROUND_TYPE_COLOR;
-			case GRADIENT: return Theme.BACKGROUND_TYPE_GRADIENT;
-			case IMAGE: return Theme.BACKGROUND_TYPE_IMAGE;
-		}
-		return "undefined";
-	}
-	
-	/**
-	 * Creates a BackgroundType from a string representation.
-	 */
-	public static BackgroundType from_string(string str)
-	{
-		switch (str)
-		{
-			case Theme.BACKGROUND_TYPE_COLOR: return COLOR;
-			case Theme.BACKGROUND_TYPE_GRADIENT: return GRADIENT;
-			case Theme.BACKGROUND_TYPE_IMAGE: return IMAGE;
-		}
-		
-		warning("%s is not a gradient type", str);
-		return COLOR;
-	}
-	
-	/**
-	 * Returns a description of the BackgroundType.
-	 */
-	public string description()
-	{
-		switch (this)
-		{
-			case COLOR: return _("Solid Color");
-			case GRADIENT: return _("Gradient");
-			case IMAGE: return _("Image");
-		}
-		return "undefined";
 	}
 }
 

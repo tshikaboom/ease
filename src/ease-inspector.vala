@@ -18,7 +18,7 @@
 /**
  * Inspector widget for editing slide properties
  */
-public class Ease.Inspector : Gtk.Notebook, UndoSource
+public class Ease.Inspector : Gtk.Notebook
 {
 	private InspectorTransitionPane transition_pane;
 	private InspectorSlidePane slide_pane;
@@ -64,7 +64,6 @@ public class Ease.Inspector : Gtk.Notebook, UndoSource
 	{
 		append_page(i, new Gtk.Image.from_stock(stock_id,
 		                                        Gtk.IconSize.SMALL_TOOLBAR));
-		listen(i);
 	}
 }
 
