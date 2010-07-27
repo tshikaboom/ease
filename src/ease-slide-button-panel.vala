@@ -89,32 +89,30 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 		add(viewport);
 		
 		// render pixbufs for all current slides
+		Slide s;
 		foreach (var itr in document.slides)
 		{
 			slide_redraw(itr);
+			document.slides.get(itr, Document.COL_SLIDE, out s);
+			s.changed.connect(on_slide_changed);
 		}
 		
 		// switch slides when the selection changes
 		slides.get_selection().changed.connect((sender) => {
 			slides.get_selection().selected_foreach((m, p, itr) => {
-				Slide s = new Slide();
-				m.get(itr, Document.COL_SLIDE, ref s);
-				owner.set_slide(document.index_of(s));
+				Slide sl;
+				m.get(itr, Document.COL_SLIDE, out sl);
+				owner.set_slide(document.index_of(sl));
 			});
 		});
 		
 		document.slide_added.connect((slide, index) => {
-			Slide s;
-			foreach (var itr in document.slides)
-			{
-				document.slides.get(itr, Document.COL_SLIDE, out s);
-				if (s == slide)
-				{
-					slide_redraw(itr);
-					return;
-				}
-			}
-			debug("new slide");
+			on_slide_changed(slide);
+			slide.changed.connect(on_slide_changed);
+		});
+		
+		document.slide_deleted.connect((slide, index) => {
+			slide.changed.disconnect(on_slide_changed);
 		});
 		
 		// redraw all slides when the size allocation changes
@@ -174,7 +172,7 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 	 *
 	 * @param slide The slide to create a pixbuf of.
 	 */
-	private Gdk.Pixbuf? pixbuf(Slide slide, int width)
+	private static Gdk.Pixbuf? pixbuf(Slide slide, int width)
 	{
 		var height = (int)((float)width * slide.parent.height /
 		                                  slide.parent.width);
@@ -213,6 +211,23 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 			return pb;
 		}
 		catch (GLib.Error e) { error(e.message); return null; }
+	}
+	
+	/**
+	 * Handles {@link Slide.changed}
+	 */
+	private void on_slide_changed(Slide slide)
+	{
+		Slide s;
+		foreach (var itr in document.slides)
+		{
+			document.slides.get(itr, Document.COL_SLIDE, out s);
+			if (s == slide)
+			{
+				slide_redraw(itr);
+				return;
+			}
+		}
 	}
 }
 
