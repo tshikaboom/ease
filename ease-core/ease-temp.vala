@@ -94,21 +94,30 @@ public static class Ease.Temp : Object
 	 * This function is useful for debugging and cleanliness purposes.
 	 * However, be sure to use unique names. Do not use "integer" strings,
 	 * as those could overlap with directories created through request().
-	 * For this reason, this function is not available to code outside
-	 * Ease.
+	 *
+	 * If the directory name is taken, "-0, "-1", etc. will be appended until
+	 * an available directory is found.
 	 *
 	 * @param str The directory name to request.
 	 */
-	internal static string request_str(string str) throws GLib.Error
+	public static string request_str(string str) throws GLib.Error
 	{
 		// build the path
 		string tmp = Path.build_filename(temp, str);
+		var file = File.new_for_path(tmp);
+		if (file.query_exists(null))
+		{
+			for (int i = 0; file.query_exists(null); i++)
+			{
+				tmp = Path.build_filename(temp, str + "-" + i.to_string());
+				file = File.new_for_path(tmp);
+			}
+		}
 		
 		// track the directories used by this instance of the program
 		dirs.offer_head(tmp);
 		
 		// make the directory
-		var file = GLib.File.new_for_path(tmp);
 		file.make_directory_with_parents(null);
 		
 		return tmp;

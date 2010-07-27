@@ -100,7 +100,7 @@ public class Ease.TextActor : Actor
 	/**
 	 * {@inheritDoc}
 	 */
-	public override void edit(EditorEmbed sender)
+	public override void edit()
 	{
 		// set text to editable
 		var text = contents as Clutter.Text;
@@ -111,7 +111,6 @@ public class Ease.TextActor : Actor
 		text.activate.connect(text_activate);
 		
 		// grab key focus
-		sender.key_focus();
 		((Clutter.Stage)get_stage()).set_key_focus(text);
 		
 		// set the selection color
@@ -135,14 +134,14 @@ public class Ease.TextActor : Actor
 		
 		// if the text is being edited when the action is applied, stop editing
 		undo_action.pre_apply.connect((action) => {
-			if (text.editable) end_edit(sender);
+			if (text.editable) end_edit();
 		});
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public override void end_edit(EditorEmbed sender)
+	public override void end_edit()
 	{
 		// release key focus
 		((Clutter.Stage)get_stage()).set_key_focus(null);

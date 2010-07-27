@@ -5,7 +5,26 @@ SUBDIRS = po data flutter ease-core
 bin_PROGRAMS = ease
 
 # source files
-ease_SOURCES = src/main.vala
+ease_SOURCES = \
+	src/ease-about-dialog.vala \
+	src/ease-close-confirm-dialog.vala \
+	src/ease-editor-embed.vala \
+	src/ease-editor-window.vala \
+	src/ease-handle.vala \
+	src/ease-inspector-element-pane.vala \
+	src/ease-inspector-pane.vala \
+	src/ease-inspector-slide-pane.vala \
+	src/ease-inspector-transition-pane.vala \
+	src/ease-inspector.vala \
+	src/ease-inspector-window.vala \
+	src/ease-main.vala \
+	src/ease-player.vala \
+	src/ease-scrollable-embed.vala \
+	src/ease-selection-rectangle.vala \
+	src/ease-slide-actor.vala \
+	src/ease-slide-button-panel.vala \
+	src/ease-welcome-actor.vala \
+	src/ease-welcome-window.vala
 
 # compiler flags
 ease_VALAFLAGS = \
@@ -17,6 +36,7 @@ ease_VALAFLAGS = \
 ease_LDADD = \
 	./ease-core/libease-core-0.3.la \
 	./flutter/libflutter-0.3.la \
+	-lm \
 	$(EASE_LIBS) \
 	$(NULL)
 	

@@ -255,7 +255,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		
 		if (is_editing)
 		{
-			selected.end_edit(this);
+			selected.end_edit();
 			is_editing = false;
 		}
 		
@@ -418,7 +418,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		if (event.click_count == 2)
 		{
 			disconnect_keys();
-			(sender as Actor).edit(this);
+			(sender as Actor).edit();
 			is_editing = true;
 			return true;
 		}
@@ -497,7 +497,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		// if editing another Actor, finish that edit
 		if (selected != null && is_editing)
 		{
-			selected.end_edit(this);
+			selected.end_edit();
 			is_editing = false;
 			element_deselected(selected.element);
 		}

@@ -42,7 +42,7 @@ public class Ease.OpenDialog : GLib.Object
 
 		if (dialog.run() == Gtk.ResponseType.ACCEPT)
 		{
-			Main.open_file(dialog.get_filename() + "/");
+			//Main.open_file(dialog.get_filename() + "/");
 		}
 		dialog.destroy();
 	}

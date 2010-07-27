@@ -68,11 +68,11 @@ public class Ease.Theme : GLib.Object
 	private const string BACKGROUND_TYPE_IMAGE = "background-type-image";
 	
 	// text content types
-	private const string TITLE_TEXT = "title-text";
-	private const string AUTHOR_TEXT = "author-text";
-	private const string CONTENT_TEXT = "content-text";
-	private const string HEADER_TEXT = "header-text";
-	private const string CUSTOM_TEXT = "custom-text";
+	public const string TITLE_TEXT = "title-text";
+	public const string AUTHOR_TEXT = "author-text";
+	public const string CONTENT_TEXT = "content-text";
+	public const string HEADER_TEXT = "header-text";
+	public const string CUSTOM_TEXT = "custom-text";
 	
 	// text properties
 	public const string TEXT_FONT = "text-font";

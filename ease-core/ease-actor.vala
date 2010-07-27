@@ -177,7 +177,7 @@ public abstract class Ease.Actor : Clutter.Group
 	 *
 	 * @param sender The {@link EditorEmbed} this Actor is on.
 	 */
-	public virtual void edit(EditorEmbed sender) {}
+	public virtual void edit() {}
 	
 	/**
 	 * Called when the actor end editing. Subclasses with editing that is not
@@ -185,6 +185,6 @@ public abstract class Ease.Actor : Clutter.Group
 	 *
 	 * @param sender The {@link EditorEmbed} this Actor is on.
 	 */
-	public virtual void end_edit(EditorEmbed sender) {}
+	public virtual void end_edit() {}
 }
 
