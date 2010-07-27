@@ -239,8 +239,10 @@
                   <object class="GtkHScale" id="hscale-angle">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="update_policy">discontinuous</property>
                     <property name="adjustment">adjustment-angle</property>
                     <property name="draw_value">False</property>
+                    <signal name="value_changed" handler="ease_inspector_slide_pane_on_set_angle"/>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -310,6 +312,5 @@
     <property name="upper">6.2800000000000002</property>
     <property name="step_increment">0.10000000000000001</property>
     <property name="page_increment">1</property>
-    <property name="page_size">1</property>
   </object>
 </interface>

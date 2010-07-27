@@ -30,6 +30,7 @@ public class Ease.InspectorSlidePane : InspectorPane
 	private Gtk.VBox box_color;
 	private Gtk.VBox box_gradient;
 	private Gtk.VBox box_image;
+	private Gtk.HScale grad_angle;
 	
 	private Gtk.ColorButton bg_color;
 	private Gtk.ColorButton grad_color1;
@@ -70,6 +71,7 @@ public class Ease.InspectorSlidePane : InspectorPane
 			builder.get_object("button-image") as Gtk.FileChooserButton;
 		gradient_type =
 			builder.get_object("combo-gradient") as Gtk.ComboBox;
+		grad_angle = builder.get_object("hscale-angle") as Gtk.HScale;
 		
 		// set up the gradient type combobox
 		gradient_type.model = grad_store;
@@ -268,6 +270,23 @@ public class Ease.InspectorSlidePane : InspectorPane
 		emit_undo(action);
 	}
 	
+	[CCode (instance_pos = -1)]
+	public void on_set_angle(Gtk.Widget? sender)
+	{
+		var action = new UndoAction(slide.background_gradient, "angle");
+		slide.background_gradient.angle =
+			(sender as Gtk.HScale).adjustment.value;
+		undo(action);
+		
+		slide.changed(slide);
+		
+		var local = slide;
+		action.applied.connect((a) => {
+			local.changed(local);
+			if (local == slide) display_bg_ui(slide.background_type);
+		});
+	}
+	
 	protected override void slide_updated()
 	{
 		silence_undo = true;
@@ -322,6 +341,8 @@ public class Ease.InspectorSlidePane : InspectorPane
 				
 				grad_color1.set_color(slide.background_gradient.start.gdk);
 				grad_color2.set_color(slide.background_gradient.end.gdk);
+				
+				grad_angle.adjustment.value = slide.background_gradient.angle;
 				
 				slide.changed(slide);
 				

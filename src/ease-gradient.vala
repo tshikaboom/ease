@@ -23,7 +23,7 @@ public class Ease.Gradient : GLib.Object
 	/**
 	 * The format string for converting gradients to strings.
 	 */
-	private const string STR = "%s%s%s%s%s%s";
+	private const string STR = "%s|%s|%s|%f";
 	
 	/**
 	 * The string placed between each color in a string representation.
@@ -153,10 +153,8 @@ public class Ease.Gradient : GLib.Object
 	 */
 	public string to_string()
 	{
-		return STR.printf(start.to_string(), SPLIT,
-		                  end.to_string(), SPLIT,
-		                  mode.to_string(), SPLIT,
-		                  angle.to_string());
+		return STR.printf(start.to_string(), end.to_string(),
+		                  mode.to_string(), angle);
 	}
 	
 	/**
@@ -192,18 +190,29 @@ public class Ease.Gradient : GLib.Object
 		cr.save();
 		cr.rectangle(0, 0, width, height);
 		
+		var x_orig = width / 2;
+		var y_orig = height / 2;
+		var dist_x = (int)(Math.cos(angle + Math.PI / 2) * y_orig);
+		var dist_y = (int)(Math.sin(angle + Math.PI / 2) * y_orig);
+		
 		Cairo.Pattern pattern;
 		switch (mode)
 		{
 			case GradientType.LINEAR:				
-				pattern = new Cairo.Pattern.linear(0, 0, 0, height);
+				pattern = new Cairo.Pattern.linear(x_orig - dist_x,
+				                                   y_orig - dist_y,
+				                                   x_orig + dist_x,
+				                                   y_orig + dist_y);
 				pattern.add_color_stop_rgba(0, start.red, start.green,
 						                    start.blue, start.alpha);
 				pattern.add_color_stop_rgba(1, end.red, end.green,
 						                    end.blue, end.alpha);
 				break;
 			case GradientType.LINEAR_MIRRORED:
-				pattern = new Cairo.Pattern.linear(0, 0, 0, height);
+				pattern = new Cairo.Pattern.linear(x_orig - dist_x,
+				                                   y_orig - dist_y,
+				                                   x_orig + dist_x,
+				                                   y_orig + dist_y);
 				pattern.add_color_stop_rgba(0, start.red, start.green,
 						                    start.blue, start.alpha);
 				pattern.add_color_stop_rgba(0.5, end.red, end.green,
