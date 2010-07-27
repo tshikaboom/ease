@@ -3,7 +3,7 @@ lib_LTLIBRARIES = libease-core-0.3.la
 INCLUDES = \
 	$(EASE_CFLAGS)
 
-EASE_CFLAGS += -w
+EASE_CFLAGS += -w -I../flutter
 
 AM_CPPFLAGS = \
 	$(EASE_CFLAGS) \
@@ -16,7 +16,6 @@ libease_core_0_3_la_SOURCES = \
 	ease-actor.vala \
 	ease-animated-zoom-slider.vala \
 	ease-close-confirm-dialog.vala \
-	ease-clutter-iterables.vala \
 	ease-color.vala \
 	ease-dialogs.vala \
 	ease-document.vala \
@@ -65,13 +64,17 @@ libease_core_0_3_la_SOURCES = \
 # compiler flags
 libease_core_0_3_la_VALAFLAGS = \
 	$(EASE_PACKAGES) \
-	--vapi=ease-core-0.3.vapi \
+	--vapi=../vapi/ease-core-0.3.vapi \
 	--header=libease-core.h \
 	--thread \
 	--library EaseCore-0.3 \
 	--gir=EaseCore-0.3.gir \
+	--vapidir=../flutter \
+	--pkg flutter-0.3 \
 	-g \
 	$(NULL)
+
+libease_core_0_3_la_LIBADD = ../flutter/libflutter-0.3.la
 
 libease_core_0_3_la_CFLAGS = $(EASE_CFLAGS)
 libease_core_0_3_la_LDFLAGS = $(EASE_LDFLAGS)
@@ -79,12 +82,12 @@ libease_core_0_3_la_LDFLAGS = $(EASE_LDFLAGS)
 # build typelib
 
 # header installation
-libease_includedir=$(includedir)/ease-0.3/
+libease_includedir=$(includedir)/ease/
 libease_include_HEADERS = libease-core.h
 
 # vapi installation
 vapidir = $(datadir)/vala/vapi
-vapi_DATA = ease-core-0.3.vapi
+vapi_DATA = ../vapi/ease-core-0.3.vapi ../vapi/ease-core-0.3.deps
 
 # gir installation
 girdir = $(datadir)/gir-1.0
@@ -94,7 +97,7 @@ EXTRA_DIST = EaseCore-0.3.gir
 # remove generated files on `make clean`
 CLEANFILES = \
 	$(subst .vala,.c,$(libease_core_0_3_la_SOURCES)) \
-	ease-core-0.3.vapi \
+	../vapi/ease-core-0.3.vapi \
 	EaseCore-0.3.gir \
 	libease-core.h
 

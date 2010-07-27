@@ -1,6 +1,6 @@
 NULL =
 
-SUBDIRS = po data ease-core
+SUBDIRS = po data flutter ease-core
 	
 bin_PROGRAMS = ease
 
@@ -10,11 +10,13 @@ ease_SOURCES = src/main.vala
 # compiler flags
 ease_VALAFLAGS = \
 	--pkg ease-core-0.3 \
+	--pkg flutter-0.3 \
 	$(EASE_PACKAGES) \
-	--vapidir ./ease-core
+	--vapidir vapi
 
 ease_LDADD = \
 	./ease-core/libease-core-0.3.la \
+	./flutter/libflutter-0.3.la \
 	$(EASE_LIBS) \
 	$(NULL)
 	
@@ -22,7 +24,7 @@ INCLUDES = \
 	-include config.h \
 	$(EASE_CFLAGS)
 
-EASE_CFLAGS += -w -I./ease-core/
+EASE_CFLAGS += -w -I./ease-core/ -I./flutter
 
 AM_CPPFLAGS = \
 	$(EASE_CFLAGS) \

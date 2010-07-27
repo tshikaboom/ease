@@ -55,14 +55,6 @@ namespace Ease {
 		public CloseConfirmDialog (string filename, int seconds);
 	}
 	[CCode (cheader_filename = "libease-core.h")]
-	public class ClutterIterableGroup : Clutter.Group, Ease.ClutterIterableContainer {
-		public ClutterIterableGroup ();
-	}
-	[CCode (cheader_filename = "libease-core.h")]
-	public class ClutterIterableStage : Clutter.Stage, Ease.ClutterIterableContainer {
-		public ClutterIterableStage ();
-	}
-	[CCode (cheader_filename = "libease-core.h")]
 	public class Color : GLib.Object {
 		public Color ();
 		public Ease.Color copy ();
@@ -406,7 +398,7 @@ namespace Ease {
 	[CCode (cheader_filename = "libease-core.h")]
 	public class SlideActor : Clutter.Group {
 		public Clutter.CairoTexture background;
-		public Ease.ClutterIterableGroup contents;
+		public Flutter.Group contents;
 		public Ease.ActorContext context;
 		public const int EASE_DROP;
 		public const int EASE_PIVOT;
@@ -602,16 +594,6 @@ namespace Ease {
 		public double sliderpos { get; set; }
 		public Gtk.PositionType value_pos { get; set; }
 		public signal void value_changed ();
-	}
-	[CCode (cheader_filename = "libease-core.h")]
-	public interface ClutterIterableContainer : Clutter.Container {
-		[CCode (ref_function = "ease_clutter_iterable_container_iterator_ref", unref_function = "ease_clutter_iterable_container_iterator_unref", cheader_filename = "libease-core.h")]
-		public class Iterator {
-			public Iterator (Ease.ClutterIterableContainer self);
-			public Clutter.Actor @get ();
-			public bool next ();
-		}
-		public Ease.ClutterIterableContainer.Iterator iterator ();
 	}
 	[CCode (cheader_filename = "libease-core.h")]
 	public interface UndoSource : GLib.Object {

@@ -1,4 +1,4 @@
-/*  Ease, a GTK presentation application
+/*  Flutter: Foreach-enabled Clutter containers for Vala
     Copyright (C) 2010 Nate Stedman
 
     This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 /**
  * Clutter container mixin, iterable with foreach()
  */
-public interface Ease.ClutterIterableContainer : Clutter.Container
+public interface Flutter.Container : Clutter.Container
 {
 	public Iterator iterator()
 	{
@@ -29,7 +29,7 @@ public interface Ease.ClutterIterableContainer : Clutter.Container
 	{
 		private unowned List<Clutter.Actor>* itr;
 		
-		public Iterator(ClutterIterableContainer self)
+		public Iterator(Container self)
 		{
 			itr = self.get_children();
 		}
@@ -49,15 +49,24 @@ public interface Ease.ClutterIterableContainer : Clutter.Container
 }
 
 /**
- * ClutterGroup with {@link ClutterIterableContainer} mixin.
+ * ClutterGroup with {@link Container} mixin.
  */
-public class Ease.ClutterIterableGroup : Clutter.Group, ClutterIterableContainer
+public class Flutter.Group : Clutter.Group, Container
 {
 }
 
 /**
- * ClutterStage with {@link ClutterIterableContainer} mixin.
+ * ClutterStage with {@link Container} mixin.
  */
-public class Ease.ClutterIterableStage : Clutter.Stage, ClutterIterableContainer
+public class Flutter.Stage : Clutter.Stage, Container
 {
 }
+
+/**
+ * ClutterBox with {@link Container} mixin.
+ */
+public class Flutter.Box : Clutter.Box, Container
+{
+}
+
+

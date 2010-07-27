@@ -3,9 +3,9 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: libease
+Name: libease-core
 Description: Ease backend library
 Requires: gtk+-2.0 clutter-1.0 clutter-gst-1.0 clutter-gtk-0.10 gee-1.0 clutter-gst-1.0 json-glib-1.0 libarchive gmodule-2.0
 Version: @PACKAGE_VERSION@
-Libs: -L${libdir} -lease-0.1
-Cflags: -I${includedir}/ease-0.1 -I${libdir}/ease-0.1/include
+Libs: -L${libdir} -lease-core-0.3
+Cflags: -I${includedir}/ease-core-0.3 -I${libdir}/ease-core-0.3/include

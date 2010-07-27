@@ -19,10 +19,9 @@ libease/tmp-introspect*
 ease
 *.h
 *.o
-src/*.c
-libease/*.c
-libease/*.vapi
 *.lo
+*.vapi
+*.c
 .libs
 
 *.ogv

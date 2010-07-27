@@ -37,7 +37,7 @@ public class Ease.SlideActor : Clutter.Group
 	/**
 	 * The group for the slide's contents.
 	 */
-	public ClutterIterableGroup contents;
+	public Flutter.Group contents;
 
 	/**
 	 * The context of the actor (presentation, etc.)
@@ -184,7 +184,7 @@ public class Ease.SlideActor : Clutter.Group
 		set_background();
 		add_actor(background);
 
-		contents = new ClutterIterableGroup();
+		contents = new Flutter.Group();
 
 		foreach (var e in slide.elements)
 		{
@@ -213,7 +213,7 @@ public class Ease.SlideActor : Clutter.Group
 		background = new Clutter.CairoTexture(document.width, document.height);
 		
 		// create a blank contents actor
-		contents = new ClutterIterableGroup();
+		contents = new Flutter.Group();
 		
 		// set the background size
 		background.width = width_px;
