@@ -101,7 +101,6 @@ doc: src/*.vala
 	valadoc --internal --private --pkg "json-glib-1.0" --pkg "gee-1.0"  --pkg "clutter-gtk-0.10" --pkg "libarchive" --directory=./doc --basedir=src ./src/*.vala
 	gnome-open doc/doc/Ease.html
 
-archive: data/themes/* examples/*
-	sh data/themes/build.sh
+archive: examples/*
 	sh examples/build.sh
 

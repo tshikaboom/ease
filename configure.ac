@@ -43,10 +43,4 @@ AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"], [Gettext Package])
 AC_SUBST(GETTEXT_PACKAGE)
 AM_GLIB_GNU_GETTEXT
 
-dnl Package Themes
-AC_CONFIG_COMMANDS([build-themes], [sh data/themes/build.sh])
-
-dnl Package Example .ease files
-AC_CONFIG_COMMANDS([build-examples], [sh examples/build.sh])
-
 AC_OUTPUT
