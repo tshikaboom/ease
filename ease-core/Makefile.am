@@ -50,7 +50,7 @@ libease_core_0_3_la_VALAFLAGS = \
 	--thread \
 	--library EaseCore-0.3 \
 	--gir=EaseCore-0.3.gir \
-	--vapidir=../flutter \
+	--vapidir=../vapi \
 	--pkg flutter-0.3 \
 	-g \
 	$(NULL)

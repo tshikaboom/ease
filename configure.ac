@@ -7,8 +7,8 @@ AC_CONFIG_FILES([Makefile
 	  data/Makefile
 	  ease-core/Makefile
 	  flutter/Makefile
-	  ease-core-0.3.pc
-	  flutter-0.3.pc])
+	  pkgconfig/ease-core-0.3.pc
+	  pkgconfig/flutter-0.3.pc])
 
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([config.h])

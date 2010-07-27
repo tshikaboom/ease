@@ -65,7 +65,9 @@ DISTCLEANFILES = data/ease.desktop \
 ACLOCAL_AMFLAGS = -I m4
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = ease-core-0.3.pc
+pkgconfig_DATA = \
+    pkgconfig/ease-core-0.3.pc \
+    pkgconfig/flutter-0.3.pc
 
 doc: ease-core/*.vala
 	rm -rf doc
