@@ -143,6 +143,9 @@ public class Ease.Gradient : GLib.Object
 		end = new Color.from_string(split[1]);
 		mode = GradientType.from_string(split[2]);
 		angle = split[3].to_double();
+		
+		notify["mode"].connect((a, b) => changed(this));
+		notify["angle"].connect((a, b) => changed(this));
 	}
 	
 	/**
