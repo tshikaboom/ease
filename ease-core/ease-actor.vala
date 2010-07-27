@@ -169,7 +169,7 @@ public abstract class Ease.Actor : Clutter.Group
 		{
 			editor_rect.width = width;
 			editor_rect.height = height;
-		}	
+		}
 	}
 	
 	/**
@@ -177,7 +177,7 @@ public abstract class Ease.Actor : Clutter.Group
 	 *
 	 * @param sender The {@link EditorEmbed} this Actor is on.
 	 */
-	public virtual void edit() {}
+	public virtual void edit(Gtk.Widget sender) {}
 	
 	/**
 	 * Called when the actor end editing. Subclasses with editing that is not
@@ -185,6 +185,6 @@ public abstract class Ease.Actor : Clutter.Group
 	 *
 	 * @param sender The {@link EditorEmbed} this Actor is on.
 	 */
-	public virtual void end_edit() {}
+	public virtual void end_edit(Gtk.Widget sender) {}
 }
 

@@ -191,9 +191,9 @@ public class Ease.ScrollableEmbed : Gtk.HBox
 	}
 	
 	/**
-	 * Sets keyboard focus to this ScrollableEmbed's GtkClutter.Embed
+	 * When grabbing focus, grab it on the embed.
 	 */
-	public void key_focus()
+	public override void grab_focus()
 	{
 		embed.grab_focus();
 	}

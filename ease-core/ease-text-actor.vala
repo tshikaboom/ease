@@ -100,7 +100,7 @@ public class Ease.TextActor : Actor
 	/**
 	 * {@inheritDoc}
 	 */
-	public override void edit()
+	public override void edit(Gtk.Widget sender)
 	{
 		// set text to editable
 		var text = contents as Clutter.Text;
@@ -112,6 +112,7 @@ public class Ease.TextActor : Actor
 		
 		// grab key focus
 		((Clutter.Stage)get_stage()).set_key_focus(text);
+		sender.grab_focus();
 		
 		// set the selection color
 		text.selection_color = { 255 - text.color.red,
@@ -134,14 +135,14 @@ public class Ease.TextActor : Actor
 		
 		// if the text is being edited when the action is applied, stop editing
 		undo_action.pre_apply.connect((action) => {
-			if (text.editable) end_edit();
+			if (text.editable) end_edit(sender);
 		});
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public override void end_edit()
+	public override void end_edit(Gtk.Widget sender)
 	{
 		// release key focus
 		((Clutter.Stage)get_stage()).set_key_focus(null);
