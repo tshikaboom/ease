@@ -1,4 +1,4 @@
-AC_INIT([Ease], [0.1], [https://bugzilla.gnome.org/enter_bug.cgi?product=ease], [ease], [http://live.gnome.org/Ease])
+AC_INIT([Ease], [0.2], [https://bugzilla.gnome.org/enter_bug.cgi?product=ease], [ease], [http://live.gnome.org/Ease])
 
 AC_PREREQ([2.59])
 
