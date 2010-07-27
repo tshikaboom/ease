@@ -94,7 +94,7 @@ public class Ease.Document : GLib.Object, UndoSource
 	/**
 	 * All {@link Slide}s in this Document.
 	 */
-	public Iterable.ListStore slides = new Iterable.ListStore(
+	internal Iterable.ListStore slides = new Iterable.ListStore(
 		{ typeof(Slide),
 		  typeof(Gdk.Pixbuf) });
 	
@@ -120,7 +120,7 @@ public class Ease.Document : GLib.Object, UndoSource
 	 */
 	public Document() { }
 	
-	public Document.from_saved(string file_path) throws GLib.Error
+	internal Document.from_saved(string file_path) throws GLib.Error
 	{
 		this();
 		
@@ -166,8 +166,8 @@ public class Ease.Document : GLib.Object, UndoSource
 	 * @param w The width of the new Document.
 	 * @param h The height of the new Document.
 	 */
-	public Document.from_theme(Theme doc_theme,
-	                           int w, int h) throws GLib.Error
+	internal Document.from_theme(Theme doc_theme,
+	                             int w, int h) throws GLib.Error
 	{
 		assert(doc_theme != null);
 		
@@ -190,7 +190,7 @@ public class Ease.Document : GLib.Object, UndoSource
 		append_slide(slide);
 	}
 	
-	public void to_json() throws GLib.Error
+	internal void to_json() throws GLib.Error
 	{
 		var root = new Json.Node(Json.NodeType.OBJECT);
 		var obj = new Json.Object();

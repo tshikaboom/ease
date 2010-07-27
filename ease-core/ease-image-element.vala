@@ -31,12 +31,12 @@ public class Ease.ImageElement : MediaElement
 	{
 	}
 	
-	public ImageElement.from_json(Json.Object obj)
+	internal ImageElement.from_json(Json.Object obj)
 	{
 		base.from_json(obj);
 	}
 	
-	public override Actor actor(ActorContext c)
+	internal override Actor actor(ActorContext c)
 	{
 		return new ImageActor(this, c);
 	}

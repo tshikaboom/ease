@@ -44,8 +44,9 @@ EXTRA_DIST = Flutter-0.3.gir
 
 # remove generated files on `make clean`
 CLEANFILES = \
-	$(subst .vala,.c,$(flutter_0_3_la_SOURCES)) \
+	flutter.c \
 	../vapi/flutter-0.3.vapi \
 	Flutter-0.3.gir \
-	flutter.h
+	flutter.h \
+	libflutter_0_3_la-flutter.lo
 

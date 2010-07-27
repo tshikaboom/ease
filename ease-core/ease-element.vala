@@ -47,7 +47,7 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	/**
 	 * Creates an Element from a JsonObject
 	 */
-	public Element.from_json(Json.Object obj)
+	internal Element.from_json(Json.Object obj)
 	{
 		identifier = obj.get_string_member(Theme.E_IDENTIFIER);
 		x = (float)obj.get_string_member(Theme.X).to_double();
@@ -61,7 +61,7 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	/**
 	 * Writes an Element to a JsonObject
 	 */
-	public virtual Json.Object to_json()
+	internal virtual Json.Object to_json()
 	{
 		var obj = new Json.Object();
 		

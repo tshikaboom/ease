@@ -32,7 +32,7 @@ public class Ease.TextElement : Element
 	/**
 	 * Create a TextElement from a JsonObject
 	 */
-	public TextElement.from_json(Json.Object obj)
+	internal TextElement.from_json(Json.Object obj)
 	{
 		base.from_json(obj);
 		
@@ -46,7 +46,7 @@ public class Ease.TextElement : Element
 		text_size_from_string(obj.get_string_member(Theme.TEXT_SIZE));
 	}
 	
-	public override Json.Object to_json()
+	internal override Json.Object to_json()
 	{
 		var obj = base.to_json();
 		

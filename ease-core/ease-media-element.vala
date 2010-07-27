@@ -23,14 +23,14 @@ public abstract class Ease.MediaElement : Element
 	/**
 	 * Creates a MediaElement from a JsonObject
 	 */
-	public MediaElement.from_json(Json.Object obj)
+	internal MediaElement.from_json(Json.Object obj)
 	{
 		base.from_json(obj);
 		filename = obj.get_string_member(Theme.MEDIA_FILENAME);
 		source_filename = obj.get_string_member(Theme.MEDIA_SOURCE_FILENAME);
 	}
 	
-	public override Json.Object to_json()
+	internal override Json.Object to_json()
 	{
 		var obj = base.to_json();
 		

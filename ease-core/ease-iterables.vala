@@ -21,7 +21,7 @@
  * The foreach loop returns a Gtk.TreeIter. The Gtk.TreePath provided by the 
  * built in TreeModel foreach function is not (immediately) available.
  */
-public interface Ease.Iterable.TreeModel : Gtk.TreeModel
+internal interface Ease.Iterable.TreeModel : Gtk.TreeModel
 {
 	public Iterator iterator()
 	{
@@ -57,7 +57,7 @@ public interface Ease.Iterable.TreeModel : Gtk.TreeModel
 /**
  * ListStore with the {@link Iterable.TreeModel} mixin.
  */
-public class Ease.Iterable.ListStore : Gtk.ListStore, TreeModel
+internal class Ease.Iterable.ListStore : Gtk.ListStore, TreeModel
 {
 	/**
 	 * Creates an iterable ListStore with the specified types.
