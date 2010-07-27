@@ -27,6 +27,7 @@ public abstract class Ease.MediaElement : Element
 	{
 		base.from_json(obj);
 		filename = obj.get_string_member(Theme.MEDIA_FILENAME);
+		source_filename = obj.get_string_member(Theme.MEDIA_SOURCE_FILENAME);
 	}
 	
 	public override Json.Object to_json()
@@ -34,6 +35,7 @@ public abstract class Ease.MediaElement : Element
 		var obj = base.to_json();
 		
 		obj.set_string_member(Theme.MEDIA_FILENAME, filename);
+		obj.set_string_member(Theme.MEDIA_SOURCE_FILENAME, source_filename);
 		
 		return obj;
 	}
@@ -42,6 +44,11 @@ public abstract class Ease.MediaElement : Element
 	 * The path to a media file.
 	 */
 	public string filename { get; set; }
+	
+	/**
+	 * The path where the media file was originally found.
+	 */
+	public string source_filename { get; set; }
 	
 	/**
 	 * The full path to a media file.

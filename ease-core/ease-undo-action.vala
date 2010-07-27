@@ -64,6 +64,7 @@ public class Ease.UndoAction : UndoItem
 	 */
 	public override UndoItem apply()
 	{
+		pre_apply(this);
 		foreach (var pair in pairs) pair.apply();
 		applied(this);
 		return this;

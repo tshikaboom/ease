@@ -116,7 +116,7 @@ public class Ease.EditorWindow : Gtk.Window
 	 * Creates a new EditorWindow.
 	 * 
 	 * An EditorWindow includes a toolbar, an
-	 * {@link EditorEmbed}, a {@link SlidePane}, a menu bar, and other
+	 * {@link EditorEmbed}, a {@link InspectorSlidePane}, a menu bar, and other
 	 * interface elements.
 	 *
 	 * @param node The initial XML node to begin with.
@@ -127,6 +127,7 @@ public class Ease.EditorWindow : Gtk.Window
 		set_default_size(1024, 768);
 		
 		document = doc;
+		document.undo.connect(add_undo_action);
 		
 		var builder = new Gtk.Builder();
 		try
@@ -149,15 +150,19 @@ public class Ease.EditorWindow : Gtk.Window
 		undo_button = builder.get_object("Undo") as Gtk.ToolButton;
 		redo_button = builder.get_object("Redo") as Gtk.ToolButton;
 		
-		// the inspector
-		inspector = new Inspector();
-		(builder.get_object("Inspector Align") as Gtk.Alignment).add(inspector);
-		inspector.undo.connect((action) => add_undo_action(action));
-		
 		// main editor
 		embed = new EditorEmbed(document, this);
 		(builder.get_object("Embed Align") as Gtk.Alignment).add(embed);
-		embed.undo.connect((action) => add_undo_action(action));
+		embed.undo.connect(add_undo_action);
+		
+		// the inspector
+		inspector = new Inspector();
+		(builder.get_object("Inspector Align") as Gtk.Alignment).add(inspector);
+		inspector.undo.connect(add_undo_action);
+		embed.element_selected.connect(
+			inspector.element_pane.on_element_selected);
+		embed.element_deselected.connect(
+			inspector.element_pane.on_element_deselected);
 		
 		// zoom slider
 		(builder.get_object("Zoom Slider Item") as Gtk.ToolItem).
@@ -199,7 +204,11 @@ public class Ease.EditorWindow : Gtk.Window
 			dialog.destroy();
 			
 			if (response == Gtk.ResponseType.CANCEL) return true;
-			if (response == Gtk.ResponseType.NO) return false;
+			if (response == Gtk.ResponseType.NO)
+			{
+				Main.remove_window(this);
+				return false;
+			}
 			
 			// otherwise, save and quit
 			var result = !save_document(null);
@@ -230,7 +239,7 @@ public class Ease.EditorWindow : Gtk.Window
 	 *
 	 * @param action The new {@link UndoItem}.
 	 */
-	private void add_undo_action(UndoItem action)
+	public void add_undo_action(UndoItem action)
 	{
 		undo.add_action(action);
 		undo.clear_redo();
@@ -388,6 +397,7 @@ public class Ease.EditorWindow : Gtk.Window
 				e.element_type = Slide.IMAGE_TYPE;
 				e.identifier = Theme.CUSTOM_MEDIA;
 				e.filename = document.add_media_file(dialog.get_filename());
+				e.source_filename = dialog.get_filename();
 				
 				// add the element
 				slide.add(e);

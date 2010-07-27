@@ -21,7 +21,7 @@
  * The Ease Document class is generated from JSON and writes back to JSON
  * when saved.
  */
-public class Ease.Document : GLib.Object
+public class Ease.Document : GLib.Object, UndoSource
 {
 	private const string MEDIA_PATH = "Media";
 	
@@ -235,6 +235,7 @@ public class Ease.Document : GLib.Object
 		slides.insert(out itr, index);
 		slides.set(itr, COL_SLIDE, s);
 		slide_added(s, index);
+		listen(s);
 	}
 	
 	/**
@@ -262,10 +263,11 @@ public class Ease.Document : GLib.Object
 			{
 				slides.remove(itr);
 				slide_deleted(s, index);
+				silence(s);
 				break;
 			}
 			index++;
-		}
+		}		
 		
 		Slide ret;
 		Gtk.TreeIter itr;

@@ -19,7 +19,7 @@
 /**
  * The inspector pane for changing transitions
  */
-public class Ease.TransitionPane : InspectorPane
+public class Ease.InspectorTransitionPane : InspectorPane
 {
 	public Gtk.ComboBox effect;
 	private Gtk.SpinButton transition_time;
@@ -46,7 +46,7 @@ public class Ease.TransitionPane : InspectorPane
 	// silence undo if needed
 	private bool silence_undo;
 	
-	public TransitionPane()
+	public InspectorTransitionPane()
 	{
 		base();
 		

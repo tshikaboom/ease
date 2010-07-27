@@ -1,13 +1,12 @@
-AC_INIT([Ease], [0.1], [https://bugzilla.gnome.org/enter_bug.cgi?product=ease], [ease], [http://live.gnome.org/Ease])
+AC_INIT([Ease], [0.3], [https://bugzilla.gnome.org/enter_bug.cgi?product=ease], [ease], [http://live.gnome.org/Ease])
 
 AC_PREREQ([2.59])
 
 AC_CONFIG_FILES([Makefile
 	  po/Makefile.in
 	  data/Makefile
-	  libease/Makefile
-	  src/Makefile
-	  ease-0.1.pc])
+	  ease-core/Makefile
+	  ease-core-0.3.pc])
 
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([config.h])

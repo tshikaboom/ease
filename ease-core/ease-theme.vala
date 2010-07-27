@@ -90,6 +90,7 @@ public class Ease.Theme : GLib.Object
 	
 	// media properties
 	public const string MEDIA_FILENAME = "media-filename";
+	public const string MEDIA_SOURCE_FILENAME = "media-source-filename";
 	
 	// gradient types
 	public const string GRAD_LINEAR = "linear";
@@ -179,25 +180,13 @@ public class Ease.Theme : GLib.Object
 	private static Theme defaults_store;
 
 	/**
-	 * Creates an empty Theme.
+	 * Loads a themes from a directory.
 	 *
-	 * @param path The path to the theme's archive.
+	 * @param path The path to the theme's directory.
 	 */
-	public Theme(string archive_path)
+	public Theme(string dir_path)
 	{
-		// extract the theme
-		try
-		{
-			path = Temp.extract(archive_path);
-		}
-		catch (GLib.Error e)
-		{
-			error_dialog(_("Error Loading Theme"),
-			             (_("Error loading theme: %s") + "\n\n" + e.message).
-			             printf(path));
-			return;
-		}
-		
+		path = dir_path;
 		load_from_json(Path.build_filename(path, JSON_PATH));
 	}
 	

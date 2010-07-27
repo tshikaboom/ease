@@ -22,7 +22,7 @@
  * children. The currently selected Slide is often acted upon by an
  * {@link EditorWindow}.
  */
-public class Ease.Slide : GLib.Object
+public class Ease.Slide : GLib.Object, UndoSource
 {
 	public const string IMAGE_TYPE = "EaseImageElement";
 
@@ -371,6 +371,7 @@ public class Ease.Slide : GLib.Object
 		e.parent = this;
 		elements.insert(index, e);
 		element_added(this, e, index);
+		listen(e);
 	}
 	
 	/**
@@ -390,7 +391,8 @@ public class Ease.Slide : GLib.Object
 	{
 		var index = index_of(e);
 		elements.remove(e);
-		element_removed(this, e, index); 
+		element_removed(this, e, index);
+		silence(e);
 	}
 	
 	/**
@@ -401,6 +403,7 @@ public class Ease.Slide : GLib.Object
 		var e = elements.get(index);
 		elements.remove_at(index);
 		element_removed(this, e, index);
+		silence(e);
 	}
 	
 	/**

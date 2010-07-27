@@ -127,6 +127,7 @@ public class Ease.Player : GLib.Object
 					shader_left);
 
 		stage.add (shader);
+		stage.set_clip(0, 0, doc.width, doc.height);
 
 		// make the stacking container
 		container = new Clutter.Group();

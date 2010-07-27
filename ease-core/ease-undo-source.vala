@@ -26,4 +26,30 @@ public interface Ease.UndoSource : GLib.Object
 	 * UndoAction.
 	 */
 	public signal void undo(UndoItem action);
+	
+	/**
+	 * Forwards an {@link UndoItem} downwards, to any object listening to this
+	 * UndoSource's "undo" signal".
+	 */
+	protected void forward(UndoItem action)
+	{
+		undo(action);
+	}
+	
+	/**
+	 * Listens for incoming UndoItems from the specified UndoSource, and
+	 * {@link forward}s them downwards.
+	 */
+	protected void listen(UndoSource source)
+	{
+		source.undo.connect(forward);
+	}
+	
+	/**
+	 * Stops listening to an UndoSource.
+	 */
+	protected void silence(UndoSource source)
+	{
+		source.undo.disconnect(forward);
+	}
 }

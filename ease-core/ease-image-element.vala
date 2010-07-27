@@ -21,6 +21,9 @@
  */
 public class Ease.ImageElement : MediaElement
 {
+	private const string UI_FILE_PATH = "inspector-element-image.ui";
+	private Gtk.Widget inspector_pane;
+	
 	/**
 	 * Create a new element.
 	 */
@@ -36,6 +39,49 @@ public class Ease.ImageElement : MediaElement
 	public override Actor actor(ActorContext c)
 	{
 		return new ImageActor(this, c);
+	}
+	
+	public override Gtk.Widget inspector_widget()
+	{
+		if (inspector_pane != null) return inspector_pane;
+		
+		var builder = new Gtk.Builder();
+		try
+		{
+			builder.add_from_file(data_path(Path.build_filename(Temp.UI_DIR,
+				                                                UI_FILE_PATH)));
+		}
+		catch (Error e) { error("Error loading UI: %s", e.message); }
+		
+		// connect signals
+		builder.connect_signals(this);
+		
+		// set up the file button
+		var file_b = builder.get_object("file-button") as Gtk.FileChooserButton;
+		file_b.set_filename(source_filename);
+		
+		file_b.file_set.connect((button) => {
+			// create an undo action to redo the old file
+			var action = new UndoAction(this, "filename");
+			action.add(this, "source-filename");
+			try
+			{
+				filename = parent.parent.add_media_file(file_b.get_filename());
+				source_filename = file_b.get_filename();
+				undo(action);
+			}
+			catch (Error e)
+			{
+				error_dialog(_("Error Inserting Image"), e.message);
+			}
+		});
+		
+		notify["source-filename"].connect((obj, spec) => {
+			file_b.set_filename(source_filename);
+		});
+		
+		// return the root
+		return inspector_pane = builder.get_object("root") as Gtk.Widget;
 	}
 	
 	public override void write_html(ref string html, HTMLExporter exporter)
