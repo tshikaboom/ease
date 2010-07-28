@@ -53,7 +53,6 @@ libease_core_0_3_la_VALAFLAGS = \
 	--vapi=../vapi/ease-core-0.3.vapi \
 	--header=libease-core.h \
 	--thread \
-	--library EaseCore-0.3 \
 	--vapidir=../vapi \
 	--pkg flutter-0.3 \
 	-g \
@@ -73,11 +72,6 @@ libease_include_HEADERS = libease-core.h
 # vapi installation
 vapidir = $(datadir)/vala/vapi
 vapi_DATA = ../vapi/ease-core-0.3.vapi ../vapi/ease-core-0.3.deps
-
-# gir installation
-girdir = $(datadir)/gir-1.0
-gir_DATA = EaseCore-0.3.gir
-EXTRA_DIST = EaseCore-0.3.gir
 
 # remove generated files on `make clean`
 CLEANFILES = \
