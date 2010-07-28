@@ -41,7 +41,8 @@ public class Ease.Background : GLib.Object
 	 * To use this property, {@link background_type} must also be set to
 	 * {@link BackgroundType.GRADIENT}.
 	 */
-	public Gradient gradient { get; set; }
+	public Gradient gradient { get; set;
+	                           default = Gradient.default_background; }
 	
 	/**
 	 * The background image, if this element uses an image for a background.
