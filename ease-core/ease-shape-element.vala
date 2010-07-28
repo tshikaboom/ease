@@ -95,6 +95,15 @@ public class Ease.ShapeElement : CairoElement
 		
 		var bg = new BackgroundWidget(background, this);
 		
+		if (shape_type == ShapeType.RECTANGLE)
+		{
+			(builder.get_object("rect") as Gtk.ToggleButton).active = true;
+		}
+		else
+		{
+			(builder.get_object("oval") as Gtk.ToggleButton).active = true;
+		}
+		
 		(builder.get_object("rect") as Gtk.Button).clicked.connect(() => {
 			shape_type = ShapeType.RECTANGLE;
 		});
