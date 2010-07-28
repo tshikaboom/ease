@@ -24,7 +24,7 @@ public class Ease.Background : GLib.Object
 	/**
 	 * The background background_type of this element.
 	 */
-	public BackgroundType background_type { get; internal set; }
+	internal BackgroundType background_type { get; set; }
 	
 	/**
 	 * The background color, if this element uses a solid color for a
@@ -33,7 +33,7 @@ public class Ease.Background : GLib.Object
 	 * To use this property, {@link background_type} must also be set to
 	 * {@link BackgroundType.COLOR}.
 	 */
-	public Color color { get; internal set; default = Color.black; }
+	internal Color color { get; set; default = Color.black; }
 	
 	/**
 	 * The background gradient, if this slide uses a gradient for a background.
@@ -41,13 +41,16 @@ public class Ease.Background : GLib.Object
 	 * To use this property, {@link background_type} must also be set to
 	 * {@link BackgroundType.GRADIENT}.
 	 */
-	public Gradient gradient { get; internal set;
-	                           default = Gradient.default_background; }
+	internal Gradient gradient { get; set;
+	                             default = Gradient.default_background; }
 	
 	/**
+	 * The background image, if this slide uses an image for a background.
 	 *
+	 * To use this property, {@link background_type} must also be set to
+	 * {@link BackgroundType.IMAGE}.
 	 */
-	public Image image { get; internal set; default = new Image(); }
+	internal Image image { get; set; default = new Image(); }
 	
 	/**
 	 * Emitted when an image file is added to this background.
@@ -79,6 +82,8 @@ public class Ease.Background : GLib.Object
 			image.filename = obj.get_string_member(Theme.BACKGROUND_IMAGE);
 			image.source =
 				obj.get_string_member(Theme.BACKGROUND_IMAGE_SOURCE);
+			image.fill = ImageFillType.from_string(
+				obj.get_string_member(Theme.BACKGROUND_IMAGE_SOURCE));
 		}
 		if (obj.has_member(Theme.BACKGROUND_COLOR))
 		{
@@ -102,6 +107,8 @@ public class Ease.Background : GLib.Object
 		if (image != null)
 		{
 			obj.set_string_member(Theme.BACKGROUND_IMAGE, image.filename);
+			obj.set_string_member(Theme.BACKGROUND_IMAGE_FILL,
+			                      image.fill.to_string());
 			obj.set_string_member(Theme.BACKGROUND_IMAGE_SOURCE,
 			                      image.source);
 		}
@@ -150,6 +157,7 @@ public class Ease.Background : GLib.Object
 		if (gradient.start in item) return true;
 		if (gradient.end in item) return true;
 		if (gradient in item) return true;
+		if (image in item) return true;
 		return false;
 	}
 }

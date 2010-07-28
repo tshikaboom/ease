@@ -60,6 +60,7 @@ public class Ease.Theme : GLib.Object
 	public const string BACKGROUND_GRADIENT = "background-gradient";
 	public const string BACKGROUND_IMAGE = "background-image";
 	public const string BACKGROUND_IMAGE_SOURCE = "background-image-source";
+	public const string BACKGROUND_IMAGE_FILL = "background-image-fill";
 	public const string S_IDENTIFIER = "slide-identifier";
 	
 	// background types
@@ -100,6 +101,11 @@ public class Ease.Theme : GLib.Object
 	public const string GRAD_LINEAR = "linear";
 	public const string GRAD_LINEAR_MIRRORED = "linear-mirrored";
 	public const string GRAD_RADIAL = "radial";
+	
+	// image fill types
+	public const string IMAGE_STRETCH = "image-fill-stretch";
+	public const string IMAGE_ASPECT = "image-fill-aspect";
+	public const string IMAGE_ORIGINAL = "image-fill-original";
 	
 	// generic element properties
 	public const string E_IDENTIFIER = "element-identifier";

@@ -29,6 +29,7 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 	private Gtk.VBox box_color;
 	private Gtk.VBox box_gradient;
 	private Gtk.VBox box_image;
+	private Gtk.ComboBox image_fill;
 	private Gtk.HScale grad_angle;
 	
 	private Gtk.ColorButton bg_color;
@@ -88,12 +89,16 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 		gradient_type =
 			builder.get_object("combo-gradient") as Gtk.ComboBox;
 		grad_angle = builder.get_object("hscale-angle") as Gtk.HScale;
+		image_fill = builder.get_object("image-fill") as Gtk.ComboBox;
 		
 		// display the correct UI
 		display_bg_ui(background.background_type);
 		
 		// set up the gradient type combobox
 		gradient_type.model = GradientType.list_store();
+		
+		// set up the image fill type combobox
+		image_fill.model = ImageFillType.list_store();
 		
 		// get the combobox
 		background_type = builder.get_object("combobox-style") as Gtk.ComboBox;
@@ -140,6 +145,19 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 			}
 		} while (gradient_type.model.iter_next(ref itr));
 		
+		// set the image fill box
+		ImageFillType img_type;
+		image_fill.model.get_iter_first(out itr);
+		do
+		{
+			image_fill.model.get(itr, 1, out img_type);
+			if (img_type == background.image.fill)
+			{
+				image_fill.set_active_iter(itr);
+				break;
+			}
+		} while (image_fill.model.iter_next(ref itr));
+		
 		
 		// connect signals
 		builder.connect_signals(this);
@@ -155,7 +173,7 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void on_background_changed(Gtk.Widget? sender)
+	internal void on_background_changed(Gtk.Widget? sender)
 	{
 		Gtk.TreeIter itr;
 		store.get_iter_first(out itr);
@@ -237,9 +255,14 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void on_gradient_type_changed(Gtk.ComboBox? sender)
+	internal void on_gradient_type_changed(Gtk.ComboBox? sender)
 	{
 		var action = new UndoAction(background.gradient, "mode");
+		
+		action.applied.connect((a) => {
+			display_bg_ui(background.background_type);
+		});
+		
 		GradientType type;
 		Gtk.TreeIter itr;
 		sender.model.get_iter_first(out itr);
@@ -253,7 +276,28 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void on_color_set(Gtk.ColorButton? sender)
+	internal void on_image_fill_changed(Gtk.ComboBox? sender)
+	{
+		var action = new UndoAction(background.image, "fill");
+		
+		action.applied.connect((a) => {
+			display_bg_ui(background.background_type);
+		});
+		
+		ImageFillType type;
+		Gtk.TreeIter itr;
+		sender.model.get_iter_first(out itr);
+		for (int i = 0; i < sender.get_active(); i++)
+		{
+			sender.model.iter_next(ref itr);
+		}
+		sender.model.get(itr, 1, out type);
+		background.image.fill = type;
+		emit_undo(action);
+	}
+	
+	[CCode (instance_pos = -1)]
+	internal void on_color_set(Gtk.ColorButton? sender)
 	{
 		UndoAction action = null;
 		if (sender == bg_color)
@@ -284,7 +328,7 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void on_file_set(Gtk.FileChooserButton? sender)
+	internal void on_file_set(Gtk.FileChooserButton? sender)
 	{
 		var action = new UndoAction(background, "image");
 		action.add(background, "image-source");
@@ -321,7 +365,7 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void on_reverse_gradient(Gtk.Widget? sender)
+	internal void on_reverse_gradient(Gtk.Widget? sender)
 	{
 		// create an undo action
 		var action = new UndoAction(background.gradient, "start");
@@ -345,7 +389,7 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void on_set_angle(Gtk.Widget? sender)
+	internal void on_set_angle(Gtk.Widget? sender)
 	{
 		var action = new UndoAction(background.gradient, "angle");
 		background.gradient.angle =
@@ -384,9 +428,11 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 				if (background.gradient == null)
 				{
 					background.gradient = new Gradient(Color.black,
-					                                         Color.white);
-					gradient_type.set_active(background.gradient.mode);
+					                                   Color.white);
 				}
+				
+				gradient_type.set_active(background.gradient.mode);
+				
 				background.background_type = BackgroundType.GRADIENT;
 				
 				grad_color1.set_color(background.gradient.start.gdk);
@@ -410,6 +456,8 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 				{
 					bg_image.unselect_all();
 				}
+				
+				image_fill.set_active(background.image.fill);
 							
 				break;
 		}

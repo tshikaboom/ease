@@ -54,7 +54,6 @@
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="fill">False</property>
             <property name="position">0</property>
           </packing>
         </child>
@@ -258,6 +257,7 @@
         <child>
           <object class="GtkVBox" id="vbox-image">
             <property name="orientation">vertical</property>
+            <property name="spacing">4</property>
             <child>
               <object class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
@@ -290,6 +290,46 @@
               </object>
               <packing>
                 <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHBox" id="hbox6">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="image-label1">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Fill Mode</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="image-fill">
+                <property name="height_request">30</property>
+                <property name="visible">True</property>
+                <signal name="changed" handler="ease_background_widget_on_image_fill_changed"/>
+                <child>
+                  <object class="GtkCellRendererText" id="cellrenderertext2"/>
+                  <attributes>
+                    <attribute name="text">0</attribute>
+                  </attributes>
+                </child>
+              </object>
+              <packing>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>

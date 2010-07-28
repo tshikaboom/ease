@@ -292,7 +292,8 @@ public class Ease.Slide : GLib.Object, UndoSource
 		// write the slide's background properties
 		if (background.image.filename != null)
 		{
-			obj.set_string_member(Theme.BACKGROUND_IMAGE, background.image.filename);
+			obj.set_string_member(Theme.BACKGROUND_IMAGE,
+			                      background.image.filename);
 			obj.set_string_member("background-image-source",
 			                      background.image.source);
 		}
@@ -432,25 +433,12 @@ public class Ease.Slide : GLib.Object, UndoSource
 	public void cairo_render_background(Cairo.Context cr,
 	                                    int w, int h) throws GLib.Error
 	{
-		switch (background.background_type)
-		{
-			case BackgroundType.COLOR:
-				cr.rectangle(0, 0, w, h);
-				background.color.set_cairo(cr);
-				cr.fill();
-				break;
-			case BackgroundType.GRADIENT:
-				background.gradient.cairo_render_rect(cr, w, h);
-				break;
-			case BackgroundType.IMAGE:
-				var pixbuf = new Gdk.Pixbuf.from_file_at_scale(background_abs,
-			                                                   w, h,
-			                                                   false);
-				Gdk.cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
-				cr.rectangle(0, 0, w, h);
-				cr.fill();
-				break;
-		}
+		cr.save();
+		background.set_cairo(cr, w, h,
+		                     parent == null ? theme.path : parent.path);
+		cr.rectangle(0, 0, w, h);
+		cr.fill();
+		cr.restore();
 	}
 	
 	/**

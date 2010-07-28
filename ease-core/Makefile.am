@@ -49,18 +49,26 @@ libease_core_0_3_la_SOURCES = \
 	$(NULL)
 
 # compiler flags
+
+# I don't _want_ to --disable-warnings, but the choices appear to be:
+#    - enable warnings, mark signal handlers for GtkBuilder as public
+#    - disable warnings, hide functionality properly \
+#    - enable warnings, hide functionality, get spammed with unused
+#      function warnings
+# Therefore, warnings are off.
+
 libease_core_0_3_la_VALAFLAGS = \
 	$(EASE_PACKAGES) \
 	--vapi=../vapi/ease-core-0.3.vapi \
 	--header=libease-core.h \
 	--thread \
+	--disable-warnings \
 	--vapidir=../vapi \
 	--pkg flutter-0.3 \
 	-g \
 	$(NULL)
 
 libease_core_0_3_la_LIBADD = ../flutter/libflutter-0.3.la
-
 libease_core_0_3_la_CFLAGS = $(EASE_CFLAGS)
 libease_core_0_3_la_LDFLAGS = $(EASE_LDFLAGS)
 
