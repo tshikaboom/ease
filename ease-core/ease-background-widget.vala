@@ -174,7 +174,7 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 		var action = new UndoAction(background, "background-type");
 		
 		// ease doesn't provide a default for images, so one must be requested
-		if (type == BackgroundType.IMAGE && background.image == null)
+		if (type == BackgroundType.IMAGE && background.image.filename == null)
 		{
 			var dialog = new Gtk.FileChooserDialog(BG_DIALOG_TITLE,
 			                                       widget_window(this),
@@ -189,9 +189,9 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 					try
 					{
 						var fname = dialog.get_filename();
-						background.image_source = fname;
+						background.image.source = fname;
 						var i = document.add_media_file(fname);
-						background.image = i;
+						background.image.filename = i;
 					}
 					catch (GLib.Error e)
 					{
@@ -294,9 +294,9 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 		// set the button's filename when the action is applied
 		action.applied.connect((a) => {
 			// if slide changes, this is still ok
-			if (background.image_source != null)
+			if (background.image.source != null)
 			{
-				bg_image.set_filename(background.image_source);
+				bg_image.set_filename(background.image.source);
 			}
 			else
 			{
@@ -308,9 +308,9 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 		
 		try
 		{
-			background.image_source = sender.get_filename();
+			background.image.source = sender.get_filename();
 			var i = document.add_media_file(sender.get_filename());
-			background.image = i;
+			background.image.filename = i;
 		}
 		catch (GLib.Error e)
 		{
@@ -402,9 +402,9 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 				box_image.show_all();
 				
 				background.background_type = BackgroundType.IMAGE;
-				if (background.image_source != null)
+				if (background.image.source != null)
 				{
-					bg_image.set_filename(background.image_source);
+					bg_image.set_filename(background.image.source);
 				}
 				else
 				{

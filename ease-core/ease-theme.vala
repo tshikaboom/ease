@@ -339,7 +339,8 @@ public class Ease.Theme : GLib.Object
 				slide.background.background_type = BackgroundType.GRADIENT;
 				break;
 			case BACKGROUND_TYPE_IMAGE:
-				slide.background.image = master_get(master, BACKGROUND_IMAGE);
+				slide.background.image.filename =
+					master_get(master, BACKGROUND_IMAGE);
 				slide.background.background_type = BackgroundType.IMAGE;
 				break;
 				

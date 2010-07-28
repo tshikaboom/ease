@@ -78,7 +78,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 		owned get
 		{
 			string p = parent == null ? theme.path : parent.path;
-			return Path.build_filename(p, background.image);
+			return Path.build_filename(p, background.image.filename);
 		}
 	}
 	
@@ -228,8 +228,8 @@ public class Ease.Slide : GLib.Object, UndoSource
 		// read the slide's background properties
 		if (obj.has_member(Theme.BACKGROUND_IMAGE))
 		{
-			background.image = obj.get_string_member(Theme.BACKGROUND_IMAGE);
-			background.image_source =
+			background.image.filename = obj.get_string_member(Theme.BACKGROUND_IMAGE);
+			background.image.source =
 				obj.get_string_member("background-image-source");
 		}
 		if (obj.has_member(Theme.BACKGROUND_COLOR))
@@ -290,11 +290,11 @@ public class Ease.Slide : GLib.Object, UndoSource
 		obj.set_string_member("title", title);
 		
 		// write the slide's background properties
-		if (background.image != null)
+		if (background.image.filename != null)
 		{
-			obj.set_string_member(Theme.BACKGROUND_IMAGE, background.image);
+			obj.set_string_member(Theme.BACKGROUND_IMAGE, background.image.filename);
 			obj.set_string_member("background-image-source",
-			                      background.image_source);
+			                      background.image.source);
 		}
 		if (background.color != null)
 		{
@@ -472,7 +472,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 		html += "<div class=\"slide\" id=\"slide" +
 		        index.to_string() + "\" ";
 		
-		if (background.image == null)
+		if (background.image.filename == null)
 		{
 			// give the slide a background color
 			html += "style=\"background-color: " +
@@ -485,13 +485,13 @@ public class Ease.Slide : GLib.Object, UndoSource
 			html += ">";
 			
 			// add the background image
-			html += "<img src=\"" + exporter.basename + " " + background.image +
+			html += "<img src=\"" + exporter.basename + " " + background.image.filename +
 			        "\" alt=\"Background\" width=\"" +
 			        parent.width.to_string() + "\" height=\"" +
 			        parent.height.to_string() + "\"/>";
 
 			// copy the image file
-			exporter.copy_file(background.image, parent.path);
+			exporter.copy_file(background.image.filename, parent.path);
 		}
 		
 		// add tags for each Element

@@ -24,7 +24,7 @@ public class Ease.Background : GLib.Object
 	/**
 	 * The background background_type of this element.
 	 */
-	public BackgroundType background_type { get; set; }
+	public BackgroundType background_type { get; internal set; }
 	
 	/**
 	 * The background color, if this element uses a solid color for a
@@ -33,7 +33,7 @@ public class Ease.Background : GLib.Object
 	 * To use this property, {@link background_type} must also be set to
 	 * {@link BackgroundType.COLOR}.
 	 */
-	public Color color { get; set; default = Color.black; }
+	public Color color { get; internal set; default = Color.black; }
 	
 	/**
 	 * The background gradient, if this slide uses a gradient for a background.
@@ -41,26 +41,18 @@ public class Ease.Background : GLib.Object
 	 * To use this property, {@link background_type} must also be set to
 	 * {@link BackgroundType.GRADIENT}.
 	 */
-	public Gradient gradient { get; set;
+	public Gradient gradient { get; internal set;
 	                           default = Gradient.default_background; }
 	
 	/**
-	 * The background image, if this element uses an image for a background.
 	 *
-	 * To use this property, {@link background_type} must also be set to
-	 * {@link BackgroundType.IMAGE}.
 	 */
-	public string image { get; set; }
-	
-	/**
-	 * The original path to the background image. This path is used in the UI.
-	 */
-	public string image_source { get; set; }
+	public Image image { get; internal set; default = new Image(); }
 	
 	/**
 	 * Emitted when an image file is added to this background.
 	 */
-	public signal void image_added(string image_path);
+	internal signal void image_added(string image_path);
 	
 	/**
 	 * Creates a new Background.
@@ -84,8 +76,9 @@ public class Ease.Background : GLib.Object
 	{
 		if (obj.has_member(Theme.BACKGROUND_IMAGE))
 		{
-			image = obj.get_string_member(Theme.BACKGROUND_IMAGE);
-			image_source = obj.get_string_member(Theme.BACKGROUND_IMAGE_SOURCE);
+			image.filename = obj.get_string_member(Theme.BACKGROUND_IMAGE);
+			image.source =
+				obj.get_string_member(Theme.BACKGROUND_IMAGE_SOURCE);
 		}
 		if (obj.has_member(Theme.BACKGROUND_COLOR))
 		{
@@ -108,8 +101,9 @@ public class Ease.Background : GLib.Object
 	{
 		if (image != null)
 		{
-			obj.set_string_member(Theme.BACKGROUND_IMAGE, image);
-			obj.set_string_member(Theme.BACKGROUND_IMAGE_SOURCE, image_source);
+			obj.set_string_member(Theme.BACKGROUND_IMAGE, image.filename);
+			obj.set_string_member(Theme.BACKGROUND_IMAGE_SOURCE,
+			                      image.source);
 		}
 		if (color != null)
 		{
@@ -120,7 +114,8 @@ public class Ease.Background : GLib.Object
 			obj.set_string_member(Theme.BACKGROUND_GRADIENT,
 			                      gradient.to_string());
 		}
-		obj.set_string_member(Theme.BACKGROUND_TYPE, background_type.to_string());
+		obj.set_string_member(Theme.BACKGROUND_TYPE,
+		                      background_type.to_string());
 	}
 	
 	/**
@@ -142,19 +137,7 @@ public class Ease.Background : GLib.Object
 				gradient.set_cairo(cr, width, height);
 				break;
 			case BackgroundType.IMAGE:
-				try
-				{
-					string full = Path.build_filename(path, image);
-					var pixbuf = new Gdk.Pixbuf.from_file_at_scale(full,
-			    	                                               width,
-			    	                                               height,
-			    	                                               false);
-					Gdk.cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
-				}
-				catch (Error e)
-				{
-					critical("Error rendering image background: %s", e.message);
-				}
+				image.set_cairo(cr, width, height, path);
 				break;
 		}
 	}

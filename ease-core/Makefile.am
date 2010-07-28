@@ -27,6 +27,7 @@ libease_core_0_3_la_SOURCES = \
 	ease-html-exporter.vala \
 	ease-image-actor.vala \
 	ease-image-element.vala \
+	ease-image.vala \
 	ease-iterable-models.vala \
 	ease-media-element.vala \
 	ease-shape-element.vala \
