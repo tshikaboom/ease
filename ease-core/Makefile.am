@@ -45,6 +45,8 @@ libease_core_0_3_la_SOURCES = \
 	ease-undo-item.vala \
 	ease-undo-source.vala \
 	ease-utilities.vala \
+	ease-video-actor.vala \
+	ease-video-element.vala \
 	ease-zoom-slider.vala \
 	$(NULL)
 

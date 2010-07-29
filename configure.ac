@@ -42,6 +42,7 @@ pkg_modules=" \
 	clutter-gtk-0.10 >= 0.10 \
 	libarchive \
 	json-glib-1.0 >= 0.7.6\
+	clutter-gst-1.0 \
 	gmodule-2.0"
 
 EASE_PACKAGES=" \
@@ -49,6 +50,7 @@ EASE_PACKAGES=" \
 	--pkg clutter-gtk-0.10 \
 	--pkg libarchive \
 	--pkg json-glib-1.0 \
+    --pkg clutter-gst-1.0 \
 	--pkg gmodule-2.0"
 
 EASE_CFLAGS="\`pkg-config --cflags \
@@ -56,13 +58,15 @@ EASE_CFLAGS="\`pkg-config --cflags \
 	clutter-gtk-0.10 \
 	json-glib-1.0 \
 	libarchive \
+	clutter-gst-1.0 \
 	gmodule-2.0 \`"
 
 EASE_LDFLAGS="\`pkg-config --libs \
 	gee-1.0 \
 	clutter-gtk-0.10 \
 	json-glib-1.0 \
-	libarchive
+	libarchive \
+	clutter-gst-1.0 \
 	gmodule-2.0 \`"
 
 PKG_CHECK_MODULES(EASE, [$pkg_modules])
