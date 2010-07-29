@@ -246,9 +246,12 @@ public class Ease.Document : GLib.Object, UndoSource
 		Gtk.TreeIter itr;
 		slides.insert(out itr, index);
 		slides.set(itr, COL_SLIDE, slide);
-		slides.set(itr, COL_TITLE, DEFAULT_TITLE.printf(index));
+		slides.set(itr, COL_TITLE, DEFAULT_TITLE.printf(index_of(slide) + 1));
 		slide_added(slide, index);
 		listen(slide);
+		
+		slide.title_changed.connect(on_title_changed);
+		slide.title_reset.connect(on_title_reset);
 		
 		if (emit_undo) undo(new SlideAddUndoAction(slide));
 	}
@@ -279,6 +282,10 @@ public class Ease.Document : GLib.Object, UndoSource
 	{
 		// emit an undo action if needed
 		if (emit_undo) undo(new SlideRemoveUndoAction(slide));
+		
+		// disconnect title handlers
+		slide.title_changed.disconnect(on_title_changed);
+		slide.title_reset.disconnect(on_title_reset);
 		
 		Slide s;
 		var index = 0;
@@ -382,6 +389,42 @@ public class Ease.Document : GLib.Object, UndoSource
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Updates a slide's title.
+	 */
+	internal void on_title_changed(Slide slide, string title)
+	{
+		Slide s;
+		foreach (var itr in slides)
+		{
+			slides.get(itr, COL_SLIDE, out s);
+			if (s == slide)
+			{
+				slides.set(itr, COL_TITLE, title);
+				return;
+			}
+		}
+	}
+	
+	/**
+	 * Resets a slide's title to the default.
+	 */
+	internal void on_title_reset(Slide slide)
+	{
+		debug("title reset");
+		Slide s;
+		foreach (var itr in slides)
+		{
+			slides.get(itr, COL_SLIDE, out s);
+			if (s == slide)
+			{
+				slides.set(itr, COL_TITLE,
+				           DEFAULT_TITLE.printf(index_of(slide) + 1));
+				return;
+			}
+		}
 	}
 	
 	/**
