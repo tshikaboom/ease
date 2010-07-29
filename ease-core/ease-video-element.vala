@@ -21,6 +21,10 @@
  */
 public class Ease.VideoElement : MediaElement
 {
+	/**
+	 * If the video should begin playing automatically, or display a play
+	 * button.
+	 */
 	public bool play_auto { get; set; default = false; }
 	
 	public VideoElement()

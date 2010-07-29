@@ -34,7 +34,53 @@ public class Ease.VideoActor : Actor, Clutter.Media
 	/**
 	 * The "play" button in a presentation.
 	 */
-	private Clutter.CairoTexture play_button;
+	private Clutter.Texture action_button;
+	
+	/**
+	 * The textured overlayed on the video when it is not playing.
+	 */
+	private Clutter.CairoTexture gloss;
+	
+	/**
+	 * The path to the "play" button svg.
+	 */
+	private const string PLAY_PATH =
+		Path.build_filename("svg", "video-play-button.svg");
+	
+	/**
+	 * A group to contain the video actor and the play button.
+	 */
+	private Clutter.Group group;
+	
+	/**
+	 * The amount of time it takes for the button to fade out.
+	 */
+	private const int BUTTON_TIME = 500;
+	
+	/**
+	 * Easing for the button fadeout.
+	 */
+	private const int ALPHA_OPACITY = Clutter.AnimationMode.LINEAR;
+	
+	/**
+	 * Easing for the button scale out.
+	 */
+	private const int ALPHA_SCALE = Clutter.AnimationMode.EASE_IN_BACK;
+	
+	/**
+	 * Easing for the button scale in.
+	 */
+	private const int ALPHA_SCALE_IN = Clutter.AnimationMode.EASE_OUT_BACK;
+	
+	/**
+	 * Start alarm.
+	 */
+	private Clutter.Timeline timeline;
+	
+	/**
+	 * Fade in alarm.
+	 */
+	private Clutter.Timeline timeline_in;
 
 	/**
 	 * Instantiates a new VideoActor from an Element.
@@ -53,11 +99,48 @@ public class Ease.VideoActor : Actor, Clutter.Media
 		video = new ClutterGst.VideoTexture();
 		video.set_filename(Path.build_filename(e.parent.parent.path,
 		                                       e.filename));
+		group = new Clutter.Group();
+		group.add_actor(video);
 
 		// play the video if it's in the presentation
 		if (c == ActorContext.PRESENTATION)
 		{
-			video.set_playing(true);
+			if (e.play_auto)
+			{
+				video.set_playing(true);
+				video.reactive = true;
+				create_paused_ui(e, false);
+			}
+			else
+			{
+				// get a video frame to display (dimmed maybe?)
+				video.set_playing(true);
+				video.set_playing(false);
+				create_paused_ui(e, true);
+			}
+			
+			// show the pause ui when the video is paused
+			video.button_press_event.connect((a, event) => {
+				video.reactive = false;
+				video.set_playing(false);
+				
+				// set overlay scale and alpha to 0
+				action_button.scale_x = 1;
+				action_button.scale_y = 1;
+			
+				// create an alarm
+				timeline_in = new Clutter.Timeline(BUTTON_TIME);
+				timeline_in.completed.connect(() => {
+					action_button.reactive = true;
+				});
+				timeline_in.start();
+			
+				// do the animations
+				gloss.animate(ALPHA_OPACITY, BUTTON_TIME, "opacity", 255);
+				action_button.animate(ALPHA_OPACITY, BUTTON_TIME,
+					                  "opacity", 255);
+				return true;
+			});
 		}
 		else
 		{
@@ -66,13 +149,85 @@ public class Ease.VideoActor : Actor, Clutter.Media
 			video.set_playing(false);
 		}
 		
-		contents = video;
+		contents = group;
 
 		add_actor(contents);
 		contents.width = e.width;
 		contents.height = e.height;
 		x = e.x;
 		y = e.y;
+		
+		autosize(video);
+	}
+	
+	private void create_paused_ui(VideoElement e, bool active)
+	{
+		// create the glossy overlay
+		gloss = new Clutter.CairoTexture((int)e.width, (int)e.height);
+		gloss.set_surface_size((int)e.width, (int)e.height);
+		gloss.opacity = 100;
+		var cr = gloss.create();
+	
+		// draw the upper, light triangle
+		cr.save();
+		cr.move_to(0, 0);
+		cr.line_to(e.width, 0);
+		cr.line_to(0, e.height);
+		cr.close_path();
+		cr.set_source_rgba(0, 0, 0, 0.5);
+		cr.fill();
+		cr.restore();
+	
+		// draw the lower, dark triangle
+		cr.move_to(e.width, e.height);
+		cr.line_to(e.width, 0);
+		cr.line_to(0, e.height);
+		cr.close_path();
+		cr.set_source_rgba(0, 0, 0, 0.8);
+		cr.fill();
+		
+		// create the action button
+		action_button = new Clutter.Texture.from_file(data_path(PLAY_PATH));
+		
+		// set the position of the button
+		action_button.anchor_gravity = Clutter.Gravity.CENTER;
+		action_button.x = e.width / 2;
+		action_button.y = e.height / 2;
+
+		// add the actors
+		group.add_actor(gloss);
+		group.add_actor(action_button);
+		
+		// allow the button to be clicked
+		action_button.button_press_event.connect((a, event) => {
+			action_button.reactive = false;
+			video.reactive = true;
+			timeline = new Clutter.Timeline(BUTTON_TIME);
+			timeline.completed.connect(() => {
+				video.set_playing(true);
+				video.reactive = true;
+			});
+			timeline.start();
+			gloss.animate(ALPHA_OPACITY, BUTTON_TIME / 2, "opacity", 0);
+			action_button.animate(ALPHA_OPACITY, BUTTON_TIME,
+			                      "opacity", 0);
+			action_button.animate(ALPHA_SCALE, BUTTON_TIME,
+			                      "scale-x", 0);
+			action_button.animate(ALPHA_SCALE, BUTTON_TIME,
+			                      "scale-y", 0);
+			return true;
+		});
+		
+		// if requested, show the new actors
+		if (!active)
+		{
+			action_button.opacity = 0;
+			gloss.opacity = 0;
+		}
+		else
+		{
+			action_button.reactive = true;
+		}
 	}
 	
 	public double get_audio_volume()

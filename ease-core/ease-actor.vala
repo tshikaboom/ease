@@ -91,6 +91,22 @@ public abstract class Ease.Actor : Clutter.Group
 	}
 	
 	/**
+	 * Automatically resizes an actor to fit within this Actor's bounds.
+	 *
+	 * @param actor The actor to automatically scale.
+	 */
+	public void autosize(Clutter.Actor actor)
+	{
+		contents.notify["width"].connect(() => {
+			actor.width = width;
+		});
+		
+		contents.notify["height"].connect(() => {
+			actor.height = height;
+		});
+	}
+	
+	/**
 	 * Rereads the Actor's {@link Element} to position it properly.
 	 *
 	 * Used after reverting an action.
