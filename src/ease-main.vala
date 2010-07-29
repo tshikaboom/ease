@@ -68,6 +68,8 @@ public class Ease.Main : GLib.Object
 			stdout.printf(_("error parsing options: %s\n"), e.message);
 			return 1;
 		}
+		
+		Gst.init(ref args);
 
 		// initalize static classes
 		windows = new Gee.ArrayList<EditorWindow>();

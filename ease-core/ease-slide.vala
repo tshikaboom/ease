@@ -25,6 +25,8 @@
 public class Ease.Slide : GLib.Object, UndoSource
 {
 	public const string IMAGE_TYPE = "EaseImageElement";
+	public const string SHAPE_TYPE = "EaseShapeElement";
+	public const string VIDEO_TYPE = "EaseVideoElement";
 
 	/**
 	 * The {@link Element}s contained by this Slide
@@ -262,9 +264,13 @@ public class Ease.Slide : GLib.Object, UndoSource
 			{
 				e = new ImageElement.from_json(node);
 			}
-			else if (type == "EaseShapeElement")
+			else if (type == SHAPE_TYPE)
 			{
 				e = new ShapeElement.from_json(node);
+			}
+			else if (type == VIDEO_TYPE)
+			{
+				e = new VideoElement.from_json(node);
 			}
 			else
 			{

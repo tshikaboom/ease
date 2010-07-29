@@ -389,7 +389,7 @@ public class Ease.EditorWindow : Gtk.Window
 				e.width = width;
 				e.height = height;
 				e.x = slide.width / 2 - width / 2;
-				e.y = slide.height / 2 - width / 2;
+				e.y = slide.height / 2 - height / 2;
 				
 				e.element_type = Slide.IMAGE_TYPE;
 				e.identifier = Theme.CUSTOM_MEDIA;
@@ -404,6 +404,47 @@ public class Ease.EditorWindow : Gtk.Window
 			catch (Error e)
 			{
 				error_dialog(_("Error Inserting Image"), e.message);
+			}
+		}
+		dialog.destroy();
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void insert_video(Gtk.Widget sender)
+	{
+		var dialog = new Gtk.FileChooserDialog(_("Insert Video"),
+		                                       null,
+		                                       Gtk.FileChooserAction.OPEN,
+		                                       "gtk-cancel",
+		                                       Gtk.ResponseType.CANCEL,
+		                                       "gtk-open",
+		                                       Gtk.ResponseType.ACCEPT);
+
+		if (dialog.run() == Gtk.ResponseType.ACCEPT)
+		{
+			try
+			{
+				var e = new VideoElement();
+				
+				// TODO: find the actual size of the video
+				e.width = 640;
+				e.height = 480;
+				e.x = slide.width / 2 - e.width / 2;
+				e.y = slide.height / 2 - e.height / 2;
+				
+				e.element_type = Slide.VIDEO_TYPE;
+				e.identifier = Theme.CUSTOM_MEDIA;
+				e.filename = document.add_media_file(dialog.get_filename());
+				e.source_filename = dialog.get_filename();
+				
+				// add the element
+				slide.add(e);
+				add_undo_action(new ElementAddUndoAction(e));
+				embed.select_element(e);
+			}
+			catch (Error e)
+			{
+				error_dialog(_("Error Inserting Video"), e.message);
 			}
 		}
 		dialog.destroy();
@@ -433,12 +474,6 @@ public class Ease.EditorWindow : Gtk.Window
 		slide.add(oval);
 		add_undo_action(new ElementAddUndoAction(oval));
 		embed.select_element(oval);
-	}
-	
-	[CCode (instance_pos = -1)]
-	public void insert_video(Gtk.Widget sender)
-	{
-		
 	}
 	
 	[CCode (instance_pos = -1)]

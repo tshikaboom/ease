@@ -21,6 +21,16 @@
  */
 public class Ease.VideoElement : MediaElement
 {
+	public VideoElement()
+	{
+		signals();
+	}
+	
+	internal VideoElement.from_json(Json.Object obj)
+	{
+		base.from_json(obj);
+	}	
+	
 	public override Actor actor(ActorContext c)
 	{
 		return new VideoActor(this, c);
