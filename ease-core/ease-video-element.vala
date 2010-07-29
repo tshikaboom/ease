@@ -34,8 +34,8 @@ public class Ease.VideoElement : MediaElement
 	
 	internal VideoElement.from_json(Json.Object obj)
 	{
-		play_auto = obj.get_string_member(Theme.VIDEO_PLAY_AUTO).to_bool();
 		base.from_json(obj);
+		play_auto = obj.get_string_member(Theme.VIDEO_PLAY_AUTO).to_bool();
 	}	
 	
 	public override Actor actor(ActorContext c)
@@ -87,7 +87,7 @@ public class Ease.VideoElement : MediaElement
 
 	public override void cairo_render(Cairo.Context context) throws Error
 	{
-		warning("Video elements don't support Cairo right now...");
+		// TODO: something with video frames?
 	}
 }
 
