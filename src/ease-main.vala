@@ -24,12 +24,15 @@ public class Ease.Main : GLib.Object
 	static string play_filename;
 	static string[] filenames;
 	public static bool presentation_windowed = false;
+	private static bool debug_undo = false;
 	
 	private const OptionEntry[] options = {
 		{ "play", 'p', 0, OptionArg.FILENAME, ref play_filename,
 		   "Play the specified file", "FILE" },
 		{ "window", 'w', 0, OptionArg.NONE, ref presentation_windowed,
 		  "Display presentations in a window", null},
+		{ "debug-undo", 0, 0, OptionArg.NONE, ref debug_undo,
+		  "Display debugging messages about undo actions", null },
 		{ "", 0, 0, OptionArg.FILENAME_ARRAY, ref filenames, null, "FILE..." },
 		{ null } };
 	
@@ -68,6 +71,9 @@ public class Ease.Main : GLib.Object
 			stdout.printf(_("error parsing options: %s\n"), e.message);
 			return 1;
 		}
+		
+		// react to command line flags
+		UndoController.enable_debug = debug_undo;
 
 		// initalize static classes
 		windows = new Gee.ArrayList<EditorWindow>();

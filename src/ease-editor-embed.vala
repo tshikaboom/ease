@@ -781,7 +781,6 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 				
 				var slide = slide_actor.slide;
 				var i = slide.index_of(selected.element);
-				undo(new ElementRemoveUndoAction(slide.element_at(i)));
 				slide.remove_at(i);
 				element_deselected(null);
 				

@@ -276,7 +276,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 				e = new TextElement.from_json(node);
 			}
 			e.element_type = type;
-			add_element(slide.count, e);
+			append(e);
 		}
 	}
 	
@@ -336,12 +336,21 @@ public class Ease.Slide : GLib.Object, UndoSource
 	 * @param index The index to add the {@link Element} at.
 	 * @param e The {@link Element} to add.
 	 */
-	public void add_element(int index, Element e)
+	public void add(int index, Element e)
+	{
+		add_actual(index, e, true);
+	}
+	
+	/**
+	 * Actual adds an Element.
+	 */
+	internal void add_actual(int index, Element e, bool emit_undo)
 	{
 		e.parent = this;
 		elements.insert(index, e);
 		element_added(this, e, index);
 		listen(e);
+		if (emit_undo) undo(new ElementAddUndoAction(e));
 	}
 	
 	/**
@@ -349,16 +358,25 @@ public class Ease.Slide : GLib.Object, UndoSource
 	 * 
 	 * @param e The element to add;.
 	 */
-	public void add(Element e)
+	public void append(Element e)
 	{
-		add_element(count, e);
+		add(count, e);
 	}
 	
 	/**
 	 * Removes an {@link Element} from this slide.
 	 */
-	public void remove_element(Element e)
+	public void remove(Element e)
 	{
+		remove_actual(e, true);
+	}
+	
+	/**
+	 * Actually removes an Element.
+	 */
+	internal void remove_actual(Element e, bool emit_undo)
+	{
+		if (emit_undo) undo(new ElementRemoveUndoAction(e));
 		var index = index_of(e);
 		elements.remove(e);
 		element_removed(this, e, index);
@@ -371,9 +389,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 	public void remove_at(int index)
 	{
 		var e = elements.get(index);
-		elements.remove_at(index);
-		element_removed(this, e, index);
-		silence(e);
+		remove(e);
 	}
 	
 	/**

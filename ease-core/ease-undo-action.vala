@@ -20,7 +20,7 @@
  */
 public class Ease.UndoAction : UndoItem
 {
-	private Gee.LinkedList<UndoPair> pairs = new Gee.LinkedList<UndoPair>();
+	internal Gee.LinkedList<UndoPair> pairs = new Gee.LinkedList<UndoPair>();
 	
 	/**
 	 * Creates an UndoAction.
@@ -86,7 +86,7 @@ public class Ease.UndoAction : UndoItem
 	/**
 	 * Embedded class for storing object/property pairs in undo actions.
 	 */
-	private class UndoPair
+	internal class UndoPair
 	{
 		public string property;
 		public GLib.Object object;

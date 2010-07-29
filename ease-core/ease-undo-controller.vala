@@ -33,6 +33,11 @@ public class Ease.UndoController : Object
 	private Gee.LinkedList<UndoItem> redos = new Gee.LinkedList<UndoItem>();
 	
 	/**
+	 * Allows debug messages to be printed every time an action is added.
+	 */
+	public static bool enable_debug { get; set; default = false; }
+	
+	/**
 	 * Creates an UndoController. Used by EditorWindow.
 	 */
 	public UndoController() { }
@@ -84,7 +89,18 @@ public class Ease.UndoController : Object
 	 */
 	public void add_action(UndoItem action)
 	{
-		debug("adding an action");
+		if (enable_debug)
+		{
+			if (action.get_type() == typeof(UndoAction))
+			{
+				stdout.printf("UNDO ACTION ADDED WITH THESE PROPERTIES:\n");
+				foreach (var pair in (action as UndoAction).pairs)
+				{
+					stdout.printf("\t%s\n", pair.property);
+				}
+				stdout.printf("\n");
+			}
+		}
 		undos.offer_head(action);
 	}
 	
@@ -95,7 +111,19 @@ public class Ease.UndoController : Object
 	 */
 	private void add_redo_action(UndoItem action)
 	{
-		debug("adding a redo action");
+		if (enable_debug)
+		{
+			if (action.get_type() == typeof(UndoAction))
+			{
+				stdout.printf("REDO ACTION ADDED WITH THESE PROPERTIES:\n");
+				foreach (var pair in (action as UndoAction).pairs)
+				{
+					stdout.printf("\t%s\n", pair.property);
+				}
+				stdout.printf("\n");
+			}
+		}
+		
 		redos.offer_head(action);
 	}
 }

@@ -358,7 +358,7 @@ public class Ease.Theme : GLib.Object
 				// create the presentation's title
 				int left = element_get(TITLE_TEXT, PAD_LEFT).to_int(),
 				    h = element_get(TITLE_TEXT, HEIGHT).to_int();
-				slide.add(create_text(
+				slide.append(create_text(
 					TITLE_TEXT,
 					left,
 					height / 2 - h - element_get(TITLE_TEXT, PAD_BOTTOM).to_int(),
@@ -368,7 +368,7 @@ public class Ease.Theme : GLib.Object
 				
 				// create the presentation's author field
 				left = element_get(AUTHOR_TEXT, PAD_LEFT).to_int();
-				slide.add(create_text(
+				slide.append(create_text(
 					AUTHOR_TEXT,
 					left,
 					height / 2 + element_get(AUTHOR_TEXT, PAD_TOP).to_int(),
@@ -381,7 +381,7 @@ public class Ease.Theme : GLib.Object
 				int left = element_get(CONTENT_TEXT, PAD_LEFT).to_int(),
 				    top = element_get(CONTENT_TEXT, PAD_TOP).to_int();
 				
-				slide.add(create_text(
+				slide.append(create_text(
 					CONTENT_TEXT,
 					left,
 					top,
@@ -395,7 +395,7 @@ public class Ease.Theme : GLib.Object
 				int left = element_get(HEADER_TEXT, PAD_LEFT).to_int(),
 				    top = element_get(HEADER_TEXT, PAD_TOP).to_int();
 				
-				slide.add(create_text(
+				slide.append(create_text(
 					HEADER_TEXT,
 					left,
 					top,
@@ -408,7 +408,7 @@ public class Ease.Theme : GLib.Object
 				top += element_get(HEADER_TEXT, HEIGHT).to_int() +
 				       element_get(HEADER_TEXT, PAD_BOTTOM).to_int() +
 				       element_get(CONTENT_TEXT, PAD_TOP).to_int();
-				slide.add(create_text(
+				slide.append(create_text(
 					CONTENT_TEXT,
 					left,
 					top,
