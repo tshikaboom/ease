@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-public class Ease.Main : GLib.Object
+internal class Ease.Main : GLib.Object
 {
 	private static Gee.ArrayList<EditorWindow> windows;
 	private static WelcomeWindow welcome;
@@ -23,7 +23,7 @@ public class Ease.Main : GLib.Object
 	// options
 	static string play_filename;
 	static string[] filenames;
-	public static bool presentation_windowed = false;
+	internal static bool presentation_windowed = false;
 	private static bool debug_undo = false;
 	
 	private const OptionEntry[] options = {
@@ -47,7 +47,7 @@ public class Ease.Main : GLib.Object
 	 *
 	 * @param args Program arguments.
 	 */
-	public static int main(string[] args)
+	internal static int main(string[] args)
 	{	
 		// parse command line options
 		var context = new OptionContext(_(" - a presentation editor"));
@@ -139,7 +139,7 @@ public class Ease.Main : GLib.Object
 	 *
 	 * @param path The filename
 	 */
-	public static void open_file(string path)
+	internal static void open_file(string path)
 	{
 		foreach (var w in windows)
 		{
@@ -173,7 +173,7 @@ public class Ease.Main : GLib.Object
 	 *
 	 * @param win The {@link EditorWindow}.
 	 */
-	public static void remove_window(EditorWindow win)
+	internal static void remove_window(EditorWindow win)
 	{
 		windows.remove(win);
 		if (windows.size == 0 && welcome == null)
@@ -191,7 +191,7 @@ public class Ease.Main : GLib.Object
 	 *
 	 * @param win The {@link EditorWindow}.
 	 */
-	public static void add_window(EditorWindow win)
+	internal static void add_window(EditorWindow win)
 	{
 		windows.add(win);
 	}
@@ -203,7 +203,7 @@ public class Ease.Main : GLib.Object
 	 * already displayed.
 	 *
 	 */
-	public static void show_welcome()
+	internal static void show_welcome()
 	{
 		if (welcome == null)
 		{
@@ -224,7 +224,7 @@ public class Ease.Main : GLib.Object
 	 * When the {@link WelcomeWindow} is shown via show_welcome, this function
 	 * is automatically added in that window's hide signal handler.
 	 */
-	public static void remove_welcome()
+	internal static void remove_welcome()
 	{
 		welcome.hide_all();
 		welcome = null;

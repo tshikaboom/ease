@@ -21,13 +21,13 @@
  * A ScollableEmbed contains a {@link GtkClutter.Viewport} within a
  * {@link GtkClutter.Embed}. The horizontal scrollbar is optional.
  */
-public class Ease.ScrollableEmbed : Gtk.HBox
+internal class Ease.ScrollableEmbed : Gtk.HBox
 {
 	// actors
 	private GtkClutter.Embed embed;
 	private GtkClutter.Viewport viewport;
 	private Clutter.Stage stage;
-	public Clutter.Group contents { get; private set; }
+	internal Clutter.Group contents { get; private set; }
 
 	// scrolling
 	private Gtk.HScrollbar h_scrollbar;
@@ -41,17 +41,17 @@ public class Ease.ScrollableEmbed : Gtk.HBox
 	// constants
 	private const int FRAME_PADDING = 2;
 	
-	public bool has_horizontal { get; private set; }
+	internal bool has_horizontal { get; private set; }
 	
 	/**
 	 * The width of this ScrollableEmbed's Stage.
 	 */
-	public float width { get{ return stage.width; } }
+	internal float width { get{ return stage.width; } }
 
 	/**
 	 * The height of this ScrollableEmbed's Stage.
 	 */
-	public float height { get { return stage.height; } }
+	internal float height { get { return stage.height; } }
 	
 	/**
 	 * Instantiate a ScollableEmbed with an optional vertical sidebar.
@@ -63,7 +63,7 @@ public class Ease.ScrollableEmbed : Gtk.HBox
 	 * scrollbar in addition to the vertical scrollbar.
 	 * @param has_frame If the EditorEmbed should have a frame around its stage.
 	 */
-	public ScrollableEmbed(bool horizontal, bool has_frame)
+	internal ScrollableEmbed(bool horizontal, bool has_frame)
 	{
 		has_horizontal = horizontal;
 		// create children
@@ -173,7 +173,7 @@ public class Ease.ScrollableEmbed : Gtk.HBox
 	 * Returns the stage of this ScrollableEmbed. Use with caution. Most
 	 * actors should be placed onto the "contents" ClutterGroup.
 	 */
-	public Clutter.Stage get_stage()
+	internal Clutter.Stage get_stage()
 	{
 		return (Clutter.Stage)(embed.get_stage());
 	}
@@ -193,7 +193,7 @@ public class Ease.ScrollableEmbed : Gtk.HBox
 	/**
 	 * When grabbing focus, grab it on the embed.
 	 */
-	public override void grab_focus()
+	internal override void grab_focus()
 	{
 		embed.grab_focus();
 	}

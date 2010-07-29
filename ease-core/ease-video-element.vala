@@ -21,6 +21,8 @@
  */
 public class Ease.VideoElement : MediaElement
 {
+	public bool play_auto { get; set; default = false; }
+	
 	public VideoElement()
 	{
 		signals();
@@ -28,12 +30,20 @@ public class Ease.VideoElement : MediaElement
 	
 	internal VideoElement.from_json(Json.Object obj)
 	{
+		play_auto = obj.get_string_member(Theme.VIDEO_PLAY_AUTO).to_bool();
 		base.from_json(obj);
 	}	
 	
 	public override Actor actor(ActorContext c)
 	{
 		return new VideoActor(this, c);
+	}
+	
+	public override Json.Object to_json()
+	{
+		var obj = base.to_json();
+		obj.set_string_member(Theme.VIDEO_PLAY_AUTO, play_auto.to_string());
+		return obj;
 	}
 	
 	public override string html_render(HTMLExporter exporter)

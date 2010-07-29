@@ -21,7 +21,7 @@
  * Each WelcomeActor is a preview of a {@link Theme}. The user can
  * click on these to create a new {@link Document} with that {@link Theme}.
  */
-public class Ease.WelcomeActor : Clutter.Group
+internal class Ease.WelcomeActor : Clutter.Group
 {
 	/**
 	 * If this WelcomeActor is currently selected.
@@ -49,7 +49,7 @@ public class Ease.WelcomeActor : Clutter.Group
 	/**
 	 * The theme previewed by this WelcomeActor.
 	 */
-	public Theme theme { get; set; }
+	internal Theme theme { get; set; }
 	
 	// display the name of the theme
 	private const string FONT_NAME = "Sans 8";
@@ -79,19 +79,19 @@ public class Ease.WelcomeActor : Clutter.Group
 	/**
 	 * Triggered when the slide preview is selected (single click).
 	 */
-	public signal void selected(WelcomeActor sender);
+	internal signal void selected(WelcomeActor sender);
 	
 	/**
 	 * Triggered when the slide preview is double clicked.
 	 */
-	public signal void double_click(WelcomeActor sender);
+	internal signal void double_click(WelcomeActor sender);
 	
 	/**
 	 * Instantiates a WelcomeActor.
 	 *
 	 * @param t The theme that this WelcomeActor will display.
 	 */
-	public WelcomeActor(Theme t)
+	internal WelcomeActor(Theme t)
 	{
 		theme = t;
 		reactive = true;
@@ -147,7 +147,7 @@ public class Ease.WelcomeActor : Clutter.Group
 	 * @param w The width of the slide.
 	 * @param h The height of the slide.
 	 */
-	public void set_slide_size(int w, int h)
+	internal void set_slide_size(int w, int h)
 	{
 		// set the surface size
 		slide_actor.set_surface_size((uint)w, (uint)h);
@@ -172,7 +172,7 @@ public class Ease.WelcomeActor : Clutter.Group
 	 * @param w The width of the actor.
 	 * @param h The height of the actor.
 	 */
-	public void set_actor_size(float w, float h)
+	internal void set_actor_size(float w, float h)
 	{
 		rect.width = roundd(w) + RECT_B_W * 2;
 		rect.height = roundd(h) + RECT_B_W * 2;
@@ -193,7 +193,7 @@ public class Ease.WelcomeActor : Clutter.Group
 	/**
 	 * Brings the preview to full brightness.
 	 */
-	public void fade()
+	internal void fade()
 	{
 		is_selected = false;
 		slide_actor.animate(FADE_EASE, FADE_TIME, "opacity", FADE_OPACITY);
@@ -203,7 +203,7 @@ public class Ease.WelcomeActor : Clutter.Group
 	/**
 	 * Dims the preview.
 	 */
-	public void unfade()
+	internal void unfade()
 	{
 		is_selected = true;
 		slide_actor.animate(FADE_EASE, FADE_TIME, "opacity", 255);

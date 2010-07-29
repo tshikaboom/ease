@@ -22,27 +22,27 @@
  * SlideActor is a subclass of Clutter.Group. It is used in both the
  * editor and player, as well as assorted other preview screens.
  */
-public class Ease.SlideActor : Clutter.Group
+internal class Ease.SlideActor : Clutter.Group
 {
 	/**
 	 * The {@link Slide} represented by this SlideActor.
 	 */
-	public weak Slide slide { get; set; }
+	internal weak Slide slide { get; set; }
 
 	/**
 	 * The actor for the slide's background.
 	 */
-	public Clutter.CairoTexture background;
+	internal Clutter.CairoTexture background;
 
 	/**
 	 * The group for the slide's contents.
 	 */
-	public Flutter.Group contents;
+	internal Flutter.Group contents;
 
 	/**
 	 * The context of the actor (presentation, etc.)
 	 */
-	public ActorContext context;
+	internal ActorContext context;
 	
 	/**
 	 * The SlideActor's width (note that this may differ from the actual width
@@ -59,7 +59,7 @@ public class Ease.SlideActor : Clutter.Group
 	/**
 	 * The ClutterTimeline for a transition animation.
 	 */
-	public Clutter.Timeline animation_time { get; set; }
+	internal Clutter.Timeline animation_time { get; set; }
 	private Clutter.Alpha animation_alpha { get; set; }
 	private Clutter.Timeline time1;
 	private Clutter.Timeline time2;
@@ -69,27 +69,27 @@ public class Ease.SlideActor : Clutter.Group
 	/**
 	 * The easing mode for the Slide transition.
 	 */
-	public const int EASE_SLIDE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
+	internal const int EASE_SLIDE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
 	
 	/**
 	 * The easing mode for the Drop transition.
 	 */
-	public const int EASE_DROP = Clutter.AnimationMode.EASE_OUT_BOUNCE;
+	internal const int EASE_DROP = Clutter.AnimationMode.EASE_OUT_BOUNCE;
 	
 	/**
 	 * The easing mode for the Pivot transition.
 	 */
-	public const int EASE_PIVOT = Clutter.AnimationMode.EASE_OUT_SINE;
+	internal const int EASE_PIVOT = Clutter.AnimationMode.EASE_OUT_SINE;
 	
 	/**
 	 * The depth of the Flip transition.
 	 */
-	public const float FLIP_DEPTH = -400;
+	internal const float FLIP_DEPTH = -400;
 	
 	/**
 	 * The scale of slides in the Panel transition.
 	 */
-	public const float PANEL_SCALE = 0.75f;
+	internal const float PANEL_SCALE = 0.75f;
 	
 	/**
 	 * The depth at which a new slide in the Open Door transition
@@ -132,12 +132,12 @@ public class Ease.SlideActor : Clutter.Group
 	/**
 	 * Emitted when a subactor of this SlideActor is removed.
 	 */
-	public signal void ease_actor_removed(Actor actor);
+	internal signal void ease_actor_removed(Actor actor);
 	
 	/**
 	 * Emitted when a subactor is added to this SlideActor.
 	 */
-	public signal void ease_actor_added(Actor actor);
+	internal signal void ease_actor_added(Actor actor);
 	
 	/**
 	 * Creates a SlideActor from a {@link Slide} and a {@link Document}.
@@ -150,7 +150,7 @@ public class Ease.SlideActor : Clutter.Group
 	 * dimensions.
 	 * @param ctx The {@link ActorContext} for this SlideActor.
 	 */
-	public SlideActor.from_slide(Document document, Slide s, bool clip,
+	internal SlideActor.from_slide(Document document, Slide s, bool clip,
 	                             ActorContext ctx)
 	{
 		with_dimensions(document.width, document.height, s, clip, ctx);
@@ -166,7 +166,7 @@ public class Ease.SlideActor : Clutter.Group
 	 * dimensions.
 	 * @param ctx The {@link ActorContext} for this SlideActor.
 	 */
-	public SlideActor.with_dimensions(float w, float h, Slide s, bool clip,
+	internal SlideActor.with_dimensions(float w, float h, Slide s, bool clip,
 	                                  ActorContext ctx)
 	{
 		slide = s;
@@ -209,7 +209,7 @@ public class Ease.SlideActor : Clutter.Group
 	 * the proper size.
 	 * @param color The background color.
 	 */
-	public SlideActor.blank(Document document, Clutter.Color color)
+	internal SlideActor.blank(Document document, Clutter.Color color)
 	{
 		// create the background
 		background = new Clutter.CairoTexture(document.width, document.height);
@@ -225,7 +225,7 @@ public class Ease.SlideActor : Clutter.Group
 	/**
 	 * Handles {@link Slide.element_added}.
 	 */
-	public void on_element_added(Slide slide, Element element, int index)
+	internal void on_element_added(Slide slide, Element element, int index)
 	{
 		var actor = element.actor(context);
 		contents.add_actor(actor);
@@ -240,7 +240,7 @@ public class Ease.SlideActor : Clutter.Group
 	/**
 	 * Handles {@link Slide.element_removed}.
 	 */
-	public void on_element_removed(Slide slide, Element element, int index)
+	internal void on_element_removed(Slide slide, Element element, int index)
 	{
 		foreach (var a in contents)
 		{
@@ -256,7 +256,7 @@ public class Ease.SlideActor : Clutter.Group
 	/**
 	 * Resets all transformations on this SlideActor.
 	 */
-	public void reset(Clutter.Group container)
+	internal void reset(Clutter.Group container)
 	{
 		reset_actor(this);
 		reset_actor(background);
@@ -286,7 +286,7 @@ public class Ease.SlideActor : Clutter.Group
 	 * Lays out this SlideActor, replacing the background and rearranging
 	 * child actors if necessary.
 	 */
-	public void relayout()
+	internal void relayout()
 	{
 		set_background();
 
@@ -360,7 +360,7 @@ public class Ease.SlideActor : Clutter.Group
 	 * @param container The container that holds the SlideActor and unstacked
 	 * elements.
 	 */
-	public void stack(Clutter.Actor container)
+	internal void stack(Clutter.Actor container)
 	{
 		if (background.get_parent() != this)
 		{
@@ -394,7 +394,7 @@ public class Ease.SlideActor : Clutter.Group
 	 * @param container The container that holds the SlideActor and unstacked
 	 * elements.
 	 */
-	public void unstack(SlideActor other, Clutter.Actor container)
+	internal void unstack(SlideActor other, Clutter.Actor container)
 	{
 		if (other.background.get_parent() != container)
 		{
@@ -453,7 +453,7 @@ public class Ease.SlideActor : Clutter.Group
 	 * @param new_slide The new SlideActor.
 	 * @param container The container that holds the displayed SlideActors.
 	 */
-	public void transition(SlideActor new_slide,
+	internal void transition(SlideActor new_slide,
 	                       Clutter.Group container)
 	{
 		uint length = (uint)dmax(1, slide.transition_time * 1000);

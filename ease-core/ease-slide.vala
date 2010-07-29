@@ -181,6 +181,16 @@ public class Ease.Slide : GLib.Object, UndoSource
 	public signal void element_reordered(Slide self, Element element);
 	
 	/**
+	 * Updates this slide's title.
+	 */
+	internal signal void title_changed(Slide self, string title);
+	
+	/**
+	 * Resets this slide's title to its default.
+	 */
+	internal signal void title_reset(Slide self);
+	
+	/**
 	 * Create a new Slide.
 	 */
 	public Slide()
@@ -190,6 +200,17 @@ public class Ease.Slide : GLib.Object, UndoSource
 		// inspect undo actions passed through the slide, check for bg changes
 		undo.connect((item) => {
 			if (background.owns_undoitem(item)) background_changed(this);
+		});
+		
+		// update the slide's title when the title element changes
+		forwarded.connect((item) => {
+			if (item is UndoAction)
+			{
+				foreach (var pair in (item as UndoAction).pairs)
+				{
+					if (pair.property == "text") update_title(pair.object);
+				}
+			}
 		});
 	}
 	
@@ -356,6 +377,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 		elements.insert(index, e);
 		element_added(this, e, index);
 		listen(e);
+		update_title(e);
 		if (emit_undo) undo(new ElementAddUndoAction(e));
 	}
 	
@@ -387,6 +409,15 @@ public class Ease.Slide : GLib.Object, UndoSource
 		elements.remove(e);
 		element_removed(this, e, index);
 		silence(e);
+		
+		if (e is TextElement)
+		{
+			if ((e as TextElement).identifier == Theme.TITLE_TEXT ||
+			    (e as TextElement).identifier == Theme.HEADER_TEXT)
+			{
+				title_reset(this);
+			}
+		}
 	}
 	
 	/**
@@ -590,6 +621,22 @@ public class Ease.Slide : GLib.Object, UndoSource
 		}
 		
 		html += "</div>\n";
+	}
+	
+	/**
+	 * Updates the slide's title if the given object is a TextElement with the
+	 * {@link Theme.TITLE_TEXT} identifier.
+	 */
+	private void update_title(GLib.Object object)
+	{
+		if (object is TextElement)
+		{
+			if ((object as TextElement).identifier == Theme.TITLE_TEXT || 
+			    (object as TextElement).identifier == Theme.HEADER_TEXT)
+			{
+				title_changed(this, (object as TextElement).text);
+			}
+		}
 	}
 
 	// foreach iteration

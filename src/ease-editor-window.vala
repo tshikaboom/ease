@@ -23,23 +23,23 @@
  * controls. The window is linked to a {@link Document}, and all changes
  * are made directly to that object.
  */
-public class Ease.EditorWindow : Gtk.Window
+internal class Ease.EditorWindow : Gtk.Window
 {
 	/**
 	 * The {@link EditorEmbed} associated with this EditorWindow.
 	 */ 
-	public EditorEmbed embed;
+	internal EditorEmbed embed;
 	
 	/**
 	 * The {@link SlideButtonPanel} of this EditorWindow.
 	 */
-	public SlideButtonPanel slide_button_panel;
+	internal SlideButtonPanel slide_button_panel;
 	
 	/**
 	 * A {@link ZoomSlider} at the bottom of the window, controlling the zoom
 	 * level of the {@link EditorEmbed}.
 	 */
-	public ZoomSlider zoom_slider;
+	internal ZoomSlider zoom_slider;
 
 	/**
 	 * A {@link Player} for the {@link Document} displayed in this window.
@@ -49,17 +49,32 @@ public class Ease.EditorWindow : Gtk.Window
 	/**
 	 * The {@link Document} associated with this EditorWindow.
 	 */
-	public Document document;
+	internal Document document;
 	
 	/**
 	 * The currently selected and displayed {@link Slide}.
 	 */
-	public Slide slide;
+	internal Slide slide;
 	
 	/**
 	 * The {@link Inspector} for this window.
 	 */
 	private Inspector inspector;
+	
+	/**
+	 * The main editor widget (embed, inspector, and slide thumbnails)
+	 */
+	private Gtk.Widget editor;
+	
+	/**
+	 * The {@link SlideSorter} for this window.
+	 */
+	private SlideSorter sorter;
+	
+	/**
+	 * The container for the editor or the SlideSorter.
+	 */
+	private Gtk.Bin main_bin;
 	
 	/**
 	 * The {@link UndoController} for this window.
@@ -84,7 +99,7 @@ public class Ease.EditorWindow : Gtk.Window
 	/**
 	 * If the {@link SlideButtonPanel} is visible.
 	 */
-	public bool slides_shown { get; set; }
+	internal bool slides_shown { get; set; }
 	
 	/**
 	 * The color selection dialog for this window.
@@ -95,6 +110,16 @@ public class Ease.EditorWindow : Gtk.Window
 	 * The color selection dialog's widget.
 	 */
 	private Gtk.ColorSelection color_selection;
+	
+	/**
+	 * The Editor radio button.
+	 */
+	private Gtk.RadioMenuItem show_editor;
+	
+	/**
+	 * The Editor radio button.
+	 */
+	private Gtk.RadioMenuItem show_sorter;
 	
 	/**
 	 * The time the document was last saved.
@@ -121,7 +146,7 @@ public class Ease.EditorWindow : Gtk.Window
 	 *
 	 * @param node The initial XML node to begin with.
 	 */
-	public EditorWindow(Document doc)
+	internal EditorWindow(Document doc)
 	{
 		title = "Ease";
 		set_default_size(1024, 768);
@@ -139,6 +164,12 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		builder.connect_signals(this);
 		add(builder.get_object("Editor Widget") as Gtk.VBox);
+		main_bin = builder.get_object("main-align") as Gtk.Bin;
+		editor = builder.get_object("editor") as Gtk.Widget;
+		show_sorter =
+			builder.get_object("slide-sorter-radio") as Gtk.RadioMenuItem;
+		show_editor =
+			builder.get_object("editor-radio") as Gtk.RadioMenuItem;
 				
 		// slide display
 		slide_button_panel = new SlideButtonPanel(document, this);
@@ -224,7 +255,7 @@ public class Ease.EditorWindow : Gtk.Window
 	 *
 	 * @param filename The index of the slide.
 	 */
-	public void set_slide(int index)
+	internal void set_slide(int index)
 	{
 		slide = document.get_slide(index);
 		
@@ -238,7 +269,7 @@ public class Ease.EditorWindow : Gtk.Window
 	 *
 	 * @param action The new {@link UndoItem}.
 	 */
-	public void add_undo_action(UndoItem action)
+	internal void add_undo_action(UndoItem action)
 	{
 		undo.add_action(action);
 		undo.clear_redo();
@@ -263,13 +294,13 @@ public class Ease.EditorWindow : Gtk.Window
 	
 	// signal handlers
 	[CCode (instance_pos = -1)]
-	public void on_quit(Gtk.Widget sender)
+	internal void on_quit(Gtk.Widget sender)
 	{
 		Gtk.main_quit ();
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void on_delete(Gtk.Widget sender)
+	internal void on_delete(Gtk.Widget sender)
 	{
 		if (embed.selected == null) return;
 		
@@ -278,7 +309,7 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 
 	[CCode (instance_pos = -1)]
-	public void new_slide_handler(Gtk.Widget? sender)
+	internal void new_slide_handler(Gtk.Widget? sender)
 	{
 		var s = document.theme.create_slide(document.DEFAULT_SLIDE,
 		                                    slide.width,
@@ -289,7 +320,8 @@ public class Ease.EditorWindow : Gtk.Window
 		document.add_slide(index, s);
 	}
 	
-	public void on_new_slide_menu(Gtk.Widget? sender)
+	[CCode (instance_pos = -1)]
+	internal void on_new_slide_menu(Gtk.Widget? sender)
 	{
 		var item = sender as Gtk.MenuItem;
 		var s = document.theme.create_slide(
@@ -302,17 +334,25 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void remove_slide(Gtk.Widget? sender)
+	internal void remove_slide(Gtk.Widget? sender)
 	{
 		// don't remove the last slide in a document
 		if (document.length < 2) return;
+		
+		// if the sorter isn't set to null, it must be active
+		if (sorter != null)
+		{
+			var s = sorter.delete_slide();
+			if (s != null) slide_button_panel.select_slide(s);
+			return;
+		}
 		
 		// set the slide to something safe
 		slide_button_panel.select_slide(document.remove_slide(slide));
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void play_handler(Gtk.Widget sender)
+	internal void play_handler(Gtk.Widget sender)
 	{
 		hide();
 		
@@ -326,7 +366,7 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void undo_handler(Gtk.Widget sender)
+	internal void undo_handler(Gtk.Widget sender)
 	{
 		undo.undo();
 		update_undo();
@@ -335,7 +375,7 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void redo_handler(Gtk.Widget sender)
+	internal void redo_handler(Gtk.Widget sender)
 	{
 		undo.redo();
 		update_undo();
@@ -344,7 +384,7 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void insert_text(Gtk.Widget sender)
+	internal void insert_text(Gtk.Widget sender)
 	{
 		var text = document.theme.create_custom_text();
 		text.x = slide.width / 2 - text.width / 2;
@@ -354,7 +394,7 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void insert_image(Gtk.Widget sender)
+	internal void insert_image(Gtk.Widget sender)
 	{
 		var dialog = new Gtk.FileChooserDialog(_("Insert Image"),
 		                                       null,
@@ -398,7 +438,7 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void insert_video(Gtk.Widget sender)
+	internal void insert_video(Gtk.Widget sender)
 	{
 		var dialog = new Gtk.FileChooserDialog(_("Insert Video"),
 		                                       null,
@@ -438,7 +478,7 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void on_insert_rectangle(Gtk.Widget sender)
+	internal void on_insert_rectangle(Gtk.Widget sender)
 	{
 		var rect = new ShapeElement(ShapeType.RECTANGLE);
 		rect.width = 400;
@@ -450,7 +490,7 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void on_insert_oval(Gtk.Widget sender)
+	internal void on_insert_oval(Gtk.Widget sender)
 	{
 		var oval = new ShapeElement(ShapeType.OVAL);
 		oval.width = 300;
@@ -462,19 +502,45 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void zoom_in(Gtk.Widget sender)
+	internal void set_view(Gtk.Widget sender)
+	{
+		if (show_editor == sender)
+		{
+			if (main_bin.get_child() == editor) return;
+			main_bin.remove(sorter);
+			main_bin.add(editor);
+			sorter = null;
+		}
+		else if (show_sorter == sender)
+		{
+			if (sorter == null) sorter = new SlideSorter(document);
+			if (main_bin.get_child() == sorter) return;
+			main_bin.remove(editor);
+			main_bin.add(sorter);
+			sorter.show_all();
+			
+			// when a slide is clicked in the sorter, switch back here
+			sorter.display_slide.connect((s) => {
+				set_slide(document.index_of(s));
+				show_editor.active = true;
+			});
+		}
+	}
+	
+	[CCode (instance_pos = -1)]
+	internal void zoom_in(Gtk.Widget sender)
 	{
 		zoom_slider.zoom_in();
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void zoom_out(Gtk.Widget sender)
+	internal void zoom_out(Gtk.Widget sender)
 	{
 		zoom_slider.zoom_out();
 	}
 	
 	[CCode (instance_pos = -1)]
-	public bool save_document(Gtk.Widget? sender)
+	internal bool save_document(Gtk.Widget? sender)
 	{
 		if (document.filename == null)
 		{
@@ -518,53 +584,53 @@ public class Ease.EditorWindow : Gtk.Window
 	
 	// export menu
 	[CCode (instance_pos = -1)]
-	public void export_as_pdf(Gtk.Widget sender)
+	internal void export_as_pdf(Gtk.Widget sender)
 	{
 		document.export_as_pdf(this);
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void export_as_postscript(Gtk.Widget sender)
+	internal void export_as_postscript(Gtk.Widget sender)
 	{
 		document.export_as_postscript(this);
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void export_as_html(Gtk.Widget sender)
+	internal void export_as_html(Gtk.Widget sender)
 	{
 		document.export_as_html(this);
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void on_lower(Gtk.Widget sender)
+	internal void on_lower(Gtk.Widget sender)
 	{
 		if (embed.selected == null) return;
 		slide.lower(embed.selected.element);
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void on_raise(Gtk.Widget sender)
+	internal void on_raise(Gtk.Widget sender)
 	{
 		if (embed.selected == null) return;
 		slide.raise(embed.selected.element);
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void on_lower_bottom(Gtk.Widget sender)
+	internal void on_lower_bottom(Gtk.Widget sender)
 	{
 		if (embed.selected == null) return;
 		slide.lower_bottom(embed.selected.element);
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void on_raise_top(Gtk.Widget sender)
+	internal void on_raise_top(Gtk.Widget sender)
 	{
 		if (embed.selected == null) return;
 		slide.raise_top(embed.selected.element);
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void inspector_clicked_handler(Gtk.Widget? sender)
+	internal void inspector_clicked_handler(Gtk.Widget? sender)
 	{	
 		if (inspector.visible)
 		{
@@ -577,7 +643,7 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void show_color_dialog(Gtk.Widget sender)
+	internal void show_color_dialog(Gtk.Widget sender)
 	{
 		// if nothing is selected, don't display the dialog
 		if (embed.selected == null) return;
@@ -660,7 +726,7 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
-	public void select_font(Gtk.Widget? sender)
+	internal void select_font(Gtk.Widget? sender)
 	{
 		// create a font selection dialog
 		var font_selection = new Gtk.FontSelectionDialog(_("Select Font"));

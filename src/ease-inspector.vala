@@ -18,7 +18,7 @@
 /**
  * Inspector widget for editing slide properties
  */
-public class Ease.Inspector : Gtk.Notebook
+internal class Ease.Inspector : Gtk.Notebook
 {
 	private InspectorTransitionPane transition_pane;
 	private InspectorSlidePane slide_pane;
@@ -33,7 +33,7 @@ public class Ease.Inspector : Gtk.Notebook
 	/**
 	 * The {@link Slide} that this Inspector is currently affecting.
 	 */
-	public Slide slide
+	internal Slide slide
 	{
 		get { return slide_priv; }
 		set {
@@ -43,7 +43,7 @@ public class Ease.Inspector : Gtk.Notebook
 		}
 	}
 	
-	public Inspector(Document document)
+	internal Inspector(Document document)
 	{
 		set_size_request(REQUEST_WIDTH, REQUEST_HEIGHT);
 	

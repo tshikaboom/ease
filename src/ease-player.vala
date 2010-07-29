@@ -21,11 +21,11 @@
  * The Ease Player uses ClutterGtk to create a stage floated in the center
  * of a fullscreen Gtk.Window.
  */
-public class Ease.Player : GLib.Object
+internal class Ease.Player : GLib.Object
 {
-	public Document document { get; set; }
-	public int slide_index { get; set; }
-	public Clutter.Stage stage { get; set; }
+	internal Document document { get; set; }
+	internal int slide_index { get; set; }
+	internal Clutter.Stage stage { get; set; }
 	private bool can_animate { get; set; }
 	private bool dragging = false;
 
@@ -53,9 +53,9 @@ public class Ease.Player : GLib.Object
 	private Clutter.Rectangle shader_left;
 	private Clutter.Rectangle shader_right;
 	
-	public signal void complete();
+	internal signal void complete();
 	
-	public Player(Document doc)
+	internal Player(Document doc)
 	{
 		document = doc;
 		slide_index = -1;
@@ -119,8 +119,8 @@ public class Ease.Player : GLib.Object
 
 		/* The following function is broken at the moment in the Clutter
 		   bindings. Replace the
-		   public void add (...); by
-		   public void add (Clutter.Actor first_actor, ...); */
+		   internal void add (...); by
+		   internal void add (Clutter.Actor first_actor, ...); */
 		shader.add (shader_top, 
 					shader_right,
 					shader_bottom,
@@ -143,7 +143,7 @@ public class Ease.Player : GLib.Object
 		advance();
 	}
 
-	public void on_motion (Clutter.MotionEvent event)
+	internal void on_motion (Clutter.MotionEvent event)
 	{
 		if (dragging) {
 			// FIXME : duplicate code
@@ -162,7 +162,7 @@ public class Ease.Player : GLib.Object
 		}
 	}
 
-	public void on_button_release (Clutter.ButtonEvent event)
+	internal void on_button_release (Clutter.ButtonEvent event)
 	{
 		dragging = false;
 		// FIXME : should the focus fade time be a constant ?
@@ -170,7 +170,7 @@ public class Ease.Player : GLib.Object
 						"opacity", 0);
 	}
 
-	public void on_button_press (Clutter.ButtonEvent event)
+	internal void on_button_press (Clutter.ButtonEvent event)
 	{
 		dragging = true;
 		debug ("Got a mouse click at %f, %f", event.x, event.y);
@@ -188,7 +188,7 @@ public class Ease.Player : GLib.Object
 						"opacity", FOCUS_OPACITY);
 	}
 
-	public void on_key_press (Clutter.KeyEvent event)
+	internal void on_key_press (Clutter.KeyEvent event)
 	{
 		/* Coded with /usr/include/clutter-1.0/clutter/clutter-keysyms.h */
 		/* Ask developers about the use of that file and the lack of doc */
@@ -215,7 +215,7 @@ public class Ease.Player : GLib.Object
 		}
 	}
 		
-	public void advance()
+	internal void advance()
 	{
 		// only advance when transitions are complete
 		if (!can_animate)

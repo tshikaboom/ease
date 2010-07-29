@@ -30,6 +30,11 @@ public class Ease.VideoActor : Actor, Clutter.Media
 	 * The VideoTexture displayed by this VideoActor.
 	 */
 	private ClutterGst.VideoTexture video;
+	
+	/**
+	 * The "play" button in a presentation.
+	 */
+	private Clutter.CairoTexture play_button;
 
 	/**
 	 * Instantiates a new VideoActor from an Element.

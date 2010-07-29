@@ -19,11 +19,11 @@
 /**
  * The inspector pane for changing transitions
  */
-public class Ease.InspectorTransitionPane : InspectorPane
+internal class Ease.InspectorTransitionPane : InspectorPane
 {
-	public Gtk.ComboBox effect;
+	internal Gtk.ComboBox effect;
 	private Gtk.SpinButton transition_time;
-	public Gtk.ComboBox variant;
+	internal Gtk.ComboBox variant;
 	private Gtk.Alignment variant_align;
 	private Gtk.ComboBox start_transition;
 	private Gtk.SpinButton delay;
@@ -46,7 +46,7 @@ public class Ease.InspectorTransitionPane : InspectorPane
 	// silence undo if needed
 	private bool silence_undo;
 	
-	public InspectorTransitionPane(Document d)
+	internal InspectorTransitionPane(Document d)
 	{
 		base(d);
 		

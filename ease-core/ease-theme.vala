@@ -107,6 +107,9 @@ public class Ease.Theme : GLib.Object
 	public const string IMAGE_ASPECT = "image-fill-aspect";
 	public const string IMAGE_ORIGINAL = "image-fill-original";
 	
+	// video properties
+	public const string VIDEO_PLAY_AUTO = "video-play-automatically";
+	
 	// generic element properties
 	public const string E_IDENTIFIER = "element-identifier";
 	public const string ELEMENT_TYPE = "element-type";
