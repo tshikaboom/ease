@@ -30,6 +30,7 @@ ease_SOURCES = \
 ease_VALAFLAGS = \
 	--pkg ease-core-0.3 \
 	--pkg flutter-0.3 \
+	--disable-warnings \
 	$(EASE_PACKAGES) \
 	--vapidir vapi \
 	--thread \

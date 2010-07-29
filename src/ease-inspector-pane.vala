@@ -18,12 +18,12 @@
 /**
  * Base class for inspector panes
  */
-public abstract class Ease.InspectorPane : Gtk.VBox
+internal abstract class Ease.InspectorPane : Gtk.VBox
 {
-	public Slide slide { get; set; }
-	public Document document { get; set; }
+	internal Slide slide { get; set; }
+	internal Document document { get; set; }
 
-	public InspectorPane(Document d)
+	internal InspectorPane(Document d)
 	{
 		document = d;
 		homogeneous = false;

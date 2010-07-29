@@ -18,16 +18,16 @@
 /**
  * A widget displaying an icon view the user can use to sort and delete slides.
  */
-public class Ease.SlideSorter : Gtk.ScrolledWindow
+internal class Ease.SlideSorter : Gtk.ScrolledWindow
 {
 	private Gtk.IconView view;
 	private Document document;
 	
 	private const int WIDTH = 100;
 	
-	public signal void display_slide(Slide s);
+	internal signal void display_slide(Slide s);
 	
-	public SlideSorter(Document doc)
+	internal SlideSorter(Document doc)
 	{
 		document = doc;
 		view = new Gtk.IconView.with_model(document.slides);
@@ -50,7 +50,7 @@ public class Ease.SlideSorter : Gtk.ScrolledWindow
 		});
 	}
 	
-	public Slide? delete_slide()
+	internal Slide? delete_slide()
 	{
 		Slide slide = null, ret_slide = null;
 		GLib.List<Slide> slides_to_remove = null;

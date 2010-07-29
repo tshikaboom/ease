@@ -23,7 +23,7 @@
  * window, the user can either create a new {@link Document} or open
  * an existing one.
  */
-public class Ease.WelcomeWindow : Gtk.Window
+internal class Ease.WelcomeWindow : Gtk.Window
 {
 	// main buttons
 	private Gtk.Button new_pres_button;
@@ -83,7 +83,7 @@ public class Ease.WelcomeWindow : Gtk.Window
 	
 	private const string PREVIEW_ID = Theme.TITLE;
 	
-	public WelcomeWindow()
+	internal WelcomeWindow()
 	{
 		assert(RESOLUTIONS_X.length == RESOLUTIONS_Y.length);
 	
@@ -267,13 +267,13 @@ public class Ease.WelcomeWindow : Gtk.Window
 	}
 
 	[CCode (instance_pos = -1)]
-	public void on_open_pres_button_clicked (Gtk.Widget sender)
+	internal void on_open_pres_button_clicked (Gtk.Widget sender)
 	{
 		OpenDialog.run();
 	}
 
 	[CCode (instance_pos = -1)]
-	public void create_new_document(Gtk.Widget? sender)
+	internal void create_new_document(Gtk.Widget? sender)
 	{
 		try
 		{

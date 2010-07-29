@@ -21,7 +21,7 @@
  * SlideButtonPanel contains a Gtk.TreeView with displays slides as pixbufs,
  * rendered with Cairo.
  */
-public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
+internal class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 {
 	private Document document;
 	private EditorWindow owner;
@@ -60,7 +60,7 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 	 * @param win The {@link EditorWindow} that this SlideButtonPanel is
 	 * part of.
 	 */
-	public SlideButtonPanel(Document d, EditorWindow win)
+	internal SlideButtonPanel(Document d, EditorWindow win)
 	{			
 		document = d;
 		owner = win;
@@ -138,7 +138,7 @@ public class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 	 *
 	 * @param s The slide to select.
 	 */
-	public void select_slide(Slide slide)
+	internal void select_slide(Slide slide)
 	{
 		Gtk.TreeIter itr;
 		Slide s = new Slide();

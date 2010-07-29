@@ -18,14 +18,14 @@
 /**
  * The inspector pane concerning slides.
  */
-public class Ease.InspectorSlidePane : InspectorPane
+internal class Ease.InspectorSlidePane : InspectorPane
 {
 	private const string UI_FILE_PATH = "inspector-slide.ui";
 
 	private BackgroundWidget bg_widget;
 	private Gtk.Box box;
 
-	public InspectorSlidePane(Document d)
+	internal InspectorSlidePane(Document d)
 	{	
 		base(d);
 		

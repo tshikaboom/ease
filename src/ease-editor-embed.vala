@@ -27,7 +27,7 @@
  * EditorEmbed is a subclass of {@link ScrollableEmbed}, and has both
  * horizontal and vertical scrollbars.
  */
-public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
+internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 {
 	/**
 	 * The {@link EditorWindow} that owns this EditorEmbed.
@@ -47,12 +47,12 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	/**
 	 * The current slide's actor.
 	 */
-	public SlideActor slide_actor;
+	internal SlideActor slide_actor;
 	
 	/**
 	 * The currently selected {@link Actor}.
 	 */
-	public Actor selected { get; private set; }
+	internal Actor selected { get; private set; }
 	
 	/**
 	 * If the selected {@link Actor} is being edited.
@@ -140,8 +140,8 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	 */
 	private Document document;
 	
-	public signal void element_selected(Element selected);
-	public signal void element_deselected(Element? deselected);
+	internal signal void element_selected(Element selected);
+	internal signal void element_deselected(Element? deselected);
 	
 	/**
 	 * The zoom level of the slide displayed by this EditorEmbed.
@@ -154,7 +154,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	 * course, possible, but values below 0.1 or so are unlikely to produce
 	 * desirable results.
 	 */
-	public float zoom
+	internal float zoom
 	{
 		get
 		{
@@ -189,7 +189,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	 * @param d The {@link Document} this EditorEmbed represents.
 	 * @param w The {@link EditorWindow} this EditorEmbed is part of.
 	 */
-	public EditorEmbed(Document d, EditorWindow w)
+	internal EditorEmbed(Document d, EditorWindow w)
 	{
 		base(true, true);
 		win = w;
@@ -249,7 +249,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	 *
 	 * @param node The initial XML node to begin with.
 	 */
-	public void set_slide(Slide slide)
+	internal void set_slide(Slide slide)
 	{
 		if (slide == null) return;
 		
@@ -334,7 +334,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	 * Call this function after changing the zoom level, document size, or
 	 * any other properties that could place the slide off center. 
 	 */
-	public void reposition_group()
+	internal void reposition_group()
 	{
 		if (slide_actor == null)
 		{
@@ -382,7 +382,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	/**
 	 * Recreates the current SlideActor.
 	 */
-	public void recreate_slide()
+	internal void recreate_slide()
 	{
 		set_slide(slide_actor.slide);
 	}
@@ -392,7 +392,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	 *
 	 * @param e The element to search for.
 	 */
-	public void select_element(Element e)
+	internal void select_element(Element e)
 	{
 		foreach (var a in slide_actor.contents)
 		{
@@ -692,7 +692,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	 * If no element is selected, or the selected element does not have a
 	 * "color" property, this property is ignored.
 	 */
-	public void set_element_color(Clutter.Color color)
+	internal void set_element_color(Clutter.Color color)
 	{
 		if (selected == null) return;	
 		if (!selected.element.set_color(color)) return;
@@ -702,7 +702,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	 * Handles actor removal events. Deselects the current
 	 * {@link Actor} if necessary, and disconnects handlers.
 	 */
-	public void on_ease_actor_removed(Actor actor)
+	internal void on_ease_actor_removed(Actor actor)
 	{
 		if (selected == actor) deselect_actor();
 		actor.button_press_event.disconnect(actor_clicked);
@@ -713,7 +713,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	/**
 	 * Handles new actor events. Connects handlers.
 	 */
-	public void on_ease_actor_added(Actor actor)
+	internal void on_ease_actor_added(Actor actor)
 	{
 		actor.button_press_event.connect(actor_clicked);
 		actor.button_release_event.connect(actor_released);
@@ -723,7 +723,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	/**
 	 * Handles keypresses within the embed.
 	 */
-	public bool on_key_press_event(Gtk.Widget self, Gdk.EventKey event)
+	internal bool on_key_press_event(Gtk.Widget self, Gdk.EventKey event)
 	{
 		if (event.type == Gdk.EventType.KEY_RELEASE) return false;
 		
@@ -793,7 +793,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	/**
 	 * Handles {@link Slide.element_removed}.
 	 */
-	public void on_element_removed(Slide slide, Element element, int index)
+	internal void on_element_removed(Slide slide, Element element, int index)
 	{
 		if (slide != slide_actor.slide) return;
 		if (selected == null) element_deselected(element);
@@ -802,7 +802,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	/**
 	 * Connects the key event handlers.
 	 */
-	public void connect_keys()
+	internal void connect_keys()
 	{
 		if (keys_connected) return;
 		keys_connected = true;
@@ -812,7 +812,7 @@ public class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	/**
 	 * Disconnects the key event handlers.
 	 */
-	public void disconnect_keys()
+	internal void disconnect_keys()
 	{
 		if (!keys_connected) return;
 		keys_connected = false;

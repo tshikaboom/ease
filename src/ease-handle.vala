@@ -18,7 +18,7 @@
 /**
  * Interface element for manipulating the size of {@link Actor}s.
  */
-public class Ease.Handle : Clutter.CairoTexture
+internal class Ease.Handle : Clutter.CairoTexture
 {	
 	/**
 	 * The position of this handle relative to the selection rectangle.
@@ -42,7 +42,7 @@ public class Ease.Handle : Clutter.CairoTexture
 	 * @param pos The position of this handle relative to the selection
 	 * rectangle.
 	 */
-	public Handle(HandlePosition pos)
+	internal Handle(HandlePosition pos)
 	{
 		// set the handle's size
 		width = height = surface_width = surface_height = SIZE;
@@ -69,7 +69,7 @@ public class Ease.Handle : Clutter.CairoTexture
 	 * @param target The actor to update.
 	 * @param prop If any scaling should be proportional, if possible.
 	 */
-	public void drag(float change_x, float change_y, Actor target, bool prop)
+	internal void drag(float change_x, float change_y, Actor target, bool prop)
 	{
 		switch (position)
 		{
@@ -121,7 +121,7 @@ public class Ease.Handle : Clutter.CairoTexture
 	 * @param target The actor to update.
 	 * @param prop If any scaling should be proportional, if possible.
 	 */
-	public void drag_from_center(float change_x, float change_y, Actor target,
+	internal void drag_from_center(float change_x, float change_y, Actor target,
 	                             bool prop)
 	{
 		switch (position)
@@ -174,7 +174,7 @@ public class Ease.Handle : Clutter.CairoTexture
 	 *
 	 * @param selection The selection rectangle to position the Handle around.
 	 */
-	public void reposition(Clutter.Actor selection)
+	internal void reposition(Clutter.Actor selection)
 	{
 		switch (position)
 		{
@@ -223,7 +223,7 @@ public class Ease.Handle : Clutter.CairoTexture
 	/**
 	 * Flips the colors of the handle.
 	 */
-	public void flip(bool f)
+	internal void flip(bool f)
 	{
 		flipped = f;
 		redraw();

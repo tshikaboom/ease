@@ -18,7 +18,7 @@
 /**
  * Rectangle displayed around the border of selected {@link Actor}s.
  */
-public class Ease.SelectionRectangle : Clutter.Group
+internal class Ease.SelectionRectangle : Clutter.Group
 {
 	private Clutter.Rectangle top;
 	private Clutter.Rectangle bottom;
@@ -30,7 +30,7 @@ public class Ease.SelectionRectangle : Clutter.Group
 	private const int HEIGHT = 6;
 	private const int BORDER = 2;
 	
-	public SelectionRectangle()
+	internal SelectionRectangle()
 	{
 		make(out top);
 		make(out bottom);

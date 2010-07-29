@@ -18,7 +18,7 @@
 /**
  * A "do you save before closing" dialog.
  */
-public class Ease.CloseConfirmDialog : Gtk.Dialog
+internal class Ease.CloseConfirmDialog : Gtk.Dialog
 {
 	/**
 	 * Format string for the upper, main label on the dialog.
@@ -33,7 +33,7 @@ public class Ease.CloseConfirmDialog : Gtk.Dialog
 	 * @param seconds The number of seconds since the document was last saved
 	 * (or was created, if it has not been saved).
 	 */
-	public CloseConfirmDialog(string filename, int seconds)
+	internal CloseConfirmDialog(string filename, int seconds)
 	{
 		title = _("Save before closing?");
 		has_separator = false;
