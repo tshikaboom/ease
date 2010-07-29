@@ -112,13 +112,6 @@ public class Ease.Document : GLib.Object, UndoSource
 	 * Emitted when a {@link Slide} is added to the Document.
 	 */
 	public signal void slide_added(Slide slide, int index);
-
-	/**
-	 * Default constructor, creates an empty Document.
-	 * 
-	 * Creates a new, empty document with no slides. Sets up base properties
-	 */
-	public Document() { }
 	
 	public Document.from_saved(string file_path) throws GLib.Error
 	{
@@ -225,17 +218,27 @@ public class Ease.Document : GLib.Object, UndoSource
 	/**
 	 * Inserts a new {@link Slide} into the Document
 	 *
-	 * @param s The {@link Slide} to insert.
+	 * @param slide The {@link Slide} to insert.
 	 * @param index The position of the new {@link Slide} in the Document.
 	 */
-	public void add_slide(int index, Slide s)
+	public void add_slide(int index, Slide slide)
 	{
-		s.parent = this;
+		add_slide_actual(index, slide, true);
+	}
+	
+	/**
+	 * Does the actual addition of a new Slide.
+	 */
+	internal void add_slide_actual(int index, Slide slide, bool emit_undo)
+	{
+		slide.parent = this;
 		Gtk.TreeIter itr;
 		slides.insert(out itr, index);
-		slides.set(itr, COL_SLIDE, s);
-		slide_added(s, index);
-		listen(s);
+		slides.set(itr, COL_SLIDE, slide);
+		slide_added(slide, index);
+		listen(slide);
+		
+		if (emit_undo) undo(new SlideAddUndoAction(slide));
 	}
 	
 	/**
@@ -254,6 +257,17 @@ public class Ease.Document : GLib.Object, UndoSource
 	 */
 	public Slide remove_slide(Slide slide)
 	{
+		return remove_slide_actual(slide, true);
+	}
+	
+	/**
+	 * Actually removes a Slide.
+	 */
+	internal Slide remove_slide_actual(Slide slide, bool emit_undo)
+	{
+		// emit an undo action if needed
+		if (emit_undo) undo(new SlideRemoveUndoAction(slide));
+		
 		Slide s;
 		var index = 0;
 		foreach (var itr in slides)
@@ -278,6 +292,7 @@ public class Ease.Document : GLib.Object, UndoSource
 		
 		// retrieve and return the slide
 		slides.get(itr, COL_SLIDE, out ret);
+		
 		return ret;
 	}
 	

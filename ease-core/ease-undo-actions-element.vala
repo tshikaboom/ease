@@ -18,7 +18,7 @@
 /**
  * Undos the addition of an {@link Element} to a {@link Slide}.
  */
-public class Ease.ElementAddUndoAction : UndoItem
+internal class Ease.ElementAddUndoAction : UndoItem
 {
 	/**
 	 * The {@link Element} that was added.
@@ -30,7 +30,7 @@ public class Ease.ElementAddUndoAction : UndoItem
 	 *
 	 * @param e The element that was added.
 	 */
-	public ElementAddUndoAction(Element e)
+	internal ElementAddUndoAction(Element e)
 	{
 		element = e;
 	}
@@ -41,7 +41,7 @@ public class Ease.ElementAddUndoAction : UndoItem
 	internal override UndoItem apply()
 	{
 		var action = new ElementRemoveUndoAction(element);
-		element.parent.remove_element(element);
+		element.parent.remove_actual(element, false);
 		return action;
 	}
 }
@@ -49,7 +49,7 @@ public class Ease.ElementAddUndoAction : UndoItem
 /**
  * Undos the removal of an {@link Element} from a {@link Slide}.
  */
-public class Ease.ElementRemoveUndoAction : UndoItem
+internal class Ease.ElementRemoveUndoAction : UndoItem
 {
 	/**
 	 * The {@link Element} that was removed.
@@ -73,7 +73,7 @@ public class Ease.ElementRemoveUndoAction : UndoItem
 	 *
 	 * @param e The element that was added.
 	 */
-	public ElementRemoveUndoAction(Element e)
+	internal ElementRemoveUndoAction(Element e)
 	{
 		element = e;
 		slide = e.parent;
@@ -85,7 +85,7 @@ public class Ease.ElementRemoveUndoAction : UndoItem
 	 */
 	internal override UndoItem apply()
 	{
-		slide.add_element(index, element);
+		slide.add_actual(index, element, false);
 		return new ElementAddUndoAction(element);
 	}
 }

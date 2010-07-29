@@ -274,7 +274,6 @@ public class Ease.EditorWindow : Gtk.Window
 		if (embed.selected == null) return;
 		
 		var i = slide.index_of(embed.selected.element);
-		add_undo_action(new ElementRemoveUndoAction(slide.element_at(i)));
 		slide.remove_at(i);
 	}
 
@@ -286,9 +285,6 @@ public class Ease.EditorWindow : Gtk.Window
 		                                    slide.height);
 		
 		var index = document.index_of(slide) + 1;
-		
-		// add an undo action
-		add_undo_action(new SlideAddUndoAction(s));
 		
 		document.add_slide(index, s);
 	}
@@ -302,9 +298,6 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		var index = document.index_of(slide) + 1;
 		
-		// add an undo action
-		add_undo_action(new SlideAddUndoAction(s));
-		
 		document.add_slide(index, s);
 	}
 	
@@ -313,9 +306,6 @@ public class Ease.EditorWindow : Gtk.Window
 	{
 		// don't remove the last slide in a document
 		if (document.length < 2) return;
-		
-		// add an undo action
-		add_undo_action(new SlideRemoveUndoAction(slide));
 		
 		// set the slide to something safe
 		slide_button_panel.select_slide(document.remove_slide(slide));
@@ -359,8 +349,7 @@ public class Ease.EditorWindow : Gtk.Window
 		var text = document.theme.create_custom_text();
 		text.x = slide.width / 2 - text.width / 2;
 		text.y = slide.height / 2 - text.height / 2;
-		slide.add(text);
-		add_undo_action(new ElementAddUndoAction(text));
+		slide.append(text);
 		embed.select_element(text);
 	}
 	
@@ -397,8 +386,7 @@ public class Ease.EditorWindow : Gtk.Window
 				e.source_filename = dialog.get_filename();
 				
 				// add the element
-				slide.add(e);
-				add_undo_action(new ElementAddUndoAction(e));
+				slide.append(e);
 				embed.select_element(e);
 			}
 			catch (Error e)
@@ -438,8 +426,7 @@ public class Ease.EditorWindow : Gtk.Window
 				e.source_filename = dialog.get_filename();
 				
 				// add the element
-				slide.add(e);
-				add_undo_action(new ElementAddUndoAction(e));
+				slide.append(e);
 				embed.select_element(e);
 			}
 			catch (Error e)
@@ -458,8 +445,7 @@ public class Ease.EditorWindow : Gtk.Window
 		rect.height = 300;
 		rect.x = document.width / 2 - rect.width / 2;
 		rect.y = document.height / 2 - rect.height / 2;
-		slide.add(rect);
-		add_undo_action(new ElementAddUndoAction(rect));
+		slide.append(rect);
 		embed.select_element(rect);
 	}
 	
@@ -471,8 +457,7 @@ public class Ease.EditorWindow : Gtk.Window
 		oval.height = 300;
 		oval.x = document.width / 2 - oval.width / 2;
 		oval.y = document.height / 2 - oval.height / 2;
-		slide.add(oval);
-		add_undo_action(new ElementAddUndoAction(oval));
+		slide.append(oval);
 		embed.select_element(oval);
 	}
 	
