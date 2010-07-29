@@ -197,6 +197,8 @@ public class Ease.SlideActor : Clutter.Group
 		
 		slide.element_added.connect(on_element_added);
 		slide.element_removed.connect(on_element_removed);
+		
+		slide.element_reordered.connect((s, e) => reorder());
 	}
 	
 	/**
@@ -230,13 +232,7 @@ public class Ease.SlideActor : Clutter.Group
 		contents.lower_child(actor, null);
 		
 		// raise the actor to its proper position
-		int i = 0;
-		Clutter.Actor raise;
-		foreach (var a in contents)
-		{
-			if (i >= index) break;
-			raise = a;
-		}
+		reorder();
 		
 		ease_actor_added(actor as Actor);
 	}
@@ -326,6 +322,25 @@ public class Ease.SlideActor : Clutter.Group
 		
 		background.width = width_px;
 		background.height = height_px;
+	}
+	
+	/**
+	 * Places all {@link Element}s of this SlideActor in the proper order.
+	 */
+	private void reorder()
+	{
+		// TODO: not do this in such an inefficient way
+		foreach (var e in slide)
+		{
+			foreach (var a in contents)
+			{
+				if ((a as Actor).element == e)
+				{
+					a.raise_top();
+					break;
+				}
+			}
+		}
 	}
 
 	/**

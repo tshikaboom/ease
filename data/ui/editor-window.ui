@@ -174,6 +174,43 @@
                     <signal name="activate" handler="ease_editor_window_on_delete"/>
                   </object>
                 </child>
+                <child>
+                  <object class="GtkSeparatorMenuItem" id="separatormenuitem2">
+                    <property name="visible">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuItem" id="raise">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">_Raise</property>
+                    <property name="use_underline">True</property>
+                    <signal name="activate" handler="ease_editor_window_on_raise"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuItem" id="lower">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">_Lower</property>
+                    <property name="use_underline">True</property>
+                    <signal name="activate" handler="ease_editor_window_on_lower"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuItem" id="raise-top">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Raise to _Top</property>
+                    <property name="use_underline">True</property>
+                    <signal name="activate" handler="ease_editor_window_on_raise_top"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuItem" id="lower-bottom">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Lower to _Bottom</property>
+                    <property name="use_underline">True</property>
+                    <signal name="activate" handler="ease_editor_window_on_lower_bottom"/>
+                  </object>
+                </child>
               </object>
             </child>
           </object>
@@ -199,6 +236,7 @@
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">_Video</property>
                     <property name="use_underline">True</property>
+                    <signal name="activate" handler="ease_editor_window_insert_video"/>
                   </object>
                 </child>
                 <child>
@@ -244,7 +282,6 @@
             <property name="visible">True</property>
             <property name="label" translatable="yes">_View</property>
             <property name="use_underline">True</property>
-            <signal name="activate" handler="ease_editor_window_insert_video"/>
             <child type="submenu">
               <object class="GtkMenu" id="menu3">
                 <property name="visible">True</property>

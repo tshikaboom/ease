@@ -516,6 +516,34 @@ public class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
+	public void on_lower(Gtk.Widget sender)
+	{
+		if (embed.selected == null) return;
+		slide.lower(embed.selected.element);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void on_raise(Gtk.Widget sender)
+	{
+		if (embed.selected == null) return;
+		slide.raise(embed.selected.element);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void on_lower_bottom(Gtk.Widget sender)
+	{
+		if (embed.selected == null) return;
+		slide.lower_bottom(embed.selected.element);
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void on_raise_top(Gtk.Widget sender)
+	{
+		if (embed.selected == null) return;
+		slide.raise_top(embed.selected.element);
+	}
+	
+	[CCode (instance_pos = -1)]
 	public void inspector_clicked_handler(Gtk.Widget? sender)
 	{	
 		if (inspector.visible)

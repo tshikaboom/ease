@@ -29,7 +29,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 	/**
 	 * The {@link Element}s contained by this Slide
 	 */
-	internal Gee.ArrayList<Element> elements = new Gee.ArrayList<Element>();
+	internal Gee.LinkedList<Element> elements = new Gee.LinkedList<Element>();
 	
 	/**
 	 * The Slide's transition
@@ -172,6 +172,11 @@ public class Ease.Slide : GLib.Object, UndoSource
 	 * Emitted when an {@link Element} is added to this Slide.
 	 */
 	public signal void element_removed(Slide self, Element element, int index);
+	
+	/**
+	 * Emitted when an {@link Element} is repositioned.
+	 */
+	public signal void element_reordered(Slide self, Element element);
 	
 	/**
 	 * Create a new Slide.
@@ -385,6 +390,80 @@ public class Ease.Slide : GLib.Object, UndoSource
 	public Element element_at(int i)
 	{
 		return elements.get(i);
+	}
+	
+	/**
+	 * Raises the given element up one index. Automatically sends an
+	 * {@link UndoItem}.
+	 */
+	public void raise(Element element)
+	{
+		if (element == elements.last()) return;
+		
+		var index = elements.index_of(element);
+		var temp = elements.get(index + 1);
+		elements.set(index + 1, element);
+		elements.set(index, temp);
+		element_reordered(this, element);
+		undo(new ElementReorderUndoAction(element, index, index + 1));
+	}
+	
+	/**
+	 * Lowers the given element down one index. Automatically sends an
+	 * {@link UndoItem}.
+	 */
+	public void lower(Element element)
+	{
+		if (element == elements.first()) return;
+		
+		var index = elements.index_of(element);
+		var temp = elements.get(index - 1);
+		elements.set(index - 1, element);
+		elements.set(index, temp);
+		element_reordered(this, element);
+		undo(new ElementReorderUndoAction(element, index, index - 1));
+	}
+	
+	/**
+	 * Raises the element to the top. Automatically sends an
+	 * {@link UndoItem}.
+	 */
+	public void raise_top(Element element)
+	{
+		if (element == elements.last()) return;
+		
+		var index = elements.index_of(element);
+		elements.remove(element);
+		elements.offer_tail(element);
+		element_reordered(this, element);
+		undo(new ElementReorderUndoAction(element, index,
+		                                  elements.index_of(element)));
+	}
+	
+	/**
+	 * Lowers the element to the bottom. Automatically sends an
+	 * {@link UndoItem}.
+	 */
+	public void lower_bottom(Element element)
+	{
+		if (element == elements.first()) return;
+		
+		var index = elements.index_of(element);
+		elements.remove(element);
+		elements.offer_head(element);
+		element_reordered(this, element);
+		undo(new ElementReorderUndoAction(element, index,
+		                                  elements.index_of(element)));
+	}
+	
+	/**
+	 * Reorders an Element. Does not create an {@link UndoItem}.
+	 */
+	internal void reorder(Element element, int current, int target)
+	{
+		elements.remove(element);
+		elements.insert(target, element);
+		element_reordered(this, element);
 	}
 	
 	/** 
