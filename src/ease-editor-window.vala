@@ -62,6 +62,21 @@ public class Ease.EditorWindow : Gtk.Window
 	private Inspector inspector;
 	
 	/**
+	 * The main editor widget (embed, inspector, and slide thumbnails)
+	 */
+	private Gtk.Widget editor;
+	
+	/**
+	 * The {@link SlideSorter} for this window.
+	 */
+	private SlideSorter sorter;
+	
+	/**
+	 * The container for the editor or the SlideSorter.
+	 */
+	private Gtk.Bin main_bin;
+	
+	/**
 	 * The {@link UndoController} for this window.
 	 */
 	private UndoController undo;
@@ -95,6 +110,16 @@ public class Ease.EditorWindow : Gtk.Window
 	 * The color selection dialog's widget.
 	 */
 	private Gtk.ColorSelection color_selection;
+	
+	/**
+	 * The Editor radio button.
+	 */
+	private Gtk.RadioMenuItem show_editor;
+	
+	/**
+	 * The Editor radio button.
+	 */
+	private Gtk.RadioMenuItem show_sorter;
 	
 	/**
 	 * The time the document was last saved.
@@ -139,6 +164,12 @@ public class Ease.EditorWindow : Gtk.Window
 		
 		builder.connect_signals(this);
 		add(builder.get_object("Editor Widget") as Gtk.VBox);
+		main_bin = builder.get_object("main-align") as Gtk.Bin;
+		editor = builder.get_object("editor") as Gtk.Widget;
+		show_sorter =
+			builder.get_object("slide-sorter-radio") as Gtk.RadioMenuItem;
+		show_editor =
+			builder.get_object("editor-radio") as Gtk.RadioMenuItem;
 				
 		// slide display
 		slide_button_panel = new SlideButtonPanel(document, this);
@@ -289,6 +320,7 @@ public class Ease.EditorWindow : Gtk.Window
 		document.add_slide(index, s);
 	}
 	
+	[CCode (instance_pos = -1)]
 	public void on_new_slide_menu(Gtk.Widget? sender)
 	{
 		var item = sender as Gtk.MenuItem;
@@ -306,6 +338,14 @@ public class Ease.EditorWindow : Gtk.Window
 	{
 		// don't remove the last slide in a document
 		if (document.length < 2) return;
+		
+		// if the sorter isn't set to null, it must be active
+		if (sorter != null)
+		{
+			var s = sorter.delete_slide();
+			if (s != null) slide_button_panel.select_slide(s);
+			return;
+		}
 		
 		// set the slide to something safe
 		slide_button_panel.select_slide(document.remove_slide(slide));
@@ -425,6 +465,32 @@ public class Ease.EditorWindow : Gtk.Window
 	public void insert_video(Gtk.Widget sender)
 	{
 		
+	}
+	
+	[CCode (instance_pos = -1)]
+	public void set_view(Gtk.Widget sender)
+	{
+		if (show_editor == sender)
+		{
+			if (main_bin.get_child() == editor) return;
+			main_bin.remove(sorter);
+			main_bin.add(editor);
+			sorter = null;
+		}
+		else if (show_sorter == sender)
+		{
+			if (sorter == null) sorter = new SlideSorter(document);
+			if (main_bin.get_child() == sorter) return;
+			main_bin.remove(editor);
+			main_bin.add(sorter);
+			sorter.show_all();
+			
+			// when a slide is clicked in the sorter, switch back here
+			sorter.display_slide.connect((s) => {
+				set_slide(document.index_of(s));
+				show_editor.active = true;
+			});
+		}
 	}
 	
 	[CCode (instance_pos = -1)]

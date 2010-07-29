@@ -48,7 +48,7 @@ public class Ease.Document : GLib.Object, UndoSource
 	/**
 	 * Model column count.
 	 */
-	private const int MODEL_COLS = 2;
+	private const int MODEL_COLS = 3;
 	
 	/**
 	 * Model Slide column.
@@ -59,6 +59,16 @@ public class Ease.Document : GLib.Object, UndoSource
 	 * Model pixbuf column.
 	 */
 	public const int COL_PIXBUF = 1;
+	
+	/**
+	 * Model title column.
+	 */
+	public const int COL_TITLE = 2;
+	
+	/**
+	 * Default slide title.
+	 */
+	private const string DEFAULT_TITLE = _("Slide %i");
 
 	/**
 	 * The {@link Theme} linked to this Document.
@@ -96,7 +106,8 @@ public class Ease.Document : GLib.Object, UndoSource
 	 */
 	public IterableListStore slides = new IterableListStore(
 		{ typeof(Slide),
-		  typeof(Gdk.Pixbuf) });
+		  typeof(Gdk.Pixbuf),
+		  typeof(string) });
 	
 	/**
 	 * The number of {@link Slide}s in the Document.
@@ -235,6 +246,7 @@ public class Ease.Document : GLib.Object, UndoSource
 		Gtk.TreeIter itr;
 		slides.insert(out itr, index);
 		slides.set(itr, COL_SLIDE, slide);
+		slides.set(itr, COL_TITLE, DEFAULT_TITLE.printf(index));
 		slide_added(slide, index);
 		listen(slide);
 		

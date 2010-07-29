@@ -286,6 +286,31 @@
               <object class="GtkMenu" id="menu3">
                 <property name="visible">True</property>
                 <child>
+                  <object class="GtkRadioMenuItem" id="editor-radio">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Editor</property>
+                    <property name="use_underline">True</property>
+                    <property name="active">True</property>
+                    <property name="draw_as_radio">True</property>
+                    <signal name="activate" handler="ease_editor_window_set_view"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkRadioMenuItem" id="slide-sorter-radio">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Slide Sorter</property>
+                    <property name="use_underline">True</property>
+                    <property name="draw_as_radio">True</property>
+                    <property name="group">editor-radio</property>
+                    <signal name="activate" handler="ease_editor_window_set_view"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkSeparatorMenuItem" id="menuitem5">
+                    <property name="visible">True</property>
+                  </object>
+                </child>
+                <child>
                   <object class="GtkImageMenuItem" id="Zoom In">
                     <property name="label">gtk-zoom-in</property>
                     <property name="visible">True</property>
@@ -494,46 +519,51 @@
       </packing>
     </child>
     <child>
-      <object class="GtkHBox" id="HBox">
+      <object class="GtkAlignment" id="main-align">
         <property name="visible">True</property>
         <child>
-          <object class="GtkAlignment" id="Slides Align">
-            <property name="visible">True</property>
-            <property name="right_padding">4</property>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkAlignment" id="Embed Align">
+          <object class="GtkHBox" id="editor">
             <property name="visible">True</property>
             <child>
-              <placeholder/>
+              <object class="GtkAlignment" id="Slides Align">
+                <property name="visible">True</property>
+                <property name="right_padding">4</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
             </child>
-          </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkAlignment" id="Inspector Align">
-            <property name="visible">True</property>
-            <property name="left_padding">4</property>
             <child>
-              <placeholder/>
+              <object class="GtkAlignment" id="Embed Align">
+                <property name="visible">True</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkAlignment" id="Inspector Align">
+                <property name="visible">True</property>
+                <property name="left_padding">4</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">2</property>
+              </packing>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">2</property>
-          </packing>
         </child>
       </object>
       <packing>

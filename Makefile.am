@@ -22,6 +22,7 @@ ease_SOURCES = \
 	src/ease-selection-rectangle.vala \
 	src/ease-slide-actor.vala \
 	src/ease-slide-button-panel.vala \
+	src/ease-slide-sorter.vala \
 	src/ease-welcome-actor.vala \
 	src/ease-welcome-window.vala
 
