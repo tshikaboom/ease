@@ -38,7 +38,7 @@ public class Ease.ElementAddUndoAction : UndoItem
 	/**
 	 * Applies the action, removing the {@link Element}.
 	 */
-	public override UndoItem apply()
+	internal override UndoItem apply()
 	{
 		var action = new ElementRemoveUndoAction(element);
 		element.parent.remove_element(element);
@@ -83,11 +83,63 @@ public class Ease.ElementRemoveUndoAction : UndoItem
 	/**
 	 * Applies the action, restoring the {@link Element}.
 	 */
-	public override UndoItem apply()
+	internal override UndoItem apply()
 	{
 		slide.add_element(index, element);
 		return new ElementAddUndoAction(element);
 	}
 }
 
+internal class Ease.ElementReorderUndoAction : UndoItem
+{
+	/**
+	 * The {@link Element} that was reordered.
+	 */
+	private Element element;
+	
+	/**
+	 * The {@link Slide} that the Element was reordered on.
+	 */
+	private Slide slide;
+	
+	/**
+	 * The original index of the Element.
+	 */
+	private int index_orig;
+	
+	/**
+	 * The new index of the Element.
+	 */
+	private int index_current;
+	
+	/**
+	 * Creates an ElementReorderUndoAction.
+	 *
+	 * @param e The element that was added.
+	 * @param orig The original index of the element.
+	 * @param current The new index of the element.
+	 */
+	internal ElementReorderUndoAction(Element e, int orig, int current)
+	{
+		element = e;
+		slide = e.parent;
+		index_orig = orig;
+		index_current = current;
+	}
+	
+	/**
+	 * Applies the action, restoring the {@link Element}.
+	 */
+	internal override UndoItem apply()
+	{
+		slide.reorder(element, index_current, index_orig);
+		
+		// swap the indicies, return the same undoitem
+		var temp = index_current;
+		index_orig = index_current;
+		index_current = temp;
+		
+		return this;
+	}
+}
 

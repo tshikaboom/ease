@@ -84,6 +84,7 @@ public class Ease.UndoController : Object
 	 */
 	public void add_action(UndoItem action)
 	{
+		debug("adding an action");
 		undos.offer_head(action);
 	}
 	
@@ -94,6 +95,7 @@ public class Ease.UndoController : Object
 	 */
 	private void add_redo_action(UndoItem action)
 	{
+		debug("adding a redo action");
 		redos.offer_head(action);
 	}
 }
