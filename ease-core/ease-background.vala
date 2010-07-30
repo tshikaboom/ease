@@ -83,7 +83,7 @@ public class Ease.Background : GLib.Object
 			image.source =
 				obj.get_string_member(Theme.BACKGROUND_IMAGE_SOURCE);
 			image.fill = ImageFillType.from_string(
-				obj.get_string_member(Theme.BACKGROUND_IMAGE_SOURCE));
+				obj.get_string_member(Theme.BACKGROUND_IMAGE_FILL));
 		}
 		if (obj.has_member(Theme.BACKGROUND_COLOR))
 		{
