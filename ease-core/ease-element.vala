@@ -142,6 +142,14 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	}
 	
 	/**
+	 * Requests that the presentation be advanced a slide.
+	 */
+	internal void request_advance()
+	{
+		parent.request_advance(this);
+	}
+	
+	/**
 	 * Creates the actual HTML markup for this Element.
 	 *
 	 * @param html The HTML string in its current state.

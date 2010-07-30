@@ -52,7 +52,20 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	/**
 	 * The currently selected {@link Actor}.
 	 */
-	internal Actor selected { get; private set; }
+	internal Actor selected
+	{
+		get { return selected_priv; }
+		private set
+		{
+			if (selected_priv != null)
+			{
+				selected_priv.notify.disconnect(on_selected_notify);
+			}
+			selected_priv = value;
+			if (value != null) value.notify.connect(on_selected_notify);
+		}
+	}
+	private Actor selected_priv;
 	
 	/**
 	 * If the selected {@link Actor} is being edited.
@@ -571,8 +584,6 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 			mouse_x = event.x;
 			mouse_y = event.y;
 			
-			position_selection();
-			
 			selected.element.changed();
 		}
 		return true;
@@ -679,8 +690,6 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		mouse_x = event.x;
 		mouse_y = event.y;
 		
-		position_selection();
-		
 		selected.element.changed();
 		
 		return true;
@@ -738,7 +747,6 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 				undo(new UndoAction(selected.element, "y"));
 				selected.translate(0, shift ?
 				                      -NUDGE_SHIFT_PIXELS : -NUDGE_PIXELS);
-				position_selection();			
 				selected.element.changed();
 				return true;
 			
@@ -749,7 +757,6 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 				undo(new UndoAction(selected.element, "y"));
 				selected.translate(0, shift ?
 				                      NUDGE_SHIFT_PIXELS : NUDGE_PIXELS);
-				position_selection();			
 				selected.element.changed();
 				return true;
 				
@@ -760,7 +767,6 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 				undo(new UndoAction(selected.element, "x"));
 				selected.translate(shift ?
 				                   -NUDGE_SHIFT_PIXELS : -NUDGE_PIXELS, 0);
-				position_selection();			
 				selected.element.changed();
 				return true;
 			
@@ -771,7 +777,6 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 				undo(new UndoAction(selected.element, "x"));
 				selected.translate(shift ?
 				                   NUDGE_SHIFT_PIXELS : NUDGE_PIXELS, 0);
-				position_selection();			
 				selected.element.changed();
 				return true;
 			
@@ -817,6 +822,24 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		if (!keys_connected) return;
 		keys_connected = false;
 		key_press_event.disconnect(on_key_press_event);
+	}
+	
+	/**
+	 * Notifies of changes to the selected actor.
+	 */
+	internal void on_selected_notify(GLib.Object object, GLib.ParamSpec pspec)
+	{
+		if (selection_rectangle == null) return;
+		
+		switch (pspec.name)
+		{
+			case "x":
+			case "y":
+			case "width":
+			case "height":
+				position_selection();
+				break;
+		}
 	}
 }
 

@@ -88,6 +88,18 @@ public abstract class Ease.Actor : Clutter.Group
 			editor_rect.height = e.height;
 			add_actor(editor_rect);
 		}
+		
+		// update the actor's position when changed in the element
+		e.notify["x"].connect((o, p) => x = element.x);
+		e.notify["y"].connect((o, p) => y = element.y);
+		e.notify["width"].connect((o, p) => {
+			width = element.width;
+			contents.width = element.width;
+		});
+		e.notify["height"].connect((o, p) => {
+			height = element.height;
+			contents.height = element.height;
+		});
 	}
 	
 	/**

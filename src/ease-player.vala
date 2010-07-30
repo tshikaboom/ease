@@ -244,6 +244,7 @@ internal class Ease.Player : GLib.Object
 		if (slide_index == 0)
 		{
 			create_current_slide(slide);
+			slide.request_advance.connect(on_request_advance);
 			current_slide.stack(container);
 			current_slide.opacity = 0;
 			current_slide.animate(Clutter.AnimationMode.EASE_IN_SINE,
@@ -259,8 +260,10 @@ internal class Ease.Player : GLib.Object
 		// otherwise, animate as usual
 		else
 		{
+			old_slide.slide.request_advance.disconnect(on_request_advance);
 			old_slide = current_slide;
 			create_current_slide(slide);
+			slide.request_advance.connect(on_request_advance);
 			container.add_actor(current_slide);
 			
 			if (old_slide.slide.transition_time > 0)
@@ -321,5 +324,15 @@ internal class Ease.Player : GLib.Object
 			});
 			advance_alarm.start();
 		}
+	}
+	
+	/**
+	 * This is requested by video actors that have finished playing. As the
+	 * calling function is on Slide, element plugins should never be aware
+	 * that this functionality exists.
+	 */
+	private void on_request_advance(Element element)
+	{
+		advance();
 	}
 }

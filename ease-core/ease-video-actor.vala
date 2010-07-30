@@ -60,7 +60,7 @@ public class Ease.VideoActor : Actor, Clutter.Media
 	/**
 	 * Easing for the button fadeout.
 	 */
-	private const int ALPHA_OPACITY = Clutter.AnimationMode.LINEAR;
+	private const Clutter.AnimationMode ALPHA_OPACITY = Clutter.AnimationMode.LINEAR;
 	
 	/**
 	 * Easing for the button scale out.
@@ -105,6 +105,10 @@ public class Ease.VideoActor : Actor, Clutter.Media
 		// play the video if it's in the presentation
 		if (c == ActorContext.PRESENTATION)
 		{
+			// mute the video if requested
+			set_audio_volume(e.mute ? 0 : 1);
+			
+			// if the video should automatically play, play it
 			if (e.play_auto)
 			{
 				video.set_playing(true);
@@ -141,10 +145,27 @@ public class Ease.VideoActor : Actor, Clutter.Media
 					                  "opacity", 255);
 				return true;
 			});
+			
+			// perform the video's end action when requested
+			video.eos.connect((v) => {
+				switch ((element as VideoElement).end_action)
+				{
+					case VideoEndAction.STOP:
+						break;
+					case VideoEndAction.LOOP:
+						set_progress(0);
+						video.set_playing(true);
+						break;
+					case VideoEndAction.CONTINUE:
+						element.request_advance();
+						break;
+				}
+			});
 		}
 		else
 		{
 			// FIXME: toggle playback to get a frame
+			set_audio_volume(0);
 			video.set_playing(true);
 			video.set_playing(false);
 		}
@@ -183,7 +204,7 @@ public class Ease.VideoActor : Actor, Clutter.Media
 		cr.line_to(e.width, 0);
 		cr.line_to(0, e.height);
 		cr.close_path();
-		cr.set_source_rgba(0, 0, 0, 0.8);
+		cr.set_source_rgba(0, 0, 0, 0.7);
 		cr.fill();
 		
 		// create the action button

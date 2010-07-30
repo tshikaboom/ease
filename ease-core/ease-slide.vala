@@ -120,6 +120,11 @@ public class Ease.Slide : GLib.Object, UndoSource
 	public int count { get { return elements.size; } }
 	
 	/**
+	 * Requests that the player advance past this Slide.
+	 */
+	public signal void request_advance(Element sender);
+	
+	/**
 	 * The next Slide in this Slide's {@link Document}.
 	 */
 	public Slide? next

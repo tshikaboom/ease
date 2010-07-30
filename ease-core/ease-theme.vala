@@ -109,6 +109,13 @@ public class Ease.Theme : GLib.Object
 	
 	// video properties
 	public const string VIDEO_PLAY_AUTO = "video-play-automatically";
+	public const string VIDEO_MUTE = "video-mute";
+	public const string VIDEO_END_ACTION = "video-end-action";
+	
+	// video end actions
+	public const string VIDEO_END_STOP = "video-end-stop";
+	public const string VIDEO_END_LOOP = "video-end-loop";
+	public const string VIDEO_END_CONTINUE = "video-end-continue";
 	
 	// generic element properties
 	public const string E_IDENTIFIER = "element-identifier";
