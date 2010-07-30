@@ -131,7 +131,7 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	 * The shade factor of the EditorEmbed's background relative to typical
 	 * GTK background color.
 	 */
-	private const double SHADE_FACTOR = 0.9;
+	private const double SHADE_FACTOR = 0.85;
 	
 	/**
 	 * The size of the handles[] array.
@@ -211,17 +211,9 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		get_stage().use_fog = false;
 		
 		// set the background to a faded version of the normal gtk background
-		Clutter.Color out_color;
-		var color = theme_color(BG_COLOR);
-		if (color == null)
-		{
-			out_color = { 150, 150, 150, 255 };
-			out_color.shade(SHADE_FACTOR, out out_color);
-		}
-		else
-		{
-			out_color = Transformations.gdk_color_to_clutter_color(color);
-		}
+		Clutter.Color out_color, color;
+		GtkClutter.get_bg_color(this, Gtk.StateType.NORMAL, out color);
+		color.shade(SHADE_FACTOR, out out_color);
 		
 		get_stage().color = out_color;
 		
