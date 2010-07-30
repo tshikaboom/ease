@@ -4,6 +4,10 @@ desktopdir = $(datadir)/applications
 desktop_in_files = ease.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
+# install an icon for the app
+appicondir = $(datadir)/icons/hicolor/scalable/apps
+appicon_DATA = icons/hicolor/scalable/apps/ease.svg
+
 svgdir = $(datadir)/ease/svg
 svg_DATA = $(wildcard $(top_srcdir)/data/svg/*.svg)
 
@@ -35,6 +39,7 @@ whitedir = $(datadir)/ease/themes/White
 white_DATA = themes/White/Theme.json
 
 EXTRA_DIST = \
+    $(appicon_DATA) \
     $(ui_DATA) \
     $(svg_DATA) \
     $(desktop_in_files) \
@@ -46,4 +51,3 @@ EXTRA_DIST = \
     $(green_DATA) \
     $(red_DATA) \
     $(white_DATA)
-
