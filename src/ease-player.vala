@@ -21,7 +21,7 @@
  * The Ease Player uses ClutterGtk to create a stage floated in the center
  * of a fullscreen Gtk.Window.
  */
-internal class Ease.Player : GLib.Object
+internal class Ease.Player : Gtk.Window
 {
 	internal Document document { get; set; }
 	internal int slide_index { get; set; }
@@ -60,7 +60,8 @@ internal class Ease.Player : GLib.Object
 		document = doc;
 		slide_index = -1;
 		
-		stage = new Clutter.Stage ();
+		var embed = new GtkClutter.Embed();
+		stage = embed.get_stage() as Clutter.Stage;
 		stage.width = document.width * scale;
 		stage.height = document.height * scale;
 		stage.title = _("Ease Presentation");
@@ -136,9 +137,22 @@ internal class Ease.Player : GLib.Object
 		container.scale_y = scale;
 		
 		// start the presentation
-		stage.show_all ();
-		stage.set_fullscreen (true);
-
+		stage.show_all();
+		
+		var align = new Gtk.Alignment(0.5f, 0.5f, 0, 0);
+		embed.set_size_request(document.width, document.height);
+		
+		// set background colors to black
+		align.modify_bg(Gtk.StateType.NORMAL, Color.black.gdk);
+		modify_bg(Gtk.StateType.NORMAL, Color.black.gdk);
+		
+		// build window
+		align.add(embed);
+		add(align);
+		fullscreen();
+		show_all();
+		present();
+		
 		can_animate = true;
 		advance();
 	}
@@ -199,13 +213,14 @@ internal class Ease.Player : GLib.Object
 			debug ("Quitting player.");
 			stage.hide ();
 			break;
-		case 0xff53:
+		case Key.RIGHT:
+		case Key.DOWN:
 			// Right arrow
 			debug ("Advancing to next slide.");
 			advance ();
 			break;
-		case 0xff51:
-			// Left arrow
+		case Key.LEFT:
+		case Key.UP:
 			debug ("Retreating to previous slide");
 			retreat ();
 			break;
@@ -233,8 +248,8 @@ internal class Ease.Player : GLib.Object
 		slide_index++;
 		if (slide_index == document.slides.size) // slideshow complete
 		{
-			stage.hide_all();
 			complete();
+			hide_all();
 			return;
 		}
 		

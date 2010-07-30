@@ -353,9 +353,7 @@ internal class Ease.EditorWindow : Gtk.Window
 	
 	[CCode (instance_pos = -1)]
 	internal void play_handler(Gtk.Widget sender)
-	{
-		hide();
-		
+	{		
 		player = new Player(document);
 		
 		player.complete.connect(() => {
@@ -363,6 +361,8 @@ internal class Ease.EditorWindow : Gtk.Window
 			show();
 			present();
 		});
+		
+		hide();
 	}
 	
 	[CCode (instance_pos = -1)]
