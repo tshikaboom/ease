@@ -227,6 +227,7 @@ internal class Ease.WelcomeActor : Clutter.Group
 		
 		foreach (var element in slide)
 		{
+			element.has_been_edited = true;
 			switch (element.identifier)
 			{
 				case Theme.TITLE_TEXT:

@@ -22,6 +22,7 @@ public class Ease.TextElement : Element
 {
 	private const string UI_FILE_PATH = "inspector-element-text.ui";
 	private bool freeze = false;
+	private const string DEFAULT_TEXT = _("Double click to edit");
 	
 	/**
 	 * Creates a new TextElement.
@@ -234,10 +235,12 @@ public class Ease.TextElement : Element
 	 * Renders a text Element with Cairo.
 	 */
 	public override void cairo_render(Cairo.Context context) throws Error
-	{	
+	{
+		var t = display_text;
+		
 		// create the layout
 		var layout = Pango.cairo_create_layout(context);
-		layout.set_text(text, (int)text.length);
+		layout.set_text(t, (int)t.length);
 		layout.set_width((int)(width * Pango.SCALE));
 		layout.set_height((int)(height * Pango.SCALE));
 		layout.set_font_description(font_description);
@@ -246,7 +249,6 @@ public class Ease.TextElement : Element
 		// render
 		color.set_cairo(context);
 		Pango.cairo_update_layout(context, layout);
-//		context.move_to((int)x, (int)y);
 		Pango.cairo_show_layout(context, layout);
 	}
 	
@@ -254,6 +256,18 @@ public class Ease.TextElement : Element
 	 * The text value of this Element.
 	 */
 	public string text { get; set; }
+	
+	/**
+	 * Gets the text this Element should display. This might not be the same as
+	 * {@link text}.
+	 */
+	public string display_text
+	{
+		get
+		{
+			return has_been_edited || text.length > 0 ? text : DEFAULT_TEXT;
+		}
+	}
 	
 	/**
 	 * The color of the text.

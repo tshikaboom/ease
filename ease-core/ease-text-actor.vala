@@ -23,11 +23,6 @@
 public class Ease.TextActor : Actor
 {
 	/**
-	 * The text shown for unedited Elements.
-	 */
-	private const string DEFAULT_TEXT = _("Double Click to Edit");
-	
-	/**
 	 * The opacity of the selection highlight.
 	 */
 	private const uchar SELECTION_ALPHA = 200;
@@ -64,7 +59,7 @@ public class Ease.TextActor : Actor
 		text.color = e.color.clutter;
 		text.line_alignment = e.text_align;
 		text.font_name = e.font_description.to_string();
-		text.set_markup(e.has_been_edited ? e.text : DEFAULT_TEXT);
+		text.set_markup(e.display_text);
 		
 		add_actor(contents);
 		contents.width = e.width;
@@ -92,7 +87,7 @@ public class Ease.TextActor : Actor
 		e.notify["text"].connect((sender, spec) => {
 			if (!text.editable)
 			{
-				text.set_markup(e.has_been_edited ? e.text : DEFAULT_TEXT);
+				text.set_markup((element as TextElement).display_text);
 			}
 		});
 	}
@@ -158,7 +153,7 @@ public class Ease.TextActor : Actor
 		// if the text has not been edited, restore default text
 		if (text.text == "" && !element.has_been_edited)
 		{
-			text.text = DEFAULT_TEXT;
+			text.text = (element as TextElement).display_text;
 		}
 		else // otherwise, the element has been edited
 		{
