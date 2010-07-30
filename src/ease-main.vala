@@ -48,7 +48,11 @@ internal class Ease.Main : GLib.Object
 	 * @param args Program arguments.
 	 */
 	internal static int main(string[] args)
-	{	
+	{
+		// set application name and icon
+		Environment.set_application_name("Ease");
+		Gtk.Window.set_default_icon_name("ease");
+		
 		// parse command line options
 		var context = new OptionContext(_(" - a presentation editor"));
 		
