@@ -2,6 +2,7 @@
 _Name=Ease presentation editor
 _Comment=Create nice and elegant presentations
 Exec=ease
+Icon=ease
 Type=Application
 Categories=Office;
 Terminal=false
