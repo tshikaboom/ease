@@ -7,9 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-13 20:19-0500\n"
-"PO-Revision-Date: 2010-06-27 11:26+0200\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=ease&component=general\n"
+"POT-Creation-Date: 2010-07-16 05:11+0000\n"
+"PO-Revision-Date: 2010-07-31 11:07+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -27,20 +28,20 @@ msgstr "Editor de presentaciones Ease"
 
 #: ../src/ease-about-dialog.vala:48
 msgid "A presentation application for the GNOME Desktop"
-msgstr ""
+msgstr "Una aplicación de presentaciones para el Escritorio GNOME"
 
 #: ../src/ease-about-dialog.vala:58
 msgid "Mario Blättermann"
-msgstr ""
+msgstr "Mario Blättermann"
 
 #: ../src/ease-close-confirm-dialog.vala:38
 msgid "Save before closing?"
-msgstr ""
+msgstr "¿Guardar antes de cerrar?"
 
 #. buttons
 #: ../src/ease-close-confirm-dialog.vala:77
 msgid "Close _without Saving"
-msgstr ""
+msgstr "Cerrar _sin guardar"
 
 #: ../src/ease-close-confirm-dialog.vala:96
 #, c-format
@@ -103,41 +104,36 @@ msgstr[1] ""
 #: ../src/ease-close-confirm-dialog.vala:132
 #, c-format
 msgid "Save changes to \"%s\" before closing?"
-msgstr ""
+msgstr "¿Guardar cambios en «%s» antes de cerrar?"
 
 #: ../src/ease-document.vala:152
-#, fuzzy
 msgid "Error exporting as HTML"
-msgstr "Exportando como HTML"
+msgstr "Error al exportar como HTML"
 
 #: ../src/ease-editor-window.vala:167
-#, fuzzy
 msgid "Untitled Document"
-msgstr "Sin documento"
+msgstr "Documento sin título"
 
 #: ../src/ease-editor-window.vala:279
 msgid "Insert Image"
-msgstr ""
+msgstr "Insertar imagen"
 
 #: ../src/ease-editor-window.vala:312
-#, fuzzy
 msgid "Error Inserting Image"
-msgstr "Error al exportar: %s"
+msgstr "Error al insertar la imagen"
 
 #: ../src/ease-editor-window.vala:342
-#, fuzzy
 msgid "Save Document"
-msgstr "Sin documento"
+msgstr "Guardar documento"
 
 #: ../src/ease-editor-window.vala:373
-#, fuzzy
 msgid "Error Saving Document"
-msgstr "Error al guardar"
+msgstr "Error al guardar el documento"
 
 #. create the dialog
 #: ../src/ease-editor-window.vala:421
 msgid "Select Color"
-msgstr ""
+msgstr "Seleccionar color"
 
 #: ../src/ease-html-exporter.vala:69
 msgid "Export to HTML"
@@ -152,28 +148,25 @@ msgid "Error Copying File"
 msgstr "Error al copiar el archivo"
 
 #: ../src/ease-image-actor.vala:47
-#, fuzzy, c-format
+#, c-format
 msgid "Error loading ImageActor: %s\n"
-msgstr "Error al cargar ImageActor: %s"
+msgstr "Error al cargar ImageActor: %s\n"
 
 #: ../src/ease-open-dialog.vala:49
 msgid "Open File"
 msgstr "Abrir archivo"
 
 #: ../src/ease-pdf-exporter.vala:33
-#, fuzzy
 msgid "Export to PDF"
-msgstr "Exportar a HTML"
+msgstr "Exportar a PDF"
 
 #: ../src/ease-pdf-exporter.vala:73
-#, fuzzy
 msgid "Error Exporting to PDF"
-msgstr "Error al exportar"
+msgstr "Error al exportar a PDF"
 
 #: ../src/ease-player.vala:64
-#, fuzzy
 msgid "Ease Presentation"
-msgstr "Presentación nueva"
+msgstr "Presentación Ease"
 
 #: ../src/ease-slide-actor.vala:265
 #, c-format
@@ -188,7 +181,12 @@ msgstr "Efecto"
 msgid "Duration"
 msgstr "Duración"
 
-#: ../src/ease-temp.vala:209
+#: ../src/ease-temp.vala:157
+#, c-format
+msgid "Temporary directory doesn't exist: %s"
+msgstr ""
+
+#: ../src/ease-temp.vala:260
 #, c-format
 msgid "Directory to remove doesn't exist: %s"
 msgstr ""
@@ -391,15 +389,13 @@ msgstr ": Un editor de presentaciones"
 msgid "error parsing options: %s\n"
 msgstr "error al analizar las opciones: %s\n"
 
-#: ../src/main.vala:122
-#, fuzzy
+#: ../src/main.vala:120
 msgid "Error Playing Document"
-msgstr "Sin documento"
+msgstr "Error al reproducir el documento"
 
-#: ../src/main.vala:167
-#, fuzzy
+#: ../src/main.vala:165
 msgid "Error Opening Document"
-msgstr "Sin documento"
+msgstr "Error al abrir el documento"
 
 #~ msgid "File"
 #~ msgstr "Archivo"
