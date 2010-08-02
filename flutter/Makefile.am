@@ -19,8 +19,6 @@ libflutter_0_3_la_VALAFLAGS = \
 	--vapi=../vapi/flutter-0.3.vapi \
 	--header=flutter.h \
 	--thread \
-	--library Flutter-0.3 \
-	--gir=Flutter-0.3.gir \
 	-g \
 	$(NULL)
 
@@ -37,16 +35,10 @@ flutter_include_HEADERS = flutter.h
 vapidir = $(datadir)/vala/vapi
 vapi_DATA = ../vapi/flutter-0.3.vapi ../vapi/flutter-0.3.deps
 
-# gir installation
-girdir = $(datadir)/gir-1.0
-gir_DATA = Flutter-0.3.gir
-EXTRA_DIST = Flutter-0.3.gir
-
 # remove generated files on `make clean`
 CLEANFILES = \
 	flutter.c \
 	../vapi/flutter-0.3.vapi \
-	Flutter-0.3.gir \
 	flutter.h \
 	libflutter_0_3_la-flutter.lo
 
