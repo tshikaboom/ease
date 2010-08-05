@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-07-16 05:11+0000\n"
-"PO-Revision-Date: 2010-07-31 11:07+0200\n"
+"POT-Creation-Date: 2010-07-21 13:07+0000\n"
+"PO-Revision-Date: 2010-08-05 15:15+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -50,12 +50,16 @@ msgid ""
 msgid_plural ""
 "If you don't save, changes from the last %i seconds will be permanently lost."
 msgstr[0] ""
+"Si no guarda, se perderán permanentemente los cambios del último segundo."
 msgstr[1] ""
+"Si no guarda, se perderán permanentemente los cambios de los últimos %i "
+"segundo."
 
 #: ../src/ease-close-confirm-dialog.vala:100
 msgid ""
 "If you don't save, changes from the last minute will be permanently lost."
 msgstr ""
+"Si no guarda, se perderán permanentemente los cambios del último minuto."
 
 #: ../src/ease-close-confirm-dialog.vala:104
 #, c-format
@@ -66,7 +70,11 @@ msgid_plural ""
 "If you don't save, changes from the last minute and %i seconds will be "
 "permanently lost."
 msgstr[0] ""
+"Si no guarda, se perderán permanentemente los cambios del último minuto y %i "
+"segundo."
 msgstr[1] ""
+"Si no guarda, se perderán permanentemente los cambios del último minuto y %i "
+"segundos."
 
 #: ../src/ease-close-confirm-dialog.vala:108
 #, c-format
@@ -75,11 +83,14 @@ msgid ""
 msgid_plural ""
 "If you don't save, changes from the last %i minutes will be permanently lost."
 msgstr[0] ""
+"Si no guarda, se perderán permanentemente los cambios del último %i minuto."
 msgstr[1] ""
+"Si no guarda, se perderán permanentemente los cambios de los últimos %i."
 
 #: ../src/ease-close-confirm-dialog.vala:115
 msgid "If you don't save, changes from the last hour will be permanently lost."
 msgstr ""
+"Si no guarda, se perderán permanentemente los cambios de la última hora."
 
 #: ../src/ease-close-confirm-dialog.vala:117
 #, c-format
@@ -90,7 +101,8 @@ msgid_plural ""
 "If you don't save, changes from the last hour and %i minutes will be "
 "permanently lost."
 msgstr[0] ""
-msgstr[1] ""
+"Si no guarda, se perderán permanentemente los cambios de la última hora y %i "
+"minuto."
 
 #: ../src/ease-close-confirm-dialog.vala:121
 #, c-format
@@ -99,7 +111,10 @@ msgid ""
 msgid_plural ""
 "If you don't save, changes from the last %i hours will be permanently lost."
 msgstr[0] ""
+"Si no guarda, se perderán permanentemente los cambios de la última hora."
 msgstr[1] ""
+"Si no guarda, se perderán permanentemente los cambios de las últimas %i "
+"horas."
 
 #: ../src/ease-close-confirm-dialog.vala:132
 #, c-format
@@ -181,22 +196,22 @@ msgstr "Efecto"
 msgid "Duration"
 msgstr "Duración"
 
-#: ../src/ease-temp.vala:157
+#: ../src/ease-temp.vala:154
 #, c-format
 msgid "Temporary directory doesn't exist: %s"
-msgstr ""
+msgstr "La carpeta temporal no existe: %s"
 
-#: ../src/ease-temp.vala:260
+#: ../src/ease-temp.vala:257
 #, c-format
 msgid "Directory to remove doesn't exist: %s"
-msgstr ""
+msgstr "No existe la carpeta para quitar: %s"
 
 #. *
 #. * The text shown for unedited Elements.
 #.
 #: ../src/ease-text-actor.vala:28
 msgid "Double Click to Edit"
-msgstr ""
+msgstr "Pulsar dos veces para editar"
 
 #: ../src/ease-transition-pane.vala:95
 msgid "Direction"
@@ -236,7 +251,7 @@ msgstr "Soltar"
 
 #: ../src/ease-transitions.vala:112
 msgid "Pivot"
-msgstr ""
+msgstr "Pivotar"
 
 #: ../src/ease-transitions.vala:114
 msgid "Flip"
@@ -256,11 +271,11 @@ msgstr "Caída"
 
 #: ../src/ease-transitions.vala:122
 msgid "Slats"
-msgstr ""
+msgstr "Tablillas"
 
 #: ../src/ease-transitions.vala:124
 msgid "Open Door"
-msgstr ""
+msgstr "Abrir puerta"
 
 #: ../src/ease-transitions.vala:126
 msgid "Zoom"
@@ -272,7 +287,7 @@ msgstr "Panel"
 
 #: ../src/ease-transitions.vala:130
 msgid "Spin Contents"
-msgstr ""
+msgstr "Girar contenido"
 
 #: ../src/ease-transitions.vala:132
 msgid "Spring Contents"
@@ -292,7 +307,7 @@ msgstr "Ampliar contenido"
 
 #: ../src/ease-transitions.vala:140 ../src/ease-transitions.vala:188
 msgid "Undefined"
-msgstr ""
+msgstr "Indefinido"
 
 #: ../src/ease-transitions.vala:154
 msgid "Up"
@@ -316,7 +331,7 @@ msgstr "Abajo"
 
 #: ../src/ease-transitions.vala:164
 msgid "Top"
-msgstr ""
+msgstr "Arriba"
 
 #: ../src/ease-transitions.vala:166
 msgid "Center"
@@ -377,7 +392,7 @@ msgstr "%i por %i"
 
 #: ../src/ease-welcome-window.vala:295
 msgid "Error creating new document"
-msgstr ""
+msgstr "Error al crear el nuevo documento"
 
 #. parse command line options
 #: ../src/main.vala:60
