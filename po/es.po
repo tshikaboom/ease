@@ -50,16 +50,16 @@ msgid ""
 msgid_plural ""
 "If you don't save, changes from the last %i seconds will be permanently lost."
 msgstr[0] ""
-"Si no guarda, se perderán permanentemente los cambios del último segundo."
+"Si no guarda, se perderán permanentemente los cambios del último segundo."
 msgstr[1] ""
-"Si no guarda, se perderán permanentemente los cambios de los últimos %i "
+"Si no guarda, se perderán permanentemente los cambios de los últimos %i "
 "segundo."
 
 #: ../src/ease-close-confirm-dialog.vala:100
 msgid ""
 "If you don't save, changes from the last minute will be permanently lost."
 msgstr ""
-"Si no guarda, se perderán permanentemente los cambios del último minuto."
+"Si no guarda, se perderán permanentemente los cambios del último minuto."
 
 #: ../src/ease-close-confirm-dialog.vala:104
 #, c-format
@@ -70,10 +70,10 @@ msgid_plural ""
 "If you don't save, changes from the last minute and %i seconds will be "
 "permanently lost."
 msgstr[0] ""
-"Si no guarda, se perderán permanentemente los cambios del último minuto y %i "
+"Si no guarda, se perderán permanentemente los cambios del último minuto y %i "
 "segundo."
 msgstr[1] ""
-"Si no guarda, se perderán permanentemente los cambios del último minuto y %i "
+"Si no guarda, se perderán permanentemente los cambios del último minuto y %i "
 "segundos."
 
 #: ../src/ease-close-confirm-dialog.vala:108
@@ -85,12 +85,12 @@ msgid_plural ""
 msgstr[0] ""
 "Si no guarda, se perderán permanentemente los cambios del último %i minuto."
 msgstr[1] ""
-"Si no guarda, se perderán permanentemente los cambios de los últimos %i."
+"Si no guarda, se perderán permanentemente los cambios de los últimos %i minutos."
 
 #: ../src/ease-close-confirm-dialog.vala:115
 msgid "If you don't save, changes from the last hour will be permanently lost."
 msgstr ""
-"Si no guarda, se perderán permanentemente los cambios de la última hora."
+"Si no guarda, se perderán permanentemente los cambios de la última hora."
 
 #: ../src/ease-close-confirm-dialog.vala:117
 #, c-format
@@ -101,8 +101,11 @@ msgid_plural ""
 "If you don't save, changes from the last hour and %i minutes will be "
 "permanently lost."
 msgstr[0] ""
-"Si no guarda, se perderán permanentemente los cambios de la última hora y %i "
+"Si no guarda, se perderán permanentemente los cambios de la última hora y %i "
 "minuto."
+msgstr[1] ""
+"Si no guarda, se perderán permanentemente los cambios de la última hora y %i "
+"minutos."
 
 #: ../src/ease-close-confirm-dialog.vala:121
 #, c-format
@@ -111,9 +114,9 @@ msgid ""
 msgid_plural ""
 "If you don't save, changes from the last %i hours will be permanently lost."
 msgstr[0] ""
-"Si no guarda, se perderán permanentemente los cambios de la última hora."
+"Si no guarda, se perderán permanentemente los cambios de la última hora."
 msgstr[1] ""
-"Si no guarda, se perderán permanentemente los cambios de las últimas %i "
+"Si no guarda, se perderán permanentemente los cambios de las últimas %i "
 "horas."
 
 #: ../src/ease-close-confirm-dialog.vala:132
