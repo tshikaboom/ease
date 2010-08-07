@@ -30,6 +30,7 @@ public class Ease.Dialogs.Progress : GLib.Object
 	private Gtk.Label label;
 	private Gtk.ProgressBar progress;
 	private double max_val;
+	private bool destroyed = false;
 	
 	/**
 	 * Creates a progress dialog.
@@ -68,7 +69,9 @@ public class Ease.Dialogs.Progress : GLib.Object
 	 */
 	public void show()
 	{
-		dialog.show();
+		// we have to immediately show the dialog
+		// sometimes the thread might finish before it is shown
+		if (!destroyed)	dialog.show_now();
 	}
 	
 	/**
@@ -76,6 +79,7 @@ public class Ease.Dialogs.Progress : GLib.Object
 	 */
 	public void destroy()
 	{
+		destroyed = true;
 		dialog.destroy();
 	}
 	

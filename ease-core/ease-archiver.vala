@@ -27,8 +27,12 @@ internal class Ease.Archiver : GLib.Object
 	private static GLib.List<Archiver> archivers = new GLib.List<Archiver>();
 	
 	private const int ARCHIVE_BUFFER = 4096;
-	private const string LABEL_MARKUP = "<large>%s</large>".printf(LABEL_TEXT);
-	private const string LABEL_TEXT = _("Saving %s");
+	private const string LABEL_TEXT = _("Saving \"%s\"");
+	
+	/**
+	 * The minimum filesize at which asynchronous saving is used.
+	 */
+	private const int ASYNC_SIZE = 1024 * 1024 * 5;
 	
 	internal Archiver(string temp, string fname, Dialogs.Progress dlog)
 	{
@@ -37,14 +41,6 @@ internal class Ease.Archiver : GLib.Object
 		dialog = dlog;
 		archivers.append(this);
 		
-		if (!Thread.supported())
-		{
-			// fall back on non-async archiving
-			async = false;
-			archive_real();
-			return;
-		}
-		
 		// this is a little redundant, probably not a huge perf hit though
 		recursive_directory(temp_path, null, (path, full_path) => {
 			Posix.Stat st;
@@ -52,7 +48,15 @@ internal class Ease.Archiver : GLib.Object
 			total_size += (int)st.st_size;
 		});
 		
-		dialog.set_label("Hello World");
+		if (!Thread.supported() || total_size < ASYNC_SIZE)
+		{
+			// fall back on non-async archiving
+			async = false;
+			archive_real();
+			return;
+		}
+		
+		dialog.set_label(LABEL_TEXT.printf(filename));
 		dialog.show();
 		thread = Thread.create(archive_real, true);
 	}
