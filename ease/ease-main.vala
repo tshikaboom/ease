@@ -19,6 +19,7 @@ internal class Ease.Main : GLib.Object
 {
 	private static Gee.ArrayList<EditorWindow> windows;
 	private static WelcomeWindow welcome;
+	private static Unique.App app;
 	
 	// options
 	static string play_filename;
@@ -37,6 +38,13 @@ internal class Ease.Main : GLib.Object
 		{ null } };
 	
 	private static Player player;
+	
+	private enum UniqueCommand
+	{
+		OPEN_FILE = 1,
+		PLAY_FILE = 2,
+		SHOW_WELCOME = 3
+	}
 	
 	/**
 	 * Start Ease to edit files.
@@ -65,10 +73,7 @@ internal class Ease.Main : GLib.Object
 		
 		try
 		{
-			if (!context.parse(ref args))
-			{
-				return 1;
-			}
+			if (!context.parse(ref args)) return 1;
 		}
 		catch (OptionError e)
 		{
@@ -76,56 +81,100 @@ internal class Ease.Main : GLib.Object
 			return 1;
 		}
 		
-		Gst.init(ref args);
-
-		// react to command line flags
-		UndoController.enable_debug = debug_undo;
-
-		// initalize static classes
-		windows = new Gee.ArrayList<EditorWindow>();
+		// check to see if another instance of Ease is already running
+		app = new Unique.App("org.ease-project.ease", null);
+		app.add_command("Open document", UniqueCommand.OPEN_FILE);
+		app.add_command("Play document", UniqueCommand.PLAY_FILE);
+		app.add_command("Create new document", UniqueCommand.SHOW_WELCOME);
 		
-		// Clutter settings
-		var backend = Clutter.get_default_backend();
-		var settings = Gtk.Settings.get_default();
-		backend.set_double_click_time(settings.gtk_double_click_time);
-		backend.set_double_click_distance(settings.gtk_double_click_distance);
+		// check if the app is already running
+		var running = app.is_running;
+		
+		if (!running)
+		{
+			// respond to messages from other instances
+			app.message_received.connect((self, cmd, data, time_) => {
+				switch (cmd)
+				{
+					case UniqueCommand.OPEN_FILE:
+						var filenames = data.get_uris();
+						for (int i = 0; filenames[i] != null; i++)
+						{
+							open_file(filenames[i]);
+						}
+						return Unique.Response.OK;
+					case UniqueCommand.PLAY_FILE:
+						play_file(data.get_filename(), false);
+						return Unique.Response.OK;
+					case UniqueCommand.SHOW_WELCOME:
+						show_welcome();
+						return Unique.Response.OK;
+				}
+				
+				// not a valid command (bad news bears!)
+				critical("Invalid UniqueCommand");
+				return Unique.Response.PASSTHROUGH;
+			});
+			
+			// init gstreamer
+			Gst.init(ref args);
+
+			// react to command line flags
+			UndoController.enable_debug = debug_undo;
+
+			// initalize static classes
+			windows = new Gee.ArrayList<EditorWindow>();
+		
+			// Clutter settings
+			var backend = Clutter.get_default_backend();
+			var settings = Gtk.Settings.get_default();
+			backend.set_double_click_time(settings.gtk_double_click_time);
+			backend.set_double_click_distance(
+				settings.gtk_double_click_distance);
+		}
 	
 		// open editor windows for each argument specified
 		if (filenames != null)
 		{
-			for (int i = 0; filenames[i] != null; i++)
+			if (!running) // open the files
 			{
-				open_file(filenames[i]);
+				for (int i = 0; filenames[i] != null; i++)
+				{
+					open_file(filenames[i]);
+				}
+			}
+			else // tell the other instance to open the files
+			{
+				var data = new Unique.MessageData();
+				data.set_uris(filenames);
+				app.send_message(UniqueCommand.OPEN_FILE, data);
 			}
 		}
 		
 		// if --play is specified, play the presentation
 		if (play_filename != null)
 		{
-			try
+			if (!running)
 			{
-				var doc = new Document.from_saved(play_filename);
-				player = new Player(doc);
-			
-				// if no editor windows are specified, quit when done
-				if (filenames == null)
-				{
-					player.stage.hide.connect(() => {
-						Gtk.main_quit();
-					});
-				}
+				play_file(play_filename, filenames == null);
 			}
-			catch (Error e)
+			else
 			{
-				error_dialog(_("Error Playing Document"), e.message);
+				var data = new Unique.MessageData();
+				data.set_filename(play_filename);
+				app.send_message(UniqueCommand.PLAY_FILE, data);
 			}
 		}
 		
 		// if no files are given, show the new presentation window
 		if (filenames == null && play_filename == null)
 		{
-			show_welcome();
+			if (!running) show_welcome();
+			else app.send_message(UniqueCommand.SHOW_WELCOME, null);
 		}
+		
+		// if the app is already running, we're all done
+		if (running) return 0;
 	
 		Gtk.main();
 		
@@ -166,6 +215,34 @@ internal class Ease.Main : GLib.Object
 		{
 			error_dialog(_("Error Opening Document"), e.message);
 			return;
+		}
+	}
+	
+	/**
+	 * Plays a file.
+	 */
+	internal static void play_file(string file, bool close_when_done)
+	{
+		if (player != null)
+		{
+			warning("Cannot play %s while another document is playing", file);
+		}
+		try
+		{
+			var doc = new Document.from_saved(file);
+			player = new Player(doc);
+	
+			// if requested, quit ease when done
+			if (close_when_done)
+			{
+				player.stage.hide.connect(() => {
+					Gtk.main_quit();
+				});
+			}
+		}
+		catch (Error e)
+		{
+			error_dialog(_("Error Playing Document"), e.message);
 		}
 	}
 	

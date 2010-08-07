@@ -45,7 +45,8 @@ pkg_modules=" \
 	libarchive \
 	json-glib-1.0 >= 0.7.6\
 	clutter-gst-1.0 \
-	gmodule-2.0"
+	gmodule-2.0 \
+	unique-1.0"
 
 EASE_PACKAGES=" \
 	--pkg gee-1.0 \
@@ -53,23 +54,8 @@ EASE_PACKAGES=" \
 	--pkg libarchive \
 	--pkg json-glib-1.0 \
     --pkg clutter-gst-1.0 \
-	--pkg gmodule-2.0"
-
-EASE_CFLAGS="\`pkg-config --cflags \
-	gee-1.0 \
-	clutter-gtk-0.10 \
-	json-glib-1.0 \
-	libarchive \
-	clutter-gst-1.0 \
-	gmodule-2.0 \`"
-
-EASE_LDFLAGS="\`pkg-config --libs \
-	gee-1.0 \
-	clutter-gtk-0.10 \
-	json-glib-1.0 \
-	libarchive \
-	clutter-gst-1.0 \
-	gmodule-2.0 \`"
+	--pkg gmodule-2.0 \
+	--pkg unique-1.0"
 
 PKG_CHECK_MODULES(EASE, [$pkg_modules])
 
