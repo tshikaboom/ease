@@ -159,6 +159,7 @@ internal class Ease.Main : GLib.Object
 			var doc = new Document.from_saved(path);
 			var win = new EditorWindow(doc);
 			add_window(win);
+			win.show_now();
 			win.present();
 		}
 		catch (Error e)
