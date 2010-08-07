@@ -275,25 +275,9 @@ internal class Ease.WelcomeWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	internal void create_new_document(Gtk.Widget? sender)
 	{
-		try
-		{
-			// create a new Document
-			// FIXME : this call crashes. We don't reach the next line,
-			// nor do we reach the constructor from_theme(). It must have
-			// something to do with the closure (gdb talks about it).
-			var document = new Document.from_theme(selected_theme,
-												   (int)x_res.get_value(),
-												   (int)y_res.get_value());
-			// create an EditorWindow for the new Document
-			var editor = new EditorWindow(document);
-
-			Main.add_window(editor);
-			Main.remove_welcome();
-		}
-		catch (Error e)
-		{
-			error_dialog(_("Error creating new document"), e.message);
-		}
+		Main.new_from_theme(selected_theme,
+		                    (int)x_res.get_value(),
+		                    (int)y_res.get_value());
 	}
 	
 	private void set_resolution_box(int width, int height)

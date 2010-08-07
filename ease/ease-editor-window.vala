@@ -127,6 +127,16 @@ internal class Ease.EditorWindow : Gtk.Window
 	long last_saved = 0;
 	
 	/**
+	 * Emitted when the window's Document should be presented.
+	 */
+	internal signal void play(Document doc);
+	
+	/**
+	 * Emitted when the window should be closed.
+	 */
+	internal signal void close(EditorWindow self);
+	
+	/**
 	 * The zoom levels for the {@link ZoomSlider}
 	 */
 	private int[] ZOOM_LEVELS = {10, 25, 33, 50, 66, 75, 100, 125, 150,
@@ -223,7 +233,11 @@ internal class Ease.EditorWindow : Gtk.Window
 		
 		// close the window
 		delete_event.connect((sender, event) => {
-			if (last_saved == 0) return false;
+			if (last_saved == 0)
+			{
+				close(this);
+				return false;
+			}
 			
 			var name = document.filename == null ? _("Untitled Document") :
 			                                       document.filename;
@@ -236,14 +250,19 @@ internal class Ease.EditorWindow : Gtk.Window
 			if (response == Gtk.ResponseType.CANCEL) return true;
 			if (response == Gtk.ResponseType.NO)
 			{
-				Main.remove_window(this);
+				close(this);
 				return false;
 			}
 			
 			// otherwise, save and quit
-			var result = !save_document(null);
-			if (!result) Main.remove_window(this);
-			return result;
+			if (save_document(null))
+			{
+				close(this);
+				return false;
+			}
+			
+			// there were errors, don't close the window and lose the document
+			return true;
 		});
 		
 		set_slide(0);
@@ -354,15 +373,7 @@ internal class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	internal void play_handler(Gtk.Widget sender)
 	{		
-		player = new Player(document);
-		
-		player.complete.connect(() => {
-			player = null;
-			show();
-			present();
-		});
-		
-		hide();
+		play(document);
 	}
 	
 	[CCode (instance_pos = -1)]

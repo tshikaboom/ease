@@ -150,7 +150,6 @@ internal class Ease.Main : GLib.Object
 			if (w.document.path == path)
 			{
 				w.present();
-				
 				return;
 			}
 		}
@@ -166,6 +165,24 @@ internal class Ease.Main : GLib.Object
 			return;
 		}
 	}
+	
+	/**
+	 * Creates a new {@link EditorWindow} from a theme and size.
+	 */
+	internal static void new_from_theme(Theme theme, int width, int height)
+	{
+		try
+		{
+			var document = new Document.from_theme(theme, width, height);
+			var editor = new EditorWindow(document);
+			add_window(editor);
+			remove_welcome();
+		}
+		catch (Error e)
+		{
+			error_dialog(_("Error creating new document"), e.message);
+		}
+	}
 
 	/**
 	 * Removes an {@link EditorWindow} from Ease's internal store of windows.
@@ -177,9 +194,12 @@ internal class Ease.Main : GLib.Object
 	 *
 	 * @param win The {@link EditorWindow}.
 	 */
-	internal static void remove_window(EditorWindow win)
+	private static void remove_window(EditorWindow win)
 	{
 		windows.remove(win);
+		win.play.disconnect(on_play);
+		win.close.disconnect(on_close);
+		
 		if (windows.size == 0 && welcome == null)
 		{
 			Gtk.main_quit();
@@ -195,9 +215,38 @@ internal class Ease.Main : GLib.Object
 	 *
 	 * @param win The {@link EditorWindow}.
 	 */
-	internal static void add_window(EditorWindow win)
+	private static void add_window(EditorWindow win)
 	{
 		windows.add(win);
+		win.play.connect(on_play);
+		win.close.connect(on_close);
+	}
+	
+	/**
+	 * Handles the {@link EditorWindow.play} signal.
+	 *
+	 * Hides all visible windows and displays the presentation.
+	 */
+	private static void on_play(Document document)
+	{
+		player = new Player(document);
+		player.present();
+		
+		player.complete.connect(() => {
+			player = null;
+			foreach (var window in windows) window.show();
+		});
+		
+		foreach (var window in windows) window.hide();
+	}
+	
+	/**
+	 * Closes and removes an EditorWindow.
+	 */
+	private static void on_close(EditorWindow self)
+	{
+		self.hide();
+		remove_window(self);
 	}
 
 	/**
