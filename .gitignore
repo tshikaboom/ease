@@ -16,7 +16,7 @@ libease/tmp-introspect*
 *.gir
 
 # build files
-ease
+ease/ease
 *.h
 *.o
 *.lo

@@ -72,9 +72,7 @@ libease_core_0_3_la_VALAFLAGS = \
 
 libease_core_0_3_la_LIBADD = ../flutter/libflutter-0.3.la
 libease_core_0_3_la_CFLAGS = $(EASE_CFLAGS)
-libease_core_0_3_la_LDFLAGS = $(EASE_LDFLAGS)
-
-# build typelib
+libease_core_0_3_la_LDFLAGS = $(EASE_LDFLAGS) --export-dynamic
 
 # header installation
 libease_includedir=$(includedir)/ease/
