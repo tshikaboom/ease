@@ -85,11 +85,6 @@ public class Ease.Slide : GLib.Object, UndoSource
 	}
 	
 	/**
-	 * The title of this Slide's master (unless the Slide is a master itself)
-	 */
-	public string title { get; set; }
-	
-	/**
 	 * The {@link Document} that this Slide is part of
 	 */
 	internal Document parent { get; set; }
@@ -256,8 +251,6 @@ public class Ease.Slide : GLib.Object, UndoSource
 		advance_delay =
 			obj.get_string_member("advance_delay").to_double();
 		
-		title = obj.get_string_member("title");
-		
 		// read the slide's background properties
 		if (obj.has_member(Theme.BACKGROUND_IMAGE))
 		{
@@ -324,7 +317,6 @@ public class Ease.Slide : GLib.Object, UndoSource
 		obj.set_string_member("automatically_advance",
 		                      automatically_advance.to_string());
 		obj.set_string_member("advance_delay", advance_delay.to_string());
-		obj.set_string_member("title", title);
 		
 		// write the slide's background properties
 		if (background.image.filename != null)

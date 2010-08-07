@@ -373,25 +373,6 @@ public class Ease.Document : GLib.Object, UndoSource
 	}
 	
 	/**
-	 * Finds a {@link Slide} by its "title" property.
-	 *
-	 * @param id The title to search for.
-	 */
-	public Slide? slide_by_title(string title)
-	{
-		Slide s;
-		foreach (var itr in slides)
-		{
-			slides.get(itr, COL_SLIDE, out s);
-			if (s.title == title)
-			{
-				return s;
-			}
-		}
-		return null;
-	}
-	
-	/**
 	 * Updates a slide's title.
 	 */
 	internal void on_title_changed(Slide slide, string title)
