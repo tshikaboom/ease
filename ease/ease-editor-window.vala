@@ -313,6 +313,14 @@ internal class Ease.EditorWindow : Gtk.Window
 	
 	// signal handlers
 	[CCode (instance_pos = -1)]
+	internal void on_open(Gtk.Widget sender)
+	{
+		var filename = Dialogs.open(_("Open Document"), this);
+		if (filename != null) Main.open_file(filename);
+	}
+	
+	
+	[CCode (instance_pos = -1)]
 	internal void on_quit(Gtk.Widget sender)
 	{
 		Gtk.main_quit ();

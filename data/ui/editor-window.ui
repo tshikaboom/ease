@@ -4,7 +4,6 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkVBox" id="Editor Widget">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
     <child>
       <object class="GtkMenuBar" id="Menu Bar">
         <property name="visible">True</property>
@@ -33,7 +32,7 @@
                     <property name="use_underline">True</property>
                     <property name="use_stock">True</property>
                     <property name="accel_group">accel-group</property>
-                    <signal name="activate" handler="ease_open_dialog_run"/>
+                    <signal name="activate" handler="ease_editor_window_on_open"/>
                   </object>
                 </child>
                 <child>

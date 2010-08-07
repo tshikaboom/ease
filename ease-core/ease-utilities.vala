@@ -295,7 +295,7 @@ namespace Ease
 	/**
 	 * Returns an absolute path for the given path.
 	 */
-	private static string absolute_path(string path)
+	public static string absolute_path(string path)
 	{
 		var file = GLib.File.new_for_path(path);
 		return file.resolve_relative_path(".").get_path();

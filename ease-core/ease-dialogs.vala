@@ -16,65 +16,62 @@
 */
 
 /**
- * Creates "open file" windows.
+ * Common dialog windows used in Ease.
  */
-public class Ease.OpenDialog : GLib.Object
+namespace Ease.Dialogs
 {
 	/**
-	 * Displays an "Open" dialog.
-	 * 
-	 * Used for loading previously saved files. This is a static method.
+	 * Displays an "Open" dialog with the specified title. Returns null if
+	 * cancelled, otherwise returns the selected path
+	 *
+	 * @param title The dialog's title.
+	 * @param modal The window that the dialog should be modal for.
 	 */
-	public static void run()
+	public string? open(string title, Gtk.Window? modal)
 	{
-		var dialog = new Gtk.FileChooserDialog(_("Open File"),
-		                                       null,
-		                                       Gtk.FileChooserAction.OPEN,
-		                                       "gtk-cancel",
-		                                       Gtk.ResponseType.CANCEL,
-		                                       "gtk-open",
-		                                       Gtk.ResponseType.ACCEPT);
-		
-		// filter to only .ease files
-		var filter = new Gtk.FileFilter();
-		filter.add_pattern("*.ease");
-		dialog.filter = filter;
+		var dialog = new Gtk.FileChooserDialog(title,
+			                                   modal,
+			                                   Gtk.FileChooserAction.OPEN,
+			                                   "gtk-cancel",
+			                                   Gtk.ResponseType.CANCEL,
+			                                   "gtk-open",
+			                                   Gtk.ResponseType.ACCEPT);
 
 		if (dialog.run() == Gtk.ResponseType.ACCEPT)
 		{
-			//Main.open_file(dialog.get_filename() + "/");
+			string name = dialog.get_filename();
+			dialog.destroy();
+			return name;
 		}
 		dialog.destroy();
+		return null;
 	}
-}
 
-/**
- * Creates and runs a "save" dialog with the given title. Returns null if
- * cancelled, otherwise returns the selected path
- *
- * @param title The dialog's title.
- * @param modal The window that the dialog should be modal for.
- */
-public string? save_dialog(string title, Gtk.Window? modal)
-{
-	var dialog = new Gtk.FileChooserDialog(title,
-	                                       modal,
-	                                       Gtk.FileChooserAction.SAVE,
-	                                       "gtk-save",
-	                                       Gtk.ResponseType.ACCEPT,
-	                                       "gtk-cancel",
-	                                       Gtk.ResponseType.CANCEL,
-	                                       null);
+	/**
+	 * Creates and runs a "save" dialog with the given title. Returns null if
+	 * cancelled, otherwise returns the selected path
+	 *
+	 * @param title The dialog's title.
+	 * @param modal The window that the dialog should be modal for.
+	 */
+	public string? save(string title, Gtk.Window? modal)
+	{
+		var dialog = new Gtk.FileChooserDialog(title,
+			                                   modal,
+			                                   Gtk.FileChooserAction.SAVE,
+			                                   "gtk-save",
+			                                   Gtk.ResponseType.ACCEPT,
+			                                   "gtk-cancel",
+			                                   Gtk.ResponseType.CANCEL,
+			                                   null);
 		
-	if (dialog.run() == Gtk.ResponseType.ACCEPT)
-	{
-		// clean up the file dialog
-		string path = dialog.get_filename();
-		dialog.destroy();
-		return path;
-	}
-	else
-	{
+		if (dialog.run() == Gtk.ResponseType.ACCEPT)
+		{
+			// clean up the file dialog
+			string path = dialog.get_filename();
+			dialog.destroy();
+			return path;
+		}
 		dialog.destroy();
 		return null;
 	}

@@ -269,7 +269,8 @@ internal class Ease.WelcomeWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	internal void on_open_pres_button_clicked (Gtk.Widget sender)
 	{
-		OpenDialog.run();
+		var filename = Dialogs.open(_("Open Document"), this);
+		if (filename != null) Main.open_file(filename);
 	}
 
 	[CCode (instance_pos = -1)]

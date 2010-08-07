@@ -454,9 +454,9 @@ public class Ease.Document : GLib.Object, UndoSource
 	 *
 	 * @param win The window that dialogs should be modal for.
 	 */
-	public void export_as_pdf(Gtk.Window win)
+	public void export_as_pdf(Gtk.Window? win)
 	{
-		string path = save_dialog(_("Export as PDF"), win);
+		string path = Dialogs.save(_("Export as PDF"), win);
 		if (path == null) return;	
 		
 		try
@@ -475,9 +475,9 @@ public class Ease.Document : GLib.Object, UndoSource
 	 *
 	 * @param win The window that dialogs should be modal for.
 	 */
-	public void export_as_postscript(Gtk.Window win)
+	public void export_as_postscript(Gtk.Window? win)
 	{
-		string path = save_dialog(_("Export as PostScript"), win);
+		string path = Dialogs.save(_("Export as PostScript"), win);
 		if (path == null) return;	
 		
 		try

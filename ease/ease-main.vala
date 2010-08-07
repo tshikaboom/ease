@@ -147,7 +147,7 @@ internal class Ease.Main : GLib.Object
 	{
 		foreach (var w in windows)
 		{
-			if (w.document.path == path)
+			if (absolute_path(w.document.filename) == absolute_path(path))
 			{
 				w.present();
 				return;
