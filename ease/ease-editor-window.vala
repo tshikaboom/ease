@@ -265,7 +265,7 @@ internal class Ease.EditorWindow : Gtk.Window
 			return true;
 		});
 		
-		set_slide(0);
+		slide_button_panel.select_slide(document.get_slide(0));
 		update_undo();
 	}
 	
@@ -526,7 +526,7 @@ internal class Ease.EditorWindow : Gtk.Window
 			
 			// when a slide is clicked in the sorter, switch back here
 			sorter.display_slide.connect((s) => {
-				set_slide(document.index_of(s));
+				slide_button_panel.select_slide(s);
 				show_editor.active = true;
 			});
 		}
