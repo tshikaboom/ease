@@ -415,19 +415,13 @@ internal class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	internal void insert_image(Gtk.Widget sender)
 	{
-		var dialog = new Gtk.FileChooserDialog(_("Insert Image"),
-		                                       null,
-		                                       Gtk.FileChooserAction.OPEN,
-		                                       "gtk-cancel",
-		                                       Gtk.ResponseType.CANCEL,
-		                                       "gtk-open",
-		                                       Gtk.ResponseType.ACCEPT);
+		var filename = Dialogs.open(_("Insert Image"), this);
 
-		if (dialog.run() == Gtk.ResponseType.ACCEPT)
+		if (filename != null)
 		{
 			try
 			{
-				var img = new Clutter.Texture.from_file(dialog.get_filename());
+				var img = new Clutter.Texture.from_file(filename);
 				var e = new ImageElement();
 				
 				// set the size and position of the element
@@ -441,8 +435,8 @@ internal class Ease.EditorWindow : Gtk.Window
 				
 				e.element_type = Slide.IMAGE_TYPE;
 				e.identifier = Theme.CUSTOM_MEDIA;
-				e.filename = document.add_media_file(dialog.get_filename());
-				e.source_filename = dialog.get_filename();
+				e.filename = document.add_media_file(filename);
+				e.source_filename = filename;
 				
 				// add the element
 				slide.append(e);
@@ -453,21 +447,14 @@ internal class Ease.EditorWindow : Gtk.Window
 				error_dialog(_("Error Inserting Image"), e.message);
 			}
 		}
-		dialog.destroy();
 	}
 	
 	[CCode (instance_pos = -1)]
 	internal void insert_video(Gtk.Widget sender)
 	{
-		var dialog = new Gtk.FileChooserDialog(_("Insert Video"),
-		                                       null,
-		                                       Gtk.FileChooserAction.OPEN,
-		                                       "gtk-cancel",
-		                                       Gtk.ResponseType.CANCEL,
-		                                       "gtk-open",
-		                                       Gtk.ResponseType.ACCEPT);
+		var filename = Dialogs.open(_("Insert Video"), this);
 
-		if (dialog.run() == Gtk.ResponseType.ACCEPT)
+		if (filename != null)
 		{
 			try
 			{
@@ -481,8 +468,8 @@ internal class Ease.EditorWindow : Gtk.Window
 				
 				e.element_type = Slide.VIDEO_TYPE;
 				e.identifier = Theme.CUSTOM_MEDIA;
-				e.filename = document.add_media_file(dialog.get_filename());
-				e.source_filename = dialog.get_filename();
+				e.filename = document.add_media_file(filename);
+				e.source_filename = filename;
 				
 				// add the element
 				slide.append(e);
@@ -493,7 +480,6 @@ internal class Ease.EditorWindow : Gtk.Window
 				error_dialog(_("Error Inserting Video"), e.message);
 			}
 		}
-		dialog.destroy();
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -563,29 +549,13 @@ internal class Ease.EditorWindow : Gtk.Window
 	{
 		if (document.filename == null)
 		{
-			var dialog =
-				new Gtk.FileChooserDialog(_("Save Document"),
-	        	                          null,
-	        	                          Gtk.FileChooserAction.SAVE,
-	        	                          "gtk-cancel",
-	        	                          Gtk.ResponseType.CANCEL,
-	        	                          "gtk-save",
-	        	                          Gtk.ResponseType.ACCEPT, null);
-	        
-	        var filter = new Gtk.FileFilter();
-			filter.add_pattern("*.ease");
-			dialog.filter = filter;
-
-			if (dialog.run() == Gtk.ResponseType.ACCEPT)
+			var filename = Dialogs.save(_("Save Document"), this);
+			
+			if (filename != null)
 			{
-				document.filename = dialog.get_filename();
+				document.filename = filename;
 			}
-			else
-			{
-				dialog.destroy();
-				return false;
-			}
-			dialog.destroy();
+			else return false;
 		}
 	
 		try

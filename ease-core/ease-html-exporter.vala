@@ -66,21 +66,10 @@ public class Ease.HTMLExporter : GLib.Object
 	 */
 	public bool request_path(Gtk.Window win)
 	{
-		var dialog = new Gtk.FileChooserDialog(_("Export to HTML"),
-		                                       win,
-		                                       Gtk.FileChooserAction.SAVE,
-		                                       "gtk-save",
-		                                       Gtk.ResponseType.ACCEPT,
-		                                       "gtk-cancel",
-		                                       Gtk.ResponseType.CANCEL,
-		                                       null);
+		path = Dialogs.save(_("Export to HTML"), win);
 		
-		if (dialog.run() == Gtk.ResponseType.ACCEPT)
-		{
-			// clean up the file dialog
-			path = dialog.get_filename();
-			dialog.destroy();
-			
+		if (path != null)
+		{	
 			// create the progress dialog
 			window = new Gtk.Dialog();
 			window.width_request = 400;
@@ -91,11 +80,8 @@ public class Ease.HTMLExporter : GLib.Object
 			
 			return true;
 		}
-		else
-		{
-			dialog.destroy();
-			return false;
-		}
+		
+		return false;
 	}
 	
 	/**
