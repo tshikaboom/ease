@@ -208,19 +208,21 @@ internal class Ease.Player : Gtk.Window
 		/* Ask developers about the use of that file and the lack of doc */
 		debug ("Got a key press, keyval = %u", event.keyval);
 		switch (event.keyval) {
-		case 0xff1b:
-			// Escape
+		case Key.ESCAPE:
 			debug ("Quitting player.");
 			stage.hide ();
 			break;
 		case Key.RIGHT:
 		case Key.DOWN:
-			// Right arrow
+		case Key.ENTER:
+		case Key.SPACE:
 			debug ("Advancing to next slide.");
 			advance ();
 			break;
 		case Key.LEFT:
 		case Key.UP:
+		case Key.BACKSPACE:
+		case Key.DELETE:
 			debug ("Retreating to previous slide");
 			retreat ();
 			break;

@@ -47,11 +47,16 @@ namespace Ease
 	 */
 	public enum Key
 	{
+		// arrow keys
 		UP = 65362,
 		DOWN = 65364,
 		LEFT = 65361,
 		RIGHT = 65363,
+		
 		BACKSPACE = 65288,
-		DELETE = 65535
+		DELETE = 65535,
+		ESCAPE = 0xff1b,
+		SPACE = 32,
+		ENTER = 65293,
 	}
 }
