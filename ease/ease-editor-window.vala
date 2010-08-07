@@ -560,7 +560,7 @@ internal class Ease.EditorWindow : Gtk.Window
 	
 		try
 		{
-			document.to_json();
+			document.to_json(this);
 			last_saved = 0;
 		}
 		catch (GLib.Error e)

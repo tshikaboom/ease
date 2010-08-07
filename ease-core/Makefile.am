@@ -14,11 +14,13 @@ AM_CPPFLAGS = \
 libease_core_0_3_la_SOURCES = \
 	ease-actor.vala \
 	ease-animated-zoom-slider.vala \
+	ease-archiver.vala \
 	ease-background.vala \
 	ease-background-widget.vala \
 	ease-cairo-actor.vala \
 	ease-cairo-element.vala \
 	ease-color.vala \
+	ease-dialog-progress.vala \
 	ease-dialogs.vala \
 	ease-document.vala \
 	ease-element.vala \

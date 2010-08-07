@@ -194,7 +194,7 @@ public class Ease.Document : GLib.Object, UndoSource
 		append_slide(slide);
 	}
 	
-	public void to_json() throws GLib.Error
+	public void to_json(Gtk.Window? window) throws GLib.Error
 	{
 		var root = new Json.Node(Json.NodeType.OBJECT);
 		var obj = new Json.Object();
@@ -223,7 +223,7 @@ public class Ease.Document : GLib.Object, UndoSource
 		generator.to_file(Path.build_filename(path, JSON_FILE));
 		
 		// archive
-		Temp.archive(path, filename);
+		archive(path, filename, _("Saving Document"), window);
 	}
 	
 	/**
