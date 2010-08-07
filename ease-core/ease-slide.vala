@@ -110,6 +110,11 @@ public class Ease.Slide : GLib.Object, UndoSource
 	internal Theme theme { get; set; }
 	
 	/**
+	 * The master slide ID this slide is based on.
+	 */
+	public string master { get; set; }
+	
+	/**
 	 * The number of {@link Element}s on this Slide
 	 */
 	public int count { get { return elements.size; } }
@@ -236,6 +241,9 @@ public class Ease.Slide : GLib.Object, UndoSource
 		
 		var slide = new Slide();
 		
+		// get the slide's master
+		master = obj.get_string_member("master");
+		
 		// read the slide's transition properties
 		transition = Transition.from_string(
 			obj.get_string_member("transition"));
@@ -309,6 +317,9 @@ public class Ease.Slide : GLib.Object, UndoSource
 	{
 		var node = new Json.Node(Json.NodeType.OBJECT);
 		var obj = new Json.Object();
+		
+		// write the slide's master
+		obj.set_string_member("master", master);
 		
 		// write the slide's transition properties
 		obj.set_string_member("transition", transition.to_string());

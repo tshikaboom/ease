@@ -340,6 +340,7 @@ public class Ease.Theme : GLib.Object
 	{
 		Slide slide = new Slide();
 		slide.theme = this;
+		slide.master = master;
 		
 		// set the slide background property
 		switch (master_get(master, BACKGROUND_TYPE))
