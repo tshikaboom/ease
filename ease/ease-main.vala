@@ -157,7 +157,9 @@ internal class Ease.Main : GLib.Object
 		try
 		{
 			var doc = new Document.from_saved(path);
-			add_window(new EditorWindow(doc));
+			var win = new EditorWindow(doc);
+			add_window(win);
+			win.present();
 		}
 		catch (Error e)
 		{
@@ -176,7 +178,7 @@ internal class Ease.Main : GLib.Object
 			var document = new Document.from_theme(theme, width, height);
 			var editor = new EditorWindow(document);
 			add_window(editor);
-			remove_welcome();
+			editor.present();
 		}
 		catch (Error e)
 		{

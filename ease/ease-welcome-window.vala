@@ -271,6 +271,7 @@ internal class Ease.WelcomeWindow : Gtk.Window
 	{
 		var filename = Dialogs.open(_("Open Document"), this);
 		if (filename != null) Main.open_file(filename);
+		hide();
 	}
 
 	[CCode (instance_pos = -1)]
@@ -279,6 +280,7 @@ internal class Ease.WelcomeWindow : Gtk.Window
 		Main.new_from_theme(selected_theme,
 		                    (int)x_res.get_value(),
 		                    (int)y_res.get_value());
+		hide();
 	}
 	
 	private void set_resolution_box(int width, int height)
