@@ -45,6 +45,7 @@ potfiles:
 	echo "# List of source files which contain translatable strings." > po/POTFILES.in
 	echo "[encoding: UTF-8]" >> po/POTFILES.in
 	echo "data/ease.desktop.in" >> po/POTFILES.in
+	echo "data/ease.desktop.in.in" >> po/POTFILES.in
 	ls ease-core | grep ease- | grep .vala | sed "s/ease/ease-core\/ease/g" >> po/POTFILES.in
 	ls ease | grep ease- | grep .vala | sed "s/ease/ease\/ease/g" >> po/POTFILES.in
 	ls data/ui | while read line; do echo "data/ui/$$line" >> po/POTFILES.in; done
