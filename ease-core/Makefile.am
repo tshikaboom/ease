@@ -1,15 +1,5 @@
 lib_LTLIBRARIES = libease-core-0.3.la
 
-INCLUDES = \
-	$(EASE_CFLAGS)
-
-EASE_CFLAGS += -w -I../flutter
-
-AM_CPPFLAGS = \
-	$(EASE_CFLAGS) \
-	-include $(CONFIG_HEADER) \
-	$(NULL)
-
 # source files
 libease_core_0_3_la_SOURCES = \
 	ease-actor.vala \
@@ -63,34 +53,44 @@ libease_core_0_3_la_SOURCES = \
 
 libease_core_0_3_la_VALAFLAGS = \
 	$(EASE_PACKAGES) \
-	--vapi=../vapi/ease-core-0.3.vapi \
-	--header=libease-core.h \
+	--vapi=$(top_srcdir)/vapi/ease-core-0.3.vapi \
+	--header=ease-core.h \
 	--thread \
 	--disable-warnings \
-	--vapidir=../vapi \
+	--vapidir=$(top_srcdir)/vapi \
 	--pkg flutter-0.3 \
 	-g \
 	$(NULL)
 
-libease_core_0_3_la_LIBADD = ../flutter/libflutter-0.3.la
-libease_core_0_3_la_CFLAGS = $(EASE_CFLAGS)
-libease_core_0_3_la_LDFLAGS = $(EASE_LDFLAGS) --export-dynamic
+libease_core_0_3_la_LIBADD = $(top_builddir)/flutter/libflutter-0.3.la
+
+libease_core_0_3_la_CFLAGS = \
+	$(EASE_CFLAGS) \
+	-w \
+	-include $(top_srcdir)/config.h \
+	-I$(top_srcdir)/flutter \
+	$(NULL)
+	
+libease_core_0_3_la_LDFLAGS = \
+	$(EASE_LDFLAGS) \
+	--export-dynamic \
+	$(NULL)
 
 # header installation
 libease_includedir=$(includedir)/ease/
-libease_include_HEADERS = libease-core.h
+libease_include_HEADERS = ease-core.h
 
 # vapi installation
 vapidir = $(datadir)/vala/vapi
-vapi_DATA = ../vapi/ease-core-0.3.vapi ../vapi/ease-core-0.3.deps
+vapi_DATA = $(top_srcdir)/vapi/ease-core-0.3.vapi $(top_srcdir)/vapi/ease-core-0.3.deps
 
 # remove generated files on `make clean`
 CLEANFILES = \
 	$(subst .vala,.c,$(libease_core_0_3_la_SOURCES)) \
-	../vapi/ease-core-0.3.vapi \
-	libease-core.h
+	$(top_srcdir)/vapi/ease-core-0.3.vapi \
+	ease-core.h
 
 EXTRA_DIST = \
-	../vapi/ease-core-0.3.vapi \
-	../vapi/ease-core-0.3.deps
+	$(top_srcdir)/vapi/ease-core-0.3.vapi \
+	$(top_srcdir)/vapi/ease-core-0.3.deps
 

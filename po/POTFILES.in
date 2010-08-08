@@ -1,6 +1,7 @@
 # List of source files which contain translatable strings.
 [encoding: UTF-8]
 data/ease.desktop.in
+data/ease.desktop.in.in
 ease-core/ease-actor.vala
 ease-core/ease-animated-zoom-slider.vala
 ease-core/ease-archiver.vala
@@ -8,7 +9,6 @@ ease-core/ease-background.vala
 ease-core/ease-background-widget.vala
 ease-core/ease-cairo-actor.vala
 ease-core/ease-cairo-element.vala
-ease-core/ease-change-source.vala
 ease-core/ease-color.vala
 ease-core/ease-dialog-progress.vala
 ease-core/ease-dialogs.vala

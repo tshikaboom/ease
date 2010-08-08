@@ -29,32 +29,23 @@ ease_VALAFLAGS = \
 	--pkg flutter-0.3 \
 	--disable-warnings \
 	$(EASE_PACKAGES) \
-	--vapidir ../vapi \
+	--vapidir $(top_srcdir)/vapi \
 	--thread \
 	-g
 
-ease_CFLAGS = $(EASE_CFLAGS) -w \
-	-I../ease-core \
-	-I../flutter
+ease_CFLAGS = \
+	$(EASE_CFLAGS) \
+	-w \
+	-I$(top_srcdir)/ease-core \
+	-I$(top_srcdir)/flutter \
+	-include $(top_srcdir)/config.h
 
-ease_LDFLAGS = --export-dynamic
+ease_LDFLAGS = $(EASE_LIBS) --export-dynamic
 
 ease_LDADD = \
-	../ease-core/libease-core-0.3.la \
-	../flutter/libflutter-0.3.la \
+	$(top_builddir)/ease-core/libease-core-0.3.la \
+	$(top_builddir)/flutter/libflutter-0.3.la \
 	-lm \
-	$(EASE_LIBS) \
-	$(NULL)
-	
-INCLUDES = \
-	-include ../config.h \
-	$(EASE_CFLAGS)
-
-AM_CPPFLAGS = \
-	$(EASE_CFLAGS) \
-	-include $(CONFIG_HEADER) \
-	-include ../ease-core/libease-core.h \
-	-O0 \
 	$(NULL)
 
 CLEANFILES = $(subst .vala,.c,$(ease_SOURCES))
