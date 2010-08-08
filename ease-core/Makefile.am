@@ -88,6 +88,9 @@ vapi_DATA = ../vapi/ease-core-0.3.vapi ../vapi/ease-core-0.3.deps
 CLEANFILES = \
 	$(subst .vala,.c,$(libease_core_0_3_la_SOURCES)) \
 	../vapi/ease-core-0.3.vapi \
-	EaseCore-0.3.gir \
 	libease-core.h
+
+EXTRA_DIST = \
+	../vapi/ease-core-0.3.vapi \
+	../vapi/ease-core-0.3.deps
 

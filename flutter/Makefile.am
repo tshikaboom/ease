@@ -42,3 +42,7 @@ CLEANFILES = \
 	flutter.h \
 	libflutter_0_3_la-flutter.lo
 
+EXTRA_DIST = \
+	../vapi/flutter-0.3.vapi \
+	../vapi/flutter-0.3.deps
+

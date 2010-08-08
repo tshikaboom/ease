@@ -33,7 +33,10 @@ ease_VALAFLAGS = \
 	--thread \
 	-g
 
-EASE_CFLAGS += -w -I../ease-core/ -I../flutter
+ease_CFLAGS = $(EASE_CFLAGS) -w \
+	-I../ease-core \
+	-I../flutter
+
 ease_LDFLAGS = --export-dynamic
 
 ease_LDADD = \
@@ -50,6 +53,7 @@ INCLUDES = \
 AM_CPPFLAGS = \
 	$(EASE_CFLAGS) \
 	-include $(CONFIG_HEADER) \
+	-include ../ease-core/libease-core.h \
 	-O0 \
 	$(NULL)
 

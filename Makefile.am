@@ -41,3 +41,17 @@ doc-internal:
 archive: examples/*
 	sh examples/build.sh
 
+potfiles:
+	echo "# List of source files which contain translatable strings." > po/POTFILES.in
+	echo "[encoding: UTF-8]" >> po/POTFILES.in
+	echo "data/ease.desktop.in" >> po/POTFILES.in
+	ls ease-core | grep ease- | grep .vala | sed "s/ease/ease-core\/ease/g" >> po/POTFILES.in
+	ls ease | grep ease- | grep .vala | sed "s/ease/ease\/ease/g" >> po/POTFILES.in
+	ls data/ui | while read line; do echo "data/ui/$$line" >> po/POTFILES.in; done
+	
+	ls ease-core | grep ease- | grep "\.c" | sed "s/ease/ease-core\/ease/g" > po/POTFILES.skip
+	ls ease | grep ease- | grep "\.c" | sed "s/ease/ease\/ease/g" >> po/POTFILES.skip
+	ls flutter | while read line; do echo "flutter/$$line" >> po/POTFILES.skip; done
+	echo "ease-core/libease-core.h" >> po/POTFILES.skip
+	echo "flutter/libflutter.h" >> po/POTFILES.skip
+
