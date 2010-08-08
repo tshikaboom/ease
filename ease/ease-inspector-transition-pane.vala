@@ -398,6 +398,21 @@ internal class Ease.InspectorTransitionPane : InspectorPane
 			}
 			while (effect.model.iter_next(ref itr));
 			
+			if (variant.model.get_iter_first(out itr))
+			{
+				TransitionVariant v;
+				do
+				{
+					variant.model.get(itr, 1, out v);
+					if (v == slide.variant)
+					{
+						variant.set_active_iter(itr);
+						break;
+					}
+				}
+				while (variant.model.iter_next(ref itr));
+			}
+			
 			// if none was set, set the variant to the first item
 			if (!set)
 			{
