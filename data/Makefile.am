@@ -8,15 +8,26 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 appicondir = $(datadir)/icons/hicolor/scalable/apps
 appicon_DATA = icons/hicolor/scalable/apps/ease.svg
 
+# mime type and icon
+mimedir = $(datadir)/mime/packages
+mime_DATA = ease-mime.xml
+
+mimeicondir = $(datadir)/icons/gnome/scalable/mimetypes
+mimeicon_DATA = gnome-mime-application-x-ease.svg
+
+# svg images
 svgdir = $(datadir)/ease/svg
 svg_DATA = $(wildcard $(top_srcdir)/data/svg/*.svg)
 
+# gtkbuilder files
 uidir = $(datadir)/ease/ui
 ui_DATA = $(wildcard $(top_srcdir)/data/ui/*.ui)
 
+# theme defaults
 jsondir = $(datadir)/ease
 json_DATA = theme-defaults.json
 
+# themes
 blackdir = $(datadir)/ease/themes/Black
 black_DATA = themes/Black/Theme.json
 
@@ -51,3 +62,19 @@ EXTRA_DIST = \
     $(green_DATA) \
     $(red_DATA) \
     $(white_DATA)
+
+# installing mime type
+install-data-local: install-mimeDATA
+	if [ -f $(DESTDIR)$(datadir)/mime/packages/freedesktop.org.xml ] ; then \
+	  if which update-mime-database>/dev/null 2>&1; then \
+	    update-mime-database $(DESTDIR)$(datadir)/mime; \
+	  fi \
+	fi
+
+uninstall-local:
+	if [ -f $(DESTDIR)$(datadir)/mime/packages/freedesktop.org.xml ] ; then \
+	  if which update-mime-database>/dev/null 2>&1; then \
+	    update-mime-database $(DESTDIR)$(datadir)/mime; \
+	  fi \
+	fi
+
