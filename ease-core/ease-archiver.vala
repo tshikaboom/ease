@@ -19,7 +19,7 @@ internal class Ease.Archiver : GLib.Object
 {
 	private string temp_path;
 	private string filename;
-	private Dialogs.Progress dialog;
+	private Dialog.Progress dialog;
 	private unowned Thread thread;
 	private bool async = true;
 	private int total_size = 0;
@@ -36,7 +36,7 @@ internal class Ease.Archiver : GLib.Object
 	private const int ASYNC_SIZE = 1024 * 1024 * 5;
 	
 	internal Archiver(string temp, string fname, Gee.LinkedList<string> files,
-	                  Dialogs.Progress dlog)
+	                  Dialog.Progress dlog)
 	{
 		temp_path = temp;
 		filename = fname;
@@ -172,7 +172,7 @@ namespace Ease
 		                         Gtk.Window? win) throws Error
 	{
 		// create a progress dialog
-		var dialog = new Dialogs.Progress(title, false, 1, win);
+		var dialog = new Dialog.Progress(title, false, 1, win);
 	
 		// archive away!
 		var arc = new Archiver(temp_path, filename, files, dialog);

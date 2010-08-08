@@ -471,7 +471,7 @@ public class Ease.Document : GLib.Object, UndoSource
 	 */
 	public void export_as_pdf(Gtk.Window? win)
 	{
-		string path = Dialogs.save(_("Export as PDF"), win);
+		string path = Dialog.save(_("Export as PDF"), win);
 		if (path == null) return;	
 		
 		try
@@ -492,7 +492,7 @@ public class Ease.Document : GLib.Object, UndoSource
 	 */
 	public void export_as_postscript(Gtk.Window? win)
 	{
-		string path = Dialogs.save(_("Export as PostScript"), win);
+		string path = Dialog.save(_("Export as PostScript"), win);
 		if (path == null) return;	
 		
 		try

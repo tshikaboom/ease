@@ -315,7 +315,7 @@ internal class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	internal void on_open(Gtk.Widget sender)
 	{
-		var filename = Dialogs.open(_("Open Document"), this);
+		var filename = Dialog.open(_("Open Document"), this);
 		if (filename != null) Main.open_file(filename);
 	}
 	
@@ -415,7 +415,7 @@ internal class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	internal void insert_image(Gtk.Widget sender)
 	{
-		var filename = Dialogs.open(_("Insert Image"), this);
+		var filename = Dialog.open(_("Insert Image"), this);
 
 		if (filename != null)
 		{
@@ -452,7 +452,7 @@ internal class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	internal void insert_video(Gtk.Widget sender)
 	{
-		var filename = Dialogs.open(_("Insert Video"), this);
+		var filename = Dialog.open(_("Insert Video"), this);
 
 		if (filename != null)
 		{
@@ -549,7 +549,7 @@ internal class Ease.EditorWindow : Gtk.Window
 	{
 		if (document.filename == null)
 		{
-			var filename = Dialogs.save(_("Save Document"), this);
+			var filename = Dialog.save(_("Save Document"), this);
 			
 			if (filename != null)
 			{

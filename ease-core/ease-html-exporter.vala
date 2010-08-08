@@ -66,7 +66,7 @@ public class Ease.HTMLExporter : GLib.Object
 	 */
 	public bool request_path(Gtk.Window win)
 	{
-		path = Dialogs.save(_("Export to HTML"), win);
+		path = Dialog.save(_("Export to HTML"), win);
 		
 		if (path != null)
 		{	

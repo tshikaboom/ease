@@ -21,7 +21,7 @@
  *
  * Note that this class is not a subclass of Gtk.Dialog.
  */
-public class Ease.Dialogs.Progress : GLib.Object
+public class Ease.Dialog.Progress : GLib.Object
 {
 	private const string UI_FILE = "progress-dialog.ui";
 	

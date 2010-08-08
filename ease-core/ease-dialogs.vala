@@ -18,7 +18,7 @@
 /**
  * Common dialog windows used in Ease.
  */
-namespace Ease.Dialogs
+namespace Ease.Dialog
 {
 	/**
 	 * Displays an "Open" dialog with the specified title. Returns null if
