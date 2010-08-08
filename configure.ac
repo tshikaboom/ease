@@ -16,13 +16,18 @@ AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([no-dist-gzip dist-bzip2 subdir-objects -Wno-portability])
+AM_MAINTAINER_MODE()
 
 # Enable silent rules is available
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_PROG_CC
 AC_PROG_CC_STDC
-AM_PROG_VALAC([0.9.1])
+
+if test "x$USE_MAINTAINER_MODE" = "xyes" ; then
+  AM_PROG_VALAC([0.9.1])
+fi
+
 AM_PROG_CC_C_O
 AC_PROG_INSTALL
 AC_PROG_INTLTOOL([0.35])
