@@ -821,30 +821,21 @@ internal class Ease.SlideActor : Clutter.Group
 	private void reveal_transition(SlideActor new_slide,
 	                               Clutter.Group container, uint length)
 	{
-		// TODO: make this transition not a total hack
-		((Clutter.Container)get_parent()).raise_child(this, new_slide);
+		(get_parent() as Clutter.Container).raise_child(this, new_slide);
 
 		switch (slide.variant)
 		{
-			case TransitionVariant.TOP:
-				new_slide.y = slide.height;
-				animate(EASE_SLIDE, length, "y", -new_slide.y);
-				new_slide.y = 0;
+			case TransitionVariant.UP:
+				animate(EASE_SLIDE, length, "y", -(float)slide.height);
 				break;
-			case TransitionVariant.BOTTOM:
-				new_slide.y = -slide.height;
-				animate(EASE_SLIDE, length, "y", -new_slide.y);
-				new_slide.y = 0;
+			case TransitionVariant.DOWN:
+				animate(EASE_SLIDE, length, "y", (float)slide.height);
 				break;
 			case TransitionVariant.LEFT:
-				new_slide.x = slide.width;
-				this.animate(EASE_SLIDE, length, "x", -new_slide.x);
-				new_slide.x = 0;
+				animate(EASE_SLIDE, length, "x", -(float)slide.width);
 				break;
 			case TransitionVariant.RIGHT:
-				new_slide.x = -slide.width;
-				animate(EASE_SLIDE, length, "x", -new_slide.x);
-				new_slide.x = 0;
+				animate(EASE_SLIDE, length, "x", (float)slide.width);
 				break;
 		}
 	}
