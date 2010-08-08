@@ -142,6 +142,17 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	}
 	
 	/**
+	 * Allows a subclass of Element to "claim" media files. Media files that
+	 * are not claimed will not be included when the {@link Document} is saved.
+	 * Subclasses with media should override this method and return an
+	 * appropriate array. The "short" (not absolute) path must be used.
+	 */
+	public virtual string[] claim_media()
+	{
+		return {};
+	}
+	
+	/**
 	 * Requests that the presentation be advanced a slide.
 	 */
 	internal void request_advance()

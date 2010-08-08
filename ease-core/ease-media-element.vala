@@ -47,6 +47,14 @@ public abstract class Ease.MediaElement : Element
 	}
 	
 	/**
+	 * Claims this MediaElement's media file.
+	 */
+	public override string[] claim_media()
+	{
+		return { filename };
+	}
+	
+	/**
 	 * The path to a media file.
 	 */
 	public string filename { get; set; }

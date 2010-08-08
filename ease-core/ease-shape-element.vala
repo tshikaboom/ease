@@ -70,6 +70,16 @@ public class Ease.ShapeElement : CairoElement
 	}
 	
 	/**
+	 * Claims this ShapeElement's background image, if needed.
+	 */
+	public override string[] claim_media()
+	{
+		if (background.image.filename != null)
+			return { background.image.filename };
+		return {};
+	}
+	
+	/**
 	 * Renders (or doesn't, it isn't supported yet) this ShapeElement as HTML.
 	 * When implemented, this should be done in CairoElement probably, so it
 	 * can be generic to anything else Cairo-based.

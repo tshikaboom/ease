@@ -196,6 +196,7 @@ public class Ease.Document : GLib.Object, UndoSource
 	
 	public void to_json(Gtk.Window? window) throws GLib.Error
 	{
+		// create the json base
 		var root = new Json.Node(Json.NodeType.OBJECT);
 		var obj = new Json.Object();
 		
@@ -222,8 +223,41 @@ public class Ease.Document : GLib.Object, UndoSource
 		generator.pretty = true;
 		generator.to_file(Path.build_filename(path, JSON_FILE));
 		
+		// find the files that we're going to include
+		var files = new Gee.LinkedList<string>();
+		
+		// include the document file
+		files.add(JSON_FILE);
+		
+		// include all theme files
+		recursive_directory(Path.build_filename(path, THEME_PATH), null,
+		                    (path, full_path) => {
+			files.add(Path.build_filename(THEME_PATH, path));
+		});
+		
+		// find the files used by slides
+		Slide slide;
+		string[] claimed;
+		foreach (var itr in slides)
+		{
+			slides.get(itr, COL_SLIDE, out slide);
+			
+			// add the slide's background image if needed
+			if (slide.background.image.filename != null)
+			{
+				files.add(slide.background.image.filename);
+			}
+			
+			// add media claimed by each Element
+			foreach (var element in slide)
+			{
+				claimed = element.claim_media();
+				foreach (var str in claimed) files.add(str);
+			}
+		}
+		
 		// archive
-		archive(path, filename, _("Saving Document"), window);
+		archive(path, filename, _("Saving Document"), files, window);
 	}
 	
 	/**

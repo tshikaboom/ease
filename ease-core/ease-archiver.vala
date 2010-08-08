@@ -23,6 +23,7 @@ internal class Ease.Archiver : GLib.Object
 	private unowned Thread thread;
 	private bool async = true;
 	private int total_size = 0;
+	private Gee.LinkedList<string> include_files;
 	
 	private static GLib.List<Archiver> archivers = new GLib.List<Archiver>();
 	
@@ -34,15 +35,21 @@ internal class Ease.Archiver : GLib.Object
 	 */
 	private const int ASYNC_SIZE = 1024 * 1024 * 5;
 	
-	internal Archiver(string temp, string fname, Dialogs.Progress dlog)
+	internal Archiver(string temp, string fname, Gee.LinkedList<string> files,
+	                  Dialogs.Progress dlog)
 	{
 		temp_path = temp;
 		filename = fname;
 		dialog = dlog;
+		include_files = files;
 		archivers.append(this);
 		
 		// this is a little redundant, probably not a huge perf hit though
 		recursive_directory(temp_path, null, (path, full_path) => {
+			// if we're not going to archive that file, don't include its size
+			if (!files.contains(path)) return;
+			
+			// add the file's size to the total
 			Posix.Stat st;
 			Posix.stat(full_path, out st);
 			total_size += (int)st.st_size;
@@ -56,8 +63,11 @@ internal class Ease.Archiver : GLib.Object
 			return;
 		}
 		
+		// show the dialog
 		dialog.set_label(LABEL_TEXT.printf(filename));
 		dialog.show();
+		
+		// archive in a thread
 		thread = Thread.create(archive_real, true);
 	}
 	
@@ -92,6 +102,9 @@ internal class Ease.Archiver : GLib.Object
 		
 		// add files
 		recursive_directory(temp_path, null, (path, full_path) => {
+			// skip files we aren't including
+			if (!include_files.contains(path)) return;
+		
 			// create an archive entry for the file
 			var entry = new Archive.Entry();
 			entry.set_pathname(path);
@@ -149,17 +162,19 @@ namespace Ease
 	 * @param temp_path The path of the temporary directory.
 	 * @param filename The filename of the archive to save to.
 	 * @param title The title of the progress dialog.
+	 * @param files The files to include in the archive.
 	 * @param win The window to display a progress dialog modal for.
 	 */
 	internal static void archive(string temp_path,
 		                         string filename,
 		                         string title,
+		                         Gee.LinkedList<string> files,
 		                         Gtk.Window? win) throws Error
 	{
 		// create a progress dialog
 		var dialog = new Dialogs.Progress(title, false, 1, win);
 	
 		// archive away!
-		var arc = new Archiver(temp_path, filename, dialog);
+		var arc = new Archiver(temp_path, filename, files, dialog);
 	}
 }
