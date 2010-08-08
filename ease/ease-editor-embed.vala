@@ -59,10 +59,13 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		{
 			if (selected_priv != null)
 			{
-				selected_priv.notify.disconnect(on_selected_notify);
+				slide_actor.slide.changed.disconnect(on_selected_changed);
 			}
 			selected_priv = value;
-			if (value != null) value.notify.connect(on_selected_notify);
+			if (value != null)
+			{
+				slide_actor.slide.changed.connect(on_selected_changed);
+			}
 		}
 	}
 	private Actor selected_priv;
@@ -819,19 +822,10 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	/**
 	 * Notifies of changes to the selected actor.
 	 */
-	internal void on_selected_notify(GLib.Object object, GLib.ParamSpec pspec)
+	internal void on_selected_changed(Slide sender)
 	{
 		if (selection_rectangle == null) return;
-		
-		switch (pspec.name)
-		{
-			case "x":
-			case "y":
-			case "width":
-			case "height":
-				position_selection();
-				break;
-		}
+		position_selection();
 	}
 }
 
