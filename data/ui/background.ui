@@ -4,19 +4,13 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkAlignment" id="root">
     <property name="visible">True</property>
-    <property name="top_padding">4</property>
-    <property name="bottom_padding">4</property>
-    <property name="left_padding">4</property>
-    <property name="right_padding">4</property>
     <child>
       <object class="GtkVBox" id="vbox-root">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">10</property>
         <child>
           <object class="GtkVBox" id="vbox-style">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkHBox" id="hbox-style">
                 <property name="visible">True</property>
@@ -59,7 +53,6 @@
         </child>
         <child>
           <object class="GtkVBox" id="vbox-color">
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkHBox" id="hbox2">
                 <property name="visible">True</property>
@@ -106,7 +99,6 @@
         </child>
         <child>
           <object class="GtkVBox" id="vbox-gradient">
-            <property name="orientation">vertical</property>
             <property name="spacing">4</property>
             <child>
               <object class="GtkHBox" id="hbox3">
@@ -202,7 +194,6 @@
             <child>
               <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">2</property>
                 <child>
                   <object class="GtkHBox" id="hbox5">
@@ -256,7 +247,6 @@
         </child>
         <child>
           <object class="GtkVBox" id="vbox-image">
-            <property name="orientation">vertical</property>
             <property name="spacing">4</property>
             <child>
               <object class="GtkHBox" id="hbox1">
