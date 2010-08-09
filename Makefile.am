@@ -19,6 +19,9 @@ pkgconfig_DATA = \
 run: ease/ease
 	ease/ease
 
+db: ease/ease
+	libtool --mode=execute gdb ease/ease
+
 doc: ease-core/*.vala
 	rm -rf doc
 	
