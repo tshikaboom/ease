@@ -158,6 +158,17 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 			}
 		} while (image_fill.model.iter_next(ref itr));
 		
+		// add a filter for image files to the bg image box
+		var filter = new Gtk.FileFilter();
+		filter.add_pixbuf_formats();
+		filter.set_name(_("Images"));
+		bg_image.add_filter(filter);
+	
+		// add a filter for all files to the bg image box
+		filter = new Gtk.FileFilter();
+		filter.set_name(_("All Files"));
+		filter.add_pattern("*");
+		bg_image.add_filter(filter);
 		
 		// connect signals
 		builder.connect_signals(this);
@@ -194,34 +205,40 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 		// ease doesn't provide a default for images, so one must be requested
 		if (type == BackgroundType.IMAGE && background.image.filename == null)
 		{
-			var dialog = new Gtk.FileChooserDialog(BG_DIALOG_TITLE,
-			                                       widget_window(this),
-			                                       Gtk.FileChooserAction.OPEN,
-			                                       "gtk-cancel",
-			                                       Gtk.ResponseType.CANCEL,
-			                                       "gtk-open",
-			                                       Gtk.ResponseType.ACCEPT);
-			switch (dialog.run())
+			var filename = Dialog.open_ext(BG_DIALOG_TITLE,
+			                               widget_window(this),
+			                               (dialog) => {
+				// add a filter for image files
+				var filter = new Gtk.FileFilter();
+				filter.add_pixbuf_formats();
+				filter.set_name(_("Images"));
+				dialog.add_filter(filter);
+			
+				// add a filter for all files
+				filter = new Gtk.FileFilter();
+				filter.set_name(_("All Files"));
+				filter.add_pattern("*");
+				dialog.add_filter(filter);
+			});
+			
+			if (filename != null)
 			{
-				case Gtk.ResponseType.ACCEPT:
-					try
-					{
-						var fname = dialog.get_filename();
-						background.image.source = fname;
-						var i = document.add_media_file(fname);
-						background.image.filename = i;
-					}
-					catch (GLib.Error e)
-					{
-						critical("Error adding background image: %s",
-						         e.message);
-					}
-					dialog.destroy();
-					break;
-				case Gtk.ResponseType.CANCEL:
-					action.apply();
-					dialog.destroy();
-					return;
+				try
+				{
+					background.image.source = filename;
+					var image = document.add_media_file(filename);
+					background.image.filename = image;
+				}
+				catch (GLib.Error e)
+				{
+					critical("Error adding background image: %s",
+							 e.message);
+				}
+			}
+			else
+			{
+				action.apply();
+				return;
 			}
 		}
 		

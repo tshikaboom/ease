@@ -415,7 +415,19 @@ internal class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	internal void insert_image(Gtk.Widget sender)
 	{
-		var filename = Dialog.open(_("Insert Image"), this);
+		var filename = Dialog.open_ext(_("Insert Image"), this, (dialog) => {
+			// add a filter for image files
+			var filter = new Gtk.FileFilter();
+			filter.add_pixbuf_formats();
+			filter.set_name(_("Images"));
+			dialog.add_filter(filter);
+			
+			// add a filter for all files
+			filter = new Gtk.FileFilter();
+			filter.set_name(_("All Files"));
+			filter.add_pattern("*");
+			dialog.add_filter(filter);
+		});
 
 		if (filename != null)
 		{
