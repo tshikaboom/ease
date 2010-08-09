@@ -347,8 +347,8 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 	[CCode (instance_pos = -1)]
 	internal void on_file_set(Gtk.FileChooserButton? sender)
 	{
-		var action = new UndoAction(background, "image");
-		action.add(background, "image-source");
+		var action = new UndoAction(background.image, "filename");
+		action.add(background.image, "source");
 		
 		// slide might change in the meantime
 				
