@@ -329,6 +329,14 @@
                     <signal name="activate" handler="ease_editor_window_zoom_out"/>
                   </object>
                 </child>
+                <child>
+                  <object class="GtkCheckMenuItem" id="Zoom Fit">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Zoom to _Fit</property>
+                    <property name="use_underline">True</property>
+                    <signal name="toggled" handler="ease_editor_window_on_zoom_fit"/>
+                  </object>
+                </child>
               </object>
             </child>
           </object>

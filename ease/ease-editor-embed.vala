@@ -191,7 +191,7 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	/**
 	 * If the zoom factor should automatically be set to fill the EditorEmbed.
 	 */
-	private bool zoom_fit { get; set; }
+	internal bool zoom_fit { get; set; }
 
 	/**
 	 * Create an EditorEmbed representing a {@link Document}.
@@ -239,6 +239,16 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 			{
 				reposition_group();
 			}
+		});
+		
+		// fit the slide to the window
+		notify["zoom-fit"].connect((o, pspec) => {
+			if (!zoom_fit) return;
+			
+			zoom = width / height > (float)document.width / document.height
+				     ? height / document.height
+				     : width / document.width;
+			reposition_group();
 		});
 		
 		connect_keys();

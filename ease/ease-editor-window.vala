@@ -122,6 +122,11 @@ internal class Ease.EditorWindow : Gtk.Window
 	private Gtk.RadioMenuItem show_sorter;
 	
 	/**
+	 * The zoom fit check item.
+	 */
+	private Gtk.CheckMenuItem zoom_fit;
+	
+	/**
 	 * The time the document was last saved.
 	 */
 	long last_saved = 0;
@@ -178,8 +183,8 @@ internal class Ease.EditorWindow : Gtk.Window
 		editor = builder.get_object("editor") as Gtk.Widget;
 		show_sorter =
 			builder.get_object("slide-sorter-radio") as Gtk.RadioMenuItem;
-		show_editor =
-			builder.get_object("editor-radio") as Gtk.RadioMenuItem;
+		show_editor = builder.get_object("editor-radio") as Gtk.RadioMenuItem;
+		zoom_fit = builder.get_object("Zoom Fit") as Gtk.CheckMenuItem;
 				
 		// slide display
 		slide_button_panel = new SlideButtonPanel(document, this);
@@ -547,13 +552,23 @@ internal class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	internal void zoom_in(Gtk.Widget sender)
 	{
+		embed.zoom_fit = false;
+		zoom_fit.active = false;
 		zoom_slider.zoom_in();
 	}
 	
 	[CCode (instance_pos = -1)]
 	internal void zoom_out(Gtk.Widget sender)
 	{
+		embed.zoom_fit = false;
+		zoom_fit.active = false;
 		zoom_slider.zoom_out();
+	}
+	
+	[CCode (instance_pos = -1)]
+	internal void on_zoom_fit(Gtk.Widget sender)
+	{
+		embed.zoom_fit = (sender as Gtk.CheckMenuItem).active;
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -774,6 +789,8 @@ internal class Ease.EditorWindow : Gtk.Window
 		zoom_slider.digits = 0;
 		
 		zoom_slider.value_changed.connect(() => {
+			embed.zoom_fit = false;
+			zoom_fit.active = false;
 			embed.zoom = (float)zoom_slider.get_value() / 100f;
 		});
 		
