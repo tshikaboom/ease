@@ -315,7 +315,7 @@ internal class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	internal void on_open(Gtk.Widget sender)
 	{
-		var filename = Dialog.open(_("Open Document"), this);
+		var filename = Dialog.open_document(this);
 		if (filename != null) Main.open_file(filename);
 	}
 	
@@ -549,7 +549,7 @@ internal class Ease.EditorWindow : Gtk.Window
 	{
 		if (document.filename == null)
 		{
-			var filename = Dialog.save(_("Save Document"), this);
+			var filename = Dialog.save_document(_("Save Document"), this);
 			
 			if (filename != null)
 			{

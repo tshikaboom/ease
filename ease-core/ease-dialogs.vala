@@ -22,12 +22,28 @@ namespace Ease.Dialog
 {
 	/**
 	 * Displays an "Open" dialog with the specified title. Returns null if
-	 * cancelled, otherwise returns the selected path
+	 * cancelled, otherwise returns the selected path.
 	 *
 	 * @param title The dialog's title.
 	 * @param modal The window that the dialog should be modal for.
 	 */
 	public string? open(string title, Gtk.Window? modal)
+	{
+		return open_ext(title, modal, null);
+	}
+	
+	/**
+	 * Displays an "Open" dialog with the specified title. The
+	 * {@link FileChooserDialogExtension} can be used to modify the
+	 * dialog before it is displayed. Returns null if cancelled, otherwise
+	 * returns the selected path.
+	 *
+	 * @param title The dialog's title.
+	 * @param modal The window that the dialog should be modal for.
+	 * @param ext A function to modify the dialog before it is displayed.
+	 */
+	public string? open_ext(string title, Gtk.Window? modal,
+	                        FileChooserDialogExtension? ext)
 	{
 		var dialog = new Gtk.FileChooserDialog(title,
 			                                   modal,
@@ -36,6 +52,7 @@ namespace Ease.Dialog
 			                                   Gtk.ResponseType.CANCEL,
 			                                   "gtk-open",
 			                                   Gtk.ResponseType.ACCEPT);
+		if (ext != null) ext(dialog);
 
 		if (dialog.run() == Gtk.ResponseType.ACCEPT)
 		{
@@ -46,15 +63,54 @@ namespace Ease.Dialog
 		dialog.destroy();
 		return null;
 	}
-
+	
 	/**
-	 * Creates and runs a "save" dialog with the given title. Returns null if
-	 * cancelled, otherwise returns the selected path
+	 * Displays an "Open" dialog for an Ease {@link Document}. Returns null if
+	 * cancelled, otherwise returns the selected path.
+	 *
+	 * @param modal The window that the dialog should be modal for.
+	 */
+	public string? open_document(Gtk.Window? modal)
+	{
+		return open_ext(_("Open Document"), modal, (dialog) => {
+			// add a filter for ease documents
+			var filter = new Gtk.FileFilter();
+			filter.add_pattern("*.ease");
+			filter.set_name(_("Ease Presentations"));
+			dialog.add_filter(filter);
+			
+			// add a filter for all files
+			filter = new Gtk.FileFilter();
+			filter.set_name(_("All Files"));
+			filter.add_pattern("*");
+			dialog.add_filter(filter);
+		});
+	}
+	
+	/**
+	 * Displays an "Save" dialog with the specified title. Returns null if
+	 * cancelled, otherwise returns the selected path.
 	 *
 	 * @param title The dialog's title.
 	 * @param modal The window that the dialog should be modal for.
 	 */
 	public string? save(string title, Gtk.Window? modal)
+	{
+		return save_ext(title, modal, null);
+	}
+
+	/**
+	 * Displays an "Save" dialog with the specified title. The
+	 * {@link FileChooserDialogExtension} can be used to modify the
+	 * dialog before it is displayed. Returns null if cancelled, otherwise
+	 * returns the selected path.
+	 *
+	 * @param title The dialog's title.
+	 * @param modal The window that the dialog should be modal for.
+	 * @param ext A function to modify the dialog before it is displayed.
+	 */
+	public string? save_ext(string title, Gtk.Window? modal,
+	                        FileChooserDialogExtension? ext)
 	{
 		var dialog = new Gtk.FileChooserDialog(title,
 			                                   modal,
@@ -64,6 +120,7 @@ namespace Ease.Dialog
 			                                   "gtk-cancel",
 			                                   Gtk.ResponseType.CANCEL,
 			                                   null);
+		if (ext != null) ext(dialog);
 		
 		if (dialog.run() == Gtk.ResponseType.ACCEPT)
 		{
@@ -75,4 +132,35 @@ namespace Ease.Dialog
 		dialog.destroy();
 		return null;
 	}
+	
+	/**
+	 * Displays an "Save" dialog for an Ease {@link Document}. Returns null if
+	 * cancelled, otherwise returns the selected path. The title parameter
+	 * is provided to differentiate between "Save", "Save as", etc.
+	 *
+	 * @param title The dialog's title.
+	 * @param modal The window that the dialog should be modal for.
+	 */
+	public string? save_document(string title, Gtk.Window? modal)
+	{
+		return save_ext(title, modal, (dialog) => {
+			// add a filter for ease documents
+			var filter = new Gtk.FileFilter();
+			filter.add_pattern("*.ease");
+			filter.set_name(_("Ease Presentations"));
+			dialog.add_filter(filter);
+			
+			// add a filter for all files
+			filter = new Gtk.FileFilter();
+			filter.set_name(_("All Files"));
+			filter.add_pattern("*");
+			dialog.add_filter(filter);
+		});
+	}
+	
+	/**
+	 * Allows a caller to manipulate a dialog before is is displayed.
+	 */
+	public delegate void FileChooserDialogExtension(Gtk.FileChooserDialog d);
 }
+
