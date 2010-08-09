@@ -41,6 +41,7 @@ public class Ease.Theme : GLib.Object
 	public const string CONTENT_DUAL_HEADER = "content-dual-header";
 	public const string MEDIA = "media";
 	public const string MEDIA_HEADER = "media-header";
+	public const string EMPTY = "empty";
 	
 	/**
 	 * String identifiers for all master slides available in Ease.
@@ -49,10 +50,11 @@ public class Ease.Theme : GLib.Object
 		TITLE,
 		CONTENT_HEADER,
 		CONTENT,
-		CONTENT_DUAL_HEADER,
+		/*CONTENT_DUAL_HEADER,
 		CONTENT_DUAL,
 		MEDIA_HEADER,
-		MEDIA
+		MEDIA*/
+		EMPTY
 	};
 	
 	// master slide properties
@@ -432,6 +434,7 @@ public class Ease.Theme : GLib.Object
 			case CONTENT_DUAL_HEADER:
 			case MEDIA:
 			case MEDIA_HEADER:
+			case EMPTY: // empty slides don't have anything
 				break;
 			default:
 				error(_("Invalid master slide title: %s"), master);
@@ -586,6 +589,8 @@ public class Ease.Theme : GLib.Object
 				return _("M_edia slide without header");
 			case MEDIA_HEADER:
 				return _("_Media slide");
+			case EMPTY:
+				return _("Em_pty Slide");
 		}
 		
 		critical(_("%s is not a valid identifier"), master);
