@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-08-08 05:45+0000\n"
-"PO-Revision-Date: 2010-08-08 12:51+0100\n"
+"POT-Creation-Date: 2010-08-09 07:17+0000\n"
+"PO-Revision-Date: 2010-08-13 19:04+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -53,6 +53,27 @@ msgstr "Bild"
 #: ../ease-core/ease-background-widget.vala:24
 msgid "Select Background Image"
 msgstr "Hintergrundbild auswählen"
+
+#: ../ease-core/ease-background-widget.vala:164
+#: ../ease-core/ease-background-widget.vala:214
+#: ../ease/ease-editor-window.vala:427
+msgid "Images"
+msgstr "Bilder"
+
+#: ../ease-core/ease-background-widget.vala:169
+#: ../ease-core/ease-background-widget.vala:219
+#: ../ease-core/ease-dialogs.vala:84 ../ease-core/ease-dialogs.vala:155
+#: ../ease/ease-editor-window.vala:432
+msgid "All Files"
+msgstr "Alle Dateien"
+
+#: ../ease-core/ease-dialogs.vala:75
+msgid "Open Document"
+msgstr "Dokument öffnen"
+
+#: ../ease-core/ease-dialogs.vala:79 ../ease-core/ease-dialogs.vala:150
+msgid "Ease Presentations"
+msgstr "Ease-Präsentationen"
 
 #. *
 #. * Default slide title.
@@ -116,7 +137,7 @@ msgstr "Fehler beim Kopieren der Datei"
 msgid "Error loading ImageActor: %s\n"
 msgstr "Fehler beim Laden von ImageActor: %s\n"
 
-#: ../ease-core/ease-image-element.vala:73 ../ease/ease-editor-window.vala:447
+#: ../ease-core/ease-image-element.vala:73 ../ease/ease-editor-window.vala:464
 msgid "Error Inserting Image"
 msgstr "Fehler beim Einfügen des Bildes"
 
@@ -136,60 +157,64 @@ msgstr "Nicht skalieren"
 msgid "Double click to edit"
 msgstr "Doppelklicken zum Bearbeiten"
 
-#: ../ease-core/ease-theme.vala:284
+#: ../ease-core/ease-theme.vala:286
 #, c-format
 msgid "Error loading theme: %s"
 msgstr "Fehler beim Laden des Themas: %s"
 
-#: ../ease-core/ease-theme.vala:437
+#: ../ease-core/ease-theme.vala:440
 #, c-format
 msgid "Invalid master slide title: %s"
 msgstr "Ungültiger Titel der Master-Folie: %s"
 
-#: ../ease-core/ease-theme.vala:464
+#: ../ease-core/ease-theme.vala:467
 #, c-format
 msgid "Not a valid text element type: %s"
 msgstr "Ungültiger Typ des Textelements: %s"
 
-#: ../ease-core/ease-theme.vala:518
+#: ../ease-core/ease-theme.vala:521
 #, c-format
 msgid "Could not find property %s on element type %s."
 msgstr "Eigenschaft %s konnte im Elementtyp %s nicht gefunden werden."
 
-#: ../ease-core/ease-theme.vala:548
+#: ../ease-core/ease-theme.vala:551
 #, c-format
 msgid "Could not find property %s on master type %s."
 msgstr "Eigenschaft %s konnte im Master-Typ %s nicht gefunden werden."
 
-#: ../ease-core/ease-theme.vala:576
+#: ../ease-core/ease-theme.vala:579
 msgid "_Title slide"
 msgstr "_Titel-Folie"
 
-#: ../ease-core/ease-theme.vala:578
+#: ../ease-core/ease-theme.vala:581
 msgid "Content slide _without header"
 msgstr "Inhaltsfolie ohne _Überschrift"
 
-#: ../ease-core/ease-theme.vala:580
+#: ../ease-core/ease-theme.vala:583
 msgid "_Content slide"
 msgstr "_Inhalt-Folie"
 
-#: ../ease-core/ease-theme.vala:582
+#: ../ease-core/ease-theme.vala:585
 msgid "Two column slide without _header"
 msgstr "Folie mit zwei Spalten o_hne Überschrift"
 
-#: ../ease-core/ease-theme.vala:584
+#: ../ease-core/ease-theme.vala:587
 msgid "T_wo column slide with header"
 msgstr "Folie mit z_wei Spalten o_hne Überschrift"
 
-#: ../ease-core/ease-theme.vala:586
+#: ../ease-core/ease-theme.vala:589
 msgid "M_edia slide without header"
 msgstr "M_edien-Folie ohne Überschrift"
 
-#: ../ease-core/ease-theme.vala:588
+#: ../ease-core/ease-theme.vala:591
 msgid "_Media slide"
 msgstr "_Medien-Folie"
 
-#: ../ease-core/ease-theme.vala:591
+#: ../ease-core/ease-theme.vala:593
+msgid "Em_pty Slide"
+msgstr "_Leere Folie"
+
+#: ../ease-core/ease-theme.vala:596
 #, c-format
 msgid "%s is not a valid identifier"
 msgstr "»%s« ist kein gültiger Bezeichner"
@@ -472,45 +497,41 @@ msgstr[1] ""
 msgid "Save changes to \"%s\" before closing?"
 msgstr "Änderungen an »%s« vor dem Schließen speichern?"
 
-#: ../ease/ease-editor-window.vala:148
+#: ../ease/ease-editor-window.vala:153
 msgid "The quick brown fox jumps over the lazy dog"
 msgstr "Franz jagt im total verwahrlosten Taxi quer durch Bayern"
 
-#: ../ease/ease-editor-window.vala:242
+#: ../ease/ease-editor-window.vala:247
 msgid "Untitled Document"
 msgstr "Unbenanntes Dokument"
 
-#: ../ease/ease-editor-window.vala:318 ../ease/ease-welcome-window.vala:272
-msgid "Open Document"
-msgstr "Dokument öffnen"
-
-#: ../ease/ease-editor-window.vala:418
+#: ../ease/ease-editor-window.vala:423
 msgid "Insert Image"
 msgstr "Bild einfügen"
 
-#: ../ease/ease-editor-window.vala:455
+#: ../ease/ease-editor-window.vala:472
 msgid "Insert Video"
 msgstr "Video einfügen"
 
-#: ../ease/ease-editor-window.vala:480
+#: ../ease/ease-editor-window.vala:497
 msgid "Error Inserting Video"
 msgstr "Fehler beim Einfügen des Videos"
 
-#: ../ease/ease-editor-window.vala:552
+#: ../ease/ease-editor-window.vala:579
 msgid "Save Document"
 msgstr "Dokument speichern"
 
-#: ../ease/ease-editor-window.vala:568
+#: ../ease/ease-editor-window.vala:595
 msgid "Error Saving Document"
 msgstr "Fehler beim Speichern des Dokuments"
 
 #. create the dialog
-#: ../ease/ease-editor-window.vala:654
+#: ../ease/ease-editor-window.vala:681
 msgid "Select Color"
 msgstr "Farbe auswählen"
 
 #. create a font selection dialog
-#: ../ease/ease-editor-window.vala:721
+#: ../ease/ease-editor-window.vala:748
 msgid "Select Font"
 msgstr "Schrift auswählen"
 
@@ -599,9 +620,6 @@ msgstr "%i mal %i"
 
 #~ msgid "New Presentation"
 #~ msgstr "Neue Präsentation"
-
-#~ msgid "File"
-#~ msgstr "Datei"
 
 #~ msgid "New"
 #~ msgstr "Neu"
