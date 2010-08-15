@@ -23,7 +23,7 @@ internal class Ease.InspectorSlidePane : InspectorPane
 	private const string UI_FILE_PATH = "inspector-slide.ui";
 
 	private BackgroundWidget bg_widget;
-	private Gtk.Box box;
+	private Gtk.VBox vbox;
 
 	internal InspectorSlidePane(Document d)
 	{	
@@ -39,7 +39,7 @@ internal class Ease.InspectorSlidePane : InspectorPane
 		catch (Error e) { error("Error loading UI: %s", e.message); }
 		
 		// get the root box
-		box = builder.get_object("root-box") as Gtk.Box;
+		vbox = builder.get_object("root-box") as Gtk.VBox;
 		
 		// connect signals
 		builder.connect_signals(this);
@@ -50,9 +50,9 @@ internal class Ease.InspectorSlidePane : InspectorPane
 	
 	protected override void slide_updated()
 	{
-		if (bg_widget != null) box.remove(bg_widget);
+		if (bg_widget != null) vbox.remove(bg_widget);
 		bg_widget = new BackgroundWidget.for_slide(slide);
-		box.pack_start(bg_widget, true, true, 0);
+		vbox.pack_start(bg_widget, true, true, 0);
 		bg_widget.show();
 	}
 }
