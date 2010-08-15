@@ -153,6 +153,7 @@ internal class Ease.Player : Gtk.Window
 		show_all();
 		present();
 		
+		var presenter = new PresenterWindow (this.document);
 		can_animate = true;
 		advance();
 	}

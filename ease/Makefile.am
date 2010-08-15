@@ -15,6 +15,7 @@ ease_SOURCES = \
 	ease-inspector.vala \
 	ease-main.vala \
 	ease-player.vala \
+	ease-presenter-window.vala \
 	ease-scrollable-embed.vala \
 	ease-selection-rectangle.vala \
 	ease-slide-actor.vala \
