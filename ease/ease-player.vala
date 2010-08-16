@@ -42,7 +42,7 @@ internal class Ease.Player : Gtk.Window
 	
 	// constants
 	private const uint FADE_IN_TIME = 1000;
-	private const uint FOCUS_OPACITY = 100;
+	private const uint FOCUS_OPACITY = 150;
 	//FIXME : make it proportionnal
 	private const uint FOCUS_RADIUS = 100;
 
@@ -114,7 +114,7 @@ internal class Ease.Player : Gtk.Window
 
 		radial = new Cairo.Pattern.radial (0, 0, FOCUS_RADIUS,
 										   0, 0, 2*FOCUS_RADIUS);
-		radial.add_color_stop_rgb (0, 1, 1, 1);
+		radial.add_color_stop_rgba (0, 1, 1, 1, 0);
 		radial.add_color_stop_rgb (1, 0, 0, 0);
 
 		this.stage.add_actor (focus_circle);
