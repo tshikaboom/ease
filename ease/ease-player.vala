@@ -44,7 +44,7 @@ internal class Ease.Player : Gtk.Window
 	private const uint FADE_IN_TIME = 1000;
 	private const uint FOCUS_OPACITY = 100;
 	//FIXME : make it proportionnal
-	private const uint FOCUS_RADIUS = 40;
+	private const uint FOCUS_RADIUS = 100;
 
 	// focus actors
 	private Clutter.CairoTexture focus_circle;
