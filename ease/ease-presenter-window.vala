@@ -36,6 +36,12 @@ internal class Ease.PresenterWindow : Gtk.Window
 		this.add (embed);
 		stage = embed.get_stage () as Clutter.Stage;
 
+		current_display = new Clutter.Group ();
+		bottom_display = new Clutter.Group ();
+
+		slides_elapsed = new Clutter.Text.full ("Sans 20",
+												@"Slide n°$slide_index/$doc.length",
+											    Clutter.Color.from_string ("white"));
 		stage.color = { 0, 0, 0, 255 };
 		stage.set_fullscreen (true);
 		stage.show_all ();
