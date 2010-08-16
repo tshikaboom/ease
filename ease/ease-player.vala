@@ -42,16 +42,14 @@ internal class Ease.Player : Gtk.Window
 	
 	// constants
 	private const uint FADE_IN_TIME = 1000;
-	private const uint FOCUS_OPACITY = 100;
+	private const uint FOCUS_OPACITY = 150;
 	//FIXME : make it proportionnal
-	private const uint FOCUS_RADIUS = 40;
+	private uint FOCUS_RADIUS = 100;
 
 	// focus actors
-	private Clutter.Group shader;
-	private Clutter.Rectangle shader_top;
-	private Clutter.Rectangle shader_bottom;
-	private Clutter.Rectangle shader_left;
-	private Clutter.Rectangle shader_right;
+	private Clutter.CairoTexture focus_circle;
+	private Cairo.Pattern radial;
+	private Cairo.Context cr;
 	
 	internal signal void complete();
 	
@@ -101,6 +99,12 @@ internal class Ease.Player : Gtk.Window
 				on_button_release (ev);
 				return true;
 			});
+
+		stage.scroll_event.connect ( (ev) =>
+			{
+				on_scroll_event (ev);
+				return true;
+			});
 		// FIXME : do I really have to do lambda functions each time ?
 		
 		// TODO : auto hide/show of the cursor.
@@ -110,24 +114,16 @@ internal class Ease.Player : Gtk.Window
 		Clutter.grab_keyboard(stage);
 
 		// focusing
-		shader_top = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
-		shader_right = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
-		shader_bottom = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
-		shader_left = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
+		focus_circle = new Clutter.CairoTexture (1024, 768);
+		focus_circle.set_anchor_point_from_gravity (Clutter.Gravity.CENTER);
+		focus_circle.opacity = 0;
+		focus_circle.set_position (stage.width/2, stage.height/2);
 
-		shader = new Clutter.Group ();
-		shader.opacity = 0;
+		radial = new Cairo.Pattern.radial (0, 0, FOCUS_RADIUS, 0, 0, 2*FOCUS_RADIUS);
+		radial.add_color_stop_rgba (0, 1, 1, 1, 0);
+		radial.add_color_stop_rgb (1, 0, 0, 0);
 
-		/* The following function is broken at the moment in the Clutter
-		   bindings. Replace the
-		   internal void add (...); by
-		   internal void add (Clutter.Actor first_actor, ...); */
-		shader.add (shader_top, 
-					shader_right,
-					shader_bottom,
-					shader_left);
-
-		stage.add (shader);
+		this.stage.add_actor (focus_circle);
 		stage.set_clip(0, 0, doc.width, doc.height);
 
 		// make the stacking container
@@ -161,17 +157,15 @@ internal class Ease.Player : Gtk.Window
 	internal void on_motion (Clutter.MotionEvent event)
 	{
 		if (dragging) {
-			// FIXME : duplicate code
-			shader_top.set_size (stage.width, event.y - FOCUS_RADIUS);
-			shader_bottom.set_size (stage.width, (stage.height - event.y) - FOCUS_RADIUS);
-			shader_left.set_size (event.x - FOCUS_RADIUS, FOCUS_RADIUS * 2);
-			shader_right.set_size (stage.width - event.x - FOCUS_RADIUS, 2 * FOCUS_RADIUS);
-			
-			shader_left.set_position (0, event.y - FOCUS_RADIUS);
-			shader_right.set_position (event.x + FOCUS_RADIUS, event.y - FOCUS_RADIUS);
-			shader_bottom.set_position (0, event.y + FOCUS_RADIUS);
-			shader.show_all ();
-			stage.raise_child (shader, null);
+			focus_circle.clear ();
+
+			cr = focus_circle.create ();
+			cr.translate (event.x, event.y);
+			cr.set_source (radial);
+
+			cr.paint ();
+			cr = null;
+			stage.raise_child (focus_circle, null);
 		} else {
 			// fade out
 		}
@@ -181,26 +175,51 @@ internal class Ease.Player : Gtk.Window
 	{
 		dragging = false;
 		// FIXME : should the focus fade time be a constant ?
-		shader.animate (Clutter.AnimationMode.LINEAR, 150,
-						"opacity", 0);
+		focus_circle.animate (Clutter.AnimationMode.LINEAR, 150,
+							  "opacity", 0);
 	}
 
 	internal void on_button_press (Clutter.ButtonEvent event)
 	{
 		dragging = true;
 		debug ("Got a mouse click at %f, %f", event.x, event.y);
-		shader_top.set_size (stage.width, event.y - FOCUS_RADIUS);
-		shader_bottom.set_size (stage.width, (stage.height - event.y) - FOCUS_RADIUS);
-		shader_left.set_size (event.x - FOCUS_RADIUS, FOCUS_RADIUS * 2);
-		shader_right.set_size (stage.width - event.x - FOCUS_RADIUS, 2 * FOCUS_RADIUS);
 
-		shader_left.set_position (0, event.y - FOCUS_RADIUS);
-		shader_right.set_position (event.x + FOCUS_RADIUS, event.y - FOCUS_RADIUS);
-		shader_bottom.set_position (0, event.y + FOCUS_RADIUS);
-		shader.show_all ();
-		stage.raise_child (shader, null);
-		shader.animate (Clutter.AnimationMode.LINEAR, 150,
-						"opacity", FOCUS_OPACITY);
+		focus_circle.clear ();
+
+		cr = focus_circle.create ();
+		cr.translate (event.x, event.y);
+		cr.set_source (radial);
+
+		cr.paint ();
+		cr = null;
+		stage.raise_child (focus_circle, null);
+		focus_circle.animate (Clutter.AnimationMode.LINEAR, 150,
+							  "opacity", FOCUS_OPACITY);
+	}
+
+	internal void on_scroll_event (Clutter.ScrollEvent event)
+	{
+		debug ("Scrolling active.");
+		if (event.direction == Clutter.ScrollDirection.UP) {
+			FOCUS_RADIUS += 10;
+		} else if (event.direction == Clutter.ScrollDirection.DOWN) {
+			if (FOCUS_RADIUS > 10) {
+				FOCUS_RADIUS -= 10;
+			}
+		}
+		/* Update the shape too */
+		radial = new Cairo.Pattern.radial (0, 0, FOCUS_RADIUS, 0, 0, 2*FOCUS_RADIUS);
+		radial.add_color_stop_rgba (0, 1, 1, 1, 0);
+		radial.add_color_stop_rgb (1, 0, 0, 0);
+
+		focus_circle.clear ();
+		cr = focus_circle.create ();
+		cr.translate (event.x, event.y);
+		cr.set_source (radial);
+
+		cr.paint ();
+		cr = null;
+		stage.raise_child (focus_circle, null);
 	}
 
 	internal void on_key_press (Clutter.KeyEvent event)
