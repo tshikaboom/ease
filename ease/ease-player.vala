@@ -112,6 +112,11 @@ internal class Ease.Player : Gtk.Window
 		focus_circle.opacity = 0;
 		focus_circle.set_position (stage.width/2, stage.height/2);
 
+		radial = new Cairo.Pattern.radial (0, 0, FOCUS_RADIUS,
+										   0, 0, 2*FOCUS_RADIUS);
+		radial.add_color_stop_rgb (0, 1, 1, 1);
+		radial.add_color_stop_rgb (1, 0, 0, 0);
+
 		this.stage.add_actor (focus_circle);
 		stage.set_clip(0, 0, doc.width, doc.height);
 
@@ -149,10 +154,6 @@ internal class Ease.Player : Gtk.Window
 			var cr = focus_circle.create ();
 			
 			cr.translate (event.x, event.y);
-			radial = new Cairo.Pattern.radial (0, 0, FOCUS_RADIUS, 
-											   0, 0, 2*FOCUS_RADIUS);
-			radial.add_color_stop_rgb (0, 1, 1, 1);
-			radial.add_color_stop_rgb (1, 0, 0, 0);
 
 			cr.set_source (radial);
 			cr.paint ();
@@ -180,10 +181,6 @@ internal class Ease.Player : Gtk.Window
 		var cr = focus_circle.create ();
 
 		cr.translate (event.x, event.y);
-		radial = new Cairo.Pattern.radial (0, 0, FOCUS_RADIUS,
-										   0, 0, 2*FOCUS_RADIUS);
-		radial.add_color_stop_rgb (0, 1, 1, 1);
-		radial.add_color_stop_rgb (1, 0, 0, 0);
 
 		cr.set_source (radial);
 		cr.paint ();
