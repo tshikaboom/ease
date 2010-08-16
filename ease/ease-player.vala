@@ -120,7 +120,7 @@ internal class Ease.Player : Gtk.Window
 		focus_circle.set_position (stage.width/2, stage.height/2);
 
 		radial = new Cairo.Pattern.radial (0, 0, FOCUS_RADIUS, 0, 0, 2*FOCUS_RADIUS);
-		radial.add_color_stop_rgba (0, 1, 1, 1, 0);
+		radial.add_color_stop_rgba (0, 0, 0, 0, 0);
 		radial.add_color_stop_rgb (1, 0, 0, 0);
 
 		this.stage.add_actor (focus_circle);
