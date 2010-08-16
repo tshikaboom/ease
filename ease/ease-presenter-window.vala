@@ -30,7 +30,7 @@ internal class Ease.PresenterWindow : Gtk.Window
 		document = doc;
 		slide_index = -1;
 
-		this.title = "Presenter window";
+		this.title = _("Presenter window");
 
 		var embed = new GtkClutter.Embed ();
 		this.add (embed);
