@@ -44,7 +44,7 @@ internal class Ease.Player : Gtk.Window
 	private const uint FADE_IN_TIME = 1000;
 	private const uint FOCUS_OPACITY = 150;
 	//FIXME : make it proportionnal
-	private const uint FOCUS_RADIUS = 100;
+	private uint FOCUS_RADIUS = 100;
 
 	// focus actors
 	private Clutter.CairoTexture focus_circle;
@@ -99,6 +99,12 @@ internal class Ease.Player : Gtk.Window
 				on_button_release (ev);
 				return true;
 			});
+
+		stage.scroll_event.connect ( (ev) =>
+			{
+				on_scroll_event (ev);
+				return true;
+			});
 		// FIXME : do I really have to do lambda functions each time ?
 		
 		// TODO : auto hide/show of the cursor.
@@ -113,8 +119,7 @@ internal class Ease.Player : Gtk.Window
 		focus_circle.opacity = 0;
 		focus_circle.set_position (stage.width/2, stage.height/2);
 
-		radial = new Cairo.Pattern.radial (0, 0, FOCUS_RADIUS,
-										   0, 0, 2*FOCUS_RADIUS);
+		radial = new Cairo.Pattern.radial (0, 0, FOCUS_RADIUS, 0, 0, 2*FOCUS_RADIUS);
 		radial.add_color_stop_rgba (0, 1, 1, 1, 0);
 		radial.add_color_stop_rgb (1, 0, 0, 0);
 
@@ -152,13 +157,12 @@ internal class Ease.Player : Gtk.Window
 	{
 		if (dragging) {
 			focus_circle.clear ();
+
 			cr = focus_circle.create ();
-
 			cr.translate (event.x, event.y);
-
 			cr.set_source (radial);
-			cr.paint ();
 
+			cr.paint ();
 			cr = null;
 			stage.raise_child (focus_circle, null);
 		} else {
@@ -180,17 +184,41 @@ internal class Ease.Player : Gtk.Window
 		debug ("Got a mouse click at %f, %f", event.x, event.y);
 
 		focus_circle.clear ();
+
 		cr = focus_circle.create ();
-
 		cr.translate (event.x, event.y);
-
 		cr.set_source (radial);
-		cr.paint ();
 
+		cr.paint ();
 		cr = null;
 		stage.raise_child (focus_circle, null);
 		focus_circle.animate (Clutter.AnimationMode.LINEAR, 150,
 							  "opacity", FOCUS_OPACITY);
+	}
+
+	internal void on_scroll_event (Clutter.ScrollEvent event)
+	{
+		debug ("Scrolling active.");
+		if (event.direction == Clutter.ScrollDirection.UP) {
+			FOCUS_RADIUS += 10;
+		} else if (event.direction == Clutter.ScrollDirection.DOWN) {
+			if (FOCUS_RADIUS > 10) {
+				FOCUS_RADIUS -= 10;
+			}
+		}
+		/* Update the shape too */
+		radial = new Cairo.Pattern.radial (0, 0, FOCUS_RADIUS, 0, 0, 2*FOCUS_RADIUS);
+		radial.add_color_stop_rgba (0, 1, 1, 1, 0);
+		radial.add_color_stop_rgb (1, 0, 0, 0);
+
+		focus_circle.clear ();
+		cr = focus_circle.create ();
+		cr.translate (event.x, event.y);
+		cr.set_source (radial);
+
+		cr.paint ();
+		cr = null;
+		stage.raise_child (focus_circle, null);
 	}
 
 	internal void on_key_press (Clutter.KeyEvent event)
