@@ -28,7 +28,7 @@ internal class Ease.Player : Gtk.Window
 	internal Clutter.Stage stage { get; set; }
 	private bool can_animate { get; set; }
 	private bool dragging = false;
-
+	private PresenterWindow presenter_window;
 	// current and transitioning out slide
 	private SlideActor current_slide;
 	private SlideActor old_slide;
@@ -153,7 +153,7 @@ internal class Ease.Player : Gtk.Window
 		show_all();
 		present();
 		
-		var presenter = new PresenterWindow (this.document);
+		presenter_window = new PresenterWindow (this.document);
 		can_animate = true;
 		advance();
 	}
@@ -212,6 +212,7 @@ internal class Ease.Player : Gtk.Window
 		case Key.ESCAPE:
 			debug ("Quitting player.");
 			stage.hide ();
+			presenter_window.hide ();
 			break;
 		case Key.RIGHT:
 		case Key.DOWN:

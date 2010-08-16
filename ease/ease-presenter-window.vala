@@ -8,7 +8,7 @@
  * (typed into the {@link EditorWindow}), number of slides left and time 
  * elapsed.
  */
-internal class Ease.PresenterWindow
+internal class Ease.PresenterWindow : Gtk.Window
 {
 	internal Document document { get; set; }
 	internal int slide_index { get; set; }
@@ -30,12 +30,14 @@ internal class Ease.PresenterWindow
 		document = doc;
 		slide_index = -1;
 
-		stage = new Clutter.Stage ();
-		stage.title = "Presenter window";
+		this.title = "Presenter window";
+
+		var embed = new GtkClutter.Embed ();
+		this.add (embed);
+		stage = embed.get_stage () as Clutter.Stage;
+
 		stage.color = { 0, 0, 0, 255 };
 		stage.set_fullscreen (true);
 		stage.show_all ();
 	}
 }
-		
-		
