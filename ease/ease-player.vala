@@ -49,6 +49,7 @@ internal class Ease.Player : Gtk.Window
 	// focus actors
 	private Clutter.CairoTexture focus_circle;
 	private Cairo.Pattern radial;
+	private Cairo.Context cr;
 	
 	internal signal void complete();
 	
@@ -151,13 +152,14 @@ internal class Ease.Player : Gtk.Window
 	{
 		if (dragging) {
 			focus_circle.clear ();
-			var cr = focus_circle.create ();
-			
+			cr = focus_circle.create ();
+
 			cr.translate (event.x, event.y);
 
 			cr.set_source (radial);
 			cr.paint ();
 
+			cr = null;
 			stage.raise_child (focus_circle, null);
 		} else {
 			// fade out
@@ -178,13 +180,14 @@ internal class Ease.Player : Gtk.Window
 		debug ("Got a mouse click at %f, %f", event.x, event.y);
 
 		focus_circle.clear ();
-		var cr = focus_circle.create ();
+		cr = focus_circle.create ();
 
 		cr.translate (event.x, event.y);
 
 		cr.set_source (radial);
 		cr.paint ();
 
+		cr = null;
 		stage.raise_child (focus_circle, null);
 		focus_circle.animate (Clutter.AnimationMode.LINEAR, 150,
 							  "opacity", FOCUS_OPACITY);
