@@ -50,7 +50,10 @@ internal class Ease.Player : Gtk.Window
 	private Clutter.CairoTexture focus_circle;
 	private Cairo.Pattern radial;
 	private Cairo.Context cr;
-	
+
+	// presenter notes
+	private PresenterWindow presenter;
+
 	internal signal void complete();
 	
 	internal Player(Document doc)
@@ -149,7 +152,8 @@ internal class Ease.Player : Gtk.Window
 		show_all();
 		present();
 		
-		presenter_window = new PresenterWindow (this.document);
+		presenter = new PresenterWindow (this.document);
+		presenter.show_all ();
 		can_animate = true;
 		advance();
 	}
