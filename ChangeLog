@@ -1,7 +1,5 @@
-2010-05-20  gettextize  <bug-gnu-gettext@gnu.org>
+2010-08-16  Stéphane Maniaci <stephane.maniaci@gmail.com>
 
-	* Makefile.am (SUBDIRS): New variable.
-	(ACLOCAL_AMFLAGS): New variable.
-	(EXTRA_DIST): Add config.rpath, m4/ChangeLog.
-	* configure.ac (AC_CONFIG_FILES): Add po/Makefile.in.
-
+        * *: The ChangeLog is auto-generated when releasing. If you
+	        are seeing this, use 'git log' for a detailed list of
+		changes.
