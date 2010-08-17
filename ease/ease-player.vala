@@ -78,37 +78,13 @@ internal class Ease.Player : Gtk.Window
 		}
 
 		// keyboard handling
-		stage.key_press_event.connect ( (ev) => 
-			{
-				on_key_press (ev);
-				return true;
-			});
+		stage.key_press_event.connect (on_key_press);
 
 		// mouse handling
-		stage.button_press_event.connect ( (ev) =>
-			{
-				on_button_press (ev);
-				return true;
-			});
-
-		stage.motion_event.connect ( (ev) =>
-			{
-				on_motion (ev);
-				return true;
-			});
-
-		stage.button_release_event.connect ( (ev) =>
-			{
-				on_button_release (ev);
-				return true;
-			});
-
-		stage.scroll_event.connect ( (ev) =>
-			{
-				on_scroll_event (ev);
-				return true;
-			});
-		// FIXME : do I really have to do lambda functions each time ?
+		stage.button_press_event.connect (on_button_press);
+		stage.motion_event.connect (on_motion);
+		stage.button_release_event.connect (on_button_release);
+		stage.scroll_event.connect (on_scroll_event);
 		
 		// TODO : auto hide/show of the cursor.
 		// stage.hide_cursor();
@@ -158,7 +134,7 @@ internal class Ease.Player : Gtk.Window
 		advance();
 	}
 
-	internal void on_motion (Clutter.MotionEvent event)
+	internal bool on_motion (Clutter.MotionEvent event)
 	{
 		if (dragging) {
 			focus_circle.clear ();
@@ -173,17 +149,19 @@ internal class Ease.Player : Gtk.Window
 		} else {
 			// fade out
 		}
+		return true;
 	}
 
-	internal void on_button_release (Clutter.ButtonEvent event)
+	internal bool on_button_release (Clutter.ButtonEvent event)
 	{
 		dragging = false;
 		// FIXME : should the focus fade time be a constant ?
 		focus_circle.animate (Clutter.AnimationMode.LINEAR, 150,
 							  "opacity", 0);
+		return true;
 	}
 
-	internal void on_button_press (Clutter.ButtonEvent event)
+	internal bool on_button_press (Clutter.ButtonEvent event)
 	{
 		dragging = true;
 		debug ("Got a mouse click at %f, %f", event.x, event.y);
@@ -199,9 +177,10 @@ internal class Ease.Player : Gtk.Window
 		stage.raise_child (focus_circle, null);
 		focus_circle.animate (Clutter.AnimationMode.LINEAR, 150,
 							  "opacity", FOCUS_OPACITY);
+		return true;
 	}
 
-	internal void on_scroll_event (Clutter.ScrollEvent event)
+	internal bool on_scroll_event (Clutter.ScrollEvent event)
 	{
 		debug ("Scrolling active.");
 		if (event.direction == Clutter.ScrollDirection.UP) {
@@ -224,9 +203,10 @@ internal class Ease.Player : Gtk.Window
 		cr.paint ();
 		cr = null;
 		stage.raise_child (focus_circle, null);
+		return true;
 	}
 
-	internal void on_key_press (Clutter.KeyEvent event)
+	internal bool on_key_press (Clutter.KeyEvent event)
 	{
 		/* Coded with /usr/include/clutter-1.0/clutter/clutter-keysyms.h */
 		/* Ask developers about the use of that file and the lack of doc */
@@ -256,6 +236,7 @@ internal class Ease.Player : Gtk.Window
 			debug ("Key not handled.");
 			break;
 		}
+		return true;
 	}
 		
 	internal void advance()
