@@ -187,7 +187,7 @@ internal class Ease.Player : Gtk.Window
 		}
 		/* Update the shape too */
 		radial = new Cairo.Pattern.radial (0, 0, FOCUS_RADIUS, 0, 0, 2*FOCUS_RADIUS);
-		radial.add_color_stop_rgba (0, 1, 1, 1, 0);
+		radial.add_color_stop_rgba (0, 0, 0, 0, 0);
 		radial.add_color_stop_rgb (1, 0, 0, 0);
 
 		focus_circle.clear ();
