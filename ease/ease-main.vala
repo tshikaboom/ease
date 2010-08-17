@@ -313,7 +313,7 @@ internal class Ease.Main : GLib.Object
 		player.present();
 		
 		player.complete.connect(() => {
-			player = null;
+				player.destroy ();
 			foreach (var window in windows) window.show();
 		});
 		

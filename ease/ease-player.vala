@@ -229,7 +229,7 @@ internal class Ease.Player : Gtk.Window
 		switch (event.keyval) {
 		case Key.ESCAPE:
 			debug ("Quitting player.");
-			stage.hide ();
+			complete ();
 			break;
 		case Key.RIGHT:
 		case Key.DOWN:
