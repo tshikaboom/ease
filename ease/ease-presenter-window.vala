@@ -10,6 +10,7 @@
  */
 internal class Ease.PresenterWindow : Gtk.Window
 {
+	internal Player player;
 	internal Document document { get; set; }
 	internal int slide_index { get; set; }
 	internal Clutter.Stage stage { get; set; }
@@ -19,7 +20,7 @@ internal class Ease.PresenterWindow : Gtk.Window
 	private Clutter.Group current_display;
 	private Clutter.Group bottom_display;
 
-	private SlideActor current_slide;
+	private Clutter.Clone current_slide;
 	private SlideActor next_slide;
 	private Clutter.Text notes;
 	private Clutter.Text time_elapsed;
@@ -28,8 +29,9 @@ internal class Ease.PresenterWindow : Gtk.Window
 	/* other data */
 	Timer timer;
 
-	internal PresenterWindow (Document doc)
+	internal PresenterWindow (Document doc, Player p)
 	{
+		player = p;
 		document = doc;
 		slide_index = -1;
 
@@ -43,7 +45,12 @@ internal class Ease.PresenterWindow : Gtk.Window
 
 		current_display = new Clutter.Group ();
 		bottom_display = new Clutter.Group ();
+		stage.add (current_display, bottom_display);
 
+		current_slide = new Clutter.Clone (p.stage);
+		current_slide.set_size (doc.width/2, doc.height/2);
+		
+		current_display.add_actor (current_slide);
 		int docsize = doc.length;
 		var slidenum = @"Slide n°$slide_index / $docsize";
 		var elapsed = (uint)timer.elapsed ();
@@ -53,14 +60,11 @@ internal class Ease.PresenterWindow : Gtk.Window
 		time_elapsed = new Clutter.Text.full ("Sans 20",
 											  @"$elapsed s",
 											  Clutter.Color.from_string ("white"));
-		time_elapsed.set_position (stage.width - time_elapsed.width,
-								   stage.height - time_elapsed.height);
+		bottom_display.add (slides_elapsed, time_elapsed);
+
+		time_elapsed.set_position (bottom_display.width - time_elapsed.width,
+								   bottom_display.height - time_elapsed.height);
 		bottom_display.set_position (0, stage.height/4*3);
-		bottom_display.add (slides_elapsed,
-							time_elapsed,
-							null);
-		stage.add (current_display,
-				   bottom_display);
 		stage.color = { 0, 0, 0, 255 };
 		stage.set_fullscreen (true);
 		stage.show_all ();

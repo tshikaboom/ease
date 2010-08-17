@@ -152,7 +152,7 @@ internal class Ease.Player : Gtk.Window
 		show_all();
 		present();
 		
-		presenter = new PresenterWindow (this.document);
+		presenter = new PresenterWindow (this.document, this);
 		presenter.show_all ();
 		can_animate = true;
 		advance();
@@ -234,8 +234,9 @@ internal class Ease.Player : Gtk.Window
 		switch (event.keyval) {
 		case Key.ESCAPE:
 			debug ("Quitting player.");
-			stage.hide ();
+			this.hide ();
 			presenter_window.hide ();
+			complete ();
 			break;
 		case Key.RIGHT:
 		case Key.DOWN:
