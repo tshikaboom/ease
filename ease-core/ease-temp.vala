@@ -124,59 +124,6 @@ public static class Ease.Temp : Object
 	}
 	
 	/**
-	 * Creates a temporary directory and extracts an archive to it.
-	 *
-	 * extract() uses libarchive for extraction. It will automatically request
-	 * a new temporary directory, extract the archive, and return the path
-	 * to the extracted files.
-	 *
-	 * @param filename The path of the archive to extract.
-	 */
-	internal static string extract(string filename) throws GLib.Error
-	{
-		// initialize the archive
-		var archive = new Archive.Read();
-		
-		// automatically detect archive type
-		archive.support_compression_all();
-		archive.support_format_all();
-		
-		// open the archive
-		archive.open_filename(filename, ARCHIVE_BUFFER);
-		
-		// create a temporary directory to extract to
-		string path = request();
-		
-		// extract the archive
-		weak Archive.Entry entry;
-		while (archive.next_header(out entry) == Archive.Result.OK)
-		{
-			var fpath = Path.build_filename(path, entry.pathname());
-			var file = GLib.File.new_for_path(fpath);
-			
-			if (Posix.S_ISDIR(entry.mode()))
-			{
-				file.make_directory_with_parents(null);
-			}
-			else
-			{
-				var parent = file.get_parent();
-				if (!parent.query_exists(null))
-				{
-					parent.make_directory_with_parents(null);
-				}
-				
-				file.create(FileCreateFlags.REPLACE_DESTINATION, null);
-				int fd = Posix.open(fpath, Posix.O_WRONLY, 0644);
-				archive.read_data_into_fd(fd);
-				Posix.close(fd);
-			}
-		}
-		
-		return path;
-	}
-	
-	/**
 	 * Deletes all temporary directories created by this instance of Ease.
 	 * Call when exiting.
 	 */

@@ -129,7 +129,7 @@ public class Ease.Document : GLib.Object, UndoSource
 		this();
 		
 		filename = absolute_path(file_path);
-		path = Temp.extract(filename);
+		path = Archiver.extract(filename);
 	
 		var parser = new Json.Parser();
 		
@@ -257,7 +257,7 @@ public class Ease.Document : GLib.Object, UndoSource
 		}
 		
 		// archive
-		archive(path, filename, _("Saving Document"), files, window);
+		Archiver.create(path, filename, _("Saving Document"), files, window);
 	}
 	
 	/**

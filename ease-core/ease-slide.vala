@@ -675,7 +675,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 	
 	/**
 	 * Updates the slide's title if the given object is a TextElement with the
-	 * {@link Theme.TITLE_TEXT} identifier.
+	 * {@link Theme.TITLE_TEXT} or {@link HEADER_TEXT} identifier.
 	 */
 	private void update_title(GLib.Object object)
 	{

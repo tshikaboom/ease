@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-internal class Ease.Archiver : GLib.Object
+private class Ease.Archiver.Archiver : GLib.Object
 {
 	private string temp_path;
 	private string filename;
@@ -26,8 +26,6 @@ internal class Ease.Archiver : GLib.Object
 	private Gee.LinkedList<string> include_files;
 	
 	private static GLib.List<Archiver> archivers = new GLib.List<Archiver>();
-	
-	private const int ARCHIVE_BUFFER = 4096;
 	private const string LABEL_TEXT = _("Saving \"%s\"");
 	
 	/**
@@ -75,7 +73,7 @@ internal class Ease.Archiver : GLib.Object
 	 * Does the actual archiving of a directory.
 	 */
 	private void* archive_real()
-	{	
+	{
 		// create a writable archive
 		var archive = new Archive.Write();
 		var buffer = new char[ARCHIVE_BUFFER];
@@ -151,8 +149,10 @@ internal class Ease.Archiver : GLib.Object
 	}
 }
 
-namespace Ease
+namespace Ease.Archiver
 {
+	private const int ARCHIVE_BUFFER = 4096;
+	
 	/**
 	 * Asynchronously (if supported) creates an archive from a temporary
 	 * directory. Otherwise, falls back on synchronous archiving.
@@ -165,16 +165,69 @@ namespace Ease
 	 * @param files The files to include in the archive.
 	 * @param win The window to display a progress dialog modal for.
 	 */
-	internal static void archive(string temp_path,
-		                         string filename,
-		                         string title,
-		                         Gee.LinkedList<string> files,
-		                         Gtk.Window? win) throws Error
+	internal static void create(string temp_path,
+		                        string filename,
+		                        string title,
+		                        Gee.LinkedList<string> files,
+		                        Gtk.Window? win) throws Error
 	{
 		// create a progress dialog
 		var dialog = new Dialog.Progress(title, false, 1, win);
 	
 		// archive away!
 		var arc = new Archiver(temp_path, filename, files, dialog);
+	}
+	
+	/**
+	 * Creates a temporary directory and extracts an archive to it.
+	 *
+	 * extract() uses libarchive for extraction. It will automatically request
+	 * a new temporary directory, extract the archive, and return the path
+	 * to the extracted files.
+	 *
+	 * @param filename The path of the archive to extract.
+	 */
+	internal static string extract(string filename) throws GLib.Error
+	{
+		// initialize the archive
+		var archive = new Archive.Read();
+		
+		// automatically detect archive type
+		archive.support_compression_all();
+		archive.support_format_all();
+		
+		// open the archive
+		archive.open_filename(filename, ARCHIVE_BUFFER);
+		
+		// create a temporary directory to extract to
+		string path = Temp.request();
+		
+		// extract the archive
+		weak Archive.Entry entry;
+		while (archive.next_header(out entry) == Archive.Result.OK)
+		{
+			var fpath = Path.build_filename(path, entry.pathname());
+			var file = GLib.File.new_for_path(fpath);
+			
+			if (Posix.S_ISDIR(entry.mode()))
+			{
+				file.make_directory_with_parents(null);
+			}
+			else
+			{
+				var parent = file.get_parent();
+				if (!parent.query_exists(null))
+				{
+					parent.make_directory_with_parents(null);
+				}
+				
+				file.create(FileCreateFlags.REPLACE_DESTINATION, null);
+				int fd = Posix.open(fpath, Posix.O_WRONLY, 0644);
+				archive.read_data_into_fd(fd);
+				Posix.close(fd);
+			}
+		}
+		
+		return path;
 	}
 }
