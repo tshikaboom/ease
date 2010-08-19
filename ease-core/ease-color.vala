@@ -138,6 +138,95 @@ public class Ease.Color : GLib.Object
 	}
 	private double alpha_priv;
 	
+	
+	/**
+	 * The red value of this color, as an 8-bit unsigned integer.
+	 */
+	public uint8 red255
+	{
+		get { return (uint8)(255 * red_priv); }
+		set
+		{
+			if (value < 0)
+			{
+				warning("red value must be >= 0, %f is not", value);
+				red_priv = 0;
+			}
+			else if (value > 1)
+			{
+				warning("red value must be <= 255, %f is not", value);
+				red_priv = 1;
+			}
+			else red_priv = value / 255.0;
+		}
+	}
+	
+	/**
+	 * The green value of this color, as an 8-bit unsigned integer.
+	 */
+	public uint8 green255
+	{
+		get { return (uint8)(255 * green_priv); }
+		set
+		{
+			if (value < 0)
+			{
+				warning("green value must be >= 0, %f is not", value);
+				green_priv = 0;
+			}
+			else if (value > 1)
+			{
+				warning("green value must be <= 255, %f is not", value);
+				green_priv = 1;
+			}
+			else green_priv = value / 255.0;
+		}
+	}
+	
+	/**
+	 * The blue value of this color, as an 8-bit unsigned integer.
+	 */
+	public uint8 blue255
+	{
+		get { return (uint8)(255 * blue_priv); }
+		set
+		{
+			if (value < 0)
+			{
+				warning("blue value must be >= 0, %f is not", value);
+				blue_priv = 0;
+			}
+			else if (value > 1)
+			{
+				warning("blue value must be <= 255, %f is not", value);
+				blue_priv = 1;
+			}
+			else blue_priv = value / 255.0;
+		}
+	}
+	
+	/**
+	 * The alpha (transparency) of this color, as an 8-bit unsigned integer.
+	 */
+	public uint8 alpha255
+	{
+		get { return (uint8)(255 * alpha_priv); }
+		set
+		{
+			if (value < 0)
+			{
+				warning("alpha value must be >= 0, %f is not", value);
+				alpha_priv = 0;
+			}
+			else if (value > 1)
+			{
+				warning("alpha value must be <= 255, %f is not", value);
+				alpha_priv = 1;
+			}
+			else alpha_priv = value / 255.0;
+		}
+	}
+	
 	/**
 	 * A Clutter.Color representation of this color. Changes made to the
 	 * the returned color are not reflected in this color.
@@ -146,10 +235,10 @@ public class Ease.Color : GLib.Object
 	{
 		get
 		{
-			return { (uchar)(255 * red),
-			         (uchar)(255 * green),
-			         (uchar)(255 * blue),
-			         (uchar)(255 * alpha) };
+			return { (uint8)(255 * red),
+			         (uint8)(255 * green),
+			         (uint8)(255 * blue),
+			         (uint8)(255 * alpha) };
 		}
 		set
 		{

@@ -604,26 +604,64 @@ public class Ease.Slide : GLib.Object, UndoSource
 		html += "<div class=\"slide\" id=\"slide" +
 		        index.to_string() + "\" ";
 		
-		if (background.image.filename == null)
+		switch (background.background_type)
 		{
-			// give the slide a background color
-			html += "style=\"background-color: " +
-			        background.color.clutter.to_string().
-			        substring(0, 7) + "\">";
-		}
-		else
-		{
-			// close the tag
-			html += ">";
+			case BackgroundType.COLOR:
+				// give the slide a background color
+				html += "style=\"background-color: " +
+					    background.color.clutter.to_string().
+					    substring(0, 7) + "\">";
+				break;
 			
-			// add the background image
-			html += "<img src=\"" + exporter.basename + " " + background.image.filename +
-			        "\" alt=\"Background\" width=\"" +
-			        parent.width.to_string() + "\" height=\"" +
-			        parent.height.to_string() + "\"/>";
+			case BackgroundType.GRADIENT:
+				// close opening div
+				html += ">";
+				
+				var dir = Temp.request();
+				var surface = new Cairo.ImageSurface(Cairo.Format.ARGB32,
+						                             (int)width, (int)height);
+				var cr = new Cairo.Context(surface);
+				cairo_render(cr);
+		
+				var path = Path.build_filename(
+					dir, exporter.render_index.to_string());
+				surface.write_to_png(path);
+				var output = exporter.copy_rendered(path);
+		
+				// open the img tag
+				html += "<img ";
+		
+				// set the image's style
+				html += "style=\"";
+				html += "left: 0px;";
+				html += " top: 0px;";
+				html += " width:" + parent.width.to_string() + "px;";
+				html += " height:" + parent.height.to_string() + "px;";
+				html += " position: absolute;\" ";
+		
+				// add the image
+				html += "src=\"" +
+						(exporter.basename +
+						 " Media/" + output).replace(" ", "%20") +
+						"\" alt=\"PDF\" />";
+						      
+				break;
+			
+			case BackgroundType.IMAGE:
+				// close the tag
+				html += ">";
+			
+				// add the background image
+				html += "<img src=\"" +
+					    (exporter.basename + " " +
+					     background.image.filename).replace(" ", "%20") +
+					    "\" alt=\"Background\" width=\"" +
+					    parent.width.to_string() + "\" height=\"" +
+					    parent.height.to_string() + "\"/>";
 
-			// copy the image file
-			exporter.copy_file(background.image.filename, parent.path);
+				// copy the image file
+				exporter.copy_file(background.image.filename, parent.path);
+				break;
 		}
 		
 		// add tags for each Element

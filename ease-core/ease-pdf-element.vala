@@ -59,9 +59,37 @@ public class Ease.PdfElement : MediaElement
 		return obj;
 	}
 	
+	/**
+	 * Renders this PdfElement as HTML.
+	 */
 	public override string html_render(HTMLExporter exporter)
 	{
-		return "<!-- PDFs not supported in HTML yet -->";
+		var dir = Temp.request();
+		var surface = new Cairo.ImageSurface(Cairo.Format.ARGB32,
+		                                     (int)width, (int)height);
+		var cr = new Cairo.Context(surface);
+		cairo_render(cr);
+		
+		var path = Path.build_filename(dir, exporter.render_index.to_string());
+		surface.write_to_png(path);
+		var output = exporter.copy_rendered(path);
+		
+		// open the img tag
+		var html = "<img class=\"pdf element\" ";
+		
+		// set the image's style
+		html += "style=\"";
+		html += "left:" + x.to_string() + "px;";
+		html += " top:" + y.to_string() + "px;";
+		html += " width:" + width.to_string() + "px;";
+		html += " height:" + height.to_string() + "px;";
+		html += " position: absolute;\" ";
+		
+		// add the image
+		return html + "src=\"" +
+		              (exporter.basename +
+		               " Media/" + output).replace(" ", "%20") +
+		              "\" alt=\"PDF\" />";
 	}
 	
 	public override void cairo_render(Cairo.Context context) throws Error

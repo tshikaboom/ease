@@ -96,7 +96,8 @@ public class Ease.ImageElement : MediaElement
 		html += " position: absolute;\" ";
 		
 		// add the image
-		html += "src=\"" + exporter.basename + " " + filename +
+		html += "src=\"" +
+		        (exporter.basename + " " + filename).replace(" ", "%20") +
 		        "\" alt=\"Image\" />";
 		
 		// copy the image file

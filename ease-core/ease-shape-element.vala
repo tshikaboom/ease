@@ -80,14 +80,36 @@ public class Ease.ShapeElement : CairoElement
 	}
 	
 	/**
-	 * Renders (or doesn't, it isn't supported yet) this ShapeElement as HTML.
-	 * When implemented, this should be done in CairoElement probably, so it
-	 * can be generic to anything else Cairo-based.
+	 * Renders this ShapeElement as HTML.
 	 */
 	public override string html_render(HTMLExporter exporter)
 	{
-		warning("HTML Export not currently supported for shapes");
-		return "<!-- HTML Export not supported for shapes -->";
+		var dir = Temp.request();
+		var surface = new Cairo.ImageSurface(Cairo.Format.ARGB32,
+		                                     (int)width, (int)height);
+		var cr = new Cairo.Context(surface);
+		cairo_render(cr);
+		
+		var path = Path.build_filename(dir, exporter.render_index.to_string());
+		surface.write_to_png(path);
+		var output = exporter.copy_rendered(path);
+		
+		// open the img tag
+		var html = "<img class=\"shape element\" ";
+		
+		// set the image's style
+		html += "style=\"";
+		html += "left:" + x.to_string() + "px;";
+		html += " top:" + y.to_string() + "px;";
+		html += " width:" + width.to_string() + "px;";
+		html += " height:" + height.to_string() + "px;";
+		html += " position: absolute;\" ";
+		
+		// add the image
+		return html + "src=\"" +
+		              (exporter.basename +
+		               " Media/" + output).replace(" ", "%20") +
+		              "\" alt=\"Shape\" />";
 	}
 	
 	/**

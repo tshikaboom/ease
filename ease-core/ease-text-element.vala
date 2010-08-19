@@ -212,7 +212,7 @@ public class Ease.TextElement : Element
 		
 		// set the text-specific properties of the element
 		html += " color:" + 
-		        @"rgb($(color.red),$(color.green),$(color.blue));";
+		        @"rgb($(color.red255),$(color.green255),$(color.blue255));";
 		        
 		html += " font-family:'" + text_font + "', sans-serif;";
 		        

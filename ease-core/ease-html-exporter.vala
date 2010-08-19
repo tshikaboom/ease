@@ -30,6 +30,12 @@ public class Ease.HTMLExporter : GLib.Object
 	private Gtk.Dialog window;
 	private Gtk.ProgressBar progress;
 	
+	public int render_index
+	{
+		get { return render_index_priv++; }
+	}
+	private int render_index_priv = 0;
+	
 	/**
 	 * The path to export HTML to.
 	 */
@@ -137,6 +143,40 @@ public class Ease.HTMLExporter : GLib.Object
 		{
 			error_dialog(_("Error Copying File"), e.message);
 		}
+	}
+	
+	/**
+	 * Copies a rendered file to the output path. Returns the filename.
+	 */
+	public string copy_rendered(string rendered)
+	{	
+		var source = File.new_for_path(rendered);
+		var dest_path = Path.build_filename("Rendered",
+                                            render_index.to_string() + ".png");
+		var destination = File.new_for_path(Path.build_filename(path + " Media",
+		                                                        dest_path));
+
+		try
+		{
+			// if the destination directory doesn't exist, make it
+			var parent = destination.get_parent();
+			if (!parent.query_exists(null))
+			{
+				parent.make_directory_with_parents(null);
+			}
+			
+			// copy the image
+			source.copy(destination,
+				        FileCopyFlags.OVERWRITE,
+				        null,
+				        null);
+		}
+		catch (GLib.Error e)
+		{
+			error_dialog(_("Error Copying File"), e.message);
+		}
+		
+		return dest_path;
 	}
 	
 	/**
