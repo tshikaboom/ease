@@ -22,6 +22,8 @@ ease-core/ease-image-element.vala
 ease-core/ease-image.vala
 ease-core/ease-iterable-models.vala
 ease-core/ease-media-element.vala
+ease-core/ease-pdf-actor.vala
+ease-core/ease-pdf-element.vala
 ease-core/ease-shape-element.vala
 ease-core/ease-slide.vala
 ease-core/ease-temp.vala
@@ -63,6 +65,7 @@ data/ui/background.ui
 data/ui/editor-window.ui
 data/ui/inspector-element-image.ui
 data/ui/inspector-element-none.ui
+data/ui/inspector-element-pdf.ui
 data/ui/inspector-element-shape.ui
 data/ui/inspector-element-text.ui
 data/ui/inspector-element-video.ui

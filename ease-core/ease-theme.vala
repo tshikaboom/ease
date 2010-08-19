@@ -99,6 +99,9 @@ public class Ease.Theme : GLib.Object
 	// shape properties
 	public const string SHAPE_TYPE = "shape-type";
 	
+	// pdf properties
+	public const string PDF_DEFAULT_PAGE = "pdf-default-page";
+	
 	// gradient types
 	public const string GRAD_LINEAR = "linear";
 	public const string GRAD_LINEAR_MIRRORED = "linear-mirrored";

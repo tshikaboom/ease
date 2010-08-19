@@ -500,6 +500,59 @@ internal class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
+	internal void insert_pdf(Gtk.Widget sender)
+	{
+		var filename = Dialog.open_ext(_("Insert PDF Document"),
+		                               this, (dialog) => {
+			// add a filter for pdf files
+			var filter = new Gtk.FileFilter();
+			filter.add_pattern("*.pdf");
+			filter.add_pattern("*.PDF");
+			filter.set_name(_("PDF Documents"));
+			dialog.add_filter(filter);
+			
+			// add a filter for all files
+			filter = new Gtk.FileFilter();
+			filter.set_name(_("All Files"));
+			filter.add_pattern("*");
+			dialog.add_filter(filter);
+		});
+
+		if (filename != null)
+		{
+			try
+			{
+				var e = new PdfElement(filename);
+				var doc = new Poppler.Document.from_file(
+					Filename.to_uri(filename), null);
+				var page = doc.get_page(0);
+				
+				// set the size and position of the element
+				double width = 0, height = 0;
+				page.get_size(out width, out height);
+				
+				e.width = (float)width;
+				e.height = (float)height;
+				e.x = slide.width / 2 - e.width / 2;
+				e.y = slide.height / 2 - e.height / 2;
+				
+				e.element_type = Slide.PDF_TYPE;
+				e.identifier = Theme.CUSTOM_MEDIA;
+				e.filename = document.add_media_file(filename);
+				e.source_filename = filename;
+				
+				// add the element
+				slide.append(e);
+				embed.select_element(e);
+			}
+			catch (Error e)
+			{
+				error_dialog(_("Error Inserting PDF"), e.message);
+			}
+		}
+	}
+	
+	[CCode (instance_pos = -1)]
 	internal void on_insert_rectangle(Gtk.Widget sender)
 	{
 		var rect = new ShapeElement(ShapeType.RECTANGLE);

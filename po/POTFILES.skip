@@ -18,6 +18,8 @@ ease-core/ease-image.c
 ease-core/ease-image-element.c
 ease-core/ease-iterable-models.c
 ease-core/ease-media-element.c
+ease-core/ease-pdf-actor.c
+ease-core/ease-pdf-element.c
 ease-core/ease-shape-element.c
 ease-core/ease-slide.c
 ease-core/ease-temp.c

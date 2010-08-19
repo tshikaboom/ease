@@ -22,6 +22,8 @@ libease_core_0_3_la_SOURCES = \
 	ease-image.vala \
 	ease-iterable-models.vala \
 	ease-media-element.vala \
+	ease-pdf-actor.vala \
+	ease-pdf-element.vala \
 	ease-shape-element.vala \
 	ease-slide.vala \
 	ease-temp.vala \

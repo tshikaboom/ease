@@ -27,6 +27,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 	public const string IMAGE_TYPE = "EaseImageElement";
 	public const string SHAPE_TYPE = "EaseShapeElement";
 	public const string VIDEO_TYPE = "EaseVideoElement";
+	public const string PDF_TYPE = "EasePdfElement";
 
 	/**
 	 * The {@link Element}s contained by this Slide
@@ -292,22 +293,25 @@ public class Ease.Slide : GLib.Object, UndoSource
 			var type = node.get_string_member(Theme.ELEMENT_TYPE);
 			Element e;
 			
-			if (type == IMAGE_TYPE)
+			switch (type)
 			{
-				e = new ImageElement.from_json(node);
+				case IMAGE_TYPE:
+					e = new ImageElement.from_json(node);
+					break;
+				case SHAPE_TYPE:
+					e = new ShapeElement.from_json(node);
+					break;
+				case VIDEO_TYPE:
+					e = new VideoElement.from_json(node);
+					break;
+				case PDF_TYPE:
+					e = new PdfElement.from_json(node);
+					break;
+				default: // text element, probably plugins later...
+					e = new TextElement.from_json(node);
+					break;
 			}
-			else if (type == SHAPE_TYPE)
-			{
-				e = new ShapeElement.from_json(node);
-			}
-			else if (type == VIDEO_TYPE)
-			{
-				e = new VideoElement.from_json(node);
-			}
-			else
-			{
-				e = new TextElement.from_json(node);
-			}
+			
 			e.element_type = type;
 			append(e);
 		}

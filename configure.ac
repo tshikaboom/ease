@@ -44,25 +44,27 @@ GNOME_COMPILE_WARNINGS([maximum])
 GNOME_MAINTAINER_MODE_DEFINES
 
 dnl packages
-pkg_modules=" \
-	gee-1.0 \
-	clutter-gtk-0.10 >= 0.10 \
-	libarchive \
-	json-glib-1.0 >= 0.7.6\
-	clutter-gst-1.0 \
-	gmodule-2.0 \
-	unique-1.0"
-
-EASE_PACKAGES=" \
-	--pkg gee-1.0 \
-	--pkg clutter-gtk-0.10 \
-	--pkg libarchive \
-	--pkg json-glib-1.0 \
-    --pkg clutter-gst-1.0 \
-	--pkg gmodule-2.0 \
-	--pkg unique-1.0"
-
+pkg_modules="\
+ clutter-gst-1.0\
+ clutter-gtk-0.10 >= 0.10\
+ gee-1.0\
+ gmodule-2.0\
+ json-glib-1.0 >= 0.7.6\
+ libarchive\
+ poppler-glib\
+ unique-1.0"
+ 
 PKG_CHECK_MODULES(EASE, [$pkg_modules])
+
+EASE_PACKAGES="\
+ --pkg clutter-gst-1.0\
+ --pkg clutter-gtk-0.10\
+ --pkg gee-1.0\
+ --pkg gmodule-2.0\
+ --pkg json-glib-1.0\
+ --pkg libarchive\
+ --pkg poppler-glib\
+ --pkg unique-1.0"
 
 AC_SUBST(EASE_CFLAGS)
 AC_SUBST(EASE_LIBS)
