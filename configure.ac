@@ -3,6 +3,7 @@ AC_PREREQ([2.59])
 m4_define(ease_version, 0.4)
 m4_define(ease_core_version, 0.4)
 m4_define(flutter_version, 0.3)
+m4_define(bindings_version, 0.1)
 
 AC_INIT([Ease],
         [ease_version],
@@ -15,10 +16,12 @@ AC_CONFIG_FILES([
 	po/Makefile.in
 	data/Makefile
 	ease-core/Makefile
+	ease-bindings/Makefile
 	flutter/Makefile
 	ease/Makefile
 	pkgconfig/ease-core-0.4.pc
-	pkgconfig/flutter-0.3.pc])
+	pkgconfig/flutter-0.3.pc
+	pkgconfig/ease-bindings-0.1.pc])
 
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([config.h])
@@ -84,6 +87,8 @@ AC_DEFINE(EASE_CORE_VERSION, ease_core_version, [Ease Core Version])
 AC_SUBST(EASE_CORE_VERSION, ease_core_version)
 AC_DEFINE(FLUTTER_VERSION, flutter_version, [Flutter Version])
 AC_SUBST(FLUTTER_VERSION, flutter_version)
+AC_DEFINE(BINDINGS_VERSION, bindings_version, [Ease Bindings Version])
+AC_SUBST(BINDINGS_VERSION, bindings_version)
 
 dnl internationalization
 GETTEXT_PACKAGE=ease

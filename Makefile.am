@@ -1,6 +1,6 @@
 NULL =
 
-SUBDIRS = po data flutter ease-core ease
+SUBDIRS = po data ease-bindings flutter ease-core ease
 
 # distribution
 EXTRA_DIST = data/ease.desktop.in.in  \
@@ -13,8 +13,9 @@ ACLOCAL_AMFLAGS = -I m4
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = \
+	pkgconfig/ease-bindings-@BINDINGS_VERSION@.pc \
     pkgconfig/ease-core-@EASE_CORE_VERSION@.pc \
-    pkgconfig/flutter-@FLUTTER_VERSION@.pc
+    pkgconfig/flutter-@FLUTTER_VERSION@.pc 
     
 run: ease/ease
 	ease/ease

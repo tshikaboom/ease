@@ -17,6 +17,7 @@ libease/tmp-introspect*
 
 # build files
 ease/ease
+ease-bindings/bindings-test
 *.h
 *.o
 *.lo
