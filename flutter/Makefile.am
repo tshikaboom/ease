@@ -1,4 +1,4 @@
-lib_LTLIBRARIES = libflutter-0.3.la
+lib_LTLIBRARIES = libflutter-@FLUTTER_VERSION@.la
 
 INCLUDES = \
 	$(EASE_CFLAGS)
@@ -11,19 +11,19 @@ AM_CPPFLAGS = \
 	$(NULL)
 
 # source files
-libflutter_0_3_la_SOURCES = flutter.vala
+libflutter_@FLUTTER_VERSION@_la_SOURCES = flutter.vala
 
 # compiler flags
-libflutter_0_3_la_VALAFLAGS = \
+libflutter_@FLUTTER_VERSION@_la_VALAFLAGS = \
 	--pkg clutter-1.0 \
-	--vapi=$(top_srcdir)/vapi/flutter-0.3.vapi \
+	--vapi=$(top_srcdir)/vapi/flutter-@FLUTTER_VERSION@.vapi \
 	--header=flutter.h \
 	--thread \
 	-g \
 	$(NULL)
 
-libflutter_0_3_la_CFLAGS = $(EASE_CFLAGS)
-libflutter_0_3_la_LDFLAGS = $(EASE_LDFLAGS)
+libflutter_@FLUTTER_VERSION@_la_CFLAGS = $(EASE_CFLAGS)
+libflutter_@FLUTTER_VERSION@_la_LDFLAGS = $(EASE_LDFLAGS)
 
 # header installation
 flutter_includedir=$(includedir)/flutter/
@@ -32,17 +32,17 @@ flutter_include_HEADERS = flutter.h
 # vapi installation
 vapidir = $(datadir)/vala/vapi
 vapi_DATA = \
-	$(top_srcdir)/vapi/flutter-0.3.vapi \
-	$(top_srcdir)/vapi/flutter-0.3.deps
+	$(top_srcdir)/vapi/flutter-@FLUTTER_VERSION@.vapi \
+	$(top_srcdir)/vapi/flutter-@FLUTTER_VERSION@.deps
 
 # remove generated files on `make clean`
 CLEANFILES = \
 	flutter.c \
-	$(top_srcdir)/vapi/flutter-0.3.vapi \
+	$(top_srcdir)/vapi/flutter-@FLUTTER_VERSION@.vapi \
 	flutter.h \
-	libflutter_0_3_la-flutter.lo
+	libflutter_@FLUTTER_VERSION@_la-flutter.lo
 
 EXTRA_DIST = \
-	$(top_srcdir)/vapi/flutter-0.3.vapi \
-	$(top_srcdir)/vapi/flutter-0.3.deps
+	$(top_srcdir)/vapi/flutter-@FLUTTER_VERSION@.vapi \
+	$(top_srcdir)/vapi/flutter-@FLUTTER_VERSION@.deps
 

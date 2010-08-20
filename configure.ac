@@ -1,6 +1,14 @@
-AC_INIT([Ease], [0.3], [https://bugzilla.gnome.org/enter_bug.cgi?product=ease], [ease], [http://live.gnome.org/Ease])
-
 AC_PREREQ([2.59])
+
+m4_define(ease_version, 0.4)
+m4_define(ease_core_version, 0.4)
+m4_define(flutter_version, 0.3)
+
+AC_INIT([Ease],
+        [ease_version],
+        [https://bugzilla.gnome.org/enter_bug.cgi?product=ease],
+        [ease],
+        [http://live.gnome.org/Ease])
 
 AC_CONFIG_FILES([
 	Makefile
@@ -9,7 +17,7 @@ AC_CONFIG_FILES([
 	ease-core/Makefile
 	flutter/Makefile
 	ease/Makefile
-	pkgconfig/ease-core-0.3.pc
+	pkgconfig/ease-core-0.4.pc
 	pkgconfig/flutter-0.3.pc])
 
 AC_CONFIG_SRCDIR([Makefile.am])
@@ -69,6 +77,13 @@ EASE_PACKAGES="\
 AC_SUBST(EASE_CFLAGS)
 AC_SUBST(EASE_LIBS)
 AC_SUBST(EASE_PACKAGES)
+
+AC_DEFINE(EASE_VERSION, ease_version, [Ease Version])
+AC_SUBST(EASE_VERSION, ease_version)
+AC_DEFINE(EASE_CORE_VERSION, ease_core_version, [Ease Core Version])
+AC_SUBST(EASE_CORE_VERSION, ease_core_version)
+AC_DEFINE(FLUTTER_VERSION, flutter_version, [Flutter Version])
+AC_SUBST(FLUTTER_VERSION, flutter_version)
 
 dnl internationalization
 GETTEXT_PACKAGE=ease

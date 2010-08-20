@@ -1,7 +1,7 @@
-lib_LTLIBRARIES = libease-core-0.3.la
+lib_LTLIBRARIES = libease-core-@EASE_CORE_VERSION@.la
 
 # source files
-libease_core_0_3_la_SOURCES = \
+libease_core_@EASE_CORE_VERSION@_la_SOURCES = \
 	ease-actor.vala \
 	ease-animated-zoom-slider.vala \
 	ease-archiver.vala \
@@ -53,27 +53,28 @@ libease_core_0_3_la_SOURCES = \
 #      function warnings
 # Therefore, warnings are off.
 
-libease_core_0_3_la_VALAFLAGS = \
+libease_core_@EASE_CORE_VERSION@_la_VALAFLAGS = \
 	$(EASE_PACKAGES) \
-	--vapi=$(top_srcdir)/vapi/ease-core-0.3.vapi \
+	--vapi=$(top_srcdir)/vapi/ease-core-@EASE_CORE_VERSION@.vapi \
 	--header=ease-core.h \
 	--thread \
 	--disable-warnings \
 	--vapidir=$(top_srcdir)/vapi \
-	--pkg flutter-0.3 \
+	--pkg flutter-@FLUTTER_VERSION@ \
 	-g \
 	$(NULL)
 
-libease_core_0_3_la_LIBADD = $(top_builddir)/flutter/libflutter-0.3.la
+libease_core_@EASE_CORE_VERSION@_la_LIBADD = \
+	$(top_builddir)/flutter/libflutter-@FLUTTER_VERSION@.la
 
-libease_core_0_3_la_CFLAGS = \
+libease_core_@EASE_CORE_VERSION@_la_CFLAGS = \
 	$(EASE_CFLAGS) \
 	-w \
 	-include $(top_srcdir)/config.h \
 	-I$(top_srcdir)/flutter \
 	$(NULL)
 	
-libease_core_0_3_la_LDFLAGS = \
+libease_core_@EASE_CORE_VERSION@_la_LDFLAGS = \
 	$(EASE_LDFLAGS) \
 	--export-dynamic \
 	$(NULL)
@@ -84,15 +85,17 @@ libease_include_HEADERS = ease-core.h
 
 # vapi installation
 vapidir = $(datadir)/vala/vapi
-vapi_DATA = $(top_srcdir)/vapi/ease-core-0.3.vapi $(top_srcdir)/vapi/ease-core-0.3.deps
+vapi_DATA = \
+	$(top_srcdir)/vapi/ease-core-@EASE_CORE_VERSION@.vapi \
+	$(top_srcdir)/vapi/ease-core-@EASE_CORE_VERSION@.deps
 
 # remove generated files on `make clean`
 CLEANFILES = \
-	$(subst .vala,.c,$(libease_core_0_3_la_SOURCES)) \
-	$(top_srcdir)/vapi/ease-core-0.3.vapi \
+	$(subst .vala,.c,$(libease_core_@EASE_CORE_VERSION@_la_SOURCES)) \
+	$(top_srcdir)/vapi/ease-core-@EASE_CORE_VERSION@.vapi \
 	ease-core.h
 
 EXTRA_DIST = \
-	$(top_srcdir)/vapi/ease-core-0.3.vapi \
-	$(top_srcdir)/vapi/ease-core-0.3.deps
+	$(top_srcdir)/vapi/ease-core-@EASE_CORE_VERSION@.vapi \
+	$(top_srcdir)/vapi/ease-core-@EASE_CORE_VERSION@.deps
 

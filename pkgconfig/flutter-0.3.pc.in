@@ -3,9 +3,9 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: libflutter
+Name: Flutter
 Description: Foreach-enabled Clutter for Vala
 Requires: clutter-1.0
 Version: @PACKAGE_VERSION@
-Libs: -L${libdir} -lflutter-0.3
-Cflags: -I${includedir}/flutter-0.3 -I${libdir}/flutter-0.3/include
+Libs: -L${libdir} -lflutter-@FLUTTER_VERSION@
+Cflags: -I${includedir}/flutter-@FLUTTER_VERSION@ -I${libdir}/flutter-@FLUTTER_VERSION@/include

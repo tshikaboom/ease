@@ -13,8 +13,8 @@ ACLOCAL_AMFLAGS = -I m4
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = \
-    pkgconfig/ease-core-0.3.pc \
-    pkgconfig/flutter-0.3.pc
+    pkgconfig/ease-core-@EASE_CORE_VERSION@.pc \
+    pkgconfig/flutter-@FLUTTER_VERSION@.pc
     
 run: ease/ease
 	ease/ease

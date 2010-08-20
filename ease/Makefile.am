@@ -25,8 +25,8 @@ ease_SOURCES = \
 
 # compiler flags
 ease_VALAFLAGS = \
-	--pkg ease-core-0.3 \
-	--pkg flutter-0.3 \
+	--pkg ease-core-@EASE_CORE_VERSION@ \
+	--pkg flutter-@FLUTTER_VERSION@ \
 	--disable-warnings \
 	$(EASE_PACKAGES) \
 	--vapidir $(top_srcdir)/vapi \
@@ -43,8 +43,8 @@ ease_CFLAGS = \
 ease_LDFLAGS = $(EASE_LIBS) --export-dynamic
 
 ease_LDADD = \
-	$(top_builddir)/ease-core/libease-core-0.3.la \
-	$(top_builddir)/flutter/libflutter-0.3.la \
+	$(top_builddir)/ease-core/libease-core-@EASE_CORE_VERSION@.la \
+	$(top_builddir)/flutter/libflutter-@FLUTTER_VERSION@.la \
 	-lm \
 	$(NULL)
 
