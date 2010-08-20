@@ -15,39 +15,36 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-public static class Bindings
+namespace Bindings
 {
-	private static Gee.LinkedList<Binding> bindings
+	private Gee.LinkedList<Binding> bindings()
 	{
-		get
-		{
-			if (bindings_lazy != null) return bindings_lazy;
-			return bindings_lazy = new Gee.LinkedList<Binding>();
-		}
+		if (bindings_lazy != null) return bindings_lazy;
+		return bindings_lazy = new Gee.LinkedList<Binding>();
 	}
-	private static Gee.LinkedList<Binding> bindings_lazy;
+	private Gee.LinkedList<Binding> bindings_lazy;
 	
-	public static void connect(GLib.Object object1, string property1,
-	                           GLib.Object object2, string property2)
+	public void connect(GLib.Object object1, string property1,
+	                    GLib.Object object2, string property2)
 	{
 		// connect signal handlers
 		object1.notify[property1].connect(on_notify);
 		object2.notify[property1].connect(on_notify);
 		
 		// keep track of the binding
-		bindings.add(new Binding(object1, property1, object2, property2));
+		bindings().add(new Binding(object1, property1, object2, property2));
 		
 		// when an object is finalized, destroy all bindings for it
 		object1.weak_ref(on_finalize);
 		object2.weak_ref(on_finalize);
 	}
 	
-	public static void drop(GLib.Object object1, string property1,
-	                        GLib.Object object2, string property2)
+	public void drop(GLib.Object object1, string property1,
+	                 GLib.Object object2, string property2)
 	{
-		if (bindings.size < 1) return;
+		if (bindings().size < 1) return;
 		
-		var itr = bindings.iterator();
+		var itr = bindings().iterator();
 		for (itr.first();; itr.next())
 		{
 			var binding = itr.get() as Binding;
@@ -62,9 +59,9 @@ public static class Bindings
 		}
 	}
 	
-	private static void on_notify(GLib.Object object, GLib.ParamSpec pspec)
+	private void on_notify(GLib.Object object, GLib.ParamSpec pspec)
 	{
-		foreach (var binding in bindings)
+		foreach (var binding in bindings())
 		{
 			if (binding.silence) continue;
 			if (object == binding.obj1 && pspec.name == binding.prop1)
@@ -92,8 +89,8 @@ public static class Bindings
 		}
 	}
 	
-	private static void set(GLib.Object from, string from_prop,
-	                        GLib.Object to, string to_prop)
+	private void set(GLib.Object from, string from_prop,
+	                 GLib.Object to, string to_prop)
 	{
 		// get the value from the sender
 		var type = from.get_class().find_property(from_prop).value_type;
@@ -104,11 +101,11 @@ public static class Bindings
 		to.set_property(to_prop, storage);
 	}
 	
-	private static void on_finalize(GLib.Object object)
+	private void on_finalize(GLib.Object object)
 	{
-		if (bindings.size < 1) return;
+		if (bindings().size < 1) return;
 		
-		var itr = bindings.iterator();
+		var itr = bindings().iterator();
 		for (itr.first();; itr.next())
 		{
 			var binding = itr.get() as Binding;
