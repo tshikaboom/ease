@@ -36,6 +36,10 @@ public static class Bindings
 		
 		// keep track of the binding
 		bindings.add(new Binding(object1, property1, object2, property2));
+		
+		// when an object is finalized, destroy all bindings for it
+		object1.weak_ref(on_finalize);
+		object2.weak_ref(on_finalize);
 	}
 	
 	public static void drop(GLib.Object object1, string property1,
@@ -100,10 +104,26 @@ public static class Bindings
 		to.set_property(to_prop, storage);
 	}
 	
+	private static void on_finalize(GLib.Object object)
+	{
+		if (bindings.size < 1) return;
+		
+		var itr = bindings.iterator();
+		for (itr.first();; itr.next())
+		{
+			var binding = itr.get() as Binding;
+			if (binding.obj1 == object || binding.obj2 == object)
+			{
+				itr.remove();
+			}
+			if (!itr.has_next()) break;
+		}
+	}
+	
 	private class Binding : GLib.Object
 	{
-		public GLib.Object obj1;
-		public GLib.Object obj2;
+		public weak GLib.Object obj1;
+		public weak GLib.Object obj2;
 		public string prop1;
 		public string prop2;
 		public bool silence = false;
