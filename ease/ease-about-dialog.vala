@@ -64,10 +64,12 @@ public class Ease.AboutDialog : Gtk.AboutDialog
 		}
 		catch (Error e) { warning("Loading icon file: %s", e.message); }
 		
-		translator_credits = _("""Mario Blättermann
-Matej Urbančič
-Jorge González
-Stéphane Maniaci""");
+		translator_credits = _("""Mario Blättermann <mariobl@gnome.org>
+Jorge González <jorgegonz@svn.gnome.org>
+Stéphane Maniaci <stephane.maniaci@gmail.com>
+Rodrigo Flores <rlmflores@gnome.org>
+Matej Urbančič <mateju@svn.gnome.org>
+Daniel Nylander <po@danielnylander.se>""");
 	
 		// for the sake of readability, never put anything after this
 	
