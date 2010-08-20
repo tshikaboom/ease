@@ -59,6 +59,39 @@ namespace Bindings
 		}
 	}
 	
+	public void drop_object(GLib.Object object)
+	{
+		if (bindings().size < 1) return;
+		
+		var itr = bindings().iterator();
+		for (itr.first();; itr.next())
+		{
+			var binding = itr.get() as Binding;
+			if (binding.obj1 == object || binding.obj2 == object)
+			{
+				itr.remove();
+			}
+			if (!itr.has_next()) break;
+		}
+	}
+	
+	public void drop_property(GLib.Object object, string property)
+	{
+		if (bindings().size < 1) return;
+		
+		var itr = bindings().iterator();
+		for (itr.first();; itr.next())
+		{
+			var binding = itr.get() as Binding;
+			if ((binding.obj1 == object && binding.prop1 == property) ||
+			    (binding.obj2 == object && binding.prop2 == property))
+			{
+				itr.remove();
+			}
+			if (!itr.has_next()) break;
+		}
+	}
+	
 	private void on_notify(GLib.Object object, GLib.ParamSpec pspec)
 	{
 		foreach (var binding in bindings())
