@@ -22,9 +22,19 @@ public int main(string[] args)
 	// create bound GTK widgets
 	var scale = new Gtk.HScale.with_range(0, 10, 0.1);
 	var spin = new Gtk.SpinButton.with_range(0, 10, 0.1);
+	var entry = new Gtk.Entry();
 	
 	// bind the scale and spin buttons together
 	Binding.connect(spin, "value", scale.adjustment, "value");
+	Binding.transformed(spin, "value", (val) => {
+		var number = GLib.Value(typeof(string));
+		//number.set_string(val.get_double().to_string());
+		return number;
+	},                  entry, "text", (val) => {
+		var number = GLib.Value(typeof(double));
+		//number.set_double(val.get_string().to_double());
+		return number;
+	});
 	
 	// create a button to drop the binding
 	var button = new Gtk.Button.with_label("Drop Binding");
@@ -39,7 +49,10 @@ public int main(string[] args)
 	hbox.pack_start(spin, false, false, 0);
 	hbox.pack_start(scale, true, true, 0);
 	hbox.pack_start(button, false, false, 0);
-	window.add(hbox);
+	var vbox = new Gtk.VBox(false, 5);
+	vbox.pack_start(hbox, false, false, 0);
+	vbox.pack_start(entry, false, false, 0);
+	window.add(vbox);
 	
 	// show the window
 	window.show_all();

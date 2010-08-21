@@ -50,6 +50,17 @@ namespace Binding
 		bindings().add(new Binding(object1, property1, object2, property2));
 	}
 	
+	public void transformed(GLib.Object object1, string property1,
+	                        TransformFunction transform_function1,
+	                        GLib.Object object2, string property2,
+	                        TransformFunction transform_function2)
+	{
+		bindings().add(new Binding.transformed(object1, property1,
+		                                       transform_function1,
+		                                       object2, property2,
+		                                       transform_function2));
+	}
+	
 	/**
 	 * Drops a binding. Order does not need to match the order in which
 	 * 
@@ -149,41 +160,12 @@ namespace Binding
 		foreach (var binding in bindings())
 		{
 			if (binding.silence) continue;
-			if (object == binding.obj1 && pspec.name == binding.prop1)
+			if ((object == binding.obj1 && pspec.name == binding.prop1) ||
+			    (object == binding.obj2 && pspec.name == binding.prop2))
 			{
-				// don't loop on this binding
-				binding.silence = true;
-				
-				// perform the set
-				set_binding(object, pspec.name, binding.obj2, binding.prop2);
-				
-				// start acting on this binding again
-				binding.silence = false;
-			}
-			else if (object == binding.obj2 && pspec.name == binding.prop2)
-			{
-				// don't loop on this binding
-				binding.silence = true;
-				
-				// perform the set
-				set_binding(object, pspec.name, binding.obj1, binding.prop1);
-				
-				// start acting on this binding again
-				binding.silence = false;
+				binding.apply(object);
 			}
 		}
-	}
-	
-	private void set_binding(GLib.Object from, string from_prop,
-	                         GLib.Object to, string to_prop)
-	{
-		// get the value from the sender
-		var type = from.get_class().find_property(from_prop).value_type;
-		var storage = GLib.Value(type);
-		from.get_property(from_prop, ref storage);
-		
-		// set the value on the bound object
-		to.set_property(to_prop, storage);
 	}
 	
 	private void connect_signals(GLib.Object obj1, string prop1,
@@ -217,6 +199,11 @@ namespace Binding
 	public delegate bool DropFunction(GLib.Object object1, string property1,
 	                                  GLib.Object object2, string property2);
 	
+	/**
+	 * Transforms one type into another.
+	 */
+	public delegate GLib.Value TransformFunction(GLib.Value value_in);
+	
 	private class Binding : GLib.Object
 	{
 		public weak GLib.Object obj1;
@@ -224,6 +211,8 @@ namespace Binding
 		public string prop1;
 		public string prop2;
 		public bool silence = false;
+		private TransformFunction func1;
+		private TransformFunction func2;
 		
 		public Binding(GLib.Object o1, string p1, GLib.Object o2, string p2)
 		{
@@ -234,7 +223,7 @@ namespace Binding
 			prop2 = p2;
 			
 			// perform initial synchronization
-			set_binding(o1, p1, o2, p2);
+			apply(o1);
 			
 			// connect signal handlers
 			connect_signals(o1, p1, o2, p2);
@@ -242,6 +231,56 @@ namespace Binding
 			// when an object is finalized, destroy all bindings for it
 			o1.weak_ref(drop_object);
 			o2.weak_ref(drop_object);
+		}
+		
+		public Binding.transformed(GLib.Object o1, string p1,
+		                           TransformFunction f1,
+		                           GLib.Object o2, string p2,
+		                           TransformFunction f2)
+		{
+			func1 = f1;
+			func2 = f2;
+			this(o1, p1, o2, p2);
+		}
+		
+		public void apply(GLib.Object from)
+		{
+			// don't apply a silenced binding
+			if (silence) return;
+			
+			// don't loop on this binding
+			silence = true;
+			
+			GLib.Object to;
+			string from_prop, to_prop;
+			TransformFunction func = null;
+				
+			if (from == obj1)
+			{
+				from_prop = prop1;
+				to_prop = prop2;
+				to = obj2;
+				func = func1;
+			}
+			else if (from == obj2)
+			{
+				from_prop = prop2;
+				to_prop = prop1;
+				to = obj1;
+				func = func2;
+			}
+			else return; // this binding doesn't have that object
+		
+			// get the value from the sender
+			var type = from.get_class().find_property(from_prop).value_type;
+			var storage = GLib.Value(type);
+			from.get_property(from_prop, ref storage);
+		
+			// set the value on the bound object
+			to.set_property(to_prop, func == null ? storage : func(storage));
+			
+			// start acting on this binding again
+			silence = false;
 		}
 	}
 }
