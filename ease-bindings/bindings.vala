@@ -46,18 +46,8 @@ namespace Binding
 	public void connect(GLib.Object object1, string property1,
 	                    GLib.Object object2, string property2)
 	{
-		// perform initial synchronization
-		set(object1, property1, object2, property2);
-		
-		// connect signal handlers
-		connect_signals(object1, property1, object2, property2);
-		
 		// keep track of the binding
 		bindings().add(new Binding(object1, property1, object2, property2));
-		
-		// when an object is finalized, destroy all bindings for it
-		object1.weak_ref(drop_object);
-		object2.weak_ref(drop_object);
 	}
 	
 	/**
@@ -165,7 +155,7 @@ namespace Binding
 				binding.silence = true;
 				
 				// perform the set
-				set(object, pspec.name, binding.obj2, binding.prop2);
+				set_binding(object, pspec.name, binding.obj2, binding.prop2);
 				
 				// start acting on this binding again
 				binding.silence = false;
@@ -176,7 +166,7 @@ namespace Binding
 				binding.silence = true;
 				
 				// perform the set
-				set(object, pspec.name, binding.obj1, binding.prop1);
+				set_binding(object, pspec.name, binding.obj1, binding.prop1);
 				
 				// start acting on this binding again
 				binding.silence = false;
@@ -184,8 +174,8 @@ namespace Binding
 		}
 	}
 	
-	private void set(GLib.Object from, string from_prop,
-	                 GLib.Object to, string to_prop)
+	private void set_binding(GLib.Object from, string from_prop,
+	                         GLib.Object to, string to_prop)
 	{
 		// get the value from the sender
 		var type = from.get_class().find_property(from_prop).value_type;
@@ -237,10 +227,21 @@ namespace Binding
 		
 		public Binding(GLib.Object o1, string p1, GLib.Object o2, string p2)
 		{
+			// set members
 			obj1 = o1;
 			obj2 = o2;
 			prop1 = p1;
 			prop2 = p2;
+			
+			// perform initial synchronization
+			set_binding(o1, p1, o2, p2);
+			
+			// connect signal handlers
+			connect_signals(o1, p1, o2, p2);
+			
+			// when an object is finalized, destroy all bindings for it
+			o1.weak_ref(drop_object);
+			o2.weak_ref(drop_object);
 		}
 	}
 }
