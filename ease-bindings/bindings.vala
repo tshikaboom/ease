@@ -100,7 +100,6 @@ namespace Bindings
 	
 	private void on_notify(GLib.Object object, GLib.ParamSpec pspec)
 	{
-		debug("asdf");
 		foreach (var binding in bindings())
 		{
 			if (binding.silence) continue;
