@@ -15,6 +15,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Provides functions for simply synchonizing GObject properties of different
+ * instances.
+ */
 namespace Bindings
 {
 	private Gee.LinkedList<Binding> bindings()
@@ -24,9 +28,27 @@ namespace Bindings
 	}
 	private Gee.LinkedList<Binding> bindings_lazy;
 	
+	/**
+	 * Binds two properties of two GObjects together. When one is changed,
+	 * the other will be updated to match its value. If the values differ
+	 * initially, the first object's property value will be used. The properties
+	 * must be of the same type.
+	 *
+	 * Binding a property of an object does not increase its reference count.
+	 * If an object's reference count drops to zero and it is finalized, all
+	 * bindings that it currently has will be dropped.
+	 *
+	 * @param object1 The first object.
+	 * @param property1 The first object's property.
+	 * @param object2 The second object.
+	 * @param property2 The second object's property.
+	 */
 	public void connect(GLib.Object object1, string property1,
 	                    GLib.Object object2, string property2)
 	{
+		// perform initial synchronization
+		set(object1, property1, object2, property2);
+		
 		// connect signal handlers
 		connect_signals(object1, property1, object2, property2);
 		
@@ -34,10 +56,18 @@ namespace Bindings
 		bindings().add(new Binding(object1, property1, object2, property2));
 		
 		// when an object is finalized, destroy all bindings for it
-		object1.weak_ref(on_finalize);
-		object2.weak_ref(on_finalize);
+		object1.weak_ref(drop_object);
+		object2.weak_ref(drop_object);
 	}
 	
+	/**
+	 * Drops a binding. Order does not need to match the order in which
+	 * 
+	 * @param object1 The first object.
+	 * @param property1 The first object's property.
+	 * @param object2 The second object.
+	 * @param property2 The second object's property.
+	 */
 	public void drop(GLib.Object object1, string property1,
 	                 GLib.Object object2, string property2)
 	{
@@ -49,6 +79,11 @@ namespace Bindings
 		});
 	}
 	
+	/**
+	 * Drops all bindings that the given object is involved in.
+	 *
+	 * @param object The object to drop all bindings for.
+	 */
 	public void drop_object(GLib.Object object)
 	{
 		drop_if((obj1, prop1, obj2, prop2) => {
@@ -56,6 +91,12 @@ namespace Bindings
 		});
 	}
 	
+	/**
+	 * Drops all bindings for a specific property of an object.
+	 *
+	 * @param object The object to drop bindings from.
+	 * @param property The property to unbind.
+	 */
 	public void drop_property(GLib.Object object, string property)
 	{
 		drop_if((obj1, prop1, obj2, prop2) => {
@@ -64,35 +105,50 @@ namespace Bindings
 		});
 	}
 	
+	/**
+	 * Allows conditional dropping of bindings via a {@link DropFunction}.
+	 *
+	 * @param function A {@link DropFunction}.
+	 */
 	public void drop_if(DropFunction function)
 	{
 		if (bindings().size < 1) return;
 		
+		// iterate over each binding
 		var itr = bindings().iterator();
 		for (itr.first();; itr.next())
 		{
 			var binding = itr.get() as Binding;
-			weak GLib.Object object1 = binding.obj1, object2 = binding.obj2;
-			weak string prop1 = binding.prop1, prop2 = binding.prop2;
+			
+			// remove the binding if desired
 			if (function(binding.obj1, binding.prop1,
 			             binding.obj2, binding.prop2))
 			{
 				itr.remove();
+				
+				// check if there now are any bindings referring to the objects
 				bool has1 = false, has2 = false;
 				foreach (var b in bindings())
 				{
-					if (b.obj1 == object1 || b.obj2 == object1)
+					if (b.obj1 == binding.obj1 || b.obj2 == binding.obj1)
 					{
 						has1 = true;
 					}
-					if (b.obj1 == object2 || b.obj2 == object2)
+					if (b.obj1 == binding.obj2 || b.obj2 == binding.obj2)
 					{
 						has2 = true;
 					}
 				}
 				
-				if (!has1) object1.notify[prop1].disconnect(on_notify);
-				if (!has2) object2.notify[prop2].disconnect(on_notify);
+				// if not, disconnect their signal handlers
+				if (!has1)
+				{
+					binding.obj1.notify[binding.prop1].disconnect(on_notify);
+				}
+				if (!has2)
+				{
+					binding.obj2.notify[binding.prop2].disconnect(on_notify);
+				}
 			}
 			if (!itr.has_next()) break;
 		}
@@ -140,22 +196,6 @@ namespace Bindings
 		to.set_property(to_prop, storage);
 	}
 	
-	private void on_finalize(GLib.Object object)
-	{
-		if (bindings().size < 1) return;
-		
-		var itr = bindings().iterator();
-		for (itr.first();; itr.next())
-		{
-			var binding = itr.get() as Binding;
-			if (binding.obj1 == object || binding.obj2 == object)
-			{
-				itr.remove();
-			}
-			if (!itr.has_next()) break;
-		}
-	}
-	
 	private void connect_signals(GLib.Object obj1, string prop1,
 	                             GLib.Object obj2, string prop2)
 	{
@@ -179,6 +219,11 @@ namespace Bindings
 		if (!has2) obj2.notify[prop2].connect(on_notify);
 	}
 	
+	/**
+	 * A delegate for conditional dropping of bindings. The delegate will be
+	 * called for each binding currently in existence. Returning "true" will
+	 * cause the binding to be dropped.
+	 */
 	public delegate bool DropFunction(GLib.Object object1, string property1,
 	                                  GLib.Object object2, string property2);
 	
