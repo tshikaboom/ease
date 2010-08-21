@@ -28,8 +28,7 @@ namespace Bindings
 	                    GLib.Object object2, string property2)
 	{
 		// connect signal handlers
-		object1.notify[property1].connect(on_notify);
-		object2.notify[property1].connect(on_notify);
+		connect_signals(object1, property1, object2, property2);
 		
 		// keep track of the binding
 		bindings().add(new Binding(object1, property1, object2, property2));
@@ -42,40 +41,30 @@ namespace Bindings
 	public void drop(GLib.Object object1, string property1,
 	                 GLib.Object object2, string property2)
 	{
-		if (bindings().size < 1) return;
-		
-		var itr = bindings().iterator();
-		for (itr.first();; itr.next())
-		{
-			var binding = itr.get() as Binding;
-			if ((binding.obj1 == object1 && binding.prop1 == property1 &&
-			     binding.obj2 == object2 && binding.prop2 == property2) ||
-			    (binding.obj2 == object1 && binding.prop2 == property1 &&
-			     binding.obj1 == object2 && binding.prop1 == property2))
-			{
-				itr.remove();
-			}
-			if (!itr.has_next()) break;
-		}
+		drop_if((obj1, prop1, obj2, prop2) => {
+			return ((obj1 == object1 && prop1 == property1 &&
+			         obj2 == object2 && prop2 == property2) ||
+			        (obj2 == object1 && prop2 == property1 &&
+			         obj1 == object2 && prop1 == property2));
+		});
 	}
 	
 	public void drop_object(GLib.Object object)
 	{
-		if (bindings().size < 1) return;
-		
-		var itr = bindings().iterator();
-		for (itr.first();; itr.next())
-		{
-			var binding = itr.get() as Binding;
-			if (binding.obj1 == object || binding.obj2 == object)
-			{
-				itr.remove();
-			}
-			if (!itr.has_next()) break;
-		}
+		drop_if((obj1, prop1, obj2, prop2) => {
+			return (obj1 == object || obj2 == object);
+		});
 	}
 	
 	public void drop_property(GLib.Object object, string property)
+	{
+		drop_if((obj1, prop1, obj2, prop2) => {
+			return ((obj1 == object && prop1 == property) ||
+			        (obj2 == object && prop2 == property));
+		});
+	}
+	
+	public void drop_if(DropFunction function)
 	{
 		if (bindings().size < 1) return;
 		
@@ -83,10 +72,27 @@ namespace Bindings
 		for (itr.first();; itr.next())
 		{
 			var binding = itr.get() as Binding;
-			if ((binding.obj1 == object && binding.prop1 == property) ||
-			    (binding.obj2 == object && binding.prop2 == property))
+			weak GLib.Object object1 = binding.obj1, object2 = binding.obj2;
+			weak string prop1 = binding.prop1, prop2 = binding.prop2;
+			if (function(binding.obj1, binding.prop1,
+			             binding.obj2, binding.prop2))
 			{
 				itr.remove();
+				bool has1 = false, has2 = false;
+				foreach (var b in bindings())
+				{
+					if (b.obj1 == object1 || b.obj2 == object1)
+					{
+						has1 = true;
+					}
+					if (b.obj1 == object2 || b.obj2 == object2)
+					{
+						has2 = true;
+					}
+				}
+				
+				if (!has1) object1.notify[prop1].disconnect(on_notify);
+				if (!has2) object2.notify[prop2].disconnect(on_notify);
 			}
 			if (!itr.has_next()) break;
 		}
@@ -94,6 +100,7 @@ namespace Bindings
 	
 	private void on_notify(GLib.Object object, GLib.ParamSpec pspec)
 	{
+		debug("asdf");
 		foreach (var binding in bindings())
 		{
 			if (binding.silence) continue;
@@ -149,6 +156,32 @@ namespace Bindings
 			if (!itr.has_next()) break;
 		}
 	}
+	
+	private void connect_signals(GLib.Object obj1, string prop1,
+	                             GLib.Object obj2, string prop2)
+	{
+		bool has1 = false, has2 = false;
+		
+		foreach (var binding in bindings())
+		{
+			if ((binding.obj1 == obj1 && binding.prop1 == prop1) ||
+			    (binding.obj2 == obj1 && binding.prop2 == prop1))
+			{
+				has1 = true;
+			}
+			if ((binding.obj1 == obj2 && binding.prop1 == prop2) ||
+			    (binding.obj2 == obj2 && binding.prop2 == prop2))
+			{
+				has2 = true;
+			}
+		}
+		
+		if (!has1) obj1.notify[prop1].connect(on_notify);
+		if (!has2) obj2.notify[prop2].connect(on_notify);
+	}
+	
+	public delegate bool DropFunction(GLib.Object object1, string property1,
+	                                  GLib.Object object2, string property2);
 	
 	private class Binding : GLib.Object
 	{
