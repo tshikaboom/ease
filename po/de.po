@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-08-09 07:17+0000\n"
-"PO-Revision-Date: 2010-08-13 19:04+0100\n"
+"POT-Creation-Date: 2010-08-20 15:30+0000\n"
+"PO-Revision-Date: 2010-08-20 21:45+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,12 +28,12 @@ msgstr "Erstellen ansprechender und eleganter Präsentationen"
 msgid "Ease Presentation Editor"
 msgstr "Ease Präsentationseditor"
 
-#: ../ease-core/ease-archiver.vala:31
+#: ../ease-core/ease-archiver.vala:29
 #, c-format
 msgid "Saving \"%s\""
 msgstr "»%s« wird gespeichert"
 
-#: ../ease-core/ease-archiver.vala:100
+#: ../ease-core/ease-archiver.vala:98
 #, c-format
 msgid "Temporary directory doesn't exist: %s"
 msgstr "Temporärer Ordner existiert nicht: %s"
@@ -63,7 +63,7 @@ msgstr "Bilder"
 #: ../ease-core/ease-background-widget.vala:169
 #: ../ease-core/ease-background-widget.vala:219
 #: ../ease-core/ease-dialogs.vala:84 ../ease-core/ease-dialogs.vala:155
-#: ../ease/ease-editor-window.vala:432
+#: ../ease/ease-editor-window.vala:432 ../ease/ease-editor-window.vala:516
 msgid "All Files"
 msgstr "Alle Dateien"
 
@@ -120,15 +120,16 @@ msgstr "Linear gespiegelt"
 msgid "Radial"
 msgstr "Radial"
 
-#: ../ease-core/ease-html-exporter.vala:69
+#: ../ease-core/ease-html-exporter.vala:75
 msgid "Export to HTML"
 msgstr "Nach HTML exportieren"
 
-#: ../ease-core/ease-html-exporter.vala:76
+#: ../ease-core/ease-html-exporter.vala:82
 msgid "Exporting as HTML"
 msgstr "Als HTML exportieren"
 
-#: ../ease-core/ease-html-exporter.vala:138
+#: ../ease-core/ease-html-exporter.vala:144
+#: ../ease-core/ease-html-exporter.vala:176
 msgid "Error Copying File"
 msgstr "Fehler beim Kopieren der Datei"
 
@@ -157,64 +158,64 @@ msgstr "Nicht skalieren"
 msgid "Double click to edit"
 msgstr "Doppelklicken zum Bearbeiten"
 
-#: ../ease-core/ease-theme.vala:286
+#: ../ease-core/ease-theme.vala:289
 #, c-format
 msgid "Error loading theme: %s"
 msgstr "Fehler beim Laden des Themas: %s"
 
-#: ../ease-core/ease-theme.vala:440
+#: ../ease-core/ease-theme.vala:443
 #, c-format
 msgid "Invalid master slide title: %s"
 msgstr "Ungültiger Titel der Master-Folie: %s"
 
-#: ../ease-core/ease-theme.vala:467
+#: ../ease-core/ease-theme.vala:470
 #, c-format
 msgid "Not a valid text element type: %s"
 msgstr "Ungültiger Typ des Textelements: %s"
 
-#: ../ease-core/ease-theme.vala:521
+#: ../ease-core/ease-theme.vala:524
 #, c-format
 msgid "Could not find property %s on element type %s."
 msgstr "Eigenschaft %s konnte im Elementtyp %s nicht gefunden werden."
 
-#: ../ease-core/ease-theme.vala:551
+#: ../ease-core/ease-theme.vala:554
 #, c-format
 msgid "Could not find property %s on master type %s."
 msgstr "Eigenschaft %s konnte im Master-Typ %s nicht gefunden werden."
 
-#: ../ease-core/ease-theme.vala:579
+#: ../ease-core/ease-theme.vala:582
 msgid "_Title slide"
 msgstr "_Titel-Folie"
 
-#: ../ease-core/ease-theme.vala:581
+#: ../ease-core/ease-theme.vala:584
 msgid "Content slide _without header"
 msgstr "Inhaltsfolie ohne _Überschrift"
 
-#: ../ease-core/ease-theme.vala:583
+#: ../ease-core/ease-theme.vala:586
 msgid "_Content slide"
 msgstr "_Inhalt-Folie"
 
-#: ../ease-core/ease-theme.vala:585
+#: ../ease-core/ease-theme.vala:588
 msgid "Two column slide without _header"
 msgstr "Folie mit zwei Spalten o_hne Überschrift"
 
-#: ../ease-core/ease-theme.vala:587
+#: ../ease-core/ease-theme.vala:590
 msgid "T_wo column slide with header"
 msgstr "Folie mit z_wei Spalten o_hne Überschrift"
 
-#: ../ease-core/ease-theme.vala:589
+#: ../ease-core/ease-theme.vala:592
 msgid "M_edia slide without header"
 msgstr "M_edien-Folie ohne Überschrift"
 
-#: ../ease-core/ease-theme.vala:591
+#: ../ease-core/ease-theme.vala:594
 msgid "_Media slide"
 msgstr "_Medien-Folie"
 
-#: ../ease-core/ease-theme.vala:593
+#: ../ease-core/ease-theme.vala:596
 msgid "Em_pty Slide"
 msgstr "_Leere Folie"
 
-#: ../ease-core/ease-theme.vala:596
+#: ../ease-core/ease-theme.vala:599
 #, c-format
 msgid "%s is not a valid identifier"
 msgstr "»%s« ist kein gültiger Bezeichner"
@@ -398,8 +399,8 @@ msgid "A presentation application for the GNOME Desktop"
 msgstr "Eine Präsentationsanwendung für die GNOME-Arbeitsumgebung"
 
 #: ../ease/ease-about-dialog.vala:67
-msgid "Mario Blättermann"
-msgstr "Mario Blättermann"
+msgid "Mario Blättermann <mariobl@gnome.org>"
+msgstr "Mario Blättermann <mariobl@gnome.org>"
 
 #: ../ease/ease-close-confirm-dialog.vala:38
 msgid "Save before closing?"
@@ -517,21 +518,33 @@ msgstr "Video einfügen"
 msgid "Error Inserting Video"
 msgstr "Fehler beim Einfügen des Videos"
 
-#: ../ease/ease-editor-window.vala:579
+#: ../ease/ease-editor-window.vala:505
+msgid "Insert PDF Document"
+msgstr "PDF-Dokument einfügen"
+
+#: ../ease/ease-editor-window.vala:511
+msgid "PDF Documents"
+msgstr "PDF-Dokumente"
+
+#: ../ease/ease-editor-window.vala:550
+msgid "Error Inserting PDF"
+msgstr "Fehler beim Einfügen des PDFs"
+
+#: ../ease/ease-editor-window.vala:632
 msgid "Save Document"
 msgstr "Dokument speichern"
 
-#: ../ease/ease-editor-window.vala:595
+#: ../ease/ease-editor-window.vala:648
 msgid "Error Saving Document"
 msgstr "Fehler beim Speichern des Dokuments"
 
 #. create the dialog
-#: ../ease/ease-editor-window.vala:681
+#: ../ease/ease-editor-window.vala:734
 msgid "Select Color"
 msgstr "Farbe auswählen"
 
 #. create a font selection dialog
-#: ../ease/ease-editor-window.vala:748
+#: ../ease/ease-editor-window.vala:801
 msgid "Select Font"
 msgstr "Schrift auswählen"
 
@@ -585,7 +598,7 @@ msgstr "Fehler beim Abspielen des Dokuments"
 msgid "Error creating new document"
 msgstr "Fehler beim Erstellen des neuen Dokuments"
 
-#: ../ease/ease-player.vala:67
+#: ../ease/ease-player.vala:65
 msgid "Ease Presentation"
 msgstr "Ease Präsentation"
 
