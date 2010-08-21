@@ -24,12 +24,12 @@ public int main(string[] args)
 	var spin = new Gtk.SpinButton.with_range(0, 10, 0.1);
 	
 	// bind the scale and spin buttons together
-	Bindings.connect(spin, "value", scale.adjustment, "value");
+	Binding.connect(spin, "value", scale.adjustment, "value");
 	
 	// create a button to drop the binding
 	var button = new Gtk.Button.with_label("Drop Binding");
 	button.clicked.connect(() => {
-		Bindings.drop(spin, "value", scale.adjustment, "value");
+		Binding.drop(spin, "value", scale.adjustment, "value");
 	});
 	
 	// place in a window

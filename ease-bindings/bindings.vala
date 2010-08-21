@@ -19,7 +19,7 @@
  * Provides functions for simply synchonizing GObject properties of different
  * instances.
  */
-namespace Bindings
+namespace Binding
 {
 	private Gee.LinkedList<Binding> bindings()
 	{
