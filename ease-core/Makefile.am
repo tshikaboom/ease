@@ -20,6 +20,7 @@ libease_core_@EASE_CORE_VERSION@_la_SOURCES = \
 	ease-image-actor.vala \
 	ease-image-element.vala \
 	ease-image.vala \
+	ease-import-widget.vala \
 	ease-iterable-models.vala \
 	ease-media-element.vala \
 	ease-plugin-import-media.vala \

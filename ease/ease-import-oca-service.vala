@@ -1,26 +1,22 @@
-public class OCA.Dialog : Ease.PluginImportDialog
+public class Ease.OCAService : Plugin.ImportService
 {	
 	private const string REST_URL =
 		"http://www.openclipart.org/media/feed/rss/";
 	
-	public Dialog()
+	protected override Rest.Proxy create_proxy()
 	{
-		base();
-	}
-	
-	protected override Rest.Proxy get_proxy()
-	{
-		return proxy = new Rest.Proxy(REST_URL, false);
+		return new Rest.Proxy(REST_URL, false);
 	}
 
-	protected override Rest.ProxyCall get_call()
+	protected override Rest.ProxyCall create_call(Rest.Proxy proxy,
+	                                              string search)
 	{
-		call = proxy.new_call();
-		call.set_function(search.text);
+		var call = proxy.new_call();
+		call.set_function(search);
 		return call;
 	}
 	
-	public override void parse_image_data(string data)
+	public override void parse_data(string data)
 	{	
 		Xml.Parser.init();
 		
@@ -43,7 +39,7 @@ public class OCA.Dialog : Ease.PluginImportDialog
 			// if the node is an item, add it
 			if (itr->name == "item")
 			{
-				OCA.Image image = new OCA.Image();
+				OCAMedia image = new OCAMedia();
 				
 				for (Xml.Node* tag = itr->children;
 				     tag != null; tag = tag->next)
@@ -88,7 +84,7 @@ public class OCA.Dialog : Ease.PluginImportDialog
 					}
 				}
 				
-				images_list.add(image);
+				add_media(image);
 			}
 		}
 	}

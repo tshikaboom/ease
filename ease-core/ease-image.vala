@@ -18,10 +18,7 @@
 public class Ease.Image : GLib.Object
 {
 	/**
-	 * The background image, if this element uses an image for a background.
-	 *
-	 * To use this property, {@link background_type} must also be set to
-	 * {@link BackgroundType.IMAGE}.
+	 * The image's filename, relative to the {@link Document}'s path.
 	 */
 	internal string filename { get; set; }
 	

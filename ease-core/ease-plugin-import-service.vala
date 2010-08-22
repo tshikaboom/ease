@@ -25,167 +25,93 @@
  * of images and image data - subclasses only need to provide a REST call,
  * and parse the response to generate a list of data.
  */
-public abstract class Ease.PluginImportDialog : Gtk.Dialog
+public abstract class Ease.Plugin.ImportService : GLib.Object
 {
-	/**
-	 * Primary icon view for display of results.
-	 */
-	private Gtk.IconView icons;
-	
-	/**
-	 * Scrolled window for icon view.
-	 */
-	private Gtk.ScrolledWindow icons_scroll;
-	
-	/**
-	 * Search field.
-	 */
-	protected Gtk.Entry search;
-	
-	/**
-	 * Search button.
-	 */
-	private Gtk.Button button;
-	
-	/**
-	 * Progress bar, displaying the percentage of images downloaded so far.
-	 */
-	private Gtk.ProgressBar progress;
-	
-	/**
-	 * Alignment placing progress bar at the bottom.
-	 */
-	private Gtk.Alignment progress_align;
-	
-	/**
-	 * Spinner displayed while REST call is being made.
-	 */
-	private Gtk.Spinner spinner;
-	
-	/**
-	 * Alignment containing the spinner.
-	 */
-	private Gtk.Alignment spinner_align;
-	
 	/**
 	 * REST Proxy for retrieving image data.
 	 */
-	protected Rest.Proxy proxy;
+	private Rest.Proxy proxy;
 	
 	/**
 	 * REST Call for retrieving image data.
 	 */
-	protected Rest.ProxyCall call;
+	private Rest.ProxyCall call;
 	
 	/**
-	 * Main VBox for packing widgets.
+	 * ListStore for the icon view.
 	 */
-	private Gtk.VBox main_vbox;
+	internal Gtk.ListStore model;
+	
+	/**
+	 * The widget for this service.
+	 */
+	private ImportWidget widget;
+	
+	/**
+	 * The size of the list to download.
+	 */
+	private float list_size;
 	
 	/**
 	 * Stores the images to download. As each image is downloaded, it is
 	 * removed from the list.
 	 */
-	protected Gee.LinkedList<PluginImportImage?> images_list;
-	
-	/**
-	 * ListStore for the icon view.
-	 */
-	private Gtk.ListStore model;
-	
-	/**
-	 * The total amount of images to download.
-	 */
-	private double list_size;
-	
-	/**
-	 * Size of the spinner
-	 */
-	private const int SPINNER_SIZE = 40;
-	
-	/**
-	 * This base constructor must be called by subclasses to set up the
-	 * interface and search functionality.
-	 */
-	public PluginImportDialog()
-	{
-		// search field
-		search = new Gtk.Entry();
-		search.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY, "gtk-clear");
-		search.icon_press.connect ( () => { search.text = ""; });
-		
-		// search button
-		button = new Gtk.Button.from_stock("gtk-find");
-		button.clicked.connect((sender) => {
-			// create the rest proxy call
-			proxy = get_proxy();
-			call = get_call();
-			
-			// remove the icons, if needed
-			if (icons_scroll.get_parent() == main_vbox)
-			{
-				main_vbox.remove(icons_scroll);
-			}
-			
-			// display the spinner
-			main_vbox.pack_end(spinner_align, true, true, 0);
-			spinner.start();
-			spinner_align.show_all();
-			
-			// run the call
-			try { call.run_async(on_call_finish, this); }
-			catch (Error e) { error(e.message); }
-		});
-		
-		// progress
-		progress = new Gtk.ProgressBar();
-		progress_align = new Gtk.Alignment(0, 1, 1, 0);
-		progress_align.add(progress);
-		
-		// spinner
-		spinner = new Gtk.Spinner();
-		spinner_align = new Gtk.Alignment(0.5f, 0.5f, 0, 0);
-		spinner_align.add(spinner);
-		spinner.set_size_request(SPINNER_SIZE, SPINNER_SIZE);
-		
-		// icon view
-		icons = new Gtk.IconView();
-		icons_scroll = new Gtk.ScrolledWindow(null, null);
-		icons_scroll.add_with_viewport(icons);
-		icons_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.ALWAYS);
-		
-		// pack search field and button
-		var hbox = new Gtk.HBox(false, 5);
-		hbox.pack_start(search, true, true, 0);
-		hbox.pack_start(button, false, false, 0);
-		
-		// pack top and bottom
-		main_vbox = new Gtk.VBox(false, 5);
-		main_vbox.pack_start(hbox, false, false, 0);
-		(get_content_area() as Gtk.Box).pack_start(main_vbox, true, true, 0);
-	}
+	private Gee.LinkedList<ImportMedia?> images_list;
 
 	/**
 	 * Subclasses must override this function to parse the data returned from
 	 * their Rest.ProxyCall.
 	 *
 	 * This method should construct images_list, a Gee.LinkedList of
-	 * {@link PluginImportImage}s (or a subclass specific to your plugin).
-	 * PluginImportDialog will then automatically download the images.
+	 * {@link ImportMedia}s (or a subclass specific to your plugin).
+	 * ImportService will then automatically download the images.
 	 *
 	 * @param data The data returned from the REST call.
 	 */
-	protected abstract void parse_image_data(string data);
+	public abstract void parse_data(string data);
 	
 	/**
 	 * Allows subclasses to provide a Rest.Proxy for their website.
 	 */
-	protected abstract Rest.Proxy get_proxy();
+	public abstract Rest.Proxy create_proxy();
 	
 	/**
 	 * Allows subclasses to provide a Rest.ProxyCall for their website.
+	 *
+	 * @param proxy The proxy that the subclass created.
+	 * @param search The search string provided by the user.
 	 */
-	protected abstract Rest.ProxyCall get_call();
+	public abstract Rest.ProxyCall create_call(Rest.Proxy proxy, string search);
+	
+	/**
+	 * Adds an {@link ImportMedia} to the downloads list.
+	 */
+	public void add_media(ImportMedia media)
+	{
+		images_list.add(media);
+	}
+	
+	internal void run(Gtk.Widget sender)
+	{
+		// create the rest proxy call
+		proxy = create_proxy();
+		call = create_call(proxy, widget.search.text);
+		
+		// remove the icons, if needed
+		if (widget.icons_scroll.get_parent() == widget.main_vbox)
+		{
+			widget.main_vbox.remove(widget.icons_scroll);
+		}
+		
+		// display the spinner
+		widget.main_vbox.pack_end(widget.spinner_align, true, true, 0);
+		widget.spinner.start();
+		widget.spinner_align.show_all();
+		
+		// run the call
+		try { call.run_async(on_call_finish, this); }
+		catch (Error e) { critical(e.message); }
+	}
 	
 	/**
 	 * Signal handler for Rest.ProxyCall completion.
@@ -194,35 +120,35 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 	 */
 	private void on_call_finish(Rest.ProxyCall call)
 	{
-		// remove the spinner
-		if (spinner_align.get_parent() == main_vbox)
+		// remove the widget.spinner
+		if (widget.spinner_align.get_parent() == widget.main_vbox)
 		{
-			main_vbox.remove(spinner_align);
+			widget.main_vbox.remove(widget.spinner_align);
 		}
-		spinner.stop();
+		widget.spinner.stop();
 		
 		// add the icon view
-		main_vbox.pack_start(icons_scroll, true, true, 0);
-		icons_scroll.show_all();
+		widget.main_vbox.pack_start(widget.icons_scroll, true, true, 0);
+		widget.icons_scroll.show_all();
 		
-		// add the progress
-		main_vbox.pack_end(progress_align, false, false, 0);
-		progress_align.show_all();
+		// add the widget.progress
+		widget.main_vbox.pack_end(widget.progress_align, false, false, 0);
+		widget.progress_align.show_all();
 		
 		// create list and model
 		model = new Gtk.ListStore(2, typeof(Gdk.Pixbuf), typeof(string));
-		images_list = new Gee.LinkedList<PluginImportImage?>();
+		images_list = new Gee.LinkedList<ImportMedia?>();
 		
 		// parse the image data (done by subclasses)
-		parse_image_data(call.get_payload());
+		parse_data(call.get_payload());
 		
-		// remember the list size for the progress bar
+		// remember the list size for the widget.progress bar
 		list_size = images_list.size;
 		
 		// set icons
-		icons.set_model(model);
-		icons.text_column = Column.TEXT;
-		icons.pixbuf_column = Column.PIXBUF;
+		widget.icons.set_model(model);
+		widget.icons.text_column = Column.TEXT;
+		widget.icons.pixbuf_column = Column.PIXBUF;
 		
 		// if threads are supported, get the pixbufs in a thread
 		if (Thread.supported())
@@ -249,7 +175,7 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 	private void* threaded_get_pixbufs()
 	{
 		// get the next image
-		PluginImportImage image;
+		ImportMedia image;
 		lock (images_list) { image = images_list.poll_head(); }
 		
 		// get the pixbuf for this image
@@ -266,10 +192,10 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 				                Column.TEXT, image.title);
 		}
 		
-		// set the progress bar
-		lock (progress)
+		// set the widget.progress bar
+		lock (widget)
 		{
-			progress.set_fraction(1 - (images_list.size / list_size));
+			widget.progress.set_fraction(1 - (images_list.size / list_size));
 		}
 			
 		// continue if there are more images
@@ -278,12 +204,12 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 			if (images_list.size > 0) threaded_get_pixbufs();
 		}
 			
-		// otherwise, remove the progress bar and return
-		lock (main_vbox)
+		// otherwise, remove the widget.progress bar and return
+		lock (widget)
 		{
-			if (progress_align.get_parent() == main_vbox)
+			if (widget.progress_align.get_parent() == widget.main_vbox)
 			{
-				main_vbox.remove(progress_align);
+				widget.main_vbox.remove(widget.progress_align);
 			}
 		}
 		return null;
@@ -299,21 +225,22 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 
 		File file = File.new_for_uri (uri);
 		FileInputStream filestream;
-		try {
-			filestream = file.read (null);
-		} catch (Error e) {
+		try { filestream = file.read (null); }
+		catch (Error e)
+		{
 			filestream = null;
 			error ("Couldn't read distant file : %s", e.message);
 		}
 		assert (filestream != null);
 		Gdk.Pixbuf pix;
-		try {
-			pix = new Gdk.Pixbuf.from_stream_at_scale (filestream,
-														   200,
-														   200,
-														   true,
-														   null);
-		} catch (Error e) {
+		try
+		{
+			pix = new Gdk.Pixbuf.from_stream_at_scale(filestream,
+			                                          200, 200,
+			                                          true, null);
+		}
+		catch (Error e)
+		{
 			error ("Couldn't create pixbuf from file: %s", e.message);
 			pix = null;
 		}
@@ -327,7 +254,8 @@ public abstract class Ease.PluginImportDialog : Gtk.Dialog
 	{
 		/**
 		 * The column storing Gdk.Pixbufs, downloaded from the internet.
-		 * Note that these pixbufs are often only the thumbnails.
+		 * Note that these pixbufs are often only the thumbnails, and thus
+		 * should not be inserted (go fetch the real picture).
 		 */
 		PIXBUF = 0,
 		

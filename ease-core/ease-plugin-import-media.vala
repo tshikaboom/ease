@@ -16,10 +16,10 @@
 */
 
 /**
- * Base class for an image on a website that {@link PluginImportDialog}
+ * Base class for an image on a website that an {@link ImportService}
  * searches.
  */
-public class Ease.PluginImportImage : GLib.Object
+public class Ease.Plugin.ImportMedia : GLib.Object
 {
 	public string title;
 	public string file_link;

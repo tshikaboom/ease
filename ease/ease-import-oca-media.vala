@@ -1,4 +1,4 @@
-public class OCA.Image : Ease.PluginImportImage
+public class Ease.OCAMedia : Plugin.ImportMedia
 {
 	public string link;
 	public string creator;

@@ -27,7 +27,7 @@ doc: ease-core/*.vala
 	
 	valadoc \
 		$(EASE_PACKAGES) \
-		--directory=./doc --basedir=src ./ease-core/*.vala
+		--directory=./doc ./ease-core/*.vala ./flutter/*.vala
 	
 	gnome-open doc/doc/Ease.html
 
@@ -35,9 +35,10 @@ doc-internal:
 	rm -rf doc
 	
 	valadoc \
+		--private \
 		--internal \
 		$(EASE_PACKAGES) \
-		--directory=./doc --basedir=src ./ease-core/*.vala
+		--directory=./doc ./ease-core/*.vala ./flutter/*.vala
 	
 	gnome-open doc/doc/Ease.html
 
