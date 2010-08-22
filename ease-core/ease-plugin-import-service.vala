@@ -45,7 +45,7 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 	/**
 	 * The widget for this service.
 	 */
-	private ImportWidget widget;
+	internal ImportWidget widget;
 	
 	/**
 	 * The size of the list to download.
@@ -97,16 +97,16 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		proxy = create_proxy();
 		call = create_call(proxy, widget.search.text);
 		
-		// remove the icons, if needed
-		if (widget.icons_scroll.get_parent() == widget.main_vbox)
-		{
-			widget.main_vbox.remove(widget.icons_scroll);
-		}
+		// remove the results
+		widget.icons_container.visible = false;
+		widget.no_results.visible = false;
 		
 		// display the spinner
-		widget.main_vbox.pack_end(widget.spinner_align, true, true, 0);
 		widget.spinner.start();
-		widget.spinner_align.show_all();
+		widget.spinner_container.visible = true;
+		
+		// reset the progress bar
+		widget.progress.set_fraction(0);
 		
 		// run the call
 		try { call.run_async(on_call_finish, this); }
@@ -120,23 +120,11 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 	 */
 	private void on_call_finish(Rest.ProxyCall call)
 	{
-		// remove the widget.spinner
-		if (widget.spinner_align.get_parent() == widget.main_vbox)
-		{
-			widget.main_vbox.remove(widget.spinner_align);
-		}
+		// remove the spinner
+		widget.spinner_container.visible = false;
 		widget.spinner.stop();
 		
-		// add the icon view
-		widget.main_vbox.pack_start(widget.icons_scroll, true, true, 0);
-		widget.icons_scroll.show_all();
-		
-		// add the widget.progress
-		widget.main_vbox.pack_end(widget.progress_align, false, false, 0);
-		widget.progress_align.show_all();
-		
-		// create list and model
-		model = new Gtk.ListStore(2, typeof(Gdk.Pixbuf), typeof(string));
+		// create list
 		images_list = new Gee.LinkedList<ImportMedia?>();
 		
 		// parse the image data (done by subclasses)
@@ -145,20 +133,36 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		// remember the list size for the widget.progress bar
 		list_size = images_list.size;
 		
-		// set icons
-		widget.icons.set_model(model);
-		widget.icons.text_column = Column.TEXT;
-		widget.icons.pixbuf_column = Column.PIXBUF;
-		
-		// if threads are supported, get the pixbufs in a thread
-		if (Thread.supported())
+		if (list_size > 0)
 		{
-			try { Thread.create(threaded_get_pixbufs, false); }
-			catch { threaded_get_pixbufs(); }
+			// add the icon view
+			widget.icons_container.visible = true;
+		
+			// add the progress
+			widget.progress.visible = true;
+			
+			// create model
+			model = new Gtk.ListStore(2, typeof(Gdk.Pixbuf), typeof(string));
+		
+			// set icons
+			widget.icons.set_model(model);
+			widget.icons.text_column = Column.TEXT;
+			widget.icons.pixbuf_column = Column.PIXBUF;
+		
+			// if threads are supported, get the pixbufs in a thread
+			if (Thread.supported())
+			{
+				try { Thread.create(threaded_get_pixbufs, false); }
+				catch { threaded_get_pixbufs(); }
+			}
+			else
+			{
+				threaded_get_pixbufs();
+			}
 		}
 		else
 		{
-			threaded_get_pixbufs();
+			widget.no_results.visible = true;
 		}
 	}
 	
@@ -207,10 +211,7 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		// otherwise, remove the widget.progress bar and return
 		lock (widget)
 		{
-			if (widget.progress_align.get_parent() == widget.main_vbox)
-			{
-				widget.main_vbox.remove(widget.progress_align);
-			}
+			widget.progress.visible = false;
 		}
 		return null;
 	}
@@ -229,9 +230,9 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		catch (Error e)
 		{
 			filestream = null;
-			error ("Couldn't read distant file : %s", e.message);
+			critical("Couldn't read distant file : %s", e.message);
 		}
-		assert (filestream != null);
+		assert(filestream != null);
 		Gdk.Pixbuf pix;
 		try
 		{
@@ -241,7 +242,7 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		}
 		catch (Error e)
 		{
-			error ("Couldn't create pixbuf from file: %s", e.message);
+			critical("Couldn't create pixbuf from file: %s", e.message);
 			pix = null;
 		}
 		return pix;

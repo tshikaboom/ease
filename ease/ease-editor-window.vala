@@ -553,6 +553,13 @@ internal class Ease.EditorWindow : Gtk.Window
 	}
 	
 	[CCode (instance_pos = -1)]
+	internal void on_insert_web_media(Gtk.Widget sender)
+	{
+		var dialog = new ImportDialog();
+		dialog.run();
+	}
+	
+	[CCode (instance_pos = -1)]
 	internal void on_insert_rectangle(Gtk.Widget sender)
 	{
 		var rect = new ShapeElement(ShapeType.RECTANGLE);

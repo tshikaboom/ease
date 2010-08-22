@@ -1,14 +1,17 @@
 public class Ease.ImportWidget : Gtk.Alignment
 {
+	private const string UI_FILE_PATH = "import-widget.ui";
+	private const double DARK_FACTOR = 1.1;
+	
 	/**
 	 * Primary icon view for display of results.
 	 */
 	internal Gtk.IconView icons;
 	
 	/**
-	 * Scrolled window for icon view.
+	 * Container of the icons.
 	 */
-	internal Gtk.ScrolledWindow icons_scroll;
+	internal Gtk.Widget icons_container;
 	
 	/**
 	 * Search field.
@@ -26,67 +29,114 @@ public class Ease.ImportWidget : Gtk.Alignment
 	internal Gtk.ProgressBar progress;
 	
 	/**
-	 * Alignment placing progress bar at the bottom.
-	 */
-	internal Gtk.Alignment progress_align;
-	
-	/**
 	 * Spinner displayed while REST call is being made.
 	 */
 	internal Gtk.Spinner spinner;
 	
 	/**
-	 * Alignment containing the spinner.
+	 * Container of the spinner.
 	 */
-	internal Gtk.Alignment spinner_align;
+	internal Gtk.Widget spinner_container;
 	
 	/**
-	 * Main VBox for packing widgets.
+	 * Message displayed when no results are found
 	 */
-	internal Gtk.VBox main_vbox;
+	internal Gtk.Widget no_results;
+	
+	/**
+	 * The ImportService associated with this widget.
+	 */
+	private Plugin.ImportService service;
 	
 	/**
 	 * Size of the spinner
 	 */
 	private const int SPINNER_SIZE = 40;
 
-	internal ImportWidget(Plugin.ImportService service)
+	public ImportWidget(Plugin.ImportService serv)
 	{
+		service = serv;
+		service.widget = this;
+		set_padding(0, 0, 0, 0);
+		
+		// darken the background
+		map_event.connect((self, event) => {
+			var color = style.bg[Gtk.StateType.NORMAL];
+			color.red = 0;
+			modify_bg(Gtk.StateType.NORMAL, color);
+			return false;
+		});
+		
+		// load the ui from GtkBuilder
+		var builder = new Gtk.Builder();
+		try
+		{
+			builder.add_from_file(data_path(Path.build_filename(Temp.UI_DIR,
+				                                                UI_FILE_PATH)));
+		}
+		catch (Error e) { error("Error loading UI: %s", e.message); }
+		
 		// search field
-		search = new Gtk.Entry();
-		search.set_icon_from_icon_name(Gtk.EntryIconPosition.SECONDARY,
-		                               "gtk-clear");
-		search.icon_press.connect (() => search.text = "");
+		search = builder.get_object("search") as Gtk.Entry;
+		search.icon_press.connect(() => search.text = "");
+		search.activate.connect(() => button.activate());
+		search.expose_event.connect(set_bg);
 		
 		// search button
-		button = new Gtk.Button.from_stock("gtk-find");
+		button = builder.get_object("search-button") as Gtk.Button;
 		button.clicked.connect(service.run);
+		button.expose_event.connect(set_bg);
 		
 		// progress
-		progress = new Gtk.ProgressBar();
-		progress_align = new Gtk.Alignment(0, 1, 1, 0);
-		progress_align.add(progress);
+		progress = builder.get_object("progress-bar") as Gtk.ProgressBar;
 		
 		// spinner
 		spinner = new Gtk.Spinner();
-		spinner_align = new Gtk.Alignment(0.5f, 0.5f, 0, 0);
-		spinner_align.add(spinner);
+		spinner.visible = true;
 		spinner.set_size_request(SPINNER_SIZE, SPINNER_SIZE);
+		spinner_container = builder.get_object("spin-align") as Gtk.Widget;
+		(spinner_container as Gtk.Bin).add(spinner);
 		
 		// icon view
-		icons = new Gtk.IconView();
-		icons_scroll = new Gtk.ScrolledWindow(null, null);
-		icons_scroll.add_with_viewport(icons);
-		icons_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.ALWAYS);
+		icons = builder.get_object("icon-view") as Gtk.IconView;
+		icons_container = builder.get_object("icon-window") as Gtk.Widget;
 		
-		// pack search field and button
-		var hbox = new Gtk.HBox(false, 5);
-		hbox.pack_start(search, true, true, 0);
-		hbox.pack_start(button, false, false, 0);
+		// no results
+		no_results = builder.get_object("no-results") as Gtk.Widget;
 		
-		// pack top and bottom
-		main_vbox = new Gtk.VBox(false, 5);
-		main_vbox.pack_start(hbox, false, false, 0);
-		add(main_vbox);
+		// add
+		var root = builder.get_object("root") as Gtk.EventBox;
+		root.expose_event.connect(set_bg);
+		add(root);
+	}
+	
+	private bool set_bg(Gtk.Widget root, Gdk.EventExpose event)
+	{
+		// lighten or darken the background
+		var color = root.style.bg[Gtk.StateType.NORMAL];
+		
+		// darken if it would overflow
+		if (color.red * DARK_FACTOR > 65535)
+		{
+			color.red = (uint16)(color.red / DARK_FACTOR);
+			color.blue = (uint16)(color.blue / DARK_FACTOR);
+			color.green = (uint16)(color.green / DARK_FACTOR);
+		}
+		
+		// otherwise, lighten
+		else
+		{
+			color.red = (uint16)(color.red * DARK_FACTOR);
+			color.blue = (uint16)(color.blue * DARK_FACTOR);
+			color.green = (uint16)(color.green * DARK_FACTOR);
+		}
+		
+		// set the background color
+		root.modify_bg(Gtk.StateType.NORMAL, color);
+		
+		// only do this once
+		root.expose_event.disconnect(set_bg);
+		
+		return false;
 	}
 }

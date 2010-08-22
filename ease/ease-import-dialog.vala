@@ -15,10 +15,31 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-internal class Ease.OCAMedia : Plugin.ImportMedia
+internal class Ease.ImportDialog : Gtk.Window
 {
-	internal string link;
-	internal string creator;
-	internal string description;
-	internal string license;
+	internal ImportDialog()
+	{
+		title = _("Import Media");
+		set_default_size(640, 480);
+		
+		// create the source list
+		var view = new Source.View();
+		var group = new Source.Group(_("Images"));
+		view.add_group(group);
+		view.show_all();
+		
+		Plugin.ImportService service = new OCAService();
+		var item = new Source.Item.from_stock_icon(
+			"OpenClipArt", "gtk-go-down", new ImportWidget(service));
+		group.add_item(item);
+		
+		add(view);
+		view.show_all();
+		item.select();
+	}
+	
+	internal void run()
+	{
+		show();
+	}
 }
