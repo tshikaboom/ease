@@ -45,6 +45,14 @@ libease_core_@EASE_CORE_VERSION@_la_SOURCES = \
 	ease-video-actor.vala \
 	ease-video-element.vala \
 	ease-zoom-slider.vala \
+	sourcelist/source-base-group.vala \
+	sourcelist/source-base-view.vala \
+	sourcelist/source-expandable-group.vala \
+	sourcelist/source-group.vala \
+	sourcelist/source-item.vala \
+	sourcelist/source-list.vala \
+	sourcelist/source-pane-view.vala \
+	sourcelist/source-view.vala \
 	$(NULL)
 
 # compiler flags

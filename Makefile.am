@@ -27,7 +27,10 @@ doc: ease-core/*.vala
 	
 	valadoc \
 		$(EASE_PACKAGES) \
-		--directory=./doc ./ease-core/*.vala ./flutter/*.vala
+		--directory=./doc \
+		./ease-core/*.vala \
+		ease-core/sourcelist/*.vala \
+		./flutter/*.vala
 	
 	gnome-open doc/doc/Ease.html
 
@@ -38,7 +41,10 @@ doc-internal:
 		--private \
 		--internal \
 		$(EASE_PACKAGES) \
-		--directory=./doc ./ease-core/*.vala ./flutter/*.vala
+		--directory=./doc \
+		./ease-core/*.vala \
+		ease-core/sourcelist/*.vala \
+		./flutter/*.vala
 	
 	gnome-open doc/doc/Ease.html
 
