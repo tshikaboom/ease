@@ -1,0 +1,27 @@
+# Swedish translation for ease.
+# Copyright (C) 2010 Free Software Foundation, Inc.
+# This file is distributed under the same license as the ease package.
+# Daniel Nylander <po@danielnylander.se>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ease\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-07-26 22:53+0200\n"
+"PO-Revision-Date: 2010-07-26 22:54+0100\n"
+"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/ease.desktop.in.h:1
+#: ../data/ease.desktop.in.in.h:1
+msgid "Create nice and elegant presentations"
+msgstr "Skapa vackra och eleganta presentationer"
+
+#: ../data/ease.desktop.in.h:2
+#: ../data/ease.desktop.in.in.h:2
+msgid "Ease presentation editor"
+msgstr "Presentationsredigeraren Ease"
+

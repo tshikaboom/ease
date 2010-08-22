@@ -1,98 +1,9 @@
 NULL =
 
-INCLUDES = 
-	-include config.h \
-	$(EASE_CFLAGS)
+SUBDIRS = po data flutter ease-core ease
 
-bin_PROGRAMS = ease
-
-AM_CPPFLAGS = \
-	$(EASE_CFLAGS) \
-	-include $(CONFIG_HEADER) \
-	$(NULL)
-
-ease_SOURCES = \
-	src/ease-about-dialog.vala \
-	src/ease-actor.vala \
-	src/ease-close-confirm-dialog.vala \
-	src/ease-document.vala \
-	src/ease-editor-embed.vala \
-	src/ease-editor-window.vala \
-	src/ease-element-map.vala \
-	src/ease-element-map-value.vala \
-	src/ease-element.vala \
-	src/ease-enums.vala \
-	src/ease-handle.vala \
-	src/ease-html-exporter.vala \
-	src/ease-image-actor.vala \
-	src/ease-image-element.vala \
-	src/ease-inspector-pane.vala \
-	src/ease-inspector.vala \
-	src/ease-inspector-window.vala \
-	src/ease-json-parser.vala \
-	src/ease-main-toolbar.vala \
-	src/ease-media-element.vala \
-	src/ease-open-dialog.vala \
-	src/ease-pdf-exporter.vala \
-	src/ease-player.vala \
-	src/ease-plugin-import-dialog.vala \
-	src/ease-plugin-import-image.vala \
-	src/ease-scrollable-embed.vala \
-	src/ease-slide-actor.vala \
-	src/ease-slide-button-panel.vala \
-	src/ease-slide-button.vala \
-	src/ease-slide-pane.vala \
-	src/ease-slide-set.vala \
-	src/ease-slide.vala \
-	src/ease-temp.vala \
-	src/ease-text-actor.vala \
-	src/ease-text-element.vala \
-	src/ease-theme.vala \
-	src/ease-transition-pane.vala \
-	src/ease-transitions.vala \
-	src/ease-undo-actions.vala \
-	src/ease-undo-controller.vala \
-	src/ease-utilities.vala \
-	src/ease-video-actor.vala \
-	src/ease-video-element.vala \
-	src/ease-welcome-actor.vala \
-	src/ease-welcome-window.vala \
-	src/ease-zoom-slider.vala \
-	src/main.vala \
-	src/source-base-group.vala \
-	src/source-base-view.vala \
-	src/source-expandable-group.vala \
-	src/source-group.vala \
-	src/source-item.vala \
-	src/source-list.vala \
-	src/source-pane-view.vala \
-	src/source-view.vala \
-	$(NULL)
-
-# ease_VALAFLAGS = $(EASE_PACKAGES)
-VALAFLAGS = --pkg glib-2.0 \
-		--pkg gtk+-2.0 \
-		--pkg clutter-1.0 \
-		--pkg gdk-2.0 \
-		--pkg gee-1.0 \
-		--pkg clutter-gtk-0.10 \
-		--pkg cogl-1.0 \
-		--pkg gio-2.0 \
-		--pkg clutter-gst-1.0\
-		--pkg json-glib-1.0\
-		--pkg libarchive\
-		--pkg rest-extras-0.6\
-		-g \
-		--thread \
-		$(NULL)
-
-SUBDIRS = po data
-
-ease_LDADD = \
-	$(EASE_LIBS) \
-	$(NULL)
-
-EXTRA_DIST = data/ease.desktop.in  \
+# distribution
+EXTRA_DIST = data/ease.desktop.in.in  \
 	$(NULL)
 
 DISTCLEANFILES = data/ease.desktop \
@@ -100,15 +11,51 @@ DISTCLEANFILES = data/ease.desktop \
 
 ACLOCAL_AMFLAGS = -I m4
 
-themedir = $(datadir)/ease/themes
-theme_DATA = $(wildcard $(top_srcdir)/themes/*.easetheme)
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = \
+    pkgconfig/ease-core-@EASE_CORE_VERSION@.pc \
+    pkgconfig/flutter-@FLUTTER_VERSION@.pc
+    
+run: ease/ease
+	ease/ease
 
-doc: src/*.vala
+db: ease/ease
+	libtool --mode=execute gdb ease/ease
+
+doc: ease-core/*.vala
 	rm -rf doc
-	valadoc --internal --private --pkg "json-glib-1.0" --pkg "gee-1.0"  --pkg "clutter-gtk-0.10" --pkg "clutter-gst-1.0" --pkg "libarchive" --directory=./doc --basedir=src ./src/*.vala
+	
+	valadoc \
+		$(EASE_PACKAGES) \
+		--directory=./doc --basedir=src ./ease-core/*.vala
+	
 	gnome-open doc/doc/Ease.html
 
-archive: themes/* examples/*
-	sh themes/build.sh
+doc-internal:
+	rm -rf doc
+	
+	valadoc \
+		--internal \
+		$(EASE_PACKAGES) \
+		--directory=./doc --basedir=src ./ease-core/*.vala
+	
+	gnome-open doc/doc/Ease.html
+
+archive: examples/*
 	sh examples/build.sh
+
+potfiles:
+	echo "# List of source files which contain translatable strings." > po/POTFILES.in
+	echo "[encoding: UTF-8]" >> po/POTFILES.in
+	echo "data/ease.desktop.in" >> po/POTFILES.in
+	echo "data/ease.desktop.in.in" >> po/POTFILES.in
+	ls ease-core | grep ease- | grep .vala | sed "s/ease/ease-core\/ease/g" >> po/POTFILES.in
+	ls ease | grep ease- | grep .vala | sed "s/ease/ease\/ease/g" >> po/POTFILES.in
+	ls data/ui | while read line; do echo "data/ui/$$line" >> po/POTFILES.in; done
+	
+	ls ease-core | grep ease- | grep "\.c" | sed "s/ease/ease-core\/ease/g" > po/POTFILES.skip
+	ls ease | grep ease- | grep "\.c" | sed "s/ease/ease\/ease/g" >> po/POTFILES.skip
+	ls flutter | while read line; do echo "flutter/$$line" >> po/POTFILES.skip; done
+	echo "ease-core/libease-core.h" >> po/POTFILES.skip
+	echo "flutter/libflutter.h" >> po/POTFILES.skip
 

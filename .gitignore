@@ -1,3 +1,4 @@
+# if anyone wants to use MonoDevelop
 *.sln
 *.mdproj
 *.userprefs
@@ -5,14 +6,23 @@
 *.pidb
 *~
 *bin/
+
+# Mac OS X noise
 *.AppleDouble/
 *DS_Store
 
+# introspection noise
+libease/tmp-introspect*
+*.gir
+
 # build files
-ease
+ease/ease
 *.h
 *.o
-src/*.c
+*.lo
+*.vapi
+*.c
+.libs
 
 *.ogv
 doc
@@ -39,7 +49,8 @@ config.*
 depcomp
 install-sh
 ltmain.sh
-m4
+*.m4
+!m4/introspection.m4
 missing
 mkinstalldirs
 Makefile
@@ -52,3 +63,15 @@ intltool-*.in
 aclocal.m4
 # don't version it to get always latest in tarball
 INSTALL
+
+*.pc
+*.la
+*.stamp
+
+# l18n
+*.gmo
+POTFILES
+
+# some extra things
+data/ease.desktop
+stamp-*
