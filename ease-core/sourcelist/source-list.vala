@@ -84,7 +84,7 @@ public class Source.List : Gtk.Alignment
 	 * @param linked_bin The Gtk.Bin to link this Source.View with.
 	 */
 	public List(Gtk.Bin linked_bin)
-	{	
+	{
 		// create widgets
 		scroll = new Gtk.ScrolledWindow(null, null);
 		box = new Gtk.VBox(false, GROUP_PADDING);

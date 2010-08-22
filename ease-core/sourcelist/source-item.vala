@@ -34,53 +34,9 @@ public class Source.Item : Gtk.HBox
 	private Gtk.Label label;
 	
 	/**
-	 * The right label widget, which can display a number if desired.
+	 * The alignment for the right widget.
 	 */
-	private Gtk.Label right_label;
-	
-	/**
-	 * The alignment for the right label.
-	 */
-	private Gtk.Alignment right_align;
-	
-	/**
-	 * A number, displayed on the righthand side of the Source.Item. If
-	 * notification is 0, the label is not displayed.
-	 */
-	public int notification
-	{
-		get { return notification_priv; }
-		set
-		{
-			if (value == notification_priv) return;
-			
-			// if value is 0, notification_priv can't be
-			if (value == 0)
-			{
-				// therefore, the widget has been added, so remove it
-				right_align.remove(right_label);
-			}
-			
-			// update the label
-			right_label.label = (selected ?
-			                     FORMAT_RIGHT_OLD : 
-			                     FORMAT_RIGHT_NEW).printf(value);
-			
-			// if necessary, add the label
-			if (notification_priv == 0)
-			{
-				right_align.add(right_label);
-			}
-			
-			// store the value
-			notification_priv = value;
-		}
-	}
-	
-	/**
-	 * Private store for notification value
-	 */
-	private int notification_priv = 0;
+	protected Gtk.Alignment right_align;
 	
 	/**
 	 * The Source.Item's button widget, containing the image and label.
@@ -169,9 +125,6 @@ public class Source.Item : Gtk.HBox
 			if (value)
 			{
 				clicked(this);
-				
-				// remove bold from notification text
-				right_label.label = FORMAT_RIGHT_OLD.printf(notification);
 			}
 		}
 	}
@@ -210,8 +163,6 @@ public class Source.Item : Gtk.HBox
 		selected = false;
 		var label_align = new Gtk.Alignment(0, LABEL_VERT_ALIGN, 0, 0);
 		label_align.set_padding(0, 0, ITEM_PADDING, ITEM_PADDING);
-		right_label = new Gtk.Label("");
-		right_label.use_markup = true;
 		right_align = new Gtk.Alignment(1, LABEL_VERT_ALIGN, 1, 1);
 		var image_align = new Gtk.Alignment(0.5f, 0.5f, 0, 1);
 		image_align.set_padding(0, 0, ITEM_PADDING, 0);

@@ -50,7 +50,9 @@ libease_core_@EASE_CORE_VERSION@_la_SOURCES = \
 	sourcelist/source-group.vala \
 	sourcelist/source-item.vala \
 	sourcelist/source-list.vala \
+	sourcelist/source-number-item.vala \
 	sourcelist/source-pane-view.vala \
+	sourcelist/source-spinner-item.vala \
 	sourcelist/source-view.vala \
 	$(NULL)
 
