@@ -94,12 +94,3 @@ public class OCA.Dialog : Ease.PluginImportDialog
 	}
 }
 
-public static int main(string[] args)
-{
-	Gtk.init(ref args);
-	var dialog = new OCA.Dialog();
-	dialog.show_all();
-	dialog.run();
-	
-	return 0;
-}

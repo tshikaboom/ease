@@ -8,6 +8,8 @@ ease_SOURCES = \
 	ease-editor-embed.vala \
 	ease-editor-window.vala \
 	ease-handle.vala \
+	ease-import-oca-media.vala \
+	ease-import-oca-service.vala \
 	ease-inspector-element-pane.vala \
 	ease-inspector-pane.vala \
 	ease-inspector-slide-pane.vala \

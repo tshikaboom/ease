@@ -22,6 +22,8 @@ libease_core_@EASE_CORE_VERSION@_la_SOURCES = \
 	ease-image.vala \
 	ease-iterable-models.vala \
 	ease-media-element.vala \
+	ease-plugin-import-media.vala \
+	ease-plugin-import-service.vala \
 	ease-pdf-actor.vala \
 	ease-pdf-element.vala \
 	ease-shape-element.vala \
