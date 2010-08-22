@@ -28,15 +28,15 @@ internal class Ease.ImportDialog : Gtk.Window
 		view.add_group(group);
 		view.show_all();
 		
-		Plugin.ImportService service = new OCAService();
-		var oca = create_item("OpenClipArt", "gtk-go-down", service);
-		group.add_item(oca);
-		service = new FlickrService();
-		group.add_item(create_item("Flickr", "gtk-go-down", service));
+		Plugin.ImportService service = new FlickrService();
+		var flickr = create_item("Flickr", "gtk-go-down", service);
+		group.add_item(flickr);
+		service = new OCAService();
+		group.add_item(create_item("OpenClipArt", "gtk-go-down", service));
 		
 		add(view);
 		view.show_all();
-		oca.select();
+		flickr.select();
 	}
 	
 	internal void run()
@@ -48,7 +48,6 @@ internal class Ease.ImportDialog : Gtk.Window
 	                                Plugin.ImportService service)
 	{
 		var widget = new ImportWidget(service);
-		
 		return new Source.Item.from_stock_icon(title, stock_id, widget);
 	}
 }
