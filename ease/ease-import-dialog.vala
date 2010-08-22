@@ -48,6 +48,13 @@ internal class Ease.ImportDialog : Gtk.Window
 	                                Plugin.ImportService service)
 	{
 		var widget = new ImportWidget(service);
-		return new Source.Item.from_stock_icon(title, stock_id, widget);
+		var item = new Source.SpinnerItem.from_stock_icon(title, stock_id,
+		                                                  widget);
+		
+		service.started.connect(() => item.start());
+		service.no_results.connect(() => item.stop());
+		service.loading_complete.connect(() => item.stop());
+		
+		return item;
 	}
 }
