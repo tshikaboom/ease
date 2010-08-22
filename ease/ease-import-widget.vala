@@ -44,7 +44,7 @@ public class Ease.ImportWidget : Gtk.Alignment
 	internal Gtk.Widget no_results;
 	
 	/**
-	 * The ImportService associated with this widget.
+	 * The ImportService associated with this 
 	 */
 	private Plugin.ImportService service;
 	
@@ -56,7 +56,6 @@ public class Ease.ImportWidget : Gtk.Alignment
 	public ImportWidget(Plugin.ImportService serv)
 	{
 		service = serv;
-		service.widget = this;
 		set_padding(0, 0, 0, 0);
 		
 		// darken the background
@@ -84,7 +83,7 @@ public class Ease.ImportWidget : Gtk.Alignment
 		
 		// search button
 		button = builder.get_object("search-button") as Gtk.Button;
-		button.clicked.connect(service.run);
+		button.clicked.connect(() => service.run(search.text));
 		button.expose_event.connect(set_bg);
 		
 		// progress
@@ -108,6 +107,48 @@ public class Ease.ImportWidget : Gtk.Alignment
 		var root = builder.get_object("root") as Gtk.EventBox;
 		root.expose_event.connect(set_bg);
 		add(root);
+		
+		// service signals
+		service.started.connect(() => {
+			// remove the results
+			icons_container.visible = false;
+			no_results.visible = false;
+		
+			// display the spinner
+			spinner.start();
+			spinner_container.visible = true;
+		
+			// reset the progress bar
+			progress.set_fraction(0);
+		});
+		
+		service.proxy_call_complete.connect(() => {
+			// remove the spinner
+			spinner_container.visible = false;
+			spinner.stop();
+		});
+		
+		service.no_results.connect(() => {
+			no_results.visible = true;
+		});
+		
+		service.loading_started.connect(() => {
+			// add the icon view
+			icons_container.visible = true;
+		
+			// add the progress
+			progress.visible = true;
+			
+			return icons;
+		});
+		
+		service.loading_progress.connect((fraction) => {
+			progress.set_fraction(fraction);
+		});
+		
+		service.loading_complete.connect(() => {
+			progress.visible = false;
+		});
 	}
 	
 	private bool set_bg(Gtk.Widget root, Gdk.EventExpose event)

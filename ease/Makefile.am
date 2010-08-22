@@ -13,6 +13,7 @@ ease_SOURCES = \
 	ease-import-flickr-service.vala \
 	ease-import-oca-media.vala \
 	ease-import-oca-service.vala \
+	ease-import-widget.vala \
 	ease-inspector-element-pane.vala \
 	ease-inspector-pane.vala \
 	ease-inspector-slide-pane.vala \

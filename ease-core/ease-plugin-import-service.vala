@@ -43,14 +43,16 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 	internal Gtk.ListStore model;
 	
 	/**
-	 * The widget for this service.
-	 */
-	internal ImportWidget widget;
-	
-	/**
 	 * The size of the list to download.
 	 */
 	private float list_size;
+	
+	public signal void started();
+	public signal void proxy_call_complete();
+	public signal void no_results();
+	public signal Gtk.IconView loading_started();
+	public signal void loading_progress(double progress);
+	public signal void loading_complete();
 	
 	/**
 	 * Stores the images to download. As each image is downloaded, it is
@@ -91,22 +93,13 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		images_list.add(media);
 	}
 	
-	internal void run(Gtk.Widget sender)
+	public void run(string search)
 	{
 		// create the rest proxy call
 		proxy = create_proxy();
-		call = create_call(proxy, widget.search.text);
+		call = create_call(proxy, search);
 		
-		// remove the results
-		widget.icons_container.visible = false;
-		widget.no_results.visible = false;
-		
-		// display the spinner
-		widget.spinner.start();
-		widget.spinner_container.visible = true;
-		
-		// reset the progress bar
-		widget.progress.set_fraction(0);
+		started();
 		
 		// run the call
 		try { call.run_async(on_call_finish, this); }
@@ -120,9 +113,7 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 	 */
 	private void on_call_finish(Rest.ProxyCall call)
 	{
-		// remove the spinner
-		widget.spinner_container.visible = false;
-		widget.spinner.stop();
+		proxy_call_complete();
 		
 		// create list
 		images_list = new Gee.LinkedList<ImportMedia?>();
@@ -135,19 +126,14 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		
 		if (list_size > 0)
 		{
-			// add the icon view
-			widget.icons_container.visible = true;
-		
-			// add the progress
-			widget.progress.visible = true;
-			
 			// create model
 			model = new Gtk.ListStore(2, typeof(Gdk.Pixbuf), typeof(string));
-		
+			
 			// set icons
-			widget.icons.set_model(model);
-			widget.icons.text_column = Column.TEXT;
-			widget.icons.pixbuf_column = Column.PIXBUF;
+			var icons = loading_started();
+			icons.set_model(model);
+			icons.text_column = Column.TEXT;
+			icons.pixbuf_column = Column.PIXBUF;
 		
 			// if threads are supported, get the pixbufs in a thread
 			if (Thread.supported())
@@ -162,7 +148,7 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		}
 		else
 		{
-			widget.no_results.visible = true;
+			no_results();
 		}
 	}
 	
@@ -197,10 +183,7 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		}
 		
 		// set the widget.progress bar
-		lock (widget)
-		{
-			widget.progress.set_fraction(1 - (images_list.size / list_size));
-		}
+		loading_progress(1 - (images_list.size / list_size));
 			
 		// continue if there are more images
 		lock (images_list)
@@ -209,10 +192,7 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		}
 			
 		// otherwise, remove the widget.progress bar and return
-		lock (widget)
-		{
-			widget.progress.visible = false;
-		}
+		loading_complete();
 		return null;
 	}
 	
