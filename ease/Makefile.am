@@ -9,6 +9,7 @@ ease_SOURCES = \
 	ease-editor-window.vala \
 	ease-handle.vala \
 	ease-import-dialog.vala \
+	ease-import-flickr-service.vala \
 	ease-import-oca-media.vala \
 	ease-import-oca-service.vala \
 	ease-inspector-element-pane.vala \

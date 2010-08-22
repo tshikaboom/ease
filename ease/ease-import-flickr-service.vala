@@ -281,14 +281,3 @@ public class FlickrFetcher {
 	}
 }
 
-
-public static int main (string []args)
-{
-	Gtk.init (ref args);
-
-	var dial = new FlickrFetcher ();
-	dial.run ();
-
-	Gtk.main ();
-	return 0;
-}
