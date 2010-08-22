@@ -29,13 +29,18 @@ internal class Ease.ImportDialog : Gtk.Window
 		view.show_all();
 		
 		Plugin.ImportService service = new OCAService();
-		var item = new Source.Item.from_stock_icon(
+		var oca = new Source.Item.from_stock_icon(
 			"OpenClipArt", "gtk-go-down", new ImportWidget(service));
-		group.add_item(item);
+		group.add_item(oca);
+		
+		service = new FlickrService();
+		var flickr = new Source.Item.from_stock_icon(
+			"Flickr", "gtk-go-down", new ImportWidget(service));
+		group.add_item(flickr);
 		
 		add(view);
 		view.show_all();
-		item.select();
+		oca.select();
 	}
 	
 	internal void run()
