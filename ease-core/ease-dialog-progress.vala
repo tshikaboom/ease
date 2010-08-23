@@ -27,7 +27,6 @@ public class Ease.Dialog.Progress : GLib.Object
 	
 	private Gtk.Dialog dialog;
 	private Gtk.Button cancel;
-	private Gtk.Label label;
 	private Gtk.ProgressBar progress;
 	private double max_val;
 	private bool destroyed = false;
@@ -56,7 +55,6 @@ public class Ease.Dialog.Progress : GLib.Object
 		// get builder objects
 		dialog = builder.get_object("dialog") as Gtk.Dialog;
 		cancel = builder.get_object("cancel") as Gtk.Button;
-		label = builder.get_object("label") as Gtk.Label;
 		progress = builder.get_object("progress") as Gtk.ProgressBar;
 		
 		// set basic stuff
@@ -84,17 +82,11 @@ public class Ease.Dialog.Progress : GLib.Object
 	}
 	
 	/**
-	 * Sets (or unsets with null) the label of this dialog. Markup allowed.
+	 * Sets (or unsets with null) the label of this dialog.
 	 */
 	public void set_label(string? str)
 	{
-		if (str == null)
-		{
-			label.hide();
-			return;
-		}
-		label.set_markup(str);
-		label.show_all();
+		progress.set_text(str);
 	}
 	
 	/**
