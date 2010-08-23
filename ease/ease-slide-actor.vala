@@ -1224,17 +1224,14 @@ internal class Ease.SlideActor : Clutter.Group
 		background.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
 		                   length, "opacity", 0);
 		
-		time1 = new Clutter.Timeline(3 * length / 4);
-		time2 = new Clutter.Timeline(length / 4);
+		time1 = new Clutter.Timeline(3 * length / 5);
+		time2 = new Clutter.Timeline(2 * length / 5);
 		
 		alpha1 = new Clutter.Alpha.full(time1,
 		                                Clutter.AnimationMode.EASE_IN_SINE);
 		                                
 		alpha2 = new Clutter.Alpha.full(time2,
-		                                Clutter.AnimationMode.EASE_OUT_SINE);
-		                                
-		animation_alpha = new Clutter.Alpha.full(animation_time,
-		                                         Clutter.AnimationMode.LINEAR);
+		                                Clutter.AnimationMode.EASE_OUT_BACK);
 		
 		time1.new_frame.connect((m) => {
 			foreach (var actor in contents)
