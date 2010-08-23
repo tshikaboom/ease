@@ -1,4 +1,4 @@
-public class Ease.ImportWidget : Gtk.Alignment
+internal class Ease.ImportWidget : Gtk.Alignment
 {
 	private const string UI_FILE_PATH = "import-widget.ui";
 	private const double DARK_FACTOR = 1.1;
@@ -22,6 +22,11 @@ public class Ease.ImportWidget : Gtk.Alignment
 	 * Search button.
 	 */
 	internal Gtk.Button button;
+	
+	/**
+	 * Insert button.
+	 */
+	internal Gtk.Button insert;
 	
 	/**
 	 * Progress bar, displaying the percentage of images downloaded so far.
@@ -49,11 +54,16 @@ public class Ease.ImportWidget : Gtk.Alignment
 	private Plugin.ImportService service;
 	
 	/**
+	 * Triggers a media add.
+	 */
+	internal signal void add_media(Plugin.ImportMedia media);
+	
+	/**
 	 * Size of the spinner
 	 */
 	private const int SPINNER_SIZE = 40;
 
-	public ImportWidget(Plugin.ImportService serv)
+	internal ImportWidget(Plugin.ImportService serv)
 	{
 		service = serv;
 		set_padding(0, 0, 0, 0);
@@ -86,6 +96,21 @@ public class Ease.ImportWidget : Gtk.Alignment
 		button.clicked.connect(() => service.run(search.text));
 		button.expose_event.connect(set_bg);
 		
+		// insert button
+		insert = builder.get_object("insert") as Gtk.Button;
+		insert.clicked.connect(() => {
+			var model = icons.model;
+			Gtk.TreeIter iter = Gtk.TreeIter();
+			Plugin.ImportMedia media = null;
+			icons.selected_foreach((view, path) => {
+				model.get_iter(out iter, path);
+				model.get(iter, Plugin.ImportService.Column.IMPORT_MEDIA,
+				          out media);
+				add_media(media);
+			});
+		});
+		insert.expose_event.connect(set_bg);
+		
 		// progress
 		progress = builder.get_object("progress-bar") as Gtk.ProgressBar;
 		
@@ -99,6 +124,9 @@ public class Ease.ImportWidget : Gtk.Alignment
 		// icon view
 		icons = builder.get_object("icon-view") as Gtk.IconView;
 		icons_container = builder.get_object("icon-window") as Gtk.Widget;
+		icons.selection_changed.connect(() => {
+			insert.sensitive = icons.get_selected_items().length() > 0;
+		});
 		
 		// no results
 		no_results = builder.get_object("no-results") as Gtk.Widget;

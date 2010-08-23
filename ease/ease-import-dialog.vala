@@ -17,6 +17,8 @@
 
 internal class Ease.ImportDialog : Gtk.Window
 {
+	public signal void add_image(string filename);
+	
 	internal ImportDialog()
 	{
 		title = _("Import Media");
@@ -50,6 +52,23 @@ internal class Ease.ImportDialog : Gtk.Window
 		var widget = new ImportWidget(service);
 		var item = new Source.SpinnerItem.from_stock_icon(title, stock_id,
 		                                                  widget);
+		
+		widget.add_media.connect((media) => {
+			var temp = Temp.request();
+			
+			var file = File.new_for_uri(media.file_link);
+			var copy = File.new_for_path(Path.build_filename(temp, "media"));
+			try
+			{
+				file.copy(copy, FileCopyFlags.OVERWRITE, null, null);
+				add_image(copy.get_path());
+			}
+			catch (Error e)
+			{
+				critical("Couldn't read file: %s", e.message);
+				return;
+			}
+		});
 		
 		service.started.connect(() => item.start());
 		service.no_results.connect(() => item.stop());

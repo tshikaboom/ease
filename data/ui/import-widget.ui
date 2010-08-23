@@ -62,6 +62,7 @@
                   <object class="GtkIconView" id="icon-view">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="selection_mode">multiple</property>
                   </object>
                 </child>
               </object>
@@ -146,6 +147,7 @@
                   <object class="GtkButton" id="insert">
                     <property name="label" translatable="yes">_Insert</property>
                     <property name="visible">True</property>
+                    <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="image">image1</property>

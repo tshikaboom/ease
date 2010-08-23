@@ -436,33 +436,38 @@ internal class Ease.EditorWindow : Gtk.Window
 
 		if (filename != null)
 		{
-			try
-			{
-				var img = new Clutter.Texture.from_file(filename);
-				var e = new ImageElement();
-				
-				// set the size and position of the element
-				int width = 0, height = 0;
-				img.get_base_size(out width, out height);
-				
-				e.width = width;
-				e.height = height;
-				e.x = slide.width / 2 - width / 2;
-				e.y = slide.height / 2 - height / 2;
-				
-				e.element_type = Slide.IMAGE_TYPE;
-				e.identifier = Theme.CUSTOM_MEDIA;
-				e.filename = document.add_media_file(filename);
-				e.source_filename = filename;
-				
-				// add the element
-				slide.append(e);
-				embed.select_element(e);
-			}
-			catch (Error e)
-			{
-				error_dialog(_("Error Inserting Image"), e.message);
-			}
+			insert_image_actual(filename);
+		}
+	}
+	
+	internal void insert_image_actual(string filename)
+	{	
+		try
+		{
+			var img = new Clutter.Texture.from_file(filename);
+			var e = new ImageElement();
+			
+			// set the size and position of the element
+			int width = 0, height = 0;
+			img.get_base_size(out width, out height);
+			
+			e.width = width;
+			e.height = height;
+			e.x = slide.width / 2 - width / 2;
+			e.y = slide.height / 2 - height / 2;
+			
+			e.element_type = Slide.IMAGE_TYPE;
+			e.identifier = Theme.CUSTOM_MEDIA;
+			e.filename = document.add_media_file(filename);
+			e.source_filename = filename;
+			
+			// add the element
+			slide.append(e);
+			embed.select_element(e);
+		}
+		catch (Error e)
+		{
+			error_dialog(_("Error Inserting Image"), e.message);
 		}
 	}
 	
@@ -556,6 +561,9 @@ internal class Ease.EditorWindow : Gtk.Window
 	internal void on_insert_web_media(Gtk.Widget sender)
 	{
 		var dialog = new ImportDialog();
+		
+		dialog.add_image.connect(insert_image_actual);
+		
 		dialog.run();
 	}
 	

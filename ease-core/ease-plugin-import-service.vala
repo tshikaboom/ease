@@ -127,7 +127,8 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		if (list_size > 0)
 		{
 			// create model
-			model = new Gtk.ListStore(2, typeof(Gdk.Pixbuf), typeof(string));
+			model = new Gtk.ListStore(3, typeof(Gdk.Pixbuf), typeof(string),
+			                             typeof(ImportMedia));
 			
 			// set icons
 			var icons = loading_started();
@@ -179,7 +180,8 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		{
 			model.append(out tree_itr);
 			model.set(tree_itr, Column.PIXBUF, pixbuf,
-				                Column.TEXT, image.title);
+				                Column.TEXT, image.title,
+				                Column.IMPORT_MEDIA, image);
 		}
 		
 		// set the widget.progress bar
@@ -231,7 +233,7 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 	/**
 	 * Enumerator for columns in the "model" ListStore.
 	 */
-	private enum Column
+	public enum Column
 	{
 		/**
 		 * The column storing Gdk.Pixbufs, downloaded from the internet.
@@ -243,7 +245,12 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		/**
 		 * The column for the label displayed in the Gtk.IconView.
 		 */
-		TEXT = 1
+		TEXT = 1,
+		
+		/**
+		 * Stores the ImportMedia associated with the image.
+		 */
+		IMPORT_MEDIA = 2
 	}
 }
 
