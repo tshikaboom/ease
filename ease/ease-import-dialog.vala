@@ -53,21 +53,11 @@ internal class Ease.ImportDialog : Gtk.Window
 		var item = new Source.SpinnerItem.from_stock_icon(title, stock_id,
 		                                                  widget);
 		
-		widget.add_media.connect((media) => {
-			var temp = Temp.request();
-			
-			var file = File.new_for_uri(media.file_link);
-			var copy = File.new_for_path(Path.build_filename(temp, "media"));
-			try
-			{
-				file.copy(copy, FileCopyFlags.OVERWRITE, null, null);
-				add_image(copy.get_path());
-			}
-			catch (Error e)
-			{
-				critical("Couldn't read file: %s", e.message);
-				return;
-			}
+		widget.add_media.connect((media_list) => {
+			var progress = new Dialog.Progress(_("Downloading Media Files"),
+			                                   false, media_list.size, this); 
+			progress.show();
+			add_media_recursive(progress, media_list, Temp.request(), 0);
 		});
 		
 		service.started.connect(() => item.start());
@@ -75,5 +65,40 @@ internal class Ease.ImportDialog : Gtk.Window
 		service.loading_complete.connect(() => item.stop());
 		
 		return item;
+	}
+	
+	private void add_media_recursive(Dialog.Progress progress,
+	                                 Gee.Queue<Plugin.ImportMedia> media_list,
+	                                 string temp, int i)
+	{
+		if (media_list.size == 0)
+		{
+			progress.destroy();
+			return;
+		}
+		
+		var file = File.new_for_uri(media_list.poll().file_link);
+		var copy = File.new_for_path(Path.build_filename(temp,
+		                                                 "media" +
+		                                                 (i++).to_string()));
+		try
+		{
+			double previous = 0;
+			file.copy_async(copy, FileCopyFlags.OVERWRITE,
+			                Priority.DEFAULT, null,
+			                (current, total) => {
+				progress.add(((double)current - previous) / (double)total);
+				previous += current - previous;
+			},
+			                (sender, result) => {
+				add_image(copy.get_path());
+				add_media_recursive(progress, media_list, temp, i);
+			});
+		}
+		catch (Error e)
+		{
+			critical("Couldn't read file: %s", e.message);
+			return;
+		}
 	}
 }

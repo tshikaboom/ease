@@ -56,7 +56,7 @@ internal class Ease.ImportWidget : Gtk.Alignment
 	/**
 	 * Triggers a media add.
 	 */
-	internal signal void add_media(Plugin.ImportMedia media);
+	internal signal void add_media(Gee.Queue<Plugin.ImportMedia> media_list);
 	
 	/**
 	 * Size of the spinner
@@ -102,12 +102,14 @@ internal class Ease.ImportWidget : Gtk.Alignment
 			var model = icons.model;
 			Gtk.TreeIter iter = Gtk.TreeIter();
 			Plugin.ImportMedia media = null;
+			var list = new Gee.LinkedList<Plugin.ImportMedia>();
 			icons.selected_foreach((view, path) => {
 				model.get_iter(out iter, path);
 				model.get(iter, Plugin.ImportService.Column.IMPORT_MEDIA,
 				          out media);
-				add_media(media);
+				list.add(media);
 			});
+			add_media(list);
 		});
 		insert.expose_event.connect(set_bg);
 		
