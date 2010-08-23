@@ -97,7 +97,7 @@ public class Ease.FlickrService : Plugin.ImportService {
 		string flickr = ".static.flickr.com/";
 		
 		var image = new FlickrMedia();
-		image.file_link = http + farm + flickr + server + "/" + id + "_" + secret + "_b.jpg";
+		image.file_link = http + farm + flickr + server + "/" + id + "_" + secret + "_z.jpg";
 		image.thumb_link = http + farm + flickr + server + "/" + id + "_" + secret + "_m.jpg";
 		// TODO : unittest to track Flickr API changes.
 		// TODO : license
