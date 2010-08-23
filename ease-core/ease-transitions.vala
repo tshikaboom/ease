@@ -35,6 +35,7 @@ public enum Ease.Transition
 	ASSEMBLE,
 	ZOOM,
 	PANEL,
+	INTERSPERSE_CONTENTS,
 	SPIN_CONTENTS,
 	SPRING_CONTENTS,
 	SWING_CONTENTS,
@@ -57,6 +58,7 @@ public enum Ease.Transition
 		                                       ASSEMBLE,
 		                                       ZOOM,
 		                                       PANEL,
+		                                       INTERSPERSE_CONTENTS,
 		                                       SPIN_CONTENTS,
 		                                       SPRING_CONTENTS,
 		                                       SWING_CONTENTS,
@@ -124,6 +126,8 @@ public enum Ease.Transition
 				return ZOOM;
 			case "EASE_TRANSITION_PANEL":
 				return PANEL;
+			case "EASE_TRANSITION_INTERSPERSE_CONTENTS":
+				return INTERSPERSE_CONTENTS;
 			case "EASE_TRANSITION_SPIN_CONTENTS":
 				return SPIN_CONTENTS;
 			case "EASE_TRANSITION_SPRING_CONTENTS":
@@ -153,6 +157,7 @@ public enum Ease.Transition
 			case EXPLODE:
 			case ASSEMBLE:
 			case SWING_CONTENTS:
+			case INTERSPERSE_CONTENTS:
 				return {};
 			
 			case REVOLVING_DOOR:
@@ -237,6 +242,8 @@ public enum Ease.Transition
 				return _("Zoom");
 			case PANEL:
 				return _("Panel");
+			case INTERSPERSE_CONTENTS:
+				return _("Intersperse Contents");
 			case SPIN_CONTENTS:
 				return _("Spin Contents");
 			case SPRING_CONTENTS:

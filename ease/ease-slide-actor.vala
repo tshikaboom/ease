@@ -509,6 +509,10 @@ internal class Ease.SlideActor : Clutter.Group
 			case Transition.ZOOM:
 				zoom_transition(new_slide, container, length);
 				break;
+			
+			case Transition.INTERSPERSE_CONTENTS:
+				intersperse_contents_transition(new_slide, container, length);
+				break;
 
 			case Transition.SLIDE_CONTENTS:
 				slide_contents_transition(new_slide, container, length);
@@ -1331,6 +1335,108 @@ internal class Ease.SlideActor : Clutter.Group
 				contents.animate(Clutter.AnimationMode.EASE_IN_OUT_ELASTIC,
 				                 length, "y", slide.height * 1.2);
 				break;
+		}
+	}
+	
+	/**
+	 * Starts a "intersperse contents" transition. This transition unstacks the
+	 * SlideActors.
+	 *
+	 * @param new_slide The new SlideActor.
+	 * @param container The container that holds the displayed SlideActors.
+	 * @param length The length of the transition, in milliseconds.
+	 */
+	private void intersperse_contents_transition(SlideActor new_slide,
+	                                          Clutter.Group container,
+	                                          uint length)
+	{
+		prepare_stack_transition(false, new_slide, container);
+		background.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
+		                   length, "opacity", 0);
+		alpha1 = new Clutter.Alpha.full(animation_time,
+		                                Clutter.AnimationMode.EASE_IN_SINE);
+		                                
+		alpha2 = new Clutter.Alpha.full(animation_time,
+		                                Clutter.AnimationMode.EASE_OUT_SINE);
+		                                
+		animation_alpha = new Clutter.Alpha.full(animation_time,
+		                                         Clutter.AnimationMode.LINEAR);
+		
+		float target_x = 0, target_y = 0, orig_x, orig_y;
+		
+		foreach (var actor in contents)
+		{
+			get_intersperse_coords(actor, out target_x, out target_y);
+			
+			actor.animate(Clutter.AnimationMode.EASE_IN_SINE, length,
+			              "y", target_y,
+			              "x", target_x);
+		}
+		
+		foreach (var actor in new_slide.contents)
+		{
+			// store the original position
+			orig_x = actor.x;
+			orig_y = actor.y;
+			
+			// find the interspersed position
+			get_intersperse_coords(actor, out target_x, out target_y);
+			
+			// set the actor off stage
+			actor.x = target_x;
+			actor.y = target_y;
+			
+			// animate back on screen
+			actor.animate(Clutter.AnimationMode.EASE_OUT_SINE, length,
+			              "y", orig_y,
+			              "x", orig_x);
+		}
+	}
+	
+	private void get_intersperse_coords(Clutter.Actor actor, out float target_x,
+	                                                      out float target_y)
+	{
+		var center_x = slide.width / 2;
+		var center_y = slide.height / 2;
+		
+		if ((actor.x + actor.width / 2) - center_x == 0)
+		{
+			target_x = actor.x;
+			target_y = (actor.y + actor.height / 2) > center_y ?
+			           slide.height : -actor.height;
+			return;
+		}
+		
+		var m = ((actor.y + actor.height / 2) - center_y) /
+		        ((actor.x + actor.width / 2) - center_x);
+			
+		var angle = Math.fmod(Math.atan2(m, 1), Math.PI * 2);
+		
+		if (m == 0)
+		{
+			target_x = (actor.x + actor.width / 2) > center_x ?
+			           slide.width : -actor.width;
+			target_y = actor.y;
+		}
+		else if (angle > Math.PI * 1.75 || angle <= Math.PI * 0.25)
+		{
+			target_x = slide.width;
+			target_y = m * target_x + center_y;
+		}
+		else if (angle > Math.PI * 0.25 || angle <= Math.PI * 0.75)
+		{
+			target_y = -actor.height;
+			target_x = (target_y - center_y) / m;
+		}
+		else if (angle > Math.PI * 0.75 || angle <= Math.PI * 1.25)
+		{
+			target_x = -actor.width;
+			target_y = m * target_x + center_y;
+		}
+		else
+		{
+			target_y = slide.height;
+			target_x = (target_y - center_y) / m;
 		}
 	}
 
