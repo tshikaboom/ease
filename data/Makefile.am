@@ -61,7 +61,9 @@ EXTRA_DIST = \
     $(goddardmedia_DATA) \
     $(green_DATA) \
     $(red_DATA) \
-    $(white_DATA)
+    $(white_DATA) \
+    $(mime_DATA) \
+    $(mimeicon_DATA)
 
 # installing mime type
 install-data-local: install-mimeDATA
