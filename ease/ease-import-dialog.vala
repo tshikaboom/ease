@@ -17,7 +17,11 @@
 
 internal class Ease.ImportDialog : Gtk.Window
 {
+	private const string PROGRESS_FORMAT = _("Downloading image %i of %i");
+
 	public signal void add_image(string filename);
+	
+	int total_images;
 	
 	internal ImportDialog()
 	{
@@ -57,6 +61,7 @@ internal class Ease.ImportDialog : Gtk.Window
 			var progress = new Dialog.Progress(_("Downloading Media Files"),
 			                                   false, media_list.size, this); 
 			progress.show();
+			total_images = media_list.size;
 			add_media_recursive(progress, media_list, Temp.request(), 0);
 		});
 		
@@ -76,6 +81,9 @@ internal class Ease.ImportDialog : Gtk.Window
 			progress.destroy();
 			return;
 		}
+		
+		// set progress text
+		progress.set_label(PROGRESS_FORMAT.printf(i + 1, total_images));
 		
 		var file = File.new_for_uri(media_list.poll().file_link);
 		var copy = File.new_for_path(Path.build_filename(temp,
