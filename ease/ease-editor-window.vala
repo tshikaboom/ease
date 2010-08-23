@@ -451,6 +451,20 @@ internal class Ease.EditorWindow : Gtk.Window
 			int width = 0, height = 0;
 			img.get_base_size(out width, out height);
 			
+			if (width > document.width)
+			{
+				var factor = document.width / (float)width;
+				width = (int)(factor * width);
+				height = (int)(factor * height);
+			}
+			
+			if (height > document.height)
+			{
+				var factor = document.height / (float)height;
+				width = (int)(factor * width);
+				height = (int)(factor * height);
+			}
+			
 			e.width = width;
 			e.height = height;
 			e.x = slide.width / 2 - width / 2;
