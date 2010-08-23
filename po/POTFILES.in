@@ -24,6 +24,8 @@ ease-core/ease-iterable-models.vala
 ease-core/ease-media-element.vala
 ease-core/ease-pdf-actor.vala
 ease-core/ease-pdf-element.vala
+ease-core/ease-plugin-import-media.vala
+ease-core/ease-plugin-import-service.vala
 ease-core/ease-shape-element.vala
 ease-core/ease-slide.vala
 ease-core/ease-temp.vala
@@ -47,6 +49,12 @@ ease/ease-close-confirm-dialog.vala
 ease/ease-editor-embed.vala
 ease/ease-editor-window.vala
 ease/ease-handle.vala
+ease/ease-import-dialog.vala
+ease/ease-import-flickr-media.vala
+ease/ease-import-flickr-service.vala
+ease/ease-import-oca-media.vala
+ease/ease-import-oca-service.vala
+ease/ease-import-widget.vala
 ease/ease-inspector-element-pane.vala
 ease/ease-inspector-pane.vala
 ease/ease-inspector-slide-pane.vala
@@ -63,6 +71,7 @@ ease/ease-welcome-actor.vala
 ease/ease-welcome-window.vala
 data/ui/background.ui
 data/ui/editor-window.ui
+data/ui/import-widget.ui
 data/ui/inspector-element-image.ui
 data/ui/inspector-element-none.ui
 data/ui/inspector-element-pdf.ui
