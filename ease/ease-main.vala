@@ -17,7 +17,7 @@
 
 internal class Ease.Main : GLib.Object
 {
-	private static Gee.ArrayList<EditorWindow> windows;
+	private static Gee.ArrayList<EditorWindowInfo> windows;
 	private static WelcomeWindow welcome;
 	private static Unique.App app;
 	
@@ -123,7 +123,7 @@ internal class Ease.Main : GLib.Object
 			UndoController.enable_debug = debug_undo;
 
 			// initalize static classes
-			windows = new Gee.ArrayList<EditorWindow>();
+			windows = new Gee.ArrayList<EditorWindowInfo>();
 		
 			// Clutter settings
 			var backend = Clutter.get_default_backend();
@@ -194,11 +194,12 @@ internal class Ease.Main : GLib.Object
 	 */
 	internal static void open_file(string path)
 	{
-		foreach (var w in windows)
+		foreach (var info in windows)
 		{
-			if (absolute_path(w.document.filename) == absolute_path(path))
+			if (absolute_path(info.window.document.filename) ==
+			    absolute_path(path))
 			{
-				w.present();
+				info.window.present();
 				return;
 			}
 		}
@@ -276,7 +277,14 @@ internal class Ease.Main : GLib.Object
 	 */
 	private static void remove_window(EditorWindow win)
 	{
-		windows.remove(win);
+		foreach (var info in windows)
+		{
+			if (info.window == win)
+			{
+				windows.remove(info);
+				break;
+			}
+		}
 		win.play.disconnect(on_play);
 		win.close.disconnect(on_close);
 		
@@ -297,7 +305,7 @@ internal class Ease.Main : GLib.Object
 	 */
 	private static void add_window(EditorWindow win)
 	{
-		windows.add(win);
+		windows.add(new EditorWindowInfo(win));
 		win.play.connect(on_play);
 		win.close.connect(on_close);
 	}
@@ -314,10 +322,18 @@ internal class Ease.Main : GLib.Object
 		
 		player.complete.connect(() => {
 				player.destroy ();
-			foreach (var window in windows) window.show();
+			foreach (var info in windows)
+			{
+				info.window.show();
+				info.window.move(info.x, info.y);
+			}
 		});
 		
-		foreach (var window in windows) window.hide();
+		foreach (var info in windows)
+		{
+			info.window.get_position(out info.x, out info.y);
+			info.window.hide();
+		}
 	}
 	
 	/**
@@ -364,6 +380,18 @@ internal class Ease.Main : GLib.Object
 		if (windows.size == 0)
 		{
 			Gtk.main_quit();
+		}
+	}
+	
+	private class EditorWindowInfo
+	{
+		public EditorWindow window;
+		public int x = 0;
+		public int y = 0;
+		
+		public EditorWindowInfo(EditorWindow win)
+		{
+			window = win;
 		}
 	}
 }
