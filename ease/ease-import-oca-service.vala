@@ -61,6 +61,8 @@ internal class Ease.OCAService : Plugin.ImportService
 				for (Xml.Node* tag = itr->children;
 				     tag != null; tag = tag->next)
 				{
+					debug(tag->name);
+					
 					switch (tag->name)
 					{
 						case "title":
@@ -88,13 +90,15 @@ internal class Ease.OCAService : Plugin.ImportService
 								}
 							}
 							break;
-						case "media:thumbnail":
+						case "thumbnail":
 							for (Xml.Attr* prop = tag->properties;
 							     prop != null; prop = prop->next)
 							{
 								if (prop->name == "url")
 								{
-									image.thumb_link = prop->children->content;
+									var thumb = prop->children->content;
+									image.thumb_link = thumb.replace("90px",
+									                                 "125px");
 								}
 							}
 							break;

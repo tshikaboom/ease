@@ -63,6 +63,9 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="selection_mode">multiple</property>
+                    <property name="row_spacing">0</property>
+                    <property name="column_spacing">0</property>
+                    <property name="margin">0</property>
                   </object>
                 </child>
               </object>

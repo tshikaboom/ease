@@ -60,7 +60,6 @@ public class Ease.FlickrService : Plugin.ImportService {
 			error ("Couldn't parse JSON data: %s", e.message);
 		}
 
-		//print ("==START PAYLOAD==\n%s\n==END PAYLOAD==", jsondata);
 		Json.Object obj = parser.get_root().get_object ();
 
 		var stat = obj.get_string_member ("stat");
@@ -98,8 +97,8 @@ public class Ease.FlickrService : Plugin.ImportService {
 		string flickr = ".static.flickr.com/";
 		
 		var image = new FlickrMedia();
-		image.file_link = http + farm + flickr + server + "/" + id + "_" + secret + "_t.jpg";
-		image.thumb_link = image.file_link;
+		image.file_link = http + farm + flickr + server + "/" + id + "_" + secret + "_b.jpg";
+		image.thumb_link = http + farm + flickr + server + "/" + id + "_" + secret + "_m.jpg";
 		// TODO : unittest to track Flickr API changes.
 		// TODO : license
 		image.title = photo.get_string_member ("title");

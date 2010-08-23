@@ -173,7 +173,6 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		var pixbuf = gdk_pixbuf_from_uri(image.thumb_link == null ?
 		                                 image.file_link : 
 		                                 image.thumb_link);
-		
 		// append to the model
 		var tree_itr = Gtk.TreeIter();
 		lock (model)
