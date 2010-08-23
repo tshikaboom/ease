@@ -544,6 +544,28 @@ public class Ease.Slide : GLib.Object, UndoSource
 		cairo_render_sized(context, parent.width, parent.height);
 	}
 	
+	/**
+	 * Draws the Slide to a thumbnail-sized Cairo.Context. Will call
+	 * {@link Element.cairo_render_small} instead of
+	 * {@link Element.cairo_render}.
+	 *
+	 * @param context The Cairo.Context to draw to.
+	 */
+	public void cairo_render_small(Cairo.Context context)
+	{
+		context.save();
+		cairo_render_background(context, parent.width, parent.height);
+		context.restore();
+		
+		foreach (var e in elements)
+		{
+			context.save();
+			context.translate(e.x, e.y);
+			e.cairo_render_small(context);
+			context.restore();
+		}
+	}
+	
 	/** 
 	 * Draws the {@link Slide} to a Cairo.Context at a specified size.
 	 *

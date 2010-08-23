@@ -281,6 +281,13 @@ internal class Ease.EditorWindow : Gtk.Window
 	 */
 	internal void set_slide(int index)
 	{
+		// clear any cairo rendering caches that the current slide has
+		foreach (var element in slide)
+		{
+			element.cairo_free_cache();
+		}
+		
+		// get the new slide
 		slide = document.get_slide(index);
 		
 		// update ui elements for this new slide

@@ -176,6 +176,30 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	public abstract void cairo_render(Cairo.Context context) throws Error;
 	
 	/**
+	 * Renders this Element to a thumbnail-sized CairoContext. The ability to
+	 * override this method in subclasses allows for optimizations to be
+	 * performed, preventing slowdown.
+	 *
+	 * Especially when dragging Elements around, thumbnails are rapidly redrawn.
+	 * If an Element subclass uses any potentially large media files, it is a
+	 * good idea to override this method, cache a low resolution version of the
+	 * file, and draw with that.
+	 *
+	 * If not overriden, this method will simply call {@link cairo_render}.
+	 *
+	 * @param context The context to render to.
+	 */
+	public virtual void cairo_render_small(Cairo.Context context) throws Error
+	{
+		cairo_render(context);
+	}
+	
+	/**
+	 * Instructs subclasses to free any cached data for Cairo rendering.
+	 */
+	public virtual void cairo_free_cache() {}
+	
+	/**
 	 * Returns a ClutterActor for use in presentations and the editor.
 	 *
 	 * @param c The context of the actor.
