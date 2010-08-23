@@ -1223,34 +1223,53 @@ internal class Ease.SlideActor : Clutter.Group
 		new_slide.contents.opacity = 0;
 		background.animate(Clutter.AnimationMode.EASE_IN_OUT_SINE,
 		                   length, "opacity", 0);
-		alpha1 = new Clutter.Alpha.full(animation_time,
+		
+		time1 = new Clutter.Timeline(3 * length / 4);
+		time2 = new Clutter.Timeline(length / 4);
+		
+		alpha1 = new Clutter.Alpha.full(time1,
 		                                Clutter.AnimationMode.EASE_IN_SINE);
 		                                
-		alpha2 = new Clutter.Alpha.full(animation_time,
+		alpha2 = new Clutter.Alpha.full(time2,
 		                                Clutter.AnimationMode.EASE_OUT_SINE);
 		                                
 		animation_alpha = new Clutter.Alpha.full(animation_time,
 		                                         Clutter.AnimationMode.LINEAR);
 		
-		animation_time.new_frame.connect((m) => {
-			unowned GLib.List<Clutter.Actor>* itr;
-			contents.opacity = clamp_opacity(455 - 555 * alpha1.alpha);
-			new_slide.contents.opacity = clamp_opacity(-100 + 400 * alpha2.alpha);
-			
-			for (itr = contents.get_children(); itr != null; itr = itr->next)
+		time1.new_frame.connect((m) => {
+			foreach (var actor in contents)
 			{
-				((Actor*)itr->data)->set_rotation(Clutter.RotateAxis.X_AXIS,
-				                                  540 * alpha1.alpha,
-				                                  0, 0, 0);
-			}
-			for (itr = new_slide.contents.get_children();
-			     itr != null; itr = itr->next)
-			{
-				((Actor*)itr->data)->set_rotation(Clutter.RotateAxis.X_AXIS,
-				                                  -540 * (1 - alpha2.alpha),
-				                                  0, 0, 0);
+				actor.set_rotation(Clutter.RotateAxis.X_AXIS,
+				                   270 * alpha1.alpha, 0, 0, 0);
 			}
 		});
+		
+		time2.new_frame.connect((m) => {
+			foreach (var actor in new_slide.contents)
+			{
+				actor.set_rotation(Clutter.RotateAxis.X_AXIS,
+				                   270 + 90 * alpha2.alpha, 0, 0, 0);
+			}
+		});
+		
+		time1.completed.connect(() => {
+			time2.start();
+			new_slide.contents.opacity = 255;
+			contents.opacity = 0;
+			foreach (var actor in new_slide.contents)
+			{
+				actor.set_rotation(Clutter.RotateAxis.X_AXIS, 270, 0, 0, 0);
+			}
+		});
+		
+		time2.completed.connect(() => {
+			foreach (var actor in new_slide.contents)
+			{
+				actor.set_rotation(Clutter.RotateAxis.X_AXIS, 0, 0, 0, 0);
+			}
+		});
+		
+		time1.start();
 	}
 
 	/**
