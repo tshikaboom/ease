@@ -58,8 +58,11 @@ internal class Ease.ImportDialog : Gtk.Window
 		                                                  widget);
 		
 		widget.add_media.connect((media_list) => {
-			var progress = new Dialog.Progress(_("Downloading Media Files"),
-			                                   false, media_list.size, this); 
+			var img = new Gtk.Image.from_stock("gtk-go-down",
+			                                   Gtk.IconSize.LARGE_TOOLBAR);
+			var progress = new Dialog.Progress.with_image(
+				_("Downloading Media Files"), false,
+				media_list.size, this, img); 
 			progress.show();
 			total_images = media_list.size;
 			add_media_recursive(progress, media_list, Temp.request(), 0);
@@ -96,7 +99,7 @@ internal class Ease.ImportDialog : Gtk.Window
 			                Priority.DEFAULT, null,
 			                (current, total) => {
 				progress.add(((double)current - previous) / (double)total);
-				previous += current - previous;
+				previous = current;
 			},
 			                (sender, result) => {
 				add_image(copy.get_path());

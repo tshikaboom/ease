@@ -172,7 +172,9 @@ namespace Ease.Archiver
 		                        Gtk.Window? win) throws Error
 	{
 		// create a progress dialog
-		var dialog = new Dialog.Progress(title, false, 1, win);
+		var img = new Gtk.Image.from_stock("gtk-save",
+		                                   Gtk.IconSize.LARGE_TOOLBAR);
+		var dialog = new Dialog.Progress.with_image(title, false, 1, win, img);
 	
 		// archive away!
 		var arc = new Archiver(temp_path, filename, files, dialog);

@@ -30,6 +30,7 @@ public class Ease.Dialog.Progress : GLib.Object
 	private Gtk.ProgressBar progress;
 	private double max_val;
 	private bool destroyed = false;
+	private Gtk.Builder builder;
 	
 	/**
 	 * Creates a progress dialog.
@@ -44,7 +45,7 @@ public class Ease.Dialog.Progress : GLib.Object
 	{
 		max_val = max;
 		
-		var builder = new Gtk.Builder();
+		builder = new Gtk.Builder();
 		try
 		{
 			builder.add_from_file(data_path(Path.build_filename(Temp.UI_DIR,
@@ -60,6 +61,32 @@ public class Ease.Dialog.Progress : GLib.Object
 		// set basic stuff
 		dialog.title = title;
 		cancel.visible = cancellable;
+	}
+	
+	/**
+	 * Creates a progress dialog with an image on the left side. Although
+	 * this is a dialog, Gtk.IconSize.LARGE_TOOLBAR should be used if the icon
+	 * is a stock item.
+	 *
+	 * @param title The title of the dialog.
+	 * @param cancellable If the dialog should display a cancel button.
+	 * @param max The maximum value of the dialog.
+	 * @param modal The window the dialog should be modal for, or null.
+	 * @param image The image widget.
+	 */
+	public Progress.with_image(string title, bool cancellable, double max,
+	                           Gtk.Window? modal, Gtk.Image image)
+	{
+		this(title, cancellable, max, modal);
+		
+		// create the image's container and add it
+		var hbox = builder.get_object("hbox") as Gtk.HBox;
+		var align = new Gtk.Alignment(0.5f, 0.5f, 0, 0);
+		align.set_padding(0, 0, 4, 4);
+		align.add(image);
+		align.show();
+		image.show();
+		hbox.pack_start(align, false, false, 0);
 	}
 	
 	/**
