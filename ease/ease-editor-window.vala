@@ -151,6 +151,8 @@ internal class Ease.EditorWindow : Gtk.Window
 	
 	private const string FONT_TEXT =
 		_("The quick brown fox jumps over the lazy dog");
+	
+	private const bool INSPECTOR_VISIBLE_DEFAULT = true;
 
 	/**
 	 * Creates a new EditorWindow.
@@ -204,6 +206,9 @@ internal class Ease.EditorWindow : Gtk.Window
 		// the inspector
 		inspector = new Inspector(document);
 		(builder.get_object("Inspector Align") as Gtk.Alignment).add(inspector);
+		inspector.visible = INSPECTOR_VISIBLE_DEFAULT;
+		(builder.get_object("Show Inspector") as Gtk.ToggleToolButton).active =
+			inspector.visible;
 		embed.element_selected.connect(
 			inspector.element_pane.on_element_selected);
 		embed.element_deselected.connect(
@@ -230,7 +235,6 @@ internal class Ease.EditorWindow : Gtk.Window
 		slide_button_panel.show_all();
 		embed.show_all();
 		show();
-		inspector.hide();
 		slides_shown = true;
 		
 		// register the accelerator group
