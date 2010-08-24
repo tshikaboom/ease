@@ -28,6 +28,18 @@ namespace Ease
 	private const string SYS_DATA = "ease";
 	
 	/**
+	 * The autotools-determined data path.
+	 */
+	private extern const string DATA_DIR;
+	
+	private string[] get_data_dirs()
+	{
+		return { LOCAL_DATA,
+		         Path.build_filename(DATA_DIR, SYS_DATA) };
+	}
+	
+	
+	/**
 	 * Display a simple error message.
 	 *
 	 * @param title The title of the dialog.
@@ -53,14 +65,9 @@ namespace Ease
 	 */
 	public string? data_path(string path)
 	{
-		string file;
-		file = query_file(LOCAL_DATA, path);
-		if (file != null) return file;
-		
-		var data_dirs = Environment.get_system_data_dirs();
-		foreach (string dir in data_dirs)
+		foreach (string dir in get_data_dirs())
 		{
-			var sys_file = query_file(Path.build_filename(dir, SYS_DATA), path);
+			var sys_file = query_file(dir, path);
 			if (sys_file != null) return sys_file;
 		}
 		
@@ -80,11 +87,71 @@ namespace Ease
 		var filename = Path.build_filename(dir, path);
 		var file = File.new_for_path(filename);
 		
-		if (file.query_exists(null))
+		return file.query_exists(null) ? filename : null;
+	}
+	
+	/**
+	 * Returns a list containing every directory in the data directories.
+	 */
+	public Gee.LinkedList<string> data_contents()
+	{
+		var list = new Gee.LinkedList<string>();
+		
+		foreach (var dir in get_data_dirs())
 		{
-			return filename;
+			// don't open nonexistent directories
+			var test = File.new_for_path(dir);
+			if (!test.query_exists(null)) continue;
+			
+			var directory = GLib.Dir.open(dir, 0);
+			string name = directory.read_name();
+			while (name != null)
+			{
+				list.add(Path.build_filename(dir, name));
+				name = directory.read_name();
+			}
 		}
-		return null;
+		
+		return list;
+	}
+	
+	/**
+	 * Returns a list containing all contents of folders in the data directory
+	 * with the specified name.
+	 */
+	public Gee.LinkedList<string> data_contents_folder(string folder)
+	{
+		var list = new Gee.LinkedList<string>();
+		
+		foreach (var dir in get_data_dirs())
+		{
+			// don't open nonexistent directories
+			var test = File.new_for_path(dir);
+			if (!test.query_exists(null)) continue;
+			
+			var directory = Dir.open(dir, 0);
+			string name = directory.read_name();
+			while (name != null)
+			{
+				if (name == folder)
+				{
+					// don't open nonexistent directories
+					test = File.new_for_path(Path.build_filename(dir, name));
+					if (!test.query_exists(null)) continue;
+					
+					var child = Dir.open(Path.build_filename(dir, name), 0);
+					string child_name = child.read_name();
+					while (child_name != null)
+					{
+						list.add(Path.build_filename(dir, folder, child_name));
+						child_name = child.read_name();
+					}
+				}
+				name = directory.read_name();
+			}
+		}
+		
+		return list;
 	}
 	
 	/**

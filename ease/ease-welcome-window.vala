@@ -186,26 +186,17 @@ internal class Ease.WelcomeWindow : Gtk.Window
 		preview_background = new Clutter.Rectangle.with_color (Clutter.Color.from_string ("black"));
 		preview_container.add_actor(preview_background);
 
-		try	{
-			unowned string[] data_dirs = Environment.get_system_data_dirs ();
-			foreach (string dir in data_dirs) {
-				var filename = Path.build_filename (dir,
-				                                   Temp.TEMP_DIR,
-				                                   Temp.THEME_DIR);
-				var file = File.new_for_path (filename);
-
-				if (file.query_exists(null)) {
-					var directory = GLib.Dir.open (filename, 0);
-					string name = directory.read_name ();
-					while (name != null) {
-						var path = Path.build_filename (filename, name);
-						themes.add (new Theme(path));
-						name = directory.read_name ();
-					}
-				}
+		try
+		{
+			var list = locate_themes();
+			foreach (var path in list)
+			{
+				themes.add(new Theme(path));
 			}
-		} catch (Error e) {
-			error_dialog("Error loading themes : %s", e.message);
+		}
+		catch (Error e)
+		{
+			error_dialog("Error loading themes: %s", e.message);
 		}
 
 		// create the previews
@@ -414,5 +405,32 @@ internal class Ease.WelcomeWindow : Gtk.Window
 		{
 			preview_background.height = embed.height;
 		}
+	}
+	
+	private extern const string DATA_DIR;
+	private Gee.LinkedList<string> locate_themes() throws GLib.Error
+	{
+		var list = new Gee.LinkedList<string>();
+		foreach (var item in data_contents_folder("themes"))
+		{
+			var f = File.new_for_path(Path.build_filename(item, "Theme.json"));
+			if (f.query_exists(null) && theme_not_redundant(item, list))
+			{
+				list.add(item);
+			}
+		}
+		return list;
+	}
+	
+	// TODO: this isn't a very smart method. add versions to themes, check those
+	private bool theme_not_redundant(string item, Gee.List<string> list)
+	{
+		foreach (var str in list)
+		{
+			if (File.new_for_path(str).get_basename() == 
+			    File.new_for_path(item).get_basename())
+				return false;
+		}
+		return true;
 	}
 }

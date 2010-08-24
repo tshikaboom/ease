@@ -82,6 +82,7 @@ libease_core_@EASE_CORE_VERSION@_la_LIBADD = \
 libease_core_@EASE_CORE_VERSION@_la_CFLAGS = \
 	$(EASE_CFLAGS) \
 	-w \
+	-DEASE_DATA_DIR=\"$(datadir)\" \
 	-include $(top_srcdir)/config.h \
 	-I$(top_srcdir)/flutter \
 	$(NULL)

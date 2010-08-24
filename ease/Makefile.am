@@ -42,6 +42,7 @@ ease_VALAFLAGS = \
 ease_CFLAGS = \
 	$(EASE_CFLAGS) \
 	-w \
+	-DEASE_DATA_DIR=\"$(datadir)\" \
 	-I$(top_srcdir)/ease-core \
 	-I$(top_srcdir)/flutter \
 	-include $(top_srcdir)/config.h
