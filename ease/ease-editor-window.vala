@@ -737,14 +737,7 @@ internal class Ease.EditorWindow : Gtk.Window
 	[CCode (instance_pos = -1)]
 	internal void inspector_clicked_handler(Gtk.Widget? sender)
 	{	
-		if (inspector.visible)
-		{
-			inspector.hide();
-		}
-		else
-		{
-			inspector.show();
-		}
+		inspector.visible = (sender as Gtk.ToggleToolButton).active;
 	}
 	
 	[CCode (instance_pos = -1)]

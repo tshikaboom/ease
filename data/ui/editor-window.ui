@@ -507,12 +507,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkToolButton" id="Show Inspector">
+          <object class="GtkToggleToolButton" id="Show Inspector">
             <property name="visible">True</property>
             <property name="label" translatable="yes">Show Inspector</property>
             <property name="use_underline">True</property>
             <property name="stock_id">gtk-info</property>
-            <signal name="clicked" handler="ease_editor_window_inspector_clicked_handler"/>
+            <signal name="toggled" handler="ease_editor_window_inspector_clicked_handler"/>
           </object>
           <packing>
             <property name="expand">False</property>
