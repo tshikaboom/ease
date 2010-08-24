@@ -283,7 +283,8 @@ internal class Ease.Player : Gtk.Window
 			slide.request_advance.connect(on_request_advance);
 			container.add_actor(current_slide);
 			
-			if (old_slide.slide.transition_time > 0)
+			if (old_slide.slide.transition_time > 0 &&
+			    old_slide.slide.transition != Transition.NONE)
 			{
 				old_slide.transition(current_slide, container);
 				old_slide.animation_time.completed.connect(animation_complete);

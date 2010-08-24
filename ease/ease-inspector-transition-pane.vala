@@ -42,6 +42,8 @@ internal class Ease.InspectorTransitionPane : InspectorPane
 	// constants
 	private const int PREVIEW_HEIGHT = 150;
 	private const uint PREVIEW_DELAY = 500;
+	private const int DEFAULT_TRANSITION_TIME = 1;
+	private const int DEFAULT_ADVANCE_DELAY = 5;
 	
 	// silence undo if needed
 	private bool silence_undo;
@@ -141,7 +143,6 @@ internal class Ease.InspectorTransitionPane : InspectorPane
 			// allow the user to undo the change
 			var action = new UndoAction(slide, "transition");
 			action.add(slide, "variant");
-			if (!silence_undo) slide.undo(action);
 			
 			var already_silenced = silence_undo;
 			silence_undo = true;
@@ -152,11 +153,35 @@ internal class Ease.InspectorTransitionPane : InspectorPane
 			{
 				Transition transition;
 				sender.model.get(itr, 1, out transition);
+				
+				// set transition time if required
+				if (transition == Transition.NONE)
+				{
+					transition_time.set_value(slide.transition_time);
+					transition_time.sensitive = false;
+					action.add(slide, "transition-time");
+				}
+				else if (slide.transition == Transition.NONE)
+				{
+					if (slide.transition_time == 0)
+					{
+						slide.transition_time = DEFAULT_TRANSITION_TIME;
+					}
+					transition_time.set_value(slide.transition_time);
+					transition_time.sensitive = true;
+					action.add(slide, "transition-time");
+				}
+				
+				// set the slide's transition
 				slide.transition = transition;
+				
+				// with this all successful, send the UndoAction
+				if (!already_silenced) slide.undo(action);
 			}
 			else
 			{
 				critical("Transition not found in model");
+				action.apply();
 			}
 			
 			// get the variants for the new transition
@@ -215,6 +240,10 @@ internal class Ease.InspectorTransitionPane : InspectorPane
 			{
 				delay.sensitive = true;
 				slide.automatically_advance = true;
+				if (slide.advance_delay == 0)
+				{
+					slide.advance_delay = DEFAULT_ADVANCE_DELAY;
+				}
 			}
 		});
 		
@@ -260,7 +289,7 @@ internal class Ease.InspectorTransitionPane : InspectorPane
 	
 	private void animate_preview_start()
 	{
-		if (slide.transition_msecs == 0)
+		if (slide.transition_msecs == 0 || slide.transition == Transition.NONE)
 		{
 			animate_preview();
 			return;
@@ -379,6 +408,7 @@ internal class Ease.InspectorTransitionPane : InspectorPane
 		
 		// set transition time box
 		transition_time.set_value(slide.transition_time);
+		transition_time.sensitive = slide.transition != Transition.NONE;
 		
 		// set effect and variant combo boxes
 		Gtk.TreeIter itr;
