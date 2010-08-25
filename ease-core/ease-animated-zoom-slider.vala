@@ -27,6 +27,15 @@ public class Ease.AnimatedZoomSlider : ZoomSlider, Clutter.Animatable
 	private const int ZOOM_TIME = 100;
 	private const int ZOOM_MODE = Clutter.AnimationMode.EASE_IN_OUT_SINE;
 	
+	/**
+	 * Whether or not the AnimatedZoomSlider should animate its zoom when the
+	 * + and - buttons are clicked. Setting this to false will make the
+	 * AnimatedZoomSlider perform identically to a {@link ZoomSlider}.
+	 *
+	 * Set to "true" by default.
+	 */
+	public bool animate { get; set; default = true; }
+	
 	/** 
 	 * Creates a new AnimatedZoomSlider.
 	 *
@@ -39,14 +48,23 @@ public class Ease.AnimatedZoomSlider : ZoomSlider, Clutter.Animatable
 		base(adjustment, button_values);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 *
+	 * If {@link animate} is set to true, this will be a smoothed transition.
+	 */
 	protected override void change_zoom(double value)
 	{
-		zoom_anim = new Clutter.Animation();
-		zoom_anim.object = this;
-		zoom_anim.bind("sliderpos", value);
-		zoom_anim.duration = ZOOM_TIME;
-		zoom_anim.mode = ZOOM_MODE;
-		zoom_anim.timeline.start();
+		if (animate)
+		{
+			zoom_anim = new Clutter.Animation();
+			zoom_anim.object = this;
+			zoom_anim.bind("sliderpos", value);
+			zoom_anim.duration = ZOOM_TIME;
+			zoom_anim.mode = ZOOM_MODE;
+			zoom_anim.timeline.start();
+		}
+		else base.change_zoom(value);
 	}
 	
 	private bool animate_property(Clutter.Animation animation,

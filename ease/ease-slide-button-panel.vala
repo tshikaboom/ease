@@ -175,7 +175,7 @@ internal class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 	 *
 	 * @param slide The slide to create a pixbuf of.
 	 */
-	private static Gdk.Pixbuf? pixbuf(Slide slide, int width)
+	internal static Gdk.Pixbuf? pixbuf(Slide slide, int width)
 	{
 		var height = (int)((float)width * slide.height /
 		                                  slide.width);

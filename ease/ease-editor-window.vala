@@ -39,7 +39,7 @@ internal class Ease.EditorWindow : Gtk.Window
 	 * A {@link ZoomSlider} at the bottom of the window, controlling the zoom
 	 * level of the {@link EditorEmbed}.
 	 */
-	internal ZoomSlider zoom_slider;
+	internal AnimatedZoomSlider zoom_slider;
 
 	/**
 	 * A {@link Player} for the {@link Document} displayed in this window.
@@ -142,10 +142,25 @@ internal class Ease.EditorWindow : Gtk.Window
 	internal signal void close(EditorWindow self);
 	
 	/**
-	 * The zoom levels for the {@link ZoomSlider}
+	 * The zoom levels for the {@link EditorEmbed}.
 	 */
-	private int[] ZOOM_LEVELS = {10, 25, 33, 50, 66, 75, 100, 125, 150,
-	                             200, 250, 300, 400};
+	private int[] ZOOM_LEVELS = { 10, 25, 33, 50, 66, 75, 100, 125, 150,
+	                              200, 250, 300, 400 };
+	
+	/**
+	 * The zoom levels for the {@link EditorEmbed}.
+	 */
+	private int[] SORTER_ZOOM_LEVELS = { 0, 25, 50, 75, 100 };
+	
+	/**
+	 * The zoom adjustment for the {@link EditorEmbed}.
+	 */
+	private Gtk.Adjustment zoom_adjustment;
+	
+	/**
+	 * The zoom adjustment for the {@link SlideSorter}.
+	 */
+	private Gtk.Adjustment sorter_zoom_adjustment;
 	
 	private const string UI_FILE_PATH = "editor-window.ui";
 	
@@ -622,17 +637,49 @@ internal class Ease.EditorWindow : Gtk.Window
 		if (show_editor == sender)
 		{
 			if (main_bin.get_child() == editor) return;
+			
+			// stop drawing new dynamic pixbufs for new slides
+			document.slide_added.disconnect(sorter.on_slide_added);
+			
+			// switch the ui elements
 			main_bin.remove(sorter);
 			main_bin.add(editor);
 			sorter = null;
+			
+			// make the zoom slider work for the editor embed
+			zoom_slider.values = ZOOM_LEVELS;
+			zoom_slider.adjustment = zoom_adjustment;
+			zoom_slider.update_policy = Gtk.UpdateType.CONTINUOUS;
+			zoom_slider.animate = true;
+			
+			// wipe the document's dynamic pixbuf column
+			Slide s;
+			foreach (var itr in document.slides)
+			{
+				// get the slide
+				document.slides.get(itr, Document.COL_SLIDE, out s);
+			
+				// wipe its dynamically sized pixbuf
+				document.slides.set(itr, Document.COL_PIXBUF_DYNAMIC, null);
+			}
 		}
 		else if (show_sorter == sender)
 		{
-			if (sorter == null) sorter = new SlideSorter(document);
+			if (sorter == null)
+			{
+				sorter = new SlideSorter(document,
+				                         sorter_zoom_adjustment.value / 100f);
+			}
 			if (main_bin.get_child() == sorter) return;
 			main_bin.remove(editor);
 			main_bin.add(sorter);
 			sorter.show_all();
+			
+			// make the zoom slider work for the sorter
+			zoom_slider.values = SORTER_ZOOM_LEVELS;
+			zoom_slider.adjustment = sorter_zoom_adjustment;
+			zoom_slider.update_policy = Gtk.UpdateType.DELAYED;
+			zoom_slider.animate = false;
 			
 			// when a slide is clicked in the sorter, switch back here
 			sorter.display_slide.connect((s) => {
@@ -866,17 +913,27 @@ internal class Ease.EditorWindow : Gtk.Window
 	
 	private ZoomSlider create_zoom_slider()
 	{
+		// create adjustments
+		zoom_adjustment = new Gtk.Adjustment(100, 10, 400, 10, 50, 50);
+		sorter_zoom_adjustment = new Gtk.Adjustment(50, 0, 100, 10, 25, 25);
+		
 		// create zoom slider
-		zoom_slider = new AnimatedZoomSlider(new Gtk.Adjustment(100, 10, 400,
-		                                                        10, 50, 50),
-		                                                        ZOOM_LEVELS);
+		zoom_slider = new AnimatedZoomSlider(zoom_adjustment, ZOOM_LEVELS);
 		zoom_slider.value_pos = Gtk.PositionType.RIGHT;
 		zoom_slider.digits = 0;
 		
 		zoom_slider.value_changed.connect(() => {
-			embed.zoom_fit = false;
-			zoom_fit.active = false;
-			embed.zoom = (float)zoom_slider.get_value() / 100f;
+			// editor is currently shown
+			if (sorter == null)
+			{
+				embed.zoom_fit = false;
+				zoom_fit.active = false;
+				embed.zoom = (float)zoom_slider.get_value() / 100f;
+			}
+			
+			// slide sorter is currently shown
+			else sorter.set_zoom(zoom_slider.get_value() / 100f);
+			
 		});
 		
 		zoom_slider.show_all();

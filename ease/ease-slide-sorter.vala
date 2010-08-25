@@ -24,14 +24,22 @@ internal class Ease.SlideSorter : Gtk.ScrolledWindow
 	private Document document;
 	
 	private const int WIDTH = 100;
+	private const int WIDTH_ADDITIONAL = 300;
+	private int width;
 	
 	internal signal void display_slide(Slide s);
 	
-	internal SlideSorter(Document doc)
+	internal SlideSorter(Document doc, double zoom)
 	{
 		document = doc;
+		document.slide_added.connect(on_slide_added);
+		
+		// render dynamic-sized pixbufs
+		set_zoom(zoom);
+		
+		// set up the icon view
 		view = new Gtk.IconView.with_model(document.slides);
-		view.pixbuf_column = Document.COL_PIXBUF;
+		view.pixbuf_column = Document.COL_PIXBUF_DYNAMIC;
 		view.markup_column = Document.COL_TITLE;
 		view.reorderable = true;
 		view.item_width = WIDTH;
@@ -68,5 +76,28 @@ internal class Ease.SlideSorter : Gtk.ScrolledWindow
 		});
 		
 		return ret_slide;
+	}
+	
+	internal void set_zoom(double zoom)
+	{
+		width = (int)(WIDTH + zoom * WIDTH_ADDITIONAL);
+		
+		Slide slide;
+		foreach (var itr in document.slides)
+		{
+			// get the slide
+			document.slides.get(itr, Document.COL_SLIDE, out slide);
+			
+			// render a pixbuf at the appropriate size
+			document.slides.set(itr, Document.COL_PIXBUF_DYNAMIC,
+			                    SlideButtonPanel.pixbuf(slide, width));
+		}
+	}
+	
+	internal void on_slide_added(Slide slide, int index)
+	{
+		var itr = document.slides.index(index);
+		document.slides.set(itr, Document.COL_PIXBUF_DYNAMIC,
+		                    SlideButtonPanel.pixbuf(slide, width));
 	}
 }

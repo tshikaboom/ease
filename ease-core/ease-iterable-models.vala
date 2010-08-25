@@ -27,6 +27,13 @@ public interface Ease.IterableTreeModel : Gtk.TreeModel
 	{
 		return new Iterator(this);
 	}
+	
+	public Gtk.TreeIter index(int index)
+	{
+		Gtk.TreeIter itr;
+		iter_nth_child(out itr, null, index);
+		return itr;
+	}
 
 	public class Iterator
 	{

@@ -710,6 +710,27 @@ public class Ease.Slide : GLib.Object, UndoSource
 			}
 		}
 	}
+	
+	/**
+	 * Return's the slide's title from an element, or null if it doesn't have
+	 * one.
+	 */
+	internal string? get_title()
+	{
+		foreach (var element in this)
+		{
+			if (element is TextElement)
+			{
+				if ((element as TextElement).identifier == Theme.TITLE_TEXT || 
+					(element as TextElement).identifier == Theme.HEADER_TEXT)
+				{
+					var ret = (element as TextElement).text;
+					return ret.length > 0 ? ret : null;
+				}
+			}
+		}
+		return null;
+	}
 
 	// foreach iteration
 	

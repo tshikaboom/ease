@@ -66,6 +66,15 @@ public class Ease.Document : GLib.Object, UndoSource
 	public const int COL_TITLE = 2;
 	
 	/**
+	 * Model dynamic sized pixbuf column. This column may not contain any valid
+	 * pixbuf data at any given time, so use of it should be avoided.
+	 *
+	 * Only code inside Ease itself that "knows what it's doing" should use this
+	 * column.
+	 */
+	public const int COL_PIXBUF_DYNAMIC = 3;
+	
+	/**
 	 * Default slide title.
 	 */
 	private const string DEFAULT_TITLE = _("Slide %i");
@@ -104,10 +113,19 @@ public class Ease.Document : GLib.Object, UndoSource
 	/**
 	 * All {@link Slide}s in this Document.
 	 */
-	public IterableListStore slides = new IterableListStore(
-		{ typeof(Slide),
-		  typeof(Gdk.Pixbuf),
-		  typeof(string) });
+	public IterableListStore slides
+	{
+		get
+		{
+			if (slides_priv != null) return slides_priv;
+			slides_priv = new IterableListStore({ typeof(Slide),
+			                                      typeof(Gdk.Pixbuf),
+			                                      typeof(string),
+			                                      typeof(Gdk.Pixbuf) });
+			return slides_priv;
+		}
+	}
+	private IterableListStore slides_priv;
 	
 	/**
 	 * The number of {@link Slide}s in the Document.
@@ -287,6 +305,8 @@ public class Ease.Document : GLib.Object, UndoSource
 		slide.title_changed.connect(on_title_changed);
 		slide.title_reset.connect(on_title_reset);
 		
+		set_slide_titles();
+		
 		if (emit_undo) undo(new SlideAddUndoAction(slide));
 	}
 	
@@ -334,7 +354,9 @@ public class Ease.Document : GLib.Object, UndoSource
 				break;
 			}
 			index++;
-		}		
+		}
+		
+		set_slide_titles();
 		
 		Slide ret;
 		Gtk.TreeIter itr;
@@ -428,7 +450,6 @@ public class Ease.Document : GLib.Object, UndoSource
 	 */
 	internal void on_title_reset(Slide slide)
 	{
-		debug("title reset");
 		Slide s;
 		foreach (var itr in slides)
 		{
@@ -439,6 +460,28 @@ public class Ease.Document : GLib.Object, UndoSource
 				           DEFAULT_TITLE.printf(index_of(slide) + 1));
 				return;
 			}
+		}
+	}
+	
+	/**
+	 * Sets all slide titles. Used when the slides model is rearranged, a new
+	 * slide is added, or a slide is removed.
+	 */
+	private void set_slide_titles()
+	{
+		Slide s;
+		int i = 1;
+		foreach (var itr_slide in slides)
+		{
+			s = null;
+			slides.get(itr_slide, COL_SLIDE, out s);
+			if (s != null)
+			{
+				var title = s.get_title();
+				slides.set(itr_slide, COL_TITLE, title != null ? title :
+					                             DEFAULT_TITLE.printf(i));
+			}
+			i++;
 		}
 	}
 	

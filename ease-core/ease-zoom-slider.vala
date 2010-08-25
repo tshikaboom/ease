@@ -26,7 +26,6 @@ public class Ease.ZoomSlider : Gtk.Alignment
 	private Gtk.HScale zoom_slider;
 	private Gtk.Button zoom_in_button;
 	private Gtk.Button zoom_out_button;
-	private int[] values;
 	
 	/** 
 	 * The position of the zoom slider's value.
@@ -56,6 +55,15 @@ public class Ease.ZoomSlider : Gtk.Alignment
 	}
 	
 	/**
+	 * The update policy of the slider.
+	 */
+	public Gtk.UpdateType update_policy
+	{
+		get { return zoom_slider.update_policy; }
+		set { zoom_slider.update_policy = value; }
+	}
+	
+	/**
 	 * Private store for buttons_shown property.
 	 */
 	private bool buttons_shown_priv = true;
@@ -75,6 +83,21 @@ public class Ease.ZoomSlider : Gtk.Alignment
 			zoom_out_button.visible = value;
 		}
 	}
+	
+	/**
+	 * The adjustment of the slider.
+	 */
+	public Gtk.Adjustment adjustment
+	{
+		get { return zoom_slider.adjustment; }
+		set { zoom_slider.adjustment = value; }
+	}
+	
+	/**
+	 * The values on which the slider should stop when the +/- buttons are
+	 * clicked.
+	 */
+	public int[] values;
 	
 	/** 
 	 * Creates a new ZoomSlider.
