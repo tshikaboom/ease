@@ -52,7 +52,7 @@ public class Ease.PdfActor : Actor
 	}
 	
 	private void draw_page()
-	{	
+	{
 		// get the current page
 		var page = doc.get_page(current_page);
 		double width = 0, height = 0;
@@ -83,6 +83,7 @@ public class Ease.PdfActor : Actor
 		}
 		
 		// draw the texture
+		texture.clear();
 		var cr = texture.create();
 		page.render(cr);
 	}
