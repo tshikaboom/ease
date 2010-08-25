@@ -44,12 +44,34 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 	private Slide slide;
 	private Element element;
 	
+	/**
+	 * Whether or not the background widget's color selection dialogs display
+	 * an opacity slider. By default, they will display the slider (except with 
+	 * the {@link BackgroundWidget.for_slide} constructor.
+	 *
+	 * This property controls visibility of the opacity control for both solid
+	 * color and gradient backgrounds. There is no way to disable or enable it
+	 * independently. 
+	 */
+	public bool use_alpha
+	{
+		get { return bg_color.use_alpha; }
+		set
+		{
+			bg_color.use_alpha = value;
+			grad_color1.use_alpha = value;
+			grad_color2.use_alpha = value;
+		}
+	}
+	
 	public BackgroundWidget(Background bg, Element e)
 	{
 		background = bg;
 		document = e.parent.parent;
 		element = e;
 		init();
+		
+		use_alpha = true;
 	}
 	
 	public BackgroundWidget.for_slide(Slide s)
@@ -58,6 +80,8 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 		background = s.background;
 		slide = s;
 		init();
+		
+		use_alpha = false;
 	}
 	
 	private void init()
@@ -319,27 +343,15 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 		UndoAction action = null;
 		if (sender == bg_color)
 		{
-			action = background.color.undo_action();
-			background.color.gdk = sender.color;
-			action.applied.connect(() => {
-				sender.set_color(background.gradient.end.gdk);
-			});
+			action = set_color(bg_color, background.color);
 		}
 		else if (sender == grad_color1)
 		{
-			action = background.gradient.start.undo_action();
-			background.gradient.start.gdk = sender.color;
-			action.applied.connect(() => {
-				sender.set_color(background.gradient.start.gdk);
-			});
+			action = set_color(grad_color1, background.gradient.start);
 		}
 		else if (sender == grad_color2)
 		{
-			action = background.gradient.end.undo_action();
-			background.gradient.end.gdk = sender.color;
-			action.applied.connect(() => {
-				sender.set_color(background.gradient.end.gdk);
-			});
+			action = set_color(grad_color2, background.gradient.end);
 		}
 		if (action != null) emit_undo(action);
 	}
@@ -478,6 +490,26 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 							
 				break;
 		}
+	}
+	
+	private UndoAction set_color(Gtk.ColorButton? sender, Color color)
+	{
+		// get an undo action
+		var action = color.undo_action();
+		
+		// set the color
+		color.gdk = sender.color;
+		
+		// set the alpha
+		if (use_alpha) color.alpha16 = (uint16)sender.alpha;
+		
+		// reset UI elements when the action is applied
+		action.applied.connect(() => {
+			sender.set_color(color.gdk);
+			sender.alpha = color.alpha16;
+		});
+		
+		return action;
 	}
 }
 

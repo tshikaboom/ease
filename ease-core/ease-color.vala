@@ -47,7 +47,7 @@ public class Ease.Color : GLib.Object
 	}
 
 	/**
-	 * The red value of this color.
+	 * The red value of this color, as a double from 0 to 1.
 	 */
 	public double red
 	{
@@ -70,7 +70,7 @@ public class Ease.Color : GLib.Object
 	private double red_priv;
 	
 	/**
-	 * The green value of this color.
+	 * The green value of this color, as a double from 0 to 1..
 	 */
 	public double green
 	{
@@ -93,7 +93,7 @@ public class Ease.Color : GLib.Object
 	private double green_priv;
 	
 	/**
-	 * The blue value of this color.
+	 * The blue value of this color, as a double from 0 to 1..
 	 */
 	public double blue
 	{
@@ -116,7 +116,7 @@ public class Ease.Color : GLib.Object
 	private double blue_priv;
 	
 	/**
-	 * The alpha (transparency) of this color.
+	 * The alpha (transparency) of this color, as a double from 0 to 1..
 	 */
 	public double alpha
 	{
@@ -142,7 +142,7 @@ public class Ease.Color : GLib.Object
 	/**
 	 * The red value of this color, as an 8-bit unsigned integer.
 	 */
-	public uint8 red255
+	public uint8 red8
 	{
 		get { return (uint8)(255 * red_priv); }
 		set
@@ -152,7 +152,7 @@ public class Ease.Color : GLib.Object
 				warning("red value must be >= 0, %f is not", value);
 				red_priv = 0;
 			}
-			else if (value > 1)
+			else if (value > 255)
 			{
 				warning("red value must be <= 255, %f is not", value);
 				red_priv = 1;
@@ -164,7 +164,7 @@ public class Ease.Color : GLib.Object
 	/**
 	 * The green value of this color, as an 8-bit unsigned integer.
 	 */
-	public uint8 green255
+	public uint8 green8
 	{
 		get { return (uint8)(255 * green_priv); }
 		set
@@ -174,7 +174,7 @@ public class Ease.Color : GLib.Object
 				warning("green value must be >= 0, %f is not", value);
 				green_priv = 0;
 			}
-			else if (value > 1)
+			else if (value > 255)
 			{
 				warning("green value must be <= 255, %f is not", value);
 				green_priv = 1;
@@ -186,7 +186,7 @@ public class Ease.Color : GLib.Object
 	/**
 	 * The blue value of this color, as an 8-bit unsigned integer.
 	 */
-	public uint8 blue255
+	public uint8 blue8 
 	{
 		get { return (uint8)(255 * blue_priv); }
 		set
@@ -196,7 +196,7 @@ public class Ease.Color : GLib.Object
 				warning("blue value must be >= 0, %f is not", value);
 				blue_priv = 0;
 			}
-			else if (value > 1)
+			else if (value > 255)
 			{
 				warning("blue value must be <= 255, %f is not", value);
 				blue_priv = 1;
@@ -208,7 +208,7 @@ public class Ease.Color : GLib.Object
 	/**
 	 * The alpha (transparency) of this color, as an 8-bit unsigned integer.
 	 */
-	public uint8 alpha255
+	public uint8 alpha8
 	{
 		get { return (uint8)(255 * alpha_priv); }
 		set
@@ -218,12 +218,100 @@ public class Ease.Color : GLib.Object
 				warning("alpha value must be >= 0, %f is not", value);
 				alpha_priv = 0;
 			}
-			else if (value > 1)
+			else if (value > 255)
 			{
 				warning("alpha value must be <= 255, %f is not", value);
 				alpha_priv = 1;
 			}
 			else alpha_priv = value / 255.0;
+		}
+	}
+	
+	/**
+	 * The red value of this color, as an 16-bit unsigned integer.
+	 */
+	public uint16 red16
+	{
+		get { return (uint16)(65535 * red_priv); }
+		set
+		{
+			if (value < 0)
+			{
+				warning("red value must be >= 0, %f is not", value);
+				red_priv = 0;
+			}
+			else if (value > 65535)
+			{
+				warning("red value must be <= 65535, %f is not", value);
+				red_priv = 1;
+			}
+			else red_priv = value / 65535.0;
+		}
+	}
+	
+	/**
+	 * The green value of this color, as an 16-bit unsigned integer.
+	 */
+	public uint16 green16
+	{
+		get { return (uint16)(65535 * green_priv); }
+		set
+		{
+			if (value < 0)
+			{
+				warning("green value must be >= 0, %f is not", value);
+				green_priv = 0;
+			}
+			else if (value > 65535)
+			{
+				warning("green value must be <= 65535, %f is not", value);
+				green_priv = 1;
+			}
+			else green_priv = value / 65535.0;
+		}
+	}
+	
+	/**
+	 * The blue value of this color, as an 16-bit unsigned integer.
+	 */
+	public uint16 blue16 
+	{
+		get { return (uint16)(65535 * blue_priv); }
+		set
+		{
+			if (value < 0)
+			{
+				warning("blue value must be >= 0, %f is not", value);
+				blue_priv = 0;
+			}
+			else if (value > 65535)
+			{
+				warning("blue value must be <= 65535, %f is not", value);
+				blue_priv = 1;
+			}
+			else blue_priv = value / 65535.0;
+		}
+	}
+	
+	/**
+	 * The alpha (transparency) of this color, as an 16-bit unsigned integer.
+	 */
+	public uint16 alpha16
+	{
+		get { return (uint16)(65535 * alpha_priv); }
+		set
+		{
+			if (value < 0)
+			{
+				warning("alpha value must be >= 0, %f is not", value);
+				alpha_priv = 0;
+			}
+			else if (value > 65535)
+			{
+				warning("alpha value must be <= 65535, %f is not", value);
+				alpha_priv = 1;
+			}
+			else alpha_priv = value / 65535.0;
 		}
 	}
 	
@@ -235,17 +323,14 @@ public class Ease.Color : GLib.Object
 	{
 		get
 		{
-			return { (uint8)(255 * red),
-			         (uint8)(255 * green),
-			         (uint8)(255 * blue),
-			         (uint8)(255 * alpha) };
+			return { red8, green8, blue8, alpha8 };
 		}
 		set
 		{
-			red = value.red / 255f;
-			green = value.green / 255f;
-			blue = value.blue / 255f;
-			alpha = value.alpha / 255f;
+			red8 = value.red;
+			green8 = value.green;
+			blue8 = value.blue;
+			alpha8 = value.alpha;
 		}
 	}
 	
@@ -259,16 +344,13 @@ public class Ease.Color : GLib.Object
 	{
 		get
 		{
-			return { 0,
-			         (uint16)(65535 * red),
-			         (uint16)(65535 * green),
-			         (uint16)(65535 * blue) };
+			return { 0, red16, green16, blue16 };
 		}
 		set
 		{
-			red = value.red / 65535f;
-			green = value.green / 65535f;
-			blue = value.blue / 65535f;
+			red16 = value.red;
+			green16 = value.green;
+			blue16 = value.blue;
 			alpha = 1;
 		}
 	}
