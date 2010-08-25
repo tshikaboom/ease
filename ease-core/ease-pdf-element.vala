@@ -27,6 +27,16 @@ public class Ease.PdfElement : MediaElement
 	 */
 	public int default_page { get; set; default = 0; }
 	
+	/**
+	 * The background displayed behind the PDF (if it is visible)
+	 */
+	internal Background background;
+	
+	/**
+	 * The background widget controlling {@link background}.
+	 */
+	private BackgroundWidget bg_widget;
+	
 	internal Poppler.Document pdf_doc;
 	
 	public PdfElement(string filename)
@@ -34,6 +44,7 @@ public class Ease.PdfElement : MediaElement
 		pdf_doc = new Poppler.Document.from_file(
 			Filename.to_uri(filename),
 			null);
+		background = new Background.white();
 		signals();
 	}
 	
@@ -41,6 +52,8 @@ public class Ease.PdfElement : MediaElement
 	{
 		base.from_json(obj);
 		default_page = obj.get_string_member(Theme.PDF_DEFAULT_PAGE).to_int();
+		
+		background = new Background.from_json(obj);
 		
 		pdf_doc = new Poppler.Document.from_file(
 			Filename.to_uri(full_filename),
@@ -94,6 +107,10 @@ public class Ease.PdfElement : MediaElement
 	
 	public override void cairo_render(Cairo.Context context) throws Error
 	{
+		// render the background
+		background.cairo_render(context, (int)width, (int)height,
+		                        parent.parent.path);
+		
 		// get the current page
 		var page = pdf_doc.get_page(default_page);
 		
@@ -102,7 +119,7 @@ public class Ease.PdfElement : MediaElement
 		page.get_size(out w, out h);
 		context.scale(width / w, height / h);
 		
-		// render
+		// render the PDF
 		page.render(context);
 	}
 	
@@ -116,6 +133,7 @@ public class Ease.PdfElement : MediaElement
 		}
 		catch (Error e) { error("Error loading UI: %s", e.message); }
 		
+		// get the displayed page slider
 		var scale = builder.get_object("disp-page") as Gtk.HScale;
 		scale.adjustment.upper = pdf_doc.get_n_pages();
 		
@@ -135,7 +153,24 @@ public class Ease.PdfElement : MediaElement
 			undo(action);
 		});
 		
+		// add a background widget
+		bg_widget = new BackgroundWidget(background, this);
+		(builder.get_object("root-vbox") as Gtk.Box).pack_end(
+			bg_widget, false, true, 0);
+		bg_widget.show();
+		
 		// return the root widget
 		return builder.get_object("root") as Gtk.Widget;
+	}
+	
+	public override void signals()
+	{
+		base.signals();
+		
+		notify["default-page"].connect((o, p) => changed());
+		
+		undo.connect((item) => {
+			if (background.owns_undoitem(item)) changed();
+		});
 	}
 }

@@ -599,12 +599,8 @@ public class Ease.Slide : GLib.Object, UndoSource
 	public void cairo_render_background(Cairo.Context cr,
 	                                    int w, int h) throws GLib.Error
 	{
-		cr.save();
-		background.set_cairo(cr, w, h,
-		                     parent == null ? theme.path : parent.path);
-		cr.rectangle(0, 0, w, h);
-		cr.fill();
-		cr.restore();
+		background.cairo_render(cr, w, h,
+		                        parent == null ? theme.path : parent.path);
 	}
 	
 	/**

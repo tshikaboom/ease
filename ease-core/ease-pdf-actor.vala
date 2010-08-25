@@ -23,6 +23,7 @@ public class Ease.PdfActor : Actor
 	private Clutter.CairoTexture texture;
 	private int current_page;
 	private Poppler.Document doc;
+	private PdfElement pdf_element;
 	
 	/**
 	 * Instantiates a new PdfActor from an Element.
@@ -33,6 +34,8 @@ public class Ease.PdfActor : Actor
 	public PdfActor(PdfElement e, ActorContext c)
 	{
 		base(e, c);
+		
+		pdf_element = e;
 		
 		contents = new Clutter.Group();
 		contents.width = e.width;
@@ -45,7 +48,8 @@ public class Ease.PdfActor : Actor
 		doc = e.pdf_doc;
 		draw_page();
 		
-		e.notify["default-page"].connect((obj, pspec) => {
+		// redraw when the element is changed
+		e.changed.connect(() => {
 			current_page = e.default_page;
 			draw_page();
 		});
@@ -85,6 +89,8 @@ public class Ease.PdfActor : Actor
 		// draw the texture
 		texture.clear();
 		var cr = texture.create();
+		pdf_element.background.cairo_render(cr, (int)width, (int)height,
+		                                    element.parent.parent.path);
 		page.render(cr);
 	}
 }

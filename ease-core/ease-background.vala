@@ -73,6 +73,16 @@ public class Ease.Background : GLib.Object
 	}
 	
 	/**
+	 * Returns a white background.
+	 */
+	public Background.white()
+	{
+		color = Color.white;
+		gradient = Gradient.default_background;
+		background_type = BackgroundType.COLOR;
+	}
+	
+	/**
 	 * Creates a background from a JSON object.
 	 */
 	public Background.from_json(Json.Object obj)
@@ -147,6 +157,24 @@ public class Ease.Background : GLib.Object
 				image.set_cairo(cr, width, height, path);
 				break;
 		}
+	}
+	
+	/** 
+	 * Renders this background to a Cairo context at the specified size.
+	 *
+	 * @param cr The Cairo.Context to draw to.
+	 * @param w The width to render at.
+	 * @param h The height to render at.
+	 * @param path The base path to any possible media files.
+	 */
+	public void cairo_render(Cairo.Context cr, int width, int height,
+	                         string path) throws GLib.Error
+	{
+		cr.save();
+		set_cairo(cr, width, height, path);
+		cr.rectangle(0, 0, width, height);
+		cr.fill();
+		cr.restore();
 	}
 	
 	// TODO: this is a bit hacky, but it works...
