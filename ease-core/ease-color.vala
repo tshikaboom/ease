@@ -70,7 +70,7 @@ public class Ease.Color : GLib.Object
 	private double red_priv;
 	
 	/**
-	 * The green value of this color, as a double from 0 to 1..
+	 * The green value of this color, as a double from 0 to 1.
 	 */
 	public double green
 	{
@@ -93,7 +93,7 @@ public class Ease.Color : GLib.Object
 	private double green_priv;
 	
 	/**
-	 * The blue value of this color, as a double from 0 to 1..
+	 * The blue value of this color, as a double from 0 to 1.
 	 */
 	public double blue
 	{
@@ -116,7 +116,7 @@ public class Ease.Color : GLib.Object
 	private double blue_priv;
 	
 	/**
-	 * The alpha (transparency) of this color, as a double from 0 to 1..
+	 * The alpha (transparency) of this color, as a double from 0 to 1.
 	 */
 	public double alpha
 	{
