@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-08-20 15:30+0000\n"
-"PO-Revision-Date: 2010-08-20 21:45+0100\n"
+"POT-Creation-Date: 2010-08-23 12:44+0000\n"
+"PO-Revision-Date: 2010-08-28 22:03+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -56,14 +56,14 @@ msgstr "Hintergrundbild auswählen"
 
 #: ../ease-core/ease-background-widget.vala:164
 #: ../ease-core/ease-background-widget.vala:214
-#: ../ease/ease-editor-window.vala:427
+#: ../ease/ease-editor-window.vala:434 ../ease/ease-import-dialog.vala:33
 msgid "Images"
 msgstr "Bilder"
 
 #: ../ease-core/ease-background-widget.vala:169
 #: ../ease-core/ease-background-widget.vala:219
 #: ../ease-core/ease-dialogs.vala:84 ../ease-core/ease-dialogs.vala:155
-#: ../ease/ease-editor-window.vala:432 ../ease/ease-editor-window.vala:516
+#: ../ease/ease-editor-window.vala:439 ../ease/ease-editor-window.vala:542
 msgid "All Files"
 msgstr "Alle Dateien"
 
@@ -138,19 +138,19 @@ msgstr "Fehler beim Kopieren der Datei"
 msgid "Error loading ImageActor: %s\n"
 msgstr "Fehler beim Laden von ImageActor: %s\n"
 
-#: ../ease-core/ease-image-element.vala:73 ../ease/ease-editor-window.vala:464
+#: ../ease-core/ease-image-element.vala:99 ../ease/ease-editor-window.vala:491
 msgid "Error Inserting Image"
 msgstr "Fehler beim Einfügen des Bildes"
 
-#: ../ease-core/ease-image.vala:149
+#: ../ease-core/ease-image.vala:146
 msgid "Stretch"
 msgstr "Strecken"
 
-#: ../ease-core/ease-image.vala:150
+#: ../ease-core/ease-image.vala:147
 msgid "Maintain Aspect Ratio"
 msgstr "Seitenverhältnis beibehalten"
 
-#: ../ease-core/ease-image.vala:151
+#: ../ease-core/ease-image.vala:148
 msgid "Do not Scale"
 msgstr "Nicht skalieren"
 
@@ -220,156 +220,161 @@ msgstr "_Leere Folie"
 msgid "%s is not a valid identifier"
 msgstr "»%s« ist kein gültiger Bezeichner"
 
-#: ../ease-core/ease-transitions.vala:211
+#: ../ease-core/ease-transitions.vala:216
 msgid "None"
 msgstr "Keiner"
 
-#: ../ease-core/ease-transitions.vala:213
+#: ../ease-core/ease-transitions.vala:218
 msgid "Fade"
 msgstr "Überblenden"
 
-#: ../ease-core/ease-transitions.vala:215
+#: ../ease-core/ease-transitions.vala:220
 msgid "Slide"
 msgstr "Gleiten"
 
-#: ../ease-core/ease-transitions.vala:217
+#: ../ease-core/ease-transitions.vala:222
 msgid "Drop"
 msgstr "Abwerfen"
 
-#: ../ease-core/ease-transitions.vala:219
+#: ../ease-core/ease-transitions.vala:224
 msgid "Pivot"
 msgstr "Um Achse drehen"
 
-#: ../ease-core/ease-transitions.vala:221
+#: ../ease-core/ease-transitions.vala:226
 msgid "Flip"
 msgstr "Spiegeln"
 
-#: ../ease-core/ease-transitions.vala:223
+#: ../ease-core/ease-transitions.vala:228
 msgid "Revolving Door"
 msgstr "Drehtür"
 
-#: ../ease-core/ease-transitions.vala:225
+#: ../ease-core/ease-transitions.vala:230
 msgid "Reveal"
 msgstr "Enthüllen"
 
-#: ../ease-core/ease-transitions.vala:227
+#: ../ease-core/ease-transitions.vala:232
 msgid "Fall"
 msgstr "Fallen"
 
-#: ../ease-core/ease-transitions.vala:229
+#: ../ease-core/ease-transitions.vala:234
 msgid "Slats"
 msgstr "Latten"
 
-#: ../ease-core/ease-transitions.vala:231
+#: ../ease-core/ease-transitions.vala:236
 msgid "Open Door"
 msgstr "Tür öffnen"
 
-#: ../ease-core/ease-transitions.vala:233
+#: ../ease-core/ease-transitions.vala:238
 msgid "Explode"
 msgstr "Explodieren"
 
-#: ../ease-core/ease-transitions.vala:235
+#: ../ease-core/ease-transitions.vala:240
 msgid "Assemble"
 msgstr "Zusammenbauen"
 
-#: ../ease-core/ease-transitions.vala:237
+#: ../ease-core/ease-transitions.vala:242
 msgid "Zoom"
 msgstr "Vergrößerung"
 
-#: ../ease-core/ease-transitions.vala:239
+#: ../ease-core/ease-transitions.vala:244
 msgid "Panel"
 msgstr "Panel"
 
-#: ../ease-core/ease-transitions.vala:241
+#: ../ease-core/ease-transitions.vala:246
+#, fuzzy
+msgid "Intersperse Contents"
+msgstr "Inhalt federn lassen"
+
+#: ../ease-core/ease-transitions.vala:248
 msgid "Spin Contents"
 msgstr "Inhalt drehen"
 
-#: ../ease-core/ease-transitions.vala:243
+#: ../ease-core/ease-transitions.vala:250
 msgid "Spring Contents"
 msgstr "Inhalt federn lassen"
 
-#: ../ease-core/ease-transitions.vala:245
+#: ../ease-core/ease-transitions.vala:252
 msgid "Swing Contents"
 msgstr "Inhalt pendeln"
 
-#: ../ease-core/ease-transitions.vala:247
+#: ../ease-core/ease-transitions.vala:254
 msgid "Slide Contents"
 msgstr "Inhalt gleiten lassen"
 
-#: ../ease-core/ease-transitions.vala:249
+#: ../ease-core/ease-transitions.vala:256
 msgid "Zoom Contents"
 msgstr "Inhalt vergrößern"
 
-#: ../ease-core/ease-transitions.vala:252
-#: ../ease-core/ease-transitions.vala:364
+#: ../ease-core/ease-transitions.vala:259
+#: ../ease-core/ease-transitions.vala:371
 msgid "Undefined"
 msgstr "Nicht definiert"
 
-#: ../ease-core/ease-transitions.vala:329
+#: ../ease-core/ease-transitions.vala:336
 msgid "Up"
 msgstr "Nach oben"
 
-#: ../ease-core/ease-transitions.vala:331
+#: ../ease-core/ease-transitions.vala:338
 msgid "Down"
 msgstr "Nach unten"
 
-#: ../ease-core/ease-transitions.vala:333
+#: ../ease-core/ease-transitions.vala:340
 msgid "Left"
 msgstr "Links"
 
-#: ../ease-core/ease-transitions.vala:335
+#: ../ease-core/ease-transitions.vala:342
 msgid "Right"
 msgstr "Rechts"
 
-#: ../ease-core/ease-transitions.vala:337
+#: ../ease-core/ease-transitions.vala:344
 msgid "Bottom"
 msgstr "Unten"
 
-#: ../ease-core/ease-transitions.vala:339
+#: ../ease-core/ease-transitions.vala:346
 msgid "Top"
 msgstr "Oben"
 
-#: ../ease-core/ease-transitions.vala:341
+#: ../ease-core/ease-transitions.vala:348
 msgid "Center"
 msgstr "Zentrieren"
 
-#: ../ease-core/ease-transitions.vala:343
+#: ../ease-core/ease-transitions.vala:350
 msgid "Top Left"
 msgstr "Oben links"
 
-#: ../ease-core/ease-transitions.vala:345
+#: ../ease-core/ease-transitions.vala:352
 msgid "Top Right"
 msgstr "Oben rechts"
 
-#: ../ease-core/ease-transitions.vala:347
+#: ../ease-core/ease-transitions.vala:354
 msgid "Bottom Left"
 msgstr "Unten links"
 
-#: ../ease-core/ease-transitions.vala:349
+#: ../ease-core/ease-transitions.vala:356
 msgid "Bottom Right"
 msgstr "Unten rechts"
 
-#: ../ease-core/ease-transitions.vala:351
+#: ../ease-core/ease-transitions.vala:358
 msgid "Top to Bottom"
 msgstr "Von oben nach unten"
 
-#: ../ease-core/ease-transitions.vala:353
+#: ../ease-core/ease-transitions.vala:360
 msgid "Bottom to Top"
 msgstr "Von unten nach oben"
 
-#: ../ease-core/ease-transitions.vala:355
+#: ../ease-core/ease-transitions.vala:362
 msgid "Left to Right"
 msgstr "Von links nach rechts"
 
-#: ../ease-core/ease-transitions.vala:357
+#: ../ease-core/ease-transitions.vala:364
 msgid "Right to Left"
 msgstr "Von rechts nach links"
 
-#: ../ease-core/ease-transitions.vala:359
+#: ../ease-core/ease-transitions.vala:366
 msgid "In"
 msgstr "Ein"
 
-#: ../ease-core/ease-transitions.vala:361
+#: ../ease-core/ease-transitions.vala:368
 msgid "Out"
 msgstr "Aus"
 
@@ -506,47 +511,60 @@ msgstr "Franz jagt im total verwahrlosten Taxi quer durch Bayern"
 msgid "Untitled Document"
 msgstr "Unbenanntes Dokument"
 
-#: ../ease/ease-editor-window.vala:423
+#: ../ease/ease-editor-window.vala:430
 msgid "Insert Image"
 msgstr "Bild einfügen"
 
-#: ../ease/ease-editor-window.vala:472
+#: ../ease/ease-editor-window.vala:498
 msgid "Insert Video"
 msgstr "Video einfügen"
 
-#: ../ease/ease-editor-window.vala:497
+#: ../ease/ease-editor-window.vala:523
 msgid "Error Inserting Video"
 msgstr "Fehler beim Einfügen des Videos"
 
-#: ../ease/ease-editor-window.vala:505
+#: ../ease/ease-editor-window.vala:531
 msgid "Insert PDF Document"
 msgstr "PDF-Dokument einfügen"
 
-#: ../ease/ease-editor-window.vala:511
+#: ../ease/ease-editor-window.vala:537
 msgid "PDF Documents"
 msgstr "PDF-Dokumente"
 
-#: ../ease/ease-editor-window.vala:550
+#: ../ease/ease-editor-window.vala:576
 msgid "Error Inserting PDF"
 msgstr "Fehler beim Einfügen des PDFs"
 
-#: ../ease/ease-editor-window.vala:632
+#: ../ease/ease-editor-window.vala:668
 msgid "Save Document"
 msgstr "Dokument speichern"
 
-#: ../ease/ease-editor-window.vala:648
+#: ../ease/ease-editor-window.vala:684
 msgid "Error Saving Document"
 msgstr "Fehler beim Speichern des Dokuments"
 
 #. create the dialog
-#: ../ease/ease-editor-window.vala:734
+#: ../ease/ease-editor-window.vala:770
 msgid "Select Color"
 msgstr "Farbe auswählen"
 
 #. create a font selection dialog
-#: ../ease/ease-editor-window.vala:801
+#: ../ease/ease-editor-window.vala:837
 msgid "Select Font"
 msgstr "Schrift auswählen"
+
+#: ../ease/ease-import-dialog.vala:20
+#, c-format
+msgid "Downloading image %i of %i"
+msgstr "Bild %i von %i wird heruntergeladen"
+
+#: ../ease/ease-import-dialog.vala:28
+msgid "Import Media"
+msgstr "Medien importieren"
+
+#: ../ease/ease-import-dialog.vala:64
+msgid "Downloading Media Files"
+msgstr "Mediendateien werden heruntergeladen"
 
 #: ../ease/ease-inspector-transition-pane.vala:71
 msgid "Effect"
