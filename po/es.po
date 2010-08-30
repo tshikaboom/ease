@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-08-15 22:43+0000\n"
-"PO-Revision-Date: 2010-08-17 18:05+0200\n"
+"POT-Creation-Date: 2010-08-23 12:44+0000\n"
+"PO-Revision-Date: 2010-08-30 06:17+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,12 +26,12 @@ msgstr "Crear presentaciones elegantes y bonitas"
 msgid "Ease Presentation Editor"
 msgstr "Editor de presentaciones Ease"
 
-#: ../ease-core/ease-archiver.vala:31
+#: ../ease-core/ease-archiver.vala:29
 #, c-format
 msgid "Saving \"%s\""
 msgstr "Guardando «%s»"
 
-#: ../ease-core/ease-archiver.vala:100
+#: ../ease-core/ease-archiver.vala:98
 #, c-format
 msgid "Temporary directory doesn't exist: %s"
 msgstr "La carpeta temporal no existe: %s"
@@ -54,14 +54,14 @@ msgstr "Seleccionar la imagen de fondo"
 
 #: ../ease-core/ease-background-widget.vala:164
 #: ../ease-core/ease-background-widget.vala:214
-#: ../ease/ease-editor-window.vala:427
+#: ../ease/ease-editor-window.vala:434 ../ease/ease-import-dialog.vala:33
 msgid "Images"
 msgstr "Imágenes"
 
 #: ../ease-core/ease-background-widget.vala:169
 #: ../ease-core/ease-background-widget.vala:219
 #: ../ease-core/ease-dialogs.vala:84 ../ease-core/ease-dialogs.vala:155
-#: ../ease/ease-editor-window.vala:432
+#: ../ease/ease-editor-window.vala:439 ../ease/ease-editor-window.vala:542
 msgid "All Files"
 msgstr "Todos los archivos"
 
@@ -118,15 +118,16 @@ msgstr "Lineal espejado"
 msgid "Radial"
 msgstr "Radial"
 
-#: ../ease-core/ease-html-exporter.vala:69
+#: ../ease-core/ease-html-exporter.vala:75
 msgid "Export to HTML"
 msgstr "Exportar a HTML"
 
-#: ../ease-core/ease-html-exporter.vala:76
+#: ../ease-core/ease-html-exporter.vala:82
 msgid "Exporting as HTML"
 msgstr "Exportando como HTML"
 
-#: ../ease-core/ease-html-exporter.vala:138
+#: ../ease-core/ease-html-exporter.vala:144
+#: ../ease-core/ease-html-exporter.vala:176
 msgid "Error Copying File"
 msgstr "Error al copiar el archivo"
 
@@ -135,19 +136,19 @@ msgstr "Error al copiar el archivo"
 msgid "Error loading ImageActor: %s\n"
 msgstr "Error al cargar ImageActor: %s\n"
 
-#: ../ease-core/ease-image-element.vala:73 ../ease/ease-editor-window.vala:464
+#: ../ease-core/ease-image-element.vala:99 ../ease/ease-editor-window.vala:491
 msgid "Error Inserting Image"
 msgstr "Error al insertar la imagen"
 
-#: ../ease-core/ease-image.vala:149
+#: ../ease-core/ease-image.vala:146
 msgid "Stretch"
 msgstr "Estiramiento"
 
-#: ../ease-core/ease-image.vala:150
+#: ../ease-core/ease-image.vala:147
 msgid "Maintain Aspect Ratio"
 msgstr "Mantener la proporción"
 
-#: ../ease-core/ease-image.vala:151
+#: ../ease-core/ease-image.vala:148
 msgid "Do not Scale"
 msgstr "No escalar"
 
@@ -155,218 +156,223 @@ msgstr "No escalar"
 msgid "Double click to edit"
 msgstr "Pulsar dos veces para editar"
 
-#: ../ease-core/ease-theme.vala:286
+#: ../ease-core/ease-theme.vala:289
 #, c-format
 msgid "Error loading theme: %s"
 msgstr "Error al cargar el tema: %s"
 
-#: ../ease-core/ease-theme.vala:440
+#: ../ease-core/ease-theme.vala:443
 #, c-format
 msgid "Invalid master slide title: %s"
-msgstr ""
+msgstr "Título no válido de la diapositiva maestra: %s"
 
-#: ../ease-core/ease-theme.vala:467
+#: ../ease-core/ease-theme.vala:470
 #, c-format
 msgid "Not a valid text element type: %s"
-msgstr ""
+msgstr "No es un tipo de elemento de texto válido: %s"
 
-#: ../ease-core/ease-theme.vala:521
+#: ../ease-core/ease-theme.vala:524
 #, c-format
 msgid "Could not find property %s on element type %s."
-msgstr ""
+msgstr "No se pudo encontrar la propiedad %s en el tipo de elemento %s."
 
-#: ../ease-core/ease-theme.vala:551
+#: ../ease-core/ease-theme.vala:554
 #, c-format
 msgid "Could not find property %s on master type %s."
-msgstr ""
+msgstr "No se pudo encontrar la propiedad %s en el tipo maestro %s."
 
-#: ../ease-core/ease-theme.vala:579
+#: ../ease-core/ease-theme.vala:582
 msgid "_Title slide"
 msgstr "Diapositiva de _título"
 
-#: ../ease-core/ease-theme.vala:581
+#: ../ease-core/ease-theme.vala:584
 msgid "Content slide _without header"
-msgstr ""
+msgstr "Diapositiva de contenido _sin cabecera"
 
-#: ../ease-core/ease-theme.vala:583
+#: ../ease-core/ease-theme.vala:586
 msgid "_Content slide"
 msgstr "Diapositiva de _contenido"
 
-#: ../ease-core/ease-theme.vala:585
+#: ../ease-core/ease-theme.vala:588
 msgid "Two column slide without _header"
-msgstr ""
+msgstr "Diapositiva con dos columnas sin ca_becera"
 
-#: ../ease-core/ease-theme.vala:587
+#: ../ease-core/ease-theme.vala:590
 msgid "T_wo column slide with header"
-msgstr ""
+msgstr "Diapositiva de _dos columnas sin cabecera"
 
-#: ../ease-core/ease-theme.vala:589
+#: ../ease-core/ease-theme.vala:592
 msgid "M_edia slide without header"
 msgstr "Dispositiva m_ultimedia sin cabecera"
 
-#: ../ease-core/ease-theme.vala:591
+#: ../ease-core/ease-theme.vala:594
 msgid "_Media slide"
 msgstr "Diapositiva _multimedia"
 
-#: ../ease-core/ease-theme.vala:593
+#: ../ease-core/ease-theme.vala:596
 msgid "Em_pty Slide"
 msgstr "Diapositiva _vacía"
 
-#: ../ease-core/ease-theme.vala:596
+#: ../ease-core/ease-theme.vala:599
 #, c-format
 msgid "%s is not a valid identifier"
 msgstr "%s no es un identificador válido"
 
-#: ../ease-core/ease-transitions.vala:211
+#: ../ease-core/ease-transitions.vala:216
 msgid "None"
 msgstr "Ninguna"
 
-#: ../ease-core/ease-transitions.vala:213
+#: ../ease-core/ease-transitions.vala:218
 msgid "Fade"
 msgstr "Desvanecer"
 
-#: ../ease-core/ease-transitions.vala:215
+#: ../ease-core/ease-transitions.vala:220
 msgid "Slide"
 msgstr "Diapositiva"
 
-#: ../ease-core/ease-transitions.vala:217
+#: ../ease-core/ease-transitions.vala:222
 msgid "Drop"
 msgstr "Soltar"
 
-#: ../ease-core/ease-transitions.vala:219
+#: ../ease-core/ease-transitions.vala:224
 msgid "Pivot"
 msgstr "Pivotar"
 
-#: ../ease-core/ease-transitions.vala:221
+#: ../ease-core/ease-transitions.vala:226
 msgid "Flip"
 msgstr "Voltear"
 
-#: ../ease-core/ease-transitions.vala:223
+#: ../ease-core/ease-transitions.vala:228
 msgid "Revolving Door"
 msgstr ""
 
-#: ../ease-core/ease-transitions.vala:225
+#: ../ease-core/ease-transitions.vala:230
 msgid "Reveal"
 msgstr "Mostrar"
 
-#: ../ease-core/ease-transitions.vala:227
+#: ../ease-core/ease-transitions.vala:232
 msgid "Fall"
 msgstr "Caída"
 
-#: ../ease-core/ease-transitions.vala:229
+#: ../ease-core/ease-transitions.vala:234
 msgid "Slats"
 msgstr "Tablillas"
 
-#: ../ease-core/ease-transitions.vala:231
+#: ../ease-core/ease-transitions.vala:236
 msgid "Open Door"
 msgstr "Abrir puerta"
 
-#: ../ease-core/ease-transitions.vala:233
+#: ../ease-core/ease-transitions.vala:238
 msgid "Explode"
 msgstr "Explotar"
 
-#: ../ease-core/ease-transitions.vala:235
+#: ../ease-core/ease-transitions.vala:240
 msgid "Assemble"
 msgstr "Ensamblar"
 
-#: ../ease-core/ease-transitions.vala:237
+#: ../ease-core/ease-transitions.vala:242
 msgid "Zoom"
 msgstr "Ampliación"
 
-#: ../ease-core/ease-transitions.vala:239
+#: ../ease-core/ease-transitions.vala:244
 msgid "Panel"
 msgstr "Panel"
 
-#: ../ease-core/ease-transitions.vala:241
+#: ../ease-core/ease-transitions.vala:246
+#| msgid "Spin Contents"
+msgid "Intersperse Contents"
+msgstr "Intercalar contenido"
+
+#: ../ease-core/ease-transitions.vala:248
 msgid "Spin Contents"
 msgstr "Girar contenido"
 
-#: ../ease-core/ease-transitions.vala:243
+#: ../ease-core/ease-transitions.vala:250
 msgid "Spring Contents"
-msgstr ""
+msgstr "Aparecer contenido"
 
-#: ../ease-core/ease-transitions.vala:245
+#: ../ease-core/ease-transitions.vala:252
 msgid "Swing Contents"
 msgstr ""
 
-#: ../ease-core/ease-transitions.vala:247
+#: ../ease-core/ease-transitions.vala:254
 msgid "Slide Contents"
 msgstr "Contenido de las diapositivas"
 
-#: ../ease-core/ease-transitions.vala:249
+#: ../ease-core/ease-transitions.vala:256
 msgid "Zoom Contents"
 msgstr "Ampliar contenido"
 
-#: ../ease-core/ease-transitions.vala:252
-#: ../ease-core/ease-transitions.vala:364
+#: ../ease-core/ease-transitions.vala:259
+#: ../ease-core/ease-transitions.vala:371
 msgid "Undefined"
 msgstr "Indefinido"
 
-#: ../ease-core/ease-transitions.vala:329
+#: ../ease-core/ease-transitions.vala:336
 msgid "Up"
 msgstr "Arriba"
 
-#: ../ease-core/ease-transitions.vala:331
+#: ../ease-core/ease-transitions.vala:338
 msgid "Down"
 msgstr "Abajo"
 
-#: ../ease-core/ease-transitions.vala:333
+#: ../ease-core/ease-transitions.vala:340
 msgid "Left"
 msgstr "Izquierda"
 
-#: ../ease-core/ease-transitions.vala:335
+#: ../ease-core/ease-transitions.vala:342
 msgid "Right"
 msgstr "Derecha"
 
-#: ../ease-core/ease-transitions.vala:337
+#: ../ease-core/ease-transitions.vala:344
 msgid "Bottom"
 msgstr "Abajo"
 
-#: ../ease-core/ease-transitions.vala:339
+#: ../ease-core/ease-transitions.vala:346
 msgid "Top"
 msgstr "Arriba"
 
-#: ../ease-core/ease-transitions.vala:341
+#: ../ease-core/ease-transitions.vala:348
 msgid "Center"
 msgstr "Centrar"
 
-#: ../ease-core/ease-transitions.vala:343
+#: ../ease-core/ease-transitions.vala:350
 msgid "Top Left"
 msgstr "Arriba a la izquierda"
 
-#: ../ease-core/ease-transitions.vala:345
+#: ../ease-core/ease-transitions.vala:352
 msgid "Top Right"
 msgstr "Arriba a la derecha"
 
-#: ../ease-core/ease-transitions.vala:347
+#: ../ease-core/ease-transitions.vala:354
 msgid "Bottom Left"
 msgstr "Abajo a la izquierda"
 
-#: ../ease-core/ease-transitions.vala:349
+#: ../ease-core/ease-transitions.vala:356
 msgid "Bottom Right"
 msgstr "Abajo a la derecha"
 
-#: ../ease-core/ease-transitions.vala:351
+#: ../ease-core/ease-transitions.vala:358
 msgid "Top to Bottom"
 msgstr "De arriba a abajo"
 
-#: ../ease-core/ease-transitions.vala:353
+#: ../ease-core/ease-transitions.vala:360
 msgid "Bottom to Top"
 msgstr "De abajo a arriba"
 
-#: ../ease-core/ease-transitions.vala:355
+#: ../ease-core/ease-transitions.vala:362
 msgid "Left to Right"
 msgstr "De izquierda a derecha"
 
-#: ../ease-core/ease-transitions.vala:357
+#: ../ease-core/ease-transitions.vala:364
 msgid "Right to Left"
 msgstr "De derecha a izquierda"
 
-#: ../ease-core/ease-transitions.vala:359
+#: ../ease-core/ease-transitions.vala:366
 msgid "In"
 msgstr "Dentro"
 
-#: ../ease-core/ease-transitions.vala:361
+#: ../ease-core/ease-transitions.vala:368
 msgid "Out"
 msgstr "Fuera"
 
@@ -396,8 +402,9 @@ msgid "A presentation application for the GNOME Desktop"
 msgstr "Una aplicación de presentaciones para el Escritorio GNOME"
 
 #: ../ease/ease-about-dialog.vala:67
-msgid "Mario Blättermann"
-msgstr "Mario Blättermann"
+#| msgid "Mario Blättermann"
+msgid "Mario Blättermann <mariobl@gnome.org>"
+msgstr "Mario Blättermann <mariobl@gnome.org>"
 
 #: ../ease/ease-close-confirm-dialog.vala:38
 msgid "Save before closing?"
@@ -498,35 +505,63 @@ msgstr "Jovencillo emponzoñado de whisky, ¡qué figurota exhibe!"
 msgid "Untitled Document"
 msgstr "Documento sin título"
 
-#: ../ease/ease-editor-window.vala:423
+#: ../ease/ease-editor-window.vala:430
 msgid "Insert Image"
 msgstr "Insertar imagen"
 
-#: ../ease/ease-editor-window.vala:472
+#: ../ease/ease-editor-window.vala:498
 msgid "Insert Video"
 msgstr "Insertar vídeo"
 
-#: ../ease/ease-editor-window.vala:497
+#: ../ease/ease-editor-window.vala:523
 msgid "Error Inserting Video"
 msgstr "Error al insertar el vídeo"
 
-#: ../ease/ease-editor-window.vala:579
+#: ../ease/ease-editor-window.vala:531
+#| msgid "Open Document"
+msgid "Insert PDF Document"
+msgstr "Insertar documento PDF"
+
+#: ../ease/ease-editor-window.vala:537
+#| msgid "Open Document"
+msgid "PDF Documents"
+msgstr "Documentos PDF"
+
+#: ../ease/ease-editor-window.vala:576
+#| msgid "Error Inserting Image"
+msgid "Error Inserting PDF"
+msgstr "Error al insertar el PDF"
+
+#: ../ease/ease-editor-window.vala:668
 msgid "Save Document"
 msgstr "Guardar documento"
 
-#: ../ease/ease-editor-window.vala:595
+#: ../ease/ease-editor-window.vala:684
 msgid "Error Saving Document"
 msgstr "Error al guardar el documento"
 
 #. create the dialog
-#: ../ease/ease-editor-window.vala:681
+#: ../ease/ease-editor-window.vala:770
 msgid "Select Color"
 msgstr "Seleccionar color"
 
 #. create a font selection dialog
-#: ../ease/ease-editor-window.vala:748
+#: ../ease/ease-editor-window.vala:837
 msgid "Select Font"
 msgstr "Seleccionar tipografía"
+
+#: ../ease/ease-import-dialog.vala:20
+#, c-format
+msgid "Downloading image %i of %i"
+msgstr "Descargando imagen %i de %i"
+
+#: ../ease/ease-import-dialog.vala:28
+msgid "Import Media"
+msgstr "Importar multimedia"
+
+#: ../ease/ease-import-dialog.vala:64
+msgid "Downloading Media Files"
+msgstr "Descargar archivos multimedia"
 
 #: ../ease/ease-inspector-transition-pane.vala:71
 msgid "Effect"
@@ -578,7 +613,7 @@ msgstr "Error al reproducir el documento"
 msgid "Error creating new document"
 msgstr "Error al crear el nuevo documento"
 
-#: ../ease/ease-player.vala:67
+#: ../ease/ease-player.vala:65
 msgid "Ease Presentation"
 msgstr "Presentación Ease"
 
