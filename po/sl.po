@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=ease&component=general\n"
-"POT-Creation-Date: 2010-07-21 03:36+0000\n"
-"PO-Revision-Date: 2010-07-21 14:56+0100\n"
-"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
+"POT-Creation-Date: 2010-08-30 04:18+0000\n"
+"PO-Revision-Date: 2010-09-13 21:13+0100\n"
+"Last-Translator: Peter Kragelj <peter.kragelj@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,32 +20,409 @@ msgstr ""
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
+#: ../data/ease.desktop.in.h:1
 #: ../data/ease.desktop.in.in.h:1
 msgid "Create nice and elegant presentations"
 msgstr "Ustvarite lepe in elegantne predstavitve"
 
+#: ../data/ease.desktop.in.h:2
 #: ../data/ease.desktop.in.in.h:2
-msgid "Ease presentation editor"
+msgid "Ease Presentation Editor"
 msgstr "Urejevalnik predstavitev Ease"
 
-#: ../src/ease-about-dialog.vala:48
+#: ../ease-core/ease-archiver.vala:29
+#, c-format
+msgid "Saving \"%s\""
+msgstr "Shranjevanje \"%s\""
+
+#: ../ease-core/ease-archiver.vala:98
+#, c-format
+msgid "Temporary directory doesn't exist: %s"
+msgstr "Začasna mapa ne obstaja: %s"
+
+#: ../ease-core/ease-background.vala:238
+msgid "Solid Color"
+msgstr "Polna barva"
+
+#: ../ease-core/ease-background.vala:239
+msgid "Gradient"
+msgstr "Prelivanje"
+
+#: ../ease-core/ease-background.vala:240
+msgid "Image"
+msgstr "Slika"
+
+#: ../ease-core/ease-background-widget.vala:24
+msgid "Select Background Image"
+msgstr "Izbor slike ozadja"
+
+#: ../ease-core/ease-background-widget.vala:188
+#: ../ease-core/ease-background-widget.vala:238
+#: ../ease/ease-editor-window.vala:453
+#: ../ease/ease-import-dialog.vala:33
+msgid "Images"
+msgstr "Slike"
+
+#: ../ease-core/ease-background-widget.vala:193
+#: ../ease-core/ease-background-widget.vala:243
+#: ../ease-core/ease-dialogs.vala:84
+#: ../ease-core/ease-dialogs.vala:155
+#: ../ease/ease-editor-window.vala:458
+#: ../ease/ease-editor-window.vala:561
+msgid "All Files"
+msgstr "Vse datoteke"
+
+#: ../ease-core/ease-dialogs.vala:75
+msgid "Open Document"
+msgstr "Odpri dokument"
+
+#: ../ease-core/ease-dialogs.vala:79
+#: ../ease-core/ease-dialogs.vala:150
+msgid "Ease Presentations"
+msgstr "Ease predstavitve"
+
+#. *
+#. * Default slide title.
+#.
+#: ../ease-core/ease-document.vala:80
+#, c-format
+msgid "Slide %i"
+msgstr "Diapozitiv %i"
+
+#. archive
+#: ../ease-core/ease-document.vala:278
+msgid "Saving Document"
+msgstr "Shranjevanje dokumenta"
+
+#: ../ease-core/ease-document.vala:517
+msgid "Export as PDF"
+msgstr "Izvozi kot PDF"
+
+#: ../ease-core/ease-document.vala:527
+msgid "Error Exporting to PDF"
+msgstr "Napaka med izvažanjem v PDF"
+
+#: ../ease-core/ease-document.vala:538
+msgid "Export as PostScript"
+msgstr "Izvozi kot PostScript"
+
+#: ../ease-core/ease-document.vala:548
+msgid "Error Exporting to PostScript"
+msgstr "Napaka med izvažanjem v PostScript"
+
+#: ../ease-core/ease-document.vala:595
+msgid "Error exporting as HTML"
+msgstr "Napaka med izvažanjem v HTML"
+
+#: ../ease-core/ease-gradient.vala:259
+msgid "Linear"
+msgstr "Vrstično"
+
+#: ../ease-core/ease-gradient.vala:260
+msgid "Mirrored Linear"
+msgstr "Zrcalno vrstično"
+
+#: ../ease-core/ease-gradient.vala:261
+msgid "Radial"
+msgstr "Krožno"
+
+#: ../ease-core/ease-html-exporter.vala:75
+msgid "Export to HTML"
+msgstr "Izvozi v HTML"
+
+#: ../ease-core/ease-html-exporter.vala:82
+msgid "Exporting as HTML"
+msgstr "Izvažanje v HTML"
+
+#: ../ease-core/ease-html-exporter.vala:144
+#: ../ease-core/ease-html-exporter.vala:176
+msgid "Error Copying File"
+msgstr "Napaka kopiranja datoteke"
+
+#: ../ease-core/ease-image-actor.vala:47
+#, c-format
+msgid "Error loading ImageActor: %s\n"
+msgstr "Napaka nalaganja predmeta ImageActor: %s\n"
+
+#: ../ease-core/ease-image-element.vala:99
+#: ../ease/ease-editor-window.vala:510
+msgid "Error Inserting Image"
+msgstr "Napaka vstavljanja slike"
+
+#: ../ease-core/ease-image.vala:146
+msgid "Stretch"
+msgstr "Raztegnjeno"
+
+#: ../ease-core/ease-image.vala:147
+msgid "Maintain Aspect Ratio"
+msgstr "Ohrani razmerje velikosti"
+
+#: ../ease-core/ease-image.vala:148
+msgid "Do not Scale"
+msgstr "Ne prilagajaj velikosti"
+
+#: ../ease-core/ease-text-element.vala:25
+msgid "Double click to edit"
+msgstr "Dvojni klik za urejanje"
+
+#: ../ease-core/ease-theme.vala:289
+#, c-format
+msgid "Error loading theme: %s"
+msgstr "Napaka nalaganja teme: %s"
+
+#: ../ease-core/ease-theme.vala:443
+#, c-format
+msgid "Invalid master slide title: %s"
+msgstr "Neveljavni naslov glavnega diapozitiva: %s"
+
+#: ../ease-core/ease-theme.vala:470
+#, c-format
+msgid "Not a valid text element type: %s"
+msgstr "Neveljavna vrsta predmeta besedila: %s"
+
+#: ../ease-core/ease-theme.vala:524
+#, c-format
+msgid "Could not find property %s on element type %s."
+msgstr "Ni mogoče najti lastnosti %s na vrsti predmeta %s."
+
+#: ../ease-core/ease-theme.vala:554
+#, c-format
+msgid "Could not find property %s on master type %s."
+msgstr "Ni mogoče najti lastnosti %s na glavni vrsti %s."
+
+#: ../ease-core/ease-theme.vala:582
+msgid "_Title slide"
+msgstr "_Naslovni diapozitiv"
+
+#: ../ease-core/ease-theme.vala:584
+msgid "Content slide _without header"
+msgstr "Vsebinski diapozitiv brez _glave"
+
+#: ../ease-core/ease-theme.vala:586
+msgid "_Content slide"
+msgstr "Vse_binski diapozitiv"
+
+#: ../ease-core/ease-theme.vala:588
+msgid "Two column slide without _header"
+msgstr "Dvo-s_tolpični diapozitiv z glavo"
+
+#: ../ease-core/ease-theme.vala:590
+msgid "T_wo column slide with header"
+msgstr "Dvo-_stolpični diapozitiv z glavo"
+
+#: ../ease-core/ease-theme.vala:592
+msgid "M_edia slide without header"
+msgstr "Večpredstavn_ostni diapozitiv brez glave"
+
+#: ../ease-core/ease-theme.vala:594
+msgid "_Media slide"
+msgstr "_Večpredstavnostni diapozitiv"
+
+#: ../ease-core/ease-theme.vala:596
+msgid "Em_pty Slide"
+msgstr "_Prazen diapozitiv"
+
+#: ../ease-core/ease-theme.vala:599
+#, c-format
+msgid "%s is not a valid identifier"
+msgstr "%s ni veljaven določilnik"
+
+#: ../ease-core/ease-transitions.vala:216
+msgid "None"
+msgstr "Brez"
+
+#: ../ease-core/ease-transitions.vala:218
+msgid "Fade"
+msgstr "Pojemanje"
+
+#: ../ease-core/ease-transitions.vala:220
+msgid "Slide"
+msgstr "Drsenje"
+
+#: ../ease-core/ease-transitions.vala:222
+msgid "Drop"
+msgstr "Spuščanje"
+
+#: ../ease-core/ease-transitions.vala:224
+msgid "Pivot"
+msgstr "Vrtenje"
+
+#: ../ease-core/ease-transitions.vala:226
+msgid "Flip"
+msgstr "Obrat"
+
+#: ../ease-core/ease-transitions.vala:228
+msgid "Revolving Door"
+msgstr "Vrteča vrata"
+
+#: ../ease-core/ease-transitions.vala:230
+msgid "Reveal"
+msgstr "Razkrivanje"
+
+#: ../ease-core/ease-transitions.vala:232
+msgid "Fall"
+msgstr "Padanje"
+
+#: ../ease-core/ease-transitions.vala:234
+msgid "Slats"
+msgstr "Letvice"
+
+#: ../ease-core/ease-transitions.vala:236
+msgid "Open Door"
+msgstr "Odpiranje vrat"
+
+#: ../ease-core/ease-transitions.vala:238
+msgid "Explode"
+msgstr "Razprši"
+
+#: ../ease-core/ease-transitions.vala:240
+msgid "Assemble"
+msgstr "Sestavi"
+
+#: ../ease-core/ease-transitions.vala:242
+msgid "Zoom"
+msgstr "Približevanje"
+
+#: ../ease-core/ease-transitions.vala:244
+msgid "Panel"
+msgstr "Pult"
+
+#: ../ease-core/ease-transitions.vala:246
+msgid "Intersperse Contents"
+msgstr "Razporeditev vsebine"
+
+#: ../ease-core/ease-transitions.vala:248
+msgid "Spin Contents"
+msgstr "Zavrti vsebino"
+
+#: ../ease-core/ease-transitions.vala:250
+msgid "Spring Contents"
+msgstr "Priskoči vsebino"
+
+#: ../ease-core/ease-transitions.vala:252
+msgid "Swing Contents"
+msgstr "Zanihaj vsebino"
+
+#: ../ease-core/ease-transitions.vala:254
+msgid "Slide Contents"
+msgstr "Pridrsi vsebino"
+
+#: ../ease-core/ease-transitions.vala:256
+msgid "Zoom Contents"
+msgstr "Približaj vsebino"
+
+#: ../ease-core/ease-transitions.vala:259
+#: ../ease-core/ease-transitions.vala:371
+msgid "Undefined"
+msgstr "Nedoločeno"
+
+#: ../ease-core/ease-transitions.vala:336
+msgid "Up"
+msgstr "Gor"
+
+#: ../ease-core/ease-transitions.vala:338
+msgid "Down"
+msgstr "Dol"
+
+#: ../ease-core/ease-transitions.vala:340
+msgid "Left"
+msgstr "Levo"
+
+#: ../ease-core/ease-transitions.vala:342
+msgid "Right"
+msgstr "Desno"
+
+#: ../ease-core/ease-transitions.vala:344
+msgid "Bottom"
+msgstr "Spodaj"
+
+#: ../ease-core/ease-transitions.vala:346
+msgid "Top"
+msgstr "Zgoraj"
+
+#: ../ease-core/ease-transitions.vala:348
+msgid "Center"
+msgstr "Sredina"
+
+#: ../ease-core/ease-transitions.vala:350
+msgid "Top Left"
+msgstr "Zgoraj levo"
+
+#: ../ease-core/ease-transitions.vala:352
+msgid "Top Right"
+msgstr "Zgoraj desno"
+
+#: ../ease-core/ease-transitions.vala:354
+msgid "Bottom Left"
+msgstr "Spodaj levo"
+
+#: ../ease-core/ease-transitions.vala:356
+msgid "Bottom Right"
+msgstr "Spodaj desno"
+
+#: ../ease-core/ease-transitions.vala:358
+msgid "Top to Bottom"
+msgstr "Od zgoraj navzdol"
+
+#: ../ease-core/ease-transitions.vala:360
+msgid "Bottom to Top"
+msgstr "Od spodaj navzgor"
+
+#: ../ease-core/ease-transitions.vala:362
+msgid "Left to Right"
+msgstr "Od leve proti desni"
+
+#: ../ease-core/ease-transitions.vala:364
+msgid "Right to Left"
+msgstr "Od desne proti levi"
+
+#: ../ease-core/ease-transitions.vala:366
+msgid "In"
+msgstr "V"
+
+#: ../ease-core/ease-transitions.vala:368
+msgid "Out"
+msgstr "Iz"
+
+#: ../ease-core/ease-utilities.vala:274
+#, c-format
+msgid "Directory to remove doesn't exist: %s"
+msgstr "Mapa za odstranjevanje ne obstaja: %s"
+
+#: ../ease-core/ease-video-element.vala:93
+msgid "Your browser does not support the video tag"
+msgstr "Brskalnik ne podpira oznak za video"
+
+#: ../ease-core/ease-video-element.vala:261
+msgid "Stop playback"
+msgstr "Zaustavi predvajanje"
+
+#: ../ease-core/ease-video-element.vala:262
+msgid "Loop"
+msgstr "Ponavljaj"
+
+#: ../ease-core/ease-video-element.vala:263
+msgid "Continue to next slide"
+msgstr "Nadaljuj na naslednji diapozitiv"
+
+#: ../ease/ease-about-dialog.vala:50
 msgid "A presentation application for the GNOME Desktop"
 msgstr "Program za ustvarjanje predstavitev za namizje GNOME"
 
-#: ../src/ease-about-dialog.vala:58
-msgid "Mario Blättermann"
-msgstr "Mario Blättermann"
+#: ../ease/ease-about-dialog.vala:67
+msgid "Mario Blättermann <mariobl@gnome.org>"
+msgstr "Mario Blättermann <mariobl@gnome.org>"
 
-#: ../src/ease-close-confirm-dialog.vala:38
+#: ../ease/ease-close-confirm-dialog.vala:38
 msgid "Save before closing?"
 msgstr "Ali želite shraniti pred zapiranjem?"
 
 #. buttons
-#: ../src/ease-close-confirm-dialog.vala:77
+#: ../ease/ease-close-confirm-dialog.vala:77
 msgid "Close _without Saving"
 msgstr "Zapri _brez shranjevanja"
 
-#: ../src/ease-close-confirm-dialog.vala:96
+#: ../ease/ease-close-confirm-dialog.vala:96
 #, c-format
 msgid "If you don't save, changes from the last second will be permanently lost."
 msgid_plural "If you don't save, changes from the last %i seconds will be permanently lost."
@@ -54,11 +431,11 @@ msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje %i sekunde izgubljene."
 msgstr[2] "V kolikor ne shranite, bodo spremembe zadnjih %i sekund izgubljene."
 msgstr[3] "V kolikor ne shranite, bodo spremembe zadnjih %i sekund izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:100
+#: ../ease/ease-close-confirm-dialog.vala:100
 msgid "If you don't save, changes from the last minute will be permanently lost."
 msgstr "V kolikor ne shranite, bodo spremembe zadnje minute izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:104
+#: ../ease/ease-close-confirm-dialog.vala:104
 #, c-format
 msgid "If you don't save, changes from the last minute and %i second will be permanently lost."
 msgid_plural "If you don't save, changes from the last minute and %i seconds will be permanently lost."
@@ -67,7 +444,7 @@ msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje minute in %i sekunde izg
 msgstr[2] "V kolikor ne shranite, bodo spremembe zadnje minute in %i sekund izgubljene."
 msgstr[3] "V kolikor ne shranite, bodo spremembe zadnje minute in %i sekund izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:108
+#: ../ease/ease-close-confirm-dialog.vala:108
 #, c-format
 msgid "If you don't save, changes from the last %i minute will be permanently lost."
 msgid_plural "If you don't save, changes from the last %i minutes will be permanently lost."
@@ -76,11 +453,11 @@ msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje %i minute izgubljene."
 msgstr[2] "V kolikor ne shranite, bodo spremembe zadnjih %i minut izgubljene."
 msgstr[3] "V kolikor ne shranite, bodo spremembe zadnjih %i minut izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:115
+#: ../ease/ease-close-confirm-dialog.vala:115
 msgid "If you don't save, changes from the last hour will be permanently lost."
 msgstr "V kolikor ne shranite, bodo spremembe zadnje ure izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:117
+#: ../ease/ease-close-confirm-dialog.vala:117
 #, c-format
 msgid "If you don't save, changes from the last hour and %i minute will be permanently lost."
 msgid_plural "If you don't save, changes from the last hour and %i minutes will be permanently lost."
@@ -89,7 +466,7 @@ msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje ure in %i minute izgublj
 msgstr[2] "V kolikor ne shranite, bodo spremembe zadnje ure in %i minut izgubljene."
 msgstr[3] "V kolikor ne shranite, bodo spremembe zadnje ure in %i minut izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:121
+#: ../ease/ease-close-confirm-dialog.vala:121
 #, c-format
 msgid "If you don't save, changes from the last %i hour will be permanently lost."
 msgid_plural "If you don't save, changes from the last %i hours will be permanently lost."
@@ -98,303 +475,155 @@ msgstr[1] "V kolikor ne shranite, bodo spremembe zadnje %i minute izgubljene."
 msgstr[2] "V kolikor ne shranite, bodo spremembe zadnjih %i minut izgubljene."
 msgstr[3] "V kolikor ne shranite, bodo spremembe zadnjih %i minut izgubljene."
 
-#: ../src/ease-close-confirm-dialog.vala:132
+#: ../ease/ease-close-confirm-dialog.vala:132
 #, c-format
 msgid "Save changes to \"%s\" before closing?"
 msgstr "Ali želite shraniti spremembe \"%s\" pred zapiranjem?"
 
-#: ../src/ease-document.vala:152
-msgid "Error exporting as HTML"
-msgstr "Napaka  med izvozom v HTML"
+#: ../ease/ease-editor-window.vala:168
+msgid "The quick brown fox jumps over the lazy dog"
+msgstr "Piškur molče grabi fižol iz dna cezijeve hoste."
 
-#: ../src/ease-editor-window.vala:167
+#: ../ease/ease-editor-window.vala:266
 msgid "Untitled Document"
 msgstr "Neimenovan dokument"
 
-#: ../src/ease-editor-window.vala:279
+#: ../ease/ease-editor-window.vala:449
 msgid "Insert Image"
 msgstr "Vstavi sliko"
 
-#: ../src/ease-editor-window.vala:312
-msgid "Error Inserting Image"
-msgstr "Napaka med vstavljanjem slike"
+#: ../ease/ease-editor-window.vala:517
+msgid "Insert Video"
+msgstr "Vstavi video"
 
-#: ../src/ease-editor-window.vala:342
+#: ../ease/ease-editor-window.vala:542
+msgid "Error Inserting Video"
+msgstr "Napake vstavljanja videa"
+
+#: ../ease/ease-editor-window.vala:550
+msgid "Insert PDF Document"
+msgstr "Vstavi dokument PDF"
+
+#: ../ease/ease-editor-window.vala:556
+msgid "PDF Documents"
+msgstr "Dokumenti PDF"
+
+#: ../ease/ease-editor-window.vala:595
+msgid "Error Inserting PDF"
+msgstr "Napake vstavljanja dokumenta PDF"
+
+#: ../ease/ease-editor-window.vala:719
 msgid "Save Document"
 msgstr "Shrani dokument"
 
-#: ../src/ease-editor-window.vala:373
+#: ../ease/ease-editor-window.vala:735
 msgid "Error Saving Document"
-msgstr "Napaka med shranjevanjem dokumenta"
+msgstr "Napaka shranjevanja dokumenta"
 
 #. create the dialog
-#: ../src/ease-editor-window.vala:421
+#: ../ease/ease-editor-window.vala:814
 msgid "Select Color"
 msgstr "Izbor barve"
 
-#: ../src/ease-html-exporter.vala:69
-msgid "Export to HTML"
-msgstr "Izvozi v HTML"
+#. create a font selection dialog
+#: ../ease/ease-editor-window.vala:881
+msgid "Select Font"
+msgstr "Izbor pisave"
 
-#: ../src/ease-html-exporter.vala:87
-msgid "Exporting as HTML"
-msgstr "Izvažanje v HTML"
-
-#: ../src/ease-html-exporter.vala:152
-msgid "Error Copying File"
-msgstr "Napaka med kopiranjem datoteke"
-
-#: ../src/ease-image-actor.vala:47
+#: ../ease/ease-import-dialog.vala:20
 #, c-format
-msgid "Error loading ImageActor: %s\n"
-msgstr "Napaka med nalaganjem predmeta ImageActor: %s\n"
+msgid "Downloading image %i of %i"
+msgstr "Prejemanje slike %i od %i"
 
-#: ../src/ease-open-dialog.vala:49
-msgid "Open File"
-msgstr "Odpri datoteko"
+#: ../ease/ease-import-dialog.vala:28
+msgid "Import Media"
+msgstr "Uvozi posnetke"
 
-#: ../src/ease-pdf-exporter.vala:33
-msgid "Export to PDF"
-msgstr "Izvozi v PDF"
+#: ../ease/ease-import-dialog.vala:64
+msgid "Downloading Media Files"
+msgstr "Prejemanje večpredstavnostnih datotek"
 
-#: ../src/ease-pdf-exporter.vala:73
-msgid "Error Exporting to PDF"
-msgstr "Napaka med izvažanjem v PDF"
-
-#: ../src/ease-player.vala:64
-msgid "Ease Presentation"
-msgstr "Predstavitev Ease"
-
-#: ../src/ease-slide-actor.vala:265
-#, c-format
-msgid "Error loading background: %s"
-msgstr "Napaka med nalaganjem ozadja: %s"
-
-#: ../src/ease-slide-pane.vala:38
-#: ../src/ease-transition-pane.vala:65
+#: ../ease/ease-inspector-transition-pane.vala:73
 msgid "Effect"
 msgstr "Učinek"
 
-#: ../src/ease-slide-pane.vala:49
-#: ../src/ease-transition-pane.vala:81
+#: ../ease/ease-inspector-transition-pane.vala:87
 msgid "Duration"
 msgstr "Trajanje"
 
-#: ../src/ease-temp.vala:154
-#, c-format
-msgid "Temporary directory doesn't exist: %s"
-msgstr "Začasna mapa ne obstaja: %s"
-
-#: ../src/ease-temp.vala:257
-#, c-format
-msgid "Directory to remove doesn't exist: %s"
-msgstr "Mapa za izbris ne obstaja: %s"
-
-#. *
-#. * The text shown for unedited Elements.
-#.
-#: ../src/ease-text-actor.vala:28
-msgid "Double Click to Edit"
-msgstr "Naredite dvojni klik za urejanje"
-
-#: ../src/ease-transition-pane.vala:95
+#: ../ease/ease-inspector-transition-pane.vala:101
 msgid "Direction"
 msgstr "Smer"
 
-#: ../src/ease-transition-pane.vala:108
+#: ../ease/ease-inspector-transition-pane.vala:117
 msgid "Start Transition"
 msgstr "Začni prehod"
 
-#: ../src/ease-transition-pane.vala:111
+#: ../ease/ease-inspector-transition-pane.vala:120
 msgid "Manually"
 msgstr "Ročno"
 
-#: ../src/ease-transition-pane.vala:112
+#: ../ease/ease-inspector-transition-pane.vala:121
 msgid "Automatically"
 msgstr "Samodejno"
 
-#: ../src/ease-transition-pane.vala:122
+#: ../ease/ease-inspector-transition-pane.vala:131
 msgid "Delay"
 msgstr "Zakasnitev"
 
-#: ../src/ease-transitions.vala:104
-msgid "None"
-msgstr "Brez"
+#. parse command line options
+#: ../ease/ease-main.vala:65
+msgid " - a presentation editor"
+msgstr "- urejevalnik predstavitev"
 
-#: ../src/ease-transitions.vala:106
-msgid "Fade"
-msgstr "Pojemanje"
+#: ../ease/ease-main.vala:80
+#, c-format
+msgid "error parsing options: %s\n"
+msgstr "napaka razčlenjevanja možnosti: %s\n"
 
-#: ../src/ease-transitions.vala:108
-msgid "Slide"
-msgstr "Drsenje"
+#: ../ease/ease-main.vala:217
+msgid "Error Opening Document"
+msgstr "Napaka odpiranja dokumenta"
 
-#: ../src/ease-transitions.vala:110
-msgid "Drop"
-msgstr "Spuščanje"
+#: ../ease/ease-main.vala:246
+msgid "Error Playing Document"
+msgstr "Napaka predvajanja dokumenta"
 
-#: ../src/ease-transitions.vala:112
-msgid "Pivot"
-msgstr "Vrtenje"
+#: ../ease/ease-main.vala:264
+msgid "Error creating new document"
+msgstr "Napaka ustvarjanja novega dokumenta"
 
-#: ../src/ease-transitions.vala:114
-msgid "Flip"
-msgstr "Obrat"
+#: ../ease/ease-player.vala:65
+msgid "Ease Presentation"
+msgstr "Predstavitev Ease"
 
-#: ../src/ease-transitions.vala:116
-msgid "Revolving Door"
-msgstr "Vrteča vrata"
+#: ../ease/ease-slide-button-panel.vala:195
+#, c-format
+msgid "Error drawing slide preview: %s"
+msgstr "Napaka izrisa predogleda diapozitiva: %s"
 
-#: ../src/ease-transitions.vala:118
-msgid "Reveal"
-msgstr "Razkrivanje"
+#: ../ease/ease-welcome-actor.vala:163
+#, c-format
+msgid "Error rendering preview: %s"
+msgstr "Napaka izrisa predogleda: %s"
 
-#: ../src/ease-transitions.vala:120
-msgid "Fall"
-msgstr "Padanje"
+#: ../ease/ease-welcome-window.vala:90
+msgid "Pick a theme and start editing"
+msgstr "Izberite temo in začnite z urejanjem"
 
-#: ../src/ease-transitions.vala:122
-msgid "Slats"
-msgstr "Letvice"
-
-#: ../src/ease-transitions.vala:124
-msgid "Open Door"
-msgstr "Odpiranje vrat"
-
-#: ../src/ease-transitions.vala:126
-msgid "Zoom"
-msgstr "Približevanje"
-
-#: ../src/ease-transitions.vala:128
-msgid "Panel"
-msgstr "Pult"
-
-#: ../src/ease-transitions.vala:130
-msgid "Spin Contents"
-msgstr "Zavrti vsebino"
-
-#: ../src/ease-transitions.vala:132
-msgid "Spring Contents"
-msgstr "Priskoči vsebino"
-
-#: ../src/ease-transitions.vala:134
-msgid "Swing Contents"
-msgstr "Zanihaj vsebino"
-
-#: ../src/ease-transitions.vala:136
-msgid "Slide Contents"
-msgstr "Pridrsi vsebino"
-
-#: ../src/ease-transitions.vala:138
-msgid "Zoom Contents"
-msgstr "Približaj vsebino"
-
-#: ../src/ease-transitions.vala:140
-#: ../src/ease-transitions.vala:188
-msgid "Undefined"
-msgstr "Nedoločeno"
-
-#: ../src/ease-transitions.vala:154
-msgid "Up"
-msgstr "Gor"
-
-#: ../src/ease-transitions.vala:156
-msgid "Down"
-msgstr "Dol"
-
-#: ../src/ease-transitions.vala:158
-msgid "Left"
-msgstr "Levo"
-
-#: ../src/ease-transitions.vala:160
-msgid "Right"
-msgstr "Desno"
-
-#: ../src/ease-transitions.vala:162
-msgid "Bottom"
-msgstr "Spodaj"
-
-#: ../src/ease-transitions.vala:164
-msgid "Top"
-msgstr "Zgoraj"
-
-#: ../src/ease-transitions.vala:166
-msgid "Center"
-msgstr "Sredina"
-
-#: ../src/ease-transitions.vala:168
-msgid "Top Left"
-msgstr "Zgoraj levo"
-
-#: ../src/ease-transitions.vala:170
-msgid "Top Right"
-msgstr "Zgoraj desno"
-
-#: ../src/ease-transitions.vala:172
-msgid "Bottom Left"
-msgstr "Spodaj levo"
-
-#: ../src/ease-transitions.vala:174
-msgid "Bottom Right"
-msgstr "Spodaj desno"
-
-#: ../src/ease-transitions.vala:176
-msgid "Top to Bottom"
-msgstr "Od zgoraj navzdol"
-
-#: ../src/ease-transitions.vala:178
-msgid "Bottom to Top"
-msgstr "Od spodaj navzgor"
-
-#: ../src/ease-transitions.vala:180
-msgid "Left to Right"
-msgstr "Od leve proti desni"
-
-#: ../src/ease-transitions.vala:182
-msgid "Right to Left"
-msgstr "Od desne proti levi"
-
-#: ../src/ease-transitions.vala:184
-msgid "In"
-msgstr "V"
-
-#: ../src/ease-transitions.vala:186
-msgid "Out"
-msgstr "Iz"
-
-#: ../src/ease-welcome-window.vala:89
-#: ../src/ease-welcome-window.vala:123
-msgid "New Presentation"
-msgstr "Nova predstavitev"
-
-#: ../src/ease-welcome-window.vala:95
+#: ../ease/ease-welcome-window.vala:121
 msgid "Custom"
 msgstr "Po meri"
 
-#: ../src/ease-welcome-window.vala:98
+#: ../ease/ease-welcome-window.vala:123
 #, c-format
 msgid "%i by %i"
 msgstr "%i z %i"
 
-#: ../src/ease-welcome-window.vala:295
-msgid "Error creating new document"
-msgstr "Napaka med ustvarjanjem novega dokumenta"
-
-#. parse command line options
-#: ../src/main.vala:60
-msgid " - a presentation editor"
-msgstr "- urejevalnik predstavitev"
-
-#: ../src/main.vala:78
-#, c-format
-msgid "error parsing options: %s\n"
-msgstr "napaka med razčlenjevanjem možnosti: %s\n"
-
-#: ../src/main.vala:120
-msgid "Error Playing Document"
-msgstr "Napaka med predvajanjem dokumenta"
-
-#: ../src/main.vala:165
-msgid "Error Opening Document"
-msgstr "Napaka med odpiranjem dokumenta"
+#~ msgid "Open File"
+#~ msgstr "Odpri datoteko"
+#~ msgid "Error loading background: %s"
+#~ msgstr "Napaka med nalaganjem ozadja: %s"
+#~ msgid "New Presentation"
+#~ msgstr "Nova predstavitev"
 
