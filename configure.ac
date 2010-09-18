@@ -52,7 +52,7 @@ GNOME_COMPILE_WARNINGS([maximum])
 GNOME_MAINTAINER_MODE_DEFINES
 
 dnl packages
-pkg_modules="\
+EASE_VERSIONED_PKGCONFIG_PACKAGES="\
  clutter-gst-1.0\
  clutter-gtk-0.10 >= 0.10\
  gee-1.0\
@@ -63,7 +63,18 @@ pkg_modules="\
  rest-extras-0.6\
  unique-1.0"
  
-PKG_CHECK_MODULES(EASE, [$pkg_modules])
+EASE_PKGCONFIG_PACKAGES="\
+ clutter-gst-1.0\
+ clutter-gtk-0.10\
+ gee-1.0\
+ gmodule-2.0\
+ json-glib-1.0\
+ libarchive\
+ poppler-glib\
+ rest-extras-0.6\
+ unique-1.0"
+ 
+PKG_CHECK_MODULES(EASE, [$EASE_VERSIONED_PKGCONFIG_PACKAGES])
 
 EASE_PACKAGES="\
  --pkg clutter-gst-1.0\
@@ -79,6 +90,7 @@ EASE_PACKAGES="\
 AC_SUBST(EASE_CFLAGS)
 AC_SUBST(EASE_LIBS)
 AC_SUBST(EASE_PACKAGES)
+AC_SUBST(EASE_PKGCONFIG_PACKAGES)
 
 AC_DEFINE(EASE_VERSION, ease_version, [Ease Version])
 AC_SUBST(EASE_VERSION, ease_version)

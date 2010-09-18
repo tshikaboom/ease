@@ -1,5 +1,7 @@
 lib_LTLIBRARIES = libease-core-@EASE_CORE_VERSION@.la
 
+DISTCHECK_CONFIGURE_FLAGS = --enable-introspection
+
 # source files
 libease_core_@EASE_CORE_VERSION@_la_SOURCES = \
 	ease-actor.vala \
@@ -111,4 +113,30 @@ CLEANFILES = \
 EXTRA_DIST = \
 	$(top_srcdir)/vapi/ease-core-@EASE_CORE_VERSION@.vapi \
 	$(top_srcdir)/vapi/ease-core-@EASE_CORE_VERSION@.deps
+
+
+-include $(INTROSPECTION_MAKEFILE)
+INTROSPECTION_GIRS =
+INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir)
+INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
+
+if HAVE_INTROSPECTION
+introspection_sources = $(libease_core_@EASE_CORE_VERSION@_la_SOURCES)
+
+EaseCore_0_4_gir: libease-core-@EASE_CORE_VERSION@.la
+EaseCore_0_4_gir_INCLUDES = GtkClutter-0.10 
+EaseCore_0_4_gir_CFLAGS = $(INCLUDES)
+EaseCore_0_4_gir_LIBS = libease-core-@EASE_CORE_VERSION@.la 
+EaseCore_0_4_gir_PACKAGES = $(EASE_PKGCONFIG_PACKAGES)
+EaseCore_0_4_gir_FILES = $(introspection_sources)
+INTROSPECTION_GIRS += EaseCore-@EASE_CORE_VERSION@.gir
+
+girdir = $(datadir)/gir-1.0
+gir_DATA = $(INTROSPECTION_GIRS)
+
+typelibdir = $(libdir)/girepository-1.0
+typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+
+CLEANFILES += $(gir_DATA) $(typelib_DATA)
+endif
 
