@@ -79,6 +79,7 @@ libease_core_@EASE_CORE_VERSION@_la_VALAFLAGS = \
 	$(NULL)
 
 libease_core_@EASE_CORE_VERSION@_la_LIBADD = \
+	$(EASE_LIBS) \
 	$(top_builddir)/flutter/libflutter-@FLUTTER_VERSION@.la
 
 libease_core_@EASE_CORE_VERSION@_la_CFLAGS = \
@@ -121,14 +122,16 @@ INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir)
 INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
 
 if HAVE_INTROSPECTION
-introspection_sources = $(libease_core_@EASE_CORE_VERSION@_la_SOURCES)
+introspection_sources = \
+	$(libease_core_@EASE_CORE_VERSION@_la_SOURCES:.vala=.c) \
+	$(top_builddir)/ease-core/ease-core.h
 
 EaseCore_0_4_gir: libease-core-@EASE_CORE_VERSION@.la
 EaseCore_0_4_gir_INCLUDES = GtkClutter-0.10 
 EaseCore_0_4_gir_CFLAGS = $(INCLUDES)
 EaseCore_0_4_gir_LIBS = libease-core-@EASE_CORE_VERSION@.la 
-EaseCore_0_4_gir_PACKAGES = $(EASE_PKGCONFIG_PACKAGES)
 EaseCore_0_4_gir_FILES = $(introspection_sources)
+EaseCore_0_4_gir_SCANNERFLAGS = --strip-prefix=Ease
 INTROSPECTION_GIRS += EaseCore-@EASE_CORE_VERSION@.gir
 
 girdir = $(datadir)/gir-1.0

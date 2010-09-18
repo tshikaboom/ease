@@ -2,11 +2,9 @@ lib_LTLIBRARIES = libflutter-@FLUTTER_VERSION@.la
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-introspection
 
-INCLUDES = \
-	$(EASE_CFLAGS)
+INCLUDES = `pkg-config --cflags clutter-1.0`
 
 AM_CPPFLAGS = \
-	$(EASE_CFLAGS) \
 	-include $(CONFIG_HEADER) \
 	$(NULL)
 
@@ -24,6 +22,7 @@ libflutter_@FLUTTER_VERSION@_la_VALAFLAGS = \
 
 libflutter_@FLUTTER_VERSION@_la_CFLAGS = $(EASE_CFLAGS)
 libflutter_@FLUTTER_VERSION@_la_LDFLAGS = $(EASE_LDFLAGS)
+libflutter_@FLUTTER_VERSION@_la_LIBADD = $(EASE_LIBS)
 
 # header installation
 flutter_includedir=$(includedir)/flutter/
@@ -46,33 +45,6 @@ EXTRA_DIST = \
 	$(top_srcdir)/vapi/flutter-@FLUTTER_VERSION@.vapi \
 	$(top_srcdir)/vapi/flutter-@FLUTTER_VERSION@.deps
 
-#if HAVE_INTROSPECTION
-
-#BUILT_GIRSOURCES = Flutter-0.3.gir
-
-#Flutter-0.3.gir: $(INTROSPECTION_SCANNER) libflutter-0.3.la \
-#	g-ir-scanner -v \
-#	--namespace Flutter --nsversion=0.3 \
-#	--strip-prefix=flutter \
-#	--include=Clutter-1.0 \
-#	--library=flutter-0.3 \
-#	--libtool="$(LIBTOOL)" \
-#	--output $@ \
-#	--pkg clutter-1.0 \
-#	$(top_srcdir)/flutter/flutter.h
-
-#girdir = $(datadir)/gir-1.0
-#gir_DATA = $(BUILT_GIRSOURCES)
-
-#typelibsdir = $(libdir)/girepository-1.0
-#typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
-
-#%.typelib: %.gir $(INTROSPECTION_COMPILER)
-#	$(AM_V_GEN) $(DEBUG) $(INTROSPECTION_COMPILER) --includedir=$(srcdir) --includedir=.$(INTROSPECTION_COMPILER_OPTS) $< -o $@
-
-#CLEANFILES += Flutter-0.3.gir $(typelibs_DATA)
-
-#endif
 
 -include $(INTROSPECTION_MAKEFILE)
 INTROSPECTION_GIRS =

@@ -12,8 +12,9 @@
 *DS_Store
 
 # introspection noise
-libease/tmp-introspect*
+tmp-introspect*
 *.gir
+*.typelib
 
 # build files
 ease/ease
