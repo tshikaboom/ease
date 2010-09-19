@@ -95,10 +95,12 @@ public abstract class Ease.Actor : Clutter.Group
 		e.notify["width"].connect((o, p) => {
 			width = element.width;
 			contents.width = element.width;
+			if (editor_rect != null) editor_rect.width = width;
 		});
 		e.notify["height"].connect((o, p) => {
 			height = element.height;
 			contents.height = element.height;
+			if (editor_rect != null) editor_rect.height = height;
 		});
 	}
 	
@@ -192,12 +194,6 @@ public abstract class Ease.Actor : Clutter.Group
 		
 		element.width = width;
 		element.height = height;
-		
-		if (editor_rect != null)
-		{
-			editor_rect.width = width;
-			editor_rect.height = height;
-		}
 	}
 	
 	/**

@@ -121,6 +121,26 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	private float orig_h;
 	
 	/**
+	 * The sum x change of the current drag action.
+	 */
+	private float drag_total_x;
+	
+	/**
+	 * The sum y change of the current drag action.
+	 */
+	private float drag_total_y;
+	
+	/**
+	 * If the proportional drag key was pressed in the previous drag.
+	 */
+	private bool proportional_drag;
+	
+	/**
+	 * If the center drag key was pressed in the previous drag.
+	 */
+	private bool from_center_drag;
+	
+	/**
 	 * If the embed is currently receiving key events.
 	 */
 	private bool keys_connected = false;
@@ -658,7 +678,7 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	 */
 	private bool handle_motion(Clutter.Actor sender, Clutter.MotionEvent event)
 	{
-		Handle handle = (Handle)sender;
+		var handle = (Handle)sender;
 		
 		if (!is_drag_initialized)
 		{
@@ -670,26 +690,55 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 			orig_y = selected.y;
 			orig_w = selected.width;
 			orig_h = selected.height;
+			drag_total_x = 0;
+			drag_total_y = 0;
+			
+			proportional_drag =
+				(event.modifier_state & Clutter.ModifierType.SHIFT_MASK) != 0;
+			from_center_drag =
+				(event.modifier_state & Clutter.ModifierType.CONTROL_MASK) != 0;
 			
 			return true;
 		}
 		
 		float factor = 1 / zoom;
-		var p = (event.modifier_state & Clutter.ModifierType.SHIFT_MASK) != 0;
+		var proportional =
+			(event.modifier_state & Clutter.ModifierType.SHIFT_MASK) != 0;
+		var from_center =
+			(event.modifier_state & Clutter.ModifierType.CONTROL_MASK) != 0;
 		float change_x = event.x - mouse_x;
 		float change_y = event.y - mouse_y;
+		drag_total_x += change_x;
+		drag_total_y += change_y;
+		
+		// if the 
+		
+		// if proportional drag is changed, reset and apply the full drag
+		if (proportional != proportional_drag)
+		{
+			selected.element.x = orig_x;
+			selected.element.y = orig_y;
+			selected.element.width = orig_w;
+			selected.element.height = orig_h;
+			
+			handle.drag(drag_total_x, drag_total_y,
+			            selected.element, proportional, from_center);
+			proportional_drag = proportional;
+			return true;
+		}
 		
 		// if control is held, resize from the center
-		if ((event.modifier_state & Clutter.ModifierType.CONTROL_MASK) != 0)
+		/*if ((event.modifier_state & Clutter.ModifierType.CONTROL_MASK) != 0)
 		{
 			handle.drag_from_center(factor * change_x, factor * change_y,
 			                        selected, p);
 		}
 		
 		// otherwise, drag normally
-		else
+		else*/
 		{
-			handle.drag(factor * change_x, factor * change_y, selected, p);
+			handle.drag(factor * change_x, factor * change_y,
+			            selected.element, proportional, from_center);
 		}
 		
 		mouse_x = event.x;
