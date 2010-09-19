@@ -23,7 +23,7 @@ internal class Ease.Handle : Clutter.CairoTexture
 	/**
 	 * The position of this handle relative to the selection rectangle.
 	 */
-	private HandlePosition position;
+	internal HandlePosition position;
 	
 	/**
 	 * If the handle is being dragged and should alter its appearance.
@@ -66,106 +66,176 @@ internal class Ease.Handle : Clutter.CairoTexture
 	 *
 	 * @param change_x The x drag distance.
 	 * @param change_y The y drag distance.
-	 * @param target The actor to update.
-	 * @param prop If any scaling should be proportional, if possible.
+	 * @param target The Element to update.
+	 * @param proportional If any scaling should be proportional, if possible.
+	 * @param from_center If the resize should operate from the center of the
+	 * target element.
 	 */
-	internal void drag(float change_x, float change_y, Actor target, bool prop)
+	internal void drag(float change_x, float change_y, Element target,
+	                   bool proportional, bool from_center)
 	{
+		float translate_x = 0, translate_y = 0, resize_x = 0, resize_y = 0;
+		
 		switch (position)
 		{
 			case HandlePosition.TOP_LEFT:
-				target.translate(change_x, change_y);
-				target.resize(-change_x, -change_y, prop);
+				if (proportional)
+				{
+					if (change_x / change_y > target.width / target.height)
+					{
+						translate_x = change_y * (target.width / target.height);
+						translate_y = change_y;
+					}
+					else
+					{
+						translate_y = change_x * (target.height / target.width);
+						translate_x = change_x;
+					}
+					resize_x = -translate_x;
+					resize_y = -translate_y;
+					break;
+				}
+				
+				translate_x = change_x;
+				translate_y = change_y;
+				resize_x = -change_x;
+				resize_y = -change_y;
 				break;
 				
 			case HandlePosition.TOP_RIGHT:
-				target.translate(0, change_y);
-				target.resize(change_x, -change_y, prop);
+				if (proportional)
+				{
+					if (change_x / change_y > target.width / target.height)
+					{
+						resize_x = change_y * (target.width / target.height);
+						resize_y = change_y;
+					}
+					else
+					{
+						resize_y = change_x * (target.height / target.width);
+						resize_x = change_x;
+					}
+					translate_y = -resize_y;
+					break;
+				}
+			
+				translate_y = change_y;
+				resize_x = change_x;
+				resize_y = -change_y;
 				break;
 				
 			case HandlePosition.TOP:
-				target.translate(0, change_y);
-				target.resize(0, -change_y, false);
+				if (proportional)
+				{
+					resize_x = -change_y * (target.width / target.height);
+					translate_x = -resize_x / 2;
+				}
+			
+				translate_y = change_y;
+				resize_y = -change_y;
 				break;
 				
 			case HandlePosition.BOTTOM:
-				target.resize(0, change_y, false);
+				if (proportional)
+				{
+					resize_x = change_y * (target.width / target.height);
+					translate_x = -resize_x / 2;
+				}
+			
+				resize_y = change_y;
 				break;
 				
 			case HandlePosition.LEFT:
-				target.translate(change_x, 0);
-				target.resize(-change_x, 0, false);
+				if (proportional)
+				{
+					resize_y = -change_x * (target.width / target.height);
+					translate_y = -resize_y / 2;
+				}
+			
+				translate_x = change_x;
+				resize_x = -change_x;
 				break;
 				
 			case HandlePosition.RIGHT:
-				target.resize(change_x, 0, false);
+				if (proportional)
+				{
+					resize_y = change_x * (target.width / target.height);
+					translate_y = -resize_y / 2;
+				}
+				
+				resize_x = change_x;
 				break;
 				
 			case HandlePosition.BOTTOM_LEFT:
-				target.translate(change_x, 0);
-				target.resize(-change_x, change_y, prop);
+				if (proportional)
+				{
+					if (change_x / change_y > target.width / target.height)
+					{
+						resize_x = -change_y * (target.width / target.height);
+						resize_y = -change_y;
+					}
+					else
+					{
+						resize_y = -change_x * (target.height / target.width);
+						resize_x = -change_x;
+					}
+					
+					translate_x = -resize_x;
+					break;
+				}
+			
+				translate_x = change_x;
+				resize_x = -change_x;
+				resize_y = change_y;
 				break;
 				
 			case HandlePosition.BOTTOM_RIGHT:
-				target.resize(change_x, change_y, prop);
+				if (proportional)
+				{
+					if (change_x / change_y > target.width / target.height)
+					{
+						resize_x = change_y * (target.width / target.height);
+						resize_y = change_y;
+					}
+					else
+					{
+						resize_y = change_x * (target.height / target.width);
+						resize_x = change_x;
+					}
+					break;
+				}
+			
+				resize_x = change_x;
+				resize_y = change_y;
 				break;
 		}
-	}
-	
-	/**
-	 * Performs a drag of the handle, scaling from the center. Updates the
-	 * selected {@link Actor}'s size and position.
-	 *
-	 * @param change_x The x drag distance.
-	 * @param change_y The y drag distance.
-	 * @param target The actor to update.
-	 * @param prop If any scaling should be proportional, if possible.
-	 */
-	internal void drag_from_center(float change_x, float change_y, Actor target,
-	                             bool prop)
-	{
-		switch (position)
+		
+		if (target.width + resize_x - translate_x <= target.get_minimum_width())
 		{
-			case HandlePosition.TOP_LEFT:
-				target.translate(change_x, change_y);
-				target.resize(-change_x * 2, -change_y * 2, false);
-				break;
-				
-			case HandlePosition.TOP_RIGHT:
-				target.translate(-change_x, change_y);
-				target.resize(change_x * 2, -change_y * 2, prop);
-				break;
-				
-			case HandlePosition.TOP:
-				target.translate(0, change_y);
-				target.resize(0, -change_y * 2, false);
-				break;
-				
-			case HandlePosition.BOTTOM:
-				target.translate(0, -change_y);
-				target.resize(0, change_y * 2, false);
-				break;
-				
-			case HandlePosition.LEFT:
-				target.translate(change_x, 0);
-				target.resize(-change_x * 2, 0, false);
-				break;
-				
-			case HandlePosition.RIGHT:
-				target.translate(-change_x, 0);
-				target.resize(change_x * 2, 0, false);
-				break;
-				
-			case HandlePosition.BOTTOM_LEFT:
-				target.translate(change_x, -change_y);
-				target.resize(-change_x * 2, change_y * 2, prop);
-				break;
-				
-			case HandlePosition.BOTTOM_RIGHT:
-				target.translate(-change_x, -change_y);
-				target.resize(change_x * 2, change_y * 2, prop);
-				break;
+			translate_x = 0;
+			resize_x = 0;
+			if (proportional)
+			{
+				translate_y = 0;
+				resize_y = 0;
+			}
 		}
+		if (target.height + resize_y - translate_y <=
+		    target.get_minimum_height())
+		{
+			translate_y = 0;
+			resize_y = 0;
+			if (proportional)
+			{
+				translate_x = 0;
+				resize_x = 0;
+			}
+		}
+		
+		target.x += translate_x;
+		target.y += translate_y;
+		target.width += resize_x;
+		target.height += resize_y;
 	}
 	
 	/**

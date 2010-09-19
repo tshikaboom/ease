@@ -466,11 +466,11 @@ internal class Ease.InspectorTransitionPane : InspectorPane
 		
 		// add new slide previews
 		current_slide = new SlideActor.from_slide(document, slide, true,
-		                                          ActorContext.PRESENTATION);
+		                                          ActorContext.INSPECTOR);
 		
 		new_slide = document.has_next_slide(slide) ?
 		            new SlideActor.from_slide(document, slide.next, true,
-		                                      ActorContext.PRESENTATION) :
+		                                      ActorContext.INSPECTOR) :
 		            new SlideActor.blank(document, { 0, 0, 0, 255 });
 		
 		preview_group.add_actor(current_slide);

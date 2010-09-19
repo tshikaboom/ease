@@ -33,6 +33,16 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	 * The default height of {@link Theme} master slides.
 	 */
 	private const float THEME_HEIGHT = 600;
+	
+	/**
+	 * The default height minimum Element width.
+	 */
+	private const float DEFAULT_MIN_WIDTH = 20;
+	
+	/**
+	 * The default height minimum Element height.
+	 */
+	private const float DEFAULT_MIN_HEIGHT = 20;
 
 	/**
 	 * The {@link Slide} that this Element is a part of.
@@ -252,6 +262,28 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	public virtual Clutter.Color? get_color()
 	{
 		return null;
+	}
+	
+	/**
+	 * This method represents the minimum width of this Element type. The user
+	 * will be unable to resize the Element's width any smaller than this.
+	 * If desired, subclasses can override this method to provide a custom
+	 * minimum size.
+	 */
+	public virtual float get_minimum_width()
+	{
+		return DEFAULT_MIN_WIDTH;
+	}
+	
+	/**
+	 * This method represents the minimum height of this Element type. The user
+	 * will be unable to resize the Element's height any smaller than this.
+	 * If desired, subclasses can override this method to provide a custom
+	 * minimum size.
+	 */
+	public virtual float get_minimum_height()
+	{
+		return DEFAULT_MIN_HEIGHT;
 	}
 	
 	/**
