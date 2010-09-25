@@ -420,8 +420,11 @@ internal class Ease.EditorWindow : Gtk.Window
 	{
 		undo.undo();
 		update_undo();
-		embed.slide_actor.relayout();
-		embed.reposition_group();
+		
+		// i don't this these are required, but if something breaks...
+		//embed.slide_actor.relayout();
+		//embed.reposition_group();
+		slide.changed(slide);
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -429,8 +432,11 @@ internal class Ease.EditorWindow : Gtk.Window
 	{
 		undo.redo();
 		update_undo();
-		embed.slide_actor.relayout();
-		embed.reposition_group();
+		
+		// i don't this these are required, but if something breaks...
+		//embed.slide_actor.relayout();
+		//embed.reposition_group();
+		slide.changed(slide);
 	}
 	
 	[CCode (instance_pos = -1)]

@@ -391,6 +391,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 		listen(e);
 		update_title(e);
 		if (emit_undo) undo(new ElementAddUndoAction(e));
+		changed(this);
 	}
 	
 	/**
@@ -430,6 +431,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 				title_reset(this);
 			}
 		}
+		changed(this);
 	}
 	
 	/**
