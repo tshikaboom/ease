@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-08-23 12:44+0000\n"
-"PO-Revision-Date: 2010-08-30 06:17+0200\n"
+"POT-Creation-Date: 2010-08-30 04:18+0000\n"
+"PO-Revision-Date: 2010-10-07 14:22+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,15 +36,15 @@ msgstr "Guardando «%s»"
 msgid "Temporary directory doesn't exist: %s"
 msgstr "La carpeta temporal no existe: %s"
 
-#: ../ease-core/ease-background.vala:210
+#: ../ease-core/ease-background.vala:238
 msgid "Solid Color"
 msgstr "Color sólido"
 
-#: ../ease-core/ease-background.vala:211
+#: ../ease-core/ease-background.vala:239
 msgid "Gradient"
 msgstr "Degradado"
 
-#: ../ease-core/ease-background.vala:212
+#: ../ease-core/ease-background.vala:240
 msgid "Image"
 msgstr "Imagen"
 
@@ -52,16 +52,16 @@ msgstr "Imagen"
 msgid "Select Background Image"
 msgstr "Seleccionar la imagen de fondo"
 
-#: ../ease-core/ease-background-widget.vala:164
-#: ../ease-core/ease-background-widget.vala:214
-#: ../ease/ease-editor-window.vala:434 ../ease/ease-import-dialog.vala:33
+#: ../ease-core/ease-background-widget.vala:188
+#: ../ease-core/ease-background-widget.vala:238
+#: ../ease/ease-editor-window.vala:453 ../ease/ease-import-dialog.vala:33
 msgid "Images"
 msgstr "Imágenes"
 
-#: ../ease-core/ease-background-widget.vala:169
-#: ../ease-core/ease-background-widget.vala:219
+#: ../ease-core/ease-background-widget.vala:193
+#: ../ease-core/ease-background-widget.vala:243
 #: ../ease-core/ease-dialogs.vala:84 ../ease-core/ease-dialogs.vala:155
-#: ../ease/ease-editor-window.vala:439 ../ease/ease-editor-window.vala:542
+#: ../ease/ease-editor-window.vala:458 ../ease/ease-editor-window.vala:561
 msgid "All Files"
 msgstr "Todos los archivos"
 
@@ -76,33 +76,33 @@ msgstr "Presentaciones Ease"
 #. *
 #. * Default slide title.
 #.
-#: ../ease-core/ease-document.vala:71
+#: ../ease-core/ease-document.vala:80
 #, c-format
 msgid "Slide %i"
 msgstr "Diapositiva %i"
 
 #. archive
-#: ../ease-core/ease-document.vala:260
+#: ../ease-core/ease-document.vala:278
 msgid "Saving Document"
 msgstr "Guardando documento"
 
-#: ../ease-core/ease-document.vala:474
+#: ../ease-core/ease-document.vala:517
 msgid "Export as PDF"
 msgstr "Exportar como PDF"
 
-#: ../ease-core/ease-document.vala:484
+#: ../ease-core/ease-document.vala:527
 msgid "Error Exporting to PDF"
 msgstr "Error al exportar a PDF"
 
-#: ../ease-core/ease-document.vala:495
+#: ../ease-core/ease-document.vala:538
 msgid "Export as PostScript"
 msgstr "Exportar como PostScript"
 
-#: ../ease-core/ease-document.vala:505
+#: ../ease-core/ease-document.vala:548
 msgid "Error Exporting to PostScript"
 msgstr "Error al exportar a PostScript"
 
-#: ../ease-core/ease-document.vala:552
+#: ../ease-core/ease-document.vala:595
 msgid "Error exporting as HTML"
 msgstr "Error al exportar como HTML"
 
@@ -136,7 +136,7 @@ msgstr "Error al copiar el archivo"
 msgid "Error loading ImageActor: %s\n"
 msgstr "Error al cargar ImageActor: %s\n"
 
-#: ../ease-core/ease-image-element.vala:99 ../ease/ease-editor-window.vala:491
+#: ../ease-core/ease-image-element.vala:99 ../ease/ease-editor-window.vala:510
 msgid "Error Inserting Image"
 msgstr "Error al insertar la imagen"
 
@@ -244,7 +244,7 @@ msgstr "Voltear"
 
 #: ../ease-core/ease-transitions.vala:228
 msgid "Revolving Door"
-msgstr ""
+msgstr "Puerta giratoria"
 
 #: ../ease-core/ease-transitions.vala:230
 msgid "Reveal"
@@ -279,7 +279,6 @@ msgid "Panel"
 msgstr "Panel"
 
 #: ../ease-core/ease-transitions.vala:246
-#| msgid "Spin Contents"
 msgid "Intersperse Contents"
 msgstr "Intercalar contenido"
 
@@ -293,7 +292,7 @@ msgstr "Aparecer contenido"
 
 #: ../ease-core/ease-transitions.vala:252
 msgid "Swing Contents"
-msgstr ""
+msgstr "Oscilar contenido"
 
 #: ../ease-core/ease-transitions.vala:254
 msgid "Slide Contents"
@@ -376,7 +375,7 @@ msgstr "Dentro"
 msgid "Out"
 msgstr "Fuera"
 
-#: ../ease-core/ease-utilities.vala:207
+#: ../ease-core/ease-utilities.vala:274
 #, c-format
 msgid "Directory to remove doesn't exist: %s"
 msgstr "No existe la carpeta para quitar: %s"
@@ -402,7 +401,6 @@ msgid "A presentation application for the GNOME Desktop"
 msgstr "Una aplicación de presentaciones para el Escritorio GNOME"
 
 #: ../ease/ease-about-dialog.vala:67
-#| msgid "Mario Blättermann"
 msgid "Mario Blättermann <mariobl@gnome.org>"
 msgstr "Mario Blättermann <mariobl@gnome.org>"
 
@@ -497,56 +495,53 @@ msgstr[1] ""
 msgid "Save changes to \"%s\" before closing?"
 msgstr "¿Guardar cambios en «%s» antes de cerrar?"
 
-#: ../ease/ease-editor-window.vala:153
+#: ../ease/ease-editor-window.vala:168
 msgid "The quick brown fox jumps over the lazy dog"
 msgstr "Jovencillo emponzoñado de whisky, ¡qué figurota exhibe!"
 
-#: ../ease/ease-editor-window.vala:247
+#: ../ease/ease-editor-window.vala:266
 msgid "Untitled Document"
 msgstr "Documento sin título"
 
-#: ../ease/ease-editor-window.vala:430
+#: ../ease/ease-editor-window.vala:449
 msgid "Insert Image"
 msgstr "Insertar imagen"
 
-#: ../ease/ease-editor-window.vala:498
+#: ../ease/ease-editor-window.vala:517
 msgid "Insert Video"
 msgstr "Insertar vídeo"
 
-#: ../ease/ease-editor-window.vala:523
+#: ../ease/ease-editor-window.vala:542
 msgid "Error Inserting Video"
 msgstr "Error al insertar el vídeo"
 
-#: ../ease/ease-editor-window.vala:531
-#| msgid "Open Document"
+#: ../ease/ease-editor-window.vala:550
 msgid "Insert PDF Document"
 msgstr "Insertar documento PDF"
 
-#: ../ease/ease-editor-window.vala:537
-#| msgid "Open Document"
+#: ../ease/ease-editor-window.vala:556
 msgid "PDF Documents"
 msgstr "Documentos PDF"
 
-#: ../ease/ease-editor-window.vala:576
-#| msgid "Error Inserting Image"
+#: ../ease/ease-editor-window.vala:595
 msgid "Error Inserting PDF"
 msgstr "Error al insertar el PDF"
 
-#: ../ease/ease-editor-window.vala:668
+#: ../ease/ease-editor-window.vala:719
 msgid "Save Document"
 msgstr "Guardar documento"
 
-#: ../ease/ease-editor-window.vala:684
+#: ../ease/ease-editor-window.vala:735
 msgid "Error Saving Document"
 msgstr "Error al guardar el documento"
 
 #. create the dialog
-#: ../ease/ease-editor-window.vala:770
+#: ../ease/ease-editor-window.vala:814
 msgid "Select Color"
 msgstr "Seleccionar color"
 
 #. create a font selection dialog
-#: ../ease/ease-editor-window.vala:837
+#: ../ease/ease-editor-window.vala:881
 msgid "Select Font"
 msgstr "Seleccionar tipografía"
 
@@ -563,31 +558,31 @@ msgstr "Importar multimedia"
 msgid "Downloading Media Files"
 msgstr "Descargar archivos multimedia"
 
-#: ../ease/ease-inspector-transition-pane.vala:71
+#: ../ease/ease-inspector-transition-pane.vala:73
 msgid "Effect"
 msgstr "Efecto"
 
-#: ../ease/ease-inspector-transition-pane.vala:85
+#: ../ease/ease-inspector-transition-pane.vala:87
 msgid "Duration"
 msgstr "Duración"
 
-#: ../ease/ease-inspector-transition-pane.vala:99
+#: ../ease/ease-inspector-transition-pane.vala:101
 msgid "Direction"
 msgstr "Dirección"
 
-#: ../ease/ease-inspector-transition-pane.vala:115
+#: ../ease/ease-inspector-transition-pane.vala:117
 msgid "Start Transition"
 msgstr "Iniciar la transición"
 
-#: ../ease/ease-inspector-transition-pane.vala:118
+#: ../ease/ease-inspector-transition-pane.vala:120
 msgid "Manually"
 msgstr "Manualmente"
 
-#: ../ease/ease-inspector-transition-pane.vala:119
+#: ../ease/ease-inspector-transition-pane.vala:121
 msgid "Automatically"
 msgstr "Automáticamente"
 
-#: ../ease/ease-inspector-transition-pane.vala:129
+#: ../ease/ease-inspector-transition-pane.vala:131
 msgid "Delay"
 msgstr "Retardo"
 
@@ -601,15 +596,15 @@ msgstr ": Un editor de presentaciones"
 msgid "error parsing options: %s\n"
 msgstr "error al analizar las opciones: %s\n"
 
-#: ../ease/ease-main.vala:216
+#: ../ease/ease-main.vala:217
 msgid "Error Opening Document"
 msgstr "Error al abrir el documento"
 
-#: ../ease/ease-main.vala:245
+#: ../ease/ease-main.vala:246
 msgid "Error Playing Document"
 msgstr "Error al reproducir el documento"
 
-#: ../ease/ease-main.vala:263
+#: ../ease/ease-main.vala:264
 msgid "Error creating new document"
 msgstr "Error al crear el nuevo documento"
 
