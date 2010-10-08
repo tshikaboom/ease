@@ -236,9 +236,11 @@ public class Ease.Slide : GLib.Object, UndoSource
 	/**
 	 * Constructs a Slide from a JsonObject.
 	 */
-	internal Slide.from_json(Json.Object obj)
+	internal Slide.from_json(Json.Object obj, Document owner)
 	{
 		this();
+		
+		parent = owner;
 		
 		var slide = new Slide();
 		
@@ -305,7 +307,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 					e = new VideoElement.from_json(node);
 					break;
 				case PDF_TYPE:
-					e = new PdfElement.from_json(node);
+					e = new PdfElement.from_json(node, this);
 					break;
 				default: // text element, probably plugins later...
 					e = new TextElement.from_json(node);
