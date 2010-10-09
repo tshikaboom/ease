@@ -102,6 +102,7 @@ public class Ease.Theme : GLib.Object
 	
 	// pdf properties
 	public const string PDF_DEFAULT_PAGE = "pdf-default-page";
+	public const string PDF_ALLOW_FLIPPING = "pdf-allow-flipping";
 	
 	// gradient types
 	public const string GRAD_LINEAR = "linear";

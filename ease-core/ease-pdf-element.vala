@@ -20,12 +20,18 @@
  */
 public class Ease.PdfElement : MediaElement
 {
-	private const string UI_FILE = "inspector-element-pdf.ui";	
+	private const string UI_FILE = "inspector-element-pdf.ui";
+	private const int DEFAULT_PAGE = 0;
 	
 	/**
 	 * The page of the PDF file that is initially displayed.
 	 */
-	public int default_page { get; set; default = 0; }
+	public int displayed_page { get; set; default = 0; }
+	
+	/**
+	 * Whether or not the user can change pages in the presentation.
+	 */
+	public bool allow_flipping { get; set; default = true; }
 	
 	/**
 	 * The background displayed behind the PDF (if it is visible)
@@ -41,9 +47,8 @@ public class Ease.PdfElement : MediaElement
 	
 	public PdfElement(string filename)
 	{
-		pdf_doc = new Poppler.Document.from_file(
-			Filename.to_uri(filename),
-			null);
+		pdf_doc = new Poppler.Document.from_file(Filename.to_uri(filename),
+		                                         null);
 		background = new Background.white();
 		signals();
 	}
@@ -52,14 +57,14 @@ public class Ease.PdfElement : MediaElement
 	{
 		base.from_json(obj);
 		parent = owner;
-		default_page = obj.get_string_member(Theme.PDF_DEFAULT_PAGE).to_int();
+		displayed_page = obj.get_string_member(Theme.PDF_DEFAULT_PAGE).to_int();
+		allow_flipping = obj.get_boolean_member(Theme.PDF_ALLOW_FLIPPING);
 		
 		background =
 			new Background.from_json(obj.get_object_member(Theme.BACKGROUND));
 		
-		pdf_doc = new Poppler.Document.from_file(
-			Filename.to_uri(full_filename),
-			null);
+		pdf_doc = new Poppler.Document.from_file(Filename.to_uri(full_filename),
+		                                         null);
 	}	
 	
 	public override Actor actor(ActorContext c)
@@ -71,7 +76,8 @@ public class Ease.PdfElement : MediaElement
 	{
 		var obj = base.to_json();
 		obj.set_object_member(Theme.BACKGROUND, background.to_json());
-		obj.set_string_member(Theme.PDF_DEFAULT_PAGE, default_page.to_string());
+		obj.set_string_member(Theme.PDF_DEFAULT_PAGE, displayed_page.to_string());
+		obj.set_boolean_member(Theme.PDF_ALLOW_FLIPPING, allow_flipping);
 		return obj;
 	}
 	
@@ -115,7 +121,7 @@ public class Ease.PdfElement : MediaElement
 		                        parent.parent.path);
 		
 		// get the current page
-		var page = pdf_doc.get_page(default_page);
+		var page = pdf_doc.get_page(displayed_page);
 		
 		// scale the context
 		double w = 0, h = 0;
@@ -128,6 +134,8 @@ public class Ease.PdfElement : MediaElement
 	
 	public override Gtk.Widget inspector_widget()
 	{
+		bool silence_undo = false;
+		
 		var builder = new Gtk.Builder();
 		try
 		{
@@ -148,12 +156,40 @@ public class Ease.PdfElement : MediaElement
 		// connect the slider's changed signal
 		scale.value_changed.connect(() => {
 			// create an undo acton
-			var action = new UndoAction(this, "default-page");
+			var action = new UndoAction(this, "displayed-page");
+			changed();
 			
-			default_page = (int)scale.adjustment.value;
+			displayed_page = (int)scale.adjustment.value;
 			
 			// emit the undoaction
-			undo(action);
+			if (!silence_undo) undo(action);
+		});
+		
+		notify["displayed-page"].connect(() => {
+			silence_undo = true;
+			scale.adjustment.value = displayed_page;
+			changed();
+			silence_undo = false;
+		});
+		
+		// set up the flipping
+		var flip = builder.get_object("allow-flipping") as Gtk.CheckButton;
+		flip.active = allow_flipping;
+		
+		flip.toggled.connect((button) => {
+			// create an undo acton
+			var action = new UndoAction(this, "allow-flipping");
+			
+			allow_flipping = button.active;
+			
+			// emit the undoaction
+			if (!silence_undo) undo(action);
+		});
+		
+		notify["allow-flipping"].connect(() => {
+			silence_undo = true;
+			flip.active = allow_flipping;
+			silence_undo = false;
 		});
 		
 		// add a background widget
