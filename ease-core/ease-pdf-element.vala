@@ -54,7 +54,8 @@ public class Ease.PdfElement : MediaElement
 		parent = owner;
 		default_page = obj.get_string_member(Theme.PDF_DEFAULT_PAGE).to_int();
 		
-		background = new Background.from_json(obj);
+		background =
+			new Background.from_json(obj.get_object_member(Theme.BACKGROUND));
 		
 		pdf_doc = new Poppler.Document.from_file(
 			Filename.to_uri(full_filename),
@@ -69,7 +70,7 @@ public class Ease.PdfElement : MediaElement
 	public override Json.Object to_json()
 	{
 		var obj = base.to_json();
-		background.to_json(ref obj);
+		obj.set_object_member(Theme.BACKGROUND, background.to_json());
 		obj.set_string_member(Theme.PDF_DEFAULT_PAGE, default_page.to_string());
 		return obj;
 	}

@@ -112,8 +112,10 @@ public class Ease.Background : GLib.Object
 	/**
 	 * Writes this background's properties to the given JSON object.
 	 */
-	public void to_json(ref Json.Object obj)
+	public Json.Object to_json()
 	{
+		var obj = new Json.Object();
+	
 		if (image != null)
 		{
 			obj.set_string_member(Theme.BACKGROUND_IMAGE, image.filename);
@@ -133,6 +135,7 @@ public class Ease.Background : GLib.Object
 		}
 		obj.set_string_member(Theme.BACKGROUND_TYPE,
 		                      background_type.to_string());
+		return obj;
 	}
 	
 	/**
