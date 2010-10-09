@@ -16,10 +16,10 @@ pkgconfig_DATA = \
     pkgconfig/ease-core-@EASE_CORE_VERSION@.pc \
     pkgconfig/flutter-@FLUTTER_VERSION@.pc
     
-run: ease/ease
+run: all
 	ease/ease
 
-db: ease/ease
+db: all
 	libtool --mode=execute gdb ease/ease
 
 doc: ease-core/*.vala
