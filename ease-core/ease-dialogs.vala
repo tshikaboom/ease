@@ -20,6 +20,42 @@
  */
 namespace Ease.Dialog
 {
+	private const string VERIFY_EASE_SECONDARY =
+		_("The specified filename does not end with a \".ease\" extension. Would you like to append one?");
+	private const string VERIFY_EASE_PRIMARY = _("Append .ease?");
+	
+	private const string VERIFY_OVERWRITE_FMT = _("Overwrite %s?");
+	private const string VERIFY_OVERWRITE_SECONDARY_FMT =
+		_("The file \"%s\" already exists. Would you like to overwrite it?");
+	
+	/**
+	 * Displays a question (Yes/No/Cancel) dialog.
+	 */
+	public Gtk.ResponseType question(string title, string main_text,
+	                                 string secondary_text, Gtk.Window? modal,
+	                                 bool with_cancel)
+	{
+		var dialog = new Gtk.MessageDialog.with_markup(modal,
+		                                               Gtk.DialogFlags.MODAL,
+		                                               Gtk.MessageType.QUESTION,
+		                                               0, null);
+		// set text
+		dialog.use_markup = dialog.secondary_use_markup = true;
+		dialog.text = main_text;
+		dialog.secondary_text = secondary_text;
+		
+		// add buttons
+		dialog.add_buttons("gtk-yes", Gtk.ResponseType.YES,
+		                   "gtk-no", Gtk.ResponseType.NO, null);
+		if (with_cancel) dialog.add_button("gtk-cancel",
+		                                   Gtk.ResponseType.CANCEL);
+		
+		// run the dialog
+		var ret = (Gtk.ResponseType)dialog.run();
+		dialog.destroy();
+		return ret;
+	}
+	
 	/**
 	 * Displays an "Open" dialog with the specified title. Returns null if
 	 * cancelled, otherwise returns the selected path.
@@ -96,7 +132,7 @@ namespace Ease.Dialog
 	 */
 	public string? save(string title, Gtk.Window? modal)
 	{
-		return save_ext(title, modal, null);
+		return save_real(title, modal, null, null);
 	}
 
 	/**
@@ -110,28 +146,31 @@ namespace Ease.Dialog
 	 * @param ext A function to modify the dialog before it is displayed.
 	 */
 	public string? save_ext(string title, Gtk.Window? modal,
-	                        FileChooserDialogExtension? ext)
+	                        FileChooserDialogExtension ext)
 	{
-		var dialog = new Gtk.FileChooserDialog(title,
-			                                   modal,
-			                                   Gtk.FileChooserAction.SAVE,
-			                                   "gtk-save",
-			                                   Gtk.ResponseType.ACCEPT,
-			                                   "gtk-cancel",
-			                                   Gtk.ResponseType.CANCEL,
-			                                   null);
-		if (ext != null) ext(dialog);
-		
-		if (dialog.run() == Gtk.ResponseType.ACCEPT)
-		{
-			// clean up the file dialog
-			string path = dialog.get_filename();
-			dialog.destroy();
-			return path;
-		}
-		dialog.destroy();
-		return null;
+		return save_real(title, modal, ext, null);
 	}
+	
+	/**
+	 * Displays an "Save" dialog with the specified title. The
+	 * {@link FileChooserDialogExtension} can be used to modify the
+	 * dialog before it is displayed. Upon completion, a
+	 * {@link FileChooserDialogVerify} can be used to modify the return value
+	 * of the dialog. Returns null if cancelled, otherwise returns the selected
+	 * path (with any modifications).
+	 *
+	 * @param title The dialog's title.
+	 * @param modal The window that the dialog should be modal for.
+	 * @param ext A function to modify the dialog before it is displayed.
+	 * @param verify A function to verify the dialog's return path.
+	 */
+	public string? save_verified(string title, Gtk.Window? modal,
+	                             FileChooserDialogExtension ext,
+	                             FileChooserDialogVerify verify)
+	{
+		return save_real(title, modal, ext, verify);
+	}
+	
 	
 	/**
 	 * Displays an "Save" dialog for an Ease {@link Document}. Returns null if
@@ -143,24 +182,166 @@ namespace Ease.Dialog
 	 */
 	public string? save_document(string title, Gtk.Window? modal)
 	{
-		return save_ext(title, modal, (dialog) => {
-			// add a filter for ease documents
-			var filter = new Gtk.FileFilter();
-			filter.add_pattern("*.ease");
-			filter.set_name(_("Ease Presentations"));
-			dialog.add_filter(filter);
+		return save_verified(title, modal,
+			// extension function
+			(dialog) => {
+				// add a filter for ease documents
+				var filter = new Gtk.FileFilter();
+				filter.add_pattern("*.ease");
+				filter.set_name(_("Ease Presentations"));
+				dialog.add_filter(filter);
 			
-			// add a filter for all files
-			filter = new Gtk.FileFilter();
-			filter.set_name(_("All Files"));
-			filter.add_pattern("*");
-			dialog.add_filter(filter);
+				// add a filter for all files
+				filter = new Gtk.FileFilter();
+				filter.set_name(_("All Files"));
+				filter.add_pattern("*");
+				dialog.add_filter(filter);
+			},
+		
+			// verification function
+			(dialog) => {
+				// get the current filename
+				var filename = Path.get_basename(dialog.get_filename());
+				
+				// let's see if it already has .ease
+				bool has_suffix = filename.has_suffix(".ease");
+				
+				// if there's no .ease suffix
+				if (!has_suffix)
+				{
+					// ask the user if they'd like to append .ease
+					var code = question(VERIFY_EASE_PRIMARY,
+					                    VERIFY_EASE_PRIMARY,
+						                VERIFY_EASE_SECONDARY,
+							            modal, true);
+			
+					// react to the response, nothing needs to be done for "no"
+					switch (code)
+					{
+						case Gtk.ResponseType.CANCEL:
+							return DialogCode.REJECT;
+					
+						case Gtk.ResponseType.YES:
+							// append .ease to the filename
+							dialog.set_current_name(filename + ".ease");
+							break;
+					}
+				}
+				
+				// now let's check for filename collisions
+				if (FileUtils.test(dialog.get_filename(), FileTest.EXISTS))
+				{
+					// ask the user if they'd like to overwrite
+					var code = question(
+						VERIFY_OVERWRITE_FMT.printf(
+							Path.get_basename(dialog.get_filename())),
+						VERIFY_OVERWRITE_FMT.printf(
+							Path.get_basename(dialog.get_filename())),
+						VERIFY_OVERWRITE_SECONDARY_FMT.printf(
+							Path.get_basename(dialog.get_filename())),
+						modal, true);
+					
+					// react to the response
+					switch (code)
+					{
+						case Gtk.ResponseType.CANCEL:
+							return DialogCode.REJECT;
+					
+						case Gtk.ResponseType.YES:
+							return DialogCode.ACCEPT;
+						
+						default: // NO
+							return DialogCode.REINVOKE;
+					}
+				}
+				
+				// if no collisons, we're good to save
+				return DialogCode.ACCEPT;
 		});
+	}
+	
+	private string save_real(string title, Gtk.Window? modal,
+	                         FileChooserDialogExtension? ext,
+	                         FileChooserDialogVerify? verify)
+	{
+		var dialog = new Gtk.FileChooserDialog(title,
+			                                   modal,
+			                                   Gtk.FileChooserAction.SAVE,
+			                                   "gtk-save",
+			                                   Gtk.ResponseType.ACCEPT,
+			                                   "gtk-cancel",
+			                                   Gtk.ResponseType.CANCEL,
+			                                   null);
+		// run the extension function if applicable
+		if (ext != null) ext(dialog);
+		
+		// default to ACCEPT (so we leave the loop if there is no verify func)
+		DialogCode code = DialogCode.ACCEPT;
+		do
+		{
+			// return if the user cancels in the save dialog
+			if (dialog.run() != Gtk.ResponseType.ACCEPT)
+			{
+				dialog.destroy();
+				return null;
+			}
+			
+			// (potentially temporarily) hide the dialog
+			dialog.hide();
+			
+			// run the verification function
+			if (verify != null) code = verify(dialog);
+			
+			// return if the user cancels in the verification function
+			if (code == DialogCode.REJECT)
+			{
+				dialog.destroy();
+				return null;
+			}
+			
+			// if the dialog is coming back, present it
+			if (code == DialogCode.REINVOKE) dialog.present();
+		}
+		while (code != DialogCode.ACCEPT); // otherwise, continue until accept
+		
+		// clean up the file dialog and return the path
+		string path = dialog.get_filename();
+		dialog.destroy();
+		return path;
 	}
 	
 	/**
 	 * Allows a caller to manipulate a dialog before is is displayed.
 	 */
 	public delegate void FileChooserDialogExtension(Gtk.FileChooserDialog d);
+	
+	/**
+	 * Allows a caller to manipulate the return value of a dialog, and
+	 * potentially reinvoke it.
+	 */
+	public delegate DialogCode FileChooserDialogVerify(Gtk.FileChooserDialog d);
+	
+	/**
+	 * Enumerates the possible behaviors a {@link FileChooserDialogVerify} can
+	 * request.
+	 */
+	public enum DialogCode
+	{
+		/**
+		 * Causes the dialog to return its (potentially modified) path
+		 */
+		ACCEPT,
+		
+		/**
+		 * Causes the dialog to return null, as if no path was selected.
+		 */
+		REJECT,
+		
+		/**
+		 * Causes the dialog to run again. This will rerun any associated
+		 * {@link FileChooserDialogExtension} and recreate the dialog.
+		 */
+		REINVOKE;
+	}
 }
 
