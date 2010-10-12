@@ -174,19 +174,19 @@ internal class Ease.WelcomeActor : Clutter.Group
 	 */
 	internal void set_actor_size(float w, float h)
 	{
-		rect.width = roundd(w) + RECT_B_W * 2;
-		rect.height = roundd(h) + RECT_B_W * 2;
+		rect.width = Math.roundf(w) + RECT_B_W * 2;
+		rect.height = Math.roundf(h) + RECT_B_W * 2;
 		
-		hilight_rect.width = roundd(w) + HLRECT_W * 2;
-		hilight_rect.height = roundd(h) + HLRECT_W * 2;
+		hilight_rect.width = Math.roundf(w) + HLRECT_W * 2;
+		hilight_rect.height = Math.roundf(h) + HLRECT_W * 2;
 		
-		text.x = roundd(w / 2 - text.width / 2);
-		text.y = roundd(h + TEXT_OFFSET);
+		text.x = Math.roundf(w / 2 - text.width / 2);
+		text.y = Math.roundf(h + TEXT_OFFSET);
 		
 		if (slide_actor != null)
 		{
-			slide_actor.width = roundd(w);
-			slide_actor.height = roundd(h);
+			slide_actor.width = Math.roundf(w);
+			slide_actor.height = Math.roundf(h);
 		}
 	}
 	

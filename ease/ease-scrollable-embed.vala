@@ -73,6 +73,8 @@ internal class Ease.ScrollableEmbed : Gtk.HBox
 		v_adjust = new Gtk.Adjustment(0, 0, 1, 0.1, 0.1, 0.1);
 		v_scrollbar = new Gtk.VScrollbar(v_adjust);
 		z_adjust = new Gtk.Adjustment(0, 0, 1, 0.1, 0.1, 0.1);
+		
+		debug("%f %f", v_adjust.value, v_adjust.upper);
 
 		// set up clutter actors
 		viewport = new GtkClutter.Viewport(h_adjust, v_adjust, z_adjust);
@@ -150,14 +152,14 @@ internal class Ease.ScrollableEmbed : Gtk.HBox
 			switch (event.direction)
 			{
 				case Gdk.ScrollDirection.UP:
-					v_adjust.value = dmin(v_adjust.upper,
-					                 dmax(v_adjust.lower,
+					v_adjust.value = Math.fmin(v_adjust.upper,
+					                 Math.fmax(v_adjust.lower,
 					                           v_adjust.value -
 					                           v_adjust.step_increment));
 					break;
 				case Gdk.ScrollDirection.DOWN:
-					v_adjust.value = dmin(v_adjust.upper,
-					                 dmax(v_adjust.lower,
+					v_adjust.value = Math.fmin(v_adjust.upper,
+					                 Math.fmax(v_adjust.lower,
 					                           v_adjust.value +
 					                           v_adjust.step_increment));
 					break;
