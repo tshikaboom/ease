@@ -24,16 +24,28 @@ namespace Ease.Dialog
 		_("The specified filename does not end with a \".ease\" extension. Would you like to append one?");
 	private const string VERIFY_EASE_PRIMARY = _("Append .ease?");
 	
-	private const string VERIFY_OVERWRITE_FMT = _("Overwrite %s?");
+	private const string VERIFY_OVERWRITE_TITLE = _("Replace %s?");
+	private const string VERIFY_OVERWRITE_FMT =
+		_("A file named %s already exists. Do you want to replace it?");
 	private const string VERIFY_OVERWRITE_SECONDARY_FMT =
-		_("The file \"%s\" already exists. Would you like to overwrite it?");
+		_("This file already exists in %s. Overwriting it will replace its contents.");
 	
 	/**
-	 * Displays a question (Yes/No/Cancel) dialog.
+	 * Displays a question dialog.
+	 *
+	 * The varargs provide text or stock IDs for buttons. These should be
+	 * paired with a Gtk.ResponseType. The list must be terminated with null.
+	 *
+	 * @param title The title of the dialog.
+	 * @param main_text The large text displayed on the dialog.
+	 * @param secondary_text The secondary (small) text on the dialog.
+	 * @param modal A window that the dialog should be modal for.
+	 * @param default_response The default response for the dialog.
 	 */
 	public Gtk.ResponseType question(string title, string main_text,
 	                                 string secondary_text, Gtk.Window? modal,
-	                                 bool with_cancel)
+	                                 Gtk.ResponseType default_response,
+	                                 ...)
 	{
 		var dialog = new Gtk.MessageDialog.with_markup(modal,
 		                                               Gtk.DialogFlags.MODAL,
@@ -44,11 +56,21 @@ namespace Ease.Dialog
 		dialog.text = main_text;
 		dialog.secondary_text = secondary_text;
 		
-		// add buttons
-		dialog.add_buttons("gtk-yes", Gtk.ResponseType.YES,
-		                   "gtk-no", Gtk.ResponseType.NO, null);
-		if (with_cancel) dialog.add_button("gtk-cancel",
-		                                   Gtk.ResponseType.CANCEL);
+		// handle varargs
+		var l = va_list();
+		while (true)
+		{
+			// grab arguments (or break)
+			string? button = l.arg();
+			if (button == null) break;
+			Gtk.ResponseType type = l.arg();
+			
+			// add the button
+			dialog.add_button(button, type);
+		}
+		
+		// set default response
+		dialog.set_default_response(default_response);
 		
 		// run the dialog
 		var ret = (Gtk.ResponseType)dialog.run();
@@ -213,7 +235,15 @@ namespace Ease.Dialog
 					var code = question(VERIFY_EASE_PRIMARY,
 					                    VERIFY_EASE_PRIMARY,
 						                VERIFY_EASE_SECONDARY,
-							            modal, true);
+							            modal,
+							            Gtk.ResponseType.YES,
+							            _("Don't append .ease"),
+							            Gtk.ResponseType.NO,
+							            "gtk-cancel",
+							            Gtk.ResponseType.CANCEL,
+							            _("Append .ease"),
+							            Gtk.ResponseType.YES,
+							            null);
 			
 					// react to the response, nothing needs to be done for "no"
 					switch (code)
@@ -231,15 +261,25 @@ namespace Ease.Dialog
 				// now let's check for filename collisions
 				if (FileUtils.test(dialog.get_filename(), FileTest.EXISTS))
 				{
+					var components =
+						Path.get_dirname(dialog.get_filename()).split("/");
+					var folder = components[components.length - 1];
+					var bname = Path.get_basename(dialog.get_filename());
+					
 					// ask the user if they'd like to overwrite
 					var code = question(
-						VERIFY_OVERWRITE_FMT.printf(
-							Path.get_basename(dialog.get_filename())),
-						VERIFY_OVERWRITE_FMT.printf(
-							Path.get_basename(dialog.get_filename())),
-						VERIFY_OVERWRITE_SECONDARY_FMT.printf(
-							Path.get_basename(dialog.get_filename())),
-						modal, true);
+						VERIFY_OVERWRITE_TITLE.printf(bname),
+						VERIFY_OVERWRITE_FMT.printf(bname),
+						VERIFY_OVERWRITE_SECONDARY_FMT.printf(folder),
+						modal,
+						Gtk.ResponseType.YES,
+						_("Don't overwrite %s").printf(bname),
+						Gtk.ResponseType.NO,
+						"gtk-cancel",
+						Gtk.ResponseType.CANCEL,
+						_("Overwrite %s").printf(bname),
+						Gtk.ResponseType.YES,
+						null);
 					
 					// react to the response
 					switch (code)
