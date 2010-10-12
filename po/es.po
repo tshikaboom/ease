@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-10-12 11:24+0000\n"
-"PO-Revision-Date: 2010-10-12 14:03+0200\n"
+"POT-Creation-Date: 2010-10-12 13:31+0000\n"
+"PO-Revision-Date: 2010-10-12 16:35+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "Imágenes"
 
 #: ../ease-core/ease-background-widget.vala:193
 #: ../ease-core/ease-background-widget.vala:243
-#: ../ease-core/ease-dialogs.vala:142 ../ease-core/ease-dialogs.vala:218
+#: ../ease-core/ease-dialogs.vala:192 ../ease-core/ease-dialogs.vala:268
 #: ../ease/ease-editor-window.vala:464 ../ease/ease-editor-window.vala:567
 msgid "All Files"
 msgstr "Todos los archivos"
@@ -84,44 +84,43 @@ msgstr "¿Reemplazar «%s»?"
 
 #: ../ease-core/ease-dialogs.vala:29
 #, c-format
-#| msgid "The file \"%s\" already exists. Would you like to overwrite it?"
 msgid "A file named %s already exists. Do you want to replace it?"
 msgstr "Ya existe un archivo llamado %s. ¿Quiere reemplazarlo?"
 
 #: ../ease-core/ease-dialogs.vala:31
 #, c-format
+#| msgid ""
+#| "This file already exists in %s. Overwriting it will replace its contents."
 msgid ""
-"This file already exists in %s. Overwriting it will replace its contents."
+"This file already exists in the directory \"%s\". Overwriting it will "
+"replace its contents."
 msgstr ""
-"Este archivo ya existe en %s. Sobreescribirlo reemplazará su contenido."
+"Este archivo ya existe en la carpeta «%s». Sobreescribirlo reemplazará su "
+"contenido."
 
-#: ../ease-core/ease-dialogs.vala:133
+#: ../ease-core/ease-dialogs.vala:183
 msgid "Open Document"
 msgstr "Abrir documento"
 
-#: ../ease-core/ease-dialogs.vala:137 ../ease-core/ease-dialogs.vala:213
+#: ../ease-core/ease-dialogs.vala:187 ../ease-core/ease-dialogs.vala:263
 msgid "Ease Presentations"
 msgstr "Presentaciones Ease"
 
-#: ../ease-core/ease-dialogs.vala:240
-#| msgid "Append .ease?"
+#: ../ease-core/ease-dialogs.vala:290
 msgid "Don't append .ease"
 msgstr "No añadir .ease"
 
-#: ../ease-core/ease-dialogs.vala:244
-#| msgid "Append .ease?"
+#: ../ease-core/ease-dialogs.vala:294
 msgid "Append .ease"
 msgstr "Añadir .ease"
 
-#: ../ease-core/ease-dialogs.vala:276
+#: ../ease-core/ease-dialogs.vala:327
 #, c-format
-#| msgid "Overwrite %s?"
 msgid "Don't overwrite %s"
 msgstr "No sobreescribir %s"
 
-#: ../ease-core/ease-dialogs.vala:280
+#: ../ease-core/ease-dialogs.vala:331
 #, c-format
-#| msgid "Overwrite %s?"
 msgid "Overwrite %s"
 msgstr "Sobreescribir %s"
 
