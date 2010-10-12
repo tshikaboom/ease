@@ -236,9 +236,11 @@ public class Ease.Slide : GLib.Object, UndoSource
 	/**
 	 * Constructs a Slide from a JsonObject.
 	 */
-	internal Slide.from_json(Json.Object obj)
+	internal Slide.from_json(Json.Object obj, Document owner)
 	{
 		this();
+		
+		parent = owner;
 		
 		var slide = new Slide();
 		
@@ -261,26 +263,8 @@ public class Ease.Slide : GLib.Object, UndoSource
 			obj.get_string_member("advance_delay").to_double();
 		
 		// read the slide's background properties
-		if (obj.has_member(Theme.BACKGROUND_IMAGE))
-		{
-			background.image.filename = obj.get_string_member(Theme.BACKGROUND_IMAGE);
-			background.image.source =
-				obj.get_string_member("background-image-source");
-		}
-		if (obj.has_member(Theme.BACKGROUND_COLOR))
-		{
-			background.color =
-				new Color.from_string(
-				obj.get_string_member(Theme.BACKGROUND_COLOR));
-		}
-		if (obj.has_member(Theme.BACKGROUND_GRADIENT))
-		{
-			background.gradient =
-				new Gradient.from_string(
-				obj.get_string_member(Theme.BACKGROUND_GRADIENT));
-		}
-		background.background_type = BackgroundType.from_string(
-			obj.get_string_member(Theme.BACKGROUND_TYPE));
+		background =
+			new Background.from_json(obj.get_object_member(Theme.BACKGROUND));
 		
 		// parse the elements
 		var elements = obj.get_array_member("elements");
@@ -305,7 +289,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 					e = new VideoElement.from_json(node);
 					break;
 				case PDF_TYPE:
-					e = new PdfElement.from_json(node);
+					e = new PdfElement.from_json(node, this);
 					break;
 				default: // text element, probably plugins later...
 					e = new TextElement.from_json(node);
@@ -334,25 +318,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 		obj.set_string_member("advance_delay", advance_delay.to_string());
 		
 		// write the slide's background properties
-		if (background.image.filename != null)
-		{
-			obj.set_string_member(Theme.BACKGROUND_IMAGE,
-			                      background.image.filename);
-			obj.set_string_member("background-image-source",
-			                      background.image.source);
-		}
-		if (background.color != null)
-		{
-			obj.set_string_member(Theme.BACKGROUND_COLOR,
-			                      background.color.to_string());
-		}
-		if (background.gradient != null)
-		{
-			obj.set_string_member(Theme.BACKGROUND_GRADIENT,
-			                      background.gradient.to_string());
-		}
-		obj.set_string_member(Theme.BACKGROUND_TYPE,
-		                      background.background_type.to_string());
+		obj.set_object_member(Theme.BACKGROUND, background.to_json());
 		
 		// add the slide's elements
 		var json_elements = new Json.Array();
@@ -391,6 +357,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 		listen(e);
 		update_title(e);
 		if (emit_undo) undo(new ElementAddUndoAction(e));
+		changed(this);
 	}
 	
 	/**
@@ -430,6 +397,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 				title_reset(this);
 			}
 		}
+		changed(this);
 	}
 	
 	/**

@@ -167,7 +167,7 @@ public class Ease.Document : GLib.Object, UndoSource
 		for (var i = 0; i < json_slides.get_length(); i++)
 		{
 			var node = json_slides.get_object_element(i);
-			append_slide(new Slide.from_json(node));
+			append_slide(new Slide.from_json(node, this));
 		}
 		
 		// get the document's theme

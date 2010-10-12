@@ -367,19 +367,4 @@ namespace Ease
 		var file = GLib.File.new_for_path(path);
 		return file.resolve_relative_path(".").get_path();
 	}
-
-	public double dmax(double a, double b)
-	{
-		return a > b ? a : b;
-	}
-
-	public double dmin(double a, double b)
-	{
-		return a < b ? a : b;
-	}
-	
-	public int roundd(double num)
-	{
-		return (int)(num - (int)num < 0.5 ? num : num + 1);
-	}
 }

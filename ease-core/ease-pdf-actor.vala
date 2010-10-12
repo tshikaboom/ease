@@ -44,13 +44,13 @@ public class Ease.PdfActor : Actor
 		y = e.y;
 		add_actor(contents);
 		
-		current_page = e.default_page;
+		current_page = e.displayed_page;
 		doc = e.pdf_doc;
 		draw_page();
 		
 		// redraw when the element is changed
 		e.changed.connect(() => {
-			current_page = e.default_page;
+			current_page = e.displayed_page;
 			draw_page();
 		});
 	}

@@ -26,6 +26,26 @@ internal class Ease.CloseConfirmDialog : Gtk.Dialog
 	private const string TOP_FORMAT = "<b><big>%s</big></b>";
 	
 	/**
+	 * Timeline to repeatedly increase the seconds/minutes/hours counter.
+	 */
+	private Clutter.Timeline counter;
+	
+	/**
+	 * Amount of time until an update.
+	 */
+	private const uint TICK = 1000;
+	
+	/**
+	 * The number of seconds displayed.
+	 */
+	internal int elapsed_seconds;
+	
+	/**
+	 * The bottom label.
+	 */
+	private Gtk.Label bottom_label;
+	
+	/**
 	 * Creates a CloseConfirmDialog.
 	 *
 	 * @param filename The filename (with no extra path components) of the
@@ -37,6 +57,7 @@ internal class Ease.CloseConfirmDialog : Gtk.Dialog
 	{
 		title = _("Save before closing?");
 		has_separator = false;
+		elapsed_seconds = seconds;
 		
 		// dialog image
 		var image = new Gtk.Image.from_stock("gtk-dialog-warning",
@@ -53,7 +74,7 @@ internal class Ease.CloseConfirmDialog : Gtk.Dialog
 		top_label.set_markup(TOP_FORMAT.printf(top_label_text(filename)));
 		
 		// bottom label
-		var bottom_label = new Gtk.Label(bottom_label_text(seconds));
+		bottom_label = new Gtk.Label(bottom_label_text(seconds));
 		bottom_label.wrap = true;
 		bottom_label.set_alignment(0, 0.5f);
 		bottom_label.set_selectable(true);
@@ -78,7 +99,25 @@ internal class Ease.CloseConfirmDialog : Gtk.Dialog
 		            "gtk-cancel", Gtk.ResponseType.CANCEL,
 		            "gtk-save", Gtk.ResponseType.YES);
 		
+		// response
 		set_default_response(Gtk.ResponseType.YES);
+		
+		// increase the time
+		counter = new Clutter.Timeline(TICK);
+		counter.loop = true;
+		counter.completed.connect(increment);
+		counter.start();
+	}
+	
+	public override void destroy()
+	{
+		counter.stop();
+		base.destroy();
+	}
+	
+	private void increment(Clutter.Timeline sender)
+	{
+		bottom_label.set_text(bottom_label_text(++elapsed_seconds));
 	}
 	
 	/**

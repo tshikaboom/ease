@@ -52,7 +52,8 @@ public class Ease.ShapeElement : CairoElement
 			ShapeType.from_string(obj.get_string_member(Theme.SHAPE_TYPE));
 		
 		// read the shapes's background properties
-		background = new Background.from_json(obj);
+		background =
+			new Background.from_json(obj.get_object_member(Theme.BACKGROUND));
 	}
 	
 	/**
@@ -64,7 +65,7 @@ public class Ease.ShapeElement : CairoElement
 		obj.set_string_member(Theme.SHAPE_TYPE, shape_type.to_string());
 		
 		// write the shape's background properties
-		background.to_json(ref obj);
+		obj.set_object_member(Theme.BACKGROUND, background.to_json());
 		
 		return obj;
 	}

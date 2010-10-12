@@ -70,6 +70,7 @@ public class Ease.Theme : GLib.Object
 	private const string BACKGROUND_TYPE_COLOR = "background-type-color";
 	private const string BACKGROUND_TYPE_GRADIENT = "background-type-gradient";
 	private const string BACKGROUND_TYPE_IMAGE = "background-type-image";
+	public const string BACKGROUND = "background";
 	
 	// text content types
 	public const string TITLE_TEXT = "title-text";
@@ -101,6 +102,7 @@ public class Ease.Theme : GLib.Object
 	
 	// pdf properties
 	public const string PDF_DEFAULT_PAGE = "pdf-default-page";
+	public const string PDF_ALLOW_FLIPPING = "pdf-allow-flipping";
 	
 	// gradient types
 	public const string GRAD_LINEAR = "linear";
