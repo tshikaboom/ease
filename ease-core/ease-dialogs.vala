@@ -28,7 +28,57 @@ namespace Ease.Dialog
 	private const string VERIFY_OVERWRITE_FMT =
 		_("A file named %s already exists. Do you want to replace it?");
 	private const string VERIFY_OVERWRITE_SECONDARY_FMT =
-		_("This file already exists in %s. Overwriting it will replace its contents.");
+		_("This file already exists in the directory \"%s\". Overwriting it will replace its contents.");
+		
+	/**
+	 * Displays a message dialog.
+	 *
+	 * The varargs provide text or stock IDs for buttons. These should be
+	 * paired with a Gtk.ResponseType. The list must be terminated with null.
+	 *
+	 * @param message_type The GtkMessageType for the dialog.
+	 * @param title The title of the dialog.
+	 * @param main_text The large text displayed on the dialog.
+	 * @param secondary_text The secondary (small) text on the dialog.
+	 * @param modal A window that the dialog should be modal for.
+	 * @param default_response The default response for the dialog.
+	 */
+	public Gtk.ResponseType message(Gtk.MessageType message_type,
+	                                string title, string main_text,
+	                                string secondary_text, Gtk.Window? modal,
+	                                Gtk.ResponseType default_response,
+	                                ...)
+	{
+		var dialog = new Gtk.MessageDialog.with_markup(modal,
+		                                               Gtk.DialogFlags.MODAL,
+		                                               message_type,
+		                                               0, null);
+		// set text
+		dialog.use_markup = dialog.secondary_use_markup = true;
+		dialog.text = main_text;
+		dialog.secondary_text = secondary_text;
+		
+		// handle varargs
+		var l = va_list();
+		while (true)
+		{
+			// grab arguments (or break)
+			string? button = l.arg();
+			if (button == null) break;
+			Gtk.ResponseType type = l.arg();
+			
+			// add the button
+			dialog.add_button(button, type);
+		}
+		
+		// set default response
+		dialog.set_default_response(default_response);
+		
+		// run the dialog
+		var ret = (Gtk.ResponseType)dialog.run();
+		dialog.destroy();
+		return ret;
+	}
 	
 	/**
 	 * Displays a question dialog.
@@ -267,7 +317,8 @@ namespace Ease.Dialog
 					var bname = Path.get_basename(dialog.get_filename());
 					
 					// ask the user if they'd like to overwrite
-					var code = question(
+					var code = message(
+						Gtk.MessageType.WARNING,
 						VERIFY_OVERWRITE_TITLE.printf(bname),
 						VERIFY_OVERWRITE_FMT.printf(bname),
 						VERIFY_OVERWRITE_SECONDARY_FMT.printf(folder),
