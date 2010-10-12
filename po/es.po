@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-10-11 19:07+0000\n"
-"PO-Revision-Date: 2010-10-12 13:22+0200\n"
+"POT-Creation-Date: 2010-10-12 11:24+0000\n"
+"PO-Revision-Date: 2010-10-12 14:03+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "Imágenes"
 
 #: ../ease-core/ease-background-widget.vala:193
 #: ../ease-core/ease-background-widget.vala:243
-#: ../ease-core/ease-dialogs.vala:120 ../ease-core/ease-dialogs.vala:196
+#: ../ease-core/ease-dialogs.vala:142 ../ease-core/ease-dialogs.vala:218
 #: ../ease/ease-editor-window.vala:464 ../ease/ease-editor-window.vala:567
 msgid "All Files"
 msgstr "Todos los archivos"
@@ -79,21 +79,51 @@ msgstr "¿Añadir .ease?"
 
 #: ../ease-core/ease-dialogs.vala:27
 #, c-format
-msgid "Overwrite %s?"
-msgstr "¿Sobreescribir %s?"
+msgid "Replace %s?"
+msgstr "¿Reemplazar «%s»?"
 
 #: ../ease-core/ease-dialogs.vala:29
 #, c-format
-msgid "The file \"%s\" already exists. Would you like to overwrite it?"
-msgstr "El archivo «%s» ya existe. ¿Quiere sobreescribirlo reemplazarlo?"
+#| msgid "The file \"%s\" already exists. Would you like to overwrite it?"
+msgid "A file named %s already exists. Do you want to replace it?"
+msgstr "Ya existe un archivo llamado %s. ¿Quiere reemplazarlo?"
 
-#: ../ease-core/ease-dialogs.vala:111
+#: ../ease-core/ease-dialogs.vala:31
+#, c-format
+msgid ""
+"This file already exists in %s. Overwriting it will replace its contents."
+msgstr ""
+"Este archivo ya existe en %s. Sobreescribirlo reemplazará su contenido."
+
+#: ../ease-core/ease-dialogs.vala:133
 msgid "Open Document"
 msgstr "Abrir documento"
 
-#: ../ease-core/ease-dialogs.vala:115 ../ease-core/ease-dialogs.vala:191
+#: ../ease-core/ease-dialogs.vala:137 ../ease-core/ease-dialogs.vala:213
 msgid "Ease Presentations"
 msgstr "Presentaciones Ease"
+
+#: ../ease-core/ease-dialogs.vala:240
+#| msgid "Append .ease?"
+msgid "Don't append .ease"
+msgstr "No añadir .ease"
+
+#: ../ease-core/ease-dialogs.vala:244
+#| msgid "Append .ease?"
+msgid "Append .ease"
+msgstr "Añadir .ease"
+
+#: ../ease-core/ease-dialogs.vala:276
+#, c-format
+#| msgid "Overwrite %s?"
+msgid "Don't overwrite %s"
+msgstr "No sobreescribir %s"
+
+#: ../ease-core/ease-dialogs.vala:280
+#, c-format
+#| msgid "Overwrite %s?"
+msgid "Overwrite %s"
+msgstr "Sobreescribir %s"
 
 #. *
 #. * Default slide title.
@@ -426,16 +456,16 @@ msgstr "Una aplicación de presentaciones para el Escritorio GNOME"
 msgid "Mario Blättermann <mariobl@gnome.org>"
 msgstr "Mario Blättermann <mariobl@gnome.org>"
 
-#: ../ease/ease-close-confirm-dialog.vala:38
+#: ../ease/ease-close-confirm-dialog.vala:58
 msgid "Save before closing?"
 msgstr "¿Guardar antes de cerrar?"
 
 #. buttons
-#: ../ease/ease-close-confirm-dialog.vala:77
+#: ../ease/ease-close-confirm-dialog.vala:98
 msgid "Close _without Saving"
 msgstr "Cerrar _sin guardar"
 
-#: ../ease/ease-close-confirm-dialog.vala:96
+#: ../ease/ease-close-confirm-dialog.vala:135
 #, c-format
 msgid ""
 "If you don't save, changes from the last second will be permanently lost."
@@ -447,13 +477,13 @@ msgstr[1] ""
 "Si no guarda, se perderán permanentemente los cambios de los últimos %i "
 "segundo."
 
-#: ../ease/ease-close-confirm-dialog.vala:100
+#: ../ease/ease-close-confirm-dialog.vala:139
 msgid ""
 "If you don't save, changes from the last minute will be permanently lost."
 msgstr ""
 "Si no guarda, se perderán permanentemente los cambios del último minuto."
 
-#: ../ease/ease-close-confirm-dialog.vala:104
+#: ../ease/ease-close-confirm-dialog.vala:143
 #, c-format
 msgid ""
 "If you don't save, changes from the last minute and %i second will be "
@@ -468,7 +498,7 @@ msgstr[1] ""
 "Si no guarda, se perderán permanentemente los cambios del último minuto y %i "
 "segundos."
 
-#: ../ease/ease-close-confirm-dialog.vala:108
+#: ../ease/ease-close-confirm-dialog.vala:147
 #, c-format
 msgid ""
 "If you don't save, changes from the last %i minute will be permanently lost."
@@ -480,12 +510,12 @@ msgstr[1] ""
 "Si no guarda, se perderán permanentemente los cambios de los últimos %i "
 "minutos."
 
-#: ../ease/ease-close-confirm-dialog.vala:115
+#: ../ease/ease-close-confirm-dialog.vala:154
 msgid "If you don't save, changes from the last hour will be permanently lost."
 msgstr ""
 "Si no guarda, se perderán permanentemente los cambios de la última hora."
 
-#: ../ease/ease-close-confirm-dialog.vala:117
+#: ../ease/ease-close-confirm-dialog.vala:156
 #, c-format
 msgid ""
 "If you don't save, changes from the last hour and %i minute will be "
@@ -500,7 +530,7 @@ msgstr[1] ""
 "Si no guarda, se perderán permanentemente los cambios de la última hora y %i "
 "minutos."
 
-#: ../ease/ease-close-confirm-dialog.vala:121
+#: ../ease/ease-close-confirm-dialog.vala:160
 #, c-format
 msgid ""
 "If you don't save, changes from the last %i hour will be permanently lost."
@@ -512,7 +542,7 @@ msgstr[1] ""
 "Si no guarda, se perderán permanentemente los cambios de las últimas %i "
 "horas."
 
-#: ../ease/ease-close-confirm-dialog.vala:132
+#: ../ease/ease-close-confirm-dialog.vala:171
 #, c-format
 msgid "Save changes to \"%s\" before closing?"
 msgstr "¿Guardar cambios en «%s» antes de cerrar?"
