@@ -1,4 +1,4 @@
-# Spanish translation for ease.
+# Spanish translation for ease.master
 # Copyright (C) 2010 ease's COPYRIGHT HOLDER
 # This file is distributed under the same license as the ease package.
 # Kramer Garay <kramergaray@hotmail.com>, 2010.
@@ -6,11 +6,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: ease master\n"
+"Project-Id-Version: ease.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-08-30 04:18+0000\n"
-"PO-Revision-Date: 2010-10-07 14:22+0200\n"
+"POT-Creation-Date: 2010-10-11 19:07+0000\n"
+"PO-Revision-Date: 2010-10-12 13:22+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,15 +36,15 @@ msgstr "Guardando «%s»"
 msgid "Temporary directory doesn't exist: %s"
 msgstr "La carpeta temporal no existe: %s"
 
-#: ../ease-core/ease-background.vala:238
+#: ../ease-core/ease-background.vala:241
 msgid "Solid Color"
 msgstr "Color sólido"
 
-#: ../ease-core/ease-background.vala:239
+#: ../ease-core/ease-background.vala:242
 msgid "Gradient"
 msgstr "Degradado"
 
-#: ../ease-core/ease-background.vala:240
+#: ../ease-core/ease-background.vala:243
 msgid "Image"
 msgstr "Imagen"
 
@@ -54,22 +54,44 @@ msgstr "Seleccionar la imagen de fondo"
 
 #: ../ease-core/ease-background-widget.vala:188
 #: ../ease-core/ease-background-widget.vala:238
-#: ../ease/ease-editor-window.vala:453 ../ease/ease-import-dialog.vala:33
+#: ../ease/ease-editor-window.vala:459 ../ease/ease-import-dialog.vala:33
 msgid "Images"
 msgstr "Imágenes"
 
 #: ../ease-core/ease-background-widget.vala:193
 #: ../ease-core/ease-background-widget.vala:243
-#: ../ease-core/ease-dialogs.vala:84 ../ease-core/ease-dialogs.vala:155
-#: ../ease/ease-editor-window.vala:458 ../ease/ease-editor-window.vala:561
+#: ../ease-core/ease-dialogs.vala:120 ../ease-core/ease-dialogs.vala:196
+#: ../ease/ease-editor-window.vala:464 ../ease/ease-editor-window.vala:567
 msgid "All Files"
 msgstr "Todos los archivos"
 
-#: ../ease-core/ease-dialogs.vala:75
+#: ../ease-core/ease-dialogs.vala:24
+msgid ""
+"The specified filename does not end with a \".ease\" extension. Would you "
+"like to append one?"
+msgstr ""
+"El nombre de archivo especificado no termina con una extensión «.ease». "
+"¿Quiere añadirle una?"
+
+#: ../ease-core/ease-dialogs.vala:25
+msgid "Append .ease?"
+msgstr "¿Añadir .ease?"
+
+#: ../ease-core/ease-dialogs.vala:27
+#, c-format
+msgid "Overwrite %s?"
+msgstr "¿Sobreescribir %s?"
+
+#: ../ease-core/ease-dialogs.vala:29
+#, c-format
+msgid "The file \"%s\" already exists. Would you like to overwrite it?"
+msgstr "El archivo «%s» ya existe. ¿Quiere sobreescribirlo reemplazarlo?"
+
+#: ../ease-core/ease-dialogs.vala:111
 msgid "Open Document"
 msgstr "Abrir documento"
 
-#: ../ease-core/ease-dialogs.vala:79 ../ease-core/ease-dialogs.vala:150
+#: ../ease-core/ease-dialogs.vala:115 ../ease-core/ease-dialogs.vala:191
 msgid "Ease Presentations"
 msgstr "Presentaciones Ease"
 
@@ -136,7 +158,7 @@ msgstr "Error al copiar el archivo"
 msgid "Error loading ImageActor: %s\n"
 msgstr "Error al cargar ImageActor: %s\n"
 
-#: ../ease-core/ease-image-element.vala:99 ../ease/ease-editor-window.vala:510
+#: ../ease-core/ease-image-element.vala:99 ../ease/ease-editor-window.vala:516
 msgid "Error Inserting Image"
 msgstr "Error al insertar la imagen"
 
@@ -156,64 +178,64 @@ msgstr "No escalar"
 msgid "Double click to edit"
 msgstr "Pulsar dos veces para editar"
 
-#: ../ease-core/ease-theme.vala:289
+#: ../ease-core/ease-theme.vala:291
 #, c-format
 msgid "Error loading theme: %s"
 msgstr "Error al cargar el tema: %s"
 
-#: ../ease-core/ease-theme.vala:443
+#: ../ease-core/ease-theme.vala:445
 #, c-format
 msgid "Invalid master slide title: %s"
 msgstr "Título no válido de la diapositiva maestra: %s"
 
-#: ../ease-core/ease-theme.vala:470
+#: ../ease-core/ease-theme.vala:472
 #, c-format
 msgid "Not a valid text element type: %s"
 msgstr "No es un tipo de elemento de texto válido: %s"
 
-#: ../ease-core/ease-theme.vala:524
+#: ../ease-core/ease-theme.vala:526
 #, c-format
 msgid "Could not find property %s on element type %s."
 msgstr "No se pudo encontrar la propiedad %s en el tipo de elemento %s."
 
-#: ../ease-core/ease-theme.vala:554
+#: ../ease-core/ease-theme.vala:556
 #, c-format
 msgid "Could not find property %s on master type %s."
 msgstr "No se pudo encontrar la propiedad %s en el tipo maestro %s."
 
-#: ../ease-core/ease-theme.vala:582
+#: ../ease-core/ease-theme.vala:584
 msgid "_Title slide"
 msgstr "Diapositiva de _título"
 
-#: ../ease-core/ease-theme.vala:584
+#: ../ease-core/ease-theme.vala:586
 msgid "Content slide _without header"
 msgstr "Diapositiva de contenido _sin cabecera"
 
-#: ../ease-core/ease-theme.vala:586
+#: ../ease-core/ease-theme.vala:588
 msgid "_Content slide"
 msgstr "Diapositiva de _contenido"
 
-#: ../ease-core/ease-theme.vala:588
+#: ../ease-core/ease-theme.vala:590
 msgid "Two column slide without _header"
 msgstr "Diapositiva con dos columnas sin ca_becera"
 
-#: ../ease-core/ease-theme.vala:590
+#: ../ease-core/ease-theme.vala:592
 msgid "T_wo column slide with header"
 msgstr "Diapositiva de _dos columnas sin cabecera"
 
-#: ../ease-core/ease-theme.vala:592
+#: ../ease-core/ease-theme.vala:594
 msgid "M_edia slide without header"
 msgstr "Dispositiva m_ultimedia sin cabecera"
 
-#: ../ease-core/ease-theme.vala:594
+#: ../ease-core/ease-theme.vala:596
 msgid "_Media slide"
 msgstr "Diapositiva _multimedia"
 
-#: ../ease-core/ease-theme.vala:596
+#: ../ease-core/ease-theme.vala:598
 msgid "Em_pty Slide"
 msgstr "Diapositiva _vacía"
 
-#: ../ease-core/ease-theme.vala:599
+#: ../ease-core/ease-theme.vala:601
 #, c-format
 msgid "%s is not a valid identifier"
 msgstr "%s no es un identificador válido"
@@ -503,45 +525,45 @@ msgstr "Jovencillo emponzoñado de whisky, ¡qué figurota exhibe!"
 msgid "Untitled Document"
 msgstr "Documento sin título"
 
-#: ../ease/ease-editor-window.vala:449
+#: ../ease/ease-editor-window.vala:455
 msgid "Insert Image"
 msgstr "Insertar imagen"
 
-#: ../ease/ease-editor-window.vala:517
+#: ../ease/ease-editor-window.vala:523
 msgid "Insert Video"
 msgstr "Insertar vídeo"
 
-#: ../ease/ease-editor-window.vala:542
+#: ../ease/ease-editor-window.vala:548
 msgid "Error Inserting Video"
 msgstr "Error al insertar el vídeo"
 
-#: ../ease/ease-editor-window.vala:550
+#: ../ease/ease-editor-window.vala:556
 msgid "Insert PDF Document"
 msgstr "Insertar documento PDF"
 
-#: ../ease/ease-editor-window.vala:556
+#: ../ease/ease-editor-window.vala:562
 msgid "PDF Documents"
 msgstr "Documentos PDF"
 
-#: ../ease/ease-editor-window.vala:595
+#: ../ease/ease-editor-window.vala:601
 msgid "Error Inserting PDF"
 msgstr "Error al insertar el PDF"
 
-#: ../ease/ease-editor-window.vala:719
+#: ../ease/ease-editor-window.vala:725
 msgid "Save Document"
 msgstr "Guardar documento"
 
-#: ../ease/ease-editor-window.vala:735
+#: ../ease/ease-editor-window.vala:741
 msgid "Error Saving Document"
 msgstr "Error al guardar el documento"
 
 #. create the dialog
-#: ../ease/ease-editor-window.vala:814
+#: ../ease/ease-editor-window.vala:820
 msgid "Select Color"
 msgstr "Seleccionar color"
 
 #. create a font selection dialog
-#: ../ease/ease-editor-window.vala:881
+#: ../ease/ease-editor-window.vala:887
 msgid "Select Font"
 msgstr "Seleccionar tipografía"
 
