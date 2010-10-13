@@ -7,15 +7,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-02 00:00+0200\n"
-"PO-Revision-Date: 2010-10-02 00:01+0200\n"
-"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=ease&component=general\n"
+"POT-Creation-Date: 2010-10-12 13:31+0000\n"
+"PO-Revision-Date: 2010-10-13 11:54+0100\n"
+"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
@@ -38,15 +39,15 @@ msgstr "»%s« wird gespeichert"
 msgid "Temporary directory doesn't exist: %s"
 msgstr "Temporärer Ordner existiert nicht: %s"
 
-#: ../ease-core/ease-background.vala:238
+#: ../ease-core/ease-background.vala:241
 msgid "Solid Color"
 msgstr "Einfache Farbe"
 
-#: ../ease-core/ease-background.vala:239
+#: ../ease-core/ease-background.vala:242
 msgid "Gradient"
 msgstr "Farbverlauf"
 
-#: ../ease-core/ease-background.vala:240
+#: ../ease-core/ease-background.vala:243
 msgid "Image"
 msgstr "Bild"
 
@@ -62,18 +63,67 @@ msgstr "Bilder"
 
 #: ../ease-core/ease-background-widget.vala:193
 #: ../ease-core/ease-background-widget.vala:243
-#: ../ease-core/ease-dialogs.vala:84 ../ease-core/ease-dialogs.vala:155
+#: ../ease-core/ease-dialogs.vala:192 ../ease-core/ease-dialogs.vala:268
 #: ../ease/ease-editor-window.vala:464 ../ease/ease-editor-window.vala:567
 msgid "All Files"
 msgstr "Alle Dateien"
 
-#: ../ease-core/ease-dialogs.vala:75
+#: ../ease-core/ease-dialogs.vala:24
+msgid ""
+"The specified filename does not end with a \".ease\" extension. Would you "
+"like to append one?"
+msgstr ""
+"Der angegebene Dateiname hat nicht die Endung ».ease«? Wollen Sie eine Endung "
+"anhängen?"
+
+#: ../ease-core/ease-dialogs.vala:25
+msgid "Append .ease?"
+msgstr ".ease anhängen?"
+
+#: ../ease-core/ease-dialogs.vala:27
+#, c-format
+msgid "Replace %s?"
+msgstr "%s ersetzen?"
+
+#: ../ease-core/ease-dialogs.vala:29
+#, c-format
+msgid "A file named %s already exists. Do you want to replace it?"
+msgstr "Eine Datei namens »%s« existiert bereits. Wollen Sie diese ersetzen?"
+
+#: ../ease-core/ease-dialogs.vala:31
+#, c-format
+msgid ""
+"This file already exists in the directory \"%s\". Overwriting it will replace "
+"its contents."
+msgstr ""
+"Diese Datei existiert bereits im Ordner »%s«. Durch Überschreiben wird deren "
+"Inhalt ersetzt."
+
+#: ../ease-core/ease-dialogs.vala:183
 msgid "Open Document"
 msgstr "Dokument öffnen"
 
-#: ../ease-core/ease-dialogs.vala:79 ../ease-core/ease-dialogs.vala:150
+#: ../ease-core/ease-dialogs.vala:187 ../ease-core/ease-dialogs.vala:263
 msgid "Ease Presentations"
 msgstr "Ease-Präsentationen"
+
+#: ../ease-core/ease-dialogs.vala:290
+msgid "Don't append .ease"
+msgstr ".ease nicht anhängen"
+
+#: ../ease-core/ease-dialogs.vala:294
+msgid "Append .ease"
+msgstr ".ease anhängen"
+
+#: ../ease-core/ease-dialogs.vala:327
+#, c-format
+msgid "Don't overwrite %s"
+msgstr "%s nicht überschreiben"
+
+#: ../ease-core/ease-dialogs.vala:331
+#, c-format
+msgid "Overwrite %s"
+msgstr "%s überschreiben"
 
 #. *
 #. * Default slide title.
@@ -158,64 +208,64 @@ msgstr "Nicht skalieren"
 msgid "Double click to edit"
 msgstr "Doppelklicken zum Bearbeiten"
 
-#: ../ease-core/ease-theme.vala:289
+#: ../ease-core/ease-theme.vala:291
 #, c-format
 msgid "Error loading theme: %s"
 msgstr "Fehler beim Laden des Themas: %s"
 
-#: ../ease-core/ease-theme.vala:443
+#: ../ease-core/ease-theme.vala:445
 #, c-format
 msgid "Invalid master slide title: %s"
 msgstr "Ungültiger Titel der Master-Folie: %s"
 
-#: ../ease-core/ease-theme.vala:470
+#: ../ease-core/ease-theme.vala:472
 #, c-format
 msgid "Not a valid text element type: %s"
 msgstr "Ungültiger Typ des Textelements: %s"
 
-#: ../ease-core/ease-theme.vala:524
+#: ../ease-core/ease-theme.vala:526
 #, c-format
 msgid "Could not find property %s on element type %s."
 msgstr "Eigenschaft %s konnte im Elementtyp %s nicht gefunden werden."
 
-#: ../ease-core/ease-theme.vala:554
+#: ../ease-core/ease-theme.vala:556
 #, c-format
 msgid "Could not find property %s on master type %s."
 msgstr "Eigenschaft %s konnte im Master-Typ %s nicht gefunden werden."
 
-#: ../ease-core/ease-theme.vala:582
+#: ../ease-core/ease-theme.vala:584
 msgid "_Title slide"
 msgstr "_Titel-Folie"
 
-#: ../ease-core/ease-theme.vala:584
+#: ../ease-core/ease-theme.vala:586
 msgid "Content slide _without header"
 msgstr "Inhaltsfolie ohne _Überschrift"
 
-#: ../ease-core/ease-theme.vala:586
+#: ../ease-core/ease-theme.vala:588
 msgid "_Content slide"
 msgstr "_Inhalt-Folie"
 
-#: ../ease-core/ease-theme.vala:588
+#: ../ease-core/ease-theme.vala:590
 msgid "Two column slide without _header"
 msgstr "Folie mit zwei Spalten o_hne Überschrift"
 
-#: ../ease-core/ease-theme.vala:590
+#: ../ease-core/ease-theme.vala:592
 msgid "T_wo column slide with header"
 msgstr "Folie mit z_wei Spalten o_hne Überschrift"
 
-#: ../ease-core/ease-theme.vala:592
+#: ../ease-core/ease-theme.vala:594
 msgid "M_edia slide without header"
 msgstr "M_edien-Folie ohne Überschrift"
 
-#: ../ease-core/ease-theme.vala:594
+#: ../ease-core/ease-theme.vala:596
 msgid "_Media slide"
 msgstr "_Medien-Folie"
 
-#: ../ease-core/ease-theme.vala:596
+#: ../ease-core/ease-theme.vala:598
 msgid "Em_pty Slide"
 msgstr "_Leere Folie"
 
-#: ../ease-core/ease-theme.vala:599
+#: ../ease-core/ease-theme.vala:601
 #, c-format
 msgid "%s is not a valid identifier"
 msgstr "»%s« ist kein gültiger Bezeichner"
@@ -406,16 +456,16 @@ msgstr "Eine Präsentationsanwendung für die GNOME-Arbeitsumgebung"
 msgid "Mario Blättermann <mariobl@gnome.org>"
 msgstr "Mario Blättermann <mariobl@gnome.org>"
 
-#: ../ease/ease-close-confirm-dialog.vala:38
+#: ../ease/ease-close-confirm-dialog.vala:58
 msgid "Save before closing?"
 msgstr "Vor dem Schließen speichern?"
 
 #. buttons
-#: ../ease/ease-close-confirm-dialog.vala:77
+#: ../ease/ease-close-confirm-dialog.vala:98
 msgid "Close _without Saving"
 msgstr "_Ohne speichern schließen"
 
-#: ../ease/ease-close-confirm-dialog.vala:96
+#: ../ease/ease-close-confirm-dialog.vala:135
 #, c-format
 msgid ""
 "If you don't save, changes from the last second will be permanently lost."
@@ -428,14 +478,14 @@ msgstr[1] ""
 "Falls Sie sie nicht speichern, gehen in den letzten %i Sekunden vorgenommene "
 "Änderungen unwiderruflich verloren."
 
-#: ../ease/ease-close-confirm-dialog.vala:100
+#: ../ease/ease-close-confirm-dialog.vala:139
 msgid ""
 "If you don't save, changes from the last minute will be permanently lost."
 msgstr ""
 "Falls Sie sie nicht speichern, gehen in der letzten Minute vorgenommene "
 "Änderungen unwiderruflich verloren."
 
-#: ../ease/ease-close-confirm-dialog.vala:104
+#: ../ease/ease-close-confirm-dialog.vala:143
 #, c-format
 msgid ""
 "If you don't save, changes from the last minute and %i second will be "
@@ -450,7 +500,7 @@ msgstr[1] ""
 "Falls Sie sie nicht speichern, gehen in der letzten Minute und %i Sekunden "
 "vorgenommene Änderungen unwiderruflich verloren."
 
-#: ../ease/ease-close-confirm-dialog.vala:108
+#: ../ease/ease-close-confirm-dialog.vala:147
 #, c-format
 msgid ""
 "If you don't save, changes from the last %i minute will be permanently lost."
@@ -463,13 +513,13 @@ msgstr[1] ""
 "Falls Sie sie nicht speichern, gehen in den letzten %i Minuten vorgenommene "
 "Änderungen unwiderruflich verloren."
 
-#: ../ease/ease-close-confirm-dialog.vala:115
+#: ../ease/ease-close-confirm-dialog.vala:154
 msgid "If you don't save, changes from the last hour will be permanently lost."
 msgstr ""
 "Falls Sie sie nicht speichern, gehen in der letzten Stunde vorgenommene "
 "Änderungen unwiderruflich verloren."
 
-#: ../ease/ease-close-confirm-dialog.vala:117
+#: ../ease/ease-close-confirm-dialog.vala:156
 #, c-format
 msgid ""
 "If you don't save, changes from the last hour and %i minute will be "
@@ -484,7 +534,7 @@ msgstr[1] ""
 "Falls Sie sie nicht speichern, gehen in der letzten Stunde und %i Minuten "
 "vorgenommene Änderungen unwiderruflich verloren."
 
-#: ../ease/ease-close-confirm-dialog.vala:121
+#: ../ease/ease-close-confirm-dialog.vala:160
 #, c-format
 msgid ""
 "If you don't save, changes from the last %i hour will be permanently lost."
@@ -497,7 +547,7 @@ msgstr[1] ""
 "Falls Sie sie nicht speichern, gehen in den letzten %i Stunden vorgenommene "
 "Änderungen unwiderruflich verloren."
 
-#: ../ease/ease-close-confirm-dialog.vala:132
+#: ../ease/ease-close-confirm-dialog.vala:171
 #, c-format
 msgid "Save changes to \"%s\" before closing?"
 msgstr "Änderungen an »%s« vor dem Schließen speichern?"
