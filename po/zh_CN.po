@@ -1,0 +1,658 @@
+# Chinese (China) translation for ease.
+# Copyright (C) 2010 Free Software Foundation, Inc.
+# This file is distributed under the same license as the ease package.
+# Yinghua_Wang <wantinghard@gmail.com>, 2010.
+# Aron Xu <happyaron.xu@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ease master\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=ease&component=general\n"
+"POT-Creation-Date: 2010-10-12 13:31+0000\n"
+"PO-Revision-Date: 2010-10-13 18:16+0800\n"
+"Last-Translator: Aron Xu <happyaron.xu@gmail.com>\n"
+"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../data/ease.desktop.in.h:1 ../data/ease.desktop.in.in.h:1
+msgid "Create nice and elegant presentations"
+msgstr "创建精美雅致的演示文稿"
+
+#: ../data/ease.desktop.in.h:2 ../data/ease.desktop.in.in.h:2
+msgid "Ease Presentation Editor"
+msgstr "Ease 演示文稿编辑器"
+
+#: ../ease-core/ease-archiver.vala:29
+#, c-format
+msgid "Saving \"%s\""
+msgstr "保存“%s”"
+
+#: ../ease-core/ease-archiver.vala:98
+#, c-format
+msgid "Temporary directory doesn't exist: %s"
+msgstr "临时文件夹不存在：%s"
+
+#: ../ease-core/ease-background.vala:241
+msgid "Solid Color"
+msgstr "纯色"
+
+#: ../ease-core/ease-background.vala:242
+msgid "Gradient"
+msgstr "渐变"
+
+#: ../ease-core/ease-background.vala:243
+msgid "Image"
+msgstr "图像"
+
+#: ../ease-core/ease-background-widget.vala:24
+msgid "Select Background Image"
+msgstr "选择背景图像"
+
+#: ../ease-core/ease-background-widget.vala:188
+#: ../ease-core/ease-background-widget.vala:238
+#: ../ease/ease-editor-window.vala:459 ../ease/ease-import-dialog.vala:33
+msgid "Images"
+msgstr "图像"
+
+#: ../ease-core/ease-background-widget.vala:193
+#: ../ease-core/ease-background-widget.vala:243
+#: ../ease-core/ease-dialogs.vala:192 ../ease-core/ease-dialogs.vala:268
+#: ../ease/ease-editor-window.vala:464 ../ease/ease-editor-window.vala:567
+msgid "All Files"
+msgstr "所有文件"
+
+#: ../ease-core/ease-dialogs.vala:24
+msgid ""
+"The specified filename does not end with a \".ease\" extension. Would you "
+"like to append one?"
+msgstr ""
+
+#: ../ease-core/ease-dialogs.vala:25
+msgid "Append .ease?"
+msgstr "附加 .ease？"
+
+#: ../ease-core/ease-dialogs.vala:27
+#, c-format
+msgid "Replace %s?"
+msgstr "替换 %s？"
+
+#: ../ease-core/ease-dialogs.vala:29
+#, c-format
+msgid "A file named %s already exists. Do you want to replace it?"
+msgstr "一个名为 %s 的文件已经存在，您是否想替换它？"
+
+#: ../ease-core/ease-dialogs.vala:31
+#, c-format
+msgid ""
+"This file already exists in the directory \"%s\". Overwriting it will "
+"replace its contents."
+msgstr ""
+"目录“%s”中已存在文件，覆盖它将替换其内容。"
+
+#: ../ease-core/ease-dialogs.vala:183
+msgid "Open Document"
+msgstr "打开文档"
+
+#: ../ease-core/ease-dialogs.vala:187 ../ease-core/ease-dialogs.vala:263
+msgid "Ease Presentations"
+msgstr "Ease 演示文稿"
+
+#: ../ease-core/ease-dialogs.vala:290
+msgid "Don't append .ease"
+msgstr "不附加 .ease"
+
+#: ../ease-core/ease-dialogs.vala:294
+msgid "Append .ease"
+msgstr "附加 .ease"
+
+#: ../ease-core/ease-dialogs.vala:327
+#, c-format
+msgid "Don't overwrite %s"
+msgstr "不覆盖 %s"
+
+#: ../ease-core/ease-dialogs.vala:331
+#, c-format
+msgid "Overwrite %s"
+msgstr "覆盖 %s"
+
+#. *
+#. * Default slide title.
+#.
+#: ../ease-core/ease-document.vala:80
+#, c-format
+msgid "Slide %i"
+msgstr "幻灯片 %i"
+
+#. archive
+#: ../ease-core/ease-document.vala:278
+msgid "Saving Document"
+msgstr "保存文档"
+
+#: ../ease-core/ease-document.vala:517
+msgid "Export as PDF"
+msgstr "导出为 PDF"
+
+#: ../ease-core/ease-document.vala:527
+msgid "Error Exporting to PDF"
+msgstr "导出 PDF 出错"
+
+#: ../ease-core/ease-document.vala:538
+msgid "Export as PostScript"
+msgstr "导出为 PostScript"
+
+#: ../ease-core/ease-document.vala:548
+msgid "Error Exporting to PostScript"
+msgstr "导出 PostScript 出错"
+
+#: ../ease-core/ease-document.vala:595
+msgid "Error exporting as HTML"
+msgstr "导出 HTML 出错"
+
+#: ../ease-core/ease-gradient.vala:259
+msgid "Linear"
+msgstr "线性"
+
+#: ../ease-core/ease-gradient.vala:260
+msgid "Mirrored Linear"
+msgstr "线性对称"
+
+#: ../ease-core/ease-gradient.vala:261
+msgid "Radial"
+msgstr "辐射"
+
+#: ../ease-core/ease-html-exporter.vala:75
+msgid "Export to HTML"
+msgstr "导出到 HTML"
+
+#: ../ease-core/ease-html-exporter.vala:82
+msgid "Exporting as HTML"
+msgstr "导出为 HTML"
+
+#: ../ease-core/ease-html-exporter.vala:144
+#: ../ease-core/ease-html-exporter.vala:176
+msgid "Error Copying File"
+msgstr "复制文件出错"
+
+#: ../ease-core/ease-image-actor.vala:47
+#, c-format
+msgid "Error loading ImageActor: %s\n"
+msgstr "载入 ImageActor 出错：%s\n"
+
+#: ../ease-core/ease-image-element.vala:99 ../ease/ease-editor-window.vala:516
+msgid "Error Inserting Image"
+msgstr "插入图像出错"
+
+#: ../ease-core/ease-image.vala:146
+msgid "Stretch"
+msgstr "拉伸"
+
+#: ../ease-core/ease-image.vala:147
+msgid "Maintain Aspect Ratio"
+msgstr "保持宽高比"
+
+#: ../ease-core/ease-image.vala:148
+msgid "Do not Scale"
+msgstr "不拉伸"
+
+#: ../ease-core/ease-text-element.vala:25
+msgid "Double click to edit"
+msgstr "双击进行编辑"
+
+#: ../ease-core/ease-theme.vala:291
+#, c-format
+msgid "Error loading theme: %s"
+msgstr "载入主题出错：%s"
+
+#: ../ease-core/ease-theme.vala:445
+#, c-format
+msgid "Invalid master slide title: %s"
+msgstr "无效的幻灯片主标题：%s"
+
+#: ../ease-core/ease-theme.vala:472
+#, c-format
+msgid "Not a valid text element type: %s"
+msgstr "不是有效的文本元素类型：%s"
+
+#: ../ease-core/ease-theme.vala:526
+#, c-format
+msgid "Could not find property %s on element type %s."
+msgstr "找不到 %2$s 元素类型的 %1$s 属性。"
+
+#: ../ease-core/ease-theme.vala:556
+#, c-format
+msgid "Could not find property %s on master type %s."
+msgstr "找不到主类型 %2$s 的 %1$s 属性。"
+
+#: ../ease-core/ease-theme.vala:584
+msgid "_Title slide"
+msgstr "标题幻灯片(_T)"
+
+#: ../ease-core/ease-theme.vala:586
+msgid "Content slide _without header"
+msgstr "不带标题的内容幻灯片(_W)"
+
+#: ../ease-core/ease-theme.vala:588
+msgid "_Content slide"
+msgstr "内容幻灯片(_C)"
+
+#: ../ease-core/ease-theme.vala:590
+msgid "Two column slide without _header"
+msgstr "不带标题的两栏幻灯片(_H)"
+
+#: ../ease-core/ease-theme.vala:592
+msgid "T_wo column slide with header"
+msgstr "带标题的两栏幻灯片(_W)"
+
+#: ../ease-core/ease-theme.vala:594
+msgid "M_edia slide without header"
+msgstr "不带标题的媒体幻灯片(_E)"
+
+#: ../ease-core/ease-theme.vala:596
+msgid "_Media slide"
+msgstr "媒体幻灯片(_M)"
+
+#: ../ease-core/ease-theme.vala:598
+msgid "Em_pty Slide"
+msgstr "空白幻灯片(_P)"
+
+#: ../ease-core/ease-theme.vala:601
+#, c-format
+msgid "%s is not a valid identifier"
+msgstr "%s 不是有效的标识符"
+
+#: ../ease-core/ease-transitions.vala:216
+msgid "None"
+msgstr "无"
+
+#: ../ease-core/ease-transitions.vala:218
+msgid "Fade"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:220
+msgid "Slide"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:222
+msgid "Drop"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:224
+msgid "Pivot"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:226
+msgid "Flip"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:228
+msgid "Revolving Door"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:230
+msgid "Reveal"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:232
+msgid "Fall"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:234
+msgid "Slats"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:236
+msgid "Open Door"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:238
+msgid "Explode"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:240
+msgid "Assemble"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:242
+msgid "Zoom"
+msgstr "缩放"
+
+#: ../ease-core/ease-transitions.vala:244
+msgid "Panel"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:246
+msgid "Intersperse Contents"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:248
+msgid "Spin Contents"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:250
+msgid "Spring Contents"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:252
+msgid "Swing Contents"
+msgstr ""
+
+#: ../ease-core/ease-transitions.vala:254
+msgid "Slide Contents"
+msgstr "幻灯片内容"
+
+#: ../ease-core/ease-transitions.vala:256
+msgid "Zoom Contents"
+msgstr "缩放内容"
+
+#: ../ease-core/ease-transitions.vala:259
+#: ../ease-core/ease-transitions.vala:371
+msgid "Undefined"
+msgstr "未定义"
+
+#: ../ease-core/ease-transitions.vala:336
+msgid "Up"
+msgstr "上"
+
+#: ../ease-core/ease-transitions.vala:338
+msgid "Down"
+msgstr "下"
+
+#: ../ease-core/ease-transitions.vala:340
+msgid "Left"
+msgstr "左"
+
+#: ../ease-core/ease-transitions.vala:342
+msgid "Right"
+msgstr "右"
+
+#: ../ease-core/ease-transitions.vala:344
+msgid "Bottom"
+msgstr "底部"
+
+#: ../ease-core/ease-transitions.vala:346
+msgid "Top"
+msgstr "顶部"
+
+#: ../ease-core/ease-transitions.vala:348
+msgid "Center"
+msgstr "中央"
+
+#: ../ease-core/ease-transitions.vala:350
+msgid "Top Left"
+msgstr "左上"
+
+#: ../ease-core/ease-transitions.vala:352
+msgid "Top Right"
+msgstr "右上"
+
+#: ../ease-core/ease-transitions.vala:354
+msgid "Bottom Left"
+msgstr "左下"
+
+#: ../ease-core/ease-transitions.vala:356
+msgid "Bottom Right"
+msgstr "右下"
+
+#: ../ease-core/ease-transitions.vala:358
+msgid "Top to Bottom"
+msgstr "从顶部到底部"
+
+#: ../ease-core/ease-transitions.vala:360
+msgid "Bottom to Top"
+msgstr "从底部到顶部"
+
+#: ../ease-core/ease-transitions.vala:362
+msgid "Left to Right"
+msgstr "从左到右"
+
+#: ../ease-core/ease-transitions.vala:364
+msgid "Right to Left"
+msgstr "从右到左"
+
+#: ../ease-core/ease-transitions.vala:366
+msgid "In"
+msgstr "入"
+
+#: ../ease-core/ease-transitions.vala:368
+msgid "Out"
+msgstr "出"
+
+#: ../ease-core/ease-utilities.vala:274
+#, c-format
+msgid "Directory to remove doesn't exist: %s"
+msgstr "要移除的目录不存在：%s"
+
+#: ../ease-core/ease-video-element.vala:93
+msgid "Your browser does not support the video tag"
+msgstr "您的浏览器不支持视频标记"
+
+#: ../ease-core/ease-video-element.vala:261
+msgid "Stop playback"
+msgstr "停止播放"
+
+#: ../ease-core/ease-video-element.vala:262
+msgid "Loop"
+msgstr "循环"
+
+#: ../ease-core/ease-video-element.vala:263
+msgid "Continue to next slide"
+msgstr "继续下一张幻灯片"
+
+#: ../ease/ease-about-dialog.vala:50
+msgid "A presentation application for the GNOME Desktop"
+msgstr "GNOME 桌面环境的一个演示文稿应用程序"
+
+#: ../ease/ease-about-dialog.vala:67
+msgid "Mario Blättermann <mariobl@gnome.org>"
+msgstr "Mario Blättermann <mariobl@gnome.org>"
+
+#: ../ease/ease-close-confirm-dialog.vala:58
+msgid "Save before closing?"
+msgstr "关闭前保存吗？"
+
+#. buttons
+#: ../ease/ease-close-confirm-dialog.vala:98
+msgid "Close _without Saving"
+msgstr "关闭但不保存(_W)"
+
+#: ../ease/ease-close-confirm-dialog.vala:135
+#, c-format
+msgid ""
+"If you don't save, changes from the last second will be permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last %i seconds will be permanently lost."
+msgstr[0] "如果您不保存，前面 %i 秒的更改将永远丢失。"
+
+#: ../ease/ease-close-confirm-dialog.vala:139
+msgid ""
+"If you don't save, changes from the last minute will be permanently lost."
+msgstr "如果您不保存，前一分钟里的更改将永远丢失。"
+
+#: ../ease/ease-close-confirm-dialog.vala:143
+#, c-format
+msgid ""
+"If you don't save, changes from the last minute and %i second will be "
+"permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last minute and %i seconds will be "
+"permanently lost."
+msgstr[0] "如果您不保存，前一分钟零 %i 秒的更改将永远丢失。"
+
+#: ../ease/ease-close-confirm-dialog.vala:147
+#, c-format
+msgid ""
+"If you don't save, changes from the last %i minute will be permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last %i minutes will be permanently lost."
+msgstr[0] "如果您不保存，前 %i 分钟的更改将永远丢失。"
+
+#: ../ease/ease-close-confirm-dialog.vala:154
+msgid "If you don't save, changes from the last hour will be permanently lost."
+msgstr "如果您不保存，前一小时中的更改将永远丢失。"
+
+#: ../ease/ease-close-confirm-dialog.vala:156
+#, c-format
+msgid ""
+"If you don't save, changes from the last hour and %i minute will be "
+"permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last hour and %i minutes will be "
+"permanently lost."
+msgstr[0] "如果您不保存，前一小时零 %i 分钟的更改将永远丢失。"
+
+#: ../ease/ease-close-confirm-dialog.vala:160
+#, c-format
+msgid ""
+"If you don't save, changes from the last %i hour will be permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last %i hours will be permanently lost."
+msgstr[0] "如果您不保存，前 %i 小时的更改将永远消失。"
+
+#: ../ease/ease-close-confirm-dialog.vala:171
+#, c-format
+msgid "Save changes to \"%s\" before closing?"
+msgstr "在关闭前将更改保存到“%s”？"
+
+#: ../ease/ease-editor-window.vala:168
+msgid "The quick brown fox jumps over the lazy dog"
+msgstr ""
+
+#: ../ease/ease-editor-window.vala:266
+msgid "Untitled Document"
+msgstr "无标题文档"
+
+#: ../ease/ease-editor-window.vala:455
+msgid "Insert Image"
+msgstr "插入图像"
+
+#: ../ease/ease-editor-window.vala:523
+msgid "Insert Video"
+msgstr "插入视频"
+
+#: ../ease/ease-editor-window.vala:548
+msgid "Error Inserting Video"
+msgstr "插入视频出错"
+
+#: ../ease/ease-editor-window.vala:556
+msgid "Insert PDF Document"
+msgstr "插入 PDF 文档"
+
+#: ../ease/ease-editor-window.vala:562
+msgid "PDF Documents"
+msgstr "PDF 文档"
+
+#: ../ease/ease-editor-window.vala:601
+msgid "Error Inserting PDF"
+msgstr "插入 PDF 出错"
+
+#: ../ease/ease-editor-window.vala:725
+msgid "Save Document"
+msgstr "保存文档"
+
+#: ../ease/ease-editor-window.vala:741
+msgid "Error Saving Document"
+msgstr "保存文档出错"
+
+#. create the dialog
+#: ../ease/ease-editor-window.vala:820
+msgid "Select Color"
+msgstr "选择颜色"
+
+#. create a font selection dialog
+#: ../ease/ease-editor-window.vala:887
+msgid "Select Font"
+msgstr "选择字体"
+
+#: ../ease/ease-import-dialog.vala:20
+#, c-format
+msgid "Downloading image %i of %i"
+msgstr "下载图像 %i/%i"
+
+#: ../ease/ease-import-dialog.vala:28
+msgid "Import Media"
+msgstr "导入媒体"
+
+#: ../ease/ease-import-dialog.vala:64
+msgid "Downloading Media Files"
+msgstr "下载媒体文件"
+
+#: ../ease/ease-inspector-transition-pane.vala:73
+msgid "Effect"
+msgstr "特效"
+
+#: ../ease/ease-inspector-transition-pane.vala:87
+msgid "Duration"
+msgstr "时长"
+
+#: ../ease/ease-inspector-transition-pane.vala:101
+msgid "Direction"
+msgstr "方向"
+
+#: ../ease/ease-inspector-transition-pane.vala:117
+msgid "Start Transition"
+msgstr "开始过渡"
+
+#: ../ease/ease-inspector-transition-pane.vala:120
+msgid "Manually"
+msgstr "手动"
+
+#: ../ease/ease-inspector-transition-pane.vala:121
+msgid "Automatically"
+msgstr "自动"
+
+#: ../ease/ease-inspector-transition-pane.vala:131
+msgid "Delay"
+msgstr "延时"
+
+#. parse command line options
+#: ../ease/ease-main.vala:65
+msgid " - a presentation editor"
+msgstr " - 一个演示文稿编辑器"
+
+#: ../ease/ease-main.vala:80
+#, c-format
+msgid "error parsing options: %s\n"
+msgstr "解析选项出错：%s\n"
+
+#: ../ease/ease-main.vala:217
+msgid "Error Opening Document"
+msgstr "打开文档出错"
+
+#: ../ease/ease-main.vala:246
+msgid "Error Playing Document"
+msgstr "播放文档出错"
+
+#: ../ease/ease-main.vala:264
+msgid "Error creating new document"
+msgstr "创建新文档出错"
+
+#: ../ease/ease-player.vala:65
+msgid "Ease Presentation"
+msgstr "Ease 演示文稿"
+
+#: ../ease/ease-slide-button-panel.vala:195
+#, c-format
+msgid "Error drawing slide preview: %s"
+msgstr "绘制幻灯片预览出错：%s"
+
+#: ../ease/ease-welcome-actor.vala:163
+#, c-format
+msgid "Error rendering preview: %s"
+msgstr "渲染预览出错：%s"
+
+#: ../ease/ease-welcome-window.vala:90
+msgid "Pick a theme and start editing"
+msgstr "选择一个主题并开始编辑"
+
+#: ../ease/ease-welcome-window.vala:121
+msgid "Custom"
+msgstr "定制"
+
+#: ../ease/ease-welcome-window.vala:123
+#, c-format
+msgid "%i by %i"
+msgstr "%i 乘 %i"
