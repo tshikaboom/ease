@@ -47,11 +47,38 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 	 */
 	private float list_size;
 	
+	/**
+	 * Emitted when the search begins.
+	 */
 	public signal void started();
+	
+	/**
+	 * Emitted when the search completes.
+	 */
 	public signal void proxy_call_complete();
+	
+	/**
+	 * Emitted if no results are found. This signal is the alterative to
+	 * {@link loading_started}.
+	 */
 	public signal void no_results();
+	
+	/**
+	 * Emitted when image previews begin downloading. This signal is the
+	 * alternative to {@link no_results}.
+	 */
 	public signal Gtk.IconView loading_started();
+	
+	/**
+	 * Emitted when progress is made in loading the image previews.
+	 *
+	 * @param progress The current progress.
+	 */
 	public signal void loading_progress(double progress);
+	
+	/**
+	 * Emitted when the loading of image previews is complete.
+	 */
 	public signal void loading_complete();
 	
 	/**
@@ -93,6 +120,11 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		images_list.add(media);
 	}
 	
+	/**
+	 * Runs a search with this service.
+	 *
+	 * @param search The search string to use.
+	 */
 	public void run(string search)
 	{
 		// create the rest proxy call
@@ -104,6 +136,23 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 		// run the call
 		try { call.run_async(on_call_finish, this); }
 		catch (Error e) { critical(e.message); }
+	}
+	
+	/**
+	 * This virtual function should be overridden by services that require
+	 * more advanced control than a simple string search.
+	 *
+	 * For example, it can be used to select different types of Creative
+	 * Commons licenses. By default, it returns null.
+	 *
+	 * In order to properly fit into Ease's current search window layout, 
+	 * this should be a relatively short and narrow widget. One or two
+	 * checkboxes is ideal, any more will take up too much space (consider a
+	 * popup window if more space is required).
+	 */
+	public virtual Gtk.Widget? extra_widget()
+	{
+		return null;
 	}
 	
 	/**
@@ -203,11 +252,11 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 	 *
 	 * @param uri The URI to load from.
 	 */
-	private Gdk.Pixbuf? gdk_pixbuf_from_uri (string uri) {
-
-		File file = File.new_for_uri (uri);
+	private Gdk.Pixbuf? gdk_pixbuf_from_uri(string uri)
+	{
+		File file = File.new_for_uri(uri);
 		FileInputStream filestream;
-		try { filestream = file.read (null); }
+		try { filestream = file.read(null); }
 		catch (Error e)
 		{
 			filestream = null;

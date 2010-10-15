@@ -61,8 +61,6 @@ internal class Ease.OCAService : Plugin.ImportService
 				for (Xml.Node* tag = itr->children;
 				     tag != null; tag = tag->next)
 				{
-					debug(tag->name);
-					
 					switch (tag->name)
 					{
 						case "title":

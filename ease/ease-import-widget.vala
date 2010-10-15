@@ -1,3 +1,20 @@
+/*  Ease, a GTK presentation application
+    Copyright (C) 2010 Nate Stedman
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 internal class Ease.ImportWidget : Gtk.Alignment
 {
 	private const string UI_FILE_PATH = "import-widget.ui";
@@ -49,6 +66,11 @@ internal class Ease.ImportWidget : Gtk.Alignment
 	internal Gtk.Widget no_results;
 	
 	/**
+	 * Extra widget for the service.
+	 */
+	internal Gtk.Widget extra_widget;
+	
+	/**
 	 * The ImportService associated with this 
 	 */
 	private Plugin.ImportService service;
@@ -84,6 +106,16 @@ internal class Ease.ImportWidget : Gtk.Alignment
 				                                                UI_FILE_PATH)));
 		}
 		catch (Error e) { error("Error loading UI: %s", e.message); }
+		
+		// bottom alignment and extra widget
+		extra_widget = service.extra_widget();
+		if (extra_widget != null)
+		{
+			
+			extra_widget.show_all();
+			(builder.get_object("extra-alignment") as Gtk.Alignment).
+				add(extra_widget);
+		}
 		
 		// search field
 		search = builder.get_object("search") as Gtk.Entry;
