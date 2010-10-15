@@ -2,7 +2,7 @@ AC_PREREQ([2.59])
 
 m4_define(ease_version, 0.4)
 m4_define(ease_core_version, 0.4)
-m4_define(flutter_version, 0.3)
+m4_define(flutter_version, 0.4)
 
 AC_INIT([Ease],
         [ease_version],
@@ -18,7 +18,7 @@ AC_CONFIG_FILES([
 	flutter/Makefile
 	ease/Makefile
 	pkgconfig/ease-core-0.4.pc
-	pkgconfig/flutter-0.3.pc])
+	pkgconfig/flutter-0.4.pc])
 
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([config.h])

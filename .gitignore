@@ -1,12 +1,3 @@
-# if anyone wants to use MonoDevelop
-*.sln
-*.mdproj
-*.userprefs
-*.usertasks
-*.pidb
-*~
-*bin/
-
 # Mac OS X noise
 *.AppleDouble/
 *DS_Store
@@ -75,3 +66,4 @@ POTFILES
 # some extra things
 data/ease.desktop
 stamp-*
+uncrustify
