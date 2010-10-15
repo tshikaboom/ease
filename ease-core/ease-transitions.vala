@@ -185,6 +185,10 @@ public enum Ease.Transition
 			
 			case ZOOM:
 				return { TransitionVariant.CENTER,
+				         TransitionVariant.TOP,
+				         TransitionVariant.BOTTOM,
+				         TransitionVariant.LEFT,
+				         TransitionVariant.RIGHT,
 				         TransitionVariant.TOP_LEFT,
 				         TransitionVariant.TOP_RIGHT,
 				         TransitionVariant.BOTTOM_LEFT,

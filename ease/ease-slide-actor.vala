@@ -1081,6 +1081,18 @@ internal class Ease.SlideActor : Clutter.Group
 				                         slide.width,
 				                         slide.height);
 				break;
+			case TransitionVariant.LEFT:
+				new_slide.set_scale_full(0, 0, 0, slide.height / 2);
+				break;
+			case TransitionVariant.RIGHT:
+				new_slide.set_scale_full(0, 0, slide.width, slide.height / 2);
+				break;
+			case TransitionVariant.TOP:
+				new_slide.set_scale_full(0, 0, slide.width / 2, 0);
+				break;
+			case TransitionVariant.BOTTOM:
+				new_slide.set_scale_full(0, 0, slide.width / 2, slide.height);
+				break;
 		}
 		animation_alpha = new Clutter.Alpha.full(animation_time,
 		                                   Clutter.AnimationMode.EASE_OUT_SINE);
