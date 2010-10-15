@@ -60,6 +60,7 @@ pkg_modules="\
  json-glib-1.0 >= 0.7.6\
  libarchive\
  poppler-glib\
+ rest-0.6 \
  rest-extras-0.6\
  unique-1.0"
  
