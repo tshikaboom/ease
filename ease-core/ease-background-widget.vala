@@ -97,7 +97,7 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 		
 		// add the root of the builder file to this widget
 		add(builder.get_object("root") as Gtk.Widget);
-		set(0, 1, 0, 0);
+		set(0, 0, 1, 0);
 		
 		// get controls
 		box_color = builder.get_object("vbox-color") as Gtk.VBox;
