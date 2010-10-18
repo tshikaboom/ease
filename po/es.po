@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-10-12 13:31+0000\n"
-"PO-Revision-Date: 2010-10-12 16:35+0200\n"
+"POT-Creation-Date: 2010-10-15 19:33+0000\n"
+"PO-Revision-Date: 2010-10-18 10:12+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -89,8 +89,6 @@ msgstr "Ya existe un archivo llamado %s. ¿Quiere reemplazarlo?"
 
 #: ../ease-core/ease-dialogs.vala:31
 #, c-format
-#| msgid ""
-#| "This file already exists in %s. Overwriting it will replace its contents."
 msgid ""
 "This file already exists in the directory \"%s\". Overwriting it will "
 "replace its contents."
@@ -269,160 +267,160 @@ msgstr "Diapositiva _vacía"
 msgid "%s is not a valid identifier"
 msgstr "%s no es un identificador válido"
 
-#: ../ease-core/ease-transitions.vala:216
+#: ../ease-core/ease-transitions.vala:220
 msgid "None"
 msgstr "Ninguna"
 
-#: ../ease-core/ease-transitions.vala:218
+#: ../ease-core/ease-transitions.vala:222
 msgid "Fade"
 msgstr "Desvanecer"
 
-#: ../ease-core/ease-transitions.vala:220
+#: ../ease-core/ease-transitions.vala:224
 msgid "Slide"
 msgstr "Diapositiva"
 
-#: ../ease-core/ease-transitions.vala:222
+#: ../ease-core/ease-transitions.vala:226
 msgid "Drop"
 msgstr "Soltar"
 
-#: ../ease-core/ease-transitions.vala:224
+#: ../ease-core/ease-transitions.vala:228
 msgid "Pivot"
 msgstr "Pivotar"
 
-#: ../ease-core/ease-transitions.vala:226
+#: ../ease-core/ease-transitions.vala:230
 msgid "Flip"
 msgstr "Voltear"
 
-#: ../ease-core/ease-transitions.vala:228
+#: ../ease-core/ease-transitions.vala:232
 msgid "Revolving Door"
 msgstr "Puerta giratoria"
 
-#: ../ease-core/ease-transitions.vala:230
+#: ../ease-core/ease-transitions.vala:234
 msgid "Reveal"
 msgstr "Mostrar"
 
-#: ../ease-core/ease-transitions.vala:232
+#: ../ease-core/ease-transitions.vala:236
 msgid "Fall"
 msgstr "Caída"
 
-#: ../ease-core/ease-transitions.vala:234
+#: ../ease-core/ease-transitions.vala:238
 msgid "Slats"
 msgstr "Tablillas"
 
-#: ../ease-core/ease-transitions.vala:236
+#: ../ease-core/ease-transitions.vala:240
 msgid "Open Door"
 msgstr "Abrir puerta"
 
-#: ../ease-core/ease-transitions.vala:238
+#: ../ease-core/ease-transitions.vala:242
 msgid "Explode"
 msgstr "Explotar"
 
-#: ../ease-core/ease-transitions.vala:240
+#: ../ease-core/ease-transitions.vala:244
 msgid "Assemble"
 msgstr "Ensamblar"
 
-#: ../ease-core/ease-transitions.vala:242
+#: ../ease-core/ease-transitions.vala:246
 msgid "Zoom"
 msgstr "Ampliación"
 
-#: ../ease-core/ease-transitions.vala:244
+#: ../ease-core/ease-transitions.vala:248
 msgid "Panel"
 msgstr "Panel"
 
-#: ../ease-core/ease-transitions.vala:246
+#: ../ease-core/ease-transitions.vala:250
 msgid "Intersperse Contents"
 msgstr "Intercalar contenido"
 
-#: ../ease-core/ease-transitions.vala:248
+#: ../ease-core/ease-transitions.vala:252
 msgid "Spin Contents"
 msgstr "Girar contenido"
 
-#: ../ease-core/ease-transitions.vala:250
+#: ../ease-core/ease-transitions.vala:254
 msgid "Spring Contents"
 msgstr "Aparecer contenido"
 
-#: ../ease-core/ease-transitions.vala:252
+#: ../ease-core/ease-transitions.vala:256
 msgid "Swing Contents"
 msgstr "Oscilar contenido"
 
-#: ../ease-core/ease-transitions.vala:254
+#: ../ease-core/ease-transitions.vala:258
 msgid "Slide Contents"
 msgstr "Contenido de las diapositivas"
 
-#: ../ease-core/ease-transitions.vala:256
+#: ../ease-core/ease-transitions.vala:260
 msgid "Zoom Contents"
 msgstr "Ampliar contenido"
 
-#: ../ease-core/ease-transitions.vala:259
-#: ../ease-core/ease-transitions.vala:371
+#: ../ease-core/ease-transitions.vala:263
+#: ../ease-core/ease-transitions.vala:375
 msgid "Undefined"
 msgstr "Indefinido"
 
-#: ../ease-core/ease-transitions.vala:336
+#: ../ease-core/ease-transitions.vala:340
 msgid "Up"
 msgstr "Arriba"
 
-#: ../ease-core/ease-transitions.vala:338
+#: ../ease-core/ease-transitions.vala:342
 msgid "Down"
 msgstr "Abajo"
 
-#: ../ease-core/ease-transitions.vala:340
+#: ../ease-core/ease-transitions.vala:344
 msgid "Left"
 msgstr "Izquierda"
 
-#: ../ease-core/ease-transitions.vala:342
+#: ../ease-core/ease-transitions.vala:346
 msgid "Right"
 msgstr "Derecha"
 
-#: ../ease-core/ease-transitions.vala:344
+#: ../ease-core/ease-transitions.vala:348
 msgid "Bottom"
 msgstr "Abajo"
 
-#: ../ease-core/ease-transitions.vala:346
+#: ../ease-core/ease-transitions.vala:350
 msgid "Top"
 msgstr "Arriba"
 
-#: ../ease-core/ease-transitions.vala:348
+#: ../ease-core/ease-transitions.vala:352
 msgid "Center"
 msgstr "Centrar"
 
-#: ../ease-core/ease-transitions.vala:350
+#: ../ease-core/ease-transitions.vala:354
 msgid "Top Left"
 msgstr "Arriba a la izquierda"
 
-#: ../ease-core/ease-transitions.vala:352
+#: ../ease-core/ease-transitions.vala:356
 msgid "Top Right"
 msgstr "Arriba a la derecha"
 
-#: ../ease-core/ease-transitions.vala:354
+#: ../ease-core/ease-transitions.vala:358
 msgid "Bottom Left"
 msgstr "Abajo a la izquierda"
 
-#: ../ease-core/ease-transitions.vala:356
+#: ../ease-core/ease-transitions.vala:360
 msgid "Bottom Right"
 msgstr "Abajo a la derecha"
 
-#: ../ease-core/ease-transitions.vala:358
+#: ../ease-core/ease-transitions.vala:362
 msgid "Top to Bottom"
 msgstr "De arriba a abajo"
 
-#: ../ease-core/ease-transitions.vala:360
+#: ../ease-core/ease-transitions.vala:364
 msgid "Bottom to Top"
 msgstr "De abajo a arriba"
 
-#: ../ease-core/ease-transitions.vala:362
+#: ../ease-core/ease-transitions.vala:366
 msgid "Left to Right"
 msgstr "De izquierda a derecha"
 
-#: ../ease-core/ease-transitions.vala:364
+#: ../ease-core/ease-transitions.vala:368
 msgid "Right to Left"
 msgstr "De derecha a izquierda"
 
-#: ../ease-core/ease-transitions.vala:366
+#: ../ease-core/ease-transitions.vala:370
 msgid "In"
 msgstr "Dentro"
 
-#: ../ease-core/ease-transitions.vala:368
+#: ../ease-core/ease-transitions.vala:372
 msgid "Out"
 msgstr "Fuera"
 
@@ -608,6 +606,15 @@ msgstr "Importar multimedia"
 #: ../ease/ease-import-dialog.vala:64
 msgid "Downloading Media Files"
 msgstr "Descargar archivos multimedia"
+
+#. create checkboxes to filter CC licenses
+#: ../ease/ease-import-flickr-service.vala:80
+msgid "Share Alike"
+msgstr "Compartir igual"
+
+#: ../ease/ease-import-flickr-service.vala:82
+msgid "For Commercial Use"
+msgstr "Para uso comercial"
 
 #: ../ease/ease-inspector-transition-pane.vala:73
 msgid "Effect"
