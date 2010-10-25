@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-10-12 13:31+0000\n"
-"PO-Revision-Date: 2010-10-13 11:54+0100\n"
+"POT-Creation-Date: 2010-10-15 19:33+0000\n"
+"PO-Revision-Date: 2010-10-25 20:09+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -270,160 +270,160 @@ msgstr "_Leere Folie"
 msgid "%s is not a valid identifier"
 msgstr "»%s« ist kein gültiger Bezeichner"
 
-#: ../ease-core/ease-transitions.vala:216
+#: ../ease-core/ease-transitions.vala:220
 msgid "None"
 msgstr "Keiner"
 
-#: ../ease-core/ease-transitions.vala:218
+#: ../ease-core/ease-transitions.vala:222
 msgid "Fade"
 msgstr "Überblenden"
 
-#: ../ease-core/ease-transitions.vala:220
+#: ../ease-core/ease-transitions.vala:224
 msgid "Slide"
 msgstr "Gleiten"
 
-#: ../ease-core/ease-transitions.vala:222
+#: ../ease-core/ease-transitions.vala:226
 msgid "Drop"
 msgstr "Abwerfen"
 
-#: ../ease-core/ease-transitions.vala:224
+#: ../ease-core/ease-transitions.vala:228
 msgid "Pivot"
 msgstr "Um Achse drehen"
 
-#: ../ease-core/ease-transitions.vala:226
+#: ../ease-core/ease-transitions.vala:230
 msgid "Flip"
 msgstr "Spiegeln"
 
-#: ../ease-core/ease-transitions.vala:228
+#: ../ease-core/ease-transitions.vala:232
 msgid "Revolving Door"
 msgstr "Drehtür"
 
-#: ../ease-core/ease-transitions.vala:230
+#: ../ease-core/ease-transitions.vala:234
 msgid "Reveal"
 msgstr "Enthüllen"
 
-#: ../ease-core/ease-transitions.vala:232
+#: ../ease-core/ease-transitions.vala:236
 msgid "Fall"
 msgstr "Fallen"
 
-#: ../ease-core/ease-transitions.vala:234
+#: ../ease-core/ease-transitions.vala:238
 msgid "Slats"
 msgstr "Latten"
 
-#: ../ease-core/ease-transitions.vala:236
+#: ../ease-core/ease-transitions.vala:240
 msgid "Open Door"
 msgstr "Tür öffnen"
 
-#: ../ease-core/ease-transitions.vala:238
+#: ../ease-core/ease-transitions.vala:242
 msgid "Explode"
 msgstr "Explodieren"
 
-#: ../ease-core/ease-transitions.vala:240
+#: ../ease-core/ease-transitions.vala:244
 msgid "Assemble"
 msgstr "Zusammenbauen"
 
-#: ../ease-core/ease-transitions.vala:242
+#: ../ease-core/ease-transitions.vala:246
 msgid "Zoom"
 msgstr "Vergrößerung"
 
-#: ../ease-core/ease-transitions.vala:244
+#: ../ease-core/ease-transitions.vala:248
 msgid "Panel"
 msgstr "Panel"
 
-#: ../ease-core/ease-transitions.vala:246
+#: ../ease-core/ease-transitions.vala:250
 msgid "Intersperse Contents"
 msgstr "Inhalt vermischen"
 
-#: ../ease-core/ease-transitions.vala:248
+#: ../ease-core/ease-transitions.vala:252
 msgid "Spin Contents"
 msgstr "Inhalt drehen"
 
-#: ../ease-core/ease-transitions.vala:250
+#: ../ease-core/ease-transitions.vala:254
 msgid "Spring Contents"
 msgstr "Inhalt federn lassen"
 
-#: ../ease-core/ease-transitions.vala:252
+#: ../ease-core/ease-transitions.vala:256
 msgid "Swing Contents"
 msgstr "Inhalt pendeln"
 
-#: ../ease-core/ease-transitions.vala:254
+#: ../ease-core/ease-transitions.vala:258
 msgid "Slide Contents"
 msgstr "Inhalt gleiten lassen"
 
-#: ../ease-core/ease-transitions.vala:256
+#: ../ease-core/ease-transitions.vala:260
 msgid "Zoom Contents"
 msgstr "Inhalt vergrößern"
 
-#: ../ease-core/ease-transitions.vala:259
-#: ../ease-core/ease-transitions.vala:371
+#: ../ease-core/ease-transitions.vala:263
+#: ../ease-core/ease-transitions.vala:375
 msgid "Undefined"
 msgstr "Nicht definiert"
 
-#: ../ease-core/ease-transitions.vala:336
+#: ../ease-core/ease-transitions.vala:340
 msgid "Up"
 msgstr "Nach oben"
 
-#: ../ease-core/ease-transitions.vala:338
+#: ../ease-core/ease-transitions.vala:342
 msgid "Down"
 msgstr "Nach unten"
 
-#: ../ease-core/ease-transitions.vala:340
+#: ../ease-core/ease-transitions.vala:344
 msgid "Left"
 msgstr "Links"
 
-#: ../ease-core/ease-transitions.vala:342
+#: ../ease-core/ease-transitions.vala:346
 msgid "Right"
 msgstr "Rechts"
 
-#: ../ease-core/ease-transitions.vala:344
+#: ../ease-core/ease-transitions.vala:348
 msgid "Bottom"
 msgstr "Unten"
 
-#: ../ease-core/ease-transitions.vala:346
+#: ../ease-core/ease-transitions.vala:350
 msgid "Top"
 msgstr "Oben"
 
-#: ../ease-core/ease-transitions.vala:348
+#: ../ease-core/ease-transitions.vala:352
 msgid "Center"
 msgstr "Zentrieren"
 
-#: ../ease-core/ease-transitions.vala:350
+#: ../ease-core/ease-transitions.vala:354
 msgid "Top Left"
 msgstr "Oben links"
 
-#: ../ease-core/ease-transitions.vala:352
+#: ../ease-core/ease-transitions.vala:356
 msgid "Top Right"
 msgstr "Oben rechts"
 
-#: ../ease-core/ease-transitions.vala:354
+#: ../ease-core/ease-transitions.vala:358
 msgid "Bottom Left"
 msgstr "Unten links"
 
-#: ../ease-core/ease-transitions.vala:356
+#: ../ease-core/ease-transitions.vala:360
 msgid "Bottom Right"
 msgstr "Unten rechts"
 
-#: ../ease-core/ease-transitions.vala:358
+#: ../ease-core/ease-transitions.vala:362
 msgid "Top to Bottom"
 msgstr "Von oben nach unten"
 
-#: ../ease-core/ease-transitions.vala:360
+#: ../ease-core/ease-transitions.vala:364
 msgid "Bottom to Top"
 msgstr "Von unten nach oben"
 
-#: ../ease-core/ease-transitions.vala:362
+#: ../ease-core/ease-transitions.vala:366
 msgid "Left to Right"
 msgstr "Von links nach rechts"
 
-#: ../ease-core/ease-transitions.vala:364
+#: ../ease-core/ease-transitions.vala:368
 msgid "Right to Left"
 msgstr "Von rechts nach links"
 
-#: ../ease-core/ease-transitions.vala:366
+#: ../ease-core/ease-transitions.vala:370
 msgid "In"
 msgstr "Ein"
 
-#: ../ease-core/ease-transitions.vala:368
+#: ../ease-core/ease-transitions.vala:372
 msgid "Out"
 msgstr "Aus"
 
@@ -614,6 +614,15 @@ msgstr "Medien importieren"
 #: ../ease/ease-import-dialog.vala:64
 msgid "Downloading Media Files"
 msgstr "Mediendateien werden heruntergeladen"
+
+#. create checkboxes to filter CC licenses
+#: ../ease/ease-import-flickr-service.vala:80
+msgid "Share Alike"
+msgstr "Share Alike"
+
+#: ../ease/ease-import-flickr-service.vala:82
+msgid "For Commercial Use"
+msgstr "Für kommerzielle Nutzung"
 
 #: ../ease/ease-inspector-transition-pane.vala:73
 msgid "Effect"
