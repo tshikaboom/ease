@@ -53,7 +53,9 @@ ease_LDADD = \
 	$(top_builddir)/ease-core/libease-core-@EASE_CORE_VERSION@.la \
 	$(top_builddir)/flutter/libflutter-@FLUTTER_VERSION@.la \
 	-lm \
+	-larchive \
+	-lclutter-gst-1.0 \
 	$(NULL)
 
-CLEANFILES = $(subst .vala,.c,$(ease_SOURCES))
+MAINTAINERCLEANFILES = $(subst .vala,.c,$(ease_SOURCES))
 

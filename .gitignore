@@ -1,3 +1,6 @@
+# debian
+debian/control
+
 # Mac OS X noise
 *.AppleDouble/
 *DS_Store

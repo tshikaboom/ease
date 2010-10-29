@@ -1,0 +1,85 @@
+Source: ease
+Section: gnome
+Priority: optional
+Maintainer: Nate Stedman <natesm@gmail.com>
+Build-Depends: debhelper (>= 7),
+               pkg-config,
+               valac,
+               cdbs,
+               gnome-pkg-tools,
+               libclutter-gst-1.0-dev,
+               libclutter-gtk-0.10-dev,
+               libgee-dev,
+               libjson-glib-dev,
+               libarchive-dev,
+               libpoppler-glib-dev,
+               librest-dev,
+               librest-extras-dev,
+               libunique-dev
+Standards-Version: 3.9.1
+Homepage: http://ease-project.org
+
+Package: ease
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         libease-core-0.4-0 (= ${binary:Version}),
+Section: gnome
+Description: Simple and stylish presentation application
+ Ease is a Clutter-based presentation application for the GNOME Desktop.
+
+Package: libease-core-0.4-0
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         libclutter-gst-1.0-0,
+         libclutter-gtk-0.10-0,
+         libgee2,
+         libgmodule-2.0-0,
+         libjson-glib-1.0-0,
+         libarchive1,
+         libpoppler-glib5,
+         librest-0.6-0,
+         librest-extras-0.6-0,
+         libunique-1.0-0,
+         libflutter-0.4-0 (= ${binary:Version})
+Section: libs
+Description: Simple and stylish presentation application (backend library)
+ Ease is a Clutter-based presentation application for the GNOME Desktop.
+ .
+ This package contains Ease's backend library.
+
+Package: libease-core-0.4-dev
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         libease-core-0.4-0 (= ${binary:Version})
+Section: libdevel
+Description: Simple and stylish presentation application (backend library dev)
+ Ease is a Clutter-based presentation application for the GNOME Desktop.
+ .
+ This package contains the development files for Ease's backend library.
+
+Package: libflutter-0.4-0
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         libclutter-1.0-0
+Section: libs
+Description: Vala foreach iteration for Clutter containers.
+ Flutter is a library to allow iteration of Clutter containers with "foreach"
+ in the Vala programming language.
+
+Package: libflutter-0.4-dev
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         libflutter-0.4-0 (= ${binary:Version}),
+         libclutter-1.0-dev
+Section:libdevel
+Description: Vala foreach iteration for Clutter containers.
+ Flutter is a library to allow iteration of Clutter containers with "foreach"
+ in the Vala programming language.
+ .
+ This package contains the development files.
+

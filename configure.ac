@@ -32,9 +32,9 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 AC_PROG_CC
 AC_PROG_CC_STDC
 
-if test "x$USE_MAINTAINER_MODE" = "xyes" ; then
+#if test "x$USE_MAINTAINER_MODE" = "xyes" ; then
   AM_PROG_VALAC([0.9.1])
-fi
+#fi
 
 AM_PROG_CC_C_O
 AC_PROG_INSTALL

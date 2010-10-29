@@ -77,7 +77,9 @@ libease_core_@EASE_CORE_VERSION@_la_VALAFLAGS = \
 	$(NULL)
 
 libease_core_@EASE_CORE_VERSION@_la_LIBADD = \
-	$(top_builddir)/flutter/libflutter-@FLUTTER_VERSION@.la
+	$(top_builddir)/flutter/libflutter-@FLUTTER_VERSION@.la \
+	-larchive \
+	-lclutter-gst-1.0
 
 libease_core_@EASE_CORE_VERSION@_la_CFLAGS = \
 	$(EASE_CFLAGS) \
@@ -103,7 +105,7 @@ vapi_DATA = \
 	$(top_srcdir)/vapi/ease-core-@EASE_CORE_VERSION@.deps
 
 # remove generated files on `make clean`
-CLEANFILES = \
+MAINTAINERCLEANFILES = \
 	$(subst .vala,.c,$(libease_core_@EASE_CORE_VERSION@_la_SOURCES)) \
 	$(top_srcdir)/vapi/ease-core-@EASE_CORE_VERSION@.vapi \
 	ease-core.h

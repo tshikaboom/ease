@@ -1,0 +1,6 @@
+debian/tmp/usr/bin/ease
+debian/tmp/usr/share/applications/*
+debian/tmp/usr/share/ease/*
+debian/tmp/usr/share/icons/*
+debian/tmp/usr/share/locale/*
+debian/tmp/usr/share/mime/*

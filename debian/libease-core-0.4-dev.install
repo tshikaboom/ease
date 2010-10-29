@@ -1,0 +1,3 @@
+debian/tmp/usr/include/ease/*
+debian/tmp/usr/lib/pkgconfig/ease-core-0.4.pc
+debian/tmp/usr/share/vala/vapi/ease-core-0.4*
