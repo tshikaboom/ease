@@ -76,7 +76,7 @@ libease_core_@EASE_CORE_VERSION@_la_VALAFLAGS = \
 	-g \
 	$(NULL)
 
-libease_core_@EASE_CORE_VERSION@_la_LIBADD = \
+libease_core_@EASE_CORE_VERSION@_la_LIBS = \
 	$(top_builddir)/flutter/libflutter-@FLUTTER_VERSION@.la
 
 libease_core_@EASE_CORE_VERSION@_la_CFLAGS = \
