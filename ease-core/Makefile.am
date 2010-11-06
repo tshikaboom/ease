@@ -56,7 +56,7 @@ libease_core_@EASE_CORE_VERSION@_la_SOURCES = \
 	sourcelist/source-view.vala \
 	$(NULL)
 
-$(top_srcdir)/vapi/ease-@EASE_CORE_VERSION@.vapi: libease-core-@EASE_CORE_VERSION@.la
+$(top_srcdir)/vapi/ease-core-@EASE_CORE_VERSION@.vapi: libease-core-@EASE_CORE_VERSION@.la
 
 ease-core.h: libease-core-@EASE_CORE_VERSION@.la
 
