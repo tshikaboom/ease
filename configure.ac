@@ -62,6 +62,7 @@ pkg_modules="\
  poppler-glib\
  rest-0.6 \
  rest-extras-0.6\
+ seed \
  unique-1.0"
  
 PKG_CHECK_MODULES(EASE, [$pkg_modules])
@@ -75,6 +76,7 @@ EASE_PACKAGES="\
  --pkg libarchive\
  --pkg poppler-glib\
  --pkg rest-extras-0.6\
+ --pkg seed \
  --pkg unique-1.0"
 
 AC_SUBST(EASE_CFLAGS)

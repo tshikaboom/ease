@@ -118,6 +118,9 @@ internal class Ease.Main : GLib.Object
 			
 			// init gstreamer
 			Gst.init(ref args);
+			
+			// init ease-core
+			Ease.init(args);
 
 			// react to command line flags
 			UndoController.enable_debug = debug_undo;

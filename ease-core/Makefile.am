@@ -21,14 +21,18 @@ libease_core_@EASE_CORE_VERSION@_la_SOURCES = \
 	ease-image-actor.vala \
 	ease-image-element.vala \
 	ease-image.vala \
+	ease-init.vala \
 	ease-iterable-models.vala \
 	ease-media-element.vala \
 	ease-plugin-import-media.vala \
 	ease-plugin-import-service.vala \
+	ease-plugins.vala \
 	ease-pdf-actor.vala \
 	ease-pdf-element.vala \
 	ease-scrolled-embed.vala \
 	ease-scrolled-embed-window.vala \
+	ease-serializable.vala \
+	ease-serializer.vala \
 	ease-shape-element.vala \
 	ease-slide.vala \
 	ease-temp.vala \

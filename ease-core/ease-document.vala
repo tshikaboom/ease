@@ -109,6 +109,11 @@ public class Ease.Document : GLib.Object, UndoSource
 	 * The file path of the Document (extracted).
 	 */
 	public string path { get; set; }
+	
+	public string[] serialize_exclude()
+	{
+		return { "path", "filename", "aspect", "length" };
+	}
 
 	/**
 	 * All {@link Slide}s in this Document.
@@ -210,6 +215,8 @@ public class Ease.Document : GLib.Object, UndoSource
 		var slide = theme.create_slide(DEFAULT_FIRST, width, height);
 		slide.parent = this;
 		append_slide(slide);
+		
+		Serializer.write(this);
 	}
 	
 	public void to_json(Gtk.Window? window) throws GLib.Error
