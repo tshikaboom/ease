@@ -17,6 +17,7 @@ libease_core_@EASE_CORE_VERSION@_la_SOURCES = \
 	ease-enums.vala \
 	ease-gradient.vala \
 	ease-html-exporter.vala \
+	ease-icon-view.vala \
 	ease-image-actor.vala \
 	ease-image-element.vala \
 	ease-image.vala \

@@ -20,11 +20,14 @@
  */
 internal class Ease.SlideSorter : Gtk.ScrolledWindow
 {
-	private Gtk.IconView view;
+	private Ease.IconView view;
+	private GtkClutter.Embed embed;
 	private Document document;
 	
 	private const int WIDTH = 100;
 	private const int WIDTH_ADDITIONAL = 300;
+	private const int LARGE_WIDTH = WIDTH + WIDTH_ADDITIONAL;
+	private const int PADDING = 10;
 	private int width;
 	
 	internal signal void display_slide(Slide s);
@@ -35,26 +38,47 @@ internal class Ease.SlideSorter : Gtk.ScrolledWindow
 		document.slide_added.connect(on_slide_added);
 		
 		// render dynamic-sized pixbufs
+		Slide slide;
+		foreach (var itr in document.slides)
+		{
+			// get the slide
+			document.slides.get(itr, Document.COL_SLIDE, out slide);
+			
+			// render a pixbuf at the appropriate size
+			document.slides.set(itr, Document.COL_PIXBUF_DYNAMIC,
+			                    SlideButtonPanel.pixbuf(slide, LARGE_WIDTH));
+		}
+		
 		set_zoom(zoom);
 		
 		// set up the icon view
-		view = new Gtk.IconView.with_model(document.slides);
+		view = new Ease.IconView();
+		view.x = view.y = PADDING;
 		view.pixbuf_column = Document.COL_PIXBUF_DYNAMIC;
-		view.markup_column = Document.COL_TITLE;
+		view.text_column = Document.COL_TITLE;
+		view.model = document.slides;
 		view.reorderable = true;
 		view.item_width = WIDTH;
 		
 		// add and show the iconview
-		add(view);
-		view.show();
+		embed = new GtkClutter.Embed();
+		(embed.get_stage() as Clutter.Stage).add_actor(view);
+		embed.show();
+		add(embed);
+		
+		// maintain the icon view's size when the stage is resized
+		embed.get_stage().allocation_changed.connect(() => {
+			view.width = embed.get_stage().width - 2 * PADDING;
+			view.height = embed.get_stage().height - 2 * PADDING;
+		});
 		
 		// when a slide is clicked, show it in the editor
 		view.item_activated.connect((v, path) => {
 			Gtk.TreeIter itr;
-			Slide slide;
+			Slide s;
 			view.model.get_iter(out itr, path);
-			view.model.get(itr, Document.COL_SLIDE, out slide);
-			display_slide(slide);
+			view.model.get(itr, Document.COL_SLIDE, out s);
+			display_slide(s);
 		});
 	}
 	
@@ -69,7 +93,6 @@ internal class Ease.SlideSorter : Gtk.ScrolledWindow
 			view.model.get(itr, Document.COL_SLIDE, out slide);
 			slides_to_remove.append(slide);
 		});
-		
 		slides_to_remove.foreach(() => {
 			if (document.length < 2) return;
 			ret_slide = document.remove_slide(slide);
@@ -80,24 +103,13 @@ internal class Ease.SlideSorter : Gtk.ScrolledWindow
 	
 	internal void set_zoom(double zoom)
 	{
-		width = (int)(WIDTH + zoom * WIDTH_ADDITIONAL);
-		
-		Slide slide;
-		foreach (var itr in document.slides)
-		{
-			// get the slide
-			document.slides.get(itr, Document.COL_SLIDE, out slide);
-			
-			// render a pixbuf at the appropriate size
-			document.slides.set(itr, Document.COL_PIXBUF_DYNAMIC,
-			                    SlideButtonPanel.pixbuf(slide, width));
-		}
+	 	view.item_width = (float)(WIDTH + zoom * WIDTH_ADDITIONAL);
 	}
 	
 	internal void on_slide_added(Slide slide, int index)
 	{
 		var itr = document.slides.index(index);
 		document.slides.set(itr, Document.COL_PIXBUF_DYNAMIC,
-		                    SlideButtonPanel.pixbuf(slide, width));
+		                    SlideButtonPanel.pixbuf(slide, LARGE_WIDTH));
 	}
 }

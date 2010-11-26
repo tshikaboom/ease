@@ -373,8 +373,8 @@ internal class Ease.EditorWindow : Gtk.Window
 		                                    slide.width,
 		                                    slide.height);
 		
-		var index = document.index_of(slide) + 1;
-		
+		var index = sorter == null ?
+		                      document.index_of(slide) + 1 : document.length;
 		document.add_slide(index, s);
 	}
 	
@@ -655,8 +655,6 @@ internal class Ease.EditorWindow : Gtk.Window
 			// make the zoom slider work for the editor embed
 			zoom_slider.values = ZOOM_LEVELS;
 			zoom_slider.adjustment = zoom_adjustment;
-			zoom_slider.update_policy = Gtk.UpdateType.CONTINUOUS;
-			zoom_slider.animate = true;
 			
 			// wipe the document's dynamic pixbuf column
 			Slide s;
@@ -684,8 +682,7 @@ internal class Ease.EditorWindow : Gtk.Window
 			// make the zoom slider work for the sorter
 			zoom_slider.values = SORTER_ZOOM_LEVELS;
 			zoom_slider.adjustment = sorter_zoom_adjustment;
-			zoom_slider.update_policy = Gtk.UpdateType.DELAYED;
-			zoom_slider.animate = false;
+			sorter.set_zoom(zoom_slider.get_value() / 100f);
 			
 			// when a slide is clicked in the sorter, switch back here
 			sorter.display_slide.connect((s) => {
