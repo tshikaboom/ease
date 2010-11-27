@@ -18,7 +18,7 @@
 /**
  * Color abstraction, supporting Clutter, GDK, and Cairo colors.
  */
-public class Ease.Color : GLib.Object
+public class Ease.Color : GLib.Object, Serializable
 {
 	/**
 	 * The format string for converting Colors to strings.
@@ -353,6 +353,16 @@ public class Ease.Color : GLib.Object
 			blue16 = value.blue;
 			alpha = 1;
 		}
+	}
+	
+	/**
+	 * Properties that should be excluded from serialization.
+	 */
+	public string[] serialize_exclude()
+	{
+		return { "red8", "green8", "blue8", "alpha8",
+		         "red16", "green16", "blue16", "alpha16",
+		         "clutter", "gdk" };
 	}
 	
 	/**

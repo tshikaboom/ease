@@ -21,7 +21,7 @@
  * The Ease Document class is generated from JSON and writes back to JSON
  * when saved.
  */
-public class Ease.Document : GLib.Object, UndoSource
+public class Ease.Document : GLib.Object, UndoSource, Serializable
 {
 	private const string MEDIA_PATH = "Media";
 	
@@ -110,9 +110,31 @@ public class Ease.Document : GLib.Object, UndoSource
 	 */
 	public string path { get; set; }
 	
+	/**
+	 * The properties that should be excluded from serialization.
+	 */
 	public string[] serialize_exclude()
 	{
 		return { "path", "filename", "aspect", "length" };
+	}
+	
+	/**
+	 * Serializes the ListStore of slides.
+	 */
+	public bool serialize_custom(string property, Json.Object object)
+	{
+		if (property != "slides") return false;
+		
+		var array = new Json.Array();
+		Slide s;
+		foreach (var iter in slides)
+		{
+			slides.get(iter, COL_SLIDE, out s);
+			array.add_object_element(Serializer.write(s));
+		}
+		object.set_array_member(property, array);
+		
+		return true;
 	}
 
 	/**
@@ -216,7 +238,12 @@ public class Ease.Document : GLib.Object, UndoSource
 		slide.parent = this;
 		append_slide(slide);
 		
-		Serializer.write(this);
+		var gen = new Json.Generator();
+		var root = new Json.Node(Json.NodeType.OBJECT);
+		root.set_object(Serializer.write(this));
+		gen.root = root;
+		gen.pretty = true;
+		gen.to_file("/home/nate/Desktop/test.json");
 	}
 	
 	public void to_json(Gtk.Window? window) throws GLib.Error

@@ -22,7 +22,7 @@
  * abstract, so each type of element is represented by a subclass. The Element
  * base class contains properties common to all types of element.
  */
-public abstract class Ease.Element : GLib.Object, UndoSource
+public abstract class Ease.Element : GLib.Object, UndoSource, Serializable
 {
 	/**
 	 * The default width of {@link Theme} master slides.
@@ -62,6 +62,14 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	 * The {@link Document} that this Element is part of. get-only.
 	 */
 	internal Document document { get { return parent.parent; } }
+	
+	/**
+	 * Properties to exclude from serialization.
+	 */
+	public string[] serialize_exclude()
+	{
+		return { "parent", "document" };
+	}
 	
 	/**
 	 * Notifies of a position change for this Element. Note that the "x" and "y"
@@ -294,10 +302,6 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	 */
 	public string identifier { get; set; }
 	
-	/**
-	 * The Element's type: currently "text", "image", or "video".
-	 */
-	public string element_type { get; set; }
 	
 	/**
 	 * The X position of this Element.

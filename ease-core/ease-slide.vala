@@ -22,7 +22,7 @@
  * children. The currently selected Slide is often acted upon by an
  * EditorWindow (from main Ease, not core).
  */
-public class Ease.Slide : GLib.Object, UndoSource
+public class Ease.Slide : GLib.Object, UndoSource, Serializable
 {
 	public const string IMAGE_TYPE = "EaseImageElement";
 	public const string SHAPE_TYPE = "EaseShapeElement";
@@ -32,7 +32,11 @@ public class Ease.Slide : GLib.Object, UndoSource
 	/**
 	 * The {@link Element}s contained by this Slide
 	 */
-	internal Gee.LinkedList<Element> elements = new Gee.LinkedList<Element>();
+	internal Gee.LinkedList<Element> elements
+	{
+		get; private set;
+		default = new Gee.LinkedList<Element>();
+	}
 	
 	/**
 	 * The Slide's transition
@@ -159,6 +163,15 @@ public class Ease.Slide : GLib.Object, UndoSource
 			}
 			return null;
 		}
+	}
+	
+	/**
+	 * The properties that should be excluded from serialization.
+	 */
+	public string[] serialize_exclude()
+	{
+		return { "next", "previous", "count", "width", "height", "aspect",
+		         "background_abs", "parent" };
 	}
 	
 	/**
@@ -296,7 +309,6 @@ public class Ease.Slide : GLib.Object, UndoSource
 					break;
 			}
 			
-			e.element_type = type;
 			append(e);
 		}
 	}

@@ -61,6 +61,9 @@ internal class Ease.Main : GLib.Object
 		Environment.set_application_name("Ease");
 		Gtk.Window.set_default_icon_name("ease");
 		
+		// use built in serializer iterators
+		Serializer.register_builtins();
+		
 		// parse command line options
 		var context = new OptionContext(_(" - a presentation editor"));
 		

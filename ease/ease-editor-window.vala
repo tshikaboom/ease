@@ -502,7 +502,6 @@ internal class Ease.EditorWindow : Gtk.Window
 			e.x = slide.width / 2 - width / 2;
 			e.y = slide.height / 2 - height / 2;
 			
-			e.element_type = Slide.IMAGE_TYPE;
 			e.identifier = Theme.CUSTOM_MEDIA;
 			e.filename = document.add_media_file(filename);
 			e.source_filename = filename;
@@ -534,7 +533,6 @@ internal class Ease.EditorWindow : Gtk.Window
 				e.x = slide.width / 2 - e.width / 2;
 				e.y = slide.height / 2 - e.height / 2;
 				
-				e.element_type = Slide.VIDEO_TYPE;
 				e.identifier = Theme.CUSTOM_MEDIA;
 				e.filename = document.add_media_file(filename);
 				e.source_filename = filename;
@@ -587,7 +585,6 @@ internal class Ease.EditorWindow : Gtk.Window
 				e.x = slide.width / 2 - e.width / 2;
 				e.y = slide.height / 2 - e.height / 2;
 				
-				e.element_type = Slide.PDF_TYPE;
 				e.identifier = Theme.CUSTOM_MEDIA;
 				e.filename = document.add_media_file(filename);
 				e.source_filename = filename;
