@@ -27,7 +27,7 @@
  * EditorEmbed is a subclass of {@link ScrollableEmbed}, and has both
  * horizontal and vertical scrollbars.
  */
-internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
+internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 {
 	/**
 	 * The {@link EditorWindow} that owns this EditorEmbed.
@@ -176,6 +176,15 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	 */
 	private Document document;
 	
+	/**
+	 * The ClutterGroup used for all elements of the interface. Placed inside
+	 * the viewport.
+	 */
+	private Clutter.Group group;
+	
+	private float width { get { return embed.viewport.width; } }
+	private float height { get { return embed.viewport.height; } }
+	
 	internal signal void element_selected(Element selected);
 	internal signal void element_deselected(Element? deselected);
 	
@@ -227,18 +236,21 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	 */
 	internal EditorEmbed(Document d, EditorWindow w)
 	{
-		base(true, true);
+		base(null);
 		win = w;
 		
 		// don't fade actors out when zoomed out
-		get_stage().use_fog = false;
+		(embed.get_stage() as Clutter.Stage).use_fog = false;
 		
 		// set the background to a faded version of the normal gtk background
 		Clutter.Color out_color, color;
 		GtkClutter.get_bg_color(this, Gtk.StateType.NORMAL, out color);
 		color.shade(SHADE_FACTOR, out out_color);
+		(embed.get_stage() as Clutter.Stage).color = out_color;
 		
-		get_stage().color = out_color;
+		// create the group
+		group = new Clutter.Group();
+		embed.viewport.add_actor(group);
 		
 		document = d;
 		set_size_request(320, 240);
@@ -304,7 +316,7 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		// clean up the previous slide
 		if (slide_actor != null)
 		{
-			contents.remove_actor(slide_actor);
+			group.remove_actor(slide_actor);
 			foreach (var a in slide_actor.contents)
 			{
 				a.button_press_event.disconnect(actor_clicked);
@@ -338,7 +350,7 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		slide_actor.ease_actor_removed.connect(on_ease_actor_removed);
 		slide_actor.slide.element_removed.connect(on_element_removed);
 		
-		contents.add_actor(slide_actor);
+		group.add_actor(slide_actor);
 		reposition_group();
 	}
 	
@@ -349,15 +361,15 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 	{
 		if (selection_rectangle != null)
 		{
-			if (selection_rectangle.get_parent() == contents)
+			if (selection_rectangle.get_parent() == group)
 			{
-				contents.remove_actor(selection_rectangle);
+				group.remove_actor(selection_rectangle);
 			}
 			foreach (var h in handles)
 			{
-				if (h.get_parent() == contents)
+				if (h.get_parent() == group)
 				{
-					contents.remove_actor(h);
+					group.remove_actor(h);
 				}
 				h.button_press_event.disconnect(handle_clicked);
 				h.button_release_event.disconnect(handle_released);
@@ -495,7 +507,7 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		// make a new selection rectangle
 		selection_rectangle = new SelectionRectangle();
 		position_selection();
-		contents.add_actor(selection_rectangle);
+		group.add_actor(selection_rectangle);
 		
 		// place the handles
 		if (handles == null)
@@ -504,7 +516,7 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 			for (int i = 0; i < HANDLE_COUNT; i++)
 			{
 				handles[i] = new Handle((HandlePosition)i);
-				contents.add_actor(handles[i]);
+				group.add_actor(handles[i]);
 				handles[i].button_press_event.connect(handle_clicked);
 				handles[i].button_release_event.connect(handle_released);
 			}
@@ -513,7 +525,7 @@ internal class Ease.EditorEmbed : ScrollableEmbed, UndoSource
 		for (int i = 0; i < HANDLE_COUNT; i++)
 		{
 			handles[i].reposition(selection_rectangle);
-			contents.raise_child(handles[i], selection_rectangle);
+			group.raise_child(handles[i], selection_rectangle);
 		}
 		
 		// when something is selected, the embed grabs key focus
