@@ -212,7 +212,7 @@ internal class Ease.Main : GLib.Object
 		
 		try
 		{
-			var doc = new Document.from_saved(path);
+			var doc = Document.from_saved(path);
 			var win = new EditorWindow(doc);
 			add_window(win);
 			win.show_now();
@@ -236,7 +236,7 @@ internal class Ease.Main : GLib.Object
 		}
 		try
 		{
-			var doc = new Document.from_saved(file);
+			var doc = Document.from_saved(file);
 			player = new Player(doc);
 	
 			// if requested, quit ease when done

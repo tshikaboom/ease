@@ -169,43 +169,27 @@ public class Ease.Document : GLib.Object, UndoSource, Serializable
 	 */
 	public signal void slide_added(Slide slide, int index);
 	
-	public Document.from_saved(string file_path) throws GLib.Error
+	public static Document from_saved(string file_path) throws GLib.Error
 	{
-		this();
-		
-		filename = absolute_path(file_path);
-		path = Archiver.extract(filename);
+		// extract the .ease archive
+		var filename = absolute_path(file_path);
+		var path = Archiver.extract(filename);
 	
+		// load the json file
 		var parser = new Json.Parser();
-		
-		// attempt to load the file
 		parser.load_from_file(Path.build_filename(path, JSON_FILE));
 		
 		// grab the root object
 		var root = parser.get_root().get_object();
 		
-		// set document properties
-		width = (int)root.get_string_member("width").to_int();
-		height = (int)root.get_string_member("height").to_int();
+		// deserialize the document
+		var document = Serializer.read(root) as Document;
 		
-		// add all slides
-		var json_slides = root.get_array_member("slides");
+		// set other properties
+		document.filename = filename;
+		document.path = path;
 		
-		for (var i = 0; i < json_slides.get_length(); i++)
-		{
-			var node = json_slides.get_object_element(i);
-			append_slide(new Slide.from_json(node, this));
-		}
-		
-		// get the document's theme
-		var theme_path = Path.build_filename(THEME_PATH, Theme.JSON_PATH);
-		var theme_full_path = Path.build_filename(path, theme_path);
-		
-		if (File.new_for_path(theme_full_path).query_exists(null))
-		{
-			theme = new Theme.json(theme_full_path);
-			theme.path = theme_full_path;
-		}
+		return document;
 	}
 	
 	/**
@@ -250,22 +234,8 @@ public class Ease.Document : GLib.Object, UndoSource, Serializable
 	{
 		// create the json base
 		var root = new Json.Node(Json.NodeType.OBJECT);
-		var obj = new Json.Object();
-		
-		// set basic document properties
-		obj.set_string_member("width", width.to_string());
-		obj.set_string_member("height", height.to_string());
-		
-		// add the document's slides
-		var slides_json = new Json.Array();
-		Slide s;
-		foreach (var itr in slides)
-		{
-			slides.get(itr, COL_SLIDE, out s);
-			slides_json.add_element(s.to_json());
-		}
-		obj.set_array_member("slides", slides_json);
-		
+		var obj = Serializer.write(this);
+				
 		// set the root object
 		root.set_object(obj);
 		

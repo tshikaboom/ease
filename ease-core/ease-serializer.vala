@@ -198,10 +198,12 @@ public static class Ease.Serializer
 	{
 		// create the object with the type that TYPE_KEY specifies
 		var type = GLib.Type.from_name(json.get_string_member(TYPE_KEY));
-		var object = new GLib.Object(type, null);
+		var object = GLib.Object.newv(type, {});
 		
 		// deserialize all properties
 		json.foreach_member((jobj, property, node) => {
+			if (property == TYPE_KEY) return;
+		
 			// if the object implements Serializable, allow custom behavior
 			if (object is Serializable)
 			{
@@ -211,7 +213,11 @@ public static class Ease.Serializer
 			}
 			
 			// get a paramspec for the property to deserialize into
-			var pspec = object.get_class().find_property(property);
+			var klass = object.get_class();
+			debug("asdf %p", klass);
+			var pspec = klass.find_property(property);
+			
+			if (pspec == null) debug("Well, fuck.");
 			
 			// create a GValue to serialize into
 			GLib.Value val = GLib.Value(pspec.value_type);
@@ -283,12 +289,12 @@ public static class Ease.Serializer
 				val = json.get_int_member(property);
 			}
 			
-			/*if (pspec.value_type == typeof(int16))
+			/*else if (pspec.value_type == typeof(int16))
 			{
 				val = json.get_int_member(property);
 			}
 			
-			if (pspec.value_type == typeof(uint16))
+			else if (pspec.value_type == typeof(uint16))
 			{
 				val = json.get_int_member(property);
 			}*/
