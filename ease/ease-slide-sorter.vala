@@ -18,24 +18,29 @@
 /**
  * A widget displaying an icon view the user can use to sort and delete slides.
  */
-internal class Ease.SlideSorter : Gtk.ScrolledWindow
+internal class Ease.SlideSorter : ScrolledEmbedWindow
 {
 	private Ease.IconView view;
-	private GtkClutter.Embed embed;
 	private Document document;
 	
 	private const int WIDTH = 100;
 	private const int WIDTH_ADDITIONAL = 300;
 	private const int LARGE_WIDTH = WIDTH + WIDTH_ADDITIONAL;
-	private const int PADDING = 10;
+	private const int PADDING = 100;
 	private int width;
 	
 	internal signal void display_slide(Slide s);
 	
 	internal SlideSorter(Document doc, double zoom)
 	{
+		base(null);
+		
+		// document
 		document = doc;
 		document.slide_added.connect(on_slide_added);
+		
+		// no hscrollbars
+		hscrollbar_policy = Gtk.PolicyType.NEVER;
 		
 		// render dynamic-sized pixbufs
 		Slide slide;
@@ -61,15 +66,11 @@ internal class Ease.SlideSorter : Gtk.ScrolledWindow
 		view.item_width = WIDTH;
 		
 		// add and show the iconview
-		embed = new GtkClutter.Embed();
-		(embed.get_stage() as Clutter.Stage).add_actor(view);
-		embed.show();
-		add(embed);
+		embed.viewport.add_actor(view);
 		
 		// maintain the icon view's size when the stage is resized
-		embed.get_stage().allocation_changed.connect(() => {
-			view.width = embed.get_stage().width - 2 * PADDING;
-			view.height = embed.get_stage().height - 2 * PADDING;
+		embed.viewport.allocation_changed.connect(() => {
+			view.width = embed.viewport.width - 2 * PADDING;
 		});
 		
 		// when a slide is clicked, show it in the editor

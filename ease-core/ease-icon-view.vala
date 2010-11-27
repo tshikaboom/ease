@@ -203,6 +203,10 @@ public class Ease.IconView : Clutter.Box
 				(actor as Icon).update_pixbuf(pixbuf_column);
 			});
 		});
+		
+		notify["text-color"].connect(() => {
+			@foreach((actor) => (actor as Icon).text.color = text_color);
+		});
 	}
 	
 	public void selected_foreach(ForeachFunc callback)
@@ -428,7 +432,8 @@ public class Ease.IconView : Clutter.Box
 		var p = new Gtk.TreePath.from_string(model.get_string_from_iter(iter));
 		var icon = new Icon(new Gtk.TreeRowReference(model, p),
 		                    markup_column != -1 ? markup_column : text_column,
-		                    markup_column == -1, pixbuf_column);
+		                    markup_column == -1, pixbuf_column,
+		                    text_color);
 		
 		// connect signals
 		icon.select.connect(on_icon_select);
@@ -470,7 +475,8 @@ public class Ease.IconView : Clutter.Box
 		public signal void select(Icon icon, Clutter.ModifierType modifiers);
 		
 		public Icon(Gtk.TreeRowReference reference, int text_col,
-		            bool use_markup, int pixbuf_col)
+		            bool use_markup, int pixbuf_col,
+		            Clutter.Color text_color)
 		{
 			this.reference = reference;
 			
@@ -478,6 +484,7 @@ public class Ease.IconView : Clutter.Box
 			text = new Clutter.Text.with_text("Sans 8", " ");
 			text.line_alignment = Pango.Alignment.CENTER;
 			text.single_line_mode = false;
+			text.color = text_color;
 			add_actor(text);
 			
 			// initial "update" of text and pixbuf

@@ -27,6 +27,8 @@ libease_core_@EASE_CORE_VERSION@_la_SOURCES = \
 	ease-plugin-import-service.vala \
 	ease-pdf-actor.vala \
 	ease-pdf-element.vala \
+	ease-scrolled-embed.vala \
+	ease-scrolled-embed-window.vala \
 	ease-shape-element.vala \
 	ease-slide.vala \
 	ease-temp.vala \
