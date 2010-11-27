@@ -45,7 +45,7 @@ public class Ease.AboutDialog : Gtk.AboutDialog
 	 */
 	public AboutDialog()
 	{
-		program_name = "Ease";
+		program_name = "Ease 0.5";
 		
 		comments = _("A presentation application for the GNOME Desktop");
 	
