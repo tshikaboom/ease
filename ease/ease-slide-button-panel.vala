@@ -188,7 +188,7 @@ internal class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 		
 		try
 		{
-			slide.cairo_render_small(context);
+			slide.cairo_render(context, width < 100);
 		}
 		catch (GLib.Error e)
 		{

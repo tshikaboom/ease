@@ -209,7 +209,8 @@ public class Ease.VideoElement : MediaElement
 		} while (combo.model.iter_next(ref itr));
 	}
 
-	public override void cairo_render(Cairo.Context context) throws Error
+	public override void cairo_render(Cairo.Context context,
+	                                  bool use_small) throws Error
 	{
 		// TODO: something with video frames?
 	}

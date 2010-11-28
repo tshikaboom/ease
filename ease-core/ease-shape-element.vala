@@ -89,7 +89,7 @@ public class Ease.ShapeElement : CairoElement
 		var surface = new Cairo.ImageSurface(Cairo.Format.ARGB32,
 		                                     (int)width, (int)height);
 		var cr = new Cairo.Context(surface);
-		cairo_render(cr);
+		cairo_render(cr, false);
 		
 		var path = Path.build_filename(dir, exporter.render_index.to_string());
 		surface.write_to_png(path);
@@ -158,9 +158,10 @@ public class Ease.ShapeElement : CairoElement
 	 *
 	 * @param cr The context to render to.
 	 */
-	public override void cairo_render(Cairo.Context cr)
+	public override void cairo_render(Cairo.Context cr, bool use_small)
 	{
-		background.set_cairo(cr, (int)width, (int)height, parent.parent.path);
+		background.set_cairo(cr, (int)width, (int)height, parent.parent.path,
+		                     use_small);
 		
 		switch (shape_type)
 		{

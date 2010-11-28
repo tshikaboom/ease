@@ -301,6 +301,9 @@ internal class Ease.Handle : Clutter.CairoTexture
 	
 	private void redraw()
 	{
+		// clear to prevent a white halo from occuring
+		clear();
+		
 		// get a Cairo context
 		var cr = create();
 		
