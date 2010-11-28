@@ -183,7 +183,7 @@ public class Ease.Document : GLib.Object, UndoSource, Serializable
 		var root = parser.get_root().get_object();
 		
 		// deserialize the document
-		var document = Serializer.read(root) as Document;
+		var document = Serializer.read(root, typeof(Document)) as Document;
 		
 		// set other properties
 		document.filename = filename;

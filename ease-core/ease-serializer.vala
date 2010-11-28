@@ -169,12 +169,14 @@ public static class Ease.Serializer
 			
 			if (pspec.value_type == typeof(float))
 			{
-				json.set_double_member(pspec.name, (float)val); continue;
+				json.set_string_member(pspec.name, "%f".printf((float)val));
+				continue;
 			}
 			
 			if (pspec.value_type == typeof(double))
 			{
-				json.set_double_member(pspec.name, (double)val); continue;
+				json.set_string_member(pspec.name, "%f".printf((double)val));
+				continue;
 			}
 			
 			if (pspec.value_type.is_enum())
@@ -194,11 +196,14 @@ public static class Ease.Serializer
 		return json;
 	}
 	
-	public static GLib.Object read(Json.Object json)
+	public static GLib.Object read(Json.Object json, Type type)
 	{
 		// create the object with the type that TYPE_KEY specifies
-		var type = GLib.Type.from_name(json.get_string_member(TYPE_KEY));
 		var object = GLib.Object.newv(type, {});
+		
+		// get the object's class
+		var klass = object.get_class();
+		if (klass == null) critical("no class for %s", type.name());
 		
 		// deserialize all properties
 		json.foreach_member((jobj, property, node) => {
@@ -213,11 +218,8 @@ public static class Ease.Serializer
 			}
 			
 			// get a paramspec for the property to deserialize into
-			var klass = object.get_class();
-			debug("asdf %p", klass);
 			var pspec = klass.find_property(property);
-			
-			if (pspec == null) debug("Well, fuck.");
+			if (pspec == null) debug("no pspec for %s", property);
 			
 			// create a GValue to serialize into
 			GLib.Value val = GLib.Value(pspec.value_type);
@@ -225,7 +227,8 @@ public static class Ease.Serializer
 			// deserialize GObjects
 			if (Value.type_transformable(pspec.value_type, typeof(Object)))
 			{
-				val = read(json.get_object_member(pspec.name));
+				val = read(json.get_object_member(pspec.name),
+				           pspec.value_type);
 			}
 			
 			// serialize basic types
@@ -316,12 +319,16 @@ public static class Ease.Serializer
 			
 			else if (pspec.value_type == typeof(float))
 			{
-				val = json.get_double_member(property);
+				float f;
+				json.get_string_member(property).scanf("%f", out f);
+				val = f;
 			}
 			
 			else if (pspec.value_type == typeof(double))
 			{
-				val = json.get_double_member(property);
+				double d;
+				json.get_string_member(property).scanf("%f", out d);
+				val = d;
 			}
 			
 			else if (pspec.value_type.is_enum())
@@ -371,7 +378,7 @@ public static class Ease.Serializer
 		}, (object, array) => {
 			unowned GLib.List<Object> list = (GLib.List<Object>)object;
 			array.foreach_element((a, index, node) => {
-				list.append(read(node.get_object()));
+				//list.append(read(node.get_object()));
 			});
 		});
 		
@@ -384,7 +391,7 @@ public static class Ease.Serializer
 		}, (object, array) => {
 			var list = object as Gee.List<GLib.Object>;
 			array.foreach_element((a, index, node) => {
-				list.insert(list.size, read(node.get_object()));
+				//list.insert(list.size, read(node.get_object()));
 			});
 		});
 	}
