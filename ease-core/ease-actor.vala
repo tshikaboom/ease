@@ -208,8 +208,10 @@ public abstract class Ease.Actor : Clutter.Group
 	 * Called when the actor should be edited. Subclasses should override this.
 	 *
 	 * @param sender The widget this Actor is on.
+	 * @param mouse_x The x position of the mouse, relative to the actor.
+	 * @param mouse_y The y position of the mouse, relative to the actor.
 	 */
-	public virtual void edit(Gtk.Widget sender) {}
+	public virtual void edit(Gtk.Widget sender, float mouse_x, float mouse_y) {}
 	
 	/**
 	 * Called when the actor end editing. Subclasses with editing that is not

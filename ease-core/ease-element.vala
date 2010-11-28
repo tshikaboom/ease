@@ -80,7 +80,6 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 	 */
 	public Element.from_json(Json.Object obj)
 	{
-		signals();
 		identifier = obj.get_string_member(Theme.E_IDENTIFIER);
 		x = (float)obj.get_string_member(Theme.X).to_double();
 		y = (float)obj.get_string_member(Theme.Y).to_double();
@@ -88,6 +87,14 @@ public abstract class Ease.Element : GLib.Object, UndoSource
 		height = (float)obj.get_string_member(Theme.HEIGHT).to_double();
 		has_been_edited =
 			obj.get_string_member(Theme.HAS_BEEN_EDITED).to_bool();
+	}
+	
+	/**
+	 * Connect signals when an Element is created.
+	 */
+	construct
+	{
+		signals();
 	}
 	
 	/**

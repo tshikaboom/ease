@@ -464,7 +464,9 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 		if (event.click_count == 2)
 		{
 			disconnect_keys();
-			(sender as Actor).edit(this);
+			(sender as Actor).edit(this,
+			                       event.x - sender.x,
+			                       event.y - sender.y);
 			is_editing = true;
 			return true;
 		}

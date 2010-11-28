@@ -887,11 +887,10 @@ internal class Ease.EditorWindow : Gtk.Window
 		var text = embed.selected.element as TextElement;
 		
 		// set the preview text to the element's text, if none, use preview text
-		font_selection.set_preview_text(text.text != "" ?
-		                                text.text : FONT_TEXT);
+		font_selection.set_preview_text("Lorem Ipsum Dolor");
 		
 		// set the dialog's font to the current font
-		font_selection.set_font_name(text.font_description.to_string());
+		//font_selection.set_font_name(text.font_description.to_string());
 		
 		// run the dialog
 		switch (font_selection.run())
@@ -902,9 +901,9 @@ internal class Ease.EditorWindow : Gtk.Window
 					new UndoAction(embed.selected.element, "font-description"));
 				
 				// set the font description to the new font
-				text.font_description = 
+				/*text.font_description = 
 					Pango.FontDescription.from_string(
-						font_selection.get_font_name());
+						font_selection.get_font_name());*/
 						
 				// emit the "changed" signal on the element's slide
 				text.changed();

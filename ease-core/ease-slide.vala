@@ -651,7 +651,7 @@ public class Ease.Slide : GLib.Object, UndoSource
 			if ((object as TextElement).identifier == Theme.TITLE_TEXT || 
 			    (object as TextElement).identifier == Theme.HEADER_TEXT)
 			{
-				title_changed(this, (object as TextElement).text);
+				//title_changed(this, (object as TextElement).text);
 			}
 		}
 	}
@@ -669,8 +669,8 @@ public class Ease.Slide : GLib.Object, UndoSource
 				if ((element as TextElement).identifier == Theme.TITLE_TEXT || 
 					(element as TextElement).identifier == Theme.HEADER_TEXT)
 				{
-					var ret = (element as TextElement).text;
-					return ret.length > 0 ? ret : null;
+					//var ret = (element as TextElement).text;
+					//return ret.length > 0 ? ret : null;
 				}
 			}
 		}

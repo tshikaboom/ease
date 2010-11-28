@@ -33,9 +33,9 @@ public class Ease.TextActor : Actor
 	private UndoAction undo_action;
 	
 	/**
-	 * Text at the start of an edit.
+	 * The CairoTexture that is rendered onto.
 	 */
-	private string original_text;
+	private Clutter.CairoTexture texture;
 
 	/**
 	 * Instantiates a new TextActor from an Element.
@@ -49,140 +49,36 @@ public class Ease.TextActor : Actor
 	{
 		base(e, c);
 		
-		var text = new Clutter.Text();
-		contents = text;
-
-		// set actor properties
-		text.use_markup = true;
-		text.line_wrap = true;
-		text.line_wrap_mode = Pango.WrapMode.WORD_CHAR;
-		text.color = e.color.clutter;
-		text.line_alignment = e.text_align;
-		text.font_name = e.font_description.to_string();
-		text.set_markup(e.display_text);
+		texture = new Clutter.CairoTexture((uint)e.width, (uint)e.height);
+		contents = texture;
+		
+		// automatically render when the size of the texture changes
+		texture.allocation_changed.connect(() => {
+			texture.clear();
+			render_text();
+		});
 		
 		add_actor(contents);
 		contents.width = e.width;
 		contents.height = e.height;
 		x = e.x;
 		y = e.y;
+	}
+	
+	public override void edit(Gtk.Widget sender, float mouse_x, float mouse_y)
+	{
 		
-		// add notify event handlers to update when changes to the element occur
-		e.notify["color"].connect((sender, spec) => {
-			text.color = (sender as TextElement).color.clutter;
-		});
-		
-		e.notify["font-description"].connect((sender, spec) => {
-			text.font_name = e.font_description.to_string();
-		});
-		
-		e.notify["text-align"].connect((sender, spec) => {
-			text.line_alignment = e.text_align;
-		});
-		
-		e.notify["color"].connect((sender, spec) => {
-			text.color = e.color.clutter;
-		});
-		
-		e.notify["text"].connect((sender, spec) => {
-			if (!text.editable)
-			{
-				text.set_markup((element as TextElement).display_text);
-			}
-		});
 	}
 	
 	/**
-	 * {@inheritDoc}
+	 * Renders the TextElement's text to the CairoTexture.
 	 */
-	public override void edit(Gtk.Widget sender)
+	private void render_text()
 	{
-		// set text to editable
-		var text = contents as Clutter.Text;
-		text.editable = true;
-		text.reactive = true;
-		text.activatable = true;
-		text.text_changed.connect(text_changed);
-		text.activate.connect(text_activate);
-		
-		// grab key focus
-		((Clutter.Stage)get_stage()).set_key_focus(text);
-		sender.grab_focus();
-		
-		// set the selection color
-		text.selection_color = { 255 - text.color.red,
-		                         255 - text.color.green,
-		                         255 - text.color.blue,
-		                         SELECTION_ALPHA };
-		
-		// if the element hasn't been edited, empty it
-		if (!element.has_been_edited)
-		{
-			text.text = "";
-		}
-		
-		// create an UndoAction for the element
-		undo_action = new UndoAction(element, "has-been-edited");
-		
-		// order is IMPORTANT here because of notify lambda
-		undo_action.add(element, "text");
-		original_text = (element as TextElement).text;
-		
-		// if the text is being edited when the action is applied, stop editing
-		undo_action.pre_apply.connect((action) => {
-			if (text.editable) end_edit(sender);
-		});
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public override void end_edit(Gtk.Widget sender)
-	{
-		// release key focus
-		((Clutter.Stage)get_stage()).set_key_focus(null);
-		
-		// disable text editing
-		var text = contents as Clutter.Text;
-		text.editable = false;
-		text.reactive = false;
-		text.activatable = false;
-		text.text_changed.disconnect(text_changed);
-		text.activate.disconnect(text_activate);
-		
-		// if the text has not been edited, restore default text
-		if (text.text == "" && !element.has_been_edited)
-		{
-			text.text = (element as TextElement).display_text;
-		}
-		else // otherwise, the element has been edited
-		{
-			element.has_been_edited = true;
-		}
-		
-		// if changes were made to the text, report an UndoAction
-		if (original_text != (element as TextElement).text)
-		{
-			element.undo(undo_action);
-		}
-	}
-	
-	/**
-	 * Signal handler for text editing. Updates the "text" property on the
-	 * linked {@link Element}.
-	 */
-	private void text_changed(Clutter.Text sender)
-	{
-		(element as TextElement).text = sender.text;
-		element.parent.changed(element.parent);
-	}
-	
-	/**
-	 * Signal handler for text "activation", inserts a newline character.
-	 */
-	private void text_activate(Clutter.Text sender)
-	{
-		(contents as Clutter.Text).insert_unichar('\n');
+		texture.set_surface_size((uint)texture.width, (uint)texture.height);
+		var cr = texture.create();
+		(element as TextElement).text.render(cr, (int)texture.width,
+		                                         (int)texture.height);
 	}
 }
 

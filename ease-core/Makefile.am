@@ -31,7 +31,9 @@ libease_core_@EASE_CORE_VERSION@_la_SOURCES = \
 	ease-scrolled-embed-window.vala \
 	ease-shape-element.vala \
 	ease-slide.vala \
+	ease-string.vala \
 	ease-temp.vala \
+	ease-text.vala \
 	ease-text-actor.vala \
 	ease-text-element.vala \
 	ease-theme.vala \

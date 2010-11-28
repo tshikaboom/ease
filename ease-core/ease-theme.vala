@@ -476,15 +476,15 @@ public class Ease.Theme : GLib.Object
 		var text = new TextElement();
 		
 		// set text properties
-		text.text_font = element_get(type, TEXT_FONT);
+		/*text.text_font = element_get(type, TEXT_FONT);
 		text.text_size_from_string(element_get(type, TEXT_SIZE));
 		text.text_style_from_string(element_get(type, TEXT_STYLE));
 		text.text_variant_from_string(element_get(type, TEXT_VARIANT));
 		text.text_weight_from_string(element_get(type, TEXT_WEIGHT));
-		text.text_align_from_string(element_get(type, TEXT_ALIGN));
+		text.text_align_from_string(element_get(type, TEXT_ALIGN));*/
 		
 		// set the color property
-		text.color = new Color.from_string(element_get(type, TEXT_COLOR));
+		//text.color = new Color.from_string(element_get(type, TEXT_COLOR));
 		
 		// set size properties
 		text.x = x;
@@ -494,8 +494,6 @@ public class Ease.Theme : GLib.Object
 		
 		// set base properties
 		text.identifier = type;
-		text.has_been_edited = false;
-		text.text = "";
 		
 		return text;
 	}
