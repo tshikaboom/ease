@@ -638,6 +638,7 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 		is_drag_initialized = false;
 		sender.motion_event.connect(handle_motion);
 		Clutter.grab_pointer(sender);
+		selected.resizing = true;
 		
 		// create an UndoAction for this resize
 		move_undo = new UndoAction(selected.element, "x");
@@ -667,6 +668,7 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 			is_dragging = false;
 			sender.motion_event.disconnect(handle_motion);
 			undo(move_undo);
+			selected.resizing = false;
 		}
 		
 		Clutter.ungrab_pointer();
