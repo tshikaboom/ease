@@ -2,23 +2,23 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Licker Nandor <lickernandor@yahoo.com>, 2010.
+# Lucian Adrian Grijincu <lucian.grijincu@gmail.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=ease&component=general\n"
+"Report-Msgid-Bugs-To: "
+"https://bugzilla.gnome.org/enter_bug.cgi?product=ease&component=general\n"
 "POT-Creation-Date: 2010-11-27 10:32+0000\n"
-"PO-Revision-Date: 2010-11-27 12:33+0300\n"
-"Last-Translator: Licker Nandor <lickernandor@yahoo.com>\n"
-"Language-Team: Romanian\n"
+"PO-Revision-Date: 2010-11-28 07:37+0300\n"
+"Last-Translator: Lucian Adrian Grijincu <lucian.grijincu@gmail.com>\n"
+"Language-Team: Romanian Gnome Team <gnomero-list@lists.sourceforge.net>\n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);;\n"
-"X-Generator: Virtaal 0.5.2\n"
-
+"X-Generator: Virtaal 0.6.1\n"
 
 #: ../data/ease.desktop.in.h:1 ../data/ease.desktop.in.in.h:1
 msgid "Create nice and elegant presentations"
@@ -36,7 +36,7 @@ msgstr "Se salvează „%s”"
 #: ../ease-core/ease-archiver.vala:98
 #, c-format
 msgid "Temporary directory doesn't exist: %s"
-msgstr "Nu există dosar temporar: %s"
+msgstr "Nu există dosarul temporar: %s"
 
 #: ../ease-core/ease-background.vala:241
 msgid "Solid Color"
@@ -52,7 +52,7 @@ msgstr "Imagine"
 
 #: ../ease-core/ease-background-widget.vala:24
 msgid "Select Background Image"
-msgstr "Selectează imaginea de fundal"
+msgstr "Selectare imagine de fundal"
 
 #: ../ease-core/ease-background-widget.vala:188
 #: ../ease-core/ease-background-widget.vala:238
@@ -87,7 +87,7 @@ msgstr "Înlocuiți %s?"
 #: ../ease-core/ease-dialogs.vala:29
 #, c-format
 msgid "A file named %s already exists. Do you want to replace it?"
-msgstr "Există deja un fișier cu numele %s. Doriți să-l inlocuiți?"
+msgstr "Există deja un fișier cu numele %s. Doriți să-l înlocuiți?"
 
 #: ../ease-core/ease-dialogs.vala:31
 #, c-format
@@ -95,7 +95,7 @@ msgid ""
 "This file already exists in the directory \"%s\". Overwriting it will "
 "replace its contents."
 msgstr ""
-"Fișierul există deja in dosarul „%s”. Prin suprascriere conținutul său va fi "
+"Fișierul există deja în dosarul „%s”. Prin suprascriere conținutul său va fi "
 "înlocuit."
 
 #: ../ease-core/ease-dialogs.vala:183
@@ -104,7 +104,7 @@ msgstr "Deschidere document"
 
 #: ../ease-core/ease-dialogs.vala:187 ../ease-core/ease-dialogs.vala:263
 msgid "Ease Presentations"
-msgstr "Prezentări ease"
+msgstr "Prezentări Ease"
 
 #: ../ease-core/ease-dialogs.vala:290
 msgid "Don't append .ease"
@@ -185,7 +185,7 @@ msgstr "Eroare la copierea fișierului"
 #: ../ease-core/ease-image-actor.vala:47
 #, c-format
 msgid "Error loading ImageActor: %s\n"
-msgstr "Eroare la încarcarea ImageActor: %s\n"
+msgstr "Eroare la încărcarea ImageActor: %s\n"
 
 #: ../ease-core/ease-image-element.vala:99 ../ease/ease-editor-window.vala:516
 msgid "Error Inserting Image"
@@ -197,11 +197,11 @@ msgstr "Întinde"
 
 #: ../ease-core/ease-image.vala:147
 msgid "Maintain Aspect Ratio"
-msgstr "Menține proporția de aspect"
+msgstr "Menține raportul de aspect"
 
 #: ../ease-core/ease-image.vala:148
 msgid "Do not Scale"
-msgstr "Nu redimensiona"
+msgstr "Nu scala"
 
 #: ../ease-core/ease-text-element.vala:25
 msgid "Double click to edit"
@@ -215,22 +215,22 @@ msgstr "Eroare la încărcarea temei: %s"
 #: ../ease-core/ease-theme.vala:445
 #, c-format
 msgid "Invalid master slide title: %s"
-msgstr "Titlu de diapozitiv principal invalid: %s"
+msgstr "Titlu de diapozitiv principal nevalid: %s"
 
 #: ../ease-core/ease-theme.vala:472
 #, c-format
 msgid "Not a valid text element type: %s"
-msgstr "Tip de element text invalid: %s"
+msgstr "Tip de element text nevalid: %s"
 
 #: ../ease-core/ease-theme.vala:526
 #, c-format
 msgid "Could not find property %s on element type %s."
-msgstr "Nu am găsit proprietatea %s pe tipul de element %s."
+msgstr "Nu s-a putut găsi proprietatea %s pe tipul de element %s."
 
 #: ../ease-core/ease-theme.vala:556
 #, c-format
 msgid "Could not find property %s on master type %s."
-msgstr "Nu am găsit proprietatea %s pe tipul principal %s."
+msgstr "Nu s-a putut găsi proprietatea %s pe tipul principal %s."
 
 #: ../ease-core/ease-theme.vala:584
 msgid "_Title slide"
@@ -238,7 +238,7 @@ msgstr "Diapozitiv de _titlu"
 
 #: ../ease-core/ease-theme.vala:586
 msgid "Content slide _without header"
-msgstr "Diapozitiv de conținut _făra colontitlu"
+msgstr "Diapozitiv de conținut _fără antet"
 
 #: ../ease-core/ease-theme.vala:588
 msgid "_Content slide"
@@ -246,15 +246,15 @@ msgstr "Diapozitiv de _conținut"
 
 #: ../ease-core/ease-theme.vala:590
 msgid "Two column slide without _header"
-msgstr "Diapozitiv cu _două coloane făra colontitlu"
+msgstr "Diapozitiv cu _două coloane fără antet"
 
 #: ../ease-core/ease-theme.vala:592
 msgid "T_wo column slide with header"
-msgstr "Diapozitiv cu două coloane cu c_olontitlu"
+msgstr "Diapo_zitiv cu două coloane cu antet"
 
 #: ../ease-core/ease-theme.vala:594
 msgid "M_edia slide without header"
-msgstr "Diapozitiv multim_edia fără colontitlu"
+msgstr "Diapozitiv multim_edia fără antet"
 
 #: ../ease-core/ease-theme.vala:596
 msgid "_Media slide"
@@ -295,7 +295,7 @@ msgstr "Întoarce"
 
 #: ../ease-core/ease-transitions.vala:232
 msgid "Revolving Door"
-msgstr "Ușa rotativă"
+msgstr "Ușă rotativă"
 
 #: ../ease-core/ease-transitions.vala:234
 msgid "Reveal"
@@ -311,7 +311,7 @@ msgstr "Șipci"
 
 #: ../ease-core/ease-transitions.vala:240
 msgid "Open Door"
-msgstr "Deschidere usă"
+msgstr "Deschidere ușă"
 
 #: ../ease-core/ease-transitions.vala:242
 msgid "Explode"
@@ -392,7 +392,7 @@ msgstr "Stânga sus"
 
 #: ../ease-core/ease-transitions.vala:356
 msgid "Top Right"
-msgstr "Dreata sus"
+msgstr "Dreapta sus"
 
 #: ../ease-core/ease-transitions.vala:358
 msgid "Bottom Left"
@@ -419,14 +419,12 @@ msgid "Right to Left"
 msgstr "De la dreapta la stânga"
 
 #: ../ease-core/ease-transitions.vala:370
-#, fuzzy
 msgid "In"
-msgstr "Înăuntru"
+msgstr "Mărește"
 
 #: ../ease-core/ease-transitions.vala:372
-#, fuzzy
 msgid "Out"
-msgstr "Înafară"
+msgstr "Micșorează"
 
 #: ../ease-core/ease-utilities.vala:274
 #, c-format
@@ -435,7 +433,7 @@ msgstr "Nu există dosarul de șters: %s"
 
 #: ../ease-core/ease-video-element.vala:93
 msgid "Your browser does not support the video tag"
-msgstr "Navigatorul dumneavoastră nu suportă eticheta video"
+msgstr "Navigatorul dumneavoastră nu suportă tag-ul video"
 
 #: ../ease-core/ease-video-element.vala:261
 msgid "Stop playback"
@@ -522,8 +520,7 @@ msgstr[2] ""
 
 #: ../ease/ease-close-confirm-dialog.vala:154
 msgid "If you don't save, changes from the last hour will be permanently lost."
-msgstr ""
-"Dacă nu salvați, modificările din ultima oră vor fi pierdute definitiv."
+msgstr "Dacă nu salvați, modificările din ultima oră vor fi pierdute definitiv."
 
 #: ../ease/ease-close-confirm-dialog.vala:156
 #, c-format
@@ -549,8 +546,7 @@ msgid ""
 "If you don't save, changes from the last %i hour will be permanently lost."
 msgid_plural ""
 "If you don't save, changes from the last %i hours will be permanently lost."
-msgstr[0] ""
-"Dacă nu salvați, modificările din ultima oră vor fi pierdute definitiv."
+msgstr[0] "Dacă nu salvați, modificările din ultima oră vor fi pierdute definitiv."
 msgstr[1] ""
 "Dacă nu salvați, modificările din ultimele %i ore vor fi pierdute definitiv."
 msgstr[2] ""
@@ -563,9 +559,8 @@ msgid "Save changes to \"%s\" before closing?"
 msgstr "Salvați modificările în „%s” înainte de închidere?"
 
 #: ../ease/ease-editor-window.vala:168
-#, fuzzy
 msgid "The quick brown fox jumps over the lazy dog"
-msgstr "The quick brown fox jumps over the lazy dog"
+msgstr "Șipotul țâșnește hipnotic azvârlindu-se în mrejele bălții fumegânde"
 
 #: ../ease/ease-editor-window.vala:266
 msgid "Untitled Document"
@@ -573,11 +568,11 @@ msgstr "Document nedenumit"
 
 #: ../ease/ease-editor-window.vala:455
 msgid "Insert Image"
-msgstr "Inserează o imagine"
+msgstr "Inserare imagine"
 
 #: ../ease/ease-editor-window.vala:523
 msgid "Insert Video"
-msgstr "Inserează un video"
+msgstr "Inserare video"
 
 #: ../ease/ease-editor-window.vala:548
 msgid "Error Inserting Video"
@@ -585,7 +580,7 @@ msgstr "Eroare la inserarea videoului"
 
 #: ../ease/ease-editor-window.vala:556
 msgid "Insert PDF Document"
-msgstr "Inserează un document PDF"
+msgstr "Inserare document PDF"
 
 #: ../ease/ease-editor-window.vala:562
 msgid "PDF Documents"
@@ -611,7 +606,7 @@ msgstr "Selectare culoare"
 #. create a font selection dialog
 #: ../ease/ease-editor-window.vala:884
 msgid "Select Font"
-msgstr "Selecare font"
+msgstr "Selectare font"
 
 #: ../ease/ease-import-dialog.vala:20
 #, c-format
@@ -620,7 +615,7 @@ msgstr "Se descarcă imaginea %i din %i"
 
 #: ../ease/ease-import-dialog.vala:28
 msgid "Import Media"
-msgstr "Importă multimedia"
+msgstr "Importare multimedia"
 
 #: ../ease/ease-import-dialog.vala:64
 msgid "Downloading Media Files"
@@ -629,7 +624,7 @@ msgstr "Se descarcă fișiere multimedia"
 #. create checkboxes to filter CC licenses
 #: ../ease/ease-import-flickr-service.vala:80
 msgid "Share Alike"
-msgstr "Împarte egal"
+msgstr "În condiții identice"
 
 #: ../ease/ease-import-flickr-service.vala:82
 msgid "For Commercial Use"
@@ -661,7 +656,7 @@ msgstr "Automat"
 
 #: ../ease/ease-inspector-transition-pane.vala:131
 msgid "Delay"
-msgstr "Întărziere"
+msgstr "Întârziere"
 
 #. parse command line options
 #: ../ease/ease-main.vala:65
@@ -687,7 +682,7 @@ msgstr "Eroare la crearea unui document nou"
 
 #: ../ease/ease-player.vala:65
 msgid "Ease Presentation"
-msgstr "Prezentație Ease"
+msgstr "Prezentare Ease"
 
 #: ../ease/ease-slide-button-panel.vala:195
 #, c-format
@@ -701,7 +696,7 @@ msgstr "Eroare la randarea previzualizării: %s"
 
 #: ../ease/ease-welcome-window.vala:90
 msgid "Pick a theme and start editing"
-msgstr "Alegeți o temă și incepeți editarea"
+msgstr "Alegeți o temă și începeți editarea"
 
 #: ../ease/ease-welcome-window.vala:121
 msgid "Custom"
