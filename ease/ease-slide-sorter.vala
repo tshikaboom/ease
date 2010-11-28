@@ -26,7 +26,6 @@ internal class Ease.SlideSorter : ScrolledEmbedWindow
 	private const int WIDTH = 100;
 	private const int WIDTH_ADDITIONAL = 300;
 	private const int LARGE_WIDTH = WIDTH + WIDTH_ADDITIONAL;
-	private const int PADDING = 100;
 	private int width;
 	
 	internal signal void display_slide(Slide s);
@@ -58,19 +57,19 @@ internal class Ease.SlideSorter : ScrolledEmbedWindow
 		
 		// set up the icon view
 		view = new Ease.IconView();
-		view.x = view.y = PADDING;
 		view.pixbuf_column = Document.COL_PIXBUF_DYNAMIC;
 		view.text_column = Document.COL_TITLE;
 		view.model = document.slides;
 		view.reorderable = true;
 		view.item_width = WIDTH;
+		view.selection_mode = Gtk.SelectionMode.BROWSE;
 		
 		// add and show the iconview
 		embed.viewport.add_actor(view);
 		
 		// maintain the icon view's size when the stage is resized
 		embed.viewport.allocation_changed.connect(() => {
-			view.width = embed.viewport.width - 2 * PADDING;
+			view.width = embed.viewport.width;
 		});
 		
 		// when a slide is clicked, show it in the editor
