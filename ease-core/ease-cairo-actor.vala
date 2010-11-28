@@ -46,7 +46,7 @@ public class Ease.CairoActor : Actor
 		var cr = tex.create();
 		try
 		{
-			element.cairo_render(cr);
+			element.cairo_render(cr, false);
 		}
 		catch (Error e)
 		{
