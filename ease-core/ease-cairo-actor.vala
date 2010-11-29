@@ -39,15 +39,25 @@ public class Ease.CairoActor : Actor
 		
 		// draw at full resolution again once redraw is complete
 		notify["resizing"].connect(() => { if (!resizing) draw(); });
+		
+		// render when zooming
+		notify["zoom"].connect(() => {
+			if (zoom > 1) draw();
+		});
 	}
 	
 	internal void draw()
 	{
-		tex.set_surface_size((uint)element.width, (uint)element.height);
+		// only rescale if zoom is larger than 1
+		var render_zoom = zoom > 1 ? zoom : 1;
+		
+		tex.set_surface_size((uint)(element.width * render_zoom),
+		                     (uint)(element.height * render_zoom));
 		tex.clear();
 		var cr = tex.create();
 		try
 		{
+			cr.scale(render_zoom, render_zoom);
 			element.cairo_render(cr, resizing);
 		}
 		catch (Error e)

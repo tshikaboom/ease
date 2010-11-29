@@ -397,6 +397,11 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 			return;
 		}
 		
+		foreach (var actor in slide_actor.contents)
+		{
+			(actor as Actor).zoom = zoom;
+		}
+		
 		var w = zoom * slide_actor.slide.width;
 		var h = zoom * slide_actor.slide.height;
 		

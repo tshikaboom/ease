@@ -75,6 +75,14 @@ public abstract class Ease.Actor : Clutter.Group
 	 * Whether or not the actor is currently in editing mode.
 	 */
 	public bool editing { get; set; default = false; }
+	
+	/**
+	 * The current zoom factor of the Actor. This refers to the size at which
+	 * the Actor is being displayed, typically in an editor view. Actors that
+	 * use Cairo rendering can use this properly to properly use Cairo's vector
+	 * nature to provide non-pixelated renderings at higher zoom levels.
+	 */
+	public float zoom { get; set; default = 1; }
 
 	/**
 	 * Instantiate a new Actor
@@ -100,6 +108,11 @@ public abstract class Ease.Actor : Clutter.Group
 			editor_rect.width = e.width;
 			editor_rect.height = e.height;
 			add_actor(editor_rect);
+			
+			notify["zoom"].connect(() => {
+				editor_rect.border_width =
+					(uint)Math.ceil(((1 / zoom) * RECT_WIDTH));
+			});
 		}
 		
 		// update the actor's position when changed in the element
