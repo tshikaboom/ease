@@ -283,6 +283,12 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 			reposition_group();
 		});
 		
+		// the embed doesn't like to give up focus
+		focus_out_event.connect((widget, event) => {
+			grab_focus();
+			return false;
+		});
+		
 		connect_keys();
 	}
 
@@ -445,6 +451,7 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 			if ((a as Actor).element == e)
 			{
 				select_actor(a as Actor);
+				break;
 			}
 		}
 	}
