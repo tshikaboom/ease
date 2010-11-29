@@ -22,6 +22,8 @@
  */
 public class Ease.TextActor : Actor
 {
+	private const int SCALE = Pango.SCALE;
+	
 	/**
 	 * The opacity of the selection highlight.
 	 */
@@ -51,6 +53,11 @@ public class Ease.TextActor : Actor
 	 * The index of the cursor.
 	 */
 	private int cursor_index = 0;
+	
+	/**
+	 * The other end of the selection (the first one being {@link cursor_index}.
+	 */
+	private int selection_index = 0;
 
 	/**
 	 * Instantiates a new TextActor from an Element.
@@ -104,6 +111,7 @@ public class Ease.TextActor : Actor
 				(int)(element as TextElement).text.layout.get_text().length;
 		}
 		cursor_index += trailing;
+		selection_index = cursor_index;
 		
 		debug("Editing text, cursor index is %i", cursor_index);
 		
@@ -141,6 +149,7 @@ public class Ease.TextActor : Actor
 					{
 						text.delete(cursor_index - 1);
 						cursor_index--;
+						selection_index = cursor_index;
 						cursor.opacity = 255;
 						cursor_timeline.rewind();
 					}
@@ -166,6 +175,7 @@ public class Ease.TextActor : Actor
 				
 				case Key.LEFT:
 					cursor_index = int.max(cursor_index - 1, 0);
+					selection_index = cursor_index;
 					cursor.opacity = 255;
 					cursor_timeline.rewind();
 					break;
@@ -173,6 +183,15 @@ public class Ease.TextActor : Actor
 				case Key.RIGHT:
 					cursor_index = int.min(cursor_index + 1,
 					                       (int)text.layout.get_text().length);
+					selection_index = cursor_index;
+					cursor.opacity = 255;
+					cursor_timeline.rewind();
+					break;
+				
+				case Key.ENTER:
+					text.insert("\n", cursor_index);
+					cursor_index++;
+					selection_index = cursor_index;
 					cursor.opacity = 255;
 					cursor_timeline.rewind();
 					break;
@@ -183,6 +202,7 @@ public class Ease.TextActor : Actor
 					{
 						text.insert(key.to_string(), cursor_index);
 						cursor_index++;
+						selection_index = cursor_index;
 						cursor.opacity = 255;
 						cursor_timeline.rewind();
 					}
@@ -212,9 +232,38 @@ public class Ease.TextActor : Actor
 			return true;
 		}
 		cursor_index += trailing;
+		selection_index = cursor_index;
 		position_cursor();
 		cursor.opacity = 255;
 		cursor_timeline.rewind();
+		
+		Clutter.grab_pointer(this);
+		debug("%p grab", Clutter.get_pointer_grab());
+		button_release_event.connect(on_button_release_event);
+		motion_event.connect(on_motion_event);
+		
+		return true;
+	}
+	
+	private bool on_motion_event(Clutter.Actor self, Clutter.MotionEvent event)
+	{
+		float mouse_x, mouse_y;
+		transform_stage_point(event.x, event.y, out mouse_x, out mouse_y);
+		
+		int trailing, index;
+		var layout = (element as TextElement).text.layout;
+		if (!layout.xy_to_index((int)mouse_x * Pango.SCALE,
+		                        (int)mouse_y * Pango.SCALE,
+		                        out index, out trailing))
+		{
+			return false;
+		}
+		
+		selection_index = index + trailing;
+		render_text();
+		
+		debug("Selection index: %i    Cursor index: %i",
+		      selection_index, cursor_index);
 		
 		return true;
 	}
@@ -222,6 +271,10 @@ public class Ease.TextActor : Actor
 	private bool on_button_release_event(Clutter.Actor self,
 	                                     Clutter.ButtonEvent event)
 	{
+		debug("Pointer released");
+		button_release_event.disconnect(on_button_release_event);
+		motion_event.disconnect(on_motion_event);
+		Clutter.ungrab_pointer();
 		return true;
 	}
 	
@@ -257,9 +310,133 @@ public class Ease.TextActor : Actor
 	 */
 	private void render_text()
 	{
+		// create render context
 		texture.clear();
 		texture.set_surface_size((uint)texture.width, (uint)texture.height);
 		var cr = texture.create();
+		cr.save();
+		
+		// render the selection if applicable
+		if (selection_index != cursor_index)
+		{
+			// get the layout and set its size
+			var layout = (element as TextElement).text.layout;
+			layout.set_width((int)texture.width);
+			layout.set_height((int)texture.height);
+			
+			// get the lines of the layout
+			/*unowned SList<Pango.LayoutLine> lines = layout.get_lines_readonly();
+			Pango.LayoutLine start = null, end = null;
+			var start_char = 0, end_char = 0, i = 0;
+			
+			// find the start line and index
+			for (; lines != null; lines = lines.next)
+			{
+				if (lines.data.start_index + lines.data.length > selection_index
+				    && selection_index < cursor_index)
+				{
+					start = lines.data;
+					start_char = selection_index - lines.data.start_index;
+					break;
+				}
+				if (lines.data.start_index > cursor_index
+				    && cursor_index < selection_index)
+				{
+					start = lines.data;
+					start_char = cursor_index = lines.data.start_index;
+					break;
+				}
+				i++;
+			}
+			
+			// find the end line and index
+			/*for (; lines != null; lines = lines.next)
+			{
+				if (lines.data.start_index + lines.data.length > selection_index
+				    && selection_index > cursor_index)
+				{
+					end = lines.data;
+					end_char = selection_index - lines.data.start_index;
+					break;
+				}
+				if (lines.data.start_index > cursor_index
+				    && cursor_index > selection_index)
+				{
+					end = lines.data;
+					end_char = cursor_index - lines.data.start_index;
+					break;
+				}
+				i++;
+			}
+			
+			if (start == null)
+			{
+				critical("Start line not found");
+				return;
+			}
+			if (end == null)
+			{
+				critical("End line not found");
+				return;
+			}
+			
+			//debug("start: %i %i end: %i %i", start, start_char, end, end_char);
+			
+			// render the selection box
+			cr.set_source_rgb(0, 0, 0);
+			int x;
+			Pango.Rectangle ink, logical;
+			start.index_to_x(start_char, false, out x);
+			start.get_pixel_extents(out ink, out logical);
+			cr.move_to(x / Pango.SCALE, logical.y);
+			cr.move_to(x / Pango.SCALE, logical.y + logical.height);*/
+			
+			int start_index, end_index;
+			if (selection_index < cursor_index)
+			{
+				start_index = selection_index;
+				end_index = cursor_index;
+			}
+			else
+			{
+				end_index = selection_index;
+				start_index = cursor_index;
+			}
+			
+			// render the selection box
+			cr.set_source_rgb(0, 0, 0);
+			Pango.Rectangle start_rect, end_rect;
+			layout.index_to_pos(start_index, out start_rect);
+			layout.index_to_pos(end_index, out end_rect);
+			
+			// see if we can just draw a simple rectangle
+			if (start_rect.y == end_rect.y)
+			{
+				cr.rectangle(start_rect.x / SCALE, start_rect.y / SCALE,
+				             (end_rect.x - start_rect.x) / SCALE,
+				             (start_rect.y + start_rect.height) / SCALE);
+				debug("Rendering selection as rect with (%i %i) (%i %i)",
+				      start_rect.x / SCALE, start_rect.y / SCALE,
+				      (end_rect.x - start_rect.x) / SCALE,
+				      (start_rect.y + start_rect.height) / SCALE);
+			}
+			else
+			{
+				// top left corner
+				cr.move_to(start_rect.x / SCALE,
+					       (start_rect.y + start_rect.height) / SCALE);
+				cr.line_to(start_rect.x / SCALE, start_rect.y / SCALE);
+				cr.line_to((int)texture.width, start_rect.y / SCALE);
+				cr.close_path();
+			}
+			           
+			// fill and stroke
+			cr.stroke_preserve();
+			cr.fill();
+		}
+		
+		// render the text
+		cr.restore();
 		(element as TextElement).text.render(cr, !editing,
 		                                     (int)texture.width,
 		                                     (int)texture.height);

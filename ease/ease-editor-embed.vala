@@ -601,7 +601,7 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 			sender.motion_event.disconnect(actor_motion);
 			undo(move_undo);
 		}
-		return true;
+		return false;
 	}
 	
 	/**
