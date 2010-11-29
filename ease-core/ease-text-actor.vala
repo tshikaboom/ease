@@ -48,11 +48,6 @@ public class Ease.TextActor : Actor
 	private Clutter.Timeline cursor_timeline;
 	
 	/**
-	 * The cursor's animation.
-	 */
-	private Clutter.Animation cursor_anim;
-	
-	/**
 	 * The index of the cursor.
 	 */
 	private int cursor_index = 0;
@@ -91,6 +86,7 @@ public class Ease.TextActor : Actor
 		x = e.x;
 		y = e.y;
 		
+		// position the cursor when the actor is resized
 		contents.notify["width"].connect(() => position_cursor());
 		contents.notify["height"].connect(() => position_cursor());
 	}
@@ -112,7 +108,7 @@ public class Ease.TextActor : Actor
 		// add and animate the cursor
 		add_actor(cursor);
 		position_cursor();
-		cursor.opacity = 255;
+		cursor.opacity = 0;
 		cursor_timeline = new Clutter.Timeline(
 			(uint)(Gtk.Settings.get_default().gtk_cursor_blink_time / 2));
 		cursor_timeline.completed.connect(on_cursor_timeline_completed);
@@ -141,11 +137,15 @@ public class Ease.TextActor : Actor
 				
 				case Key.LEFT:
 					cursor_index = int.max(cursor_index - 1, 0);
+					cursor.opacity = 255;
+					cursor_timeline.rewind();
 					break;
 				
 				case Key.RIGHT:
 					cursor_index = int.min(cursor_index + 1,
 					                       (int)text.layout.get_text().length);
+					cursor.opacity = 255;
+					cursor_timeline.rewind();
 					break;
 				
 				default: {
@@ -195,14 +195,9 @@ public class Ease.TextActor : Actor
 	 */
 	private void on_cursor_timeline_completed(Clutter.Timeline timeline)
 	{
-		// remove the current animation
-		if (cursor_anim != null) cursor_anim.completed();
-		
 		// rewind the timeline and fade in the other direction
 		timeline.rewind();
-		cursor_anim = cursor.animate_with_timeline(
-			Clutter.AnimationMode.EASE_OUT_EXPO, timeline,
-			"opacity", cursor.opacity == 255 ? 0 : 255, null);
+		cursor.opacity = cursor.opacity == 0 ? 255 : 0;
 		timeline.start();
 	}
 	
