@@ -475,4 +475,82 @@ public class Ease.Color : GLib.Object
 		
 		return action;
 	}
+	
+	// static color transformation functions
+	private const double CL_TO_GDK_FACTOR = 65535.0 / 255;
+	private const double GDK_TO_CL_FACTOR = 255.0 / 65535;
+	private const double CL_TO_PANGO_FACTOR = 65535.0 / 255;
+	private const double PANGO_TO_CL_FACTOR = 255.0 / 65535;
+	private const uint8 CL_COLOR_ALPHA = 255;
+	
+	/**
+	 * Transforms a Clutter.Color into a Gdk.Color.
+	 *
+	 * @param color The Clutter.Color to transform.
+	 */
+	public static Gdk.Color clutter_to_gdk(Clutter.Color color)
+	{
+		return { 0,
+		         (uint16)(color.red * CL_TO_GDK_FACTOR),
+		         (uint16)(color.green * CL_TO_GDK_FACTOR),
+		         (uint16)(color.blue * CL_TO_GDK_FACTOR) };
+	}
+	
+	/**
+	 * Transforms a Gdk.Color into a Clutter.Color.
+	 *
+	 * @param color The Gdk.Color to transform.
+	 */
+	public static Clutter.Color gdk_to_clutter(Gdk.Color color)
+	{
+		return { (uint8)(color.red * GDK_TO_CL_FACTOR),
+		         (uint8)(color.green * GDK_TO_CL_FACTOR),
+		         (uint8)(color.blue * GDK_TO_CL_FACTOR),
+		         CL_COLOR_ALPHA };
+	}
+	
+	/**
+	 * Transforms a Clutter.Color into a Pango.Color.
+	 *
+	 * @param color The Clutter.Color to transform.
+	 */
+	public static Gdk.Color clutter_to_pango(Clutter.Color color)
+	{
+		return { (uint16)(color.red * CL_TO_PANGO_FACTOR),
+		         (uint16)(color.green * CL_TO_PANGO_FACTOR),
+		         (uint16)(color.blue * CL_TO_PANGO_FACTOR) };
+	}
+	
+	/**
+	 * Transforms a Pango.Color into a Clutter.Color.
+	 *
+	 * @param color The Pango.Color to transform.
+	 */
+	public static Clutter.Color pango_to_clutter(Gdk.Color color)
+	{
+		return { (uint8)(color.red * PANGO_TO_CL_FACTOR),
+		         (uint8)(color.green * PANGO_TO_CL_FACTOR),
+		         (uint8)(color.blue * PANGO_TO_CL_FACTOR),
+		         CL_COLOR_ALPHA };
+	}
+	
+	/**
+	 * Transforms a Gdk.Color into a Pango.Color.
+	 *
+	 * @param color The Gdk.Color to transform.
+	 */
+	public static Gdk.Color gdk_to_pango(Gdk.Color color)
+	{
+		return { color.red, color.green, color.blue };
+	}
+	
+	/**
+	 * Transforms a Pango.Color into a Gdk.Color.
+	 *
+	 * @param color The Pango.Color to transform.
+	 */
+	public static Gdk.Color pango_to_gdk(Pango.Color color)
+	{
+		return { 0, color.red, color.green, color.blue };
+	}
 }

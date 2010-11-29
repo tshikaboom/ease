@@ -70,6 +70,11 @@ public abstract class Ease.Actor : Clutter.Group
 	 * resolution media caches (such as that in {@link Image}.
 	 */
 	public bool resizing { get; set; default = false; }
+	
+	/**
+	 * Whether or not the actor is currently in editing mode.
+	 */
+	public bool editing { get; set; default = false; }
 
 	/**
 	 * Instantiate a new Actor
@@ -214,11 +219,22 @@ public abstract class Ease.Actor : Clutter.Group
 	public virtual void edit(Gtk.Widget sender, float mouse_x, float mouse_y) {}
 	
 	/**
-	 * Called when the actor end editing. Subclasses with editing that is not
+	 * Called when the actor ends editing. Subclasses with editing that is not
 	 * instant (popping up a dialog box) should override this.
 	 *
 	 * @param sender The widget this Actor is on.
 	 */
 	public virtual void end_edit(Gtk.Widget sender) {}
+	
+	/**
+	 * Called when a key is pressed while {@link editing} is true. If the event
+	 * is handled, true should be returned, otherwise, false should be returned.
+	 *
+	 * By default, the function simply returns false.
+	 */
+	public virtual bool key_event(Gtk.Widget sender, Gdk.EventKey event)
+	{
+		return false;
+	}
 }
 

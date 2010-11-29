@@ -231,10 +231,11 @@ internal class Ease.WelcomeActor : Clutter.Group
 			switch (element.identifier)
 			{
 				case Theme.TITLE_TEXT:
-					//(element as TextElement).text = theme.title;
+					(element as TextElement).text.clear_set(theme.title, null);
 					break;
 				case Theme.AUTHOR_TEXT:
-					//(element as TextElement).text = Environment.get_real_name();
+					(element as TextElement).text.clear_set(
+						Environment.get_real_name(), null);
 					break;
 			}
 		}

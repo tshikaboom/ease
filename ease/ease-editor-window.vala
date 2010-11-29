@@ -863,8 +863,7 @@ internal class Ease.EditorWindow : Gtk.Window
 	
 	private void color_dialog_changed(Gtk.ColorSelection sender)
 	{
-		embed.set_element_color(Transformations.gdk_color_to_clutter_color(
-		                        sender.current_color));
+		embed.set_element_color(Color.gdk_to_clutter(sender.current_color));
 		slide.changed(slide);
 	}
 	
@@ -873,8 +872,7 @@ internal class Ease.EditorWindow : Gtk.Window
 		var color = (sender as EditorEmbed).selected.element.get_color();
 		if (color == null) return;
 		
-		color_selection.current_color =
-			Transformations.clutter_color_to_gdk_color(color);
+		color_selection.current_color = Color.clutter_to_gdk(color);
 	}
 	
 	[CCode (instance_pos = -1)]

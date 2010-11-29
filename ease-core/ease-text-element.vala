@@ -27,9 +27,9 @@ public class Ease.TextElement : Element
 	/**
 	 * Creates a default text element with an empty block of text.
 	 */
-	public TextElement()
+	public TextElement(string str, Pango.FontDescription font_description)
 	{
-		text = new Text.with_text("Hello World! This is a sample paragraph.\nThis has a newline before it!", Pango.FontDescription.from_string("Sans 20"));
+		text = new Text.with_text(str, font_description);
 	}
 	
 	/**
@@ -171,20 +171,7 @@ public class Ease.TextElement : Element
 	public override void cairo_render(Cairo.Context context,
 	                                  bool use_small) throws Error
 	{
-		/*var t = display_text;
-		
-		// create the layout
-		var layout = Pango.cairo_create_layout(context);
-		layout.set_text(t, (int)t.length);
-		layout.set_width((int)(width * Pango.SCALE));
-		layout.set_height((int)(height * Pango.SCALE));
-		layout.set_font_description(font_description);
-		layout.set_alignment(text_align);
-		
-		// render
-		color.set_cairo(context);
-		Pango.cairo_update_layout(context, layout);
-		Pango.cairo_show_layout(context, layout);*/
+		text.render(context, true, (int)width, (int)height);
 	}
 	
 	/**

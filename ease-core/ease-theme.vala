@@ -472,19 +472,25 @@ public class Ease.Theme : GLib.Object
 			error(_("Not a valid text element type: %s"), type);
 		}
 		
-		// otherwise, construct the text element
-		var text = new TextElement();
+		// create font description
+		var font = new Pango.FontDescription();
+		font.set_family(element_get(type, TEXT_FONT));
+		font.set_size(element_get(type, TEXT_SIZE).to_int() * Pango.SCALE);
+		font.set_style(Text.style_from_string(element_get(type, TEXT_STYLE)));
+		font.set_variant(Text.variant_from_string(element_get(type,
+		                                                      TEXT_VARIANT)));
+		font.set_weight(Text.weight_from_string(element_get(type,
+		                                                    TEXT_WEIGHT)));
+		//font.set_alignment(Text.alignment_from_string(element_get(type,TEXT_ALIGN)));
 		
-		// set text properties
-		/*text.text_font = element_get(type, TEXT_FONT);
-		text.text_size_from_string(element_get(type, TEXT_SIZE));
-		text.text_style_from_string(element_get(type, TEXT_STYLE));
-		text.text_variant_from_string(element_get(type, TEXT_VARIANT));
-		text.text_weight_from_string(element_get(type, TEXT_WEIGHT));
-		text.text_align_from_string(element_get(type, TEXT_ALIGN));*/
+		// set the color
+		var color = new Color.from_string(element_get(type, TEXT_COLOR));
+		var color_attr = Pango.attr_foreground_new(color.red16,
+		                                           color.green16,
+		                                           color.blue16);
 		
-		// set the color property
-		//text.color = new Color.from_string(element_get(type, TEXT_COLOR));
+		// create the text element
+		var text = new TextElement("", font);
 		
 		// set size properties
 		text.x = x;

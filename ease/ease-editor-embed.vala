@@ -464,6 +464,7 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 		if (event.click_count == 2)
 		{
 			disconnect_keys();
+			(sender as Actor).editing = true;
 			(sender as Actor).edit(this,
 			                       event.x - sender.x,
 			                       event.y - sender.y);
@@ -545,6 +546,7 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 		// if editing another Actor, finish that edit
 		if (selected != null && is_editing)
 		{
+			selected.editing = false;
 			selected.end_edit(this);
 			is_editing = false;
 			element_deselected(selected.element);
@@ -800,6 +802,12 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 	 */
 	internal bool on_key_press_event(Gtk.Widget self, Gdk.EventKey event)
 	{
+		// if editing the selected actor, pass the event there
+		if (selected.editing)
+		{
+			return selected.key_event(self, event);
+		}
+		
 		if (event.type == Gdk.EventType.KEY_RELEASE) return false;
 		
 		bool shift = (event.state & Gdk.ModifierType.SHIFT_MASK) != 0;
@@ -885,9 +893,9 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 	 */
 	internal void disconnect_keys()
 	{
-		if (!keys_connected) return;
-		keys_connected = false;
-		key_press_event.disconnect(on_key_press_event);
+		//if (!keys_connected) return;
+		//keys_connected = false;
+		//key_press_event.disconnect(on_key_press_event);
 	}
 	
 	/**

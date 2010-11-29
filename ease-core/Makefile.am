@@ -37,7 +37,6 @@ libease_core_@EASE_CORE_VERSION@_la_SOURCES = \
 	ease-text-actor.vala \
 	ease-text-element.vala \
 	ease-theme.vala \
-	ease-transformations.vala \
 	ease-transitions.vala \
 	ease-undo-actions-element.vala \
 	ease-undo-actions-slide.vala \
