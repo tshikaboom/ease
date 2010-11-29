@@ -467,14 +467,28 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 	 */
 	private bool actor_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{
+		// if an actor is already being edited and is clicked, give it the event
+		if (is_editing && sender == selected)
+		{
+			float act_x, act_y;
+			sender.transform_stage_point(event.x, event.y,
+			                             out act_x, out act_y);
+			if (selected.clicked_event(sender, event, act_x, act_y))
+			{
+				return true;
+			}
+		}
+		
 		// if this is a double click, edit the actor
 		if (event.click_count == 2)
 		{
+			float act_x, act_y;
+			sender.transform_stage_point(event.x, event.y,
+			                             out act_x, out act_y);
+			
 			disconnect_keys();
 			(sender as Actor).editing = true;
-			(sender as Actor).edit(this,
-			                       event.x - sender.x,
-			                       event.y - sender.y);
+			(sender as Actor).edit(this, act_x, act_y);
 			is_editing = true;
 			return true;
 		}

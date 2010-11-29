@@ -236,5 +236,24 @@ public abstract class Ease.Actor : Clutter.Group
 	{
 		return false;
 	}
+	
+	/**
+	 * Called when a mouse button is pressed while {@link editing} is true. If
+	 * the event is handled, true should be returned, otherwise, false should
+	 * be returned.
+	 *
+	 * By default, the function simply returns false.
+	 *
+	 * @param sender The actor that initiated the event.
+	 * @param event The event itself.
+	 * @param mouse_x The mouse x position of the click, relative to the actor.
+	 * @param mouse_y The mouse y position of the click, relative to the actor.
+	 */
+	public virtual bool clicked_event(Clutter.Actor sender,
+	                                  Clutter.ButtonEvent event,
+	                                  float mouse_x, float mouse_y)
+	{
+		return false;
+	}
 }
 

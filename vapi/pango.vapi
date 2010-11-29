@@ -372,7 +372,7 @@ namespace Pango {
 		public void set_text (string text, int length);
 		public void set_width (int width);
 		public void set_wrap (Pango.WrapMode wrap);
-		public bool xy_to_index (int x, int y, ref int index_, ref int trailing);
+		public bool xy_to_index (int x, int y, out int index_, out int trailing);
 	}
 	[Compact]
 	[CCode (cheader_filename = "pango/pango.h")]

@@ -93,15 +93,17 @@ public class Ease.TextActor : Actor
 	
 	public override void edit(Gtk.Widget sender, float mouse_x, float mouse_y)
 	{
-		int trailing = -1;
-		if (!(element as TextElement).text.layout.xy_to_index((int)mouse_x,
-		                                                      (int)mouse_y,
-		                                                      ref cursor_index,
-		                                                      ref trailing))
+		int trailing = 0;
+		var layout = (element as TextElement).text.layout;
+		if (!layout.xy_to_index((int)mouse_x * Pango.SCALE,
+		                        (int)mouse_y * Pango.SCALE,
+		                        out cursor_index, out trailing))
 		{
+			debug("Click was not inside element (%f, %f)", mouse_x, mouse_y);
 			cursor_index =
 				(int)(element as TextElement).text.layout.get_text().length;
 		}
+		cursor_index += trailing;
 		
 		debug("Editing text, cursor index is %i", cursor_index);
 		
@@ -115,6 +117,13 @@ public class Ease.TextActor : Actor
 		on_cursor_timeline_completed(cursor_timeline);
 		
 		// render the text, to remove the default text if applicable
+		render_text();
+	}
+	
+	private override void end_edit(Gtk.Widget sender)
+	{
+		// remove the cursor and stop its animation
+		remove_actor(cursor);
 		render_text();
 	}
 	
@@ -171,11 +180,31 @@ public class Ease.TextActor : Actor
 		return true;
 	}
 	
-	private override void end_edit(Gtk.Widget sender)
+	private override bool clicked_event(Clutter.Actor self,
+	                                    Clutter.ButtonEvent event,
+	                                    float mouse_x, float mouse_y)
 	{
-		// remove the cursor and stop its animation
-		remove_actor(cursor);
-		render_text();
+		int trailing = 0;
+		var layout = (element as TextElement).text.layout;
+		if (!layout.xy_to_index((int)mouse_x * Pango.SCALE,
+		                        (int)mouse_y * Pango.SCALE,
+		                        out cursor_index, out trailing))
+		{
+			debug("Edit click not inside element (%f, %f)", mouse_x, mouse_y);
+			return true;
+		}
+		cursor_index += trailing;
+		position_cursor();
+		cursor.opacity = 255;
+		cursor_timeline.rewind();
+		
+		return true;
+	}
+	
+	private bool on_button_release_event(Clutter.Actor self,
+	                                     Clutter.ButtonEvent event)
+	{
+		return true;
 	}
 	
 	/**
