@@ -356,6 +356,26 @@ public class Ease.Color : GLib.Object
 	}
 	
 	/**
+	 * A Pango.Color representation of this color. Changes made to the returned
+	 * color are not reflected in this color. Note that Pango colors do not
+	 * support an alpha value. When being set, the alpha will be set to full,
+	 * when retrieved, the alpha value will be ignored.
+	 */
+	public Pango.Color pango
+	{
+		get
+		{
+			return { red16, green16, blue16 };
+		}
+		set
+		{
+			red16 = value.red;
+			green16 = value.green;
+			blue16 = value.blue;
+		}
+	}
+	
+	/**
 	 * Creates an opaque color.
 	 */
 	public Color.rgb(double r, double g, double b)
