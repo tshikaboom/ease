@@ -132,6 +132,8 @@ public class Ease.TextActor : Actor
 					{
 						text.delete(cursor_index - 1);
 						cursor_index--;
+						cursor.opacity = 255;
+						cursor_timeline.rewind();
 					}
 					break;
 				
@@ -154,6 +156,8 @@ public class Ease.TextActor : Actor
 					{
 						text.insert(key.to_string(), cursor_index);
 						cursor_index++;
+						cursor.opacity = 255;
+						cursor_timeline.rewind();
 					}
 					break;
 				}
