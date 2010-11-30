@@ -146,6 +146,15 @@ public class Ease.TextActor : Actor
 					}
 					break;
 				
+				case Key.DELETE:
+					if (cursor_index < text.layout.get_text().length)
+					{
+						text.delete(cursor_index);
+						cursor.opacity = 255;
+						cursor_timeline.rewind();
+					}
+					break;
+				
 				case Key.LEFT:
 					cursor_index = int.max(cursor_index - 1, 0);
 					cursor.opacity = 255;
