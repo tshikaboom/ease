@@ -20,13 +20,12 @@ ease_SOURCES = \
 	ease-inspector-transition-pane.vala \
 	ease-inspector.vala \
 	ease-main.vala \
+	ease-new-presentation-window.vala \
 	ease-player.vala \
 	ease-selection-rectangle.vala \
 	ease-slide-actor.vala \
 	ease-slide-button-panel.vala \
-	ease-slide-sorter.vala \
-	ease-welcome-actor.vala \
-	ease-welcome-window.vala
+	ease-slide-sorter.vala
 
 # compiler flags
 ease_VALAFLAGS = \

@@ -204,6 +204,7 @@ public class Ease.IconView : Clutter.Group
 		layout.homogeneous = true;
 		row_spacing = 6;
 		column_spacing = 6;
+		item_width = 100;
 		text_color = { 0, 0, 0, 255 };
 		
 		// size the box appropriately
@@ -501,6 +502,8 @@ public class Ease.IconView : Clutter.Group
 				}
 			}
 		}
+		
+		selection_changed(this);
 	}
 	
 	/**

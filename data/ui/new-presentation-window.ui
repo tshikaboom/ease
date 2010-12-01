@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -32,7 +32,7 @@
               <object class="GtkSpinButton" id="horiz_spin">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
                 <property name="adjustment">adjustment1</property>
               </object>
               <packing>
@@ -45,7 +45,7 @@
               <object class="GtkSpinButton" id="vert_spin">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x2022;</property>
+                <property name="invisible_char">•</property>
                 <property name="adjustment">adjustment2</property>
               </object>
               <packing>
@@ -61,7 +61,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_underline">True</property>
-                <signal name="clicked" handler="ease_welcome_window_create_new_document"/>
+                <signal name="clicked" handler="ease_new_presentation_window_create_new_document"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -79,7 +79,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
-                <signal name="clicked" handler="ease_welcome_window_on_open_pres_button_clicked"/>
+                <signal name="clicked" handler="ease_new_presentation_window_on_open_pres_button_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
