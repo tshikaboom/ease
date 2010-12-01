@@ -36,6 +36,12 @@ public class Ease.IconView : Clutter.Group
 	public int columns { get; set; default = -1; }
 	
 	/**
+	 * Whether the icon view should compact and center itself in its container,
+	 * or spread out to fill it.
+	 */
+	public ExpandMode expand_mode { get; set; default = ExpandMode.CENTER; }
+	
+	/**
 	 * The amount of padding around each item.
 	 */
 	public int item_padding { get; set; default = 6; }
@@ -164,7 +170,7 @@ public class Ease.IconView : Clutter.Group
 	private Clutter.FlowLayout layout;
 	
 	/**
-	 * The box that contains the arranged actors.'
+	 * The box that contains the arranged actors.
 	 */
 	private Clutter.Box box;
 	
@@ -261,6 +267,8 @@ public class Ease.IconView : Clutter.Group
 				}
 			}
 		});
+		
+		debug("Constructed");
 	}
 	
 	/**
@@ -268,10 +276,47 @@ public class Ease.IconView : Clutter.Group
 	 */
 	private void size_box()
 	{
-		box.x = padding;
+		if (expand_mode == ExpandMode.FILL)
+		{
+			box.x = padding;
+			box.width = width - 2 * padding;
+		}
+		else
+		{
+			// count the number of icons that will fit
+			int count = 0;
+			float w = 0;
+			while (w < width + 2 * padding)
+			{
+				// add another item
+				w += item_width;
+				
+				// increase the count
+				count++;
+				
+				// put spacing between all columns that are not the first
+				if (count > 1)
+				{
+					w += column_spacing;
+				}
+			}
+			
+			debug("%f %i %f", item_width, count, count * item_width + column_spacing * (item_width - 1));
+			
+			// size the box so that it will fix exactly that many columns
+			box.width = Math.fmaxf(count * item_width +
+			                       column_spacing * (item_width - 1),
+			                      0);
+			
+			// center the box
+			box.x = width - 2 * padding - box.width / 2;
+		}
+		
+		// y positioning is the same for both modes
 		box.y = padding;
-		box.width = width - 2 * padding;
 		height = box.height + 2 * padding;
+		
+		debug("%f %f %f %f", box.x, box.y, box.width, box.height);
 	}
 	
 	/**
@@ -556,9 +601,9 @@ public class Ease.IconView : Clutter.Group
 			get { return _contents_width; }
 			set
 			{
-				texture.width = value;
+				if (texture != null) texture.width = value;
 				text.width = value;
-				text.y = texture.height + 6;
+				text.y = texture == null ? 0 : texture.height + 6;
 				_contents_width = value;
 			}
 		}
@@ -586,7 +631,6 @@ public class Ease.IconView : Clutter.Group
 			
 			// select or activate when clicked
 			reactive = true;
-			texture.reactive = true;
 			button_press_event.connect((event) => {
 				if (event.click_count < 2)
 				{
@@ -667,5 +711,15 @@ public class Ease.IconView : Clutter.Group
 		{
 			(get_parent() as Clutter.Container).remove_actor(this);
 		}
+	}
+	
+	/**
+	 * Describes whether the IconView spreads to the full width of its container
+	 * or floats in the center at the minimum possible width.
+	 */
+	public enum ExpandMode
+	{
+		CENTER,
+		FILL
 	}
 }
