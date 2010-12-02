@@ -282,9 +282,9 @@ namespace Ease.Dialog
 				if (!has_suffix)
 				{
 					// ask the user if they'd like to append .ease
-					var code = question(VERIFY_EASE_PRIMARY,
-					                    VERIFY_EASE_PRIMARY,
-						                VERIFY_EASE_SECONDARY,
+					var code = question(_("Append .ease?"),
+					                    _("Append .ease?"),
+						                _("The specified filename does not end with a \".ease\" extension. Would you like to append one?"),
 							            modal,
 							            Gtk.ResponseType.YES,
 							            _("Don't append .ease"),
@@ -319,9 +319,9 @@ namespace Ease.Dialog
 					// ask the user if they'd like to overwrite
 					var code = message(
 						Gtk.MessageType.WARNING,
-						VERIFY_OVERWRITE_TITLE.printf(bname),
-						VERIFY_OVERWRITE_FMT.printf(bname),
-						VERIFY_OVERWRITE_SECONDARY_FMT.printf(folder),
+						_("Replace %s?").printf(bname),
+						_("A file named %s already exists. Do you want to replace it?").printf(bname),
+						_("This file already exists in the directory \"%s\". Overwriting it will replace its contents.").printf(folder),
 						modal,
 						Gtk.ResponseType.YES,
 						_("Don't overwrite %s").printf(bname),

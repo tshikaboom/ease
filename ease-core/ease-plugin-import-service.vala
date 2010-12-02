@@ -188,12 +188,15 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 			// if threads are supported, get the pixbufs in a thread
 			if (Thread.supported())
 			{
-				try { Thread.create(threaded_get_pixbufs, false); }
-				catch { threaded_get_pixbufs(); }
+				try
+				{
+					Thread.create<ImportService>(threaded_get_pixbufs, false);
+				}
+				catch { threaded_get_pixbufs<weak void*>(); }
 			}
 			else
 			{
-				threaded_get_pixbufs();
+				threaded_get_pixbufs<void*>();
 			}
 		}
 		else
@@ -212,7 +215,7 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 	 * this will lock up the user interface and be a bad experience for the
 	 * user.
 	 */
-	private void* threaded_get_pixbufs()
+	private ImportService threaded_get_pixbufs()
 	{
 		// get the next image
 		ImportMedia image;

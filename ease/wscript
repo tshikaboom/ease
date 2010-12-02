@@ -16,14 +16,13 @@ ease_files = ["ease-about-dialog.vala",
               "ease-inspector-slide-pane.vala", 
               "ease-inspector-transition-pane.vala", 
               "ease-inspector.vala", 
-              "ease-main.vala", 
+              "ease-main.vala",
+              "ease-new-presentation-window.vala",
               "ease-player.vala", 
               "ease-selection-rectangle.vala", 
               "ease-slide-actor.vala", 
               "ease-slide-button-panel.vala", 
-              "ease-slide-sorter.vala", 
-              "ease-welcome-actor.vala", 
-              "ease-welcome-window.vala"]
+              "ease-slide-sorter.vala"]
 
 def build(bld):
   ease_packages = ["flutter-" + bld.env["FLUTTER_VERSION"][0],
@@ -48,7 +47,7 @@ def build(bld):
   
   prog.includes = "../build/ease-core ../build/flutter"
   
-  prog.cflags = ['-include', 'config.h']
+  prog.cflags = ['-include', 'config.h', '-w']
   prog.uselib = 'GTK+ GOBJECT CLUTTER GEE CLUTTERGST GMODULE LIBARCHIVE POPPLERGLIB RESTEXTRAS CLUTTERGTK JSONGLIB UNIQUE' 
   prog.packages = " ".join(ease_packages)
 

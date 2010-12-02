@@ -491,7 +491,7 @@ public class Ease.Theme : GLib.Object
 		
 		// create the text element
 		var text = new TextElement("", font);
-		text.text.layout.get_attributes().insert(color_attr.copy());
+		text.text.add_attr(color_attr.copy());
 		
 		// set size properties
 		text.x = x;

@@ -58,6 +58,22 @@ public class Ease.TextActor : Actor
 	 * The other end of the selection (the first one being {@link cursor_index}.
 	 */
 	private int selection_index = 0;
+	
+	/**
+	 * The index of the cursor, in terms of layouts.
+	 */
+	private int cursor_layout = 0;
+	
+	/**
+	 * The other end of the selection, in terms of layouts ,the first one being
+	 * {@link cursor_layout}.
+	 */
+	private int selection_layout = 0;
+	
+	/**
+	 * Convenience property for grabbing the {@link Text}.
+	 */
+	private Text text { get { return (element as TextElement).text; } }
 
 	/**
 	 * Instantiates a new TextActor from an Element.
@@ -100,17 +116,13 @@ public class Ease.TextActor : Actor
 	
 	public override void edit(Gtk.Widget sender, float mouse_x, float mouse_y)
 	{
-		int trailing = 0;
-		var layout = (element as TextElement).text.layout;
-		if (!layout.xy_to_index((int)mouse_x * Pango.SCALE,
-		                        (int)mouse_y * Pango.SCALE,
-		                        out cursor_index, out trailing))
+		if (!text.xy_to_index((int)mouse_x, (int)mouse_y,
+		                       ref cursor_index, ref cursor_layout))
 		{
 			debug("Click was not inside element (%f, %f)", mouse_x, mouse_y);
-			cursor_index =
-				(int)(element as TextElement).text.layout.get_text().length;
+			cursor_index = 0;
+			cursor_layout = 0;
 		}
-		cursor_index += trailing;
 		selection_index = cursor_index;
 		
 		debug("Editing text, cursor index is %i", cursor_index);
@@ -128,7 +140,7 @@ public class Ease.TextActor : Actor
 		render_text();
 	}
 	
-	private override void end_edit(Gtk.Widget sender)
+	public override void end_edit(Gtk.Widget sender)
 	{
 		// remove the cursor and stop its animation
 		remove_actor(cursor);
@@ -145,62 +157,56 @@ public class Ease.TextActor : Actor
 			switch (event.keyval)
 			{
 				case Key.BACKSPACE:
-					if (cursor_index > 0)
-					{
-						text.delete(cursor_index - 1);
-						cursor_index--;
-						selection_index = cursor_index;
-						cursor.opacity = 255;
-						cursor_timeline.rewind();
-					}
+					text.delete(cursor_index - 1, cursor_layout);
+					text.retreat_cursor(ref cursor_index,
+					                    ref cursor_layout, 1);
+					selection_index = cursor_index;
+					cursor.opacity = 255;
+					cursor_timeline.rewind();
 					break;
 				
 				case Key.DELETE:
-					if (cursor_index < text.layout.get_text().length)
-					{
-						text.delete(cursor_index);
-						cursor.opacity = 255;
-						cursor_timeline.rewind();
-					}
-					break;
-				
-				case Key.DELETE:
-					if (cursor_index < text.layout.get_text().length)
-					{
-						text.delete(cursor_index);
-						cursor.opacity = 255;
-						cursor_timeline.rewind();
-					}
+					text.delete(cursor_index, cursor_layout);
+					cursor.opacity = 255;
+					cursor_timeline.rewind();
 					break;
 				
 				case Key.LEFT:
-					cursor_index = int.max(cursor_index - 1, 0);
+					// move the cursor back
+					text.retreat_cursor(ref cursor_index, ref cursor_layout, 1);
 					selection_index = cursor_index;
+					selection_layout = cursor_layout;
+					
+					// reset cursor blink
 					cursor.opacity = 255;
 					cursor_timeline.rewind();
 					break;
 				
 				case Key.RIGHT:
-					cursor_index = int.min(cursor_index + 1,
-					                       (int)text.layout.get_text().length);
+					// advance the cursor
+					text.advance_cursor(ref cursor_index, ref cursor_layout, 1);
 					selection_index = cursor_index;
+					selection_layout = cursor_layout;
+					
+					// reset cursor blink
 					cursor.opacity = 255;
 					cursor_timeline.rewind();
 					break;
 				
 				case Key.ENTER:
-					text.insert("\n", cursor_index);
+					/*text.insert("\n", cursor_index);
 					cursor_index++;
 					selection_index = cursor_index;
 					cursor.opacity = 255;
-					cursor_timeline.rewind();
+					cursor_timeline.rewind();*/
 					break;
 				
 				default: {
 					unichar key = Gdk.keyval_to_unicode(event.keyval);
 					if (key != 0)
 					{
-						text.insert(key.to_string(), cursor_index);
+						text.insert(key.to_string(),
+						            cursor_index, cursor_layout);
 						cursor_index++;
 						selection_index = cursor_index;
 						cursor.opacity = 255;
@@ -212,27 +218,25 @@ public class Ease.TextActor : Actor
 			
 			render_text();
 			position_cursor();
-			debug("Cursor index is %i", cursor_index);
+			debug("Cursor index is %i %i", cursor_index, cursor_layout);
 		}
 		
 		return true;
 	}
 	
-	private override bool clicked_event(Clutter.Actor self,
-	                                    Clutter.ButtonEvent event,
-	                                    float mouse_x, float mouse_y)
+	public override bool clicked_event(Clutter.Actor self,
+	                                   Clutter.ButtonEvent event,
+	                                   float mouse_x, float mouse_y)
 	{
-		int trailing = 0;
-		var layout = (element as TextElement).text.layout;
-		if (!layout.xy_to_index((int)mouse_x * Pango.SCALE,
-		                        (int)mouse_y * Pango.SCALE,
-		                        out cursor_index, out trailing))
+		if (!text.xy_to_index((int)mouse_x, (int)mouse_y,
+		                       ref cursor_index, ref cursor_layout))
 		{
 			debug("Edit click not inside element (%f, %f)", mouse_x, mouse_y);
-			return true;
+			cursor_index = 0;
+			cursor_layout = 0;
 		}
-		cursor_index += trailing;
 		selection_index = cursor_index;
+		
 		position_cursor();
 		cursor.opacity = 255;
 		cursor_timeline.rewind();
@@ -245,9 +249,9 @@ public class Ease.TextActor : Actor
 		return true;
 	}
 	
-	private bool on_motion_event(Clutter.Actor self, Clutter.MotionEvent event)
+	public bool on_motion_event(Clutter.Actor self, Clutter.MotionEvent event)
 	{
-		float mouse_x, mouse_y;
+		/*float mouse_x, mouse_y;
 		transform_stage_point(event.x, event.y, out mouse_x, out mouse_y);
 		
 		int trailing, index;
@@ -265,11 +269,12 @@ public class Ease.TextActor : Actor
 		debug("Selection index: %i    Cursor index: %i",
 		      selection_index, cursor_index);
 		
+		return true;*/
 		return true;
 	}
 	
-	private bool on_button_release_event(Clutter.Actor self,
-	                                     Clutter.ButtonEvent event)
+	public bool on_button_release_event(Clutter.Actor self,
+	                                    Clutter.ButtonEvent event)
 	{
 		debug("Pointer released");
 		button_release_event.disconnect(on_button_release_event);
@@ -284,9 +289,8 @@ public class Ease.TextActor : Actor
 	private void position_cursor()
 	{
 		// get the position
-		Pango.Rectangle rect;
-		(element as TextElement).text.layout.index_to_pos(cursor_index,
-		                                                  out rect);
+		var rect = (element as TextElement).text.index_to_pos(cursor_index,
+		                                                      cursor_layout);
 		
 		// move the cursor
 		cursor.x = rect.x / Pango.SCALE + 3;
@@ -317,7 +321,7 @@ public class Ease.TextActor : Actor
 		cr.save();
 		
 		// render the selection if applicable
-		if (selection_index != cursor_index)
+		/*if (selection_index != cursor_index)
 		{
 			// get the layout and set its size
 			var layout = (element as TextElement).text.layout;
@@ -391,7 +395,7 @@ public class Ease.TextActor : Actor
 			cr.move_to(x / Pango.SCALE, logical.y);
 			cr.move_to(x / Pango.SCALE, logical.y + logical.height);*/
 			
-			int start_index, end_index;
+			/*int start_index, end_index;
 			if (selection_index < cursor_index)
 			{
 				start_index = selection_index;
@@ -433,13 +437,11 @@ public class Ease.TextActor : Actor
 			// fill and stroke
 			cr.stroke_preserve();
 			cr.fill();
-		}
+		}*/
 		
 		// render the text
 		cr.restore();
-		(element as TextElement).text.render(cr, !editing,
-		                                     (int)texture.width,
-		                                     (int)texture.height);
+		(element as TextElement).text.render(cr, !editing);
 	}
 }
 

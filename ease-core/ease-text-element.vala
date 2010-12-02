@@ -171,7 +171,7 @@ public class Ease.TextElement : Element
 	public override void cairo_render(Cairo.Context context,
 	                                  bool use_small) throws Error
 	{
-		text.render(context, true, (int)width, (int)height);
+		text.render(context, true);
 	}
 	
 	/**

@@ -67,13 +67,13 @@ private class Ease.Archiver.Archiver : GLib.Object
 		dialog.show();
 		
 		// archive in a thread
-		thread = Thread.create(archive_real, true);
+		thread = Thread.create<string>(archive_real, true);
 	}
 	
 	/**
 	 * Does the actual archiving of a directory.
 	 */
-	private void* archive_real()
+	private string archive_real()
 	{
 		// create a writable archive
 		var archive = new Archive.Write();

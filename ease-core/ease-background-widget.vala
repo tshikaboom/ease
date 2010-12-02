@@ -229,7 +229,7 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 		// ease doesn't provide a default for images, so one must be requested
 		if (type == BackgroundType.IMAGE && background.image.filename == null)
 		{
-			var filename = Dialog.open_ext(BG_DIALOG_TITLE,
+			var filename = Dialog.open_ext(_("Select Background Image"),
 			                               widget_window(this),
 			                               (dialog) => {
 				// add a filter for image files

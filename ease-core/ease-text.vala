@@ -23,12 +23,10 @@
  */
 public class Ease.Text : GLib.Object
 {
-	private const string DEFAULT_TEXT = _("Double click to edit.");
-	
 	/**
 	 * The layout, which controls the text and formatting.
 	 */
-	internal Pango.Layout layout;
+	internal Gee.LinkedList<Layout> layouts;
 	
 	/**
 	 * The context, which the layout requires.
@@ -36,22 +34,54 @@ public class Ease.Text : GLib.Object
 	private Pango.Context context;
 	
 	/**
-	 * The layout's attributes, which control text formatting.
+	 * The master list of attributes. When this is altered, layouts will be
+	 * updated with attributes for their local lengths and indices.
 	 */
 	private Pango.AttrList attrs;
 	
+	/**
+	 * The width of the text layout.
+	 */
+	public int width { get; set; default = 640; }
+	
+	/**
+	 * The height of the text layout. Text after this height will be ellipsized.
+	 */
+	public int height { get; set; default = 480; }
+	
+	/**
+	 * The size of the Text as a two item array. Arrays not of length 2 will
+	 * be ignored.
+	 */
+	public int[] size
+	{
+		owned get { return { width, height }; }
+		set
+		{
+			if (value.length != 2)
+			{
+				critical("Text size must be a two item array, not %i",
+				         value.length);
+				return;
+			}
+			width = value[0];
+			height = value[1];
+		}
+	}
+	
 	construct
 	{
-		// create context and layout
-		context = Gdk.pango_context_get_for_screen(Gdk.Screen.get_default());
-		layout = new Pango.Layout(context);
+		// create layout set
+		layouts = new Gee.LinkedList<Layout>();
+		
+		// create the first layout
+		layouts.add(new Layout());
 		
 		// set layout properties
-		layout.set_ellipsize(Pango.EllipsizeMode.END);
+		layouts.first().layout.set_ellipsize(Pango.EllipsizeMode.END);
 		
 		// create attribute list
 		attrs = new Pango.AttrList();
-		layout.set_attributes(attrs);
 	}
 	
 	/**
@@ -62,9 +92,55 @@ public class Ease.Text : GLib.Object
 	 */
 	public Text.with_text(string text, Pango.FontDescription font_description)
 	{
-		layout.set_text(text, (int)text.length);
-		layout.set_font_description(font_description);
+		layouts.first().layout.set_text(text, (int)text.length);
+		layouts.first().layout.set_font_description(font_description);
 	}
+	
+	/**
+	 * Advances the cursor by a specified number of characters. If the cursor
+	 * cannot be moved forward, it will not be moved.
+	 *
+	 * @param index The index of the cursor, this value is set on out.
+	 * @param layout_index The layout index, this value is set on out.
+	 * @param chars The number of characters to advance.
+	 */
+	public void advance_cursor(ref int index, ref int layout_index, uint chars)
+	{
+		
+	}
+	
+	/**
+	 * Moves the the cursor back by a specified number of characters. If the
+	 * cursor cannot move back, it will not be moved.
+	 *
+	 * @param index The index of the cursor, this value is set on out.
+	 * @param layout_index The layout index, this value is set on out.
+	 * @param chars The number of characters to advance.
+	 */
+	public void retreat_cursor(ref int index, ref int layout_index, uint chars)
+	{
+		
+	}
+	
+	/**
+	 * Iterates over each {@link Layout} in a text object.
+	 *
+	 * @param function The function to call for each iteration. Returning false
+	 * will break the iteration.
+	 */
+	public void @foreach(TextForeachFunc function)
+	{
+		foreach (var layout in layouts)
+		{
+			if (!function(layout)) return;
+		}
+	}
+	
+	/**
+	 * Called for each iteration of {@link foreach}. Returning false will break
+	 * the iteration.
+	 */
+	public delegate bool TextForeachFunc(Layout layout);
 	
 	/**
 	 * Renders the Text to a Cairo Context.
@@ -72,35 +148,51 @@ public class Ease.Text : GLib.Object
 	 * @param cr The context to render to.
 	 * @param use_default If the text is empty, the default string will be
 	 * rendered instead of an empty string.
-	 * @param width The width to render at.
-	 * @param height The height to render at.
 	 */
-	public void render(Cairo.Context cr, bool use_default,
-	                   int width, int height)
+	public void render(Cairo.Context cr, bool use_default)
 	{
-		// display default text if there is no text in the element
-		string text = layout.get_text();
-		if (text.length == 0 && use_default)
-		{
-			layout.set_text(DEFAULT_TEXT, (int)DEFAULT_TEXT.length);
-		}
+		int y = 0;
+		cr.save();
 		
-		// set size and render
-		layout.set_width(width * Pango.SCALE);
-		layout.set_height(height * Pango.SCALE);
-		Pango.cairo_show_layout(cr, layout);
+		// render each layout, if it's within the bounds of the rectangle
+		@foreach((layout) => {
+			// render the layout
+			layout.render(cr, use_default);
+			
+			// translate for the next render
+			cr.translate(0, layout.height_px);
+			
+			// stop once we've rendered all visible layouts
+			y += layout.height_px;
+			return y < height;
+		});
 		
-		// restore empty text if necessary
-		layout.set_text(text, (int)text.length);
+		cr.restore();
+	}
+	
+	/**
+	 * Adds a paragraph to the layout.
+	 */
+	public void add_layout()
+	{
+		// create the first layout
+		var layout = new Layout();
+		
+		// set layout properties
+		layouts.first().layout.set_ellipsize(Pango.EllipsizeMode.END);
+		
+		// add layout
+		layouts.insert(layouts.size, layout);
 	}
 	
 	/**
 	 * Inserts a string at a given index.
 	 */
-	public void insert(string text, int index)
+	public void insert(string text, int index, int layout_index)
 	{
-		debug("Insert at %i", index);
-		string result, current = layout.get_text();
+		var layout = layouts.get(layout_index);
+		
+		string result, current = layout.text;
 		if (index == 0)
 		{
 			result = text + current;
@@ -115,18 +207,21 @@ public class Ease.Text : GLib.Object
 			         current.substring(index, current.length - index);
 		}
 		
-		layout.set_text(result, (int)result.length);
+		layout.text = result;
 	}
 	
 	/**
 	 * Deletes the character as a given index.
 	 */
-	public void @delete(int index)
+	public void @delete(int index, int layout_index)
 	{
-		debug("Delete at %i", index);
+		debug("Delete at %i %i", layout_index, index);
+		
+		// get the layout
+		var layout = layouts.get(layout_index);
 		
 		// get current string
-		var current = layout.get_text();
+		var current = layout.text;
 		
 		// don't do bad things
 		if (index >= current.length)
@@ -143,7 +238,7 @@ public class Ease.Text : GLib.Object
 		// delete the character
 		var str = current.substring(0, index) +
 		          current.substring(index + 1, current.length - index - 1);
-		layout.set_text(str, (int)str.length);
+		layout.text = str;
 	}
 	
 	/**
@@ -156,11 +251,106 @@ public class Ease.Text : GLib.Object
 	 */
 	public void clear_set(string text, Pango.FontDescription? font_description)
 	{
-		layout.set_text(text, (int)text.length);
+		while (layouts.size > 1) layouts.remove_at(1);
+		layouts.first().text = text;
 		if (font_description != null)
 		{
-			layout.set_font_description(font_description);
+			layouts.first().layout.set_font_description(font_description);
 		}
+	}
+	
+	/**
+	 * Adds an attribute.
+	 *
+	 * @param attr The attribute to add.
+	 */
+	public void add_attr(Pango.Attribute attr)
+	{
+	}
+	
+	/**
+	 * Converts from an index within a PangoLayout to the onscreen position
+	 * corresponding to the grapheme at that index, which is represented as
+	 * rectangle. Note that pos->x is always the leading edge of the grapheme
+	 * and pos->x + pos->width the trailing edge of the grapheme. If the
+	 * directionality of the grapheme is right-to-left, then pos->width will be
+	 * negative.
+	 *
+	 * The implementation of this function in Text checks across multiple
+	 * layouts (as indicated by the second index parameter) for the result.
+	 *
+	 * @param index The character index.
+	 * @param layout_index The layout index.
+	 */
+	public Pango.Rectangle index_to_pos(int index, int layout_index)
+	{
+		Pango.Rectangle pos = Pango.Rectangle();
+		int i = 0, y = 0;
+		@foreach((layout) => {
+			if (i < index)
+			{
+				y += layout.height_px;
+				return true;
+			}
+			else
+			{
+				layout.layout.index_to_pos(index, out pos);
+				pos.y += y * Pango.SCALE;
+				return false;
+			}
+		});
+		
+		return pos;
+	}
+	
+	/**
+	 * Converts from X and Y position within a layout to the byte index to the
+	 * character at that logical position. If the Y position is not inside the
+	 * layout, the closest position is chosen (the position will be clamped
+	 * inside the layout). If the X position is not within the layout, then the
+	 * start or the end of the line is chosen as described for
+	 * pango_layout_x_to_index(). If either the X or Y positions were not inside
+	 * the layout, then the function returns false; on an exact hit, it returns
+	 * true.
+	 *
+	 * @param x The x position, in pixels.
+	 * @param y The y position, in pixels.
+	 * @param index A return value for the cursor index.
+	 * @param layout_index A return value for the layout index.
+	 */
+	public bool xy_to_index(int x, int y, ref int index, ref int layout_index)
+	{
+		// clamp the x position
+		if (x > width) x = width;
+		if (x < 0) x = 0;
+		
+		// clamp the y position
+		if (y > height) y = height;
+		if (y < 0) y = 0;
+		
+		// convert to pango units
+		width *= Pango.SCALE;
+		height *= Pango.SCALE;
+		
+		// find the indices
+		layout_index = 0;
+		foreach (var layout in layouts)
+		{
+			if (y > layout.height_px)
+			{
+				y -= layout.height_px;
+				layout_index++;
+			}
+			else
+			{
+				int trailing = 0;
+				layout.layout.xy_to_index(x, y, out index, out trailing);
+				index += trailing;
+				break;
+			}
+		}
+		
+		return true;
 	}
 	
 	/**

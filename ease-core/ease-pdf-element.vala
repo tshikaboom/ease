@@ -22,6 +22,7 @@ public class Ease.PdfElement : MediaElement
 {
 	private const string UI_FILE = "inspector-element-pdf.ui";
 	private const int DEFAULT_PAGE = 0;
+	private const double CACHE_SIZE = 76.0;
 	
 	/**
 	 * The page of the PDF file that is initially displayed.
@@ -44,6 +45,12 @@ public class Ease.PdfElement : MediaElement
 	private BackgroundWidget bg_widget;
 	
 	internal Poppler.Document pdf_doc;
+	
+	// invalidate the cache when the displayed page changes
+	construct
+	{
+		notify["displayed-page"].connect(() => small_cache = null);
+	}
 	
 	public PdfElement(string filename)
 	{
@@ -121,17 +128,53 @@ public class Ease.PdfElement : MediaElement
 		background.cairo_render(context, (int)width, (int)height,
 		                        parent.parent.path, use_small);
 		
-		// get the current page
-		var page = pdf_doc.get_page(displayed_page);
+		// if rendering at a small size, use the small cache
+		if (use_small)
+		{
+			// create the cache if necessary
+			if (small_cache == null)
+			{
+				// get the current page and page size
+				var page = pdf_doc.get_page(displayed_page);
+				double w = 0, h = 0;
+				page.get_size(out w, out h);
+				
+				// create a cache pixbuf
+				small_cache = new Gdk.Pixbuf(Gdk.Colorspace.RGB, true, 8,
+				                             (int)CACHE_SIZE,
+				                             (int)(h * (CACHE_SIZE / w)));
+				
+				// render to the cache
+				page.render_to_pixbuf(0, 0, (int)w, (int)h, CACHE_SIZE / w,
+				                      0, small_cache);
+			}
+			
+			// render the cached thumbnail
+			Gdk.cairo_set_source_pixbuf(context, small_cache, 0, 0);
+			context.scale(small_cache.width / width,
+			              small_cache.height / height);
+			context.rectangle(0, 0, width, height);
+			context.fill();
+		}
 		
-		// scale the context
-		double w = 0, h = 0;
-		page.get_size(out w, out h);
-		context.scale(width / w, height / h);
+		// otherwise, render the full PDF
+		else
+		{
+			// get the current page
+			var page = pdf_doc.get_page(displayed_page);
 		
-		// render the PDF
-		page.render(context);
+			// scale the context
+			double w = 0, h = 0;
+			page.get_size(out w, out h);
+			context.scale(width / w, height / h);
+		
+			// render the PDF
+			page.render(context);
+		}
 	}
+	
+	// a small version to cache so that thumbnail redraws aren't absurdly slow
+	private Gdk.Pixbuf small_cache;
 	
 	public override Gtk.Widget inspector_widget()
 	{
