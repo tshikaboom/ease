@@ -3,15 +3,15 @@
 def build(bld):
 	version = bld.FLUTTER_VERSION
 	library_name = 'flutter-%s' % (version, )
-	prog = bld(features='c cshlib')
-	prog.name = 'flutter'
-	prog.target = library_name
-	prog.source = 'flutter.vala'
-	prog.includes = '..'
-	prog.uselib = 'GOBJECT CLUTTER'
+	lib = bld(features='c cshlib')
+	lib.name = 'flutter'
+	lib.target = library_name
+	lib.source = 'flutter.vala'
+	lib.includes = '..'
+	lib.uselib = 'GOBJECT CLUTTER'
 
 	# Vala packages to use
-	prog.packages = 'clutter-1.0'
+	lib.packages = 'clutter-1.0'
 	
 
 

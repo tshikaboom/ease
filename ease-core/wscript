@@ -36,19 +36,19 @@ def build(bld):
 	print version
 	library_name = 'ease-core-' + version
 
-	prog = bld(features='c cshlib', after='flutter')
+	lib = bld(features='c cshlib', after='flutter')
 
-	prog.name = "ease-core"
-	prog.target = library_name
+	lib.name = "ease-core"
+	lib.target = library_name
 	
-	prog.source = " ".join(ease_core_files)
+	lib.source = " ".join(ease_core_files)
 
-	prog.cflags = ['-include', 'config.h']
-	prog.uselib = 'GOBJECT CLUTTER GEE CLUTTERGST GMODULE LIBARCHIVE POPPLERGLIB RESTEXTRAS CLUTTERGTK JSONGLIB'
-	prog.packages = 'flutter-' + bld.env["FLUTTER_VERSION"][0] + " "
-	prog.packages += " ".join(ease_core_packages)
+	lib.cflags = ['-include', 'config.h']
+	lib.uselib = 'GOBJECT CLUTTER GEE CLUTTERGST GMODULE LIBARCHIVE POPPLERGLIB RESTEXTRAS CLUTTERGTK JSONGLIB'
+	lib.packages = 'flutter-' + bld.env["FLUTTER_VERSION"][0] + " "
+	lib.packages += " ".join(ease_core_packages)
 	
-	prog.gir = "EaseCore-" + version
+	lib.gir = "EaseCore-" + version
 
 
 
