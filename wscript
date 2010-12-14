@@ -86,12 +86,13 @@ def build(bld):
     bld.srcdir = top 
     bld.builddir = out
     
-    bld.add_subdirs('data')
-
     bld.add_subdirs('flutter')
     bld.add_group()
+
     bld.add_subdirs('ease-core')
+    bld.add_subdirs('data')
     bld.add_group()
+
     bld.add_subdirs('ease')
     bld.add_group()
     
