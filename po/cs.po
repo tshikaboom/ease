@@ -1,7 +1,6 @@
 # Czech translation for ease.
 # Copyright (C) 2010 ease's COPYRIGHT HOLDER
 # This file is distributed under the same license as the ease package.
-#
 # Marek Černocký <marek@manet.cz>, 2010.
 #
 msgid ""
@@ -9,10 +8,11 @@ msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&component=general\n"
-"POT-Creation-Date: 2010-08-25 18:18+0000\n"
-"PO-Revision-Date: 2010-07-08 10:44+0200\n"
+"POT-Creation-Date: 2010-10-15 19:33+0000\n"
+"PO-Revision-Date: 2010-12-05 18:32+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,91 +20,121 @@ msgstr ""
 
 #: ../data/ease.desktop.in.h:1 ../data/ease.desktop.in.in.h:1
 msgid "Create nice and elegant presentations"
-msgstr ""
+msgstr "Vytvářet pěkné a elegantní prezentace"
 
 #: ../data/ease.desktop.in.h:2 ../data/ease.desktop.in.in.h:2
-#, fuzzy
-#| msgid " - a presentation editor"
 msgid "Ease Presentation Editor"
-msgstr " - editor prezentací"
+msgstr "Editor prezentací Ease"
 
 #: ../ease-core/ease-archiver.vala:29
 #, c-format
 msgid "Saving \"%s\""
-msgstr ""
+msgstr "Ukládání „%s“"
 
 #: ../ease-core/ease-archiver.vala:98
-#, fuzzy, c-format
-#| msgid "Directory to remove doesn't exist: %s"
+#, c-format
 msgid "Temporary directory doesn't exist: %s"
-msgstr "Složka, která se má odstranit, neexistuje: %s"
+msgstr "Dočasná složka neexistuje: %s"
 
-#: ../ease-core/ease-background.vala:238
-#, fuzzy
-#| msgid "Select Color"
+#: ../ease-core/ease-background.vala:241
 msgid "Solid Color"
-msgstr "Výběr barvy"
+msgstr "Plná barva"
 
-#: ../ease-core/ease-background.vala:239
+#: ../ease-core/ease-background.vala:242
 msgid "Gradient"
-msgstr ""
+msgstr "Přechod"
 
-#: ../ease-core/ease-background.vala:240
+#: ../ease-core/ease-background.vala:243
 msgid "Image"
-msgstr ""
+msgstr "Obrázek"
 
 #: ../ease-core/ease-background-widget.vala:24
 msgid "Select Background Image"
-msgstr ""
+msgstr "Výběr obrázku pro pozadí"
 
 #: ../ease-core/ease-background-widget.vala:188
 #: ../ease-core/ease-background-widget.vala:238
-#: ../ease/ease-editor-window.vala:453 ../ease/ease-import-dialog.vala:33
+#: ../ease/ease-editor-window.vala:459 ../ease/ease-import-dialog.vala:33
 msgid "Images"
-msgstr ""
+msgstr "Obrázky"
 
 #: ../ease-core/ease-background-widget.vala:193
 #: ../ease-core/ease-background-widget.vala:243
-#: ../ease-core/ease-dialogs.vala:84 ../ease-core/ease-dialogs.vala:155
-#: ../ease/ease-editor-window.vala:458 ../ease/ease-editor-window.vala:561
-#, fuzzy
-#| msgid "File"
+#: ../ease-core/ease-dialogs.vala:192 ../ease-core/ease-dialogs.vala:268
+#: ../ease/ease-editor-window.vala:464 ../ease/ease-editor-window.vala:567
 msgid "All Files"
-msgstr "Soubor"
+msgstr "Všechny soubory"
 
-#: ../ease-core/ease-dialogs.vala:75
-#, fuzzy
-#| msgid "Save Document"
+#: ../ease-core/ease-dialogs.vala:24
+msgid ""
+"The specified filename does not end with a \".ease\" extension. Would you "
+"like to append one?"
+msgstr "Zadaný název souboru nekončí příponou „.ease“. Přejete si ji přidat?"
+
+#: ../ease-core/ease-dialogs.vala:25
+msgid "Append .ease?"
+msgstr "Přidat .ease?"
+
+#: ../ease-core/ease-dialogs.vala:27
+#, c-format
+msgid "Replace %s?"
+msgstr "Nahradit %s?"
+
+#: ../ease-core/ease-dialogs.vala:29
+#, c-format
+msgid "A file named %s already exists. Do you want to replace it?"
+msgstr "Soubor s názvem %s již existuje. Chcete jej nahradit?"
+
+#: ../ease-core/ease-dialogs.vala:31
+#, c-format
+msgid ""
+"This file already exists in the directory \"%s\". Overwriting it will "
+"replace its contents."
+msgstr ""
+"Tento soubor již existuje ve složce „%s“. Přepsáním nahradíte jeho obsah."
+
+#: ../ease-core/ease-dialogs.vala:183
 msgid "Open Document"
-msgstr "Uložit dokument"
+msgstr "Otevření dokumentu"
 
-#: ../ease-core/ease-dialogs.vala:79 ../ease-core/ease-dialogs.vala:150
-#, fuzzy
-#| msgid "New Presentation"
+#: ../ease-core/ease-dialogs.vala:187 ../ease-core/ease-dialogs.vala:263
 msgid "Ease Presentations"
-msgstr "Nová prezentace"
+msgstr "Prezentace Ease"
+
+#: ../ease-core/ease-dialogs.vala:290
+msgid "Don't append .ease"
+msgstr "Nepřidávat .ease"
+
+#: ../ease-core/ease-dialogs.vala:294
+msgid "Append .ease"
+msgstr "Přidat .ease"
+
+#: ../ease-core/ease-dialogs.vala:327
+#, c-format
+msgid "Don't overwrite %s"
+msgstr "Nepřepisovat %s"
+
+#: ../ease-core/ease-dialogs.vala:331
+#, c-format
+msgid "Overwrite %s"
+msgstr "Přepsat %s"
 
 #. *
 #. * Default slide title.
 #.
 #: ../ease-core/ease-document.vala:80
-#, fuzzy, c-format
-#| msgid "Slide"
+#, c-format
 msgid "Slide %i"
-msgstr "Posunutí"
+msgstr "Snímek %i"
 
 #. archive
 #: ../ease-core/ease-document.vala:278
-#, fuzzy
-#| msgid "Save Document"
 msgid "Saving Document"
-msgstr "Uložit dokument"
+msgstr "Ukládání dokumentu"
 
 #: ../ease-core/ease-document.vala:517
-#, fuzzy
-#| msgid "Export to PDF"
 msgid "Export as PDF"
-msgstr "Export do PDF"
+msgstr "Exportovat jako PDF"
 
 #: ../ease-core/ease-document.vala:527
 msgid "Error Exporting to PDF"
@@ -112,13 +142,11 @@ msgstr "Chyba při exportu do PDF"
 
 #: ../ease-core/ease-document.vala:538
 msgid "Export as PostScript"
-msgstr ""
+msgstr "Exportovat jako PostScript"
 
 #: ../ease-core/ease-document.vala:548
-#, fuzzy
-#| msgid "Error Exporting to PDF"
 msgid "Error Exporting to PostScript"
-msgstr "Chyba při exportu do PDF"
+msgstr "Chyba při exportu do PostScriptu"
 
 #: ../ease-core/ease-document.vala:595
 msgid "Error exporting as HTML"
@@ -126,15 +154,15 @@ msgstr "Chyba při exportu do HTML"
 
 #: ../ease-core/ease-gradient.vala:259
 msgid "Linear"
-msgstr ""
+msgstr "Lineární"
 
 #: ../ease-core/ease-gradient.vala:260
 msgid "Mirrored Linear"
-msgstr ""
+msgstr "Zrcadlený lineární"
 
 #: ../ease-core/ease-gradient.vala:261
 msgid "Radial"
-msgstr ""
+msgstr "Kruhový"
 
 #: ../ease-core/ease-html-exporter.vala:75
 msgid "Export to HTML"
@@ -154,251 +182,242 @@ msgstr "Chyba při kopírování souboru"
 msgid "Error loading ImageActor: %s\n"
 msgstr "Chyba při načítání modulu ImageActor: %s\n"
 
-#: ../ease-core/ease-image-element.vala:99 ../ease/ease-editor-window.vala:510
-#, fuzzy
-#| msgid "Error exporting as HTML"
+#: ../ease-core/ease-image-element.vala:99 ../ease/ease-editor-window.vala:516
 msgid "Error Inserting Image"
-msgstr "Chyba při exportu do HTML"
+msgstr "Chyba při vkládání obrázku"
 
 #: ../ease-core/ease-image.vala:146
 msgid "Stretch"
-msgstr ""
+msgstr "Roztáhnout"
 
 #: ../ease-core/ease-image.vala:147
 msgid "Maintain Aspect Ratio"
-msgstr ""
+msgstr "Ponechat poměr stran"
 
 #: ../ease-core/ease-image.vala:148
 msgid "Do not Scale"
-msgstr ""
+msgstr "Ponechat velikost"
 
 #: ../ease-core/ease-text-element.vala:25
-#, fuzzy
-#| msgid "Double Click to Edit"
 msgid "Double click to edit"
-msgstr "Pro úpravu dvojitě klikněte"
+msgstr "Upravte dvojitým kliknutím"
 
-#: ../ease-core/ease-theme.vala:289
-#, fuzzy, c-format
-#| msgid "Error loading ImageActor: %s\n"
+#: ../ease-core/ease-theme.vala:291
+#, c-format
 msgid "Error loading theme: %s"
-msgstr "Chyba při načítání modulu ImageActor: %s\n"
+msgstr "Chyba při načítání motivu: %s"
 
-#: ../ease-core/ease-theme.vala:443
+#: ../ease-core/ease-theme.vala:445
 #, c-format
 msgid "Invalid master slide title: %s"
-msgstr ""
+msgstr "Neplatný název hlavního snímku: %s"
 
-#: ../ease-core/ease-theme.vala:470
+#: ../ease-core/ease-theme.vala:472
 #, c-format
 msgid "Not a valid text element type: %s"
-msgstr ""
+msgstr "Neplatný typ textového prvku: %s"
 
-#: ../ease-core/ease-theme.vala:524
+#: ../ease-core/ease-theme.vala:526
 #, c-format
 msgid "Could not find property %s on element type %s."
-msgstr ""
+msgstr "U prvku typu %2$s nelze najít vlastnost %1$s."
 
-#: ../ease-core/ease-theme.vala:554
+#: ../ease-core/ease-theme.vala:556
 #, c-format
 msgid "Could not find property %s on master type %s."
-msgstr ""
-
-#: ../ease-core/ease-theme.vala:582
-msgid "_Title slide"
-msgstr ""
+msgstr "U hlavního typu %2$s nelze najít vlastnost %1$s."
 
 #: ../ease-core/ease-theme.vala:584
-#, fuzzy
-#| msgid "Close _without Saving"
-msgid "Content slide _without header"
-msgstr "Zavřít _bez uložení"
+msgid "_Title slide"
+msgstr "_Titulní snímek"
 
 #: ../ease-core/ease-theme.vala:586
-msgid "_Content slide"
-msgstr ""
+msgid "Content slide _without header"
+msgstr "Snímek s obsahem bez hla_vičky"
 
 #: ../ease-core/ease-theme.vala:588
-msgid "Two column slide without _header"
-msgstr ""
+msgid "_Content slide"
+msgstr "Snímek s o_bsahem"
 
 #: ../ease-core/ease-theme.vala:590
-msgid "T_wo column slide with header"
-msgstr ""
+msgid "Two column slide without _header"
+msgstr "Dvouslopcový snímek bez _hlavičky"
 
 #: ../ease-core/ease-theme.vala:592
-msgid "M_edia slide without header"
-msgstr ""
+msgid "T_wo column slide with header"
+msgstr "D_vousloupcový snímek s hlavičkou"
 
 #: ../ease-core/ease-theme.vala:594
-msgid "_Media slide"
-msgstr ""
+msgid "M_edia slide without header"
+msgstr "Snímek s médii b_ez hlavičky"
 
 #: ../ease-core/ease-theme.vala:596
-msgid "Em_pty Slide"
-msgstr ""
+msgid "_Media slide"
+msgstr "Snímek s _médii"
 
-#: ../ease-core/ease-theme.vala:599
+#: ../ease-core/ease-theme.vala:598
+msgid "Em_pty Slide"
+msgstr "_Prázdný snímek"
+
+#: ../ease-core/ease-theme.vala:601
 #, c-format
 msgid "%s is not a valid identifier"
-msgstr ""
+msgstr "%s není platný identifikátor"
 
-#: ../ease-core/ease-transitions.vala:216
+#: ../ease-core/ease-transitions.vala:220
 msgid "None"
 msgstr "Žádný"
 
-#: ../ease-core/ease-transitions.vala:218
+#: ../ease-core/ease-transitions.vala:222
 msgid "Fade"
 msgstr "Blednutí"
 
-#: ../ease-core/ease-transitions.vala:220
+#: ../ease-core/ease-transitions.vala:224
 msgid "Slide"
 msgstr "Posunutí"
 
-#: ../ease-core/ease-transitions.vala:222
+#: ../ease-core/ease-transitions.vala:226
 msgid "Drop"
 msgstr "Propadnutí"
 
-#: ../ease-core/ease-transitions.vala:224
+#: ../ease-core/ease-transitions.vala:228
 msgid "Pivot"
 msgstr "Otáčení"
 
-#: ../ease-core/ease-transitions.vala:226
+#: ../ease-core/ease-transitions.vala:230
 msgid "Flip"
 msgstr "Překlopení"
 
-#: ../ease-core/ease-transitions.vala:228
+#: ../ease-core/ease-transitions.vala:232
 msgid "Revolving Door"
 msgstr "Otočné dveře"
 
-#: ../ease-core/ease-transitions.vala:230
+#: ../ease-core/ease-transitions.vala:234
 msgid "Reveal"
 msgstr "Odhalení"
 
-#: ../ease-core/ease-transitions.vala:232
+#: ../ease-core/ease-transitions.vala:236
 msgid "Fall"
-msgstr "Pád"
+msgstr "Sklopení"
 
-#: ../ease-core/ease-transitions.vala:234
+#: ../ease-core/ease-transitions.vala:238
 msgid "Slats"
 msgstr "Žaluzie"
 
-#: ../ease-core/ease-transitions.vala:236
+#: ../ease-core/ease-transitions.vala:240
 msgid "Open Door"
 msgstr "Otevření dveří"
 
-#: ../ease-core/ease-transitions.vala:238
-msgid "Explode"
-msgstr ""
-
-#: ../ease-core/ease-transitions.vala:240
-msgid "Assemble"
-msgstr ""
-
 #: ../ease-core/ease-transitions.vala:242
+msgid "Explode"
+msgstr "Exploze"
+
+#: ../ease-core/ease-transitions.vala:244
+msgid "Assemble"
+msgstr "Sestavení"
+
+#: ../ease-core/ease-transitions.vala:246
 msgid "Zoom"
 msgstr "Zvětšení"
 
-#: ../ease-core/ease-transitions.vala:244
+#: ../ease-core/ease-transitions.vala:248
 msgid "Panel"
 msgstr "Panel"
 
-#: ../ease-core/ease-transitions.vala:246
-#, fuzzy
-#| msgid "Spring Contents"
+#: ../ease-core/ease-transitions.vala:250
 msgid "Intersperse Contents"
-msgstr "Vytrysknutí obsahu"
+msgstr "Rozptýlení obsahu"
 
-#: ../ease-core/ease-transitions.vala:248
+#: ../ease-core/ease-transitions.vala:252
 msgid "Spin Contents"
 msgstr "Otočení obsahu"
 
-#: ../ease-core/ease-transitions.vala:250
+#: ../ease-core/ease-transitions.vala:254
 msgid "Spring Contents"
 msgstr "Vytrysknutí obsahu"
 
-#: ../ease-core/ease-transitions.vala:252
+#: ../ease-core/ease-transitions.vala:256
 msgid "Swing Contents"
 msgstr "Zhoupnutí obsahu"
 
-#: ../ease-core/ease-transitions.vala:254
+#: ../ease-core/ease-transitions.vala:258
 msgid "Slide Contents"
 msgstr "Přesun obsahu"
 
-#: ../ease-core/ease-transitions.vala:256
+#: ../ease-core/ease-transitions.vala:260
 msgid "Zoom Contents"
 msgstr "Zvětšení obsahu"
 
-#: ../ease-core/ease-transitions.vala:259
-#: ../ease-core/ease-transitions.vala:371
+#: ../ease-core/ease-transitions.vala:263
+#: ../ease-core/ease-transitions.vala:375
 msgid "Undefined"
 msgstr "Neurčeno"
 
-#: ../ease-core/ease-transitions.vala:336
+#: ../ease-core/ease-transitions.vala:340
 msgid "Up"
 msgstr "Nahoru"
 
-#: ../ease-core/ease-transitions.vala:338
+#: ../ease-core/ease-transitions.vala:342
 msgid "Down"
 msgstr "Dolů"
 
-#: ../ease-core/ease-transitions.vala:340
+#: ../ease-core/ease-transitions.vala:344
 msgid "Left"
 msgstr "Vlevo"
 
-#: ../ease-core/ease-transitions.vala:342
+#: ../ease-core/ease-transitions.vala:346
 msgid "Right"
 msgstr "Vpravo"
 
-#: ../ease-core/ease-transitions.vala:344
+#: ../ease-core/ease-transitions.vala:348
 msgid "Bottom"
 msgstr "Dole"
 
-#: ../ease-core/ease-transitions.vala:346
+#: ../ease-core/ease-transitions.vala:350
 msgid "Top"
 msgstr "Nahoře"
 
-#: ../ease-core/ease-transitions.vala:348
+#: ../ease-core/ease-transitions.vala:352
 msgid "Center"
 msgstr "Nastřed"
 
-#: ../ease-core/ease-transitions.vala:350
+#: ../ease-core/ease-transitions.vala:354
 msgid "Top Left"
 msgstr "Vlevo nahoře"
 
-#: ../ease-core/ease-transitions.vala:352
+#: ../ease-core/ease-transitions.vala:356
 msgid "Top Right"
 msgstr "Vpravo nahoře"
 
-#: ../ease-core/ease-transitions.vala:354
+#: ../ease-core/ease-transitions.vala:358
 msgid "Bottom Left"
 msgstr "Vlevo dole"
 
-#: ../ease-core/ease-transitions.vala:356
+#: ../ease-core/ease-transitions.vala:360
 msgid "Bottom Right"
 msgstr "Vpravo dole"
 
-#: ../ease-core/ease-transitions.vala:358
+#: ../ease-core/ease-transitions.vala:362
 msgid "Top to Bottom"
 msgstr "Shora dolů"
 
-#: ../ease-core/ease-transitions.vala:360
+#: ../ease-core/ease-transitions.vala:364
 msgid "Bottom to Top"
 msgstr "Zdola nahoru"
 
-#: ../ease-core/ease-transitions.vala:362
+#: ../ease-core/ease-transitions.vala:366
 msgid "Left to Right"
 msgstr "Zleva doprava"
 
-#: ../ease-core/ease-transitions.vala:364
+#: ../ease-core/ease-transitions.vala:368
 msgid "Right to Left"
 msgstr "Zprava doleva"
 
-#: ../ease-core/ease-transitions.vala:366
+#: ../ease-core/ease-transitions.vala:370
 msgid "In"
 msgstr "Dovnitř"
 
-#: ../ease-core/ease-transitions.vala:368
+#: ../ease-core/ease-transitions.vala:372
 msgid "Out"
 msgstr "Ven"
 
@@ -413,36 +432,34 @@ msgstr "Váš prohlížeč nepodporuje značku video"
 
 #: ../ease-core/ease-video-element.vala:261
 msgid "Stop playback"
-msgstr ""
+msgstr "Zastavit přehrávání"
 
 #: ../ease-core/ease-video-element.vala:262
 msgid "Loop"
-msgstr ""
+msgstr "Smyčka"
 
 #: ../ease-core/ease-video-element.vala:263
 msgid "Continue to next slide"
-msgstr ""
+msgstr "Pokračovat na následující snímek"
 
 #: ../ease/ease-about-dialog.vala:50
 msgid "A presentation application for the GNOME Desktop"
 msgstr "Prezentační aplikace pro pracovní prostředí GNOME"
 
 #: ../ease/ease-about-dialog.vala:67
-#, fuzzy
-#| msgid "Mario Blättermann"
 msgid "Mario Blättermann <mariobl@gnome.org>"
-msgstr "Mario Blättermann"
+msgstr "Mario Blättermann <mariobl@gnome.org>"
 
-#: ../ease/ease-close-confirm-dialog.vala:38
+#: ../ease/ease-close-confirm-dialog.vala:58
 msgid "Save before closing?"
 msgstr "Uložit před zavřením?"
 
 #. buttons
-#: ../ease/ease-close-confirm-dialog.vala:77
+#: ../ease/ease-close-confirm-dialog.vala:98
 msgid "Close _without Saving"
 msgstr "Zavřít _bez uložení"
 
-#: ../ease/ease-close-confirm-dialog.vala:96
+#: ../ease/ease-close-confirm-dialog.vala:135
 #, c-format
 msgid ""
 "If you don't save, changes from the last second will be permanently lost."
@@ -457,13 +474,13 @@ msgstr[2] ""
 "Pokud neprovedete uložení, budou změny za posledních %i sekund trvale "
 "ztraceny."
 
-#: ../ease/ease-close-confirm-dialog.vala:100
+#: ../ease/ease-close-confirm-dialog.vala:139
 msgid ""
 "If you don't save, changes from the last minute will be permanently lost."
 msgstr ""
 "Pokud neprovedete uložení, budou změny za poslední minutu trvale ztraceny."
 
-#: ../ease/ease-close-confirm-dialog.vala:104
+#: ../ease/ease-close-confirm-dialog.vala:143
 #, c-format
 msgid ""
 "If you don't save, changes from the last minute and %i second will be "
@@ -481,7 +498,7 @@ msgstr[2] ""
 "Pokud neprovedete uložení, budou změny za poslední minutu a %i sekund trvale "
 "ztraceny."
 
-#: ../ease/ease-close-confirm-dialog.vala:108
+#: ../ease/ease-close-confirm-dialog.vala:147
 #, c-format
 msgid ""
 "If you don't save, changes from the last %i minute will be permanently lost."
@@ -495,12 +512,12 @@ msgstr[2] ""
 "Pokud neprovedete uložení, budou změny za posledních %i minut trvale "
 "ztraceny."
 
-#: ../ease/ease-close-confirm-dialog.vala:115
+#: ../ease/ease-close-confirm-dialog.vala:154
 msgid "If you don't save, changes from the last hour will be permanently lost."
 msgstr ""
 "Pokud neprovedete uložení, budou změny za poslední hodinu trvale ztraceny."
 
-#: ../ease/ease-close-confirm-dialog.vala:117
+#: ../ease/ease-close-confirm-dialog.vala:156
 #, c-format
 msgid ""
 "If you don't save, changes from the last hour and %i minute will be "
@@ -518,7 +535,7 @@ msgstr[2] ""
 "Pokud neprovedete uložení, budou změny za poslední hodinu a %i minut trvale "
 "ztraceny."
 
-#: ../ease/ease-close-confirm-dialog.vala:121
+#: ../ease/ease-close-confirm-dialog.vala:160
 #, c-format
 msgid ""
 "If you don't save, changes from the last %i hour will be permanently lost."
@@ -532,83 +549,82 @@ msgstr[2] ""
 "Pokud neprovedete uložení, budou změny za posledních %i hodin trvale "
 "ztraceny."
 
-#: ../ease/ease-close-confirm-dialog.vala:132
+#: ../ease/ease-close-confirm-dialog.vala:171
 #, c-format
 msgid "Save changes to \"%s\" before closing?"
 msgstr "Uložit před zavřením změny do %s"
 
 #: ../ease/ease-editor-window.vala:168
 msgid "The quick brown fox jumps over the lazy dog"
-msgstr ""
+msgstr "Příliš žluťoučký kůň úpěl ďábelské ódy"
 
 #: ../ease/ease-editor-window.vala:266
 msgid "Untitled Document"
 msgstr "Nepojmenovaný dokument"
 
-#: ../ease/ease-editor-window.vala:449
+#: ../ease/ease-editor-window.vala:455
 msgid "Insert Image"
-msgstr ""
+msgstr "Vložení obrázku"
 
-#: ../ease/ease-editor-window.vala:517
+#: ../ease/ease-editor-window.vala:523
 msgid "Insert Video"
-msgstr ""
+msgstr "Vložení videa"
 
-#: ../ease/ease-editor-window.vala:542
-#, fuzzy
-#| msgid "Error Copying File"
+#: ../ease/ease-editor-window.vala:548
 msgid "Error Inserting Video"
-msgstr "Chyba při kopírování souboru"
-
-#: ../ease/ease-editor-window.vala:550
-#, fuzzy
-#| msgid "Save Document"
-msgid "Insert PDF Document"
-msgstr "Uložit dokument"
+msgstr "Chyba při vkládání videa"
 
 #: ../ease/ease-editor-window.vala:556
-#, fuzzy
-#| msgid "Save Document"
+msgid "Insert PDF Document"
+msgstr "Vložit dokument PDF"
+
+#: ../ease/ease-editor-window.vala:562
 msgid "PDF Documents"
-msgstr "Uložit dokument"
+msgstr "Dokumenty PDF"
 
-#: ../ease/ease-editor-window.vala:595
-#, fuzzy
-#| msgid "Error Exporting to PDF"
+#: ../ease/ease-editor-window.vala:601
 msgid "Error Inserting PDF"
-msgstr "Chyba při exportu do PDF"
+msgstr "Chyba při vkládání PDF"
 
-#: ../ease/ease-editor-window.vala:719
+#: ../ease/ease-editor-window.vala:725
 msgid "Save Document"
 msgstr "Uložit dokument"
 
-#: ../ease/ease-editor-window.vala:735
+#: ../ease/ease-editor-window.vala:741
 msgid "Error Saving Document"
 msgstr "Chyba při ukládání dokumentu"
 
 #. create the dialog
-#: ../ease/ease-editor-window.vala:814
+#: ../ease/ease-editor-window.vala:820
 msgid "Select Color"
 msgstr "Výběr barvy"
 
 #. create a font selection dialog
-#: ../ease/ease-editor-window.vala:881
-#, fuzzy
-#| msgid "Select Color"
+#: ../ease/ease-editor-window.vala:887
 msgid "Select Font"
-msgstr "Výběr barvy"
+msgstr "Výběr písma"
 
 #: ../ease/ease-import-dialog.vala:20
 #, c-format
 msgid "Downloading image %i of %i"
-msgstr ""
+msgstr "Stahuje se obrázek %i z %i"
 
 #: ../ease/ease-import-dialog.vala:28
 msgid "Import Media"
-msgstr ""
+msgstr "Import média"
 
 #: ../ease/ease-import-dialog.vala:64
 msgid "Downloading Media Files"
-msgstr ""
+msgstr "Stahují se soubory média"
+
+#. create checkboxes to filter CC licenses
+#: ../ease/ease-import-flickr-service.vala:80
+msgid "Share Alike"
+msgstr "Zachování licence"
+
+#: ../ease/ease-import-flickr-service.vala:82
+msgid "For Commercial Use"
+msgstr "Pro komerční použití"
 
 #: ../ease/ease-inspector-transition-pane.vala:73
 msgid "Effect"
@@ -661,25 +677,22 @@ msgid "Error creating new document"
 msgstr "Chyba při vytváření nového dokumentu"
 
 #: ../ease/ease-player.vala:65
-#, fuzzy
-#| msgid "New Presentation"
 msgid "Ease Presentation"
-msgstr "Nová prezentace"
+msgstr "Prezentace Ease"
 
 #: ../ease/ease-slide-button-panel.vala:195
 #, c-format
 msgid "Error drawing slide preview: %s"
-msgstr ""
+msgstr "Chyba při vykreslování náhledu snímku: %s"
 
 #: ../ease/ease-welcome-actor.vala:163
-#, fuzzy, c-format
-#| msgid "error parsing options: %s\n"
+#, c-format
 msgid "Error rendering preview: %s"
-msgstr "chyba při zpracování voleb: %s\n"
+msgstr "Chyba při vykreslování náhledu: %s"
 
 #: ../ease/ease-welcome-window.vala:90
 msgid "Pick a theme and start editing"
-msgstr ""
+msgstr "Zvolte motiv a začněte úpravy"
 
 #: ../ease/ease-welcome-window.vala:121
 msgid "Custom"
@@ -689,4 +702,3 @@ msgstr "Vlastní"
 #, c-format
 msgid "%i by %i"
 msgstr "%i × %i"
-
