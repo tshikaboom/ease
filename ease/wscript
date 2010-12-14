@@ -31,7 +31,7 @@ ease_packages = [ "clutter-gst-1.0", "clutter-gtk-0.10", "gee-1.0",
 
 
 def build(bld):
-	prog = bld(features='cc cprogram')
+	prog = bld(features='c cprogram')
 	
 	prog.name = 'ease'
 	prog.target = 'ease'
