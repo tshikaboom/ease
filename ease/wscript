@@ -1,0 +1,61 @@
+from waflib.TaskGen import after
+#!/usr/bin/env python
+ease_files =''' ease-about-dialog.vala 
+	ease-close-confirm-dialog.vala 
+	ease-editor-embed.vala 
+	ease-editor-window.vala 
+	ease-handle.vala 
+	ease-import-dialog.vala 
+	ease-import-flickr-media.vala 
+	ease-import-flickr-service.vala 
+	ease-import-oca-media.vala 
+	ease-import-oca-service.vala 
+	ease-import-widget.vala 
+	ease-inspector-element-pane.vala 
+	ease-inspector-pane.vala 
+	ease-inspector-slide-pane.vala 
+	ease-inspector-transition-pane.vala 
+	ease-inspector.vala 
+	ease-main.vala 
+	ease-player.vala 
+	ease-selection-rectangle.vala 
+	ease-slide-actor.vala 
+	ease-slide-button-panel.vala 
+	ease-slide-sorter.vala 
+	ease-welcome-actor.vala 
+	ease-welcome-window.vala '''
+
+ease_packages = '''clutter-gst-1.0 clutter-gtk-0.10 gee-1.0 gmodule-2.0 json-glib-1.0 libarchive poppler-glib rest-extras-0.6 unique-1.0'''
+
+@after('ease-core')
+def build(bld):
+	prog = bld(features='cc cprogram', after='ease-core')
+	
+	# symbolic name used to reference this object
+	prog.name = 'ease.program'
+	prog.depends_on = 'ease-core'
+	# name of the resulting program
+	prog.target = 'ease'
+	prog.source = ease_files
+	
+	prog.includes = "../ease-core ../flutter"
+	
+	prog.after = "ease-core"
+
+	prog.ccflags = ['-include', 'config.h']
+
+	# libraries to link against
+	prog.uselib = 'GTK+ GOBJECT CLUTTER GEE CLUTTERGST GMODULE LIBARCHIVE POPPLERGLIB RESTEXTRAS CLUTTERGTK JSONGLIB UNIQUE'
+	# Vala packages to use
+	prog.packages = 'flutter-%s ' % (bld.FLUTTER_VERSION,)
+	prog.packages += 'ease-core-%s ' % (bld.EASE_CORE_VERSION, )
+	prog.packages += ease_packages
+	# Extra vapi dirs
+	#prog.vapi_dirs = '../my_lib'
+	prog.vapi_dirs = '../ease-core ../flutter'
+
+	
+	prog.uselib_local = 'ease-core flutter'
+
+	# Enable threading
+	#prog.threading = True
