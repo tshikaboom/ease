@@ -45,8 +45,10 @@ def build(bld):
 
 	prog.cflags = ['-include', 'config.h']
 	prog.uselib = 'GOBJECT CLUTTER GEE CLUTTERGST GMODULE LIBARCHIVE POPPLERGLIB RESTEXTRAS CLUTTERGTK JSONGLIB'
-	prog.packages = 'flutter-' + bld.env["FLUTTER_VERSION"][0]
+	prog.packages = 'flutter-' + bld.env["FLUTTER_VERSION"][0] + " "
 	prog.packages += " ".join(ease_core_packages)
+	
+	prog.gir = "EaseCore-" + version
 
 
 
