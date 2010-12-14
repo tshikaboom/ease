@@ -3,21 +3,15 @@
 def build(bld):
 	version = bld.FLUTTER_VERSION
 	library_name = 'flutter-%s' % (version, )
-	vapi_name = 'flutter-%s.vapi' % (version, )
-	prog = bld(features='cc cshlib')
-	# symbolic name used to reference this object
+	prog = bld(features='c cshlib')
 	prog.name = 'flutter'
-	# name of the resulting program
 	prog.target = library_name
 	prog.source = 'flutter.vala'
 	prog.includes = '..'
-	# libraries to link against
 	prog.uselib = 'GOBJECT CLUTTER'
+
 	# Vala packages to use
 	prog.packages = 'clutter-1.0'
 	
-	# Extra vapi dirs
-	#prog.vapi_dirs = '../my_lib ../my_other_lib'
-	# Enable threading
-	#prog.threading = True
+
 
