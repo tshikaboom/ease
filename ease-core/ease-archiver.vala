@@ -15,6 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 private class Ease.Archiver.Archiver : GLib.Object
 {
 	private string temp_path;

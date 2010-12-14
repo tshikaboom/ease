@@ -1,0 +1,76 @@
+#!/usr/bin/env python
+
+from waflib import Utils
+
+desktopdir = "${DATADIR}/applications"
+icondir = "${DATADIR}/icons/hicolor/scalable/apps"
+mimedir = "${DATADIR}/mime/packages"
+mimeicondir = "${DATADIR}/icons/gnome/scalable/mimetypes"
+svgdir = "${DATADIR}/ease/svg"
+uidir = "${DATADIR}/ease/ui"
+jsondir = "${DATADIR}/ease"
+themedir = "${DATADIR}/ease/themes"
+
+def build_desktop(bld):
+    if bld.cmd == 'install':
+	try:
+            bld.exec_command(["update-mime-database", Utils.subst_vars("${DATADIR}/mime", bld.env)])
+	except:
+            pass
+    bld (features = "intltool_in",
+	 podir = "../po",
+	 flags = ["-d","-q","-u","-c"],
+	 source = 'ease.desktop.in',
+	 target = 'ease.desktop',
+	 install_path = desktopdir)
+    
+def build_icon(bld):
+    icon_files = "icons/hicolor/scalable/apps/ease.svg"
+    bld.install_files(icondir, icon_files)
+    
+def build_mime(bld):
+    mime_files = "ease-mime.xml"
+    if bld.cmd == 'install':
+	try:
+            bld.exec_command(["update-desktop-database", Utils.subst_vars("${DATADIR}/applications", bld.env)])
+	except:
+            pass
+    bld.install_files(mimedir, mime_files)
+
+def build_mimeicon(bld):
+    mimeicon_files = "gnome-mime-application-x-ease.svg"
+    bld.install_files(mimeicondir, mimeicon_files)
+
+def build_svg(bld):
+    bld.install_files(svgdir, bld.path.ant_glob("svg/*.svg"))
+
+def build_ui(bld):
+    bld.install_files(uidir, bld.path.ant_glob("ui/*.ui"))
+    
+def build_json(bld):
+    jsonfiles = "theme-defaults.json"
+    bld.install_files(jsondir, jsonfiles)
+    
+def build_theme(bld, name, media=None):
+    bld.install_files(themedir+"/"+name,"themes/%s/Theme.json"%(name,))
+    if media is not none:
+        bld.install_files(themedir+"/"+name+"/Media", media)
+    
+def build_themes(bld):
+    build_theme(bld, "Black")
+    build_theme(bld, "Blue")
+    build_theme(bld, "Goddard", "themes/Goddard/Media/default.jpg")
+    build_theme(bld, "Green")
+    build_theme(bld, "Red")
+    build_theme(bld, "White")
+    
+
+def build(bld):
+    build_desktop(bld)
+    build_icon(bld)
+    build_mime(bld)
+    build_mimeicon(bld)
+    build_svg(bld)
+    build_ui(bld)
+    build_json(bld)
+
