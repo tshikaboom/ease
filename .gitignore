@@ -26,6 +26,13 @@ doc
 
 po/.intltool-merge-cache
 
+# waf
+build
+po/.intlcache
+.waf*
+.lock-wafbuild
+
+
 # shamelessly copied from gnome-scan.
 # autotools generated files
 .dirstamp
