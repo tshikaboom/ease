@@ -48,6 +48,8 @@ def build(bld):
 	lib.packages = 'flutter-' + bld.env["FLUTTER_VERSION"][0] + " "
 	lib.packages += " ".join(ease_core_packages)
 	
+	lib.vapi_dirs = "../build/flutter"
+	
 	lib.gir = "EaseCore-" + version
 
 
