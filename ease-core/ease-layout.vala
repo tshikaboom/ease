@@ -68,26 +68,6 @@ public class Ease.Layout : GLib.Object
 	}
 	
 	/**
-	 * The size of the layout as a two item array. Arrays not of length 2 will
-	 * be ignored.
-	 */
-	public int[] size
-	{
-		owned get { return { width, height }; }
-		set
-		{
-			if (value.length != 2)
-			{
-				critical("Layout size must be a two item array, not %i",
-				         value.length);
-				return;
-			}
-			width = value[0];
-			height = value[1];
-		}
-	}
-	
-	/**
 	 * The actual rendered width of the layout, in pixels. This cannot be set.
 	 */
 	public int width_px
@@ -170,6 +150,18 @@ public class Ease.Layout : GLib.Object
 		
 		// restore empty text if necessary
 		layout.set_text(text, (int)text.length);
+	}
+	
+	/*
+	 * Sets the size of the Layout.
+	 *
+	 * @param width The width.
+	 * @param height The height.
+	 */
+	public void set_size(int width, int height)
+	{
+		layout.set_width(width);
+		layout.set_height(height);
 	}
 }
 
