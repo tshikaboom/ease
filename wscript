@@ -103,9 +103,9 @@ def build(bld):
   build_po(bld)
 
 def run(ctx):
-  system("./waf build")
-  system("LD_LIBRARY_PATH=./build/ease-core:./build/flutter ./build/ease/ease")
+  if system("./waf build") is 0:
+    system("LD_LIBRARY_PATH=./build/ease-core:./build/flutter ./build/ease/ease")
 
 def db(ctx):
-  system("./waf build")
-  system("LD_LIBRARY_PATH=./build/ease-core:./build/flutter gdb ./build/ease/ease")
+  if system("./waf build") is 0:
+    system("LD_LIBRARY_PATH=./build/ease-core:./build/flutter gdb ./build/ease/ease")
