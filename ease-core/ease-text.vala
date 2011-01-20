@@ -16,7 +16,7 @@
 */
 
 /**
- * Controls a PangoLayout to render rich text to Cairo contexts and Ease
+ * Controls a set of PangoLayouts to render rich text to Cairo contexts and Ease
  * {@link TextActors}. Replaces the previous use of ClutterText, which only
  * supported a single font, font size, font style, font weight, and color for a
  * {@link TextElement}.
@@ -32,12 +32,6 @@ public class Ease.Text : GLib.Object
 	 * The context, which the layout requires.
 	 */
 	private Pango.Context context;
-	
-	/**
-	 * The master list of attributes. When this is altered, layouts will be
-	 * updated with attributes for their local lengths and indices.
-	 */
-	private Pango.AttrList attrs;
 	
 	/**
 	 * The width of the text layout.
@@ -79,9 +73,6 @@ public class Ease.Text : GLib.Object
 		
 		// set layout properties
 		layouts.first().layout.set_ellipsize(Pango.EllipsizeMode.END);
-		
-		// create attribute list
-		attrs = new Pango.AttrList();
 	}
 	
 	/**
@@ -252,6 +243,7 @@ public class Ease.Text : GLib.Object
 	public void clear_set(string text, Pango.FontDescription? font_description)
 	{
 		while (layouts.size > 1) layouts.remove_at(1);
+		
 		layouts.first().text = text;
 		if (font_description != null)
 		{
@@ -264,8 +256,9 @@ public class Ease.Text : GLib.Object
 	 *
 	 * @param attr The attribute to add.
 	 */
-	public void add_attr(Pango.Attribute attr)
+	public void add_attr(Pango.Attribute attr, int layout_index)
 	{
+		layouts.get(layout_index).attrs.insert(attr.copy());
 	}
 	
 	/**
