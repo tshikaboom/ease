@@ -74,3 +74,4 @@ POTFILES
 data/ease.desktop
 stamp-*
 uncrustify
+*.swp
