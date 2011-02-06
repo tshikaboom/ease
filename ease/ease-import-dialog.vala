@@ -37,8 +37,10 @@ internal class Ease.ImportDialog : Gtk.Window
 		Plugin.ImportService service = new FlickrService();
 		var flickr = create_item("Flickr", "gtk-go-down", service);
 		group.add_item(flickr);
-		service = new OCAService();
-		group.add_item(create_item("OpenClipArt", "gtk-go-down", service));
+		group.add_item(create_item("OpenClipArt", "gtk-go-down",
+		                           new OCAService()));
+		group.add_item(create_item("Picasa", "gtk-go-down",
+		                           new PicasaService()));
 		
 		add(view);
 		view.show_all();
