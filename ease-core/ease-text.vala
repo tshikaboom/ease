@@ -88,29 +88,47 @@ public class Ease.Text : GLib.Object
 	}
 	
 	/**
-	 * Advances the cursor by a specified number of characters. If the cursor
-	 * cannot be moved forward, it will not be moved.
+	 * Moves the the cursor back or forward by a specified number of characters. If the
+	 * cursor cannot move the specified amount of characters, it will not move.
 	 *
 	 * @param index The index of the cursor, this value is set on out.
 	 * @param layout_index The layout index, this value is set on out.
-	 * @param chars The number of characters to advance.
+	 * @param chars The number of characters to advance or retreat.
 	 */
-	public void advance_cursor(ref int index, ref int layout_index, uint chars)
+	public void move_cursor(ref int index, ref int layout_index, int chars)
 	{
+		var current = layouts.get(layout_index);
 		
-	}
-	
-	/**
-	 * Moves the the cursor back by a specified number of characters. If the
-	 * cursor cannot move back, it will not be moved.
-	 *
-	 * @param index The index of the cursor, this value is set on out.
-	 * @param layout_index The layout index, this value is set on out.
-	 * @param chars The number of characters to advance.
-	 */
-	public void retreat_cursor(ref int index, ref int layout_index, uint chars)
-	{
-		
+		if (chars > 0)
+		{
+			if (index + chars > current.length)
+			{
+				if (layouts.size > layout_index + 1)
+				{
+					layout_index++;
+					index = index + chars - current.length;
+				}
+			}
+			else
+			{
+				index++;
+			}
+		}
+		else if (chars < 0)
+		{
+			if (index + chars < 0)
+			{
+				if (layout_index > 0)
+				{
+					layout_index--;
+					index = layouts.get(layout_index).length;
+				}
+			}
+			else
+			{
+				index--;
+			}
+		}
 	}
 	
 	/**

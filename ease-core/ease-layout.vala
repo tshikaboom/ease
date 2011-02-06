@@ -107,6 +107,14 @@ public class Ease.Layout : GLib.Object
 	}
 	
 	/**
+	 * The length of the layout's text.
+	 */
+	public int length
+	{
+		get { return (int)layout.get_text().length; }
+	}
+	
+	/**
 	 * The attribute list of the layout. In {@link TextElement}, this is
 	 * controlled by a master list of attributes that operates across the
 	 * entire set of layouts.

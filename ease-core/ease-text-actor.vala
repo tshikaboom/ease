@@ -158,8 +158,7 @@ public class Ease.TextActor : Actor
 			{
 				case Key.BACKSPACE:
 					text.delete(cursor_index - 1, cursor_layout);
-					text.retreat_cursor(ref cursor_index,
-					                    ref cursor_layout, 1);
+					text.move_cursor(ref cursor_index, ref cursor_layout, -1);
 					selection_index = cursor_index;
 					cursor.opacity = 255;
 					cursor_timeline.rewind();
@@ -173,7 +172,7 @@ public class Ease.TextActor : Actor
 				
 				case Key.LEFT:
 					// move the cursor back
-					text.retreat_cursor(ref cursor_index, ref cursor_layout, 1);
+					text.move_cursor(ref cursor_index, ref cursor_layout, -1);
 					selection_index = cursor_index;
 					selection_layout = cursor_layout;
 					
@@ -184,7 +183,7 @@ public class Ease.TextActor : Actor
 				
 				case Key.RIGHT:
 					// advance the cursor
-					text.advance_cursor(ref cursor_index, ref cursor_layout, 1);
+					text.move_cursor(ref cursor_index, ref cursor_layout, 1);
 					selection_index = cursor_index;
 					selection_layout = cursor_layout;
 					
