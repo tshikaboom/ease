@@ -205,6 +205,23 @@ public enum Ease.ShapeType
 	OVAL = 1;
 	
 	/**
+	 * Converts a ShapeType to a string representation.
+	 */
+	internal string to_string()
+	{
+		switch (this)
+		{
+			case RECTANGLE:
+				return "EASE_SHAPE_TYPE_RECTANGLE";
+			case OVAL:
+				return "EASE_SHAPE_TYPE_OVAL";
+			default:
+				critical("Invalid shape type: %i", this);
+				return "EASE_SHAPE_TYPE_RECTANGLE";
+		}
+	}
+	
+	/**
 	 * Parses a ShapeType from a string representation.
 	 */
 	internal static ShapeType from_string(string str)

@@ -92,6 +92,58 @@ public enum Ease.Transition
 		return store;
 	}
 	
+	public string to_string()
+	{
+		switch (this)
+		{
+			case NONE:
+				return "EASE_TRANSITION_NONE";
+			case FADE:
+				return "EASE_TRANSITION_FADE";
+			case SLIDE:
+				return "EASE_TRANSITION_SLIDE";
+			case DROP:
+				return "EASE_TRANSITION_DROP";
+			case PIVOT:
+				return "EASE_TRANSITION_PIVOT";
+			case FLIP:
+				return "EASE_TRANSITION_FLIP";
+			case REVOLVING_DOOR:
+				return "EASE_TRANSITION_REVOLVING_DOOR";
+			case REVEAL:
+				return "EASE_TRANSITION_REVEAL";
+			case FALL:
+				return "EASE_TRANSITION_FALL";
+			case SLATS:
+				return "EASE_TRANSITION_SLATS";
+			case OPEN_DOOR:
+				return "EASE_TRANSITION_OPEN_DOOR";
+			case EXPLODE:
+				return "EASE_TRANSITION_EXPLODE";
+			case ASSEMBLE:
+				return "EASE_TRANSITION_ASSEMBLE";
+			case ZOOM:
+				return "EASE_TRANSITION_ZOOM";
+			case PANEL:
+				return "EASE_TRANSITION_PANEL";
+			case INTERSPERSE_CONTENTS:
+				return "EASE_TRANSITION_INTERSPERSE_CONTENTS";
+			case SPIN_CONTENTS:
+				return "EASE_TRANSITION_SPIN_CONTENTS";
+			case SPRING_CONTENTS:
+				return "EASE_TRANSITION_SPRING_CONTENTS";
+			case SWING_CONTENTS:
+				return "EASE_TRANSITION_SWING_CONTENTS";
+			case SLIDE_CONTENTS:
+				return "EASE_TRANSITION_SLIDE_CONTENTS";
+			case ZOOM_CONTENTS:
+				return "EASE_TRANSITION_ZOOM_CONTENTS";
+			default:
+				critical("Invalid transition: %i", this);
+				return "EASE_TRANSITION_NONE";
+		}
+	}
+	
 	public static Transition from_string(string str)
 	{
 		switch (str)
@@ -288,6 +340,50 @@ public enum Ease.TransitionVariant
 	IN,
 	OUT;
 	
+	public string to_string()
+	{
+		switch (this)
+		{
+			case UP:
+				return "EASE_TRANSITION_VARIANT_UP";
+			case DOWN:
+				return "EASE_TRANSITION_VARIANT_DOWN";
+			case LEFT:
+				return "EASE_TRANSITION_VARIANT_LEFT";
+			case RIGHT:
+				return "EASE_TRANSITION_VARIANT_RIGHT";
+			case BOTTOM:
+				return "EASE_TRANSITION_VARIANT_BOTTOM";
+			case TOP:
+				return "EASE_TRANSITION_VARIANT_TOP";
+			case CENTER:
+				return "EASE_TRANSITION_VARIANT_CENTER";
+			case TOP_LEFT:
+				return "EASE_TRANSITION_VARIANT_TOP_LEFT";
+			case TOP_RIGHT:
+				return "EASE_TRANSITION_VARIANT_TOP_RIGHT";
+			case BOTTOM_LEFT:
+				return "EASE_TRANSITION_VARIANT_BOTTOM_LEFT";
+			case BOTTOM_RIGHT:
+				return "EASE_TRANSITION_VARIANT_BOTTOM_RIGHT";
+			case TOP_TO_BOTTOM:
+				return "EASE_TRANSITION_VARIANT_TOP_TO_BOTTOM";
+			case BOTTOM_TO_TOP:
+				return "EASE_TRANSITION_VARIANT_BOTTOM_TO_TOP";
+			case RIGHT_TO_LEFT:
+				return "EASE_TRANSITION_VARIANT_RIGHT_TO_LEFT";
+			case LEFT_TO_RIGHT:
+				return "EASE_TRANSITION_VARIANT_LEFT_TO_RIGHT";
+			case IN:
+				return "EASE_TRANSITION_VARIANT_IN";
+			case OUT:
+				return "EASE_TRANSITION_VARIANT_OUT";
+			default:
+				critical("Invalid transition variant: %i", this);
+				return "EASE_TRANSITION_VARIANT_UP";
+		}
+	}
+
 	public static TransitionVariant from_string(string str)
 	{
 		switch (str)

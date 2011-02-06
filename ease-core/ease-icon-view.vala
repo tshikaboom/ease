@@ -205,7 +205,9 @@ public class Ease.IconView : Clutter.Group
 		row_spacing = 6;
 		column_spacing = 6;
 		item_width = 100;
-		text_color = { 0, 0, 0, 255 };
+		Clutter.Color color;
+		color.from_string("black");
+		text_color = color;
 		
 		// size the box appropriately
 		notify["width"].connect(() => size_box());

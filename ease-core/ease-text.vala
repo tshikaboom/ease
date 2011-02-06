@@ -182,8 +182,16 @@ public class Ease.Text : GLib.Object
 	public void insert(string text, int index, int layout_index)
 	{
 		var layout = layouts.get(layout_index);
-		
 		string result, current = layout.text;
+		
+		// string bounds checking
+		if (layout_index > current.length || layout_index < 0)
+		{
+			critical("Tried to insert %s at index %l to layout with length %i",
+			         text, index, current.length);
+		}
+		
+		// figure out where to insert the text, the start and end are simple
 		if (index == 0)
 		{
 			result = text + current;
@@ -198,6 +206,7 @@ public class Ease.Text : GLib.Object
 			         current.substring(index, current.length - index);
 		}
 		
+		// set the new text back into the layout
 		layout.text = result;
 	}
 	
