@@ -64,6 +64,7 @@ def configure(conf):
   
   # disable vala warnings because the unused function ones are really annoying
   conf.env.append_value('VALAFLAGS', '--disable-warnings')
+  conf.env.append_value('VALAFLAGS', '-g')
   
   write_config_header(conf)
   

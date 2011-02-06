@@ -79,7 +79,7 @@ def build(bld):
   
   lib.source = " ".join(ease_core_files)
 
-  lib.cflags = ['-include', 'config.h', '-w']
+  lib.cflags = ['-include', 'config.h', '-w', '-g']
   lib.uselib = 'GOBJECT CLUTTER GEE CLUTTERGST GMODULE LIBARCHIVE POPPLERGLIB RESTEXTRAS CLUTTERGTK JSONGLIB'
   lib.packages = " ".join(ease_core_packages)
   

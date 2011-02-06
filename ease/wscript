@@ -49,7 +49,7 @@ def build(bld):
   
   prog.includes = "../build/ease-core ../build/flutter"
   
-  prog.cflags = ['-include', 'config.h', '-w']
+  prog.cflags = ['-include', 'config.h', '-w', '-g']
   prog.uselib = 'GTK+ GOBJECT CLUTTER GEE CLUTTERGST GMODULE LIBARCHIVE POPPLERGLIB RESTEXTRAS CLUTTERGTK JSONGLIB UNIQUE' 
   prog.packages = " ".join(ease_packages)
 
