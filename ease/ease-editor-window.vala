@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -860,8 +860,7 @@ internal class Ease.EditorWindow : Gtk.Window
 	
 	private void color_dialog_changed(Gtk.ColorSelection sender)
 	{
-		embed.set_element_color(Transformations.gdk_color_to_clutter_color(
-		                        sender.current_color));
+		embed.set_element_color(Color.gdk_to_clutter(sender.current_color));
 		slide.changed(slide);
 	}
 	
@@ -870,8 +869,7 @@ internal class Ease.EditorWindow : Gtk.Window
 		var color = (sender as EditorEmbed).selected.element.get_color();
 		if (color == null) return;
 		
-		color_selection.current_color =
-			Transformations.clutter_color_to_gdk_color(color);
+		color_selection.current_color = Color.clutter_to_gdk(color);
 	}
 	
 	[CCode (instance_pos = -1)]
@@ -884,11 +882,10 @@ internal class Ease.EditorWindow : Gtk.Window
 		var text = embed.selected.element as TextElement;
 		
 		// set the preview text to the element's text, if none, use preview text
-		font_selection.set_preview_text(text.text != "" ?
-		                                text.text : FONT_TEXT);
+		font_selection.set_preview_text("Lorem Ipsum Dolor");
 		
 		// set the dialog's font to the current font
-		font_selection.set_font_name(text.font_description.to_string());
+		//font_selection.set_font_name(text.font_description.to_string());
 		
 		// run the dialog
 		switch (font_selection.run())
@@ -899,9 +896,9 @@ internal class Ease.EditorWindow : Gtk.Window
 					new UndoAction(embed.selected.element, "font-description"));
 				
 				// set the font description to the new font
-				text.font_description = 
+				/*text.font_description = 
 					Pango.FontDescription.from_string(
-						font_selection.get_font_name());
+						font_selection.get_font_name());*/
 						
 				// emit the "changed" signal on the element's slide
 				text.changed();

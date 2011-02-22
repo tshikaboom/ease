@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -229,7 +229,7 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 		// ease doesn't provide a default for images, so one must be requested
 		if (type == BackgroundType.IMAGE && background.image.filename == null)
 		{
-			var filename = Dialog.open_ext(BG_DIALOG_TITLE,
+			var filename = Dialog.open_ext(_("Select Background Image"),
 			                               widget_window(this),
 			                               (dialog) => {
 				// add a filter for image files

@@ -102,7 +102,7 @@ public class Source.SpinnerItem : Source.Item
 	                                   Gtk.Widget? widg)
 	{
 		Gtk.StockItem stock = Gtk.StockItem();
-		if (Gtk.stock_lookup(item, stock))
+		if (Gtk.Stock.lookup(item, out stock))
 		{
 			this(stock.label.replace("_", ""), img, widg);
 		}
@@ -119,7 +119,7 @@ public class Source.SpinnerItem : Source.Item
 	public SpinnerItem.from_stock(string item, Gtk.Widget? widg)
 	{
 		Gtk.StockItem stock = Gtk.StockItem();
-		if (Gtk.stock_lookup(item, stock))
+		if (Gtk.Stock.lookup(item, out stock))
 		{
 			this(stock.label.replace("_", ""),
 			     new Gtk.Image.from_stock(item, ICON_SIZE),

@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -283,6 +283,12 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 			reposition_group();
 		});
 		
+		// the embed doesn't like to give up focus
+		focus_out_event.connect((widget, event) => {
+			grab_focus();
+			return false;
+		});
+		
 		connect_keys();
 	}
 
@@ -391,6 +397,11 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 			return;
 		}
 		
+		foreach (var actor in slide_actor.contents)
+		{
+			(actor as Actor).zoom = zoom;
+		}
+		
 		var w = zoom * slide_actor.slide.width;
 		var h = zoom * slide_actor.slide.height;
 		
@@ -445,6 +456,7 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 			if ((a as Actor).element == e)
 			{
 				select_actor(a as Actor);
+				break;
 			}
 		}
 	}
@@ -460,11 +472,28 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 	 */
 	private bool actor_clicked(Clutter.Actor sender, Clutter.ButtonEvent event)
 	{
+		// if an actor is already being edited and is clicked, give it the event
+		if (is_editing && sender == selected)
+		{
+			float act_x, act_y;
+			sender.transform_stage_point(event.x, event.y,
+			                             out act_x, out act_y);
+			if (selected.clicked_event(sender, event, act_x, act_y))
+			{
+				return true;
+			}
+		}
+		
 		// if this is a double click, edit the actor
 		if (event.click_count == 2)
 		{
+			float act_x, act_y;
+			sender.transform_stage_point(event.x, event.y,
+			                             out act_x, out act_y);
+			
 			disconnect_keys();
-			(sender as Actor).edit(this);
+			(sender as Actor).editing = true;
+			(sender as Actor).edit(this, act_x, act_y);
 			is_editing = true;
 			return true;
 		}
@@ -543,6 +572,7 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 		// if editing another Actor, finish that edit
 		if (selected != null && is_editing)
 		{
+			selected.editing = false;
 			selected.end_edit(this);
 			is_editing = false;
 			element_deselected(selected.element);
@@ -576,7 +606,7 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 			sender.motion_event.disconnect(actor_motion);
 			undo(move_undo);
 		}
-		return true;
+		return false;
 	}
 	
 	/**
@@ -638,6 +668,7 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 		is_drag_initialized = false;
 		sender.motion_event.connect(handle_motion);
 		Clutter.grab_pointer(sender);
+		selected.resizing = true;
 		
 		// create an UndoAction for this resize
 		move_undo = new UndoAction(selected.element, "x");
@@ -667,6 +698,7 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 			is_dragging = false;
 			sender.motion_event.disconnect(handle_motion);
 			undo(move_undo);
+			selected.resizing = false;
 		}
 		
 		Clutter.ungrab_pointer();
@@ -796,6 +828,12 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 	 */
 	internal bool on_key_press_event(Gtk.Widget self, Gdk.EventKey event)
 	{
+		// if editing the selected actor, pass the event there
+		if (selected.editing)
+		{
+			return selected.key_event(self, event);
+		}
+		
 		if (event.type == Gdk.EventType.KEY_RELEASE) return false;
 		
 		bool shift = (event.state & Gdk.ModifierType.SHIFT_MASK) != 0;
@@ -881,9 +919,9 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 	 */
 	internal void disconnect_keys()
 	{
-		if (!keys_connected) return;
-		keys_connected = false;
-		key_press_event.disconnect(on_key_press_event);
+		//if (!keys_connected) return;
+		//keys_connected = false;
+		//key_press_event.disconnect(on_key_press_event);
 	}
 	
 	/**

@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -209,7 +209,8 @@ public class Ease.VideoElement : MediaElement
 		} while (combo.model.iter_next(ref itr));
 	}
 
-	public override void cairo_render(Cairo.Context context) throws Error
+	public override void cairo_render(Cairo.Context context,
+	                                  bool use_small) throws Error
 	{
 		// TODO: something with video frames?
 	}

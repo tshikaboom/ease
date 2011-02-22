@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 /**
  * A reimplentation, with Clutter, of a large part of the GtkIconView interface.
  */
-public class Ease.IconView : Clutter.Box
+public class Ease.IconView : Clutter.Group
 {
 	private const uint ICON_FADE_TIME = 350;
 	private const float ICON_FADE_SCALE = 0f;
@@ -49,7 +49,7 @@ public class Ease.IconView : Clutter.Box
 		set
 		{
 			layout.max_column_width = layout.min_column_width = value;
-			@foreach((actor) => (actor as Icon).contents_width = value);
+			box.foreach((actor) => (actor as Icon).contents_width = value);
 		}
 	}
 	
@@ -83,7 +83,7 @@ public class Ease.IconView : Clutter.Box
 			_model.rows_reordered.disconnect(on_model_rows_reordered);
 			
 			// remove old actors
-			@foreach((actor) => {
+			box.foreach((actor) => {
 				remove_actor(actor);
 			});
 			
@@ -91,10 +91,11 @@ public class Ease.IconView : Clutter.Box
 			
 			// add new actors
 			_model.foreach((model, path, iter) => {
-				pack(create_icon(iter), null);
+				box.pack(create_icon(iter), null);
 				return false;
 			});
 			show_all();
+			size_box();
 			
 			// add new handlers
 			_model.row_changed.connect(on_model_row_changed);
@@ -104,6 +105,11 @@ public class Ease.IconView : Clutter.Box
 		}
 	}
 	private Gtk.TreeModel _model;
+	
+	/**
+	 * The amount of pixels surrounding the icon view.
+	 */
+	public int padding { get; set; default = 6; }
 	
 	/**
 	 * The column containing pixbufs to display.
@@ -158,14 +164,30 @@ public class Ease.IconView : Clutter.Box
 	private Clutter.FlowLayout layout;
 	
 	/**
+	 * The box that contains the arranged actors.'
+	 */
+	private Clutter.Box box;
+	
+	/**
 	 * The current selection "origin" (where shift-select originates from).
 	 */
 	private Gtk.TreeRowReference select_origin = null;
 	
+	/**
+	 * Emitted when an icon is activated (ie double clicked).
+	 */
 	public signal void item_activated(IconView iconview, Gtk.TreePath path);
 	
+	/**
+	 * Emitted when the selection changes.
+	 */
 	public signal void selection_changed(IconView iconview);
-
+	
+	/**
+	 * Creates an IconView and sets its model.
+	 *
+	 * @param model The model to use for the IconView.
+	 */
 	public IconView.with_model(Gtk.TreeModel model)
 	{
 		this.model = model;
@@ -175,43 +197,92 @@ public class Ease.IconView : Clutter.Box
 	{
 		// automagic layout makes this whole thing work
 		layout = new Clutter.FlowLayout(Clutter.FlowOrientation.HORIZONTAL);
-		layout_manager = layout;
+		box = new Clutter.Box(layout);
+		add_actor(box);
 		
 		// defaults
 		layout.homogeneous = true;
 		row_spacing = 6;
 		column_spacing = 6;
-		text_color = { 0, 0, 0, 255 };
+		item_width = 100;
+		Clutter.Color color;
+		color.from_string("black");
+		text_color = color;
+		
+		// size the box appropriately
+		notify["width"].connect(() => size_box());
+		notify["padding"].connect(() => size_box());
+		layout.layout_changed.connect(() => size_box());
 		
 		// handle column changes
 		notify["text-column"].connect(() => {
 			if (markup_column != -1) return;
-			@foreach((actor) => {
+			box.foreach((actor) => {
 				(actor as Icon).update_text(text_column, false);
 			});
 		});
 		
 		notify["markup-column"].connect(() => {
 			if (markup_column == -1) return;
-			@foreach((actor) => {
+			box.foreach((actor) => {
 				(actor as Icon).update_text(markup_column, true);
 			});
 		});
 		
 		notify["pixbuf-column"].connect(() => {
-			@foreach((actor) => {
+			box.foreach((actor) => {
 				(actor as Icon).update_pixbuf(pixbuf_column);
 			});
 		});
 		
 		notify["text-color"].connect(() => {
-			@foreach((actor) => (actor as Icon).text.color = text_color);
+			box.foreach((actor) => (actor as Icon).text.color = text_color);
+		});
+		
+		// handle selection mode changes
+		notify["selection-mode"].connect(() => {
+			switch (selection_mode)
+			{
+				case Gtk.SelectionMode.NONE:
+					box.foreach((actor) => {
+						(actor as Icon).selected = false;
+					});
+				case Gtk.SelectionMode.SINGLE:
+				case Gtk.SelectionMode.BROWSE: {
+					bool done = true;
+					box.foreach((actor) => {
+						if ((actor as Icon).selected)
+						{
+							(actor as Icon).selected = done;
+							done = false;
+						}
+					});
+					break;
+				}
+			}
 		});
 	}
 	
+	/**
+	 * Resizes the box and icon view to their proper sizes.
+	 */
+	private void size_box()
+	{
+		box.x = padding;
+		box.y = padding;
+		box.width = width - 2 * padding;
+		height = box.height + 2 * padding;
+	}
+	
+	/**
+	 * Calls the specified {@link ForeachFunc} for each selected icon in the
+	 * IconView.
+	 *
+	 * @param callback The function to call.
+	 */
 	public void selected_foreach(ForeachFunc callback)
 	{
-		@foreach((actor) => {
+		box.foreach((actor) => {
 			if ((actor as Icon).selected)
 			{
 				callback(this, (actor as Icon).reference.get_path());
@@ -219,13 +290,17 @@ public class Ease.IconView : Clutter.Box
 		});
 	}
 	
+	/**
+	 * A delegate for iterating over an IconView.
+	 */ 
 	public delegate void ForeachFunc(IconView view, Gtk.TreePath path); 
 	
+	// signal handlers for model rows
 	private void on_model_row_changed(Gtk.TreeModel model,
 	                                  Gtk.TreePath path,
 	                                  Gtk.TreeIter iter)
 	{
-		@foreach((actor) => {
+		box.foreach((actor) => {
 			if (path.compare((actor as Icon).reference.get_path()) == 0)
 			{
 				(actor as Icon).update_pixbuf(pixbuf_column);
@@ -235,12 +310,13 @@ public class Ease.IconView : Clutter.Box
 				                            markup_column == -1);
 			}
 		});
+		size_box();
 	}
 	
 	private void on_model_row_deleted(Gtk.TreeModel model, Gtk.TreePath path)
 	{
 		bool removed = false;
-		@foreach((actor) => {
+		box.foreach((actor) => {
 			if (removed) return;
 			if ((actor as Icon).reference.get_path().compare(path) == 0)
 			{
@@ -267,7 +343,7 @@ public class Ease.IconView : Clutter.Box
 	{
 		// how many icons should go before this one?
 		int count = 0;
-		@foreach((actor) => {
+		box.foreach((actor) => {
 			if ((actor as Icon).reference.get_path().compare(path) == -1)
 			{
 				count++;
@@ -277,7 +353,9 @@ public class Ease.IconView : Clutter.Box
 		// create and add the icon
 		var icon = create_icon(iter);
 		icon.contents_width = item_width;
-		pack_at(icon, count, null);
+		box.pack_at(icon, count, null);
+		icon.show();
+		size_box();
 		
 		// fade the icon in
 		icon.scale_x = icon.scale_y = ICON_FADE_SCALE;
@@ -303,7 +381,40 @@ public class Ease.IconView : Clutter.Box
 	
 	private void on_icon_select(Icon icon, Clutter.ModifierType modifiers)
 	{
-		if ((modifiers & Clutter.ModifierType.CONTROL_MASK) != 0)
+		// nothing can be selected (not entirely sure why this would be set)
+		if (selection_mode == Gtk.SelectionMode.NONE) return;
+		
+		if ((((modifiers & Clutter.ModifierType.CONTROL_MASK) == 0) &&
+		     ((modifiers & Clutter.ModifierType.SHIFT_MASK) == 0)) ||
+		    selection_mode == Gtk.SelectionMode.SINGLE ||
+		    selection_mode == Gtk.SelectionMode.BROWSE)
+		{
+			// deselect all others and count how many were selected
+			int count = 0;
+			box.foreach((actor) => {
+				if (actor == icon) return;
+				if ((actor as Icon).selected)
+				{
+					(actor as Icon).selected = false;
+					count++;
+				}
+			});
+			
+			if (count > 0 || selection_mode == Gtk.SelectionMode.BROWSE)
+			{
+				// keep the current icon selected or select it
+				icon.selected = true;
+				select_origin = icon.reference;
+			}
+			else
+			{
+				// select/deselect the current icon
+				icon.selected = !icon.selected;
+				select_origin = icon.selected ? icon.reference : null;
+			}
+		}
+		
+		else if ((modifiers & Clutter.ModifierType.CONTROL_MASK) != 0)
 		{
 			// count the number of currently selected items
 			int count = 0;
@@ -325,7 +436,7 @@ public class Ease.IconView : Clutter.Box
 				select_origin = null;
 				
 				// see if there's another selected icon to take its place
-				@foreach((actor) => {
+				box.foreach((actor) => {
 					if (select_origin == null && (actor as Icon).selected)
 					{
 						select_origin = (actor as Icon).reference;
@@ -340,7 +451,7 @@ public class Ease.IconView : Clutter.Box
 			{
 				// deselect all others and count how many were
 				int count = 0;
-				@foreach((actor) => {
+				box.foreach((actor) => {
 					if (actor == icon) return;
 					if ((actor as Icon).selected)
 					{
@@ -373,7 +484,7 @@ public class Ease.IconView : Clutter.Box
 				{
 					// origin is before the clicked icon
 					case -1:
-						@foreach((actor) => {
+						box.foreach((actor) => {
 							var path = (actor as Icon).reference.get_path();
 							(actor as Icon).selected =
 								orig_path.compare(path) != 1 &&
@@ -383,7 +494,7 @@ public class Ease.IconView : Clutter.Box
 					
 					// origin is after the clicked icon
 					case 1:
-						@foreach((actor) => {
+						box.foreach((actor) => {
 							var path = (actor as Icon).reference.get_path();
 							(actor as Icon).selected =
 								orig_path.compare(path) != -1 &&
@@ -393,34 +504,13 @@ public class Ease.IconView : Clutter.Box
 				}
 			}
 		}
-		else
-		{
-			// deselect all others and count how many were selected
-			int count = 0;
-			@foreach((actor) => {
-				if (actor == icon) return;
-				if ((actor as Icon).selected)
-				{
-					(actor as Icon).selected = false;
-					count++;
-				}
-			});
-			
-			if (count > 0)
-			{
-				// keep the current icon selected or select it
-				icon.selected = true;
-				select_origin = icon.reference;
-			}
-			else
-			{
-				// select/deselect the current icon
-				icon.selected = !icon.selected;
-				select_origin = icon.selected ? icon.reference : null;
-			}
-		}
+		
+		selection_changed(this);
 	}
 	
+	/**
+	 * Constructs an Icon for a given tree iterator.
+	 */
 	private Icon create_icon(Gtk.TreeIter iter)
 	{
 		// get data from model
@@ -442,6 +532,9 @@ public class Ease.IconView : Clutter.Box
 		return icon;
 	}
 	
+	/**
+	 * An icon (pixbuf and text pair) in the IconView.
+	 */
 	private class Icon : Clutter.Group
 	{
 		public Clutter.Texture texture;
@@ -507,6 +600,12 @@ public class Ease.IconView : Clutter.Box
 			});
 		}
 		
+		/**
+		 * Updates the icon's text, using the specified model column.
+		 *
+		 * @param column The text column in the model.
+		 * @param use_markup Whether or not to use Pango markup.
+		 */
 		public void update_text(int column, bool use_markup)
 		{
 			// are we using markup?
@@ -524,6 +623,11 @@ public class Ease.IconView : Clutter.Box
 			}
 		}
 		
+		/**
+		 * Updates the icon's pixbuf, using the specified model column.
+		 *
+		 * @param column The pixbuf column in the model.
+		 */
 		public void update_pixbuf(int column)
 		{
 			// remove the current texture
@@ -556,6 +660,9 @@ public class Ease.IconView : Clutter.Box
 			}
 		}
 		
+		/**
+		 * Removes this Icon from its view.
+		 */
 		public void fadeout()
 		{
 			(get_parent() as Clutter.Container).remove_actor(this);

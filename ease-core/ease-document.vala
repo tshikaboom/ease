@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -503,7 +503,7 @@ public class Ease.Document : GLib.Object, UndoSource, Serializable
 		foreach (var itr in slides)
 		{
 			slides.get(itr, COL_SLIDE, out s);
-			s.cairo_render(context);
+			s.cairo_render(context, false);
 			context.show_page();
 		}
 	

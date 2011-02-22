@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -208,7 +208,9 @@ public class Ease.VideoActor : Actor, Clutter.Media
 		cr.fill();
 		
 		// create the action button
-		action_button = new Clutter.Texture.from_file(data_path(PLAY_PATH));
+		action_button =
+			new Clutter.Texture.from_file(
+				data_path(Path.build_filename("svg", "video-play-button.svg")));
 		
 		// set the position of the button
 		action_button.anchor_gravity = Clutter.Gravity.CENTER;

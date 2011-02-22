@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 internal class Ease.Main : GLib.Object
 {
 	private static Gee.ArrayList<EditorWindowInfo> windows;
-	private static WelcomeWindow welcome;
+	private static NewPresentationWindow new_presentation;
 	private static Unique.App app;
 	
 	// options
@@ -50,8 +50,8 @@ internal class Ease.Main : GLib.Object
 	 * Start Ease to edit files.
 	 * 
 	 * If the user runs Ease with a filename as a parameter, this function
-	 * will open an {@link EditorWindow}. Otherwise, a {@link WelcomeWindow}
-	 * will be opened.
+	 * will open an {@link EditorWindow}. Otherwise, a
+	 * {@link NewPresentationWindow} will be opened.
 	 *
 	 * @param args Program arguments.
 	 */
@@ -110,7 +110,7 @@ internal class Ease.Main : GLib.Object
 						play_file(data.get_filename(), false);
 						return Unique.Response.OK;
 					case UniqueCommand.SHOW_WELCOME:
-						show_welcome();
+						show_new_presentation();
 						return Unique.Response.OK;
 				}
 				
@@ -175,7 +175,7 @@ internal class Ease.Main : GLib.Object
 		// if no files are given, show the new presentation window
 		if (filenames == null && play_filename == null)
 		{
-			if (!running) show_welcome();
+			if (!running) show_new_presentation();
 			else app.send_message(UniqueCommand.SHOW_WELCOME, null);
 		}
 		
@@ -275,9 +275,10 @@ internal class Ease.Main : GLib.Object
 	 * Removes an {@link EditorWindow} from Ease's internal store of windows.
 	 * 
 	 * Ease tracks the current windows in order to properly quit when there
-	 * are no {@link EditorWindow}s on screen and the {@link WelcomeWindow} is
-	 * hidden. This function will quit Ease if the removed window is the final
-	 * window and the {@link WelcomeWindow} is hidden.
+	 * are no {@link EditorWindow}s on screen and the
+	 * {@link NewPresentationWindow} is hidden. This function will quit Ease
+	 * if the removed window is the final window and the
+	 * {@link NewPresentationWindow} is hidden.
 	 *
 	 * @param win The {@link EditorWindow}.
 	 */
@@ -294,7 +295,7 @@ internal class Ease.Main : GLib.Object
 		win.play.disconnect(on_play);
 		win.close.disconnect(on_close);
 		
-		if (windows.size == 0 && welcome == null)
+		if (windows.size == 0 && new_presentation == null)
 		{
 			Gtk.main_quit();
 		}
@@ -304,8 +305,8 @@ internal class Ease.Main : GLib.Object
 	 * Adds an {@link EditorWindow} to Ease's internal store of windows.
 	 * 
 	 * Ease tracks the current windows in order to properly quit when there
-	 * are no {@link EditorWindow}s on screen and the {@link WelcomeWindow} is
-	 * hidden. 
+	 * are no {@link EditorWindow}s on screen and the
+	 * {@link NewPresentationWindow} is hidden. 
 	 *
 	 * @param win The {@link EditorWindow}.
 	 */
@@ -352,37 +353,38 @@ internal class Ease.Main : GLib.Object
 	}
 
 	/**
-	 * Shows the {@link WelcomeWindow}
+	 * Shows the {@link NewPresentationWindow}
 	 * 
-	 * Shows the {@link WelcomeWindow}, or raises it to the top if it is not
-	 * already displayed.
+	 * Shows the {@link NewPresentationWindow}, or raises it to the top if it
+	 * is already displayed.
 	 *
 	 */
-	internal static void show_welcome()
+	internal static void show_new_presentation()
 	{
-		if (welcome == null)
+		if (new_presentation == null)
 		{
-			welcome = new WelcomeWindow();
-			welcome.hide.connect(() => remove_welcome());
+			new_presentation = new NewPresentationWindow();
+			new_presentation.hide.connect(() => remove_new_presentation());
 		}
 		else
 		{
-			welcome.present();
+			new_presentation.present();
 		}
 	}
 
 	/**
-	 * Hides the {@link WelcomeWindow}.
+	 * Hides the {@link NewPresentationWindow}.
 	 * 
-	 * It's important to call this function when the {@link WelcomeWindow} is
-	 * hidden, so that Ease can properly exit when all windows are closed.
-	 * When the {@link WelcomeWindow} is shown via show_welcome, this function
-	 * is automatically added in that window's hide signal handler.
+	 * It's important to call this function when the
+	 * {@link NewPresentationWindow} is hidden, so that Ease can properly exit
+	 * when all windows are closed. When the {@link NewPresentationWindow} is
+	 * shown via show_new_presentation, this function is automatically added in
+	 * that window's hide signal handler.
 	 */
-	internal static void remove_welcome()
+	internal static void remove_new_presentation()
 	{
-		welcome.hide_all();
-		welcome = null;
+		new_presentation.hide_all();
+		new_presentation = null;
 		if (windows.size == 0)
 		{
 			Gtk.main_quit();

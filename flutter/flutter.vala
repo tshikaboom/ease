@@ -1,5 +1,5 @@
 /*  Flutter: Foreach-enabled Clutter containers for Vala
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

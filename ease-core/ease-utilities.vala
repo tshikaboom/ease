@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -347,7 +347,7 @@ namespace Ease
 	 */
 	public Clutter.Color theme_clutter_color(string color)
 	{
-		return Transformations.gdk_color_to_clutter_color(theme_color(color));
+		return Color.gdk_to_clutter(theme_color(color));
 	}
 	
 	/**

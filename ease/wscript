@@ -1,0 +1,62 @@
+#!/usr/bin/env python
+
+ease_files = ["ease-about-dialog.vala", 
+              "ease-close-confirm-dialog.vala", 
+              "ease-editor-embed.vala", 
+              "ease-editor-window.vala", 
+              "ease-handle.vala", 
+              "ease-import-dialog.vala", 
+              "ease-import-flickr-media.vala", 
+              "ease-import-flickr-service.vala",
+              "ease-import-picasa-media.vala",
+              "ease-import-picasa-service.vala",
+              "ease-import-oca-media.vala", 
+              "ease-import-oca-service.vala", 
+              "ease-import-widget.vala", 
+              "ease-inspector-element-pane.vala", 
+              "ease-inspector-pane.vala", 
+              "ease-inspector-slide-pane.vala", 
+              "ease-inspector-transition-pane.vala", 
+              "ease-inspector.vala", 
+              "ease-main.vala",
+              "ease-new-presentation-window.vala",
+              "ease-player.vala", 
+              "ease-selection-rectangle.vala", 
+              "ease-slide-actor.vala", 
+              "ease-slide-button-panel.vala", 
+              "ease-slide-sorter.vala"]
+
+def build(bld):
+  ease_packages = ["flutter-" + bld.env["FLUTTER_VERSION"][0],
+                   "ease-core-" + bld.env["EASE_CORE_VERSION"][0],
+                   "clutter-gst-1.0",
+                   "clutter-gtk-0.10",
+                   "gee-1.0",
+                   "gmodule-2.0",
+                   "json-glib-1.0",
+                   "libarchive",
+                   "poppler-glib",
+                   "rest-0.6",
+                   "rest-extras-0.6",
+                   "seed",
+                   "unique-1.0"]
+
+  prog = bld(features='c cprogram')
+  
+  prog.name = 'ease'
+  prog.target = 'ease'
+
+  prog.source = " ".join(ease_files)
+  
+  prog.includes = "../build/ease-core ../build/flutter"
+  
+  prog.cflags = ['-include', 'config.h', '-w', '-g']
+  prog.uselib = 'GTK+ GOBJECT CLUTTER GEE CLUTTERGST GMODULE LIBARCHIVE POPPLERGLIB RESTEXTRAS CLUTTERGTK JSONGLIB UNIQUE' 
+  prog.packages = " ".join(ease_packages)
+
+  prog.vapi_dirs = '../build/ease-core ../build/flutter ../vapi'
+
+  prog.use = 'ease-core flutter'
+
+  # Enable threading
+  prog.threading = True

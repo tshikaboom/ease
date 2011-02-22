@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,17 +36,29 @@ public class Ease.CairoActor : Actor
 		e.changed.connect(draw);
 		
 		draw();
+		
+		// draw at full resolution again once redraw is complete
+		notify["resizing"].connect(() => { if (!resizing) draw(); });
+		
+		// render when zooming
+		notify["zoom"].connect(() => {
+			if (zoom > 1) draw();
+		});
 	}
 	
 	internal void draw()
 	{
-		//debug("drawing");
-		tex.set_surface_size((uint)element.width, (uint)element.height);
+		// only rescale if zoom is larger than 1
+		var render_zoom = zoom > 1 ? zoom : 1;
+		
+		tex.set_surface_size((uint)(element.width * render_zoom),
+		                     (uint)(element.height * render_zoom));
 		tex.clear();
 		var cr = tex.create();
 		try
 		{
-			element.cairo_render(cr);
+			cr.scale(render_zoom, render_zoom);
+			element.cairo_render(cr, resizing);
 		}
 		catch (Error e)
 		{

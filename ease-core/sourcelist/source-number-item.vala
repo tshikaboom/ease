@@ -20,6 +20,16 @@
 public class Source.NumberItem : Source.Item
 {
 	/**
+	 * Format string for right notification number when new.
+	 */
+	protected const string FORMAT_RIGHT_NEW = "<small><b>%i</b></small>";
+	
+	/**
+	 * Format string for right notification number once viewed.
+	 */
+	protected const string FORMAT_RIGHT_OLD = "<small><b>%i</b></small>";
+	
+	/**
 	 * The right label widget, which can display a number if desired.
 	 */
 	private Gtk.Label right_label;
@@ -116,7 +126,7 @@ public class Source.NumberItem : Source.Item
 	                                  Gtk.Widget? widg)
 	{
 		Gtk.StockItem stock = Gtk.StockItem();
-		if (Gtk.stock_lookup(item, stock))
+		if (Gtk.Stock.lookup(item, out stock))
 		{
 			this(stock.label.replace("_", ""), img, widg);
 		}
@@ -133,7 +143,7 @@ public class Source.NumberItem : Source.Item
 	public NumberItem.from_stock(string item, Gtk.Widget? widg)
 	{
 		Gtk.StockItem stock = Gtk.StockItem();
-		if (Gtk.stock_lookup(item, stock))
+		if (Gtk.Stock.lookup(item, out stock))
 		{
 			this(stock.label.replace("_", ""),
 			     new Gtk.Image.from_stock(item, ICON_SIZE),

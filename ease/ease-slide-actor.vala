@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -312,8 +312,10 @@ internal class Ease.SlideActor : Clutter.Group
 		// render the background
 		try
 		{
+			background.clear();
 			var cr = background.create();
-			slide.cairo_render_background(cr, (int)width_px, (int)height_px);
+			slide.cairo_render_background(cr, (int)width_px,
+			                              (int)height_px, false);
 		}
 		catch (GLib.Error e)
 		{

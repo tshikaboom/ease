@@ -47,12 +47,11 @@ namespace Seed {
 		public static bool set_property (Seed.Context ctx, Seed.Object object, string name, Seed.Value value);
 		public static void set_property_at_index (Seed.Context ctx, Seed.Object object, int index, Seed.Value value, Seed.Exception exception);
 	}
-	
 	[Compact]
 	[CCode (free_function = "seed_script_destroy", cheader_filename = "seed.h")]
 	public class Script {
+		public Seed.Exception exception ();
 		[CCode (has_construct_function = false)]
-		public Seed.Exception exception();
 		public Script.from_file (Seed.Context ctx, string file);
 	}
 	[Compact]
@@ -142,7 +141,6 @@ namespace Seed {
 		public weak Seed.ObjectSetPropertyCallback set_property;
 	}
 	[CCode (type_id = "SEED_TYPE_EXCEPTION", cheader_filename = "seed.h")]
-	[SimpleType]
 	public struct Exception {
 		public static unowned string get_file (Seed.Context ctx, Seed.Exception exception);
 		public static uint get_line (Seed.Context ctx, Seed.Exception exception);

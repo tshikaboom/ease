@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -53,6 +53,9 @@ public class Ease.PdfActor : Actor
 			current_page = e.displayed_page;
 			draw_page();
 		});
+		
+		// provide proper resolution renders
+		notify["zoom"].connect(() => draw_page());
 	}
 	
 	private void draw_page()
@@ -65,7 +68,8 @@ public class Ease.PdfActor : Actor
 		// create a texture
 		if (texture == null)
 		{
-			texture = new Clutter.CairoTexture((int)width, (int)height);
+			texture = new Clutter.CairoTexture((int)(width * zoom),
+			                                   (int)(height * zoom));
 			(contents as Clutter.Group).add_actor(texture);
 			
 			texture.width = contents.width;
@@ -83,14 +87,16 @@ public class Ease.PdfActor : Actor
 		// otherwise, set the size
 		else
 		{
-			texture.set_surface_size((int)width, (int)height);
+			texture.set_surface_size((int)(width * zoom),
+			                         (int)(height * zoom));
 		}
 		
 		// draw the texture
 		texture.clear();
 		var cr = texture.create();
-		pdf_element.background.cairo_render(cr, (int)width, (int)height,
-		                                    element.parent.parent.path);
+		pdf_element.background.cairo_render(cr, (int)(width * zoom),
+			                                    (int)(height * zoom),
+		                                    element.parent.parent.path, false);
 		page.render(cr);
 	}
 }

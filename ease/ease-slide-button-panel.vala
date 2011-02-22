@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -177,18 +177,25 @@ internal class Ease.SlideButtonPanel : Gtk.ScrolledWindow
 	 */
 	internal static Gdk.Pixbuf? pixbuf(Slide slide, int width)
 	{
-		var height = (int)((float)width * slide.height /
-		                                  slide.width);
+		return pixbuf_sized(slide, width, slide.width, slide.height);
+	}
+	
+	internal static Gdk.Pixbuf pixbuf_sized(Slide slide, int width,
+	                                        int slide_width, int slide_height)
+	{
+		var height = (int)((float)width * slide_height /
+		                                  slide_width);
 		var surface = new Cairo.ImageSurface(Cairo.Format.RGB24, width, height);
 		
 		var context = new Cairo.Context(surface);
 		context.save();
-		context.scale((float)width / slide.width,
-		              (float)height / slide.height);
+		context.scale((float)width / slide_width,
+		              (float)height / slide_height);
 		
 		try
 		{
-			slide.cairo_render_small(context);
+			slide.cairo_render_sized(context, slide_width, slide_height,
+			                         width < 100);
 		}
 		catch (GLib.Error e)
 		{

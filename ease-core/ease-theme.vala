@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -66,10 +66,10 @@ public class Ease.Theme : GLib.Object
 	public const string S_IDENTIFIER = "slide-identifier";
 	
 	// background types
-	private const string BACKGROUND_TYPE = "background-type";
-	private const string BACKGROUND_TYPE_COLOR = "background-type-color";
-	private const string BACKGROUND_TYPE_GRADIENT = "background-type-gradient";
-	private const string BACKGROUND_TYPE_IMAGE = "background-type-image";
+	internal const string BACKGROUND_TYPE = "background-type";
+	internal const string BACKGROUND_TYPE_COLOR = "background-type-color";
+	internal const string BACKGROUND_TYPE_GRADIENT = "background-type-gradient";
+	internal const string BACKGROUND_TYPE_IMAGE = "background-type-image";
 	public const string BACKGROUND = "background";
 	
 	// text content types
@@ -472,19 +472,26 @@ public class Ease.Theme : GLib.Object
 			error(_("Not a valid text element type: %s"), type);
 		}
 		
-		// otherwise, construct the text element
-		var text = new TextElement();
+		// create font description
+		var font = new Pango.FontDescription();
+		font.set_family(element_get(type, TEXT_FONT));
+		font.set_size(element_get(type, TEXT_SIZE).to_int() * Pango.SCALE);
+		font.set_style(Text.style_from_string(element_get(type, TEXT_STYLE)));
+		font.set_variant(Text.variant_from_string(element_get(type,
+		                                                      TEXT_VARIANT)));
+		font.set_weight(Text.weight_from_string(element_get(type,
+		                                                    TEXT_WEIGHT)));
+		//font.set_alignment(Text.alignment_from_string(element_get(type,TEXT_ALIGN)));
 		
-		// set text properties
-		text.text_font = element_get(type, TEXT_FONT);
-		text.text_size_from_string(element_get(type, TEXT_SIZE));
-		text.text_style_from_string(element_get(type, TEXT_STYLE));
-		text.text_variant_from_string(element_get(type, TEXT_VARIANT));
-		text.text_weight_from_string(element_get(type, TEXT_WEIGHT));
-		text.text_align_from_string(element_get(type, TEXT_ALIGN));
+		// set the color
+		var color = new Color.from_string(element_get(type, TEXT_COLOR));
+		var color_attr = Pango.attr_foreground_new(color.red16,
+		                                           color.green16,
+		                                           color.blue16);
 		
-		// set the color property
-		text.color = new Color.from_string(element_get(type, TEXT_COLOR));
+		// create the text element
+		var text = new TextElement("", font);
+		text.text.add_attr(color_attr.copy(), 0);
 		
 		// set size properties
 		text.x = x;
@@ -494,8 +501,6 @@ public class Ease.Theme : GLib.Object
 		
 		// set base properties
 		text.identifier = type;
-		text.has_been_edited = false;
-		text.text = "";
 		
 		return text;
 	}

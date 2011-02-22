@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,8 +37,10 @@ internal class Ease.ImportDialog : Gtk.Window
 		Plugin.ImportService service = new FlickrService();
 		var flickr = create_item("Flickr", "gtk-go-down", service);
 		group.add_item(flickr);
-		service = new OCAService();
-		group.add_item(create_item("OpenClipArt", "gtk-go-down", service));
+		group.add_item(create_item("OpenClipArt", "gtk-go-down",
+		                           new OCAService()));
+		group.add_item(create_item("Picasa", "gtk-go-down",
+		                           new PicasaService()));
 		
 		add(view);
 		view.show_all();

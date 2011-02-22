@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -62,6 +62,27 @@ public abstract class Ease.Actor : Clutter.Group
 	 * The widget of the surrounding rectangle in the editor.
 	 */
 	private const uint RECT_WIDTH = 1;
+	
+	/**
+	 * Whether or not the actor is currently being manually resized by the user.
+	 * In subclasses (namely {@link CairoActor}), this can cause frequent redraw
+	 * calls. Therefore, these subclasses can make optimizations and use lower
+	 * resolution media caches (such as that in {@link Image}.
+	 */
+	public bool resizing { get; set; default = false; }
+	
+	/**
+	 * Whether or not the actor is currently in editing mode.
+	 */
+	public bool editing { get; set; default = false; }
+	
+	/**
+	 * The current zoom factor of the Actor. This refers to the size at which
+	 * the Actor is being displayed, typically in an editor view. Actors that
+	 * use Cairo rendering can use this properly to properly use Cairo's vector
+	 * nature to provide non-pixelated renderings at higher zoom levels.
+	 */
+	public float zoom { get; set; default = 1; }
 
 	/**
 	 * Instantiate a new Actor
@@ -87,6 +108,11 @@ public abstract class Ease.Actor : Clutter.Group
 			editor_rect.width = e.width;
 			editor_rect.height = e.height;
 			add_actor(editor_rect);
+			
+			notify["zoom"].connect(() => {
+				editor_rect.border_width =
+					(uint)Math.ceil(((1 / zoom) * RECT_WIDTH));
+			});
 		}
 		
 		// update the actor's position when changed in the element
@@ -200,15 +226,47 @@ public abstract class Ease.Actor : Clutter.Group
 	 * Called when the actor should be edited. Subclasses should override this.
 	 *
 	 * @param sender The widget this Actor is on.
+	 * @param mouse_x The x position of the mouse, relative to the actor.
+	 * @param mouse_y The y position of the mouse, relative to the actor.
 	 */
-	public virtual void edit(Gtk.Widget sender) {}
+	public virtual void edit(Gtk.Widget sender, float mouse_x, float mouse_y) {}
 	
 	/**
-	 * Called when the actor end editing. Subclasses with editing that is not
+	 * Called when the actor ends editing. Subclasses with editing that is not
 	 * instant (popping up a dialog box) should override this.
 	 *
 	 * @param sender The widget this Actor is on.
 	 */
 	public virtual void end_edit(Gtk.Widget sender) {}
+	
+	/**
+	 * Called when a key is pressed while {@link editing} is true. If the event
+	 * is handled, true should be returned, otherwise, false should be returned.
+	 *
+	 * By default, the function simply returns false.
+	 */
+	public virtual bool key_event(Gtk.Widget sender, Gdk.EventKey event)
+	{
+		return false;
+	}
+	
+	/**
+	 * Called when a mouse button is pressed while {@link editing} is true. If
+	 * the event is handled, true should be returned, otherwise, false should
+	 * be returned.
+	 *
+	 * By default, the function simply returns false.
+	 *
+	 * @param sender The actor that initiated the event.
+	 * @param event The event itself.
+	 * @param mouse_x The mouse x position of the click, relative to the actor.
+	 * @param mouse_y The mouse y position of the click, relative to the actor.
+	 */
+	public virtual bool clicked_event(Clutter.Actor sender,
+	                                  Clutter.ButtonEvent event,
+	                                  float mouse_x, float mouse_y)
+	{
+		return false;
+	}
 }
 

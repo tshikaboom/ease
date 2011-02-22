@@ -71,17 +71,7 @@ public class Source.Item : Gtk.HBox
 	/**
 	 * Format string for deselected items.
 	 */
-	private const string FORMAT_DESELECTED = "%s";
-	
-	/**
-	 * Format string for right notification number when new.
-	 */
-	private const string FORMAT_RIGHT_NEW = "<small><b>%i</b></small>";
-	
-	/**
-	 * Format string for right notification number once viewed.
-	 */
-	private const string FORMAT_RIGHT_OLD = "<small><b>%i</b></small>";
+	protected const string FORMAT_DESELECTED = "%s";
 	
 	/**
 	 * Padding to the sides of the label and image. Not used on the right of
@@ -216,7 +206,7 @@ public class Source.Item : Gtk.HBox
 	public Item.from_stock_text(string item, Gtk.Image img, Gtk.Widget? widg)
 	{
 		Gtk.StockItem stock = Gtk.StockItem();
-		if (Gtk.stock_lookup(item, stock))
+		if (Gtk.Stock.lookup(item, out stock))
 		{
 			this(stock.label.replace("_", ""), img, widg);
 		}
@@ -233,7 +223,7 @@ public class Source.Item : Gtk.HBox
 	public Item.from_stock(string item, Gtk.Widget? widg)
 	{
 		Gtk.StockItem stock = Gtk.StockItem();
-		if (Gtk.stock_lookup(item, stock))
+		if (Gtk.Stock.lookup(item, out stock))
 		{
 			this(stock.label.replace("_", ""),
 			     new Gtk.Image.from_stock(item, ICON_SIZE),

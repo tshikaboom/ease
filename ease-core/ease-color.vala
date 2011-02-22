@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -365,6 +365,26 @@ public class Ease.Color : GLib.Object, Serializable
 		         "clutter", "gdk" };
 	}
 	
+	/*
+	 * A Pango.Color representation of this color. Changes made to the returned
+	 * color are not reflected in this color. Note that Pango colors do not
+	 * support an alpha value. When being set, the alpha will be set to full,
+	 * when retrieved, the alpha value will be ignored.
+	 */
+	public Pango.Color pango
+	{
+		get
+		{
+			return { red16, green16, blue16 };
+		}
+		set
+		{
+			red16 = value.red;
+			green16 = value.green;
+			blue16 = value.blue;
+		}
+	}
+	
 	/**
 	 * Creates an opaque color.
 	 */
@@ -464,5 +484,83 @@ public class Ease.Color : GLib.Object, Serializable
 		action.add(this, "alpha");
 		
 		return action;
+	}
+	
+	// static color transformation functions
+	private const double CL_TO_GDK_FACTOR = 65535.0 / 255;
+	private const double GDK_TO_CL_FACTOR = 255.0 / 65535;
+	private const double CL_TO_PANGO_FACTOR = 65535.0 / 255;
+	private const double PANGO_TO_CL_FACTOR = 255.0 / 65535;
+	private const uint8 CL_COLOR_ALPHA = 255;
+	
+	/**
+	 * Transforms a Clutter.Color into a Gdk.Color.
+	 *
+	 * @param color The Clutter.Color to transform.
+	 */
+	public static Gdk.Color clutter_to_gdk(Clutter.Color color)
+	{
+		return { 0,
+		         (uint16)(color.red * CL_TO_GDK_FACTOR),
+		         (uint16)(color.green * CL_TO_GDK_FACTOR),
+		         (uint16)(color.blue * CL_TO_GDK_FACTOR) };
+	}
+	
+	/**
+	 * Transforms a Gdk.Color into a Clutter.Color.
+	 *
+	 * @param color The Gdk.Color to transform.
+	 */
+	public static Clutter.Color gdk_to_clutter(Gdk.Color color)
+	{
+		return { (uint8)(color.red * GDK_TO_CL_FACTOR),
+		         (uint8)(color.green * GDK_TO_CL_FACTOR),
+		         (uint8)(color.blue * GDK_TO_CL_FACTOR),
+		         CL_COLOR_ALPHA };
+	}
+	
+	/**
+	 * Transforms a Clutter.Color into a Pango.Color.
+	 *
+	 * @param color The Clutter.Color to transform.
+	 */
+	public static Gdk.Color clutter_to_pango(Clutter.Color color)
+	{
+		return { (uint16)(color.red * CL_TO_PANGO_FACTOR),
+		         (uint16)(color.green * CL_TO_PANGO_FACTOR),
+		         (uint16)(color.blue * CL_TO_PANGO_FACTOR) };
+	}
+	
+	/**
+	 * Transforms a Pango.Color into a Clutter.Color.
+	 *
+	 * @param color The Pango.Color to transform.
+	 */
+	public static Clutter.Color pango_to_clutter(Gdk.Color color)
+	{
+		return { (uint8)(color.red * PANGO_TO_CL_FACTOR),
+		         (uint8)(color.green * PANGO_TO_CL_FACTOR),
+		         (uint8)(color.blue * PANGO_TO_CL_FACTOR),
+		         CL_COLOR_ALPHA };
+	}
+	
+	/**
+	 * Transforms a Gdk.Color into a Pango.Color.
+	 *
+	 * @param color The Gdk.Color to transform.
+	 */
+	public static Gdk.Color gdk_to_pango(Gdk.Color color)
+	{
+		return { color.red, color.green, color.blue };
+	}
+	
+	/**
+	 * Transforms a Pango.Color into a Gdk.Color.
+	 *
+	 * @param color The Pango.Color to transform.
+	 */
+	public static Gdk.Color pango_to_gdk(Pango.Color color)
+	{
+		return { 0, color.red, color.green, color.blue };
 	}
 }

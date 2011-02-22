@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+def build(bld):
+	version = bld.FLUTTER_VERSION
+	library_name = 'flutter-%s' % (version, )
+	lib = bld(features='c cshlib')
+	lib.name = 'flutter'
+	lib.target = library_name
+	lib.source = 'flutter.vala'
+	lib.includes = '..'
+	lib.uselib = 'GOBJECT CLUTTER'
+
+	# Vala packages to use
+	lib.packages = 'clutter-1.0'
+	
+
+

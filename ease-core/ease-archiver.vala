@@ -1,5 +1,5 @@
 /*  Ease, a GTK presentation application
-    Copyright (C) 2010 Nate Stedman
+    Copyright (C) 2010-2011 individual contributors (see AUTHORS)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 
 private class Ease.Archiver.Archiver : GLib.Object
 {
@@ -66,13 +67,13 @@ private class Ease.Archiver.Archiver : GLib.Object
 		dialog.show();
 		
 		// archive in a thread
-		thread = Thread.create(archive_real, true);
+		thread = Thread.create<string>(archive_real, true);
 	}
 	
 	/**
 	 * Does the actual archiving of a directory.
 	 */
-	private void* archive_real()
+	private string archive_real()
 	{
 		// create a writable archive
 		var archive = new Archive.Write();
