@@ -440,7 +440,7 @@ public class Ease.TextActor : Actor
 		
 		// render the text
 		cr.restore();
-		(element as TextElement).text.render(cr, !editing);
+		(element as TextElement).text.render(cr, (int)(element.width), !editing);
 	}
 }
 

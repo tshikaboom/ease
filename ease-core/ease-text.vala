@@ -94,8 +94,9 @@ public class Ease.Text : GLib.Object
 	 * @param index The index of the cursor, this value is set on out.
 	 * @param layout_index The layout index, this value is set on out.
 	 * @param chars The number of characters to advance or retreat.
+	 * @return Whether or not the index or layout index (or both) was altered.
 	 */
-	public void move_cursor(ref int index, ref int layout_index, int chars)
+	public bool move_cursor(ref int index, ref int layout_index, int chars)
 	{
 		var current = layouts.get(layout_index);
 		
@@ -107,11 +108,13 @@ public class Ease.Text : GLib.Object
 				{
 					layout_index++;
 					index = index + chars - current.length;
+					return true;
 				}
 			}
 			else
 			{
 				index++;
+				return true;
 			}
 		}
 		else if (chars < 0)
@@ -122,13 +125,17 @@ public class Ease.Text : GLib.Object
 				{
 					layout_index--;
 					index = layouts.get(layout_index).length;
+					return true;
 				}
 			}
 			else
 			{
 				index--;
+				return true;
 			}
 		}
+		
+		return false;
 	}
 	
 	/**
@@ -155,16 +162,20 @@ public class Ease.Text : GLib.Object
 	 * Renders the Text to a Cairo Context.
 	 *
 	 * @param cr The context to render to.
+	 * @param width The width to render at.
 	 * @param use_default If the text is empty, the default string will be
 	 * rendered instead of an empty string.
 	 */
-	public void render(Cairo.Context cr, bool use_default)
+	public void render(Cairo.Context cr, int width, bool use_default)
 	{
 		int y = 0;
 		cr.save();
 		
 		// render each layout, if it's within the bounds of the rectangle
 		@foreach((layout) => {
+			// set the layout width
+			layout.layout.set_width(width * Pango.SCALE);
+
 			// render the layout
 			layout.render(cr, use_default);
 			
