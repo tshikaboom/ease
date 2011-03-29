@@ -1,16 +1,17 @@
 # Danish translation for ease.
-# Copyright (C) 2010 ease og nedenstående oversættere.
+# Copyright (C) 2011 ease og nedenstående oversættere.
 # This file is distributed under the same license as the ease package.
-# Joe Hansen <joedalton2@yahoo.dk>, 2010.
+# Joe Hansen <joedalton2@yahoo.dk>, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-29 00:21+0200\n"
-"PO-Revision-Date: 2010-10-26 23:31+0200\n"
+"POT-Creation-Date: 2011-03-29 10:11+0200\n"
+"PO-Revision-Date: 2011-01-15 23:31+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,16 +35,16 @@ msgstr "Gemmer \"%s\""
 msgid "Temporary directory doesn't exist: %s"
 msgstr "Midlertidig mappe findes ikke: %s"
 
-#: ../ease-core/ease-background.vala:241
+#: ../ease-core/ease-background.vala:242
 msgid "Solid Color"
 msgstr "Ensfarvet"
 
 # farvehældning
-#: ../ease-core/ease-background.vala:242
+#: ../ease-core/ease-background.vala:243
 msgid "Gradient"
 msgstr "Gradient"
 
-#: ../ease-core/ease-background.vala:243
+#: ../ease-core/ease-background.vala:244
 msgid "Image"
 msgstr "Billede"
 
@@ -64,25 +65,29 @@ msgstr "Billeder"
 msgid "All Files"
 msgstr "Alle filer"
 
+# evt. "Ønsker du at" -> "Vil du"
 #: ../ease-core/ease-dialogs.vala:24
 msgid ""
 "The specified filename does not end with a \".ease\" extension. Would you "
 "like to append one?"
 msgstr ""
+"Det angivne filnavn har ikke filendelsen \".ease\". Ønsker du at tilføje "
+"denne filendelse?"
 
 #: ../ease-core/ease-dialogs.vala:25
 msgid "Append .ease?"
-msgstr ""
+msgstr "Tilføj .ease?"
 
 #: ../ease-core/ease-dialogs.vala:27
 #, c-format
 msgid "Replace %s?"
-msgstr ""
+msgstr "Erstat %s?"
 
+# evt. "Ønsker du at" -> "Vil du"
 #: ../ease-core/ease-dialogs.vala:29
 #, c-format
 msgid "A file named %s already exists. Do you want to replace it?"
-msgstr ""
+msgstr "Der findes allerede en fil med navnet %s. Ønsker du at erstatte den?"
 
 #: ../ease-core/ease-dialogs.vala:31
 #, c-format
@@ -90,6 +95,8 @@ msgid ""
 "This file already exists in the directory \"%s\". Overwriting it will "
 "replace its contents."
 msgstr ""
+"Denne fil findes allerede i mappen \"%s\". Overskrivning af filen vil "
+"erstatte filens indhold."
 
 #: ../ease-core/ease-dialogs.vala:183
 msgid "Open Document"
@@ -101,21 +108,21 @@ msgstr "Easepræsentationer"
 
 #: ../ease-core/ease-dialogs.vala:290
 msgid "Don't append .ease"
-msgstr ""
+msgstr "Tilføj ikke .ease"
 
 #: ../ease-core/ease-dialogs.vala:294
 msgid "Append .ease"
-msgstr ""
+msgstr "Tilføj .ease"
 
 #: ../ease-core/ease-dialogs.vala:327
 #, c-format
 msgid "Don't overwrite %s"
-msgstr ""
+msgstr "Overskriv ikke %s"
 
 #: ../ease-core/ease-dialogs.vala:331
 #, c-format
 msgid "Overwrite %s"
-msgstr ""
+msgstr "Overskriv %s"
 
 #. *
 #. * Default slide title.
@@ -180,19 +187,19 @@ msgstr "Kunne ikke kopiere fil"
 msgid "Error loading ImageActor: %s\n"
 msgstr "Kunne ikke indlæse ImageActor: %s\n"
 
-#: ../ease-core/ease-image-element.vala:99 ../ease/ease-editor-window.vala:516
+#: ../ease-core/ease-image-element.vala:86 ../ease/ease-editor-window.vala:516
 msgid "Error Inserting Image"
 msgstr "Kunne ikke indsætte billede"
 
-#: ../ease-core/ease-image.vala:146
+#: ../ease-core/ease-image.vala:217
 msgid "Stretch"
 msgstr "Stræk"
 
-#: ../ease-core/ease-image.vala:147
+#: ../ease-core/ease-image.vala:218
 msgid "Maintain Aspect Ratio"
 msgstr "Bevar størrelsesforhold"
 
-#: ../ease-core/ease-image.vala:148
+#: ../ease-core/ease-image.vala:219
 msgid "Do not Scale"
 msgstr "Bevar ikke størrelsesforhold"
 
@@ -454,15 +461,15 @@ msgstr "Mappe der skal fjernes findes ikke: %s"
 msgid "Your browser does not support the video tag"
 msgstr "Din browser understøtter ikke videomærket"
 
-#: ../ease-core/ease-video-element.vala:261
+#: ../ease-core/ease-video-element.vala:262
 msgid "Stop playback"
 msgstr "Stop afspilning"
 
-#: ../ease-core/ease-video-element.vala:262
+#: ../ease-core/ease-video-element.vala:263
 msgid "Loop"
 msgstr "Løkke"
 
-#: ../ease-core/ease-video-element.vala:263
+#: ../ease-core/ease-video-element.vala:264
 msgid "Continue to next slide"
 msgstr "Fortsæt til næste dias"
 
@@ -589,21 +596,21 @@ msgstr "PDF-dokumenter"
 msgid "Error Inserting PDF"
 msgstr "Kunne ikke indsætte PDF"
 
-#: ../ease/ease-editor-window.vala:725
+#: ../ease/ease-editor-window.vala:722
 msgid "Save Document"
 msgstr "Gem dokument"
 
-#: ../ease/ease-editor-window.vala:741
+#: ../ease/ease-editor-window.vala:738
 msgid "Error Saving Document"
 msgstr "Kunne ikke gemme dokument"
 
 #. create the dialog
-#: ../ease/ease-editor-window.vala:820
+#: ../ease/ease-editor-window.vala:817
 msgid "Select Color"
 msgstr "Vælg farve"
 
 #. create a font selection dialog
-#: ../ease/ease-editor-window.vala:887
+#: ../ease/ease-editor-window.vala:884
 msgid "Select Font"
 msgstr "Vælg skrifttype"
 
@@ -623,11 +630,12 @@ msgstr "Henter mediefiler"
 #. create checkboxes to filter CC licenses
 #: ../ease/ease-import-flickr-service.vala:80
 msgid "Share Alike"
-msgstr ""
+msgstr "Del på samme vilkår"
 
+# For kommerciel brug
 #: ../ease/ease-import-flickr-service.vala:82
 msgid "For Commercial Use"
-msgstr ""
+msgstr "Til kommerciel brug"
 
 #: ../ease/ease-inspector-transition-pane.vala:73
 msgid "Effect"
@@ -708,3 +716,215 @@ msgstr "Tilpasset"
 #, c-format
 msgid "%i by %i"
 msgstr "%i x %i"
+
+#: ../data/ui/background.ui.h:1
+msgid "Background Color"
+msgstr ""
+
+#: ../data/ui/background.ui.h:2
+#, fuzzy
+msgid "Background Gradient"
+msgstr "Vælg baggrundsbillede"
+
+#: ../data/ui/background.ui.h:3
+#, fuzzy
+msgid "Background Image"
+msgstr "Vælg baggrundsbillede"
+
+#: ../data/ui/background.ui.h:4
+#, fuzzy
+msgid "Background Style"
+msgstr "Vælg baggrundsbillede"
+
+#: ../data/ui/background.ui.h:5
+msgid "Fill Mode"
+msgstr ""
+
+# farvehældning
+#: ../data/ui/background.ui.h:6
+#, fuzzy
+msgid "Gradient Angle"
+msgstr "Gradient"
+
+# farvehældning
+#: ../data/ui/background.ui.h:7
+#, fuzzy
+msgid "Reverse Gradient"
+msgstr "Gradient"
+
+#: ../data/ui/editor-window.ui.h:1
+#, fuzzy
+msgid "Add Slide"
+msgstr "Dias"
+
+#: ../data/ui/editor-window.ui.h:2
+msgid "Editor"
+msgstr ""
+
+# Øverst til nederst
+#: ../data/ui/editor-window.ui.h:3
+#, fuzzy
+msgid "Lower to _Bottom"
+msgstr "Oppefra og ned"
+
+#: ../data/ui/editor-window.ui.h:4
+msgid "Media from the _Web"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:5
+#, fuzzy
+msgid "Post_Script"
+msgstr "Eksporter som PostScript"
+
+#: ../data/ui/editor-window.ui.h:6
+msgid "Present"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:7
+msgid "Raise to _Top"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:8
+msgid "Redo"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:9
+msgid "Remove Slide"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:10
+msgid "Save"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:11
+msgid "Save a _Copy"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:12
+msgid "Show Inspector"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:13
+#, fuzzy
+msgid "Slide Sorter"
+msgstr "Diasindhold"
+
+#: ../data/ui/editor-window.ui.h:14
+msgid "Undo"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:15
+msgid "Zoom to _Fit"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:16
+msgid "_Edit"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:17
+#, fuzzy
+msgid "_Export Presentation"
+msgstr "Easepræsentation"
+
+#: ../data/ui/editor-window.ui.h:18
+msgid "_File"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:19
+msgid "_HTML"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:20
+msgid "_Help"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:21
+#, fuzzy
+msgid "_Image"
+msgstr "Billede"
+
+#: ../data/ui/editor-window.ui.h:22 ../data/ui/import-widget.ui.h:2
+#, fuzzy
+msgid "_Insert"
+msgstr "Indsæt billede"
+
+#: ../data/ui/editor-window.ui.h:23
+msgid "_Lower"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:24 ../data/ui/inspector-element-shape.ui.h:1
+msgid "_Oval"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:25
+msgid "_PDF"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:26
+#, fuzzy
+msgid "_PDF Document"
+msgstr "PDF-dokumenter"
+
+#: ../data/ui/editor-window.ui.h:27
+msgid "_Raise"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:28 ../data/ui/inspector-element-shape.ui.h:2
+msgid "_Rectangle"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:29
+msgid "_Text"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:30
+msgid "_Video"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:31
+msgid "_View"
+msgstr ""
+
+#: ../data/ui/import-widget.ui.h:1
+msgid "No Results Found"
+msgstr ""
+
+#: ../data/ui/inspector-element-image.ui.h:1
+#, fuzzy
+msgid "Select Image"
+msgstr "Vælg baggrundsbillede"
+
+#: ../data/ui/inspector-element-none.ui.h:1
+msgid "Nothing is selected"
+msgstr ""
+
+#: ../data/ui/inspector-element-pdf.ui.h:1
+msgid "Allow page change"
+msgstr ""
+
+#: ../data/ui/inspector-element-pdf.ui.h:2
+msgid "Displayed Page"
+msgstr ""
+
+#: ../data/ui/inspector-element-video.ui.h:1
+msgid "When video playback ends:"
+msgstr ""
+
+#: ../data/ui/inspector-element-video.ui.h:2
+#, fuzzy
+msgid "_Automatically start playback"
+msgstr "Automatisk"
+
+#: ../data/ui/inspector-element-video.ui.h:3
+#, fuzzy
+msgid "_Fill Slide"
+msgstr "_Titeldias"
+
+#: ../data/ui/inspector-element-video.ui.h:4
+msgid "_Mute Audio"
+msgstr ""
+
+#: ../data/ui/welcome-window.ui.h:1
+#, fuzzy
+msgid "_New presentation"
+msgstr "Easepræsentation"
