@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-29 10:11+0200\n"
-"PO-Revision-Date: 2011-01-15 23:31+0200\n"
+"POT-Creation-Date: 2011-04-02 19:25+0200\n"
+"PO-Revision-Date: 2011-04-02 23:31+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -719,212 +719,197 @@ msgstr "%i x %i"
 
 #: ../data/ui/background.ui.h:1
 msgid "Background Color"
-msgstr ""
+msgstr "Baggrundsfarve"
 
 #: ../data/ui/background.ui.h:2
-#, fuzzy
 msgid "Background Gradient"
-msgstr "Vælg baggrundsbillede"
+msgstr "Baggrundsfarveovergang"
 
 #: ../data/ui/background.ui.h:3
-#, fuzzy
 msgid "Background Image"
-msgstr "Vælg baggrundsbillede"
+msgstr "Baggrundsbillede"
 
 #: ../data/ui/background.ui.h:4
-#, fuzzy
 msgid "Background Style"
-msgstr "Vælg baggrundsbillede"
+msgstr "Baggrundsstil"
 
 #: ../data/ui/background.ui.h:5
 msgid "Fill Mode"
-msgstr ""
+msgstr "Udfyldningstilstand"
 
 # farvehældning
 #: ../data/ui/background.ui.h:6
-#, fuzzy
 msgid "Gradient Angle"
-msgstr "Gradient"
+msgstr "Gradientvinkel"
 
 # farvehældning
 #: ../data/ui/background.ui.h:7
-#, fuzzy
 msgid "Reverse Gradient"
-msgstr "Gradient"
+msgstr "Omvendt gradient"
 
 #: ../data/ui/editor-window.ui.h:1
-#, fuzzy
 msgid "Add Slide"
-msgstr "Dias"
+msgstr "Tilføj dias"
 
 #: ../data/ui/editor-window.ui.h:2
 msgid "Editor"
-msgstr ""
+msgstr "Redigeringsprogram"
 
-# Øverst til nederst
 #: ../data/ui/editor-window.ui.h:3
-#, fuzzy
 msgid "Lower to _Bottom"
-msgstr "Oppefra og ned"
+msgstr "Sænk til _bunden"
 
 #: ../data/ui/editor-window.ui.h:4
 msgid "Media from the _Web"
-msgstr ""
+msgstr "Medie fra _internettet"
 
 #: ../data/ui/editor-window.ui.h:5
-#, fuzzy
 msgid "Post_Script"
-msgstr "Eksporter som PostScript"
+msgstr "Post_Script"
 
 #: ../data/ui/editor-window.ui.h:6
 msgid "Present"
-msgstr ""
+msgstr "Nuværende"
 
 #: ../data/ui/editor-window.ui.h:7
 msgid "Raise to _Top"
-msgstr ""
+msgstr "Hæv til _øverst"
 
 #: ../data/ui/editor-window.ui.h:8
 msgid "Redo"
-msgstr ""
+msgstr "Omgør"
 
 #: ../data/ui/editor-window.ui.h:9
 msgid "Remove Slide"
-msgstr ""
+msgstr "Fjern dias"
 
 #: ../data/ui/editor-window.ui.h:10
 msgid "Save"
-msgstr ""
+msgstr "Gem"
 
 #: ../data/ui/editor-window.ui.h:11
 msgid "Save a _Copy"
-msgstr ""
+msgstr "Gem en _kopi"
 
 #: ../data/ui/editor-window.ui.h:12
 msgid "Show Inspector"
-msgstr ""
+msgstr "Vis Inspektør"
 
+# Kunne det her ikke også være et sortieringsprogram til
+# dias? Altså så det nærmere er "Diassorterer" eller noget 
+# i den retning.
 #: ../data/ui/editor-window.ui.h:13
-#, fuzzy
 msgid "Slide Sorter"
-msgstr "Diasindhold"
+msgstr "Diassortering"
 
 #: ../data/ui/editor-window.ui.h:14
 msgid "Undo"
-msgstr ""
+msgstr "Fortryd"
 
 #: ../data/ui/editor-window.ui.h:15
 msgid "Zoom to _Fit"
-msgstr ""
+msgstr "_Tilpas zoom"
 
 #: ../data/ui/editor-window.ui.h:16
 msgid "_Edit"
-msgstr ""
+msgstr "_Rediger"
 
 #: ../data/ui/editor-window.ui.h:17
-#, fuzzy
 msgid "_Export Presentation"
-msgstr "Easepræsentation"
+msgstr "_Eksporter præsentation"
 
 #: ../data/ui/editor-window.ui.h:18
 msgid "_File"
-msgstr ""
+msgstr "_Fil"
 
 #: ../data/ui/editor-window.ui.h:19
 msgid "_HTML"
-msgstr ""
+msgstr "_HTML"
 
 #: ../data/ui/editor-window.ui.h:20
 msgid "_Help"
-msgstr ""
+msgstr "_Hjælp"
 
 #: ../data/ui/editor-window.ui.h:21
-#, fuzzy
 msgid "_Image"
-msgstr "Billede"
+msgstr "_Billede"
 
 #: ../data/ui/editor-window.ui.h:22 ../data/ui/import-widget.ui.h:2
-#, fuzzy
 msgid "_Insert"
-msgstr "Indsæt billede"
+msgstr "_Indsæt"
 
 #: ../data/ui/editor-window.ui.h:23
 msgid "_Lower"
-msgstr ""
+msgstr "_Sænk"
 
 #: ../data/ui/editor-window.ui.h:24 ../data/ui/inspector-element-shape.ui.h:1
 msgid "_Oval"
-msgstr ""
+msgstr "_Oval"
 
 #: ../data/ui/editor-window.ui.h:25
 msgid "_PDF"
-msgstr ""
+msgstr "_PDF"
 
 #: ../data/ui/editor-window.ui.h:26
-#, fuzzy
 msgid "_PDF Document"
-msgstr "PDF-dokumenter"
+msgstr "_PDF-dokument"
 
 #: ../data/ui/editor-window.ui.h:27
 msgid "_Raise"
-msgstr ""
+msgstr "_Hæv"
 
 #: ../data/ui/editor-window.ui.h:28 ../data/ui/inspector-element-shape.ui.h:2
 msgid "_Rectangle"
-msgstr ""
+msgstr "_Rektangel"
 
 #: ../data/ui/editor-window.ui.h:29
 msgid "_Text"
-msgstr ""
+msgstr "_Tekst"
 
 #: ../data/ui/editor-window.ui.h:30
 msgid "_Video"
-msgstr ""
+msgstr "_Video"
 
 #: ../data/ui/editor-window.ui.h:31
 msgid "_View"
-msgstr ""
+msgstr "_Vis"
 
 #: ../data/ui/import-widget.ui.h:1
 msgid "No Results Found"
-msgstr ""
+msgstr "Ingen resultater fundet"
 
 #: ../data/ui/inspector-element-image.ui.h:1
-#, fuzzy
 msgid "Select Image"
-msgstr "Vælg baggrundsbillede"
+msgstr "Vælg billede"
 
 #: ../data/ui/inspector-element-none.ui.h:1
 msgid "Nothing is selected"
-msgstr ""
+msgstr "Intet er valgt"
 
 #: ../data/ui/inspector-element-pdf.ui.h:1
 msgid "Allow page change"
-msgstr ""
+msgstr "Tillad sideændring"
 
 #: ../data/ui/inspector-element-pdf.ui.h:2
 msgid "Displayed Page"
-msgstr ""
+msgstr "Vist side"
 
 #: ../data/ui/inspector-element-video.ui.h:1
 msgid "When video playback ends:"
-msgstr ""
+msgstr "Når videoafspilning slutter:"
 
 #: ../data/ui/inspector-element-video.ui.h:2
-#, fuzzy
 msgid "_Automatically start playback"
-msgstr "Automatisk"
+msgstr "Start _automatisk afspilning"
 
 #: ../data/ui/inspector-element-video.ui.h:3
-#, fuzzy
 msgid "_Fill Slide"
-msgstr "_Titeldias"
+msgstr "_Udfyld dias"
 
 #: ../data/ui/inspector-element-video.ui.h:4
 msgid "_Mute Audio"
-msgstr ""
+msgstr "_Sluk for lyden"
 
 #: ../data/ui/welcome-window.ui.h:1
-#, fuzzy
 msgid "_New presentation"
-msgstr "Easepræsentation"
+msgstr "_Ny præsentation"
