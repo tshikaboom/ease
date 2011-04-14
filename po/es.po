@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the ease package.
 # Kramer Garay <kramergaray@hotmail.com>, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ease.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=ease&component=general\n"
-"POT-Creation-Date: 2010-10-15 19:33+0000\n"
-"PO-Revision-Date: 2010-10-18 10:12+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"product=ease&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2011-03-29 06:37+0000\n"
+"PO-Revision-Date: 2011-04-14 15:23+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,15 +37,15 @@ msgstr "Guardando «%s»"
 msgid "Temporary directory doesn't exist: %s"
 msgstr "La carpeta temporal no existe: %s"
 
-#: ../ease-core/ease-background.vala:241
+#: ../ease-core/ease-background.vala:242
 msgid "Solid Color"
 msgstr "Color sólido"
 
-#: ../ease-core/ease-background.vala:242
+#: ../ease-core/ease-background.vala:243
 msgid "Gradient"
 msgstr "Degradado"
 
-#: ../ease-core/ease-background.vala:243
+#: ../ease-core/ease-background.vala:244
 msgid "Image"
 msgstr "Imagen"
 
@@ -185,19 +186,19 @@ msgstr "Error al copiar el archivo"
 msgid "Error loading ImageActor: %s\n"
 msgstr "Error al cargar ImageActor: %s\n"
 
-#: ../ease-core/ease-image-element.vala:99 ../ease/ease-editor-window.vala:516
+#: ../ease-core/ease-image-element.vala:86 ../ease/ease-editor-window.vala:516
 msgid "Error Inserting Image"
 msgstr "Error al insertar la imagen"
 
-#: ../ease-core/ease-image.vala:146
+#: ../ease-core/ease-image.vala:217
 msgid "Stretch"
 msgstr "Estiramiento"
 
-#: ../ease-core/ease-image.vala:147
+#: ../ease-core/ease-image.vala:218
 msgid "Maintain Aspect Ratio"
 msgstr "Mantener la proporción"
 
-#: ../ease-core/ease-image.vala:148
+#: ../ease-core/ease-image.vala:219
 msgid "Do not Scale"
 msgstr "No escalar"
 
@@ -433,15 +434,15 @@ msgstr "No existe la carpeta para quitar: %s"
 msgid "Your browser does not support the video tag"
 msgstr "Su navegador no soporta la etiqueta de video"
 
-#: ../ease-core/ease-video-element.vala:261
+#: ../ease-core/ease-video-element.vala:262
 msgid "Stop playback"
 msgstr "Detener la reproducción"
 
-#: ../ease-core/ease-video-element.vala:262
+#: ../ease-core/ease-video-element.vala:263
 msgid "Loop"
 msgstr "Bucle"
 
-#: ../ease-core/ease-video-element.vala:263
+#: ../ease-core/ease-video-element.vala:264
 msgid "Continue to next slide"
 msgstr "Continuar hasta la siguiente diapositiva"
 
@@ -576,21 +577,21 @@ msgstr "Documentos PDF"
 msgid "Error Inserting PDF"
 msgstr "Error al insertar el PDF"
 
-#: ../ease/ease-editor-window.vala:725
+#: ../ease/ease-editor-window.vala:722
 msgid "Save Document"
 msgstr "Guardar documento"
 
-#: ../ease/ease-editor-window.vala:741
+#: ../ease/ease-editor-window.vala:738
 msgid "Error Saving Document"
 msgstr "Error al guardar el documento"
 
 #. create the dialog
-#: ../ease/ease-editor-window.vala:820
+#: ../ease/ease-editor-window.vala:817
 msgid "Select Color"
 msgstr "Seleccionar color"
 
 #. create a font selection dialog
-#: ../ease/ease-editor-window.vala:887
+#: ../ease/ease-editor-window.vala:884
 msgid "Select Font"
 msgstr "Seleccionar tipografía"
 
@@ -693,20 +694,240 @@ msgstr "Personalizada"
 msgid "%i by %i"
 msgstr "%i por %i"
 
+#: ../data/ui/background.ui.h:1
+msgid "Background Color"
+msgstr "Color de fondo"
+
+#: ../data/ui/background.ui.h:2
+#, fuzzy
+#| msgid "Select Background Image"
+msgid "Background Gradient"
+msgstr "Seleccionar la imagen de fondo"
+
+#: ../data/ui/background.ui.h:3
+#, fuzzy
+#| msgid "Select Background Image"
+msgid "Background Image"
+msgstr "Seleccionar la imagen de fondo"
+
+#: ../data/ui/background.ui.h:4
+#, fuzzy
+#| msgid "Select Background Image"
+msgid "Background Style"
+msgstr "Seleccionar la imagen de fondo"
+
+#: ../data/ui/background.ui.h:5
+msgid "Fill Mode"
+msgstr "Modo de relleno"
+
+#: ../data/ui/background.ui.h:6
+#, fuzzy
+#| msgid "Gradient"
+msgid "Gradient Angle"
+msgstr "Degradado"
+
+#: ../data/ui/background.ui.h:7
+#, fuzzy
+#| msgid "Gradient"
+msgid "Reverse Gradient"
+msgstr "Degradado"
+
+#: ../data/ui/editor-window.ui.h:1
+#, fuzzy
+#| msgid "Slide"
+msgid "Add Slide"
+msgstr "Diapositiva"
+
+#: ../data/ui/editor-window.ui.h:2
+msgid "Editor"
+msgstr "Editor"
+
+#: ../data/ui/editor-window.ui.h:3
+#| msgid "Top to Bottom"
+msgid "Lower to _Bottom"
+msgstr "De arri_ba a abajo"
+
+#: ../data/ui/editor-window.ui.h:4
+msgid "Media from the _Web"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:5
+#, fuzzy
+#| msgid "Export as PostScript"
+msgid "Post_Script"
+msgstr "Exportar como PostScript"
+
+#: ../data/ui/editor-window.ui.h:6
+#, fuzzy
+#| msgid "Presentation"
+msgid "Present"
+msgstr "Presentación"
+
+#: ../data/ui/editor-window.ui.h:7
+msgid "Raise to _Top"
+msgstr "Elevar a la ci_ma"
+
+#: ../data/ui/editor-window.ui.h:8
+msgid "Redo"
+msgstr "Rehacer"
+
+#: ../data/ui/editor-window.ui.h:9
+msgid "Remove Slide"
+msgstr "Quitar diapositiva"
+
+#: ../data/ui/editor-window.ui.h:10
+msgid "Save"
+msgstr "Guardar"
+
+#: ../data/ui/editor-window.ui.h:11
+msgid "Save a _Copy"
+msgstr "Guardar una _copia"
+
+#: ../data/ui/editor-window.ui.h:12
+msgid "Show Inspector"
+msgstr "Mostrar inspector"
+
+#: ../data/ui/editor-window.ui.h:13
+#, fuzzy
+#| msgid "Slide Contents"
+msgid "Slide Sorter"
+msgstr "Contenido de las diapositivas"
+
+#: ../data/ui/editor-window.ui.h:14
+msgid "Undo"
+msgstr "Deshacer"
+
+#: ../data/ui/editor-window.ui.h:15
+msgid "Zoom to _Fit"
+msgstr "Ampliar _hasta ajustar"
+
+#: ../data/ui/editor-window.ui.h:16
+msgid "_Edit"
+msgstr "_Editar"
+
+#: ../data/ui/editor-window.ui.h:17
+#, fuzzy
+#| msgid "Ease Presentation"
+msgid "_Export Presentation"
+msgstr "Presentación Ease"
+
+#: ../data/ui/editor-window.ui.h:18
+msgid "_File"
+msgstr "_Archivo"
+
+#: ../data/ui/editor-window.ui.h:19
+msgid "_HTML"
+msgstr "_HTML"
+
+#: ../data/ui/editor-window.ui.h:20
+msgid "_Help"
+msgstr "Ay_uda"
+
+#: ../data/ui/editor-window.ui.h:21
+#, fuzzy
+#| msgid "Image"
+msgid "_Image"
+msgstr "Imagen"
+
+#: ../data/ui/editor-window.ui.h:22 ../data/ui/import-widget.ui.h:2
+#, fuzzy
+#| msgid "Insert Image"
+msgid "_Insert"
+msgstr "Insertar imagen"
+
+#: ../data/ui/editor-window.ui.h:23
+msgid "_Lower"
+msgstr "I_nferior"
+
+#: ../data/ui/editor-window.ui.h:24 ../data/ui/inspector-element-shape.ui.h:1
+msgid "_Oval"
+msgstr "Ó_valo"
+
+#: ../data/ui/editor-window.ui.h:25
+msgid "_PDF"
+msgstr "_PDF"
+
+#: ../data/ui/editor-window.ui.h:26
+#| msgid "PDF Documents"
+msgid "_PDF Document"
+msgstr "Documento _PDF"
+
+#: ../data/ui/editor-window.ui.h:27
+msgid "_Raise"
+msgstr "S_ubir"
+
+#: ../data/ui/editor-window.ui.h:28 ../data/ui/inspector-element-shape.ui.h:2
+msgid "_Rectangle"
+msgstr "_Rectángulo"
+
+#: ../data/ui/editor-window.ui.h:29
+msgid "_Text"
+msgstr "_Texto"
+
+#: ../data/ui/editor-window.ui.h:30
+msgid "_Video"
+msgstr "_Vídeo"
+
+#: ../data/ui/editor-window.ui.h:31
+msgid "_View"
+msgstr "_Ver"
+
+#: ../data/ui/import-widget.ui.h:1
+msgid "No Results Found"
+msgstr "No se encontró ningún resultado"
+
+#: ../data/ui/inspector-element-image.ui.h:1
+#, fuzzy
+#| msgid "Select Background Image"
+msgid "Select Image"
+msgstr "Seleccionar la imagen de fondo"
+
+#: ../data/ui/inspector-element-none.ui.h:1
+msgid "Nothing is selected"
+msgstr "No hay nada seleccionado."
+
+#: ../data/ui/inspector-element-pdf.ui.h:1
+msgid "Allow page change"
+msgstr "Permitir cambiar de página"
+
+#: ../data/ui/inspector-element-pdf.ui.h:2
+msgid "Displayed Page"
+msgstr "Página mostrada"
+
+#: ../data/ui/inspector-element-video.ui.h:1
+msgid "When video playback ends:"
+msgstr "Cuando termina la reproducción del vídeo:"
+
+#: ../data/ui/inspector-element-video.ui.h:2
+#, fuzzy
+#| msgid "Automatically"
+msgid "_Automatically start playback"
+msgstr "Automáticamente"
+
+#: ../data/ui/inspector-element-video.ui.h:3
+#, fuzzy
+#| msgid "_Title slide"
+msgid "_Fill Slide"
+msgstr "Diapositiva de _título"
+
+#: ../data/ui/inspector-element-video.ui.h:4
+msgid "_Mute Audio"
+msgstr "_Silenciar sonido"
+
+#: ../data/ui/welcome-window.ui.h:1
+#, fuzzy
+#| msgid "New Presentation"
+msgid "_New presentation"
+msgstr "Presentación nueva"
+
 #~ msgid "Open File"
 #~ msgstr "Abrir archivo"
 
 #~ msgid "Error loading background: %s"
 #~ msgstr "Error al cargar en segundo plano: %s"
 
-#~ msgid "New Presentation"
-#~ msgstr "Presentación nueva"
-
 #~ msgid "New"
 #~ msgstr "Nueva"
-
-#~ msgid "Presentation"
-#~ msgstr "Presentación"
 
 #~ msgid "Theme"
 #~ msgstr "Tema"
