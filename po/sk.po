@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ease\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=ease&component=general\n"
-"POT-Creation-Date: 2010-11-27 10:32+0000\n"
-"PO-Revision-Date: 2011-01-17 15:59+0100\n"
+"product=ease&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2011-03-29 06:37+0000\n"
+"PO-Revision-Date: 2011-07-26 11:49+0200\n"
 "Last-Translator: Jaroslav Ryník <jrynik@yahoo.co.uk>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -35,15 +35,15 @@ msgstr "Ukladá sa „%s“"
 msgid "Temporary directory doesn't exist: %s"
 msgstr "Dočasný priečinok neexistuje: %s"
 
-#: ../ease-core/ease-background.vala:241
+#: ../ease-core/ease-background.vala:242
 msgid "Solid Color"
 msgstr "Plná farba"
 
-#: ../ease-core/ease-background.vala:242
+#: ../ease-core/ease-background.vala:243
 msgid "Gradient"
 msgstr "Farebný prechod"
 
-#: ../ease-core/ease-background.vala:243
+#: ../ease-core/ease-background.vala:244
 msgid "Image"
 msgstr "Obrázok"
 
@@ -69,21 +69,22 @@ msgstr "Všetky súbory"
 msgid ""
 "The specified filename does not end with a \".ease\" extension. Would you "
 "like to append one?"
-msgstr ""
+msgstr "Uvedený názov súboru nekončí príponou \".ease\". Chcete ju pridať?"
 
 #: ../ease-core/ease-dialogs.vala:25
 msgid "Append .ease?"
-msgstr ""
+msgstr "Pridať .ease?"
 
+# JR: súvisí s This file already exists in the directory... Overwriting it...
 #: ../ease-core/ease-dialogs.vala:27
 #, c-format
 msgid "Replace %s?"
-msgstr ""
+msgstr "Nahradiť %s?"
 
 #: ../ease-core/ease-dialogs.vala:29
 #, c-format
 msgid "A file named %s already exists. Do you want to replace it?"
-msgstr ""
+msgstr "Súbor s názvom %s už existuje. Chcete ho nahradiť?"
 
 #: ../ease-core/ease-dialogs.vala:31
 #, c-format
@@ -91,6 +92,7 @@ msgid ""
 "This file already exists in the directory \"%s\". Overwriting it will "
 "replace its contents."
 msgstr ""
+"Tento súbor už v priečinku \"%s\" existuje. Prepísanie zmení jeho obsah."
 
 #: ../ease-core/ease-dialogs.vala:183
 msgid "Open Document"
@@ -102,21 +104,21 @@ msgstr "Prezentácie Ease"
 
 #: ../ease-core/ease-dialogs.vala:290
 msgid "Don't append .ease"
-msgstr ""
+msgstr "Nepridať .ease"
 
 #: ../ease-core/ease-dialogs.vala:294
 msgid "Append .ease"
-msgstr ""
+msgstr "Pridať .ease"
 
 #: ../ease-core/ease-dialogs.vala:327
 #, c-format
 msgid "Don't overwrite %s"
-msgstr ""
+msgstr "Neprepísať %s"
 
 #: ../ease-core/ease-dialogs.vala:331
 #, c-format
 msgid "Overwrite %s"
-msgstr ""
+msgstr "Prepísať %s"
 
 #. *
 #. * Default slide title.
@@ -185,28 +187,27 @@ msgstr "Chyba pri kopírovaní súboru"
 #: ../ease-core/ease-image-actor.vala:47
 #, c-format
 msgid "Error loading ImageActor: %s\n"
-msgstr "Chyba pri spúšťaní modulu na úpravu obrázkov: %s\n"
+msgstr "Chyba pri spúšťaní ImageActora: %s\n"
 
-#: ../ease-core/ease-image-element.vala:99 ../ease/ease-editor-window.vala:516
+#: ../ease-core/ease-image-element.vala:86 ../ease/ease-editor-window.vala:516
 msgid "Error Inserting Image"
 msgstr "Chyba pri vkladaní obrázka"
 
-#: ../ease-core/ease-image.vala:146
+#: ../ease-core/ease-image.vala:217
 msgid "Stretch"
 msgstr "Roztiahnuť"
 
-#: ../ease-core/ease-image.vala:147
+#: ../ease-core/ease-image.vala:218
 msgid "Maintain Aspect Ratio"
 msgstr "Zachovať pomer strán"
 
-#: ../ease-core/ease-image.vala:148
+#: ../ease-core/ease-image.vala:219
 msgid "Do not Scale"
 msgstr "Nemeniť mierku"
 
-# PŠ predložka "pre" je nesprávne použitá; so správnou (na) to ale znie divne - preformulovať
 #: ../ease-core/ease-text-element.vala:25
 msgid "Double click to edit"
-msgstr "Pre úpravy dvakrát kliknite"
+msgstr "Ak chcete upravovať, dvakrát kliknite"
 
 #: ../ease-core/ease-theme.vala:291
 #, c-format
@@ -440,15 +441,15 @@ msgstr "Priečinok, ktorý chcete vymazať, neexistuje: %s"
 msgid "Your browser does not support the video tag"
 msgstr "Váš prehliadač nepodporuje túto značku pre video"
 
-#: ../ease-core/ease-video-element.vala:261
+#: ../ease-core/ease-video-element.vala:262
 msgid "Stop playback"
 msgstr "Zastaviť opakované prehrávanie"
 
-#: ../ease-core/ease-video-element.vala:262
+#: ../ease-core/ease-video-element.vala:263
 msgid "Loop"
 msgstr "Slučka"
 
-#: ../ease-core/ease-video-element.vala:263
+#: ../ease-core/ease-video-element.vala:264
 msgid "Continue to next slide"
 msgstr "Pokračovať na ďalšiu snímku"
 
@@ -460,7 +461,9 @@ msgstr "Aplikácia na tvorbu prezentácií pre pracovné prostredie GNOME"
 # PŠ to je chyba gettextu, mal tam byť celý zoznam - potom treba seba pridať, nie niekoho vyhodiť...
 #: ../ease/ease-about-dialog.vala:67
 msgid "Mario Blättermann <mariobl@gnome.org>"
-msgstr "Jaroslav Ryník <jrynik@yahoo.co.uk>"
+msgstr ""
+"Mario Blättermann <mariobl@gnome.org>\n"
+"Jaroslav Ryník <jrynik@yahoo.co.uk>"
 
 #: ../ease/ease-close-confirm-dialog.vala:58
 msgid "Save before closing?"
@@ -472,6 +475,8 @@ msgid "Close _without Saving"
 msgstr "Zatvoriť _bez uloženia"
 
 # PŠ originál neobsahuje "súbor"
+# JR  no neviem, v slovenčine mi to znie čudne, keď pri slovese  pred čiarkou nie je žiadne slovo. Ono sa viaže s predmetom,  to anglické v tomto význame predmet mať môže, ale nemusí
+# PŠ išlo mi hlavne o to, či to je presné - či sa naozaj jedná o súbor (a či je jeden)
 #: ../ease/ease-close-confirm-dialog.vala:135
 #, c-format
 msgid ""
@@ -479,20 +484,23 @@ msgid ""
 msgid_plural ""
 "If you don't save, changes from the last %i seconds will be permanently lost."
 msgstr[0] ""
-"Ak súbor neuložíte, zmeny vykonané za posledných %i sekúnd sa navždy stratia."
+"Ak neuložíte, zmeny vykonané za posledných %i sekúnd sa navždy stratia."
 msgstr[1] ""
-"Ak súbor neuložíte, zmeny vykonané za poslednú %i sekundu sa navždy stratia."
+"Ak neuložíte, zmeny vykonané za poslednú %i sekundu sa navždy stratia."
 msgstr[2] ""
-"Ak súbor neuložíte, zmeny vykonané za posledné %i sekundy sa navždy stratia."
+"Ak neuložíte, zmeny vykonané za posledné %i sekundy sa navždy stratia."
 
 # PŠ originál neobsahuje "súbor"
+# JR no neviem, v slovenčine mi to znie čudne, keď pri slovese  pred čiarkou nie je žiadne slovo. Ono sa viaže s predmetom,  to anglické v tomto význame predmet mať môže, ale nemusí
+# PŠ išlo mi hlavne o to, či to je presné - či sa naozaj jedná o súbor (a či je jeden)
 #: ../ease/ease-close-confirm-dialog.vala:139
 msgid ""
 "If you don't save, changes from the last minute will be permanently lost."
-msgstr ""
-"Ak súbor neuložíte, zmeny vykonané za poslednú minútu sa navždy stratia."
+msgstr "Ak neuložíte, zmeny vykonané za poslednú minútu sa navždy stratia."
 
 # PŠ originál neobsahuje "súbor"
+# JR no neviem, v slovenčine mi to znie čudne, keď pri slovese  pred čiarkou nie je žiadne slovo. Ono sa viaže s predmetom,  to anglické v tomto význame predmet mať môže, ale nemusí
+# PŠ išlo mi hlavne o to, či to je presné - či sa naozaj jedná o súbor (a či je jeden)
 #: ../ease/ease-close-confirm-dialog.vala:143
 #, c-format
 msgid ""
@@ -502,16 +510,18 @@ msgid_plural ""
 "If you don't save, changes from the last minute and %i seconds will be "
 "permanently lost."
 msgstr[0] ""
-"Ak súbor neuložíte, zmeny vykonané za poslednú minútu a %i sekúnd sa navždy "
+"Ak neuložíte, zmeny vykonané za poslednú minútu a %i sekúnd sa navždy "
 "stratia."
 msgstr[1] ""
-"Ak súbor neuložíte, zmeny vykonané za poslednú minútu a %i sekundu sa navždy "
+"Ak neuložíte, zmeny vykonané za poslednú minútu a %i sekundu sa navždy "
 "stratia."
 msgstr[2] ""
-"Ak súbor neuložíte, zmeny vykonané za poslednú minútu a %i sekundy sa navždy "
+"Ak neuložíte, zmeny vykonané za poslednú minútu a %i sekundy sa navždy "
 "stratia."
 
 # PŠ originál neobsahuje "súbor"
+# JR no neviem, v slovenčine mi to znie čudne, keď pri slovese  pred čiarkou nie je žiadne slovo. Ono sa viaže s predmetom,  to anglické v tomto význame predmet mať môže, ale nemusí
+# PŠ išlo mi hlavne o to, či to je presné - či sa naozaj jedná o súbor (a či je jeden)
 #: ../ease/ease-close-confirm-dialog.vala:147
 #, c-format
 msgid ""
@@ -519,19 +529,22 @@ msgid ""
 msgid_plural ""
 "If you don't save, changes from the last %i minutes will be permanently lost."
 msgstr[0] ""
-"Ak súbor neuložíte, zmeny vykonané za posledných %i minút sa navždy stratia."
+"Ak neuložíte, zmeny vykonané za posledných %i minút sa navždy stratia."
 msgstr[1] ""
-"Ak súbor neuložíte, zmeny vykonané za poslednú %i minútu sa navždy stratia."
+"Ak neuložíte, zmeny vykonané za poslednú %i minútu sa navždy stratia."
 msgstr[2] ""
-"Ak súbor neuložíte, zmeny vykonané za posledné %i minúty sa navždy stratia."
+"Ak neuložíte, zmeny vykonané za posledné %i minúty sa navždy stratia."
 
 # PŠ originál neobsahuje "súbor"
+# JR no neviem, v slovenčine mi to znie čudne, keď pri slovese  pred čiarkou nie je žiadne slovo. Ono sa viaže s predmetom,  to anglické v tomto význame predmet mať môže, ale nemusí
+# PŠ išlo mi hlavne o to, či to je presné - či sa naozaj jedná o súbor (a či je jeden)
 #: ../ease/ease-close-confirm-dialog.vala:154
 msgid "If you don't save, changes from the last hour will be permanently lost."
-msgstr ""
-"Ak súbor neuložíte, zmeny vykonané za poslednú hodinu sa navždy stratia."
+msgstr "Ak neuložíte, zmeny vykonané za poslednú hodinu sa navždy stratia."
 
 # PŠ originál neobsahuje "súbor"
+# JR no neviem, v slovenčine mi to znie čudne, keď pri slovese  pred čiarkou nie je žiadne slovo. Ono sa viaže s predmetom,  to anglické v tomto význame predmet mať môže, ale nemusí
+# PŠ išlo mi hlavne o to, či to je presné - či sa naozaj jedná o súbor (a či je jeden)
 #: ../ease/ease-close-confirm-dialog.vala:156
 #, c-format
 msgid ""
@@ -541,16 +554,17 @@ msgid_plural ""
 "If you don't save, changes from the last hour and %i minutes will be "
 "permanently lost."
 msgstr[0] ""
-"Ak súbor neuložíte, zmeny vykonané za poslednú hodinu a %i minút sa navždy "
-"stratia."
+"Ak neuložíte, zmeny vykonané za poslednú hodinu a %i minút sa navždy stratia."
 msgstr[1] ""
-"Ak súbor neuložíte, zmeny vykonané za poslednú hodinu a %i minútu sa navždy "
+"Ak neuložíte, zmeny vykonané za poslednú hodinu a %i minútu sa navždy "
 "stratia."
 msgstr[2] ""
-"Ak súbor neuložíte, zmeny vykonané za poslednú hodinu a %i minúty sa navždy "
+"Ak neuložíte, zmeny vykonané za poslednú hodinu a %i minúty sa navždy "
 "stratia."
 
 # PŠ originál neobsahuje "súbor"
+# JR no neviem, v slovenčine mi to znie čudne, keď pri slovese  pred čiarkou nie je žiadne slovo. Ono sa viaže s predmetom,  to anglické v tomto význame predmet mať môže, ale nemusí
+# PŠ išlo mi hlavne o to, či to je presné - či sa naozaj jedná o súbor (a či je jeden)
 #: ../ease/ease-close-confirm-dialog.vala:160
 #, c-format
 msgid ""
@@ -558,11 +572,11 @@ msgid ""
 msgid_plural ""
 "If you don't save, changes from the last %i hours will be permanently lost."
 msgstr[0] ""
-"Ak súbor neuložíte, zmeny vykonané za posledných %i hodín sa navždy stratia."
+"Ak neuložíte, zmeny vykonané za posledných %i hodín sa navždy stratia."
 msgstr[1] ""
-"Ak súbor neuložíte, zmeny vykonané za poslednú %i hodinu sa navždy stratia."
+"Ak neuložíte, zmeny vykonané za poslednú %i hodinu sa navždy stratia."
 msgstr[2] ""
-"Ak súbor neuložíte, zmeny vykonané za posledné %i hodiny sa navždy stratia."
+"Ak neuložíte, zmeny vykonané za posledné %i hodiny sa navždy stratia."
 
 #: ../ease/ease-close-confirm-dialog.vala:171
 #, c-format
@@ -633,14 +647,15 @@ msgstr "Importovať multimédiá"
 msgid "Downloading Media Files"
 msgstr "Sťahujú sa multimediálne súbory"
 
+# http://creativecommons.org/licenses/
 #. create checkboxes to filter CC licenses
 #: ../ease/ease-import-flickr-service.vala:80
 msgid "Share Alike"
-msgstr ""
+msgstr "Licencie Share Alike"
 
 #: ../ease/ease-import-flickr-service.vala:82
 msgid "For Commercial Use"
-msgstr ""
+msgstr "Na komerčné použitie"
 
 #: ../ease/ease-inspector-transition-pane.vala:73
 msgid "Effect"
@@ -710,12 +725,238 @@ msgstr "Chyba pri vytváraní ukážky: %s"
 msgid "Pick a theme and start editing"
 msgstr "Vyberte si farebný motív a začnite s úpravami"
 
-# PŠ rod je správny? Čoho sa toto týka?
+# Je to farebný motív
 #: ../ease/ease-welcome-window.vala:121
 msgid "Custom"
-msgstr "Vlastná"
+msgstr "Vlastný"
 
 #: ../ease/ease-welcome-window.vala:123
 #, c-format
 msgid "%i by %i"
 msgstr "%i x %i"
+
+#: ../data/ui/background.ui.h:1
+msgid "Background Color"
+msgstr ""
+
+#: ../data/ui/background.ui.h:2
+#, fuzzy
+#| msgid "Select Background Image"
+msgid "Background Gradient"
+msgstr "Vybrať obrázok pozadia"
+
+#: ../data/ui/background.ui.h:3
+#, fuzzy
+#| msgid "Select Background Image"
+msgid "Background Image"
+msgstr "Vybrať obrázok pozadia"
+
+#: ../data/ui/background.ui.h:4
+#, fuzzy
+#| msgid "Select Background Image"
+msgid "Background Style"
+msgstr "Vybrať obrázok pozadia"
+
+#: ../data/ui/background.ui.h:5
+msgid "Fill Mode"
+msgstr ""
+
+#: ../data/ui/background.ui.h:6
+#, fuzzy
+#| msgid "Gradient"
+msgid "Gradient Angle"
+msgstr "Farebný prechod"
+
+#: ../data/ui/background.ui.h:7
+#, fuzzy
+#| msgid "Gradient"
+msgid "Reverse Gradient"
+msgstr "Farebný prechod"
+
+#: ../data/ui/editor-window.ui.h:1
+#, fuzzy
+#| msgid "Slide"
+msgid "Add Slide"
+msgstr "Zasunúť"
+
+#: ../data/ui/editor-window.ui.h:2
+msgid "Editor"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:3
+#, fuzzy
+#| msgid "Top to Bottom"
+msgid "Lower to _Bottom"
+msgstr "Zhora dole"
+
+#: ../data/ui/editor-window.ui.h:4
+msgid "Media from the _Web"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:5
+#, fuzzy
+#| msgid "Export as PostScript"
+msgid "Post_Script"
+msgstr "Exportovať ako PostScript"
+
+#: ../data/ui/editor-window.ui.h:6
+msgid "Present"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:7
+msgid "Raise to _Top"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:8
+msgid "Redo"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:9
+msgid "Remove Slide"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:10
+msgid "Save"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:11
+msgid "Save a _Copy"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:12
+msgid "Show Inspector"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:13
+#, fuzzy
+#| msgid "Slide Contents"
+msgid "Slide Sorter"
+msgstr "Obsah snímky"
+
+#: ../data/ui/editor-window.ui.h:14
+msgid "Undo"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:15
+msgid "Zoom to _Fit"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:16
+msgid "_Edit"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:17
+#, fuzzy
+#| msgid "Ease Presentation"
+msgid "_Export Presentation"
+msgstr "Prezentácia Ease"
+
+#: ../data/ui/editor-window.ui.h:18
+msgid "_File"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:19
+msgid "_HTML"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:20
+msgid "_Help"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:21
+#, fuzzy
+#| msgid "Image"
+msgid "_Image"
+msgstr "Obrázok"
+
+#: ../data/ui/editor-window.ui.h:22 ../data/ui/import-widget.ui.h:2
+#, fuzzy
+#| msgid "Insert Image"
+msgid "_Insert"
+msgstr "Vložiť obrázok"
+
+#: ../data/ui/editor-window.ui.h:23
+msgid "_Lower"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:24 ../data/ui/inspector-element-shape.ui.h:1
+msgid "_Oval"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:25
+msgid "_PDF"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:26
+#, fuzzy
+#| msgid "PDF Documents"
+msgid "_PDF Document"
+msgstr "Dokumenty PDF"
+
+#: ../data/ui/editor-window.ui.h:27
+msgid "_Raise"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:28 ../data/ui/inspector-element-shape.ui.h:2
+msgid "_Rectangle"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:29
+msgid "_Text"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:30
+msgid "_Video"
+msgstr ""
+
+#: ../data/ui/editor-window.ui.h:31
+msgid "_View"
+msgstr ""
+
+#: ../data/ui/import-widget.ui.h:1
+msgid "No Results Found"
+msgstr ""
+
+#: ../data/ui/inspector-element-image.ui.h:1
+#, fuzzy
+#| msgid "Select Background Image"
+msgid "Select Image"
+msgstr "Vybrať obrázok pozadia"
+
+#: ../data/ui/inspector-element-none.ui.h:1
+msgid "Nothing is selected"
+msgstr ""
+
+#: ../data/ui/inspector-element-pdf.ui.h:1
+msgid "Allow page change"
+msgstr ""
+
+#: ../data/ui/inspector-element-pdf.ui.h:2
+msgid "Displayed Page"
+msgstr ""
+
+#: ../data/ui/inspector-element-video.ui.h:1
+msgid "When video playback ends:"
+msgstr ""
+
+#: ../data/ui/inspector-element-video.ui.h:2
+#, fuzzy
+#| msgid "Automatically"
+msgid "_Automatically start playback"
+msgstr "Automaticky"
+
+#: ../data/ui/inspector-element-video.ui.h:3
+#, fuzzy
+#| msgid "_Title slide"
+msgid "_Fill Slide"
+msgstr "_Titulná snímka"
+
+#: ../data/ui/inspector-element-video.ui.h:4
+msgid "_Mute Audio"
+msgstr ""
+
+#: ../data/ui/welcome-window.ui.h:1
+#, fuzzy
+#| msgid "Ease Presentation"
+msgid "_New presentation"
+msgstr "Prezentácia Ease"
