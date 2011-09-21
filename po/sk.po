@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: ease\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-03-29 06:37+0000\n"
-"PO-Revision-Date: 2011-07-26 11:49+0200\n"
+"POT-Creation-Date: 2011-07-26 09:51+0000\n"
+"PO-Revision-Date: 2011-07-26 20:06+0200\n"
 "Last-Translator: Jaroslav Ryník <jrynik@yahoo.co.uk>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -343,7 +343,7 @@ msgstr "Otočiť obsah"
 
 #: ../ease-core/ease-transitions.vala:254
 msgid "Spring Contents"
-msgstr ""
+msgstr "Vysypať obsah"
 
 #: ../ease-core/ease-transitions.vala:256
 msgid "Swing Contents"
@@ -737,226 +737,192 @@ msgstr "%i x %i"
 
 #: ../data/ui/background.ui.h:1
 msgid "Background Color"
-msgstr ""
+msgstr "Farba pozadia"
 
 #: ../data/ui/background.ui.h:2
-#, fuzzy
-#| msgid "Select Background Image"
 msgid "Background Gradient"
-msgstr "Vybrať obrázok pozadia"
+msgstr "Farebný prechod v pozadí"
 
 #: ../data/ui/background.ui.h:3
-#, fuzzy
-#| msgid "Select Background Image"
 msgid "Background Image"
-msgstr "Vybrať obrázok pozadia"
+msgstr "Obrázok pozadia"
 
 #: ../data/ui/background.ui.h:4
-#, fuzzy
-#| msgid "Select Background Image"
 msgid "Background Style"
-msgstr "Vybrať obrázok pozadia"
+msgstr "Štýl pozadia"
 
 #: ../data/ui/background.ui.h:5
 msgid "Fill Mode"
-msgstr ""
+msgstr "Režim vyfarbovania"
 
 #: ../data/ui/background.ui.h:6
-#, fuzzy
-#| msgid "Gradient"
 msgid "Gradient Angle"
-msgstr "Farebný prechod"
+msgstr "Uhol farebného prechodu"
 
 #: ../data/ui/background.ui.h:7
-#, fuzzy
-#| msgid "Gradient"
 msgid "Reverse Gradient"
-msgstr "Farebný prechod"
+msgstr "Otočiť farebný prechod"
 
 #: ../data/ui/editor-window.ui.h:1
-#, fuzzy
-#| msgid "Slide"
 msgid "Add Slide"
-msgstr "Zasunúť"
+msgstr "Pridať snímku"
 
 #: ../data/ui/editor-window.ui.h:2
 msgid "Editor"
-msgstr ""
+msgstr "Editor"
 
 #: ../data/ui/editor-window.ui.h:3
-#, fuzzy
-#| msgid "Top to Bottom"
 msgid "Lower to _Bottom"
-msgstr "Zhora dole"
+msgstr "Presunúť do po_zadia"
 
 #: ../data/ui/editor-window.ui.h:4
 msgid "Media from the _Web"
-msgstr ""
+msgstr "Multimédiá z _internetu"
 
 #: ../data/ui/editor-window.ui.h:5
-#, fuzzy
-#| msgid "Export as PostScript"
 msgid "Post_Script"
-msgstr "Exportovať ako PostScript"
+msgstr "Post_Script"
 
 #: ../data/ui/editor-window.ui.h:6
 msgid "Present"
-msgstr ""
+msgstr "Prezentovať"
 
 #: ../data/ui/editor-window.ui.h:7
 msgid "Raise to _Top"
-msgstr ""
+msgstr "Presunúť do pop_redia"
 
 #: ../data/ui/editor-window.ui.h:8
 msgid "Redo"
-msgstr ""
+msgstr "Opakovať vrátené"
 
 #: ../data/ui/editor-window.ui.h:9
 msgid "Remove Slide"
-msgstr ""
+msgstr "Odstrániť snímku"
 
 #: ../data/ui/editor-window.ui.h:10
 msgid "Save"
-msgstr ""
+msgstr "Uložiť"
 
 #: ../data/ui/editor-window.ui.h:11
 msgid "Save a _Copy"
-msgstr ""
+msgstr "Uložiť _kópiu"
 
 #: ../data/ui/editor-window.ui.h:12
 msgid "Show Inspector"
-msgstr ""
+msgstr "Zobraziť Inšpektora"
 
 #: ../data/ui/editor-window.ui.h:13
-#, fuzzy
-#| msgid "Slide Contents"
 msgid "Slide Sorter"
-msgstr "Obsah snímky"
+msgstr "Filter snímok"
 
 #: ../data/ui/editor-window.ui.h:14
 msgid "Undo"
-msgstr ""
+msgstr "Vrátiť späť"
 
 #: ../data/ui/editor-window.ui.h:15
 msgid "Zoom to _Fit"
-msgstr ""
+msgstr "_Prispôsobiť priblíženie"
 
 #: ../data/ui/editor-window.ui.h:16
 msgid "_Edit"
-msgstr ""
+msgstr "_Upraviť"
 
 #: ../data/ui/editor-window.ui.h:17
-#, fuzzy
-#| msgid "Ease Presentation"
 msgid "_Export Presentation"
-msgstr "Prezentácia Ease"
+msgstr "_Exportovať prezentáciu"
 
 #: ../data/ui/editor-window.ui.h:18
 msgid "_File"
-msgstr ""
+msgstr "_Súbor"
 
 #: ../data/ui/editor-window.ui.h:19
 msgid "_HTML"
-msgstr ""
+msgstr "_HTML"
 
 #: ../data/ui/editor-window.ui.h:20
 msgid "_Help"
-msgstr ""
+msgstr "_Pomocník"
 
 #: ../data/ui/editor-window.ui.h:21
-#, fuzzy
-#| msgid "Image"
 msgid "_Image"
-msgstr "Obrázok"
+msgstr "_Obrázok"
 
 #: ../data/ui/editor-window.ui.h:22 ../data/ui/import-widget.ui.h:2
-#, fuzzy
-#| msgid "Insert Image"
 msgid "_Insert"
-msgstr "Vložiť obrázok"
+msgstr "_Vložiť"
 
 #: ../data/ui/editor-window.ui.h:23
 msgid "_Lower"
-msgstr ""
+msgstr "_Presunúť do pozadia"
 
 #: ../data/ui/editor-window.ui.h:24 ../data/ui/inspector-element-shape.ui.h:1
 msgid "_Oval"
-msgstr ""
+msgstr "_Ovál"
 
 #: ../data/ui/editor-window.ui.h:25
 msgid "_PDF"
-msgstr ""
+msgstr "_PDF"
 
 #: ../data/ui/editor-window.ui.h:26
-#, fuzzy
-#| msgid "PDF Documents"
 msgid "_PDF Document"
-msgstr "Dokumenty PDF"
+msgstr "_Dokument PDF"
 
 #: ../data/ui/editor-window.ui.h:27
 msgid "_Raise"
-msgstr ""
+msgstr "Vyz_dvihnúť"
 
 #: ../data/ui/editor-window.ui.h:28 ../data/ui/inspector-element-shape.ui.h:2
 msgid "_Rectangle"
-msgstr ""
+msgstr "_Obdĺžnik"
 
 #: ../data/ui/editor-window.ui.h:29
 msgid "_Text"
-msgstr ""
+msgstr "_Text"
 
 #: ../data/ui/editor-window.ui.h:30
 msgid "_Video"
-msgstr ""
+msgstr "_Video"
 
 #: ../data/ui/editor-window.ui.h:31
 msgid "_View"
-msgstr ""
+msgstr "_Zobraziť"
 
 #: ../data/ui/import-widget.ui.h:1
 msgid "No Results Found"
-msgstr ""
+msgstr "Žiadne výsledky sa nenašli"
 
 #: ../data/ui/inspector-element-image.ui.h:1
-#, fuzzy
-#| msgid "Select Background Image"
 msgid "Select Image"
-msgstr "Vybrať obrázok pozadia"
+msgstr "Vybrať obrázok"
 
 #: ../data/ui/inspector-element-none.ui.h:1
 msgid "Nothing is selected"
-msgstr ""
+msgstr "Nič nie je vybrané"
 
 #: ../data/ui/inspector-element-pdf.ui.h:1
 msgid "Allow page change"
-msgstr ""
+msgstr "Povoliť zmenu stránky"
 
 #: ../data/ui/inspector-element-pdf.ui.h:2
 msgid "Displayed Page"
-msgstr ""
+msgstr "Zobrazovaná stránka"
 
 #: ../data/ui/inspector-element-video.ui.h:1
 msgid "When video playback ends:"
-msgstr ""
+msgstr "Keď prehrávanie videa skončí:"
 
 #: ../data/ui/inspector-element-video.ui.h:2
-#, fuzzy
-#| msgid "Automatically"
 msgid "_Automatically start playback"
-msgstr "Automaticky"
+msgstr "_Automaticky začať prehrávanie"
 
 #: ../data/ui/inspector-element-video.ui.h:3
-#, fuzzy
-#| msgid "_Title slide"
 msgid "_Fill Slide"
-msgstr "_Titulná snímka"
+msgstr "_Vyfarbiť snímku"
 
 #: ../data/ui/inspector-element-video.ui.h:4
 msgid "_Mute Audio"
-msgstr ""
+msgstr "_Stíšiť zvuk"
 
 #: ../data/ui/welcome-window.ui.h:1
-#, fuzzy
-#| msgid "Ease Presentation"
 msgid "_New presentation"
-msgstr "Prezentácia Ease"
+msgstr "_Nová prezentácia"
