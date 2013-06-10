@@ -1,0 +1,893 @@
+# Greek translation for ease.
+# Copyright (C) 2013 ease's COPYRIGHT HOLDER
+# This file is distributed under the same license as the ease package.
+# Dimitris Spingos <dmtrs32@gmail.com>, 2013.
+# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ease master\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=ease&"
+"keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-11-28 04:11+0000\n"
+"PO-Revision-Date: 2013-06-10 17:33+0300\n"
+"Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
+"Language-Team: team@gnome.gr\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: gnome\n"
+
+#: ../data/ease.desktop.in.h:1 ../data/ease.desktop.in.in.h:1
+msgid "Ease Presentation Editor"
+msgstr "Επεξεργαστής παρουσίασης Ease"
+
+#: ../data/ease.desktop.in.h:2 ../data/ease.desktop.in.in.h:2
+msgid "Create nice and elegant presentations"
+msgstr "Δημιουργία ωραίων και κομψών παρουσιάσεων"
+
+#: ../ease-core/ease-archiver.vala:29
+#, c-format
+msgid "Saving \"%s\""
+msgstr "Αποθήκευση \"%s\""
+
+#: ../ease-core/ease-archiver.vala:98
+#, c-format
+msgid "Temporary directory doesn't exist: %s"
+msgstr "Ο προσωρινός κατάλογος δεν υπάρχει: %s"
+
+#: ../ease-core/ease-background.vala:242
+msgid "Solid Color"
+msgstr "Συμπαγές χρώμα"
+
+#: ../ease-core/ease-background.vala:243
+msgid "Gradient"
+msgstr "Διαβάθμιση"
+
+#: ../ease-core/ease-background.vala:244
+msgid "Image"
+msgstr "Εικόνα"
+
+#: ../ease-core/ease-background-widget.vala:24
+msgid "Select Background Image"
+msgstr "Επιλογή εικόνας παρασκηνίου"
+
+#: ../ease-core/ease-background-widget.vala:188
+#: ../ease-core/ease-background-widget.vala:238
+#: ../ease/ease-editor-window.vala:459 ../ease/ease-import-dialog.vala:33
+msgid "Images"
+msgstr "Εικόνες"
+
+#: ../ease-core/ease-background-widget.vala:193
+#: ../ease-core/ease-background-widget.vala:243
+#: ../ease-core/ease-dialogs.vala:192 ../ease-core/ease-dialogs.vala:268
+#: ../ease/ease-editor-window.vala:464 ../ease/ease-editor-window.vala:567
+msgid "All Files"
+msgstr "Όλα τα αρχεία"
+
+#: ../ease-core/ease-dialogs.vala:24
+msgid ""
+"The specified filename does not end with a \".ease\" extension. Would you "
+"like to append one?"
+msgstr ""
+"Το συγκεκριμένο όνομα αρχείου δεν τελειώνει με επέκταση \".ease\". Θα θέλατε "
+"να προσαρτήσετε μία;"
+
+#: ../ease-core/ease-dialogs.vala:25
+msgid "Append .ease?"
+msgstr "Προσάρτηση .ease;"
+
+#: ../ease-core/ease-dialogs.vala:27
+#, c-format
+msgid "Replace %s?"
+msgstr "Αντικατάσταση %s;"
+
+#: ../ease-core/ease-dialogs.vala:29
+#, c-format
+msgid "A file named %s already exists. Do you want to replace it?"
+msgstr "Ένα αρχείο με όνομα %s υπάρχει ήδη. Θέλετε να το αντικαταστήσετε;"
+
+#: ../ease-core/ease-dialogs.vala:31
+#, c-format
+msgid ""
+"This file already exists in the directory \"%s\". Overwriting it will "
+"replace its contents."
+msgstr ""
+"Αυτό το αρχείο υπάρχει ήδη στον κατάλογο \"%s\". Η αντικατάσταση του θα "
+"αντικαταστήσει τα περιεχόμενά του."
+
+#: ../ease-core/ease-dialogs.vala:183
+msgid "Open Document"
+msgstr "Άνοιγμα εγγράφου"
+
+#: ../ease-core/ease-dialogs.vala:187 ../ease-core/ease-dialogs.vala:263
+msgid "Ease Presentations"
+msgstr "Παρουσιάσεις Ease"
+
+#: ../ease-core/ease-dialogs.vala:290
+msgid "Don't append .ease"
+msgstr "Μην προσαρτάτε .ease"
+
+#: ../ease-core/ease-dialogs.vala:294
+msgid "Append .ease"
+msgstr "Προσάρτηση .ease"
+
+#: ../ease-core/ease-dialogs.vala:327
+#, c-format
+msgid "Don't overwrite %s"
+msgstr "Μην αντικαθιστάτε %s"
+
+#: ../ease-core/ease-dialogs.vala:331
+#, c-format
+msgid "Overwrite %s"
+msgstr "Αντικατάσταση του %s"
+
+#. *
+#. * Default slide title.
+#.
+#: ../ease-core/ease-document.vala:80
+#, c-format
+msgid "Slide %i"
+msgstr "Διαφάνεια %i"
+
+#. archive
+#: ../ease-core/ease-document.vala:278
+msgid "Saving Document"
+msgstr "Αποθήκευση εγγράφου"
+
+#: ../ease-core/ease-document.vala:517
+msgid "Export as PDF"
+msgstr "Εξαγωγή ως PDF"
+
+#: ../ease-core/ease-document.vala:527
+msgid "Error Exporting to PDF"
+msgstr "Σφάλμα κατά την εξαγωγή σε PDF"
+
+#: ../ease-core/ease-document.vala:538
+msgid "Export as PostScript"
+msgstr "Εξαγωγή ως PostScript"
+
+#: ../ease-core/ease-document.vala:548
+msgid "Error Exporting to PostScript"
+msgstr "Σφάλμα κατά την εξαγωγή σε PostScript"
+
+#: ../ease-core/ease-document.vala:595
+msgid "Error exporting as HTML"
+msgstr "Σφάλμα κατά την εξαγωγή ως HTML"
+
+#: ../ease-core/ease-gradient.vala:259
+msgid "Linear"
+msgstr "Γραμμικό"
+
+#: ../ease-core/ease-gradient.vala:260
+msgid "Mirrored Linear"
+msgstr "Κατοπτρικά γραμμικό"
+
+#: ../ease-core/ease-gradient.vala:261
+msgid "Radial"
+msgstr "Ακτινικό"
+
+#: ../ease-core/ease-html-exporter.vala:75
+msgid "Export to HTML"
+msgstr "Εξαγωγή σε HTML"
+
+#: ../ease-core/ease-html-exporter.vala:82
+msgid "Exporting as HTML"
+msgstr "Εξαγωγή ως HTML"
+
+#: ../ease-core/ease-html-exporter.vala:144
+#: ../ease-core/ease-html-exporter.vala:176
+msgid "Error Copying File"
+msgstr "Σφάλμα κατά την αντιγραφή αρχείου"
+
+#: ../ease-core/ease-image-actor.vala:47
+#, c-format
+msgid "Error loading ImageActor: %s\n"
+msgstr "Σφάλμα κατά τη φόρτωση του ImageActor: %s\n"
+
+#: ../ease-core/ease-image-element.vala:86 ../ease/ease-editor-window.vala:516
+msgid "Error Inserting Image"
+msgstr "Σφάλμα κατά την εισαγωγή εικόνας"
+
+#: ../ease-core/ease-image.vala:217
+msgid "Stretch"
+msgstr "Επέκταση"
+
+#: ../ease-core/ease-image.vala:218
+msgid "Maintain Aspect Ratio"
+msgstr "Διατήρηση αναλογίας διαστάσεων"
+
+#: ../ease-core/ease-image.vala:219
+msgid "Do not Scale"
+msgstr "Να μην κλιμακωθεί"
+
+#: ../ease-core/ease-text-element.vala:25
+msgid "Double click to edit"
+msgstr "Διπλό πάτημα για επεξεργασία"
+
+#: ../ease-core/ease-theme.vala:291
+#, c-format
+msgid "Error loading theme: %s"
+msgstr "Σφάλμα κατά τη φόρτωση του θέματος: %s"
+
+#: ../ease-core/ease-theme.vala:445
+#, c-format
+msgid "Invalid master slide title: %s"
+msgstr "Άκυρος ο κύριος τίτλος της διαφάνειας: %s"
+
+#: ../ease-core/ease-theme.vala:472
+#, c-format
+msgid "Not a valid text element type: %s"
+msgstr "Δεν είναι τύπος στοιχείου έγκυρου κειμένου: %s"
+
+#: ../ease-core/ease-theme.vala:526
+#, c-format
+msgid "Could not find property %s on element type %s."
+msgstr "Αδύνατη η εύρεση της ιδιότητας %s στον τύπο στοιχείου %s."
+
+#: ../ease-core/ease-theme.vala:556
+#, c-format
+msgid "Could not find property %s on master type %s."
+msgstr "Αδύνατη η εύρεση της ιδιότητας %s στον κύριο τύπο %s."
+
+#: ../ease-core/ease-theme.vala:584
+msgid "_Title slide"
+msgstr "Διαφάνεια _τίτλου"
+
+#: ../ease-core/ease-theme.vala:586
+msgid "Content slide _without header"
+msgstr "Διαφάνεια περιεχομένου _χωρίς κεφαλίδα"
+
+#: ../ease-core/ease-theme.vala:588
+msgid "_Content slide"
+msgstr "Διαφάνεια _περιεχομένου"
+
+#: ../ease-core/ease-theme.vala:590
+msgid "Two column slide without _header"
+msgstr "Διαφάνεια δύο στηλών χωρίς _κεφαλίδα"
+
+#: ../ease-core/ease-theme.vala:592
+msgid "T_wo column slide with header"
+msgstr "Διαφάνεια _δύο στηλών με κεφαλίδα"
+
+#: ../ease-core/ease-theme.vala:594
+msgid "M_edia slide without header"
+msgstr "Διαφάνεια _μέσου χωρίς κεφαλίδα"
+
+#: ../ease-core/ease-theme.vala:596
+msgid "_Media slide"
+msgstr "Διαφάνεια _μέσου"
+
+#: ../ease-core/ease-theme.vala:598
+msgid "Em_pty Slide"
+msgstr "_Κενή διαφάνεια"
+
+#: ../ease-core/ease-theme.vala:601
+#, c-format
+msgid "%s is not a valid identifier"
+msgstr "Το %s δεν είναι έγκυρος ταυτοποιητής"
+
+#: ../ease-core/ease-transitions.vala:220
+msgid "None"
+msgstr "Κανένα"
+
+#: ../ease-core/ease-transitions.vala:222
+msgid "Fade"
+msgstr "Ξεθώριασμα"
+
+#: ../ease-core/ease-transitions.vala:224
+msgid "Slide"
+msgstr "Διαφάνεια"
+
+#: ../ease-core/ease-transitions.vala:226
+msgid "Drop"
+msgstr "Απόθεση"
+
+#: ../ease-core/ease-transitions.vala:228
+msgid "Pivot"
+msgstr "Περιστροφή"
+
+#: ../ease-core/ease-transitions.vala:230
+msgid "Flip"
+msgstr "Αναστροφή"
+
+#: ../ease-core/ease-transitions.vala:232
+msgid "Revolving Door"
+msgstr "Περιστρεφόμενη θύρα"
+
+#: ../ease-core/ease-transitions.vala:234
+msgid "Reveal"
+msgstr "Εμφάνιση"
+
+#: ../ease-core/ease-transitions.vala:236
+msgid "Fall"
+msgstr "Πτώση"
+
+#: ../ease-core/ease-transitions.vala:238
+msgid "Slats"
+msgstr "Περσίδες"
+
+#: ../ease-core/ease-transitions.vala:240
+msgid "Open Door"
+msgstr "Ανοικτή θύρα"
+
+#: ../ease-core/ease-transitions.vala:242
+msgid "Explode"
+msgstr "Έκρηξη"
+
+#: ../ease-core/ease-transitions.vala:244
+msgid "Assemble"
+msgstr "Συναρμολόγηση"
+
+#: ../ease-core/ease-transitions.vala:246
+msgid "Zoom"
+msgstr "Εστίαση"
+
+#: ../ease-core/ease-transitions.vala:248
+msgid "Panel"
+msgstr "Παράθυρο"
+
+#: ../ease-core/ease-transitions.vala:250
+msgid "Intersperse Contents"
+msgstr "Περιεχόμενα διασποράς"
+
+#: ../ease-core/ease-transitions.vala:252
+msgid "Spin Contents"
+msgstr "Περιεχόμενα περιστροφής"
+
+#: ../ease-core/ease-transitions.vala:254
+msgid "Spring Contents"
+msgstr "Περιεχόμενα αναπήδησης"
+
+#: ../ease-core/ease-transitions.vala:256
+msgid "Swing Contents"
+msgstr "Περιεχόμενα ταλάντωσης"
+
+#: ../ease-core/ease-transitions.vala:258
+msgid "Slide Contents"
+msgstr "Περιεχόμενα διαφάνειας"
+
+#: ../ease-core/ease-transitions.vala:260
+msgid "Zoom Contents"
+msgstr "Περιεχόμενα εστίασης"
+
+#: ../ease-core/ease-transitions.vala:263
+#: ../ease-core/ease-transitions.vala:375
+msgid "Undefined"
+msgstr "Αόριστο"
+
+#: ../ease-core/ease-transitions.vala:340
+msgid "Up"
+msgstr "Επάνω"
+
+#: ../ease-core/ease-transitions.vala:342
+msgid "Down"
+msgstr "Κάτω"
+
+#: ../ease-core/ease-transitions.vala:344
+msgid "Left"
+msgstr "Αριστερά"
+
+#: ../ease-core/ease-transitions.vala:346
+msgid "Right"
+msgstr "Δεξιά"
+
+#: ../ease-core/ease-transitions.vala:348
+msgid "Bottom"
+msgstr "Πυθμένας"
+
+#: ../ease-core/ease-transitions.vala:350
+msgid "Top"
+msgstr "Κορυφή"
+
+#: ../ease-core/ease-transitions.vala:352
+msgid "Center"
+msgstr "Κέντρο"
+
+#: ../ease-core/ease-transitions.vala:354
+msgid "Top Left"
+msgstr "Πάνω αριστερά"
+
+#: ../ease-core/ease-transitions.vala:356
+msgid "Top Right"
+msgstr "Πάνω δεξιά"
+
+#: ../ease-core/ease-transitions.vala:358
+msgid "Bottom Left"
+msgstr "Κάτω αριστερά"
+
+#: ../ease-core/ease-transitions.vala:360
+msgid "Bottom Right"
+msgstr "Κάτω δεξιά"
+
+#: ../ease-core/ease-transitions.vala:362
+msgid "Top to Bottom"
+msgstr "Από πάνω προς τα κάτω"
+
+#: ../ease-core/ease-transitions.vala:364
+msgid "Bottom to Top"
+msgstr "Από κάτω προς τα πάνω"
+
+#: ../ease-core/ease-transitions.vala:366
+msgid "Left to Right"
+msgstr "Από αριστερά προς δεξιά"
+
+#: ../ease-core/ease-transitions.vala:368
+msgid "Right to Left"
+msgstr "Από δεξιά προς τα αριστερά"
+
+#: ../ease-core/ease-transitions.vala:370
+msgid "In"
+msgstr "Μέσα"
+
+#: ../ease-core/ease-transitions.vala:372
+msgid "Out"
+msgstr "Έξω"
+
+#: ../ease-core/ease-utilities.vala:274
+#, c-format
+msgid "Directory to remove doesn't exist: %s"
+msgstr "Ο κατάλογος για αφαίρεση δεν υπάρχει: %s"
+
+#: ../ease-core/ease-video-element.vala:93
+msgid "Your browser does not support the video tag"
+msgstr "Ο περιηγητής σας δεν υποστηρίζει την ετικέτα βίντεο"
+
+#: ../ease-core/ease-video-element.vala:262
+msgid "Stop playback"
+msgstr "Διακοπή αναπαραγωγής"
+
+#: ../ease-core/ease-video-element.vala:263
+msgid "Loop"
+msgstr "Βρόχος"
+
+#: ../ease-core/ease-video-element.vala:264
+msgid "Continue to next slide"
+msgstr "Συνέχεια στην επόμενη διαφάνεια"
+
+#: ../ease/ease-about-dialog.vala:50
+msgid "A presentation application for the GNOME Desktop"
+msgstr "Μια εφαρμογή παρουσίασης για την επιφάνεια εργασίας GNOME"
+
+#: ../ease/ease-about-dialog.vala:67
+msgid "Mario Blättermann <mariobl@gnome.org>"
+msgstr "Mario Blättermann <mariobl@gnome.org>"
+
+#: ../ease/ease-close-confirm-dialog.vala:58
+msgid "Save before closing?"
+msgstr "Αποθήκευση πριν το κλείσιμο;"
+
+#. buttons
+#: ../ease/ease-close-confirm-dialog.vala:98
+msgid "Close _without Saving"
+msgstr "Κλείσιμο _χωρίς αποθήκευση"
+
+#: ../ease/ease-close-confirm-dialog.vala:135
+#, c-format
+msgid ""
+"If you don't save, changes from the last second will be permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last %i seconds will be permanently lost."
+msgstr[0] ""
+"Αν δεν αποθηκεύσετε, οι αλλαγές που έγιναν το τελευταίο δευτερόλεπτο θα "
+"χαθούν οριστικά."
+msgstr[1] ""
+"Αν δεν αποθηκεύσετε, οι αλλαγές που έγιναν τα τελευταία %i δευτερόλεπτα θα "
+"χαθούν οριστικά."
+
+#: ../ease/ease-close-confirm-dialog.vala:139
+msgid ""
+"If you don't save, changes from the last minute will be permanently lost."
+msgstr ""
+"Αν δεν αποθηκεύσετε, οι αλλαγές που έγιναν το τελευταίο λεπτό θα χαθούν "
+"οριστικά."
+
+#: ../ease/ease-close-confirm-dialog.vala:143
+#, c-format
+msgid ""
+"If you don't save, changes from the last minute and %i second will be "
+"permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last minute and %i seconds will be "
+"permanently lost."
+msgstr[0] ""
+"Αν δεν αποθηκεύσετε, οι αλλαγές που έγιναν το τελευταίο λεπτό και %i "
+"δευτερόλεπτο θα χαθούν οριστικά."
+msgstr[1] ""
+"Αν δεν αποθηκεύσετε, οι αλλαγές που έγιναν το τελευταίο λεπτό και %i "
+"δευτερόλεπτα θα χαθούν οριστικά."
+
+#: ../ease/ease-close-confirm-dialog.vala:147
+#, c-format
+msgid ""
+"If you don't save, changes from the last %i minute will be permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last %i minutes will be permanently lost."
+msgstr[0] ""
+"Αν δεν αποθηκεύσετε, οι αλλαγές που έγιναν το τελευταίο %i λεπτό θα χαθούν "
+"οριστικά."
+msgstr[1] ""
+"Αν δεν αποθηκεύσετε, οι αλλαγές που έγιναν τα τελευταία %i λεπτά θα χαθούν "
+"οριστικά."
+
+#: ../ease/ease-close-confirm-dialog.vala:154
+msgid "If you don't save, changes from the last hour will be permanently lost."
+msgstr ""
+"Αν δεν αποθηκεύσετε, οι αλλαγές που έγιναν την τελευταία ώρα θα χαθούν "
+"οριστικά."
+
+#: ../ease/ease-close-confirm-dialog.vala:156
+#, c-format
+msgid ""
+"If you don't save, changes from the last hour and %i minute will be "
+"permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last hour and %i minutes will be "
+"permanently lost."
+msgstr[0] ""
+"Αν δεν αποθηκεύσετε, οι αλλαγές που έγιναν την τελευταία ώρα και %i λεπτό θα "
+"χαθούν οριστικά."
+msgstr[1] ""
+"Αν δεν αποθηκεύσετε, οι αλλαγές που έγιναν την τελευταία ώρα και %i λεπτά θα "
+"χαθούν οριστικά."
+
+#: ../ease/ease-close-confirm-dialog.vala:160
+#, c-format
+msgid ""
+"If you don't save, changes from the last %i hour will be permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last %i hours will be permanently lost."
+msgstr[0] ""
+"Αν δεν αποθηκεύσετε, οι αλλαγές που έγιναν την τελευταία %i ώρα θα χαθούν "
+"οριστικά."
+msgstr[1] ""
+"Αν δεν αποθηκεύσετε, οι αλλαγές που έγιναν τις τελευταίες %i ώρες θα χαθούν "
+"οριστικά."
+
+#: ../ease/ease-close-confirm-dialog.vala:171
+#, c-format
+msgid "Save changes to \"%s\" before closing?"
+msgstr "Να αποθηκευτούν οι αλλαγές στο \"%s\" πριν το κλείσιμο;"
+
+#: ../ease/ease-editor-window.vala:168
+msgid "The quick brown fox jumps over the lazy dog"
+msgstr "Νίψον ανομήματα μη μόναν όψιν"
+
+#: ../ease/ease-editor-window.vala:266
+msgid "Untitled Document"
+msgstr "Ανώνυμο έγγραφο"
+
+#: ../ease/ease-editor-window.vala:455
+msgid "Insert Image"
+msgstr "Εισαγωγή εικόνας"
+
+#: ../ease/ease-editor-window.vala:523
+msgid "Insert Video"
+msgstr "Εισαγωγή βίντεο"
+
+#: ../ease/ease-editor-window.vala:548
+msgid "Error Inserting Video"
+msgstr "Σφάλμα κατά την εισαγωγή βίντεο"
+
+#: ../ease/ease-editor-window.vala:556
+msgid "Insert PDF Document"
+msgstr "Εισαγωγή εγγράφου PDF"
+
+#: ../ease/ease-editor-window.vala:562
+msgid "PDF Documents"
+msgstr "Έγγραφα PDF"
+
+#: ../ease/ease-editor-window.vala:601
+msgid "Error Inserting PDF"
+msgstr "Σφάλμα κατά την εισαγωγή PDF"
+
+#: ../ease/ease-editor-window.vala:722
+msgid "Save Document"
+msgstr "Αποθήκευση εγγράφου"
+
+#: ../ease/ease-editor-window.vala:738
+msgid "Error Saving Document"
+msgstr "Σφάλμα κατά την αποθήκευση του εγγράφου"
+
+#. create the dialog
+#: ../ease/ease-editor-window.vala:817
+msgid "Select Color"
+msgstr "Επιλέξτε χρώμα"
+
+#. create a font selection dialog
+#: ../ease/ease-editor-window.vala:884
+msgid "Select Font"
+msgstr "Επιλέξτε γραμματοσειρά"
+
+#: ../ease/ease-import-dialog.vala:20
+#, c-format
+msgid "Downloading image %i of %i"
+msgstr "Μεταφόρτωση εικόνας %i από %i"
+
+#: ../ease/ease-import-dialog.vala:28
+msgid "Import Media"
+msgstr "Εισαγωγή μέσων"
+
+#: ../ease/ease-import-dialog.vala:64
+msgid "Downloading Media Files"
+msgstr "Μεταφόρτωση αρχείων μέσων"
+
+#. create checkboxes to filter CC licenses
+#: ../ease/ease-import-flickr-service.vala:80
+msgid "Share Alike"
+msgstr "Παρόμοια διανομή"
+
+#: ../ease/ease-import-flickr-service.vala:82
+msgid "For Commercial Use"
+msgstr "Για εμπορική χρήση"
+
+#: ../ease/ease-inspector-transition-pane.vala:73
+msgid "Effect"
+msgstr "Επίδραση"
+
+#: ../ease/ease-inspector-transition-pane.vala:87
+msgid "Duration"
+msgstr "Διάρκεια"
+
+#: ../ease/ease-inspector-transition-pane.vala:101
+msgid "Direction"
+msgstr "Κατεύθυνση"
+
+#: ../ease/ease-inspector-transition-pane.vala:117
+msgid "Start Transition"
+msgstr "Έναρξη μετάβασης"
+
+#: ../ease/ease-inspector-transition-pane.vala:120
+msgid "Manually"
+msgstr "Χειροκίνητα"
+
+#: ../ease/ease-inspector-transition-pane.vala:121
+msgid "Automatically"
+msgstr "Αυτόματα"
+
+#: ../ease/ease-inspector-transition-pane.vala:131
+msgid "Delay"
+msgstr "Καθυστέρηση"
+
+#. parse command line options
+#: ../ease/ease-main.vala:65
+msgid " - a presentation editor"
+msgstr " - επεξεργαστής παρουσίασης"
+
+#: ../ease/ease-main.vala:80
+#, c-format
+msgid "error parsing options: %s\n"
+msgstr "σφάλμα κατά την ανάλυση επιλογών: %s\n"
+
+#: ../ease/ease-main.vala:217
+msgid "Error Opening Document"
+msgstr "Σφάλμα κατά το άνοιγμα του εγγράφου"
+
+#: ../ease/ease-main.vala:246
+msgid "Error Playing Document"
+msgstr "Σφάλμα κατά την αναπαραγωγή του εγγράφου"
+
+#: ../ease/ease-main.vala:264
+msgid "Error creating new document"
+msgstr "Σφάλμα κατά τη δημιουργία νέου εγγράφου"
+
+#: ../ease/ease-player.vala:65
+msgid "Ease Presentation"
+msgstr "Παρουσίαση Ease"
+
+#: ../ease/ease-slide-button-panel.vala:195
+#, c-format
+msgid "Error drawing slide preview: %s"
+msgstr "Σφάλμα κατά τη σχεδίαση προεπισκόπησης διαφάνειας: %s"
+
+#: ../ease/ease-welcome-actor.vala:163
+#, c-format
+msgid "Error rendering preview: %s"
+msgstr "Σφάλμα κατά την απόδοση προεπισκόπησης: %s"
+
+#: ../ease/ease-welcome-window.vala:90
+msgid "Pick a theme and start editing"
+msgstr "Επιλέξτε ένα θέμα και αρχίστε την επεξεργασία"
+
+#: ../ease/ease-welcome-window.vala:121
+msgid "Custom"
+msgstr "Προσαρμογή"
+
+#: ../ease/ease-welcome-window.vala:123
+#, c-format
+msgid "%i by %i"
+msgstr "%i επί %i"
+
+#: ../data/ui/background.ui.h:1
+msgid "Background Style"
+msgstr "Τεχνοτροπία παρασκηνίου"
+
+#: ../data/ui/background.ui.h:2
+msgid "Background Color"
+msgstr "Χρώμα παρασκηνίου"
+
+#: ../data/ui/background.ui.h:3
+msgid "Background Gradient"
+msgstr "Διαβάθμιση παρασκηνίου"
+
+#: ../data/ui/background.ui.h:4
+msgid "Reverse Gradient"
+msgstr "Αντιστροφή διαβάθμισης"
+
+#: ../data/ui/background.ui.h:5
+msgid "Gradient Angle"
+msgstr "Γωνία διαβάθμισης"
+
+#: ../data/ui/background.ui.h:6
+msgid "Background Image"
+msgstr "Εικόνα παρασκηνίου"
+
+#: ../data/ui/background.ui.h:7
+msgid "Fill Mode"
+msgstr "Λειτουργία γεμίσματος"
+
+#: ../data/ui/editor-window.ui.h:1
+msgid "_File"
+msgstr "_Αρχείο"
+
+#: ../data/ui/editor-window.ui.h:2
+msgid "Save a _Copy"
+msgstr "Απο_θήκευση αντιγράφου"
+
+#: ../data/ui/editor-window.ui.h:3
+msgid "_Export Presentation"
+msgstr "Ε_ξαγωγή παρουσίασης"
+
+#: ../data/ui/editor-window.ui.h:4
+msgid "_PDF"
+msgstr "_PDF"
+
+#: ../data/ui/editor-window.ui.h:5
+msgid "Post_Script"
+msgstr "Post_Script"
+
+#: ../data/ui/editor-window.ui.h:6
+msgid "_HTML"
+msgstr "_HTML"
+
+#: ../data/ui/editor-window.ui.h:7
+msgid "_Edit"
+msgstr "_Επεξεργασία"
+
+#: ../data/ui/editor-window.ui.h:8
+msgid "_Raise"
+msgstr "Ανύ_ψωση"
+
+#: ../data/ui/editor-window.ui.h:9
+msgid "_Lower"
+msgstr "Βύθ_ιση"
+
+#: ../data/ui/editor-window.ui.h:10
+msgid "Raise to _Top"
+msgstr "Ανύψωση στην κορυ_φή"
+
+#: ../data/ui/editor-window.ui.h:11
+msgid "Lower to _Bottom"
+msgstr "Βύθιση στον π_υθμένα"
+
+#: ../data/ui/editor-window.ui.h:12 ../data/ui/import-widget.ui.h:2
+msgid "_Insert"
+msgstr "Ει_σαγωγή"
+
+#: ../data/ui/editor-window.ui.h:13
+msgid "_Image"
+msgstr "_Εικόνα"
+
+#: ../data/ui/editor-window.ui.h:14
+msgid "_Video"
+msgstr "_Βίντεο"
+
+#: ../data/ui/editor-window.ui.h:15
+msgid "_PDF Document"
+msgstr "Έγγραφο _PDF"
+
+#: ../data/ui/editor-window.ui.h:16
+msgid "Media from the _Web"
+msgstr "Μέσα από τον _ιστό"
+
+#: ../data/ui/editor-window.ui.h:17
+msgid "_Text"
+msgstr "_Κείμενο"
+
+#: ../data/ui/editor-window.ui.h:18 ../data/ui/inspector-element-shape.ui.h:1
+msgid "_Rectangle"
+msgstr "Ο_ρθογώνιο"
+
+#: ../data/ui/editor-window.ui.h:19 ../data/ui/inspector-element-shape.ui.h:2
+msgid "_Oval"
+msgstr "_Ωοειδές"
+
+#: ../data/ui/editor-window.ui.h:20
+msgid "_View"
+msgstr "_Προβολή"
+
+#: ../data/ui/editor-window.ui.h:21
+msgid "Editor"
+msgstr "Επεξεργαστής"
+
+#: ../data/ui/editor-window.ui.h:22
+msgid "Slide Sorter"
+msgstr "Ταξινόμηση διαφανειών"
+
+#: ../data/ui/editor-window.ui.h:23
+msgid "Zoom to _Fit"
+msgstr "Εστίαση για _προσαρμογή"
+
+#: ../data/ui/editor-window.ui.h:24
+msgid "_Help"
+msgstr "_Βοήθεια"
+
+#: ../data/ui/editor-window.ui.h:25
+msgid "Add Slide"
+msgstr "Προσθήκη διαφάνειας"
+
+#: ../data/ui/editor-window.ui.h:26
+msgid "Remove Slide"
+msgstr "Αφαίρεση διαφάνειας"
+
+#: ../data/ui/editor-window.ui.h:27
+msgid "Present"
+msgstr "Παρόν"
+
+#: ../data/ui/editor-window.ui.h:28
+msgid "Save"
+msgstr "Αποθήκευση"
+
+#: ../data/ui/editor-window.ui.h:29
+msgid "Undo"
+msgstr "Αναίρεση"
+
+#: ../data/ui/editor-window.ui.h:30
+msgid "Redo"
+msgstr "Ακύρωση αναίρεσης"
+
+#: ../data/ui/editor-window.ui.h:31
+msgid "Show Inspector"
+msgstr "Εμφάνιση επιθεωρητή"
+
+#: ../data/ui/import-widget.ui.h:1
+msgid "No Results Found"
+msgstr "Δε βρέθηκαν αποτελέσματα"
+
+#: ../data/ui/inspector-element-image.ui.h:1
+msgid "Select Image"
+msgstr "Επιλογή εικόνας"
+
+#: ../data/ui/inspector-element-none.ui.h:1
+msgid "Nothing is selected"
+msgstr "Καμία επιλογή"
+
+#: ../data/ui/inspector-element-pdf.ui.h:1
+msgid "Displayed Page"
+msgstr "Εμφανιζόμενη σελίδα"
+
+#: ../data/ui/inspector-element-pdf.ui.h:2
+msgid "Allow page change"
+msgstr "Να επιτρέπεται η αλλαγή σελίδας"
+
+#: ../data/ui/inspector-element-video.ui.h:1
+msgid "_Automatically start playback"
+msgstr "_Αυτόματη έναρξη αναπαραγωγής"
+
+#: ../data/ui/inspector-element-video.ui.h:2
+msgid "_Mute Audio"
+msgstr "_Σίγαση ήχου"
+
+#: ../data/ui/inspector-element-video.ui.h:3
+msgid "When video playback ends:"
+msgstr "Όταν η αναπαραγωγή βίντεο τελειώνει:"
+
+#: ../data/ui/inspector-element-video.ui.h:4
+msgid "_Fill Slide"
+msgstr "_Γέμισμα της διαφάνειας"
+
+#: ../data/ui/welcome-window.ui.h:1
+msgid "_New presentation"
+msgstr "_Νέα παρουσίαση"
