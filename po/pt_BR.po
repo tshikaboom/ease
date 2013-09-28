@@ -9,23 +9,24 @@ msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-03-31 16:04+0000\n"
-"PO-Revision-Date: 2011-04-01 16:25-0300\n"
-"Last-Translator: Felipe Borges <felipe10borges@gmail.com>\n"
+"POT-Creation-Date: 2013-09-27 17:40+0000\n"
+"PO-Revision-Date: 2013-09-28 05:18-0300\n"
+"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: ../data/ease.desktop.in.h:1 ../data/ease.desktop.in.in.h:1
-msgid "Create nice and elegant presentations"
-msgstr "Crie apresentações agradáveis e elegantes"
-
-#: ../data/ease.desktop.in.h:2 ../data/ease.desktop.in.in.h:2
 msgid "Ease Presentation Editor"
 msgstr "Editor de apresentações Ease"
+
+#: ../data/ease.desktop.in.h:2 ../data/ease.desktop.in.in.h:2
+msgid "Create nice and elegant presentations"
+msgstr "Crie apresentações agradáveis e elegantes"
 
 #: ../ease-core/ease-archiver.vala:29
 #, c-format
@@ -53,12 +54,15 @@ msgstr "Imagem"
 msgid "Select Background Image"
 msgstr "Selecionar imagem de fundo"
 
+#. create the source list
 #: ../ease-core/ease-background-widget.vala:188
 #: ../ease-core/ease-background-widget.vala:238
 #: ../ease/ease-editor-window.vala:459 ../ease/ease-import-dialog.vala:33
 msgid "Images"
 msgstr "Imagens"
 
+#. add a filter for all files to the bg image box
+#. add a filter for all files
 #: ../ease-core/ease-background-widget.vala:193
 #: ../ease-core/ease-background-widget.vala:243
 #: ../ease-core/ease-dialogs.vala:192 ../ease-core/ease-dialogs.vala:268
@@ -451,8 +455,34 @@ msgid "A presentation application for the GNOME Desktop"
 msgstr "Um aplicativo de apresentações para o Desktop GNOME"
 
 #: ../ease/ease-about-dialog.vala:67
-msgid "Mario Blättermann <mariobl@gnome.org>"
-msgstr "Mario Blättermann <mariobl@gnome.org>"
+msgid ""
+"Mario Blättermann <mariobl@gnome.org>\n"
+"Felipe Borges\n"
+"Marek Černocký\n"
+"Rodrigo Flores <rlmflores@gnome.org>\n"
+"Kramer Garay\n"
+"Jorge González <jorgegonz@svn.gnome.org>\n"
+"Christian Kirbach\n"
+"Peter Kragelj\n"
+"Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
+"Daniel Nylander <po@danielnylander.se>\n"
+"Frédéric Péters\n"
+"Matej Urbančič <mateju@svn.gnome.org>\n"
+"Aron Xu"
+msgstr ""
+"Mario Blättermann <mariobl@gnome.org>\n"
+"Felipe Borges\n"
+"Marek Černocký\n"
+"Rodrigo Flores <rlmflores@gnome.org>\n"
+"Kramer Garay\n"
+"Jorge González <jorgegonz@svn.gnome.org>\n"
+"Christian Kirbach\n"
+"Peter Kragelj\n"
+"Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
+"Daniel Nylander <po@danielnylander.se>\n"
+"Frédéric Péters\n"
+"Matej Urbančič <mateju@svn.gnome.org>\n"
+"Aron Xu"
 
 #: ../ease/ease-close-confirm-dialog.vala:58
 msgid "Save before closing?"
@@ -588,6 +618,8 @@ msgstr "Salvar documento"
 msgid "Error Saving Document"
 msgstr "Erro ao salvar documento"
 
+#. store the original color in case the user cancels
+#. create an UndoAction for potential use
 #. create the dialog
 #: ../ease/ease-editor-window.vala:817
 msgid "Select Color"
@@ -611,6 +643,7 @@ msgstr "Importar mídia"
 msgid "Downloading Media Files"
 msgstr "Baixando arquivos de mídia"
 
+#. create a container
 #. create checkboxes to filter CC licenses
 #: ../ease/ease-import-flickr-service.vala:80
 msgid "Share Alike"
@@ -698,156 +731,156 @@ msgid "%i by %i"
 msgstr "%i por %i"
 
 #: ../data/ui/background.ui.h:1
-msgid "Background Color"
-msgstr "Cor de fundo"
-
-#: ../data/ui/background.ui.h:2
-msgid "Background Gradient"
-msgstr "Gradiente de fundo"
-
-#: ../data/ui/background.ui.h:3
-msgid "Background Image"
-msgstr "Imagem de fundo"
-
-#: ../data/ui/background.ui.h:4
 msgid "Background Style"
 msgstr "Estilo de fundo"
 
-#: ../data/ui/background.ui.h:5
-msgid "Fill Mode"
-msgstr "Modo de preenchimento"
+#: ../data/ui/background.ui.h:2
+msgid "Background Color"
+msgstr "Cor de fundo"
 
-#: ../data/ui/background.ui.h:6
-msgid "Gradient Angle"
-msgstr "Ângulo de gradiente"
+#: ../data/ui/background.ui.h:3
+msgid "Background Gradient"
+msgstr "Gradiente de fundo"
 
-#: ../data/ui/background.ui.h:7
+#: ../data/ui/background.ui.h:4
 msgid "Reverse Gradient"
 msgstr "Gradiente reversa"
 
+#: ../data/ui/background.ui.h:5
+msgid "Gradient Angle"
+msgstr "Ângulo de gradiente"
+
+#: ../data/ui/background.ui.h:6
+msgid "Background Image"
+msgstr "Imagem de fundo"
+
+#: ../data/ui/background.ui.h:7
+msgid "Fill Mode"
+msgstr "Modo de preenchimento"
+
 #: ../data/ui/editor-window.ui.h:1
-msgid "Add Slide"
-msgstr "Adicionar slide"
+msgid "_File"
+msgstr "_Arquivo"
 
 #: ../data/ui/editor-window.ui.h:2
-msgid "Editor"
-msgstr "Editor"
+msgid "Save a _Copy"
+msgstr "Salva uma _cópia"
 
 #: ../data/ui/editor-window.ui.h:3
-msgid "Lower to _Bottom"
-msgstr "Enviar para trás"
+msgid "_Export Presentation"
+msgstr "_Exportar apresentação"
 
 #: ../data/ui/editor-window.ui.h:4
-msgid "Media from the _Web"
-msgstr "Mídia da _web"
+msgid "_PDF"
+msgstr "_PDF"
 
 #: ../data/ui/editor-window.ui.h:5
 msgid "Post_Script"
 msgstr "Post_Script"
 
 #: ../data/ui/editor-window.ui.h:6
-msgid "Present"
-msgstr "Apresentar"
-
-#: ../data/ui/editor-window.ui.h:7
-msgid "Raise to _Top"
-msgstr "Elevar para o _topo"
-
-#: ../data/ui/editor-window.ui.h:8
-msgid "Redo"
-msgstr "Refazer"
-
-#: ../data/ui/editor-window.ui.h:9
-msgid "Remove Slide"
-msgstr "Remover slide"
-
-#: ../data/ui/editor-window.ui.h:10
-msgid "Save"
-msgstr "Salvar"
-
-#: ../data/ui/editor-window.ui.h:11
-msgid "Save a _Copy"
-msgstr "Salva uma _cópia"
-
-#: ../data/ui/editor-window.ui.h:12
-msgid "Show Inspector"
-msgstr "Mostrar inspetor"
-
-#: ../data/ui/editor-window.ui.h:13
-msgid "Slide Sorter"
-msgstr "Classificador de slides"
-
-#: ../data/ui/editor-window.ui.h:14
-msgid "Undo"
-msgstr "Desfazer"
-
-#: ../data/ui/editor-window.ui.h:15
-msgid "Zoom to _Fit"
-msgstr "Zoom para ajustar"
-
-#: ../data/ui/editor-window.ui.h:16
-msgid "_Edit"
-msgstr "_Editar"
-
-#: ../data/ui/editor-window.ui.h:17
-msgid "_Export Presentation"
-msgstr "_Exportar apresentação"
-
-#: ../data/ui/editor-window.ui.h:18
-msgid "_File"
-msgstr "_Arquivo"
-
-#: ../data/ui/editor-window.ui.h:19
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../data/ui/editor-window.ui.h:20
-msgid "_Help"
-msgstr "_Ajuda"
+#: ../data/ui/editor-window.ui.h:7
+msgid "_Edit"
+msgstr "_Editar"
 
-#: ../data/ui/editor-window.ui.h:21
-msgid "_Image"
-msgstr "_Imagem"
-
-#: ../data/ui/editor-window.ui.h:22 ../data/ui/import-widget.ui.h:2
-msgid "_Insert"
-msgstr "_Inserir"
-
-#: ../data/ui/editor-window.ui.h:23
-msgid "_Lower"
-msgstr "_Inferior"
-
-#: ../data/ui/editor-window.ui.h:24 ../data/ui/inspector-element-shape.ui.h:1
-msgid "_Oval"
-msgstr "_Oval"
-
-#: ../data/ui/editor-window.ui.h:25
-msgid "_PDF"
-msgstr "_PDF"
-
-#: ../data/ui/editor-window.ui.h:26
-msgid "_PDF Document"
-msgstr "Documento _PDF"
-
-#: ../data/ui/editor-window.ui.h:27
+#: ../data/ui/editor-window.ui.h:8
 msgid "_Raise"
 msgstr "_Elevar"
 
-#: ../data/ui/editor-window.ui.h:28 ../data/ui/inspector-element-shape.ui.h:2
-msgid "_Rectangle"
-msgstr "_Retângulo"
+#: ../data/ui/editor-window.ui.h:9
+msgid "_Lower"
+msgstr "_Inferior"
 
-#: ../data/ui/editor-window.ui.h:29
-msgid "_Text"
-msgstr "_Texto"
+#: ../data/ui/editor-window.ui.h:10
+msgid "Raise to _Top"
+msgstr "Elevar para o _topo"
 
-#: ../data/ui/editor-window.ui.h:30
+#: ../data/ui/editor-window.ui.h:11
+msgid "Lower to _Bottom"
+msgstr "Enviar para trás"
+
+#: ../data/ui/editor-window.ui.h:12 ../data/ui/import-widget.ui.h:2
+msgid "_Insert"
+msgstr "_Inserir"
+
+#: ../data/ui/editor-window.ui.h:13
+msgid "_Image"
+msgstr "_Imagem"
+
+#: ../data/ui/editor-window.ui.h:14
 msgid "_Video"
 msgstr "_Vídeo"
 
-#: ../data/ui/editor-window.ui.h:31
+#: ../data/ui/editor-window.ui.h:15
+msgid "_PDF Document"
+msgstr "Documento _PDF"
+
+#: ../data/ui/editor-window.ui.h:16
+msgid "Media from the _Web"
+msgstr "Mídia da _web"
+
+#: ../data/ui/editor-window.ui.h:17
+msgid "_Text"
+msgstr "_Texto"
+
+#: ../data/ui/editor-window.ui.h:18 ../data/ui/inspector-element-shape.ui.h:1
+msgid "_Rectangle"
+msgstr "_Retângulo"
+
+#: ../data/ui/editor-window.ui.h:19 ../data/ui/inspector-element-shape.ui.h:2
+msgid "_Oval"
+msgstr "_Oval"
+
+#: ../data/ui/editor-window.ui.h:20
 msgid "_View"
 msgstr "_Ver"
+
+#: ../data/ui/editor-window.ui.h:21
+msgid "Editor"
+msgstr "Editor"
+
+#: ../data/ui/editor-window.ui.h:22
+msgid "Slide Sorter"
+msgstr "Classificador de slides"
+
+#: ../data/ui/editor-window.ui.h:23
+msgid "Zoom to _Fit"
+msgstr "Zoom para ajustar"
+
+#: ../data/ui/editor-window.ui.h:24
+msgid "_Help"
+msgstr "_Ajuda"
+
+#: ../data/ui/editor-window.ui.h:25
+msgid "Add Slide"
+msgstr "Adicionar slide"
+
+#: ../data/ui/editor-window.ui.h:26
+msgid "Remove Slide"
+msgstr "Remover slide"
+
+#: ../data/ui/editor-window.ui.h:27
+msgid "Present"
+msgstr "Apresentar"
+
+#: ../data/ui/editor-window.ui.h:28
+msgid "Save"
+msgstr "Salvar"
+
+#: ../data/ui/editor-window.ui.h:29
+msgid "Undo"
+msgstr "Desfazer"
+
+#: ../data/ui/editor-window.ui.h:30
+msgid "Redo"
+msgstr "Refazer"
+
+#: ../data/ui/editor-window.ui.h:31
+msgid "Show Inspector"
+msgstr "Mostrar inspetor"
 
 #: ../data/ui/import-widget.ui.h:1
 msgid "No Results Found"
@@ -862,29 +895,32 @@ msgid "Nothing is selected"
 msgstr "Nada está selecionado"
 
 #: ../data/ui/inspector-element-pdf.ui.h:1
-msgid "Allow page change"
-msgstr "Permitir mudança de página"
-
-#: ../data/ui/inspector-element-pdf.ui.h:2
 msgid "Displayed Page"
 msgstr "Página exibida"
 
-#: ../data/ui/inspector-element-video.ui.h:1
-msgid "When video playback ends:"
-msgstr "Quando a reprodução de vídeo termina:"
+#: ../data/ui/inspector-element-pdf.ui.h:2
+msgid "Allow page change"
+msgstr "Permitir mudança de página"
 
-#: ../data/ui/inspector-element-video.ui.h:2
+#: ../data/ui/inspector-element-video.ui.h:1
 msgid "_Automatically start playback"
 msgstr "Iniciar reprodução _automaticamente"
 
-#: ../data/ui/inspector-element-video.ui.h:3
-msgid "_Fill Slide"
-msgstr "_Preencher slide"
-
-#: ../data/ui/inspector-element-video.ui.h:4
+#: ../data/ui/inspector-element-video.ui.h:2
 msgid "_Mute Audio"
 msgstr "Silenciar áudio"
+
+#: ../data/ui/inspector-element-video.ui.h:3
+msgid "When video playback ends:"
+msgstr "Quando a reprodução de vídeo termina:"
+
+#: ../data/ui/inspector-element-video.ui.h:4
+msgid "_Fill Slide"
+msgstr "_Preencher slide"
 
 #: ../data/ui/welcome-window.ui.h:1
 msgid "_New presentation"
 msgstr "_Nova apresentação"
+
+#~ msgid "Mario Blättermann <mariobl@gnome.org>"
+#~ msgstr "Mario Blättermann <mariobl@gnome.org>"
