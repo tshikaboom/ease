@@ -1,30 +1,31 @@
 # Czech translation for ease.
 # Copyright (C) 2010 ease's COPYRIGHT HOLDER
 # This file is distributed under the same license as the ease package.
-# Marek Černocký <marek@manet.cz>, 2010, 2011.
+# Marek Černocký <marek@manet.cz>, 2010, 2011, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-03-29 06:37+0000\n"
-"PO-Revision-Date: 2011-03-29 10:52+0200\n"
+"POT-Creation-Date: 2013-09-27 17:40+0000\n"
+"PO-Revision-Date: 2013-10-03 09:31+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/ease.desktop.in.h:1 ../data/ease.desktop.in.in.h:1
-msgid "Create nice and elegant presentations"
-msgstr "Vytvářet pěkné a elegantní prezentace"
-
-#: ../data/ease.desktop.in.h:2 ../data/ease.desktop.in.in.h:2
 msgid "Ease Presentation Editor"
 msgstr "Editor prezentací Ease"
+
+#: ../data/ease.desktop.in.h:2 ../data/ease.desktop.in.in.h:2
+msgid "Create nice and elegant presentations"
+msgstr "Vytvářet pěkné a elegantní prezentace"
 
 #: ../ease-core/ease-archiver.vala:29
 #, c-format
@@ -52,12 +53,15 @@ msgstr "Obrázek"
 msgid "Select Background Image"
 msgstr "Výběr obrázku pro pozadí"
 
+#. create the source list
 #: ../ease-core/ease-background-widget.vala:188
 #: ../ease-core/ease-background-widget.vala:238
 #: ../ease/ease-editor-window.vala:459 ../ease/ease-import-dialog.vala:33
 msgid "Images"
 msgstr "Obrázky"
 
+#. add a filter for all files to the bg image box
+#. add a filter for all files
 #: ../ease-core/ease-background-widget.vala:193
 #: ../ease-core/ease-background-widget.vala:243
 #: ../ease-core/ease-dialogs.vala:192 ../ease-core/ease-dialogs.vala:268
@@ -447,8 +451,34 @@ msgid "A presentation application for the GNOME Desktop"
 msgstr "Prezentační aplikace pro pracovní prostředí GNOME"
 
 #: ../ease/ease-about-dialog.vala:67
-msgid "Mario Blättermann <mariobl@gnome.org>"
-msgstr "Mario Blättermann <mariobl@gnome.org>"
+msgid ""
+"Mario Blättermann <mariobl@gnome.org>\n"
+"Felipe Borges\n"
+"Marek Černocký\n"
+"Rodrigo Flores <rlmflores@gnome.org>\n"
+"Kramer Garay\n"
+"Jorge González <jorgegonz@svn.gnome.org>\n"
+"Christian Kirbach\n"
+"Peter Kragelj\n"
+"Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
+"Daniel Nylander <po@danielnylander.se>\n"
+"Frédéric Péters\n"
+"Matej Urbančič <mateju@svn.gnome.org>\n"
+"Aron Xu"
+msgstr ""
+"Mario Blättermann <mariobl@gnome.org>\n"
+"Felipe Borges\n"
+"Marek Černocký\n"
+"Rodrigo Flores <rlmflores@gnome.org>\n"
+"Kramer Garay\n"
+"Jorge González <jorgegonz@svn.gnome.org>\n"
+"Christian Kirbach\n"
+"Peter Kragelj\n"
+"Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
+"Daniel Nylander <po@danielnylander.se>\n"
+"Frédéric Péters\n"
+"Matej Urbančič <mateju@svn.gnome.org>\n"
+"Aron Xu"
 
 #: ../ease/ease-close-confirm-dialog.vala:58
 msgid "Save before closing?"
@@ -594,6 +624,8 @@ msgstr "Uložit dokument"
 msgid "Error Saving Document"
 msgstr "Chyba při ukládání dokumentu"
 
+#. store the original color in case the user cancels
+#. create an UndoAction for potential use
 #. create the dialog
 #: ../ease/ease-editor-window.vala:817
 msgid "Select Color"
@@ -617,6 +649,7 @@ msgstr "Import média"
 msgid "Downloading Media Files"
 msgstr "Stahují se soubory média"
 
+#. create a container
 #. create checkboxes to filter CC licenses
 #: ../ease/ease-import-flickr-service.vala:80
 msgid "Share Alike"
@@ -704,176 +737,162 @@ msgid "%i by %i"
 msgstr "%i × %i"
 
 #: ../data/ui/background.ui.h:1
-msgid "Background Color"
-msgstr "Barva pozadí"
-
-#: ../data/ui/background.ui.h:2
-#| msgid "Select Background Image"
-msgid "Background Gradient"
-msgstr "Barevný přechod na pozadí"
-
-#: ../data/ui/background.ui.h:3
-#| msgid "Select Background Image"
-msgid "Background Image"
-msgstr "Obrázek na pozadí"
-
-#: ../data/ui/background.ui.h:4
-#| msgid "Select Background Image"
 msgid "Background Style"
 msgstr "Styl pozadí"
 
-#: ../data/ui/background.ui.h:5
-msgid "Fill Mode"
-msgstr "Režim vyplnění"
+#: ../data/ui/background.ui.h:2
+msgid "Background Color"
+msgstr "Barva pozadí"
 
-#: ../data/ui/background.ui.h:6
-#| msgid "Gradient"
-msgid "Gradient Angle"
-msgstr "Úhel barevného přechodu"
+#: ../data/ui/background.ui.h:3
+msgid "Background Gradient"
+msgstr "Barevný přechod na pozadí"
 
-#: ../data/ui/background.ui.h:7
-#| msgid "Gradient"
+#: ../data/ui/background.ui.h:4
 msgid "Reverse Gradient"
 msgstr "Otočit barevný přechod"
 
+#: ../data/ui/background.ui.h:5
+msgid "Gradient Angle"
+msgstr "Úhel barevného přechodu"
+
+#: ../data/ui/background.ui.h:6
+msgid "Background Image"
+msgstr "Obrázek na pozadí"
+
+#: ../data/ui/background.ui.h:7
+msgid "Fill Mode"
+msgstr "Režim vyplnění"
+
 #: ../data/ui/editor-window.ui.h:1
-#| msgid "Slide"
-msgid "Add Slide"
-msgstr "Přidat snímek"
+msgid "_File"
+msgstr "_Soubor"
 
 #: ../data/ui/editor-window.ui.h:2
-msgid "Editor"
-msgstr "Editor"
+msgid "Save a _Copy"
+msgstr "Uložit ko_pii"
 
 #: ../data/ui/editor-window.ui.h:3
-#| msgid "Top to Bottom"
-msgid "Lower to _Bottom"
-msgstr "Odsunout úplně _dozadu"
+msgid "_Export Presentation"
+msgstr "_Exportovat prezentaci"
 
 #: ../data/ui/editor-window.ui.h:4
-msgid "Media from the _Web"
-msgstr "Média z _webu"
+msgid "_PDF"
+msgstr "_PDF"
 
 #: ../data/ui/editor-window.ui.h:5
-#| msgid "Export as PostScript"
 msgid "Post_Script"
 msgstr "Post_Script"
 
 #: ../data/ui/editor-window.ui.h:6
-msgid "Present"
-msgstr "Prezentovat"
-
-#: ../data/ui/editor-window.ui.h:7
-msgid "Raise to _Top"
-msgstr "Přenés_t úplně dopředu"
-
-#: ../data/ui/editor-window.ui.h:8
-msgid "Redo"
-msgstr "Znovu"
-
-#: ../data/ui/editor-window.ui.h:9
-msgid "Remove Slide"
-msgstr "Odstranit snímek"
-
-#: ../data/ui/editor-window.ui.h:10
-msgid "Save"
-msgstr "Uložit"
-
-#: ../data/ui/editor-window.ui.h:11
-msgid "Save a _Copy"
-msgstr "Uložit ko_pii"
-
-#: ../data/ui/editor-window.ui.h:12
-msgid "Show Inspector"
-msgstr "Zobrazit nastavení vlastností"
-
-#: ../data/ui/editor-window.ui.h:13
-#| msgid "Slide Contents"
-msgid "Slide Sorter"
-msgstr "Řazení snímků"
-
-#: ../data/ui/editor-window.ui.h:14
-msgid "Undo"
-msgstr "Zpět"
-
-#: ../data/ui/editor-window.ui.h:15
-msgid "Zoom to _Fit"
-msgstr "_Přizpůsobit přiblížení"
-
-#: ../data/ui/editor-window.ui.h:16
-msgid "_Edit"
-msgstr "_Upravit"
-
-#: ../data/ui/editor-window.ui.h:17
-#| msgid "Ease Presentation"
-msgid "_Export Presentation"
-msgstr "_Exportovat prezentaci"
-
-#: ../data/ui/editor-window.ui.h:18
-msgid "_File"
-msgstr "_Soubor"
-
-#: ../data/ui/editor-window.ui.h:19
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../data/ui/editor-window.ui.h:20
-msgid "_Help"
-msgstr "_Nápověda"
+#: ../data/ui/editor-window.ui.h:7
+msgid "_Edit"
+msgstr "_Upravit"
 
-#: ../data/ui/editor-window.ui.h:21
-#| msgid "Image"
-msgid "_Image"
-msgstr "O_brázek"
-
-#: ../data/ui/editor-window.ui.h:22 ../data/ui/import-widget.ui.h:2
-#| msgid "Insert Image"
-msgid "_Insert"
-msgstr "_Vložit"
-
-#: ../data/ui/editor-window.ui.h:23
-msgid "_Lower"
-msgstr "Ods_unout dozadu"
-
-#: ../data/ui/editor-window.ui.h:24 ../data/ui/inspector-element-shape.ui.h:1
-msgid "_Oval"
-msgstr "_Ovál"
-
-#: ../data/ui/editor-window.ui.h:25
-msgid "_PDF"
-msgstr "_PDF"
-
-#: ../data/ui/editor-window.ui.h:26
-#| msgid "PDF Documents"
-msgid "_PDF Document"
-msgstr "Dokument _PDF"
-
-#: ../data/ui/editor-window.ui.h:27
+#: ../data/ui/editor-window.ui.h:8
 msgid "_Raise"
 msgstr "Přenést do_předu"
 
-#: ../data/ui/editor-window.ui.h:28 ../data/ui/inspector-element-shape.ui.h:2
-msgid "_Rectangle"
-msgstr "Obde_lník"
+#: ../data/ui/editor-window.ui.h:9
+msgid "_Lower"
+msgstr "Ods_unout dozadu"
 
-#: ../data/ui/editor-window.ui.h:29
-msgid "_Text"
-msgstr "_Text"
+#: ../data/ui/editor-window.ui.h:10
+msgid "Raise to _Top"
+msgstr "Přenés_t úplně dopředu"
 
-#: ../data/ui/editor-window.ui.h:30
+#: ../data/ui/editor-window.ui.h:11
+msgid "Lower to _Bottom"
+msgstr "Odsunout úplně _dozadu"
+
+#: ../data/ui/editor-window.ui.h:12 ../data/ui/import-widget.ui.h:2
+msgid "_Insert"
+msgstr "_Vložit"
+
+#: ../data/ui/editor-window.ui.h:13
+msgid "_Image"
+msgstr "O_brázek"
+
+#: ../data/ui/editor-window.ui.h:14
 msgid "_Video"
 msgstr "_Video"
 
-#: ../data/ui/editor-window.ui.h:31
+#: ../data/ui/editor-window.ui.h:15
+msgid "_PDF Document"
+msgstr "Dokument _PDF"
+
+#: ../data/ui/editor-window.ui.h:16
+msgid "Media from the _Web"
+msgstr "Média z _webu"
+
+#: ../data/ui/editor-window.ui.h:17
+msgid "_Text"
+msgstr "_Text"
+
+#: ../data/ui/editor-window.ui.h:18 ../data/ui/inspector-element-shape.ui.h:1
+msgid "_Rectangle"
+msgstr "Obde_lník"
+
+#: ../data/ui/editor-window.ui.h:19 ../data/ui/inspector-element-shape.ui.h:2
+msgid "_Oval"
+msgstr "_Ovál"
+
+#: ../data/ui/editor-window.ui.h:20
 msgid "_View"
 msgstr "_Zobrazit"
+
+#: ../data/ui/editor-window.ui.h:21
+msgid "Editor"
+msgstr "Editor"
+
+#: ../data/ui/editor-window.ui.h:22
+msgid "Slide Sorter"
+msgstr "Řazení snímků"
+
+#: ../data/ui/editor-window.ui.h:23
+msgid "Zoom to _Fit"
+msgstr "_Přizpůsobit přiblížení"
+
+#: ../data/ui/editor-window.ui.h:24
+msgid "_Help"
+msgstr "_Nápověda"
+
+#: ../data/ui/editor-window.ui.h:25
+msgid "Add Slide"
+msgstr "Přidat snímek"
+
+#: ../data/ui/editor-window.ui.h:26
+msgid "Remove Slide"
+msgstr "Odstranit snímek"
+
+#: ../data/ui/editor-window.ui.h:27
+msgid "Present"
+msgstr "Prezentovat"
+
+#: ../data/ui/editor-window.ui.h:28
+msgid "Save"
+msgstr "Uložit"
+
+#: ../data/ui/editor-window.ui.h:29
+msgid "Undo"
+msgstr "Zpět"
+
+#: ../data/ui/editor-window.ui.h:30
+msgid "Redo"
+msgstr "Znovu"
+
+#: ../data/ui/editor-window.ui.h:31
+msgid "Show Inspector"
+msgstr "Zobrazit nastavení vlastností"
 
 #: ../data/ui/import-widget.ui.h:1
 msgid "No Results Found"
 msgstr "Nenalezeny žádné výsledky"
 
 #: ../data/ui/inspector-element-image.ui.h:1
-#| msgid "Select Background Image"
 msgid "Select Image"
 msgstr "Výběr obrázku"
 
@@ -882,32 +901,29 @@ msgid "Nothing is selected"
 msgstr "Nic není vybráno"
 
 #: ../data/ui/inspector-element-pdf.ui.h:1
-msgid "Allow page change"
-msgstr "Dovolit změnu stránky"
-
-#: ../data/ui/inspector-element-pdf.ui.h:2
 msgid "Displayed Page"
 msgstr "Zobrazená stránka"
 
-#: ../data/ui/inspector-element-video.ui.h:1
-msgid "When video playback ends:"
-msgstr "Až přehrávání videa skončí:"
+#: ../data/ui/inspector-element-pdf.ui.h:2
+msgid "Allow page change"
+msgstr "Dovolit změnu stránky"
 
-#: ../data/ui/inspector-element-video.ui.h:2
-#| msgid "Automatically"
+#: ../data/ui/inspector-element-video.ui.h:1
 msgid "_Automatically start playback"
 msgstr "_Automaticky spustit přehrávání"
 
-#: ../data/ui/inspector-element-video.ui.h:3
-#| msgid "_Title slide"
-msgid "_Fill Slide"
-msgstr "_Vyplnit snímek"
-
-#: ../data/ui/inspector-element-video.ui.h:4
+#: ../data/ui/inspector-element-video.ui.h:2
 msgid "_Mute Audio"
 msgstr "Z_tišit zvuk"
 
+#: ../data/ui/inspector-element-video.ui.h:3
+msgid "When video playback ends:"
+msgstr "Až přehrávání videa skončí:"
+
+#: ../data/ui/inspector-element-video.ui.h:4
+msgid "_Fill Slide"
+msgstr "_Vyplnit snímek"
+
 #: ../data/ui/welcome-window.ui.h:1
-#| msgid "Ease Presentation"
 msgid "_New presentation"
 msgstr "_Nová prezentace"
