@@ -2,14 +2,14 @@
 # Copyright (C) 2012 ease's COPYRIGHT HOLDER
 # This file is distributed under the same license as the ease package.
 #
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2012.
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-12 18:14+0000\n"
-"PO-Revision-Date: 2012-10-24 18:54+0300\n"
+"POT-Creation-Date: 2013-09-27 17:40+0000\n"
+"PO-Revision-Date: 2013-10-05 10:34+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../data/ease.desktop.in.h:1 ../data/ease.desktop.in.in.h:1
 msgid "Ease Presentation Editor"
@@ -54,12 +54,15 @@ msgstr "Attēls"
 msgid "Select Background Image"
 msgstr "Izvēlieties fona attēlu"
 
+#. create the source list
 #: ../ease-core/ease-background-widget.vala:188
 #: ../ease-core/ease-background-widget.vala:238
 #: ../ease/ease-editor-window.vala:459 ../ease/ease-import-dialog.vala:33
 msgid "Images"
 msgstr "Attēli"
 
+#. add a filter for all files to the bg image box
+#. add a filter for all files
 #: ../ease-core/ease-background-widget.vala:193
 #: ../ease-core/ease-background-widget.vala:243
 #: ../ease-core/ease-dialogs.vala:192 ../ease-core/ease-dialogs.vala:268
@@ -450,8 +453,34 @@ msgid "A presentation application for the GNOME Desktop"
 msgstr "Prezentāciju lietotne GNOME darbvirsmai"
 
 #: ../ease/ease-about-dialog.vala:67
-msgid "Mario Blättermann <mariobl@gnome.org>"
-msgstr "Mario Blättermann <mariobl@gnome.org>"
+msgid ""
+"Mario Blättermann <mariobl@gnome.org>\n"
+"Felipe Borges\n"
+"Marek Černocký\n"
+"Rodrigo Flores <rlmflores@gnome.org>\n"
+"Kramer Garay\n"
+"Jorge González <jorgegonz@svn.gnome.org>\n"
+"Christian Kirbach\n"
+"Peter Kragelj\n"
+"Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
+"Daniel Nylander <po@danielnylander.se>\n"
+"Frédéric Péters\n"
+"Matej Urbančič <mateju@svn.gnome.org>\n"
+"Aron Xu"
+msgstr ""
+"Mario Blättermann <mariobl@gnome.org>\n"
+"Felipe Borges\n"
+"Marek Černocký\n"
+"Rodrigo Flores <rlmflores@gnome.org>\n"
+"Kramer Garay\n"
+"Jorge González <jorgegonz@svn.gnome.org>\n"
+"Christian Kirbach\n"
+"Peter Kragelj\n"
+"Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
+"Daniel Nylander <po@danielnylander.se>\n"
+"Frédéric Péters\n"
+"Matej Urbančič <mateju@svn.gnome.org>\n"
+"Aron Xu"
 
 #: ../ease/ease-close-confirm-dialog.vala:58
 msgid "Save before closing?"
@@ -494,8 +523,8 @@ msgid_plural ""
 "If you don't save, changes from the last minute and %i seconds will be "
 "permanently lost."
 msgstr[0] ""
-"Ja nesaglabāsiet, pēdējās minūtes un %i sekundes laikā veiktās izmaiņas "
-"tiks neatgriezeniski zaudētas."
+"Ja nesaglabāsiet, pēdējās minūtes un %i sekundes laikā veiktās izmaiņas tiks "
+"neatgriezeniski zaudētas."
 msgstr[1] ""
 "Ja nesaglabāsiet, pēdējās minūtes un %i sekunžu laikā veiktās izmaiņas tiks "
 "neatgriezeniski zaudētas."
@@ -606,6 +635,8 @@ msgstr "Saglabāt dokumentu"
 msgid "Error Saving Document"
 msgstr "Kļūda, saglabājot dokumentu"
 
+#. store the original color in case the user cancels
+#. create an UndoAction for potential use
 #. create the dialog
 #: ../ease/ease-editor-window.vala:817
 msgid "Select Color"
@@ -629,6 +660,7 @@ msgstr "Importēt multimediju"
 msgid "Downloading Media Files"
 msgstr "Lejupielādē multimediju datnes"
 
+#. create a container
 #. create checkboxes to filter CC licenses
 #: ../ease/ease-import-flickr-service.vala:80
 msgid "Share Alike"
@@ -907,3 +939,5 @@ msgstr "_Aizpildīt slaidu"
 msgid "_New presentation"
 msgstr "Jau_na prezentācija"
 
+#~ msgid "Mario Blättermann <mariobl@gnome.org>"
+#~ msgstr "Mario Blättermann <mariobl@gnome.org>"
