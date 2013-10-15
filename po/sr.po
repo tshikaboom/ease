@@ -1,14 +1,14 @@
 # Serbian translation for ease.
 # Copyright (C) 2012 ease's COPYRIGHT HOLDER
 # This file is distributed under the same license as the ease package.
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2012.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=ease&"
 "keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-10-24 15:57+0000\n"
-"PO-Revision-Date: 2012-11-28 05:04+0200\n"
+"POT-Creation-Date: 2013-09-27 17:40+0000\n"
+"PO-Revision-Date: 2013-10-13 22:28+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -53,12 +53,15 @@ msgstr "Слика"
 msgid "Select Background Image"
 msgstr "Изаберите слику позадине"
 
+#. create the source list
 #: ../ease-core/ease-background-widget.vala:188
 #: ../ease-core/ease-background-widget.vala:238
 #: ../ease/ease-editor-window.vala:459 ../ease/ease-import-dialog.vala:33
 msgid "Images"
 msgstr "Слике"
 
+#. add a filter for all files to the bg image box
+#. add a filter for all files
 #: ../ease-core/ease-background-widget.vala:193
 #: ../ease-core/ease-background-widget.vala:243
 #: ../ease-core/ease-dialogs.vala:192 ../ease-core/ease-dialogs.vala:268
@@ -451,8 +454,34 @@ msgid "A presentation application for the GNOME Desktop"
 msgstr "Програм за презентације за Гномово окружење"
 
 #: ../ease/ease-about-dialog.vala:67
-msgid "Mario Blättermann <mariobl@gnome.org>"
-msgstr "Марио Блатерман <mariobl@gnome.org>"
+msgid ""
+"Mario Blättermann <mariobl@gnome.org>\n"
+"Felipe Borges\n"
+"Marek Černocký\n"
+"Rodrigo Flores <rlmflores@gnome.org>\n"
+"Kramer Garay\n"
+"Jorge González <jorgegonz@svn.gnome.org>\n"
+"Christian Kirbach\n"
+"Peter Kragelj\n"
+"Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
+"Daniel Nylander <po@danielnylander.se>\n"
+"Frédéric Péters\n"
+"Matej Urbančič <mateju@svn.gnome.org>\n"
+"Aron Xu"
+msgstr ""
+"Марио Блатерман <mariobl@gnome.org>\n"
+"Фелипе Боргес\n"
+"Марек Черноцки\n"
+"Родриго Флорес <rlmflores@gnome.org>\n"
+"Крамер Гареј\n"
+"Хорге Гонзалес <jorgegonz@svn.gnome.org>\n"
+"Кристијан Кирбах\n"
+"Петер Крагељ\n"
+"Стефан Манијаћи <stephane.maniaci@gmail.com>\n"
+"Данијел Ниландер <po@danielnylander.se>\n"
+"Фредерик Петерс\n"
+"Матеј Урбанчич <mateju@svn.gnome.org>\n"
+"Арон Ксу"
 
 #: ../ease/ease-close-confirm-dialog.vala:58
 msgid "Save before closing?"
@@ -469,9 +498,12 @@ msgid ""
 "If you don't save, changes from the last second will be permanently lost."
 msgid_plural ""
 "If you don't save, changes from the last %i seconds will be permanently lost."
-msgstr[0] "Ако не сачувате, измене у последњој %i секунди биће трајно изгубљене."
-msgstr[1] "Ако не сачувате, измене у последње %i секунде биће трајно изгубљене."
-msgstr[2] "Ако не сачувате, измене у последњих %i секунди биће трајно изгубљене."
+msgstr[0] ""
+"Ако не сачувате, измене у последњој %i секунди биће трајно изгубљене."
+msgstr[1] ""
+"Ако не сачувате, измене у последње %i секунде биће трајно изгубљене."
+msgstr[2] ""
+"Ако не сачувате, измене у последњих %i секунди биће трајно изгубљене."
 msgstr[3] "Ако не сачувате, измене у последњој секунди биће трајно изгубљене."
 
 #: ../ease/ease-close-confirm-dialog.vala:139
@@ -506,9 +538,11 @@ msgid ""
 "If you don't save, changes from the last %i minute will be permanently lost."
 msgid_plural ""
 "If you don't save, changes from the last %i minutes will be permanently lost."
-msgstr[0] "Ако не сачувате, измене у последњем %i минуту биће трајно изгубљене."
+msgstr[0] ""
+"Ако не сачувате, измене у последњем %i минуту биће трајно изгубљене."
 msgstr[1] "Ако не сачувате, измене у последња %i минута биће трајно изгубљене."
-msgstr[2] "Ако не сачувате, измене у последњих %i минута биће трајно изгубљене."
+msgstr[2] ""
+"Ако не сачувате, измене у последњих %i минута биће трајно изгубљене."
 msgstr[3] "Ако не сачувате, измене у последњем минуту биће трајно изгубљене."
 
 #: ../ease/ease-close-confirm-dialog.vala:154
@@ -530,7 +564,8 @@ msgstr[1] ""
 msgstr[2] ""
 "Ако не сачувате, измене у последњем сату и %i минута биће трајно изгубљене."
 msgstr[3] ""
-"Ако не сачувате, измене у последњем сату и једном минуту биће трајно изгубљене."
+"Ако не сачувате, измене у последњем сату и једном минуту биће трајно "
+"изгубљене."
 
 #: ../ease/ease-close-confirm-dialog.vala:160
 #, c-format
@@ -588,6 +623,8 @@ msgstr "Сачувај документ"
 msgid "Error Saving Document"
 msgstr "Грешка чувања документа"
 
+#. store the original color in case the user cancels
+#. create an UndoAction for potential use
 #. create the dialog
 #: ../ease/ease-editor-window.vala:817
 msgid "Select Color"
@@ -611,6 +648,7 @@ msgstr "Увези податке"
 msgid "Downloading Media Files"
 msgstr "Преузимам датотеке података"
 
+#. create a container
 #. create checkboxes to filter CC licenses
 #: ../ease/ease-import-flickr-service.vala:80
 msgid "Share Alike"
