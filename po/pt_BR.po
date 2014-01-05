@@ -1,16 +1,17 @@
 # Brazilian Portuguese translation for ease.
-# Copyright (C) 2010 ease's COPYRIGHT HOLDER
+# Copyright (C) 2014 ease's COPYRIGHT HOLDER
 # This file is distributed under the same license as the ease package.
-# Felipe Borges <felipe10borges@gmail.com>, 2010.
+# Felipe Borges <felipe10borges@gmail.com>, 2010, 2011.
 # Rodrigo Flores <rlmflores@gnome.org>, 2010.
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-27 17:40+0000\n"
-"PO-Revision-Date: 2013-09-28 05:18-0300\n"
+"POT-Creation-Date: 2013-12-18 15:58+0000\n"
+"PO-Revision-Date: 2014-01-05 03:30-0300\n"
 "Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.3\n"
 
 #: ../data/ease.desktop.in.h:1 ../data/ease.desktop.in.in.h:1
 msgid "Ease Presentation Editor"
@@ -44,7 +45,7 @@ msgstr "Cor sólida"
 
 #: ../ease-core/ease-background.vala:243
 msgid "Gradient"
-msgstr "Gradiente"
+msgstr "Degradê"
 
 #: ../ease-core/ease-background.vala:244
 msgid "Image"
@@ -54,15 +55,12 @@ msgstr "Imagem"
 msgid "Select Background Image"
 msgstr "Selecionar imagem de fundo"
 
-#. create the source list
 #: ../ease-core/ease-background-widget.vala:188
 #: ../ease-core/ease-background-widget.vala:238
 #: ../ease/ease-editor-window.vala:459 ../ease/ease-import-dialog.vala:33
 msgid "Images"
 msgstr "Imagens"
 
-#. add a filter for all files to the bg image box
-#. add a filter for all files
 #: ../ease-core/ease-background-widget.vala:193
 #: ../ease-core/ease-background-widget.vala:243
 #: ../ease-core/ease-dialogs.vala:192 ../ease-core/ease-dialogs.vala:268
@@ -455,34 +453,8 @@ msgid "A presentation application for the GNOME Desktop"
 msgstr "Um aplicativo de apresentações para o Desktop GNOME"
 
 #: ../ease/ease-about-dialog.vala:67
-msgid ""
-"Mario Blättermann <mariobl@gnome.org>\n"
-"Felipe Borges\n"
-"Marek Černocký\n"
-"Rodrigo Flores <rlmflores@gnome.org>\n"
-"Kramer Garay\n"
-"Jorge González <jorgegonz@svn.gnome.org>\n"
-"Christian Kirbach\n"
-"Peter Kragelj\n"
-"Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
-"Daniel Nylander <po@danielnylander.se>\n"
-"Frédéric Péters\n"
-"Matej Urbančič <mateju@svn.gnome.org>\n"
-"Aron Xu"
-msgstr ""
-"Mario Blättermann <mariobl@gnome.org>\n"
-"Felipe Borges\n"
-"Marek Černocký\n"
-"Rodrigo Flores <rlmflores@gnome.org>\n"
-"Kramer Garay\n"
-"Jorge González <jorgegonz@svn.gnome.org>\n"
-"Christian Kirbach\n"
-"Peter Kragelj\n"
-"Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
-"Daniel Nylander <po@danielnylander.se>\n"
-"Frédéric Péters\n"
-"Matej Urbančič <mateju@svn.gnome.org>\n"
-"Aron Xu"
+msgid "Mario Blättermann <mariobl@gnome.org>"
+msgstr "Mario Blättermann <mariobl@gnome.org>"
 
 #: ../ease/ease-close-confirm-dialog.vala:58
 msgid "Save before closing?"
@@ -618,8 +590,6 @@ msgstr "Salvar documento"
 msgid "Error Saving Document"
 msgstr "Erro ao salvar documento"
 
-#. store the original color in case the user cancels
-#. create an UndoAction for potential use
 #. create the dialog
 #: ../ease/ease-editor-window.vala:817
 msgid "Select Color"
@@ -643,7 +613,6 @@ msgstr "Importar mídia"
 msgid "Downloading Media Files"
 msgstr "Baixando arquivos de mídia"
 
-#. create a container
 #. create checkboxes to filter CC licenses
 #: ../ease/ease-import-flickr-service.vala:80
 msgid "Share Alike"
@@ -740,15 +709,15 @@ msgstr "Cor de fundo"
 
 #: ../data/ui/background.ui.h:3
 msgid "Background Gradient"
-msgstr "Gradiente de fundo"
+msgstr "Degradê de fundo"
 
 #: ../data/ui/background.ui.h:4
 msgid "Reverse Gradient"
-msgstr "Gradiente reversa"
+msgstr "Degradê reverso"
 
 #: ../data/ui/background.ui.h:5
 msgid "Gradient Angle"
-msgstr "Ângulo de gradiente"
+msgstr "Ângulo de degradê"
 
 #: ../data/ui/background.ui.h:6
 msgid "Background Image"
@@ -922,5 +891,31 @@ msgstr "_Preencher slide"
 msgid "_New presentation"
 msgstr "_Nova apresentação"
 
-#~ msgid "Mario Blättermann <mariobl@gnome.org>"
-#~ msgstr "Mario Blättermann <mariobl@gnome.org>"
+#~ msgid ""
+#~ "Mario Blättermann <mariobl@gnome.org>\n"
+#~ "Felipe Borges\n"
+#~ "Marek Černocký\n"
+#~ "Rodrigo Flores <rlmflores@gnome.org>\n"
+#~ "Kramer Garay\n"
+#~ "Jorge González <jorgegonz@svn.gnome.org>\n"
+#~ "Christian Kirbach\n"
+#~ "Peter Kragelj\n"
+#~ "Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
+#~ "Daniel Nylander <po@danielnylander.se>\n"
+#~ "Frédéric Péters\n"
+#~ "Matej Urbančič <mateju@svn.gnome.org>\n"
+#~ "Aron Xu"
+#~ msgstr ""
+#~ "Mario Blättermann <mariobl@gnome.org>\n"
+#~ "Felipe Borges\n"
+#~ "Marek Černocký\n"
+#~ "Rodrigo Flores <rlmflores@gnome.org>\n"
+#~ "Kramer Garay\n"
+#~ "Jorge González <jorgegonz@svn.gnome.org>\n"
+#~ "Christian Kirbach\n"
+#~ "Peter Kragelj\n"
+#~ "Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
+#~ "Daniel Nylander <po@danielnylander.se>\n"
+#~ "Frédéric Péters\n"
+#~ "Matej Urbančič <mateju@svn.gnome.org>\n"
+#~ "Aron Xu"
