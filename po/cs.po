@@ -1,15 +1,15 @@
 # Czech translation for ease.
 # Copyright (C) 2010 ease's COPYRIGHT HOLDER
 # This file is distributed under the same license as the ease package.
-# Marek Černocký <marek@manet.cz>, 2010, 2011, 2013.
+# Marek Černocký <marek@manet.cz>, 2010, 2011, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ease master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=ease&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-18 15:58+0000\n"
-"PO-Revision-Date: 2013-12-24 19:21+0100\n"
+"POT-Creation-Date: 2014-01-05 06:00+0000\n"
+"PO-Revision-Date: 2014-01-12 08:59+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -53,12 +53,15 @@ msgstr "Obrázek"
 msgid "Select Background Image"
 msgstr "Výběr obrázku pro pozadí"
 
+#. create the source list
 #: ../ease-core/ease-background-widget.vala:188
 #: ../ease-core/ease-background-widget.vala:238
 #: ../ease/ease-editor-window.vala:459 ../ease/ease-import-dialog.vala:33
 msgid "Images"
 msgstr "Obrázky"
 
+#. add a filter for all files to the bg image box
+#. add a filter for all files
 #: ../ease-core/ease-background-widget.vala:193
 #: ../ease-core/ease-background-widget.vala:243
 #: ../ease-core/ease-dialogs.vala:192 ../ease-core/ease-dialogs.vala:268
@@ -448,8 +451,34 @@ msgid "A presentation application for the GNOME Desktop"
 msgstr "Prezentační aplikace pro pracovní prostředí GNOME"
 
 #: ../ease/ease-about-dialog.vala:67
-msgid "Mario Blättermann <mariobl@gnome.org>"
-msgstr "Mario Blättermann <mariobl@gnome.org>"
+msgid ""
+"Mario Blättermann <mariobl@gnome.org>\n"
+"Felipe Borges\n"
+"Marek Černocký\n"
+"Rodrigo Flores <rlmflores@gnome.org>\n"
+"Kramer Garay\n"
+"Jorge González <jorgegonz@svn.gnome.org>\n"
+"Christian Kirbach\n"
+"Peter Kragelj\n"
+"Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
+"Daniel Nylander <po@danielnylander.se>\n"
+"Frédéric Péters\n"
+"Matej Urbančič <mateju@svn.gnome.org>\n"
+"Aron Xu"
+msgstr ""
+"Mario Blättermann <mariobl@gnome.org>\n"
+"Felipe Borges\n"
+"Marek Černocký\n"
+"Rodrigo Flores <rlmflores@gnome.org>\n"
+"Kramer Garay\n"
+"Jorge González <jorgegonz@svn.gnome.org>\n"
+"Christian Kirbach\n"
+"Peter Kragelj\n"
+"Stéphane Maniaci <stephane.maniaci@gmail.com>\n"
+"Daniel Nylander <po@danielnylander.se>\n"
+"Frédéric Péters\n"
+"Matej Urbančič <mateju@svn.gnome.org>\n"
+"Aron Xu"
 
 #: ../ease/ease-close-confirm-dialog.vala:58
 msgid "Save before closing?"
@@ -595,6 +624,8 @@ msgstr "Uložit dokument"
 msgid "Error Saving Document"
 msgstr "Chyba při ukládání dokumentu"
 
+#. store the original color in case the user cancels
+#. create an UndoAction for potential use
 #. create the dialog
 #: ../ease/ease-editor-window.vala:817
 msgid "Select Color"
@@ -618,6 +649,7 @@ msgstr "Import média"
 msgid "Downloading Media Files"
 msgstr "Stahují se soubory média"
 
+#. create a container
 #. create checkboxes to filter CC licenses
 #: ../ease/ease-import-flickr-service.vala:80
 msgid "Share Alike"
@@ -895,3 +927,6 @@ msgstr "_Vyplnit snímek"
 #: ../data/ui/welcome-window.ui.h:1
 msgid "_New presentation"
 msgstr "_Nová prezentace"
+
+#~ msgid "Mario Blättermann <mariobl@gnome.org>"
+#~ msgstr "Mario Blättermann <mariobl@gnome.org>"
