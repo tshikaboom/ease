@@ -1,0 +1,892 @@
+# Hebrew translation for ease.
+# Copyright (C) 2013 ease's COPYRIGHT HOLDER
+# This file is distributed under the same license as the ease package.
+# fr33domlover <fr33domlover@riseup.net>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ease master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-13 01:28+0200\n"
+"PO-Revision-Date: 2013-09-24 00:38+0300\n"
+"Last-Translator: fr33domlover <fr33domlover@riseup.net>\n"
+"Language-Team: עברית <>\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.5\n"
+
+#: ../data/ease.desktop.in.h:1 ../data/ease.desktop.in.in.h:1
+msgid "Ease Presentation Editor"
+msgstr "עורך המצגות Ease"
+
+#: ../data/ease.desktop.in.h:2 ../data/ease.desktop.in.in.h:2
+msgid "Create nice and elegant presentations"
+msgstr "יצירת מצגות נאות ואלגנטיות"
+
+#: ../ease-core/ease-archiver.vala:29
+#, c-format
+msgid "Saving \"%s\""
+msgstr "שומר את \"%s\""
+
+#: ../ease-core/ease-archiver.vala:98
+#, c-format
+msgid "Temporary directory doesn't exist: %s"
+msgstr "תיקיה זמנית לא קיימת: %s"
+
+#: ../ease-core/ease-background.vala:242
+msgid "Solid Color"
+msgstr "צבע אחיד"
+
+#: ../ease-core/ease-background.vala:243
+msgid "Gradient"
+msgstr "צבע הדרגתי"
+
+#: ../ease-core/ease-background.vala:244
+msgid "Image"
+msgstr "תמונה"
+
+#: ../ease-core/ease-background-widget.vala:24
+msgid "Select Background Image"
+msgstr "בחירת תמונת רקע"
+
+#: ../ease-core/ease-background-widget.vala:188
+#: ../ease-core/ease-background-widget.vala:238
+#: ../ease/ease-editor-window.vala:459 ../ease/ease-import-dialog.vala:33
+msgid "Images"
+msgstr "תמונות"
+
+#: ../ease-core/ease-background-widget.vala:193
+#: ../ease-core/ease-background-widget.vala:243
+#: ../ease-core/ease-dialogs.vala:192 ../ease-core/ease-dialogs.vala:268
+#: ../ease/ease-editor-window.vala:464 ../ease/ease-editor-window.vala:567
+msgid "All Files"
+msgstr "כל הקבצים"
+
+#: ../ease-core/ease-dialogs.vala:24
+msgid ""
+"The specified filename does not end with a \".ease\" extension. Would you "
+"like to append one?"
+msgstr "שם הקובץ שנבחר אינו מכיל ‫ס‫יומת \"‪.ease‬\". האם להוסיף אותה?"
+
+#: ../ease-core/ease-dialogs.vala:25
+msgid "Append .ease?"
+msgstr "האם להוסיף סיומת \"‪.ease‬\"?"
+
+#: ../ease-core/ease-dialogs.vala:27
+#, c-format
+msgid "Replace %s?"
+msgstr "האם להחליף את \"%s\"?"
+
+#: ../ease-core/ease-dialogs.vala:29
+#, c-format
+msgid "A file named %s already exists. Do you want to replace it?"
+msgstr "קובץ בשם %s כבר קיים. האם להחליף אותו?"
+
+#: ../ease-core/ease-dialogs.vala:31
+#, c-format
+msgid ""
+"This file already exists in the directory \"%s\". Overwriting it will "
+"replace its contents."
+msgstr "קובץ זה כבר קיים בתיקיה \"%s\". שכתובו יחליף את תוכנו בתוכן החדש."
+
+#: ../ease-core/ease-dialogs.vala:183
+msgid "Open Document"
+msgstr "פתיחת מסמך"
+
+#: ../ease-core/ease-dialogs.vala:187 ../ease-core/ease-dialogs.vala:263
+msgid "Ease Presentations"
+msgstr "מצגות Ease"
+
+#: ../ease-core/ease-dialogs.vala:290
+msgid "Don't append .ease"
+msgstr "אין להוסיף סיומת \"‪.ease‬\""
+
+#: ../ease-core/ease-dialogs.vala:294
+msgid "Append .ease"
+msgstr "הוספת סיומת \"‪.ease‬\""
+
+#: ../ease-core/ease-dialogs.vala:327
+#, c-format
+msgid "Don't overwrite %s"
+msgstr "אין לשכתב את %s"
+
+#: ../ease-core/ease-dialogs.vala:331
+#, c-format
+msgid "Overwrite %s"
+msgstr "יש לשכתב את %s"
+
+#. *
+#. * Default slide title.
+#.
+#: ../ease-core/ease-document.vala:80
+#, c-format
+msgid "Slide %i"
+msgstr "שקופית %i"
+
+#. archive
+#: ../ease-core/ease-document.vala:278
+msgid "Saving Document"
+msgstr "שומר את המסמך"
+
+#: ../ease-core/ease-document.vala:517
+msgid "Export as PDF"
+msgstr "יצוא כ־PDF"
+
+#: ../ease-core/ease-document.vala:527
+msgid "Error Exporting to PDF"
+msgstr "שגיאה בייצוא ל־PDF"
+
+#: ../ease-core/ease-document.vala:538
+msgid "Export as PostScript"
+msgstr "יצוא כ־PostScript"
+
+#: ../ease-core/ease-document.vala:548
+msgid "Error Exporting to PostScript"
+msgstr "שגיאה בייצוא ל־PostScript"
+
+#: ../ease-core/ease-document.vala:595
+msgid "Error exporting as HTML"
+msgstr "שגיאה בייצוא ל־HTML"
+
+#: ../ease-core/ease-gradient.vala:259
+msgid "Linear"
+msgstr "קווי"
+
+#: ../ease-core/ease-gradient.vala:260
+#, fuzzy
+msgid "Mirrored Linear"
+msgstr "קווי משוקף"
+
+#: ../ease-core/ease-gradient.vala:261
+#, fuzzy
+msgid "Radial"
+msgstr "רדיאלי"
+
+#: ../ease-core/ease-html-exporter.vala:75
+msgid "Export to HTML"
+msgstr "יצוא כ־HTML"
+
+#: ../ease-core/ease-html-exporter.vala:82
+msgid "Exporting as HTML"
+msgstr "מייצא ל־HTML"
+
+#: ../ease-core/ease-html-exporter.vala:144
+#: ../ease-core/ease-html-exporter.vala:176
+#, fuzzy
+msgid "Error Copying File"
+msgstr "אירעה שגיאה בעת העתקת הקובץ"
+
+#: ../ease-core/ease-image-actor.vala:47
+#, fuzzy, c-format
+msgid "Error loading ImageActor: %s\n"
+msgstr "אירעה שגיאה בעת טעינת ImageActor: ‫%s"
+
+#: ../ease-core/ease-image-element.vala:86 ../ease/ease-editor-window.vala:516
+msgid "Error Inserting Image"
+msgstr "אירעה שגיאה בעת הכנסת תמונה"
+
+#: ../ease-core/ease-image.vala:217
+msgid "Stretch"
+msgstr "מתיחה"
+
+#: ../ease-core/ease-image.vala:218
+#, fuzzy
+msgid "Maintain Aspect Ratio"
+msgstr "שמירת יחס אורך־רוחב"
+
+#: ../ease-core/ease-image.vala:219
+msgid "Do not Scale"
+msgstr "אין לשנות גודל"
+
+#: ../ease-core/ease-text-element.vala:25
+#, fuzzy
+msgid "Double click to edit"
+msgstr "לחץ לחיצה כפולה לעריכה"
+
+#: ../ease-core/ease-theme.vala:291
+#, c-format
+msgid "Error loading theme: %s"
+msgstr "אירעה שגיאה בעת טעינת ערכת נושא: %s"
+
+#: ../ease-core/ease-theme.vala:445
+#, c-format
+msgid "Invalid master slide title: %s"
+msgstr "כותרת שקופית ראשית אינה תקינה: %s"
+
+#: ../ease-core/ease-theme.vala:472
+#, fuzzy, c-format
+msgid "Not a valid text element type: %s"
+msgstr "סוג רכיב טקסט אינו תקין: %s"
+
+#: ../ease-core/ease-theme.vala:526
+#, fuzzy, c-format
+msgid "Could not find property %s on element type %s."
+msgstr "לא ניתן למצוא את המאפיין %s של סוג רכיב %s"
+
+#: ../ease-core/ease-theme.vala:556
+#, fuzzy, c-format
+msgid "Could not find property %s on master type %s."
+msgstr "לא ניתן למצוא מאפיין %s של סוג ראשי %s"
+
+#: ../ease-core/ease-theme.vala:584
+msgid "_Title slide"
+msgstr "שקופית _כותרת"
+
+#: ../ease-core/ease-theme.vala:586
+msgid "Content slide _without header"
+msgstr "שקופית תוכן _ללא כותרת עליונה"
+
+#: ../ease-core/ease-theme.vala:588
+msgid "_Content slide"
+msgstr "שקופית _תוכן"
+
+#: ../ease-core/ease-theme.vala:590
+msgid "Two column slide without _header"
+msgstr "שקופית עם שני טורים ללא כותרת _עליונה"
+
+#: ../ease-core/ease-theme.vala:592
+msgid "T_wo column slide with header"
+msgstr "שקופית עם שני _טורים ועם כותרת עליונה"
+
+#: ../ease-core/ease-theme.vala:594
+msgid "M_edia slide without header"
+msgstr "שקופית מ_דיה ללא כותרת עליונה"
+
+#: ../ease-core/ease-theme.vala:596
+msgid "_Media slide"
+msgstr "שקופית _מדיה"
+
+#: ../ease-core/ease-theme.vala:598
+msgid "Em_pty Slide"
+msgstr "שקופית _ריקה"
+
+#: ../ease-core/ease-theme.vala:601
+#, c-format
+msgid "%s is not a valid identifier"
+msgstr "‫%s אינו מזהה תקין"
+
+#: ../ease-core/ease-transitions.vala:220
+msgid "None"
+msgstr "ללא"
+
+#: ../ease-core/ease-transitions.vala:222
+msgid "Fade"
+msgstr "עמעום"
+
+#: ../ease-core/ease-transitions.vala:224
+msgid "Slide"
+msgstr "גלישה"
+
+#: ../ease-core/ease-transitions.vala:226
+msgid "Drop"
+msgstr "נפילה"
+
+#: ../ease-core/ease-transitions.vala:228
+msgid "Pivot"
+msgstr "ציר"
+
+#: ../ease-core/ease-transitions.vala:230
+#, fuzzy
+msgid "Flip"
+msgstr "היפוך"
+
+#: ../ease-core/ease-transitions.vala:232
+msgid "Revolving Door"
+msgstr "דלת מסתובבת"
+
+#: ../ease-core/ease-transitions.vala:234
+msgid "Reveal"
+msgstr "חשיפה"
+
+#: ../ease-core/ease-transitions.vala:236
+#, fuzzy
+msgid "Fall"
+msgstr "מפל"
+
+#: ../ease-core/ease-transitions.vala:238
+#, fuzzy
+msgid "Slats"
+msgstr "רצועות"
+
+#: ../ease-core/ease-transitions.vala:240
+msgid "Open Door"
+msgstr "דלת פתוחה"
+
+#: ../ease-core/ease-transitions.vala:242
+msgid "Explode"
+msgstr "פיצוץ"
+
+#: ../ease-core/ease-transitions.vala:244
+msgid "Assemble"
+msgstr "כינוס"
+
+#: ../ease-core/ease-transitions.vala:246
+msgid "Zoom"
+msgstr "תקריב"
+
+#: ../ease-core/ease-transitions.vala:248
+#, fuzzy
+msgid "Panel"
+msgstr "לוח"
+
+#: ../ease-core/ease-transitions.vala:250
+#, fuzzy
+msgid "Intersperse Contents"
+msgstr "פיזור תוכן"
+
+#: ../ease-core/ease-transitions.vala:252
+#, fuzzy
+msgid "Spin Contents"
+msgstr "סיבוב תוכן"
+
+#: ../ease-core/ease-transitions.vala:254
+#, fuzzy
+msgid "Spring Contents"
+msgstr "הקפצת תוכן"
+
+#: ../ease-core/ease-transitions.vala:256
+#, fuzzy
+msgid "Swing Contents"
+msgstr "נענוע תוכן"
+
+#: ../ease-core/ease-transitions.vala:258
+#, fuzzy
+msgid "Slide Contents"
+msgstr "גלישת תוכן"
+
+#: ../ease-core/ease-transitions.vala:260
+#, fuzzy
+msgid "Zoom Contents"
+msgstr "תקריב תוכן"
+
+#: ../ease-core/ease-transitions.vala:263
+#: ../ease-core/ease-transitions.vala:375
+msgid "Undefined"
+msgstr "לא מוגדר"
+
+#: ../ease-core/ease-transitions.vala:340
+msgid "Up"
+msgstr "מעלה"
+
+#: ../ease-core/ease-transitions.vala:342
+msgid "Down"
+msgstr "מטה"
+
+#: ../ease-core/ease-transitions.vala:344
+msgid "Left"
+msgstr "שמאלה"
+
+#: ../ease-core/ease-transitions.vala:346
+msgid "Right"
+msgstr "ימינה"
+
+#: ../ease-core/ease-transitions.vala:348
+msgid "Bottom"
+msgstr "קצה תחתון"
+
+#: ../ease-core/ease-transitions.vala:350
+msgid "Top"
+msgstr "קצה עליון"
+
+#: ../ease-core/ease-transitions.vala:352
+msgid "Center"
+msgstr "מרכז"
+
+#: ../ease-core/ease-transitions.vala:354
+msgid "Top Left"
+msgstr "שמאל למעלה"
+
+#: ../ease-core/ease-transitions.vala:356
+msgid "Top Right"
+msgstr "ימין למעלה"
+
+#: ../ease-core/ease-transitions.vala:358
+msgid "Bottom Left"
+msgstr "שמאל למטה"
+
+#: ../ease-core/ease-transitions.vala:360
+msgid "Bottom Right"
+msgstr "ימין למטה"
+
+#: ../ease-core/ease-transitions.vala:362
+msgid "Top to Bottom"
+msgstr "מלמעלה למטה"
+
+#: ../ease-core/ease-transitions.vala:364
+msgid "Bottom to Top"
+msgstr "מלמטה למעלה"
+
+#: ../ease-core/ease-transitions.vala:366
+msgid "Left to Right"
+msgstr "משמאל לימין"
+
+#: ../ease-core/ease-transitions.vala:368
+msgid "Right to Left"
+msgstr "מימין לשמאל"
+
+#: ../ease-core/ease-transitions.vala:370
+#, fuzzy
+msgid "In"
+msgstr "פנימה"
+
+#: ../ease-core/ease-transitions.vala:372
+#, fuzzy
+msgid "Out"
+msgstr "החוצה"
+
+#: ../ease-core/ease-utilities.vala:274
+#, c-format
+msgid "Directory to remove doesn't exist: %s"
+msgstr "התיקיה המיועדת להסרה אינה קיימת: %s"
+
+#: ../ease-core/ease-video-element.vala:93
+msgid "Your browser does not support the video tag"
+msgstr "הדפדפן אינו תומך בתגיות וידאו"
+
+#: ../ease-core/ease-video-element.vala:262
+msgid "Stop playback"
+msgstr "עצירת נגינה"
+
+#: ../ease-core/ease-video-element.vala:263
+msgid "Loop"
+msgstr "לולאה"
+
+#: ../ease-core/ease-video-element.vala:264
+msgid "Continue to next slide"
+msgstr "המשך לשקופית הבאה"
+
+#: ../ease/ease-about-dialog.vala:50
+msgid "A presentation application for the GNOME Desktop"
+msgstr "יישום מצגות עבור שולחן העבודה GNOME"
+
+#: ../ease/ease-about-dialog.vala:67
+msgid "Mario Blättermann <mariobl@gnome.org>"
+msgstr "Mario Blättermann <mariobl@gnome.org>"
+
+#: ../ease/ease-close-confirm-dialog.vala:58
+msgid "Save before closing?"
+msgstr "לשמור לפני היציאה?"
+
+#. buttons
+#: ../ease/ease-close-confirm-dialog.vala:98
+msgid "Close _without Saving"
+msgstr "יציאה _ללא שמירה"
+
+#: ../ease/ease-close-confirm-dialog.vala:135
+#, c-format
+msgid ""
+"If you don't save, changes from the last second will be permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last %i seconds will be permanently lost."
+msgstr[0] "אם לא תתבצע שמירה, השינויים מהשניה האחרונה יאבדו."
+msgstr[1] "אם לא תתבצע שמירה, השינויים מ־%i השניות האחרונות יאבדו."
+
+#: ../ease/ease-close-confirm-dialog.vala:139
+msgid ""
+"If you don't save, changes from the last minute will be permanently lost."
+msgstr "אם לא תתבצע שמירה, השינויים מהדקה האחרונה יאבדו."
+
+#: ../ease/ease-close-confirm-dialog.vala:143
+#, c-format
+msgid ""
+"If you don't save, changes from the last minute and %i second will be "
+"permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last minute and %i seconds will be "
+"permanently lost."
+msgstr[0] "אם לא תתבצע שמירה, השינויים מהדקה ושניה %i האחרונות יאבדו."
+msgstr[1] "אם לא תתבצע שמירה, השינויים מהדקה ו־%i השניות האחרונות יאבדו."
+
+#: ../ease/ease-close-confirm-dialog.vala:147
+#, c-format
+msgid ""
+"If you don't save, changes from the last %i minute will be permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last %i minutes will be permanently lost."
+msgstr[0] "אם לא תתבצע שמירה, השינויים מ־%i הדקות האחרונות יאבדו."
+msgstr[1] "אם לא תתבצע שמירה, השינויים מ־%i הדקות האחרונות יאבדו."
+
+#: ../ease/ease-close-confirm-dialog.vala:154
+msgid "If you don't save, changes from the last hour will be permanently lost."
+msgstr "אם לא תתבצע שמירה, השינויים מהשעה האחרונה יאבדו."
+
+#: ../ease/ease-close-confirm-dialog.vala:156
+#, fuzzy, c-format
+msgid ""
+"If you don't save, changes from the last hour and %i minute will be "
+"permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last hour and %i minutes will be "
+"permanently lost."
+msgstr[0] "אם לא תתבצע שמירה, השינויים מהשעה ו־%i הדקות האחרונות יאבדו."
+msgstr[1] "אם לא תתבצע שמירה, השינויים מהשעה ו־%i הדקות האחרונות יאבדו."
+
+#: ../ease/ease-close-confirm-dialog.vala:160
+#, fuzzy, c-format
+msgid ""
+"If you don't save, changes from the last %i hour will be permanently lost."
+msgid_plural ""
+"If you don't save, changes from the last %i hours will be permanently lost."
+msgstr[0] "אם לא תתבצע שמירה, השינויים מ־%i השעות האחרונות יאבדו."
+msgstr[1] "אם לא תתבצע שמירה, השינויים מ־%i השעות האחרונות יאבדו."
+
+#: ../ease/ease-close-confirm-dialog.vala:171
+#, c-format
+msgid "Save changes to \"%s\" before closing?"
+msgstr "האם לשמור את השינויים ל־%s לפני הסגירה?"
+
+#: ../ease/ease-editor-window.vala:168
+msgid "The quick brown fox jumps over the lazy dog"
+msgstr "דג סקרן שט לו בים זך ולפתע מצא חבורה נחמדה"
+
+#: ../ease/ease-editor-window.vala:266
+msgid "Untitled Document"
+msgstr "ללא שם"
+
+#: ../ease/ease-editor-window.vala:455
+msgid "Insert Image"
+msgstr "הכנסת תמונה"
+
+#: ../ease/ease-editor-window.vala:523
+msgid "Insert Video"
+msgstr "הכנסת סרטון"
+
+#: ../ease/ease-editor-window.vala:548
+msgid "Error Inserting Video"
+msgstr "אירעה שגיאה בעת הכנסת סרטון"
+
+#: ../ease/ease-editor-window.vala:556
+msgid "Insert PDF Document"
+msgstr "הכנסת מסמך PDF"
+
+#: ../ease/ease-editor-window.vala:562
+msgid "PDF Documents"
+msgstr "מסמכי PDF"
+
+#: ../ease/ease-editor-window.vala:601
+msgid "Error Inserting PDF"
+msgstr "אירעה שגיאה בעת הכנסת מסמך PDF"
+
+#: ../ease/ease-editor-window.vala:722
+msgid "Save Document"
+msgstr "שמירת המסמך"
+
+#: ../ease/ease-editor-window.vala:738
+msgid "Error Saving Document"
+msgstr "אירעה שגיאה בעת שמירת המסמך"
+
+#. create the dialog
+#: ../ease/ease-editor-window.vala:817
+msgid "Select Color"
+msgstr "בחירת צבע"
+
+#. create a font selection dialog
+#: ../ease/ease-editor-window.vala:884
+msgid "Select Font"
+msgstr "בחירת גופן"
+
+#: ../ease/ease-import-dialog.vala:20
+#, c-format
+msgid "Downloading image %i of %i"
+msgstr "מוריד תמונה %i מתוך %i"
+
+#: ../ease/ease-import-dialog.vala:28
+msgid "Import Media"
+msgstr "יבוא מדיה"
+
+#: ../ease/ease-import-dialog.vala:64
+msgid "Downloading Media Files"
+msgstr "מוריד קבצי מדיה"
+
+#. create checkboxes to filter CC licenses
+#: ../ease/ease-import-flickr-service.vala:80
+msgid "Share Alike"
+msgstr "שיתוף זהה"
+
+#: ../ease/ease-import-flickr-service.vala:82
+msgid "For Commercial Use"
+msgstr "לשימוש מסחרי"
+
+#: ../ease/ease-inspector-transition-pane.vala:73
+msgid "Effect"
+msgstr "אפקט"
+
+#: ../ease/ease-inspector-transition-pane.vala:87
+msgid "Duration"
+msgstr "משך"
+
+#: ../ease/ease-inspector-transition-pane.vala:101
+msgid "Direction"
+msgstr "כיוון"
+
+#: ../ease/ease-inspector-transition-pane.vala:117
+msgid "Start Transition"
+msgstr "התחלת מעבר"
+
+#: ../ease/ease-inspector-transition-pane.vala:120
+msgid "Manually"
+msgstr "ידנית"
+
+#: ../ease/ease-inspector-transition-pane.vala:121
+msgid "Automatically"
+msgstr "אוטומטית"
+
+#: ../ease/ease-inspector-transition-pane.vala:131
+#, fuzzy
+msgid "Delay"
+msgstr "עיכוב"
+
+#. parse command line options
+#: ../ease/ease-main.vala:65
+#, fuzzy
+msgid " - a presentation editor"
+msgstr " - עורך מצגות"
+
+#: ../ease/ease-main.vala:80
+#, fuzzy, c-format
+msgid "error parsing options: %s\n"
+msgstr "אירעה שגיאה בעת קריאת אפשרויות: %s"
+
+#: ../ease/ease-main.vala:217
+msgid "Error Opening Document"
+msgstr "אירעה שגיאה בעת פתיחת המסמך"
+
+#: ../ease/ease-main.vala:246
+#, fuzzy
+msgid "Error Playing Document"
+msgstr "אירעה שגיאה בעת הצגת המסמך"
+
+#: ../ease/ease-main.vala:264
+msgid "Error creating new document"
+msgstr "אירעה שגיאה בעת יצירת מסמך חדש"
+
+#: ../ease/ease-player.vala:65
+msgid "Ease Presentation"
+msgstr "מצגת Ease"
+
+#: ../ease/ease-slide-button-panel.vala:195
+#, c-format
+msgid "Error drawing slide preview: %s"
+msgstr "אירעה שגיאה בעת יצירת תצוגה מקדימה לשקופית: %s"
+
+#: ../ease/ease-welcome-actor.vala:163
+#, c-format
+msgid "Error rendering preview: %s"
+msgstr "אירעה שגיאה בעת הצגת תצוגה מקדימה: %s"
+
+#: ../ease/ease-welcome-window.vala:90
+#, fuzzy
+msgid "Pick a theme and start editing"
+msgstr "בחר/י נושא על מנת להתחיל לערוך"
+
+#: ../ease/ease-welcome-window.vala:121
+msgid "Custom"
+msgstr "מותאם"
+
+#: ../ease/ease-welcome-window.vala:123
+#, c-format
+msgid "%i by %i"
+msgstr "‫%i על %i"
+
+#: ../data/ui/background.ui.h:1
+msgid "Background Style"
+msgstr "סגנון רקע"
+
+#: ../data/ui/background.ui.h:2
+msgid "Background Color"
+msgstr "צבע רקע"
+
+#: ../data/ui/background.ui.h:3
+msgid "Background Gradient"
+msgstr "צבע רקע הדרגתי"
+
+#: ../data/ui/background.ui.h:4
+msgid "Reverse Gradient"
+msgstr "צבע הדרגתי הפוך"
+
+#: ../data/ui/background.ui.h:5
+msgid "Gradient Angle"
+msgstr "זוית צבע הדרגתי"
+
+#: ../data/ui/background.ui.h:6
+msgid "Background Image"
+msgstr "תמונת רקע"
+
+#: ../data/ui/background.ui.h:7
+msgid "Fill Mode"
+msgstr "סוג מילוי"
+
+#: ../data/ui/editor-window.ui.h:1
+msgid "_File"
+msgstr "_קובץ"
+
+#: ../data/ui/editor-window.ui.h:2
+msgid "Save a _Copy"
+msgstr "שמירת _עותק"
+
+#: ../data/ui/editor-window.ui.h:3
+msgid "_Export Presentation"
+msgstr "_יצוא שקופית"
+
+#: ../data/ui/editor-window.ui.h:4
+#, fuzzy
+msgid "_PDF"
+msgstr "_PDF"
+
+#: ../data/ui/editor-window.ui.h:5
+#, fuzzy
+msgid "Post_Script"
+msgstr "Post_Script"
+
+#: ../data/ui/editor-window.ui.h:6
+#, fuzzy
+msgid "_HTML"
+msgstr "_HTML"
+
+#: ../data/ui/editor-window.ui.h:7
+msgid "_Edit"
+msgstr "_עריכה"
+
+#: ../data/ui/editor-window.ui.h:8
+msgid "_Raise"
+msgstr "ה_רמה"
+
+#: ../data/ui/editor-window.ui.h:9
+msgid "_Lower"
+msgstr "ה_ורדה"
+
+#: ../data/ui/editor-window.ui.h:10
+msgid "Raise to _Top"
+msgstr "הרמה לקצה ע_ליון"
+
+#: ../data/ui/editor-window.ui.h:11
+msgid "Lower to _Bottom"
+msgstr "הורדה לקצה _תחתון"
+
+#: ../data/ui/editor-window.ui.h:12 ../data/ui/import-widget.ui.h:2
+msgid "_Insert"
+msgstr "ה_כנסה"
+
+#: ../data/ui/editor-window.ui.h:13
+msgid "_Image"
+msgstr "ת_מונה"
+
+#: ../data/ui/editor-window.ui.h:14
+msgid "_Video"
+msgstr "ויד_או"
+
+#: ../data/ui/editor-window.ui.h:15
+msgid "_PDF Document"
+msgstr "_מסמך PDF"
+
+#: ../data/ui/editor-window.ui.h:16
+msgid "Media from the _Web"
+msgstr "מדיה מה_רשת"
+
+#: ../data/ui/editor-window.ui.h:17
+msgid "_Text"
+msgstr "_טקסט"
+
+#: ../data/ui/editor-window.ui.h:18 ../data/ui/inspector-element-shape.ui.h:1
+msgid "_Rectangle"
+msgstr "_מלבן"
+
+#: ../data/ui/editor-window.ui.h:19 ../data/ui/inspector-element-shape.ui.h:2
+msgid "_Oval"
+msgstr "_אליפסה"
+
+#: ../data/ui/editor-window.ui.h:20
+msgid "_View"
+msgstr "_תצוגה"
+
+#: ../data/ui/editor-window.ui.h:21
+msgid "Editor"
+msgstr "עורך"
+
+#: ../data/ui/editor-window.ui.h:22
+msgid "Slide Sorter"
+msgstr "ממיין מצגות"
+
+#: ../data/ui/editor-window.ui.h:23
+msgid "Zoom to _Fit"
+msgstr "_קרב להתאמה"
+
+#: ../data/ui/editor-window.ui.h:24
+msgid "_Help"
+msgstr "ע_זרה"
+
+#: ../data/ui/editor-window.ui.h:25
+msgid "Add Slide"
+msgstr "הוספת שקופית"
+
+#: ../data/ui/editor-window.ui.h:26
+msgid "Remove Slide"
+msgstr "הסרת שקופית"
+
+#: ../data/ui/editor-window.ui.h:27
+msgid "Present"
+msgstr "הצגה"
+
+#: ../data/ui/editor-window.ui.h:28
+msgid "Save"
+msgstr "שמירה"
+
+#: ../data/ui/editor-window.ui.h:29
+msgid "Undo"
+msgstr "ביטול"
+
+#: ../data/ui/editor-window.ui.h:30
+msgid "Redo"
+msgstr "ביצוע חוזר"
+
+#: ../data/ui/editor-window.ui.h:31
+#, fuzzy
+msgid "Show Inspector"
+msgstr "הצגת מפקח"
+
+#: ../data/ui/import-widget.ui.h:1
+msgid "No Results Found"
+msgstr "לא נמצאו תוצאות"
+
+#: ../data/ui/inspector-element-image.ui.h:1
+msgid "Select Image"
+msgstr "בחירת תמונה"
+
+#: ../data/ui/inspector-element-none.ui.h:1
+#, fuzzy
+msgid "Nothing is selected"
+msgstr "לא נבחר דבר"
+
+#: ../data/ui/inspector-element-pdf.ui.h:1
+msgid "Displayed Page"
+msgstr "העמוד המוצג"
+
+#: ../data/ui/inspector-element-pdf.ui.h:2
+#, fuzzy
+msgid "Allow page change"
+msgstr "אפשור שינוי עמוד"
+
+#: ../data/ui/inspector-element-video.ui.h:1
+msgid "_Automatically start playback"
+msgstr "התחלת נגינה _אוטומטית"
+
+#: ../data/ui/inspector-element-video.ui.h:2
+msgid "_Mute Audio"
+msgstr "ה_שתקת שמע"
+
+#: ../data/ui/inspector-element-video.ui.h:3
+#, fuzzy
+msgid "When video playback ends:"
+msgstr "כאשר הצגת וידאו מסתיימת:"
+
+#: ../data/ui/inspector-element-video.ui.h:4
+#, fuzzy
+msgid "_Fill Slide"
+msgstr "_מילוי שקופית"
+
+#: ../data/ui/welcome-window.ui.h:1
+msgid "_New presentation"
+msgstr "מצגת _חדשה"
