@@ -28,7 +28,7 @@
  * only - other than the directory name, functionality is identical to
  * request().
  */
-public static class Ease.Temp : Object
+public class Ease.Temp : Object
 {
 	private static int index = 0;
 	
