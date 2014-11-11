@@ -105,7 +105,6 @@ public class Ease.HTMLExporter : GLib.Object
 	 */
 	public void finish()
 	{
-		window.hide_all();
 		window.destroy();
 	}
 	
