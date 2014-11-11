@@ -281,17 +281,17 @@ public class Ease.VideoActor : Actor, Clutter.Media
 		return video.get_progress();
 	}
 	
-	public unowned string get_subtitle_font_name()
+	public string get_subtitle_font_name()
 	{
 		return video.get_subtitle_font_name();
 	}
 	
-	public unowned string get_subtitle_uri()
+	public string get_subtitle_uri()
 	{
 		return video.get_subtitle_uri();
 	}
 	
-	public unowned string get_uri()
+	public string get_uri()
 	{
 		return video.get_uri();
 	}
