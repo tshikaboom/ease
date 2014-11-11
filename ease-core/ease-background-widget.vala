@@ -436,8 +436,8 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 		{
 			case BackgroundType.COLOR:
 				box_color.show_all();
-				box_gradient.hide_all();
-				box_image.hide_all();
+				box_gradient.hide();
+				box_image.hide();
 				
 				if (background.color == null)
 				{
@@ -450,9 +450,9 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 				break;
 			
 			case BackgroundType.GRADIENT:
-				box_color.hide_all();
+				box_color.hide();
 				box_gradient.show_all();
-				box_image.hide_all();
+				box_image.hide();
 				
 				if (background.gradient == null)
 				{
@@ -472,8 +472,8 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 				break;
 			
 			case BackgroundType.IMAGE:
-				box_color.hide_all();
-				box_gradient.hide_all();
+				box_color.hide();
+				box_gradient.hide();
 				box_image.show_all();
 				
 				background.background_type = BackgroundType.IMAGE;
