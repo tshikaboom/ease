@@ -24,7 +24,7 @@
  * VideoActor "implements" Clutter.Media by passing through all function calls
  * to its VideoTexture.
  */
-public class Ease.VideoActor : Actor, Clutter.Media
+public class Ease.VideoActor : Actor
 {
 	/**
 	 * The VideoTexture displayed by this VideoActor.
