@@ -245,8 +245,7 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 		// set the background to a faded version of the normal gtk background
 		Clutter.Color out_color, color;
 		GtkClutter.get_bg_color(this, Gtk.StateType.NORMAL, out color);
-		color.shade(SHADE_FACTOR, out out_color);
-		(embed.get_stage() as Clutter.Stage).color = out_color;
+		(embed.get_stage() as Clutter.Stage).color = color.shade(SHADE_FACTOR);
 		
 		// create the group
 		group = new Clutter.Group();
