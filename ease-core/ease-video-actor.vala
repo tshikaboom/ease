@@ -44,7 +44,7 @@ public class Ease.VideoActor : Actor, Clutter.Media
 	/**
 	 * The path to the "play" button svg.
 	 */
-	private const string PLAY_PATH =
+	private string PLAY_PATH =
 		Path.build_filename("svg", "video-play-button.svg");
 	
 	/**
