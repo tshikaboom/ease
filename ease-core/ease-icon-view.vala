@@ -531,7 +531,7 @@ public class Ease.IconView : Clutter.Group
 	 */
 	private class Icon : Clutter.Group
 	{
-		public Clutter.Texture texture;
+		public GtkClutter.Texture texture;
 		public Clutter.Text text;
 		public Gtk.TreeRowReference reference;
 		public bool selected
@@ -640,8 +640,8 @@ public class Ease.IconView : Clutter.Group
 				reference.get_model().get(iter, column, out pb);
 				
 				if (pb == null) return;
-				texture =
-					GtkClutter.texture_new_from_pixbuf(pb) as Clutter.Texture;
+				texture = new GtkClutter.Texture();
+				texture.set_from_pixbuf(pb);
 				
 				// if all was successful, add the texture	
 				if (texture != null)
