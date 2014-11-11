@@ -76,12 +76,12 @@ public class Source.Item : Gtk.HBox
 	/**
 	 * Format string for right notification number when new.
 	 */
-	private const string FORMAT_RIGHT_NEW = "<small><b>%i</b></small>";
+	public const string FORMAT_RIGHT_NEW = "<small><b>%i</b></small>";
 	
 	/**
 	 * Format string for right notification number once viewed.
 	 */
-	private const string FORMAT_RIGHT_OLD = "<small><b>%i</b></small>";
+	public const string FORMAT_RIGHT_OLD = "<small><b>%i</b></small>";
 	
 	/**
 	 * Padding to the sides of the label and image. Not used on the right of
