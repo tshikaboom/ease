@@ -54,28 +54,26 @@ GNOME_MAINTAINER_MODE_DEFINES
 dnl packages
 pkg_modules="\
  clutter-gst-1.0\
- clutter-gtk-0.10 >= 0.10\
+ clutter-gtk-1.0\
  gee-1.0\
  gmodule-2.0\
  json-glib-1.0 >= 0.7.6\
  libarchive\
  poppler-glib\
- rest-0.6 \
- rest-extras-0.6\
- unique-1.0"
+ rest-0.7 \
+ rest-extras-0.7"
  
 PKG_CHECK_MODULES(EASE, [$pkg_modules])
 
 EASE_PACKAGES="\
  --pkg clutter-gst-1.0\
- --pkg clutter-gtk-0.10\
+ --pkg clutter-gtk-1.0\
  --pkg gee-1.0\
  --pkg gmodule-2.0\
  --pkg json-glib-1.0\
  --pkg libarchive\
  --pkg poppler-glib\
- --pkg rest-extras-0.6\
- --pkg unique-1.0"
+ --pkg rest-extras-0.7"
 
 AC_SUBST(EASE_CFLAGS)
 AC_SUBST(EASE_LIBS)
