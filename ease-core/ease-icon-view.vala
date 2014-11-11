@@ -361,9 +361,8 @@ public class Ease.IconView : Clutter.Group
 		             "scale-x", 1.0, "scale-y", 1.0, null);
 	}
 	
-	private void on_model_rows_reordered(Gtk.TreeModel model,
-	                                     Gtk.TreePath path,
-	                                     Gtk.TreeIter iter,
+	private void on_model_rows_reordered(Gtk.TreePath path,
+	                                     Gtk.TreeIter? iter,
 	                                     void* new_order)
 	{
 		// vapi problem again
