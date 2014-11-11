@@ -66,7 +66,7 @@ private class Ease.Archiver.Archiver : GLib.Object
 		dialog.show();
 		
 		// archive in a thread
-		thread = Thread.create(archive_real, true);
+		thread = Thread.create<void*>(archive_real, true);
 	}
 	
 	/**
