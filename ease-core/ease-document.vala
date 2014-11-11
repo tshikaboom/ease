@@ -238,7 +238,7 @@ public class Ease.Document : GLib.Object, UndoSource
 		// write to JSON file
 		var generator = new Json.Generator();
 		generator.set_root(root);
-		generator.pretty = true;
+		//generator.pretty = true;
 		generator.to_file(Path.build_filename(path, JSON_FILE));
 		
 		// find the files that we're going to include
