@@ -1,9 +1,8 @@
 flutter-0.5
-clutter-gtk-0.10
+clutter-gtk-1.0
 gee-1.0
 json-glib-1.0
 libarchive
-unique-1.0
 clutter-gst-1.0
 poppler-glib
 
