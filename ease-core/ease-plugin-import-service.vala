@@ -188,7 +188,7 @@ public abstract class Ease.Plugin.ImportService : GLib.Object
 			// if threads are supported, get the pixbufs in a thread
 			if (Thread.supported())
 			{
-				try { Thread.create(threaded_get_pixbufs, false); }
+				try { Thread.create<void*>(threaded_get_pixbufs, false); }
 				catch { threaded_get_pixbufs(); }
 			}
 			else
