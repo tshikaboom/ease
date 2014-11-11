@@ -24,16 +24,15 @@ public class Ease.ScrolledEmbed : GtkClutter.Embed
 	 * The viewport. Actors should be placed on this, not on the stage.
 	 * It is automatically resized as the stage resizes.
 	 */
-	public GtkClutter.Viewport viewport { get; private set; }
+	public Clutter.ScrollActor viewport { get; private set; }
 	
 	public ScrolledEmbed(Gtk.Adjustment hadjustment,
 	                     Gtk.Adjustment vadjustment,
 	                     Gtk.Adjustment? zadjustment)
 	{
 		// create the viewport
-		viewport = new GtkClutter.Viewport(hadjustment,
-		                                   vadjustment,
-		                                   zadjustment);
+		viewport = new Clutter.ScrollActor();
+		viewport.set_scroll_mode(Clutter.ScrollMode.VERTICALLY);
 		
 		// add the viewport to the stage
 		(get_stage() as Clutter.Stage).add_actor(viewport);
