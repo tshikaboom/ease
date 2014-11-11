@@ -55,15 +55,6 @@ public class Ease.ZoomSlider : Gtk.Alignment
 	}
 	
 	/**
-	 * The update policy of the slider.
-	 */
-	public Gtk.UpdateType update_policy
-	{
-		get { return zoom_slider.update_policy; }
-		set { zoom_slider.update_policy = value; }
-	}
-	
-	/**
 	 * Private store for buttons_shown property.
 	 */
 	private bool buttons_shown_priv = true;
