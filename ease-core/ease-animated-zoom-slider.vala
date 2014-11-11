@@ -21,7 +21,7 @@
  * AnimatedZoomSlider smoothly animates (with ClutterAnimation)
  * when the + or - buttons are pressed.
  */
-public class Ease.AnimatedZoomSlider : ZoomSlider, Clutter.Animatable
+public class Ease.AnimatedZoomSlider : ZoomSlider
 {
 	private Clutter.Animation zoom_anim;
 	private const int ZOOM_TIME = 100;
