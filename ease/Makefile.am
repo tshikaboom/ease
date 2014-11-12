@@ -46,7 +46,7 @@ ease_CFLAGS = \
 	-I$(top_srcdir)/flutter \
 	-include $(top_srcdir)/config.h
 
-ease_LDFLAGS = $(EASE_LIBS) --export-dynamic
+ease_LDFLAGS = $(EASE_LIBS) -rdynamic
 
 ease_LDADD = \
 	$(top_builddir)/ease-core/libease-core-@EASE_CORE_VERSION@.la \

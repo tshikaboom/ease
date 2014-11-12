@@ -96,7 +96,7 @@ libease_core_@EASE_CORE_VERSION@_la_CFLAGS = \
 	
 libease_core_@EASE_CORE_VERSION@_la_LDFLAGS = \
 	$(EASE_LDFLAGS) \
-	--export-dynamic \
+	-rdynamic \
 	$(NULL)
 
 # header installation
