@@ -56,7 +56,6 @@ internal class Ease.CloseConfirmDialog : Gtk.Dialog
 	internal CloseConfirmDialog(string filename, int seconds)
 	{
 		title = _("Save before closing?");
-		has_separator = false;
 		elapsed_seconds = seconds;
 		
 		// dialog image
