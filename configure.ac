@@ -61,7 +61,8 @@ pkg_modules="\
  libarchive\
  poppler-glib\
  rest-0.7 \
- rest-extras-0.7"
+ rest-extras-0.7\
+ libxml-2.0"
  
 PKG_CHECK_MODULES(EASE, [$pkg_modules])
 
@@ -73,7 +74,8 @@ EASE_PACKAGES="\
  --pkg json-glib-1.0\
  --pkg libarchive\
  --pkg poppler-glib\
- --pkg rest-extras-0.7"
+ --pkg rest-extras-0.7\
+ --pkg libxml-2.0"
 
 AC_SUBST(EASE_CFLAGS)
 AC_SUBST(EASE_LIBS)
