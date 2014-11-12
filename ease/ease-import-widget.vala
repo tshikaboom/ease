@@ -121,12 +121,12 @@ internal class Ease.ImportWidget : Gtk.Alignment
 		search = builder.get_object("search") as Gtk.Entry;
 		search.icon_press.connect(() => search.text = "");
 		search.activate.connect(() => button.activate());
-		search.expose_event.connect(set_bg);
+		search.draw.connect(set_bg);
 		
 		// search button
 		button = builder.get_object("search-button") as Gtk.Button;
 		button.clicked.connect(() => service.run(search.text));
-		button.expose_event.connect(set_bg);
+		button.draw.connect(set_bg);
 		
 		// insert button
 		insert = builder.get_object("insert") as Gtk.Button;
@@ -143,7 +143,7 @@ internal class Ease.ImportWidget : Gtk.Alignment
 			});
 			add_media(list);
 		});
-		insert.expose_event.connect(set_bg);
+		insert.draw.connect(set_bg);
 		
 		// progress
 		progress = builder.get_object("progress-bar") as Gtk.ProgressBar;
@@ -167,7 +167,7 @@ internal class Ease.ImportWidget : Gtk.Alignment
 		
 		// add
 		var root = builder.get_object("root") as Gtk.EventBox;
-		root.expose_event.connect(set_bg);
+		root.draw.connect(set_bg);
 		add(root);
 		
 		// service signals
@@ -213,8 +213,8 @@ internal class Ease.ImportWidget : Gtk.Alignment
 		});
 	}
 	
-	private bool set_bg(Gtk.Widget root, Gdk.EventExpose event)
-	{
+	private bool set_bg(Cairo.Context cr)
+	{/*
 		// lighten or darken the background
 		var color = root.style.bg[Gtk.StateType.NORMAL];
 		
@@ -238,8 +238,8 @@ internal class Ease.ImportWidget : Gtk.Alignment
 		root.modify_bg(Gtk.StateType.NORMAL, color);
 		
 		// only do this once
-		root.expose_event.disconnect(set_bg);
-		
+		cr.draw.disconnect(set_bg);
+	*/	
 		return false;
 	}
 }
