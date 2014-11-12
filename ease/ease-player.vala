@@ -251,7 +251,7 @@ internal class Ease.Player : Gtk.Window
 		if (slide_index == document.slides.size) // slideshow complete
 		{
 			complete();
-			hide_all();
+			hide();
 			return;
 		}
 		
