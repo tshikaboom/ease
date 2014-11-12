@@ -15,11 +15,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-internal class Ease.Main : GLib.Object
+internal class Ease.Main : Gtk.Application
 {
 	private static Gee.ArrayList<EditorWindowInfo> windows;
 	private static WelcomeWindow welcome;
-	private static Unique.App app;
 	
 	// options
 	static string play_filename;
@@ -46,142 +45,12 @@ internal class Ease.Main : GLib.Object
 		SHOW_WELCOME = 3
 	}
 	
-	/**
-	 * Start Ease to edit files.
-	 * 
-	 * If the user runs Ease with a filename as a parameter, this function
-	 * will open an {@link EditorWindow}. Otherwise, a {@link WelcomeWindow}
-	 * will be opened.
-	 *
-	 * @param args Program arguments.
-	 */
-	internal static int main(string[] args)
-	{
-		// set application name and icon
-		Environment.set_application_name("Ease");
-		Gtk.Window.set_default_icon_name("ease");
-		
-		// parse command line options
-		var context = new OptionContext(_(" - a presentation editor"));
-		
-		// TODO: set translation
-		context.add_main_entries(options, null);
-
-		// add library option groups
-		context.add_group(Gtk.get_option_group(true));
-		context.add_group(Clutter.get_option_group());
-		
-		try
-		{
-			if (!context.parse(ref args)) return 1;
-		}
-		catch (OptionError e)
-		{
-			stdout.printf(_("error parsing options: %s\n"), e.message);
-			return 1;
-		}
-		
-		// check to see if another instance of Ease is already running
-		app = new Unique.App("org.ease-project.ease", null);
-		app.add_command("Open document", UniqueCommand.OPEN_FILE);
-		app.add_command("Play document", UniqueCommand.PLAY_FILE);
-		app.add_command("Create new document", UniqueCommand.SHOW_WELCOME);
-		
-		// check if the app is already running
-		var running = app.is_running;
-		
-		if (!running)
-		{
-			// respond to messages from other instances
-			app.message_received.connect((self, cmd, data, time_) => {
-				switch (cmd)
-				{
-					case UniqueCommand.OPEN_FILE:
-						var filenames = data.get_uris();
-						for (int i = 0; filenames[i] != null; i++)
-						{
-							open_file(filenames[i]);
-						}
-						return Unique.Response.OK;
-					case UniqueCommand.PLAY_FILE:
-						play_file(data.get_filename(), false);
-						return Unique.Response.OK;
-					case UniqueCommand.SHOW_WELCOME:
-						show_welcome();
-						return Unique.Response.OK;
-				}
-				
-				// not a valid command (bad news bears!)
-				critical("Invalid UniqueCommand");
-				return Unique.Response.PASSTHROUGH;
-			});
-			
-			// init gstreamer
-			Gst.init(ref args);
-
-			// react to command line flags
-			UndoController.enable_debug = debug_undo;
-
-			// initalize static classes
-			windows = new Gee.ArrayList<EditorWindowInfo>();
-		
-			// Clutter settings
-			var backend = Clutter.get_default_backend();
-			var settings = Gtk.Settings.get_default();
-			backend.set_double_click_time(settings.gtk_double_click_time);
-			backend.set_double_click_distance(
-				settings.gtk_double_click_distance);
-		}
+	public void on_app_activate() {
 	
-		// open editor windows for each argument specified
-		if (filenames != null)
-		{
-			if (!running) // open the files
-			{
-				for (int i = 0; filenames[i] != null; i++)
-				{
-					open_file(filenames[i]);
-				}
-			}
-			else // tell the other instance to open the files
-			{
-				var data = new Unique.MessageData();
-				data.set_uris(filenames);
-				app.send_message(UniqueCommand.OPEN_FILE, data);
-			}
-		}
-		
-		// if --play is specified, play the presentation
-		if (play_filename != null)
-		{
-			if (!running)
-			{
-				play_file(play_filename, filenames == null);
-			}
-			else
-			{
-				var data = new Unique.MessageData();
-				data.set_filename(play_filename);
-				app.send_message(UniqueCommand.PLAY_FILE, data);
-			}
-		}
-		
-		// if no files are given, show the new presentation window
-		if (filenames == null && play_filename == null)
-		{
-			if (!running) show_welcome();
-			else app.send_message(UniqueCommand.SHOW_WELCOME, null);
-		}
-		
-		// if the app is already running, we're all done
-		if (running) return 0;
 	
-		Gtk.main();
-		
-		Temp.clean();
-	
-		return 0;
 	}
+
+	
 
 	/**
 	 * Creates a new {@link EditorWindow}, or raises an existing one.
@@ -194,6 +63,8 @@ internal class Ease.Main : GLib.Object
 	 */
 	internal static void open_file(string path)
 	{
+		// initalize static classes
+	windows = new Gee.ArrayList<EditorWindowInfo>();
 		foreach (var info in windows)
 		{
 			if (absolute_path(info.window.document.filename) ==
@@ -375,7 +246,7 @@ internal class Ease.Main : GLib.Object
 	 */
 	internal static void remove_welcome()
 	{
-		welcome.hide_all();
+		welcome.hide();
 		welcome = null;
 		if (windows.size == 0)
 		{
@@ -394,5 +265,66 @@ internal class Ease.Main : GLib.Object
 			window = win;
 		}
 	}
+}
+
+/**
+ * Start Ease to edit files.
+ * 
+ * If the user runs Ease with a filename as a parameter, this function
+ * will open an {@link EditorWindow}. Otherwise, a {@link WelcomeWindow}
+ * will be opened.
+ *
+ * @param args Program arguments.
+ */
+ static int main(string[] args)
+{
+/*
+	// parse command line options
+	var context = new OptionContext(_(" - a presentation editor"));
+
+	// TODO: set translation
+	context.add_main_entries(options, null);
+
+	// add library option groups
+	context.add_group(Gtk.get_option_group(true));
+	context.add_group(Clutter.get_option_group());
+
+	try
+	{
+		if (!context.parse(ref args)) return 1;
+	}
+	catch (OptionError e)
+	{
+		stdout.printf(_("error parsing options: %s\n"), e.message);
+		return 1;
+	}
+*/
+	// init gstreamer
+	Gst.init(ref args);
+
+	// react to command line flags
+	//UndoController.enable_debug = debug_undo;
+
+
+
+	// Clutter settings
+	var backend = Clutter.get_default_backend();
+	var settings = Gtk.Settings.get_default();
+	backend.set_double_click_time(settings.gtk_double_click_time);
+	backend.set_double_click_distance(
+		settings.gtk_double_click_distance);
+
+
+	
+	
+	Ease.Main app;
+	app = new Ease.Main();
+	app.set_application_id("org.gnome.Ease");
+	app.activate.connect(app.on_app_activate);
+	int status = app.run();
+//	Temp.clean();
+
+	
+	return status;
 }
 
