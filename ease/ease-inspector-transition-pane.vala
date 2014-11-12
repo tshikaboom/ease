@@ -25,7 +25,7 @@ internal class Ease.InspectorTransitionPane : InspectorPane
 	private Gtk.SpinButton transition_time;
 	internal Gtk.ComboBox variant;
 	private Gtk.Alignment variant_align;
-	private Gtk.ComboBox start_transition;
+	private Gtk.ComboBoxText start_transition;
 	private Gtk.SpinButton delay;
 	
 	// transition preview
@@ -116,7 +116,7 @@ internal class Ease.InspectorTransitionPane : InspectorPane
 		align = new Gtk.Alignment(0, 0, 0, 0);
 		align.add(new Gtk.Label(_("Start Transition")));
 		vbox.pack_start(align, false, false, 0);
-		start_transition = new Gtk.ComboBox.text();
+		start_transition = new Gtk.ComboBoxText();
 		start_transition.append_text(_("Manually"));
 		start_transition.append_text(_("Automatically"));
 		start_transition.set_active(0);

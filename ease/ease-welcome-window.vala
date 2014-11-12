@@ -28,7 +28,7 @@ internal class Ease.WelcomeWindow : Gtk.Window
 	// main buttons
 	private Gtk.Button new_pres_button;
 	private Gtk.Button open_pres_button;
-	private Gtk.ComboBox combores;
+	private Gtk.ComboBoxText combores;
 	private Gtk.SpinButton x_res;
 	private Gtk.SpinButton y_res;
 	
@@ -101,7 +101,7 @@ internal class Ease.WelcomeWindow : Gtk.Window
 
 		var vbox = builder.get_object ("vbox1") as Gtk.VBox;
 		var hbox = builder.get_object ("hbox1") as Gtk.HBox;
-		combores = builder.get_object ("combo_resolution") as Gtk.ComboBox;
+		combores = builder.get_object ("combo_resolution") as Gtk.ComboBoxText;
 		x_res = builder.get_object ("horiz_spin") as Gtk.SpinButton;
 		y_res = builder.get_object ("vert_spin") as Gtk.SpinButton;
 		new_pres_button = builder.get_object ("newpres") as Gtk.Button;
@@ -117,7 +117,7 @@ internal class Ease.WelcomeWindow : Gtk.Window
 		// Resolutions combo box
 		// FIXME : not re-create it, or do it from Glade.
 		hbox.remove (combores);
-		combores = new Gtk.ComboBox.text ();
+		combores = new Gtk.ComboBoxText ();
 		combores.insert_text (0, _("Custom"));
 		for (var i = 0; i < RESOLUTIONS_X.length; i++) {
 			combores.append_text(_("%i by %i").printf(RESOLUTIONS_X[i],
