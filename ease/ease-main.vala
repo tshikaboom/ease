@@ -46,8 +46,8 @@ internal class Ease.Main : Gtk.Application
 	}
 
 	public void on_app_activate() {
-
-
+		welcome = new WelcomeWindow();
+		this.add_window(welcome);
 	}
 
 
@@ -227,6 +227,8 @@ internal class Ease.Main : Gtk.Application
 	{
 		if (welcome == null)
 		{
+			// FIXME: Window below is unowned by any {@link Gtk.Application}
+			//        which leading to error where it never be shown.
 			welcome = new WelcomeWindow();
 			welcome.hide.connect(() => remove_welcome());
 		}
@@ -308,6 +310,7 @@ internal class Ease.Main : Gtk.Application
 
 
 	// Clutter settings
+	Clutter.init(ref args);
 	var backend = Clutter.get_default_backend();
 	var settings = Gtk.Settings.get_default();
 	backend.set_double_click_time(settings.gtk_double_click_time);
