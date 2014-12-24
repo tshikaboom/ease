@@ -19,13 +19,13 @@ internal class Ease.Main : Gtk.Application
 {
 	private static Gee.ArrayList<EditorWindowInfo> windows;
 	private static WelcomeWindow welcome;
-	
+
 	// options
 	static string play_filename;
 	static string[] filenames;
 	internal static bool presentation_windowed = false;
 	private static bool debug_undo = false;
-	
+
 	private const OptionEntry[] options = {
 		{ "play", 'p', 0, OptionArg.FILENAME, ref play_filename,
 		   "Play the specified file", "FILE" },
@@ -35,22 +35,22 @@ internal class Ease.Main : Gtk.Application
 		  "Display debugging messages about undo actions", null },
 		{ "", 0, 0, OptionArg.FILENAME_ARRAY, ref filenames, null, "FILE..." },
 		{ null } };
-	
+
 	private static Player player;
-	
+
 	private enum UniqueCommand
 	{
 		OPEN_FILE = 1,
 		PLAY_FILE = 2,
 		SHOW_WELCOME = 3
 	}
-	
+
 	public void on_app_activate() {
-	
-	
+
+
 	}
 
-	
+
 
 	/**
 	 * Creates a new {@link EditorWindow}, or raises an existing one.
@@ -64,7 +64,7 @@ internal class Ease.Main : Gtk.Application
 	internal static void open_file(string path)
 	{
 		// initalize static classes
-	windows = new Gee.ArrayList<EditorWindowInfo>();
+		windows = new Gee.ArrayList<EditorWindowInfo>();
 		foreach (var info in windows)
 		{
 			if (absolute_path(info.window.document.filename) ==
@@ -74,12 +74,12 @@ internal class Ease.Main : Gtk.Application
 				return;
 			}
 		}
-		
+
 		try
 		{
 			var doc = new Document.from_saved(path);
 			var win = new EditorWindow(doc);
-			add_window(win);
+			add_editor_window(win);
 			win.show_now();
 			win.present();
 		}
@@ -89,7 +89,7 @@ internal class Ease.Main : Gtk.Application
 			return;
 		}
 	}
-	
+
 	/**
 	 * Plays a file.
 	 */
@@ -103,7 +103,7 @@ internal class Ease.Main : Gtk.Application
 		{
 			var doc = new Document.from_saved(file);
 			player = new Player(doc);
-	
+
 			// if requested, quit ease when done
 			if (close_when_done)
 			{
@@ -117,7 +117,7 @@ internal class Ease.Main : Gtk.Application
 			error_dialog(_("Error Playing Document"), e.message);
 		}
 	}
-	
+
 	/**
 	 * Creates a new {@link EditorWindow} from a theme and size.
 	 */
@@ -127,7 +127,7 @@ internal class Ease.Main : Gtk.Application
 		{
 			var document = new Document.from_theme(theme, width, height);
 			var editor = new EditorWindow(document);
-			add_window(editor);
+			add_editor_window(editor);
 			editor.present();
 		}
 		catch (Error e)
@@ -138,7 +138,7 @@ internal class Ease.Main : Gtk.Application
 
 	/**
 	 * Removes an {@link EditorWindow} from Ease's internal store of windows.
-	 * 
+	 *
 	 * Ease tracks the current windows in order to properly quit when there
 	 * are no {@link EditorWindow}s on screen and the {@link WelcomeWindow} is
 	 * hidden. This function will quit Ease if the removed window is the final
@@ -158,7 +158,7 @@ internal class Ease.Main : Gtk.Application
 		}
 		win.play.disconnect(on_play);
 		win.close.disconnect(on_close);
-		
+
 		if (windows.size == 0 && welcome == null)
 		{
 			Gtk.main_quit();
@@ -167,20 +167,20 @@ internal class Ease.Main : Gtk.Application
 
 	/**
 	 * Adds an {@link EditorWindow} to Ease's internal store of windows.
-	 * 
+	 *
 	 * Ease tracks the current windows in order to properly quit when there
 	 * are no {@link EditorWindow}s on screen and the {@link WelcomeWindow} is
-	 * hidden. 
+	 * hidden.
 	 *
 	 * @param win The {@link EditorWindow}.
 	 */
-	private static void add_window(EditorWindow win)
+	private static void add_editor_window(EditorWindow win)
 	{
 		windows.add(new EditorWindowInfo(win));
 		win.play.connect(on_play);
 		win.close.connect(on_close);
 	}
-	
+
 	/**
 	 * Handles the {@link EditorWindow.play} signal.
 	 *
@@ -190,7 +190,7 @@ internal class Ease.Main : Gtk.Application
 	{
 		player = new Player(document);
 		player.present();
-		
+
 		player.complete.connect(() => {
 				player.destroy ();
 			foreach (var info in windows)
@@ -199,14 +199,14 @@ internal class Ease.Main : Gtk.Application
 				info.window.move(info.x, info.y);
 			}
 		});
-		
+
 		foreach (var info in windows)
 		{
 			info.window.get_position(out info.x, out info.y);
 			info.window.hide();
 		}
 	}
-	
+
 	/**
 	 * Closes and removes an EditorWindow.
 	 */
@@ -218,7 +218,7 @@ internal class Ease.Main : Gtk.Application
 
 	/**
 	 * Shows the {@link WelcomeWindow}
-	 * 
+	 *
 	 * Shows the {@link WelcomeWindow}, or raises it to the top if it is not
 	 * already displayed.
 	 *
@@ -238,7 +238,7 @@ internal class Ease.Main : Gtk.Application
 
 	/**
 	 * Hides the {@link WelcomeWindow}.
-	 * 
+	 *
 	 * It's important to call this function when the {@link WelcomeWindow} is
 	 * hidden, so that Ease can properly exit when all windows are closed.
 	 * When the {@link WelcomeWindow} is shown via show_welcome, this function
@@ -253,13 +253,13 @@ internal class Ease.Main : Gtk.Application
 			Gtk.main_quit();
 		}
 	}
-	
+
 	private class EditorWindowInfo
 	{
 		public EditorWindow window;
 		public int x = 0;
 		public int y = 0;
-		
+
 		public EditorWindowInfo(EditorWindow win)
 		{
 			window = win;
@@ -269,7 +269,7 @@ internal class Ease.Main : Gtk.Application
 
 /**
  * Start Ease to edit files.
- * 
+ *
  * If the user runs Ease with a filename as a parameter, this function
  * will open an {@link EditorWindow}. Otherwise, a {@link WelcomeWindow}
  * will be opened.
@@ -315,8 +315,8 @@ internal class Ease.Main : Gtk.Application
 		settings.gtk_double_click_distance);
 
 
-	
-	
+
+
 	Ease.Main app;
 	app = new Ease.Main();
 	app.set_application_id("org.gnome.Ease");
@@ -324,7 +324,6 @@ internal class Ease.Main : Gtk.Application
 	int status = app.run();
 //	Temp.clean();
 
-	
+
 	return status;
 }
-
