@@ -225,7 +225,6 @@
               <object class="GtkHScale" id="hscale-angle">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="update_policy">discontinuous</property>
                 <property name="adjustment">adjustment-angle</property>
                 <property name="draw_value">False</property>
                 <signal name="value_changed" handler="ease_background_widget_on_set_angle"/>
