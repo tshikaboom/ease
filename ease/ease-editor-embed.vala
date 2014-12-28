@@ -254,8 +254,7 @@ internal class Ease.EditorEmbed : ScrolledEmbedWindow, UndoSource
 		document = d;
 		set_size_request(320, 240);
 
-		zoom = 1;
-		zoom_fit = false;
+		zoom_fit = true;
 
 		// reposition everything when resized
 		size_allocate.connect(() => {
