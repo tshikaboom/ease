@@ -174,6 +174,8 @@ namespace Ease.Archiver
 		// create a progress dialog
 		var img = new Gtk.Image.from_stock("gtk-save",
 		                                   Gtk.IconSize.LARGE_TOOLBAR);
+		img.set_margin_start(4);
+		img.set_margin_end(4);
 		var dialog = new Dialog.Progress.with_image(title, false, 1, win, img);
 	
 		// archive away!

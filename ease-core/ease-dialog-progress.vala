@@ -80,13 +80,9 @@ public class Ease.Dialog.Progress : GLib.Object
 		this(title, cancellable, max, modal);
 		
 		// create the image's container and add it
-		var hbox = builder.get_object("hbox") as Gtk.HBox;
-		var align = new Gtk.Alignment(0.5f, 0.5f, 0, 0);
-		align.set_padding(0, 0, 4, 4);
-		align.add(image);
-		align.show();
+		var hbox = builder.get_object("hbox") as Gtk.Box;
 		image.show();
-		hbox.pack_start(align, false, false, 0);
+		hbox.pack_start(image, false, false, 0);
 	}
 	
 	/**
