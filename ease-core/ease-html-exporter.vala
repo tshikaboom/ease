@@ -80,7 +80,8 @@ public class Ease.HTMLExporter : GLib.Object
 			window = new Gtk.Dialog();
 			window.width_request = 400;
 			window.set_title(_("Exporting as HTML"));
-			Gtk.VBox vbox = (Gtk.VBox)(window.get_content_area());
+			Gtk.Box vbox = (Gtk.Box)(window.get_content_area());
+			vbox.set_orientation(Gtk.Orientation.VERTICAL);
 			vbox.pack_start(progress, true, true, 5);
 			window.show_all();
 			
