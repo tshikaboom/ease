@@ -23,7 +23,7 @@
  */
 public class Ease.ZoomSlider : Gtk.Bin
 {
-	private Gtk.HScale zoom_slider;
+	private Gtk.Scale zoom_slider;
 	private Gtk.Button zoom_in_button;
 	private Gtk.Button zoom_out_button;
 	
@@ -101,10 +101,11 @@ public class Ease.ZoomSlider : Gtk.Bin
 	{
 		values = button_values;
 		
-		var hbox = new Gtk.HBox(false, 5);
+		var hbox = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5);
+		hbox.set_homogeneous(false);
 		
 		// create zoom slider
-		zoom_slider = new Gtk.HScale(adjustment);
+		zoom_slider = new Gtk.Scale(Gtk.Orientation.HORIZONTAL, adjustment);
 		zoom_slider.width_request = 200;
 		zoom_slider.draw_value = false;
 		zoom_slider.digits = 0;
@@ -114,25 +115,19 @@ public class Ease.ZoomSlider : Gtk.Bin
 		zoom_in_button.add(new Gtk.Image.from_stock("gtk-zoom-in",
 		                                            Gtk.IconSize.MENU));
 		zoom_in_button.relief = Gtk.ReliefStyle.NONE;
+		zoom_in_button.set_valign(Gtk.Align.CENTER);
 		
 		// zoom out button
 		zoom_out_button = new Gtk.Button();
 		zoom_out_button.add(new Gtk.Image.from_stock("gtk-zoom-out",
 		                                             Gtk.IconSize.MENU));
 		zoom_out_button.relief = Gtk.ReliefStyle.NONE;
+		zoom_out_button.set_valign(Gtk.Align.CENTER);
 		
 		// put it all together
-		var align = new Gtk.Alignment(0, 0.5f, 1, 0);
-		align.add(zoom_out_button);
-		hbox.pack_start(align, false, false, 0);
-		
-		align = new Gtk.Alignment(0, 0.5f, 1, 0);
-		align.add(zoom_slider);
-		hbox.pack_start(align, false, false, 0);
-		
-		align = new Gtk.Alignment(0, 0.5f, 1, 0);
-		align.add(zoom_in_button);
-		hbox.pack_start(align, false, false, 0);
+		hbox.pack_start(zoom_out_button, false, false, 0);
+		hbox.pack_start(zoom_slider, false, false, 0);
+		hbox.pack_start(zoom_in_button, false, false, 0);
 		
 		add(hbox);
 		
