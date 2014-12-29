@@ -18,7 +18,7 @@
 /**
  * A widget that controls the properties of an {@link Ease.Background}.
  */
-public class Ease.BackgroundWidget : Gtk.Alignment
+public class Ease.BackgroundWidget : Gtk.Bin
 {
 	private const string UI_FILE_PATH = "background.ui";
 	private const string BG_DIALOG_TITLE = _("Select Background Image");
@@ -26,11 +26,11 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 	private Gtk.ComboBox background_type;
 	private Gtk.ListStore store;
 	private Gtk.ComboBox gradient_type;
-	private Gtk.VBox box_color;
-	private Gtk.VBox box_gradient;
-	private Gtk.VBox box_image;
+	private Gtk.Box box_color;
+	private Gtk.Box box_gradient;
+	private Gtk.Box box_image;
 	private Gtk.ComboBox image_fill;
-	private Gtk.HScale grad_angle;
+	private Gtk.Scale grad_angle;
 	
 	private Gtk.ColorButton bg_color;
 	private Gtk.ColorButton grad_color1;
@@ -97,12 +97,11 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 		
 		// add the root of the builder file to this widget
 		add(builder.get_object("root") as Gtk.Widget);
-		set(0, 0, 1, 0);
 		
 		// get controls
-		box_color = builder.get_object("vbox-color") as Gtk.VBox;
-		box_gradient = builder.get_object("vbox-gradient") as Gtk.VBox;
-		box_image = builder.get_object("vbox-image") as Gtk.VBox;
+		box_color = builder.get_object("vbox-color") as Gtk.Box;
+		box_gradient = builder.get_object("vbox-gradient") as Gtk.Box;
+		box_image = builder.get_object("vbox-image") as Gtk.Box;
 		bg_color = builder.get_object("color-color") as Gtk.ColorButton;
 		grad_color1 =
 			builder.get_object("color-startgradient") as Gtk.ColorButton;
@@ -112,7 +111,7 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 			builder.get_object("button-image") as Gtk.FileChooserButton;
 		gradient_type =
 			builder.get_object("combo-gradient") as Gtk.ComboBox;
-		grad_angle = builder.get_object("hscale-angle") as Gtk.HScale;
+		grad_angle = builder.get_object("hscale-angle") as Gtk.Scale;
 		image_fill = builder.get_object("image-fill") as Gtk.ComboBox;
 		
 		// display the correct UI
@@ -422,7 +421,7 @@ public class Ease.BackgroundWidget : Gtk.Alignment
 	{
 		var action = new UndoAction(background.gradient, "angle");
 		background.gradient.angle =
-			(sender as Gtk.HScale).adjustment.value;
+			(sender as Gtk.Scale).adjustment.value;
 		emit_undo(action);
 		
 		action.applied.connect((a) => {

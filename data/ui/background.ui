@@ -7,17 +7,21 @@
     <property name="step_increment">0.10000000000000001</property>
     <property name="page_increment">1</property>
   </object>
-  <object class="GtkVBox" id="root">
+  <object class="GtkBox" id="root">
     <property name="visible">True</property>
+    <property name="orientation">vertical</property>
     <property name="can_focus">False</property>
+    <property name="hexpand">True</property>
     <property name="spacing">10</property>
     <child>
-      <object class="GtkVBox" id="vbox-style">
+      <object class="GtkBox" id="vbox-style">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="can_focus">False</property>
         <child>
-          <object class="GtkHBox" id="hbox-style">
+          <object class="GtkBox" id="hbox-style">
             <property name="visible">True</property>
+            <property name="orientation">horizontal</property>
             <property name="can_focus">False</property>
             <child>
               <object class="GtkLabel" id="style-label">
@@ -62,11 +66,13 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="vbox-color">
+      <object class="GtkBox" id="vbox-color">
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <child>
-          <object class="GtkHBox" id="hbox2">
+          <object class="GtkBox" id="hbox2">
             <property name="visible">True</property>
+            <property name="orientation">horizontal</property>
             <property name="can_focus">False</property>
             <child>
               <object class="GtkLabel" id="color-label">
@@ -113,12 +119,14 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="vbox-gradient">
+      <object class="GtkBox" id="vbox-gradient">
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">4</property>
         <child>
-          <object class="GtkHBox" id="hbox3">
+          <object class="GtkBox" id="hbox3">
             <property name="visible">True</property>
+            <property name="orientation">horizontal</property>
             <property name="can_focus">False</property>
             <child>
               <object class="GtkLabel" id="gradient-label">
@@ -143,8 +151,9 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox4">
+          <object class="GtkBox" id="hbox4">
             <property name="visible">True</property>
+            <property name="orientation">horizontal</property>
             <property name="can_focus">False</property>
             <property name="spacing">4</property>
             <child>
@@ -218,13 +227,15 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="vbox2">
+          <object class="GtkBox" id="vbox2">
             <property name="visible">True</property>
+            <property name="orientation">vertical</property>
             <property name="can_focus">False</property>
             <property name="spacing">2</property>
             <child>
-              <object class="GtkHBox" id="hbox5">
+              <object class="GtkBox" id="hbox5">
                 <property name="visible">True</property>
+                <property name="orientation">horizontal</property>
                 <property name="can_focus">False</property>
                 <child>
                   <object class="GtkLabel" id="label-angle">
@@ -249,8 +260,9 @@
               </packing>
             </child>
             <child>
-              <object class="GtkHScale" id="hscale-angle">
+              <object class="GtkScale" id="hscale-angle">
                 <property name="visible">True</property>
+                <property name="orientation">horizontal</property>
                 <property name="can_focus">True</property>
                 <property name="adjustment">adjustment-angle</property>
                 <property name="draw_value">False</property>
@@ -278,12 +290,14 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="vbox-image">
+      <object class="GtkBox" id="vbox-image">
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">4</property>
         <child>
-          <object class="GtkHBox" id="hbox1">
+          <object class="GtkBox" id="hbox1">
             <property name="visible">True</property>
+            <property name="orientation">horizontal</property>
             <property name="can_focus">False</property>
             <child>
               <object class="GtkLabel" id="image-label">
@@ -321,8 +335,9 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox6">
+          <object class="GtkBox" id="hbox6">
             <property name="visible">True</property>
+            <property name="orientation">horizontal</property>
             <property name="can_focus">False</property>
             <child>
               <object class="GtkLabel" id="image-label1">
