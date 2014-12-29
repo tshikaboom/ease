@@ -146,7 +146,7 @@ public class Ease.PdfElement : MediaElement
 		catch (Error e) { error("Error loading UI: %s", e.message); }
 		
 		// get the displayed page slider
-		var scale = builder.get_object("disp-page") as Gtk.HScale;
+		var scale = builder.get_object("disp-page") as Gtk.Scale;
 		scale.adjustment.upper = pdf_doc.get_n_pages();
 		
 		// format the scale value's display

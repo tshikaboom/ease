@@ -39,8 +39,9 @@
               </packing>
             </child>
             <child>
-              <object class="GtkHScale" id="disp-page">
+              <object class="GtkScale" id="disp-page">
                 <property name="visible">True</property>
+                <property name="orientation">horizontal</property>
                 <property name="can_focus">True</property>
                 <property name="adjustment">adjustment1</property>
                 <property name="digits">0</property>
