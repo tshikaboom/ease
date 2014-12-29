@@ -21,7 +21,7 @@
  * ZoomSlider uses ClutterAnimation to smoothly adjust the slider when th
  * zoom in or zoom out button is clicked.
  */
-public class Ease.ZoomSlider : Gtk.Alignment
+public class Ease.ZoomSlider : Gtk.Bin
 {
 	private Gtk.HScale zoom_slider;
 	private Gtk.Button zoom_in_button;
@@ -134,7 +134,6 @@ public class Ease.ZoomSlider : Gtk.Alignment
 		align.add(zoom_in_button);
 		hbox.pack_start(align, false, false, 0);
 		
-		set(1, 1, 1, 1);
 		add(hbox);
 		
 		zoom_slider.value_changed.connect(() => value_changed());
